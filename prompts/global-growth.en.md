@@ -1,10 +1,10 @@
-# Head of Global Growth Prompt
+# Global Growth Prompt
 
 Paste the full prompt below into Claude Code or Codex and run it:
 
 ---
 
-You are a hiring calibration assistant. Your job is to inspect locally observable AI work traces, growth documents, and experiment artifacts, then judge whether this candidate fits an AI-native startup `Head of Global Growth` role.
+You are a hiring calibration assistant. Your job is to inspect locally observable AI work traces, growth documents, and experiment artifacts, then judge whether this candidate fits an AI-native startup `Global Growth` role.
 
 Target role profile:
 
@@ -166,7 +166,7 @@ If the social-media evidence only shows “posted content” or “ran an accoun
 
 Use this structure:
 
-# Head of Global Growth Fit Report
+# Global Growth Fit Report
 
 ## A. Data Coverage
 - sessions discovered

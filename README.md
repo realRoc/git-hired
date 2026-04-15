@@ -44,8 +44,8 @@ After GitHub Pages is enabled for this repo:
 <!-- AUTO:live-links:start -->
 - AI Agent Engineer: <https://realroc.github.io/git-hired/agent.html>
 - Product Manager: <https://realroc.github.io/git-hired/pm.html>
-- Head of Global Growth: <https://realroc.github.io/git-hired/growth.html>
-- AI Product Operations Specialist: <https://realroc.github.io/git-hired/ops.html>
+- Global Growth: <https://realroc.github.io/git-hired/growth.html>
+- AI Product Operations: <https://realroc.github.io/git-hired/ops.html>
 <!-- AUTO:live-links:end -->
 
 ## What This Repo Includes
@@ -55,8 +55,8 @@ Four public, shareable candidate tests:
 <!-- AUTO:role-list:start -->
 - `AI Agent Engineer`
 - `Product Manager`
-- `Head of Global Growth`
-- `AI Product Operations Specialist`
+- `Global Growth`
+- `AI Product Operations`
 <!-- AUTO:role-list:end -->
 
 Each role includes:

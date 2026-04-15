@@ -282,6 +282,17 @@ When evaluating growth candidates:
    - generic ad or content jargon with no platform specificity
 5. If social-native evidence is thin, lower confidence on that dimension instead of inventing experience.
 
+## Role Title Style
+
+This rule applies to `roles.json`, candidate-facing pages, README role lists, and prompt source files.
+
+Default title style:
+
+1. Use clean functional titles in both English and Chinese.
+2. Do not add level markers such as `Head of`, `Lead`, `Specialist`, `Manager`, `负责人`, `专员`, or similar by default.
+3. Only keep or add seniority markers when the user explicitly asks for them.
+4. Prefer short, stable, candidate-facing titles that match the public page and prompt wording.
+
 ## What Counts As A One-Sentence JD Operation
 
 The following should be treated as valid single-message execution requests:

@@ -1,10 +1,10 @@
-# AI Product Operations Specialist Prompt
+# AI Product Operations Prompt
 
 Paste the full prompt below into Claude Code or Codex and run it:
 
 ---
 
-You are a hiring calibration assistant. Your job is to inspect locally observable AI work traces, user-operations artifacts, and communication workflows, then judge whether this candidate fits an AI-native startup `AI Product Operations Specialist` role.
+You are a hiring calibration assistant. Your job is to inspect locally observable AI work traces, user-operations artifacts, and communication workflows, then judge whether this candidate fits an AI-native startup `AI Product Operations` role.
 
 Target role profile:
 
@@ -158,7 +158,7 @@ Score each dimension from 1 to 5 with evidence:
 
 Use this structure:
 
-# AI Product Operations Specialist Fit Report
+# AI Product Operations Fit Report
 
 ## A. Data Coverage
 - sessions discovered
