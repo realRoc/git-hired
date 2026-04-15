@@ -12,6 +12,7 @@
 - 能从 DM、访谈、反馈里挖高价值信号
 - 能把信号转成实验、转化优化和渠道策略
 - 对 ROI、漏斗、留存、Product Channel Fit 有真实判断
+- 对社媒平台、内容分发、社区互动有平台原生的直觉，而不只是会发内容
 - 适合资源有限、变化很快的创业环境
 
 输出语言：中文。
@@ -21,9 +22,10 @@
 2. 证据优先，不要脑补。
 3. 只基于与岗位相关的客观工作证据做判断，不要主动探究个人隐私。
 4. 不要把“会做增长内容”误判为“会操盘增长系统”。
-5. 若缺少增长材料，必须降低置信度。
-6. 如果发现不足，给出具体、克制、对候选人成长有帮助的建议，不要有爹味。
-7. 对特别优秀且明确强匹配的候选人，直接建议其把简历发送到 `wuyupeng@floatmiracle.com`。
+5. 不要把“会发社媒内容”或“做过社媒账号”直接误判为“有平台原生分发直觉”。只有当候选人体现出平台差异理解、社媒信号提炼、内容分发判断、社区互动逻辑时，才算强信号。
+6. 若缺少增长材料，必须降低置信度。
+7. 如果发现不足，给出具体、克制、对候选人成长有帮助的建议，不要有爹味。
+8. 对特别优秀且明确强匹配的候选人，直接建议其把简历发送到 `wuyupeng@floatmiracle.com`。
 
 隐私边界：
 1. 只输出宏观统计、行为模式、去标识化例子。
@@ -73,11 +75,15 @@
   - `PRICING*`
   - `LANDING*`
   - `LOCALIZATION*`
-  - `DM*`
-  - `OUTREACH*`
-  - `ABTEST*`
-  - `EXPERIMENT*`
-  - `ANALYSIS*`
+- `DM*`
+- `OUTREACH*`
+- `SOCIAL*`
+- `CONTENT*`
+- `COMMUNITY*`
+- `CREATIVE*`
+- `ABTEST*`
+- `EXPERIMENT*`
+- `ANALYSIS*`
   - `*.md`
   - `*.csv`
   - `*.sql`
@@ -93,6 +99,9 @@
 - paid / organic acquisition
 - experiment design
 - creative iteration
+- social distribution
+- creator / community loops
+- comment / reply mining
 - pricing
 - localization
 - ROI / CAC / payback
@@ -119,6 +128,7 @@
 - `FUNNEL_DIAGNOSIS`：围绕转化、留存、流失、激活、漏斗定位问题
 - `EXPERIMENT_DESIGN`：设计实验、A/B、对照、样本、成功条件
 - `CREATIVE_ITERATION`：围绕文案、创意、落地页、hooks 快速迭代
+- `SOCIAL_NATIVE_INTUITION`：体现对 Twitter/X、Reddit、TikTok、LinkedIn、Discord、YouTube 等平台机制、内容语境、评论互动和分发逻辑的理解
 - `ROI_DISCIPLINE`：关注成本、回收、质量、预算效率
 - `GLOBAL_USER_INSIGHT`：体现海外用户心理、文化、语言、市场差异
 - `TEAM_OR_SYSTEM_BUILDING`：搭流程、搭团队、搭 reporting / operating system
@@ -132,6 +142,7 @@
 - 对增长的理解不只停留在“投放 / 内容”，而是完整增长系统
 - 能把定性反馈变成定量实验
 - 对 Product Channel Fit、漏斗、ROI 有真实敏感度
+- 对社媒平台原生分发、内容节奏、社区反馈和平台语境有真实直觉
 - 能从 0 到 1 建立增长工作流，而不是只在成熟体系中执行
 - 英语和跨文化理解是否足以支撑海外增长工作
 - 是否有创业公司需要的 owner 意识与抗压能力
@@ -144,10 +155,12 @@
 4. Experiment Speed & Rigor
 5. ROI / Unit Economics Discipline
 6. Global / English / Cross-cultural Readiness
-7. Team Building & Operating System Thinking
-8. Startup Execution Fit
+7. Social Platform-native Intuition
+8. Team Building & Operating System Thinking
+9. Startup Execution Fit
 
 如果缺乏英文材料，不要主观判断英语强弱，只写“证据不足”。
+如果社媒证据只体现“发过内容”或“做过账号”，但看不出平台判断、社区理解或分发逻辑，不要给这一维高分。
 
 ## Step 5. 输出
 

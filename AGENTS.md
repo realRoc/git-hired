@@ -261,6 +261,27 @@ When evaluating PM candidates:
    - meeting notes or decision logs
 6. If collaboration evidence is thin, mark that dimension as `N/A` or low-confidence instead of treating the absence of evidence as proof of weakness.
 
+## Global Growth Prompt Social-Native Signal
+
+This rule applies to the `Head of Global Growth` role prompt and to any future growth-lead role prompt.
+
+When evaluating growth candidates:
+
+1. Include a distinct scoring dimension for social-media-native intuition or implicit social-platform experience.
+2. Do not confuse generic content production, posting frequency, or surface social familiarity with real social-distribution judgment.
+3. Treat the following as stronger evidence of social-native growth skill:
+   - platform-specific hook or format judgment
+   - understanding of creator, comment, reply, or community loops
+   - platform-aware localization
+   - social-signal mining from comments, DMs, or community behavior
+   - reasoning about why a tactic fits Twitter/X, Reddit, TikTok, LinkedIn, Discord, YouTube, or similar platforms differently
+4. Treat the following as weak evidence unless paired with clear reasoning:
+   - generic content calendars
+   - vague “I did social media” claims
+   - follower counts without operating logic
+   - generic ad or content jargon with no platform specificity
+5. If social-native evidence is thin, lower confidence on that dimension instead of inventing experience.
+
 ## What Counts As A One-Sentence JD Operation
 
 The following should be treated as valid single-message execution requests:

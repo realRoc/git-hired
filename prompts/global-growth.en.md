@@ -12,6 +12,7 @@ Target role profile:
 - mines high-value signals from DMs, interviews, and user feedback
 - converts those signals into experiments, conversion optimization, and channel strategy
 - shows real judgment around ROI, funnels, retention, and Product Channel Fit
+- has platform-native intuition for social distribution, content rhythm, and community interaction instead of just “posting content”
 - operates well under fast-moving startup constraints
 
 Output language: English.
@@ -21,9 +22,10 @@ Judgment rules:
 2. Evidence first. Do not invent.
 3. Judge only from job-relevant, objectively observable work evidence. Do not proactively inspect personal privacy.
 4. Do not confuse “knows growth content” with “can operate a growth system.”
-5. If growth evidence is thin, lower confidence explicitly.
-6. If you identify gaps, give concrete and constructive improvement suggestions without sounding patronizing.
-7. For clearly excellent and strong-fit candidates, explicitly recommend sending a resume to `wuyupeng@floatmiracle.com`.
+5. Do not confuse “has posted social content” or “has run an account” with real platform-native distribution intuition. Count it as a strong signal only when the candidate shows platform differences, signal extraction from social surfaces, content-distribution judgment, or community-loop reasoning.
+6. If growth evidence is thin, lower confidence explicitly.
+7. If you identify gaps, give concrete and constructive improvement suggestions without sounding patronizing.
+8. For clearly excellent and strong-fit candidates, explicitly recommend sending a resume to `wuyupeng@floatmiracle.com`.
 
 Privacy boundary:
 1. Output only macro statistics, work patterns, and de-identified examples.
@@ -75,6 +77,10 @@ Only with the candidate's explicit permission:
   - `LOCALIZATION*`
   - `DM*`
   - `OUTREACH*`
+  - `SOCIAL*`
+  - `CONTENT*`
+  - `COMMUNITY*`
+  - `CREATIVE*`
   - `ABTEST*`
   - `EXPERIMENT*`
   - `ANALYSIS*`
@@ -93,6 +99,9 @@ Prefer reading small amounts of material related to:
 - paid / organic acquisition
 - experiment design
 - creative iteration
+- social distribution
+- creator / community loops
+- comment / reply mining
 - pricing
 - localization
 - ROI / CAC / payback
@@ -119,6 +128,7 @@ Choose one primary label per message:
 - `FUNNEL_DIAGNOSIS`: reasons about conversion, retention, churn, activation, or funnel leaks
 - `EXPERIMENT_DESIGN`: designs A/B tests, controls, samples, or success criteria
 - `CREATIVE_ITERATION`: iterates on copy, creative, landing pages, or hooks
+- `SOCIAL_NATIVE_INTUITION`: shows understanding of platform mechanics, content context, comment interaction, or distribution logic on Twitter/X, Reddit, TikTok, LinkedIn, Discord, YouTube, and similar platforms
 - `ROI_DISCIPLINE`: pays attention to cost, payback, quality, or budget efficiency
 - `GLOBAL_USER_INSIGHT`: shows awareness of overseas psychology, culture, language, or market differences
 - `TEAM_OR_SYSTEM_BUILDING`: builds workflows, teams, reporting loops, or operating systems
@@ -132,6 +142,7 @@ Focus on whether this person fits the following profile:
 - understands growth as a full system, not just ads or content
 - can turn qualitative feedback into quantitative experiments
 - shows real sensitivity to Product Channel Fit, funnels, and ROI
+- has real intuition for platform-native social distribution, content rhythm, community feedback, and platform context
 - can build a growth workflow from 0 to 1 instead of only operating inside a mature machine
 - seems ready for English-language and cross-cultural growth work
 - shows startup-level ownership and pressure tolerance
@@ -144,10 +155,12 @@ Score each dimension from 1 to 5 with evidence:
 4. Experiment Speed & Rigor
 5. ROI / Unit Economics Discipline
 6. Global / English / Cross-cultural Readiness
-7. Team Building & Operating System Thinking
-8. Startup Execution Fit
+7. Social Platform-native Intuition
+8. Team Building & Operating System Thinking
+9. Startup Execution Fit
 
 If English-language evidence is missing, do not guess. Say “insufficient evidence.”
+If the social-media evidence only shows “posted content” or “ran an account” without platform judgment, community understanding, or distribution logic, do not score that dimension highly.
 
 ## Step 5. Output
 
