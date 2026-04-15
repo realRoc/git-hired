@@ -429,15 +429,28 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
    - locked skills
    - best-fit role
 
+## Per-JD Prompt Versioning
+
+This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, the universal-entry prompt, and the role template in `new_role.py`.
+
+1. Every JD prompt must carry an explicit version identifier for that role.
+2. Version history is per JD, not global. Different roles may iterate on different version numbers or version strings independently.
+3. The English and Chinese source prompts for the same JD must always carry the same version identifier.
+4. Every time a role's prompt source changes, bump that role's version before syncing the page, even if the change is only to emphasis, wording, scoring dimensions, evidence rules, privacy wording, or output structure.
+5. The candidate-facing report must record the exact JD prompt version used to generate it so the hiring team can trace which evaluation focus was active at that time.
+6. If the terminal summary shows version info, it must match the version recorded in the local markdown report.
+7. When syncing prompt content into `docs/`, keep the embedded prompt version aligned with the source prompt files.
+
 ## Local Detailed Report Output
 
 This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, and the role template in `new_role.py`.
 
 1. Every role prompt should ask the agent to generate a concise TUI summary plus a more detailed local `.md` report.
 2. The terminal summary must print the local path of that markdown report.
-3. The markdown report must also stay candidate-facing.
-4. The markdown report should encourage the candidate to keep or attach it if they decide to apply.
-5. The markdown report must remain privacy-bounded and de-identified.
+3. The markdown report must record the exact JD prompt version used to generate the report.
+4. The markdown report must also stay candidate-facing.
+5. The markdown report should encourage the candidate to keep or attach it if they decide to apply.
+6. The markdown report must remain privacy-bounded and de-identified.
 
 ## Extended-Mode Redaction
 
@@ -535,19 +548,21 @@ prompts/<prompt_slug>.en.md
 prompts/<prompt_slug>.md
 ```
 
-3. Sync the role page:
+3. Initialize the new role's prompt version in both source prompts and keep the Chinese and English version identifier identical.
+
+4. Sync the role page:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/sync_role_page.py --page-slug <page_slug>
 ```
 
-4. Sync generated surfaces:
+5. Sync generated surfaces:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/sync_registry_surfaces.py
 ```
 
-5. Validate:
+6. Validate:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/validate_roles.py
@@ -563,19 +578,21 @@ prompts/<prompt_slug>.en.md
 prompts/<prompt_slug>.md
 ```
 
-3. Sync the page:
+3. Bump that role's prompt version in both source prompts for every prompt update, and keep the version identifier identical across languages.
+
+4. Sync the page:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/sync_role_page.py --page-slug <page_slug>
 ```
 
-4. If title or summary changed in `roles.json`, also run:
+5. If title or summary changed in `roles.json`, also run:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/sync_registry_surfaces.py
 ```
 
-5. Validate:
+6. Validate:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/validate_roles.py
@@ -607,6 +624,8 @@ Every completed JD operation must leave the repo in this state:
 - every role page keeps author GitHub info and repo link
 - `docs/index.html`, `README.md`, and `README.zh-CN.md` are in sync with `roles.json`
 - `validate_roles.py` passes
+- every JD prompt has a traceable per-role version identifier, aligned across Chinese, English, and embedded prompt content
+- every candidate-facing report records the exact JD prompt version used for that run
 - every JD prompt preserves the Global Candidate Evaluation Principles above
 - every JD prompt preserves the Consent-First Local Scan Policy above
 
