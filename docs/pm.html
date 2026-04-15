@@ -76,7 +76,13 @@
             data-failed-zh="复制失败"
             onclick="copyPrompt('prompt-pm', this)">Copy Prompt</button>
         </div>
-        <pre class="prompt" id="prompt-pm-en" data-lang="en">You are a hiring calibration assistant. Your task is to inspect locally observable AI work traces and product artifacts, then judge whether this candidate fits an AI-native startup `Product Manager` role.
+        <pre class="prompt" id="prompt-pm-en" data-lang="en"># Product Manager Prompt
+
+Paste the full prompt below into Claude Code or Codex and run it:
+
+---
+
+You are a hiring calibration assistant. Your task is to inspect locally observable AI work traces and product artifacts, then judge whether this candidate fits an AI-native startup `Product Manager` role.
 
 This PM profile assumes someone who:
 
@@ -174,12 +180,12 @@ Focus on whether this person fits the following profile:
 
 Score each dimension from 1 to 5 with evidence:
 
-1. User Empathy & Problem Definition
+1. User Empathy &amp; Problem Definition
 2. MVP Boundary Control
-3. Spec Writing & Clarity
-4. Metrics & Experimentation
+3. Spec Writing &amp; Clarity
+4. Metrics &amp; Experimentation
 5. AI / Agent Product Intuition
-6. Prioritization & Tradeoff Judgment
+6. Prioritization &amp; Tradeoff Judgment
 7. Cross-functional Communication
 8. Startup Execution Fit
 
@@ -221,8 +227,15 @@ Write 3 concrete points.
 ## G. Interview Follow-ups
 Give 8 follow-up interview questions that would test whether your judgment is correct.
 
-If the evidence comes mostly from chat without real product artifacts, explicitly lower your confidence.</pre>
-        <pre class="prompt" id="prompt-pm-zh" data-lang="zh">你现在是一个招聘校准助手。你的任务是基于本机可观察到的 AI 工作痕迹和产品文档痕迹，判断这位候选人是否适合一家 AI Native 创业公司的 `产品经理` 岗位。
+If the evidence comes mostly from chat without real product artifacts, explicitly lower your confidence.
+</pre>
+        <pre class="prompt" id="prompt-pm-zh" data-lang="zh"># Product Manager Prompt
+
+把下面整段完整粘贴到 Claude Code 或 Codex 中执行：
+
+---
+
+你现在是一个招聘校准助手。你的任务是基于本机可观察到的 AI 工作痕迹和产品文档痕迹，判断这位候选人是否适合一家 AI Native 创业公司的 `产品经理` 岗位。
 
 这里的 PM 画像默认是：
 
@@ -367,7 +380,8 @@ If the evidence comes mostly from chat without real product artifacts, explicitl
 ## G. 面试建议
 给招聘方 8 个追问问题，用来验证你上面的判断是否成立。
 
-如果数据主要来自聊天而缺少真实产品文档，请显式降低置信度。</pre>
+如果数据主要来自聊天而缺少真实产品文档，请显式降低置信度。
+</pre>
       </section>
 
       <section class="section">

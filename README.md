@@ -113,6 +113,7 @@ git-hired/
 │   ├── growth.html
 │   ├── style.css
 │   └── app.js
+├── roles.json
 ├── prompts/
 │   ├── agent-engineer.en.md
 │   ├── agent-engineer.md
@@ -120,6 +121,10 @@ git-hired/
 │   ├── product-manager.md
 │   ├── global-growth.en.md
 │   └── global-growth.md
+├── .codex/skills/git-hired-jd-ops/
+│   ├── SKILL.md
+│   ├── references/
+│   └── scripts/
 ├── LICENSE
 ├── README.md
 └── README.zh-CN.md
@@ -166,6 +171,20 @@ You should adapt the prompts for:
 - Head of Global Growth
   - Chinese: `prompts/global-growth.md`
   - English: `prompts/global-growth.en.md`
+
+## Maintainer Skill
+
+This repo now includes a project-local skill for fast JD operations:
+
+- `.codex/skills/git-hired-jd-ops/SKILL.md`
+
+Use it when you need to:
+
+- add a new role
+- add a new JD
+- optimize an existing JD
+- sync prompt source files into role pages
+- validate that `roles.json`, `prompts/`, `docs/`, and `README*` stay consistent
 
 ## License
 

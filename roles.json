@@ -1,0 +1,23 @@
+[
+  {
+    "page_slug": "agent",
+    "prompt_slug": "agent-engineer",
+    "prompt_base": "prompt-engineer",
+    "title_en": "AI Agent Engineer",
+    "title_zh": "AI Agent 工程师"
+  },
+  {
+    "page_slug": "pm",
+    "prompt_slug": "product-manager",
+    "prompt_base": "prompt-pm",
+    "title_en": "Product Manager",
+    "title_zh": "产品经理"
+  },
+  {
+    "page_slug": "growth",
+    "prompt_slug": "global-growth",
+    "prompt_base": "prompt-growth",
+    "title_en": "Head of Global Growth",
+    "title_zh": "海外增长负责人"
+  }
+]

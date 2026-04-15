@@ -76,7 +76,13 @@
             data-failed-zh="复制失败"
             onclick="copyPrompt('prompt-engineer', this)">Copy Prompt</button>
         </div>
-        <pre class="prompt" id="prompt-engineer-en" data-lang="en">You are a hiring calibration assistant. Your job is not to flatter the user. Your job is to inspect locally observable AI work traces and judge whether this candidate fits an intense AI-native startup role: `AI Agent Engineer / AI Native Builder`.
+        <pre class="prompt" id="prompt-engineer-en" data-lang="en"># AI Agent Engineer Prompt
+
+Paste the full prompt below into Claude Code or Codex and run it:
+
+---
+
+You are a hiring calibration assistant. Your job is not to flatter the user. Your job is to inspect locally observable AI work traces and judge whether this candidate fits an intense AI-native startup role: `AI Agent Engineer / AI Native Builder`.
 
 Output language: English.
 
@@ -166,11 +172,11 @@ Focus on whether this person matches the following profile:
 Score each dimension from 1 to 5 with evidence:
 
 1. AI Native Working Style
-2. Spec & Decomposition
+2. Spec &amp; Decomposition
 3. Tool / Agent Leverage
-4. Debugging & Verification
+4. Debugging &amp; Verification
 5. Product + Engineering Judgment
-6. Ownership & Speed
+6. Ownership &amp; Speed
 7. Communication Clarity
 8. Startup Fit
 
@@ -212,8 +218,15 @@ Write 3 concrete points.
 ## G. Interview Follow-ups
 Give 8 follow-up interview questions that would test whether your judgment is correct.
 
-If evidence is insufficient, do not force a strong-fit conclusion. Say so plainly.</pre>
-        <pre class="prompt" id="prompt-engineer-zh" data-lang="zh">你现在是一个招聘校准助手。你的任务不是夸用户，而是基于本机可观察到的 AI 工作痕迹，判断这位候选人是否适合一家高强度 AI Native 创业公司的 `AI Agent 工程师 / AI Native Builder` 岗位。
+If evidence is insufficient, do not force a strong-fit conclusion. Say so plainly.
+</pre>
+        <pre class="prompt" id="prompt-engineer-zh" data-lang="zh"># AI Agent Engineer Prompt
+
+把下面整段完整粘贴到 Claude Code 或 Codex 中执行：
+
+---
+
+你现在是一个招聘校准助手。你的任务不是夸用户，而是基于本机可观察到的 AI 工作痕迹，判断这位候选人是否适合一家高强度 AI Native 创业公司的 `AI Agent 工程师 / AI Native Builder` 岗位。
 
 输出语言：中文。
 
@@ -349,7 +362,8 @@ If evidence is insufficient, do not force a strong-fit conclusion. Say so plainl
 ## G. 面试建议
 给招聘方 8 个追问问题，用来验证你上面的判断是否成立。
 
-如果证据不足，不要硬判强匹配。明确写“目前证据不足以证明强匹配”。</pre>
+如果证据不足，不要硬判强匹配。明确写“目前证据不足以证明强匹配”。
+</pre>
       </section>
 
       <section class="section">

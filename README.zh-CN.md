@@ -113,6 +113,7 @@ git-hired/
 │   ├── growth.html
 │   ├── style.css
 │   └── app.js
+├── roles.json
 ├── prompts/
 │   ├── agent-engineer.en.md
 │   ├── agent-engineer.md
@@ -120,6 +121,10 @@ git-hired/
 │   ├── product-manager.md
 │   ├── global-growth.en.md
 │   └── global-growth.md
+├── .codex/skills/git-hired-jd-ops/
+│   ├── SKILL.md
+│   ├── references/
+│   └── scripts/
 ├── LICENSE
 ├── README.md
 └── README.zh-CN.md
@@ -166,6 +171,20 @@ git-hired/
 - 海外增长负责人
   - 中文：`prompts/global-growth.md`
   - 英文：`prompts/global-growth.en.md`
+
+## 维护者 Skill
+
+仓库里已经内置了一个 project-local skill，专门处理 JD 的新增和修改：
+
+- `.codex/skills/git-hired-jd-ops/SKILL.md`
+
+适用场景：
+
+- 新增岗位
+- 新增 JD
+- 优化现有 JD
+- 把 prompt 源文件同步进岗位页
+- 校验 `roles.json`、`prompts/`、`docs/`、`README*` 是否一致
 
 ## 协议
 

@@ -76,7 +76,13 @@
             data-failed-zh="复制失败"
             onclick="copyPrompt('prompt-growth', this)">Copy Prompt</button>
         </div>
-        <pre class="prompt" id="prompt-growth-en" data-lang="en">You are a hiring calibration assistant. Your job is to inspect locally observable AI work traces, growth documents, and experiment artifacts, then judge whether this candidate fits an AI-native startup `Head of Global Growth` role.
+        <pre class="prompt" id="prompt-growth-en" data-lang="en"># Head of Global Growth Prompt
+
+Paste the full prompt below into Claude Code or Codex and run it:
+
+---
+
+You are a hiring calibration assistant. Your job is to inspect locally observable AI work traces, growth documents, and experiment artifacts, then judge whether this candidate fits an AI-native startup `Head of Global Growth` role.
 
 Target role profile:
 
@@ -182,13 +188,13 @@ Focus on whether this person fits the following profile:
 
 Score each dimension from 1 to 5 with evidence:
 
-1. ICP & User Signal Sensitivity
+1. ICP &amp; User Signal Sensitivity
 2. Channel Strategy Quality
-3. Funnel & Conversion Reasoning
-4. Experiment Speed & Rigor
+3. Funnel &amp; Conversion Reasoning
+4. Experiment Speed &amp; Rigor
 5. ROI / Unit Economics Discipline
 6. Global / English / Cross-cultural Readiness
-7. Team Building & Operating System Thinking
+7. Team Building &amp; Operating System Thinking
 8. Startup Execution Fit
 
 If English-language evidence is missing, do not guess. Say “insufficient evidence.”
@@ -231,8 +237,15 @@ Write 3 concrete points.
 ## G. Interview Follow-ups
 Give 8 follow-up interview questions that would test whether your judgment is correct.
 
-If the evidence only shows execution-level skill without system-building ability, say so directly.</pre>
-        <pre class="prompt" id="prompt-growth-zh" data-lang="zh">你现在是一个招聘校准助手。你的任务是基于本机可观察到的 AI 工作痕迹、增长文档痕迹和实验产物，判断这位候选人是否适合一家 AI Native 创业公司的 `海外增长负责人 / Head of Global Growth` 岗位。
+If the evidence only shows execution-level skill without system-building ability, say so directly.
+</pre>
+        <pre class="prompt" id="prompt-growth-zh" data-lang="zh"># Head of Global Growth Prompt
+
+把下面整段完整粘贴到 Claude Code 或 Codex 中执行：
+
+---
+
+你现在是一个招聘校准助手。你的任务是基于本机可观察到的 AI 工作痕迹、增长文档痕迹和实验产物，判断这位候选人是否适合一家 AI Native 创业公司的 `海外增长负责人 / Head of Global Growth` 岗位。
 
 目标岗位画像：
 
@@ -387,7 +400,8 @@ If the evidence only shows execution-level skill without system-building ability
 ## G. 面试建议
 给招聘方 8 个追问问题，用来验证你上面的判断是否成立。
 
-如果主要证据只体现执行层技能，而没有增长系统搭建能力，请明确指出。</pre>
+如果主要证据只体现执行层技能，而没有增长系统搭建能力，请明确指出。
+</pre>
       </section>
 
       <section class="section">
