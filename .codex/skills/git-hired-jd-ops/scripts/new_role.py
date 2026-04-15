@@ -208,24 +208,24 @@ def role_page(
       </section>
 
       <section class="section">
-        <h2 data-lang="en">Message To Send The Candidate</h2>
-        <h2 data-lang="zh">发给候选人的话术</h2>
+        <h2 data-lang="en">How To Run This Test</h2>
+        <h2 data-lang="zh">怎么开始这个测试</h2>
         <p class="mini" data-lang="en">
-          Paste the prompt below into your own Claude Code or Codex, run it, and send me the output. By default it stays history-only and will ask before scanning any local repo or document. Any approved scan stays local on your machine and is not uploaded to our server.
+          Paste the prompt below into your own Claude Code or Codex and run it. By default it stays history-only, asks before scanning any local repo or document, and keeps any approved scan local to your own machine.
         </p>
         <p class="mini" data-lang="zh">
-          把下面这段 prompt 完整粘贴给你自己的 Claude Code 或 Codex 跑一下，把结果私信发我。默认只看历史记录，如需扫描本地 repo 或文档会先征求你的允许；任何批准的扫描都只在你自己的机器本地运行，不会上传到我们的服务器。
+          把下面这段 prompt 完整粘贴到你自己的 Claude Code 或 Codex 里运行。默认只看历史记录，如需扫描本地 repo 或文档会先征求你的允许；任何批准的扫描也只在你自己的机器本地运行。
         </p>
       </section>
 
       <section class="section">
-        <h2 data-lang="en">What This Test Looks For</h2>
-        <h2 data-lang="zh">这个测试主要看什么</h2>
+        <h2 data-lang="en">What This Test Helps You Show</h2>
+        <h2 data-lang="zh">这个测试会帮你展示什么</h2>
         <ul data-lang="en">
-          <li>TODO: replace with role-specific English bullets.</li>
+          <li>TODO: replace with role-specific English bullets written for the candidate.</li>
         </ul>
         <ul data-lang="zh">
-          <li>TODO：替换成岗位相关的中文要点。</li>
+          <li>TODO：替换成岗位相关、面向候选人的中文要点。</li>
         </ul>
       </section>
 

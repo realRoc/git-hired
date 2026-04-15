@@ -332,6 +332,25 @@ This rule applies to `docs/index.html`, `docs/general.html`, and any future shar
    - internal hiring-process framing
    - recruiter workflow language
 
+## Candidate-Serving JD Descriptions
+
+This rule applies to `roles.json`, the role cards in `docs/index.html`, every public role page under `docs/`, and the role-page template in `new_role.py`.
+
+1. Treat public JD descriptions as copy written for the candidate, not for the recruiter.
+2. Role-card summaries should help the candidate choose the right test, not describe the candidate in third person.
+3. Prefer direct candidate-facing phrasing such as:
+   - `Use this if you want to show...`
+   - `This test helps you surface...`
+4. Avoid recruiter-facing phrasing such as:
+   - `See whether a candidate...`
+   - `看候选人是否...`
+   - `Message To Send The Candidate`
+   - `把结果私信发我`
+5. On role pages, explain:
+   - how the candidate starts the test
+   - what the test helps the candidate show
+   - what privacy boundary applies while they run it
+
 ## HIRED TUI Output
 
 This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, the universal-entry prompt, and the role template in `new_role.py`.

@@ -31,6 +31,8 @@ def main() -> None:
         errors.append("docs/index.html missing language bootstrap script")
     if "./general.html" not in index_text:
         errors.append("docs/index.html missing universal entry link to ./general.html")
+    if "See whether a candidate" in index_text or "看候选人是否" in index_text:
+        errors.append("docs/index.html still contains recruiter-facing JD summary wording")
 
     if not general_page.exists():
         errors.append("docs/general.html missing universal entry page")
@@ -110,6 +112,10 @@ def main() -> None:
             errors.append(f"missing summary_en in roles.json for {page_slug}")
         if "summary_zh" not in role or not role["summary_zh"]:
             errors.append(f"missing summary_zh in roles.json for {page_slug}")
+        if "See whether a candidate" in role["summary_en"]:
+            errors.append(f"roles.json summary_en for {page_slug} should be candidate-facing, not recruiter-facing")
+        if "看候选人是否" in role["summary_zh"]:
+            errors.append(f"roles.json summary_zh for {page_slug} should be candidate-facing, not recruiter-facing")
 
         if f'href="./{page_slug}.html"' not in index_text:
             errors.append(f"docs/index.html missing link to ./{page_slug}.html")
@@ -122,6 +128,10 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing language bootstrap script")
             if 'href="./index.html"' not in page_text:
                 errors.append(f"docs/{page_slug}.html missing back-home link")
+            if "Message To Send The Candidate" in page_text or "发给候选人的话术" in page_text:
+                errors.append(f"docs/{page_slug}.html still contains recruiter-facing section headings")
+            if "send me the output" in page_text or "把结果私信发我" in page_text:
+                errors.append(f"docs/{page_slug}.html still contains recruiter-facing CTA copy")
             if "https://github.com/realRoc" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing author GitHub link")
             if "https://github.com/realRoc/git-hired" not in page_text:
