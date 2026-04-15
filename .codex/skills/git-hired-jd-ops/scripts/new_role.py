@@ -59,12 +59,15 @@ def zh_prompt(title_zh: str) -> str:
 
 输出要求：
 1. 最终输出是给候选人看的，不是给招聘方或面试官看的。
-2. 终端里的主输出要对 TUI 友好、简洁、易截图传播，并使用以 `HIRED` 为主词的 ASCII 艺术字开头。
-3. 终端摘要要更像“能力画像 / 英雄画像”，包含 archetype、ability score、signal board、upgrade path 和详细报告路径。
-4. 终端里给一个简短摘要，再在本地生成一份更完整的 `.md` 详细报告，并打印详细报告路径。
-5. 如果候选人存在明显短板，补充最多 3 条平等友好的改进建议。
-6. 如果结论为强匹配，明确建议候选人把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告。
-7. 如果是 extended 模式，详细报告里要对 repo 名、文件路径、secret 等敏感信息做更严格脱敏。
+2. 终端里的主输出要对 TUI 友好、简洁、易截图传播，并使用更清晰的 `HIRED` ASCII 横幅开头，而不是稀疏字母块。
+3. 终端摘要要更像“能力画像 / 英雄画像”，包含 result tier、archetype、ability score、signal board、upgrade path、详细报告路径，以及靠后的“虚构年包”钩子。
+4. 打分要明显更严：高分稀缺，证据不足时宁可保守降分，也不要做鼓励式灌水。
+5. 终端里给一个简短摘要，再在本地生成一份更完整的 `.md` 详细报告，并打印详细报告路径。
+6. 在 TUI 靠后位置加入一行“虚构年包（仅供社交传播，不是 offer）”；中文用 RMB，英文用 USD，并现场脑暴一个有趣的虚构公司名。
+7. 语气可以有一点梗感和轻微毒舌，但不能羞辱、贬低或人身攻击候选人。
+8. 如果候选人存在明显短板，补充最多 3 条平等友好的改进建议。
+9. 如果结论为强匹配，明确建议候选人把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告。
+10. 如果是 extended 模式，详细报告里要对 repo 名、文件路径、secret 等敏感信息做更严格脱敏。
 
 Consent & local-only notice:
 1. 默认只使用本地 AI 会话历史和候选人主动粘贴或明确批准的材料。
@@ -113,12 +116,15 @@ Privacy boundary:
 
 Output requirements:
 1. The final output is for the candidate to read, not for the interviewer or hiring team.
-2. The main terminal output should be concise, TUI-friendly, easy to share, and start with ASCII art whose main word is `HIRED`.
-3. The terminal summary should feel like a hero portrait or capability profile, including an archetype, an ability score, a compact signal board, upgrade paths, and the detailed-report path.
-4. Give a short terminal summary, then generate a fuller local `.md` report and print its path.
-5. If there are meaningful gaps, add up to 3 respectful and practical improvement suggestions.
-6. If the result is a strong fit, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com` and attach the detailed report.
-7. In extended mode, redact repo names, file paths, secrets, and similar identifiers more aggressively in the markdown report.
+2. The main terminal output should be concise, TUI-friendly, easy to share, and start with a clearer `HIRED` ASCII banner instead of a sparse single-letter block.
+3. The terminal summary should feel like a hero portrait or capability profile, including a result tier, an archetype, an ability score, a compact signal board, upgrade paths, the detailed-report path, and a late-stage fictional annual-package hook.
+4. Score more harshly than a feel-good quiz: high scores should be rare, and thin evidence should round down rather than inflate.
+5. Give a short terminal summary, then generate a fuller local `.md` report and print its path.
+6. Near the end of the TUI, add one `Fantasy annual package` line, clearly marked as fictional and not an offer; use USD for English output, RMB for Chinese output, and invent a playful fictional company name on the spot.
+7. The tone may be playful, meme-friendly, and a little sharp, but never insulting or demeaning.
+8. If there are meaningful gaps, add up to 3 respectful and practical improvement suggestions.
+9. If the result is a strong fit, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com` and attach the detailed report.
+10. In extended mode, redact repo names, file paths, secrets, and similar identifiers more aggressively in the markdown report.
 
 Consent & local-only notice:
 1. Default to using local AI session history and any material the candidate explicitly pastes or approves.

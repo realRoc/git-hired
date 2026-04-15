@@ -302,6 +302,7 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 3. If the report suggests discussion topics, phrase them as candidate-facing preparation guidance, for example:
    - `If you choose to apply, be ready to talk about...`
 4. The tone must remain respectful, equal, and useful to the candidate's own growth.
+5. Public prompt output may be playful, meme-friendly, and a little sharp, but it must never become insulting, humiliating, or contemptuous.
 
 ## Universal Entry Flow
 
@@ -356,18 +357,39 @@ This rule applies to `roles.json`, the role cards in `docs/index.html`, every pu
 This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, the universal-entry prompt, and the role template in `new_role.py`.
 
 1. The terminal output should feel like a candidate-facing hero portrait, not a dry audit log.
-2. The first visual block in the terminal must be ASCII art whose main word is exactly `HIRED`.
+2. The first visual block in the terminal must be a readable ASCII banner whose main word is exactly `HIRED`, not a sparse single-letter block.
 3. After the `HIRED` header, the terminal summary should present:
    - a subtitle or portrait label
+   - a result tier
    - a memorable archetype title plus short acronym
    - an ability score
    - a compact signal board
-   - a short illustrative market band disclaimered as not an offer
    - strongest signals
    - upgrade path
    - the local detailed-report path
+   - a fictional annual-package hook near the end
 4. The summary should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
 5. Detailed evidence belongs in a local markdown report, not in the terminal summary.
+6. Score more harshly than a feel-good internet quiz:
+   - `90+` or `9-10/10` should be rare
+   - `75-89` or `7-8/10` is already clearly strong
+   - `60-74` or `5-6/10` is solid but not rare
+   - below `60` or `0-4/10` means meaningful gaps, thin proof, or inconsistent evidence
+7. If evidence is thin, round down and say so explicitly instead of flattering the candidate.
+
+## Fictional Compensation Hook
+
+This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, the universal-entry prompt, and the role template in `new_role.py`.
+
+1. Near the end of the TUI summary, include one short `Fantasy annual package` line as a social-sharing hook.
+2. It must be explicitly marked as fictional, for fun, and not a real offer or compensation promise.
+3. Use language-local currency:
+   - English output: USD
+   - Chinese output: RMB
+4. Tie the band to the strict result tier rather than printing a generic number.
+5. Invent a playful fictional company name on the spot every time.
+6. Fictional company names may parody startup or big-tech vibes, but they must not imply a real employer made the offer.
+7. The hook may be a little spicy or teasing, but it must still respect the candidate and avoid personal humiliation.
 
 ## Local Detailed Report Output
 

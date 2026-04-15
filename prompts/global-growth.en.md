@@ -173,27 +173,34 @@ Produce 2 deliverables:
 This is the main thing the candidate sees in the TUI.
 
 Rules:
-- keep it concise, skimmable, highly shareable, and under about 55 lines
-- the first visual block must be ASCII art whose main word is exactly `HIRED`
+- keep it concise, skimmable, highly shareable, and under about 60 lines
+- the first visual block must be the exact ASCII art below, whose main word is `HIRED`
 - after the header, present the result like a hero portrait or capability profile, not a cold audit report
+- calibrate more harshly than a feel-good internet quiz
+- `90+` and `9-10/10` are rare and need repeated, high-signal evidence
+- `75-89` and `7-8/10` are already clearly strong
+- `60-74` and `5-6/10` are solid but not special
+- below `60` and `0-4/10` means real gaps, thin proof, or inconsistent evidence
+- if evidence is thin, round down and say so
+- the tone can be sharp, playful, and meme-friendly, but never insulting, humiliating, or contemptuous
 - use short sections, compact score lines, and vivid labels instead of long prose
-- keep the tone respectful, energizing, and concrete
 
 Use this structure:
 
 1. Print this exact ASCII header:
 
-H   H  III  RRRR   EEEE  DDDD
-H   H   I   R   R  E     D   D
-HHHHH   I   RRRR   EEE   D   D
-H   H   I   R  R   E     D   D
-H   H  III  R   R  EEEE  DDDD
+_    _  _____  _____   ______  _____
+| |  | ||_   _||  __ \ |  ____||  __ \
+| |__| |  | |  | |__) || |__   | |  | |
+|  __  |  | |  |  _  / |  __|  | |  | |
+| |  | | _| |_ | | \ \ | |____ | |__| |
+|_|  |_||_____||_|  \_\|______||_____/
 
 2. Then print a subtitle:
 - `>> <role> hero portrait <<`
 
 3. Print a compact identity block with:
-- result: `strong fit / interviewable / borderline / not recommended`
+- result tier: `cxo-bait / high-upside / industry-solid / needs-leveling`
 - confidence: `high / medium / low`
 - mode: `history-only / approved-scan`
 - evidence: `high / medium / low`
@@ -203,24 +210,32 @@ H   H  III  R   R  EEEE  DDDD
 
 4. Print `Signal Board`
 - one line per score dimension
-- format like `Core Signal .......... 8/10 [########--]`
+- format like `Core Signal .......... 6/10 [######----]`
 - if a dimension is unavailable, show `N/A (evidence thin)`
 
-5. Print `Market Band (illustrative, not an offer)`
-- one short line only
-
-6. Print `Why you look promising`
+5. Print `Why this hits`
 - up to 3 short bullets
-- make them vivid and candidate-facing
+- make them vivid, candidate-facing, and screenshot-friendly
 
-7. Print `Upgrade path`
+6. Print `Upgrade path`
 - up to 3 short bullets
 - frame gaps as the next unlock, not as a scolding
 
-8. Print `Next step`
-- if result is `strong fit`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
+7. Print `Next step`
+- if result tier is `cxo-bait` or `high-upside`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
 - otherwise give one short, respectful next step
 - encourage the candidate to keep the report if they may apply later
+
+8. Print `Fantasy annual package (for social sharing, not a real offer)`
+- one short line only
+- use `USD`
+- tie the range to the strict result tier:
+  - `cxo-bait`: `$350k-$900k / year`
+  - `high-upside`: `$150k-$350k / year`
+  - `industry-solid`: `$60k-$150k / year`
+  - `needs-leveling`: `$-5k-$40k / year`
+- invent one playful fictional company name on the spot every time, such as `Pear Systems`, `Overtime Capital Partners`, or `Spreadsheet Necromancy Labs`
+- make it explicit that the company is fictional, the line is for fun, and it is not an actual offer or compensation promise
 
 9. End with:
 - `>> If this portrait feels right, star github.com/realRoc/git-hired`
@@ -231,13 +246,14 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- a title block with result, archetype, ability score, mode, and evidence level
+- a title block with result tier, archetype, ability score, mode, and evidence level
 - data coverage
 - redacted signal distribution
 - scorecard with evidence
 - strongest signals
 - main risks or upgrade paths
 - concrete growth suggestions
+- one short `Fantasy annual package` line using the same strict tier logic, still marked as fictional and not an offer
 - `If you choose to apply, be ready to talk about...` with 5 candidate-facing discussion topics
 - one short line that the candidate may attach this report when applying
 

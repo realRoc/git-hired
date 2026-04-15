@@ -46,6 +46,10 @@ def main() -> None:
             errors.append("docs/general.html missing privacy mode controls")
         if 'id="prompt-general-en"' not in general_text or 'id="prompt-general-zh"' not in general_text:
             errors.append("docs/general.html missing generated prompt blocks")
+        if "_    _  _____  _____   ______  _____" not in general_text:
+            errors.append("docs/general.html missing updated readable HIRED ASCII banner in prompt templates")
+        if "Fantasy annual package" not in general_text or "虚构年包" not in general_text:
+            errors.append("docs/general.html missing fictional compensation hook in prompt templates")
         if "https://github.com/realRoc" not in general_text:
             errors.append("docs/general.html missing author GitHub link")
         if "https://github.com/realRoc/git-hired" not in general_text:
@@ -97,6 +101,10 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing consent-first local-only notice")
             if "详细报告" not in zh_prompt_text or "HIRED" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing candidate-facing TUI/report output requirements")
+            if "_    _  _____  _____   ______  _____" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing updated readable HIRED ASCII banner")
+            if "虚构年包" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing fictional compensation hook")
             if "## G. 面试建议" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains interviewer-facing interview section")
         if en_prompt.exists():
@@ -105,6 +113,10 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing consent-first local-only notice")
             if "Detailed report" not in en_prompt_text or "HIRED" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing candidate-facing TUI/report output requirements")
+            if "_    _  _____  _____   ______  _____" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing updated readable HIRED ASCII banner")
+            if "Fantasy annual package" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing fictional compensation hook")
             if "Interview Follow-ups" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains interviewer-facing interview section")
 
