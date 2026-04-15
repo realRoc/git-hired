@@ -24,6 +24,23 @@ def main() -> None:
     errors: list[str] = []
     warnings: list[str] = []
 
+    if "<!-- AUTO:role-cards:start -->" not in index_text or "<!-- AUTO:role-cards:end -->" not in index_text:
+        errors.append("docs/index.html missing AUTO role-cards markers")
+
+    if "<!-- AUTO:live-links:start -->" not in readme_en or "<!-- AUTO:live-links:end -->" not in readme_en:
+        errors.append("README.md missing AUTO live-links markers")
+    if "<!-- AUTO:role-list:start -->" not in readme_en or "<!-- AUTO:role-list:end -->" not in readme_en:
+        errors.append("README.md missing AUTO role-list markers")
+    if "<!-- AUTO:prompt-sources:start -->" not in readme_en or "<!-- AUTO:prompt-sources:end -->" not in readme_en:
+        errors.append("README.md missing AUTO prompt-sources markers")
+
+    if "<!-- AUTO:live-links:start -->" not in readme_zh or "<!-- AUTO:live-links:end -->" not in readme_zh:
+        errors.append("README.zh-CN.md missing AUTO live-links markers")
+    if "<!-- AUTO:role-list:start -->" not in readme_zh or "<!-- AUTO:role-list:end -->" not in readme_zh:
+        errors.append("README.zh-CN.md missing AUTO role-list markers")
+    if "<!-- AUTO:prompt-sources:start -->" not in readme_zh or "<!-- AUTO:prompt-sources:end -->" not in readme_zh:
+        errors.append("README.zh-CN.md missing AUTO prompt-sources markers")
+
     page_slugs = set()
     prompt_slugs = set()
     prompt_bases = set()
@@ -55,6 +72,11 @@ def main() -> None:
             errors.append(f"missing English prompt file: prompts/{prompt_slug}.en.md")
         if not page.exists():
             errors.append(f"missing role page: docs/{page_slug}.html")
+
+        if "summary_en" not in role or not role["summary_en"]:
+            errors.append(f"missing summary_en in roles.json for {page_slug}")
+        if "summary_zh" not in role or not role["summary_zh"]:
+            errors.append(f"missing summary_zh in roles.json for {page_slug}")
 
         if f'href="./{page_slug}.html"' not in index_text:
             errors.append(f"docs/index.html missing link to ./{page_slug}.html")

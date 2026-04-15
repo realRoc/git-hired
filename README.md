@@ -26,17 +26,21 @@ It is a practical way to inspect signals that matter more in AI-native teams:
 
 After GitHub Pages is enabled for this repo:
 
+<!-- AUTO:live-links:start -->
 - AI Agent Engineer: <https://realroc.github.io/git-hired/agent.html>
 - Product Manager: <https://realroc.github.io/git-hired/pm.html>
 - Head of Global Growth: <https://realroc.github.io/git-hired/growth.html>
+<!-- AUTO:live-links:end -->
 
 ## What This Repo Includes
 
 Three public, shareable candidate tests:
 
+<!-- AUTO:role-list:start -->
 - `AI Agent Engineer`
 - `Product Manager`
 - `Head of Global Growth`
+<!-- AUTO:role-list:end -->
 
 Each role includes:
 
@@ -162,6 +166,7 @@ You should adapt the prompts for:
 
 ## Prompt Sources
 
+<!-- AUTO:prompt-sources:start -->
 - AI Agent Engineer
   - Chinese: `prompts/agent-engineer.md`
   - English: `prompts/agent-engineer.en.md`
@@ -171,6 +176,7 @@ You should adapt the prompts for:
 - Head of Global Growth
   - Chinese: `prompts/global-growth.md`
   - English: `prompts/global-growth.en.md`
+<!-- AUTO:prompt-sources:end -->
 
 ## Maintainer Skill
 
@@ -184,6 +190,7 @@ Use it when you need to:
 - add a new JD
 - optimize an existing JD
 - sync prompt source files into role pages
+- sync homepage and README role listings from `roles.json`
 - validate that `roles.json`, `prompts/`, `docs/`, and `README*` stay consistent
 
 ## License

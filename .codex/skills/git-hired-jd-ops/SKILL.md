@@ -60,10 +60,12 @@ python3 .codex/skills/git-hired-jd-ops/scripts/new_role.py \
 python3 .codex/skills/git-hired-jd-ops/scripts/sync_role_page.py --page-slug <page_slug>
 ```
 
-5. Update the human-facing surfaces:
-   - add role card to `docs/index.html`
-   - add live link + role list + prompt sources to `README.md`
-   - add live link + role list + prompt sources to `README.zh-CN.md`
+5. Sync registry-driven surfaces:
+
+```bash
+python3 .codex/skills/git-hired-jd-ops/scripts/sync_registry_surfaces.py
+```
+
 6. Validate:
 
 ```bash
@@ -82,11 +84,12 @@ python3 .codex/skills/git-hired-jd-ops/scripts/validate_roles.py
 python3 .codex/skills/git-hired-jd-ops/scripts/sync_role_page.py --page-slug <page_slug>
 ```
 
-4. If title, summary, or positioning changed, update:
-   - `docs/<page_slug>.html`
-   - `docs/index.html`
-   - `README.md`
-   - `README.zh-CN.md`
+4. If title or summary changed in `roles.json`, or if a role was added or removed, sync registry-driven surfaces:
+
+```bash
+python3 .codex/skills/git-hired-jd-ops/scripts/sync_registry_surfaces.py
+```
+
 5. Validate:
 
 ```bash
@@ -109,7 +112,8 @@ If the rename is URL-safe and intentional:
 2. Rename the prompt files and page file
 3. Update internal links and prompt block ids
 4. Run `sync_role_page.py`
-5. Run `validate_roles.py`
+5. Run `sync_registry_surfaces.py`
+6. Run `validate_roles.py`
 
 ## Required repo invariants
 
@@ -134,6 +138,7 @@ Keep these true after every change:
 
 - Edit prompt source files first. Do not hand-edit embedded prompt blocks unless you are fixing page structure.
 - Use `sync_role_page.py` to push prompt changes into HTML.
+- Use `sync_registry_surfaces.py` to update homepage cards and README role lists.
 - Keep English and Chinese prompt files semantically aligned.
 - Keep English as the default language in HTML.
 - Preserve privacy-boundary language unless the user explicitly wants to change the data policy.
@@ -144,6 +149,7 @@ Keep these true after every change:
 Before finishing:
 
 ```bash
+python3 .codex/skills/git-hired-jd-ops/scripts/sync_registry_surfaces.py
 python3 .codex/skills/git-hired-jd-ops/scripts/validate_roles.py
 git diff --stat
 ```

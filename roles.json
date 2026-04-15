@@ -4,20 +4,26 @@
     "prompt_slug": "agent-engineer",
     "prompt_base": "prompt-engineer",
     "title_en": "AI Agent Engineer",
-    "title_zh": "AI Agent 工程师"
+    "title_zh": "AI Agent 工程师",
+    "summary_en": "See whether a candidate is truly directing AI work, instead of using AI as outsourced typing labor.",
+    "summary_zh": "看候选人是否真正在指挥 AI 干活，而不是把 AI 当成外包体力。"
   },
   {
     "page_slug": "pm",
     "prompt_slug": "product-manager",
     "prompt_base": "prompt-pm",
     "title_en": "Product Manager",
-    "title_zh": "产品经理"
+    "title_zh": "产品经理",
+    "summary_en": "See whether a candidate has AI product judgment, MVP discipline, spec writing ability, and cross-functional execution.",
+    "summary_zh": "看候选人是否有 AI 产品判断、MVP 边界感、spec 能力和跨职能推进能力。"
   },
   {
     "page_slug": "growth",
     "prompt_slug": "global-growth",
     "prompt_base": "prompt-growth",
     "title_en": "Head of Global Growth",
-    "title_zh": "海外增长负责人"
+    "title_zh": "海外增长负责人",
+    "summary_en": "See whether a candidate can build a real growth system, from user signals to channel strategy, experiments, retention, and ROI.",
+    "summary_zh": "看候选人是否具备完整增长系统能力，能把用户信号转成渠道策略、实验、留存和 ROI。"
   }
 ]

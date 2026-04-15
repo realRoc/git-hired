@@ -247,9 +247,10 @@ def main() -> None:
             "prompt_base": args.prompt_base,
             "title_en": args.title_en,
             "title_zh": args.title_zh,
+            "summary_en": args.summary_en,
+            "summary_zh": args.summary_zh,
         }
     )
-    roles = sorted(roles, key=lambda item: item["page_slug"])
     save_roles(roles_path, roles)
 
     print("Scaffold complete.")
@@ -260,7 +261,7 @@ def main() -> None:
     print("Next:")
     print("1. Edit the two prompt source files")
     print("2. Edit role-specific bullets in the HTML page")
-    print("3. Update docs/index.html and both READMEs")
+    print("3. Run sync_registry_surfaces.py")
     print("4. Run validate_roles.py")
 
 

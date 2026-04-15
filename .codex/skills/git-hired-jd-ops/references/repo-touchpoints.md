@@ -13,6 +13,8 @@ This is the source of truth for:
 - `prompt_base`
 - English title
 - Chinese title
+- English summary
+- Chinese summary
 
 ## Prompt source files
 
@@ -42,31 +44,22 @@ This page must:
 
 `docs/index.html`
 
-Update when:
+The role-card section should be generated from `roles.json` by the registry sync script.
 
-- a new role is added
-- a role title changes
-- a role summary changes
-- a role is removed
+Do not hand-edit role cards unless you are changing the layout template itself.
 
 ## READMEs
 
 - `README.md`
 - `README.zh-CN.md`
 
-Update when:
+The following sections should be generated from `roles.json` by the registry sync script:
 
-- a new role is added
-- a role title changes
-- prompt source paths change
-- live links change
-
-At minimum, keep:
-
-- role list
 - live links
+- role list
 - prompt source list
-- repo structure examples
+
+Do not hand-edit those generated regions unless you are changing the template itself.
 
 ## Validation
 

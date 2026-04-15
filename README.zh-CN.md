@@ -26,17 +26,21 @@ fatal: not a qualified candidate
 
 启用 GitHub Pages 之后，可直接使用：
 
-- AI Agent 工程师：<https://realroc.github.io/git-hired/agent.html>
-- 产品经理：<https://realroc.github.io/git-hired/pm.html>
-- 海外增长负责人：<https://realroc.github.io/git-hired/growth.html>
+<!-- AUTO:live-links:start -->
+- AI Agent 工程师: <https://realroc.github.io/git-hired/agent.html>
+- 产品经理: <https://realroc.github.io/git-hired/pm.html>
+- 海外增长负责人: <https://realroc.github.io/git-hired/growth.html>
+<!-- AUTO:live-links:end -->
 
 ## 仓库包含什么
 
 目前包含三个公开可分享的岗位测试：
 
-- `AI Agent Engineer`
-- `Product Manager`
-- `Head of Global Growth`
+<!-- AUTO:role-list:start -->
+- `AI Agent 工程师`
+- `产品经理`
+- `海外增长负责人`
+<!-- AUTO:role-list:end -->
 
 每个岗位都包含：
 
@@ -162,6 +166,7 @@ git-hired/
 
 ## Prompt 源文件
 
+<!-- AUTO:prompt-sources:start -->
 - AI Agent 工程师
   - 中文：`prompts/agent-engineer.md`
   - 英文：`prompts/agent-engineer.en.md`
@@ -171,6 +176,7 @@ git-hired/
 - 海外增长负责人
   - 中文：`prompts/global-growth.md`
   - 英文：`prompts/global-growth.en.md`
+<!-- AUTO:prompt-sources:end -->
 
 ## 维护者 Skill
 
@@ -184,6 +190,7 @@ git-hired/
 - 新增 JD
 - 优化现有 JD
 - 把 prompt 源文件同步进岗位页
+- 从 `roles.json` 同步首页和 README 的岗位清单
 - 校验 `roles.json`、`prompts/`、`docs/`、`README*` 是否一致
 
 ## 协议
