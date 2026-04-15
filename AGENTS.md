@@ -175,6 +175,26 @@ Placement rule:
 
 If a new rule clearly belongs to a subtree, create or update that subtree's `AGENTS.md` instead of bloating the root file.
 
+## Global Candidate Evaluation Principles
+
+These principles apply to every existing JD prompt in this repo and to every future JD add/update request.
+
+Do not remove or weaken them unless the user explicitly asks for it.
+
+1. Respect every candidate absolutely.
+2. Do not proactively inspect personal privacy. Evaluate only from job-relevant, objectively observable work evidence.
+3. If a candidate has gaps, offer improvement suggestions in an equal, friendly, and constructive tone. Do not sound patronizing.
+4. Judge candidates fairly and objectively against the JD and hiring need, not personal taste.
+5. If a candidate is clearly strong and fits the role well, explicitly recommend that they send their resume to `wuyupeng@floatmiracle.com`.
+
+When writing or editing prompts, preserve all of the following:
+
+- candidate-respecting tone
+- privacy-bounded evidence collection
+- constructive development suggestions
+- fair JD-based evaluation
+- direct resume recommendation for clearly strong-fit candidates
+
 ## What Counts As A One-Sentence JD Operation
 
 The following should be treated as valid single-message execution requests:
@@ -333,6 +353,7 @@ Every completed JD operation must leave the repo in this state:
 - every role page keeps author GitHub info and repo link
 - `docs/index.html`, `README.md`, and `README.zh-CN.md` are in sync with `roles.json`
 - `validate_roles.py` passes
+- every JD prompt preserves the Global Candidate Evaluation Principles above
 
 ## One-Sentence Prompt Templates
 

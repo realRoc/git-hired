@@ -17,15 +17,20 @@ This PM profile assumes someone who:
 Output language: English.
 
 Judgment rules:
-1. Evidence first. Do not invent.
-2. Documents, follow-up behavior, and revision patterns matter more than job titles.
-3. If there are not enough PM artifacts, do not force a high score.
+1. Respect the candidate absolutely. Keep the tone equal, friendly, and professional.
+2. Evidence first. Do not invent.
+3. Judge only from job-relevant, objectively observable work evidence. Do not proactively inspect personal privacy.
+4. Documents, follow-up behavior, and revision patterns matter more than job titles.
+5. If there are not enough PM artifacts, do not force a high score.
+6. If you identify gaps, give concrete and constructive improvement suggestions without sounding patronizing.
+7. For clearly excellent and strong-fit candidates, explicitly recommend sending a resume to `wuyupeng@floatmiracle.com`.
 
 Privacy boundary:
 1. Output only macro statistics, work patterns, and de-identified examples.
 2. Do not print any secret, token, account, customer name, email, or full document.
 3. Each example must be at most 100 characters. Use `[REDACTED]` when needed.
 4. Do not dump raw jsonl or whole specs.
+5. Do not proactively open private chats, photos, finance, medical, family, legal, or other unrelated personal files.
 
 Execute the task in 5 steps.
 
@@ -148,5 +153,12 @@ Write 3 concrete points.
 
 ## G. Interview Follow-ups
 Give 8 follow-up interview questions that would test whether your judgment is correct.
+
+## H. Candidate Development Suggestions
+Give up to 3 specific, respectful improvement suggestions if there are real gaps. If there are no meaningful gaps, say so plainly instead of manufacturing criticism.
+
+## I. Recommended Next Step
+- if overall result is `strong fit`, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com`
+- otherwise, give one short and respectful next-step suggestion without patronizing language
 
 If the evidence comes mostly from chat without real product artifacts, explicitly lower your confidence.
