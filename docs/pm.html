@@ -1,38 +1,59 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>产品经理测试 · git-hired</title>
+    <title>Product Manager Test · git-hired</title>
     <meta name="description" content="Product manager fit test prompt for Claude Code or Codex.">
     <link rel="stylesheet" href="./style.css">
     <script src="./app.js" defer></script>
   </head>
-  <body>
+  <body class="lang-en" data-lang="en" data-title-en="Product Manager Test · git-hired" data-title-zh="产品经理测试 · git-hired">
     <main class="shell">
       <section class="hero">
-        <span class="eyebrow">Role Test</span>
-        <h1>产品经理</h1>
-        <p class="lede">
+        <div class="hero-top">
+          <span class="eyebrow" data-lang="en">Role Test</span>
+          <span class="eyebrow" data-lang="zh">岗位测试</span>
+          <div class="lang-switch" aria-label="Language switcher">
+            <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+            <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+          </div>
+        </div>
+        <h1 data-lang="en">Product Manager</h1>
+        <h1 data-lang="zh">产品经理</h1>
+        <p class="lede" data-lang="en">
+          Test whether the candidate can turn fuzzy AI-native product ideas into executable specs, sharp MVP boundaries, and cross-functional momentum.
+        </p>
+        <p class="lede" data-lang="zh">
           看候选人是不是那个能把 AI Native 产品从模糊问题压成可执行 spec、能做边界判断、也能拉通工程和增长的人。
         </p>
         <div class="inline-links">
-          <a class="button secondary" href="./index.html">返回首页</a>
-          <a class="button secondary" href="./agent.html">看工程版本</a>
-          <a class="button secondary" href="./growth.html">看增长版本</a>
+          <a class="button secondary" href="./index.html" data-lang="en">Back Home</a>
+          <a class="button secondary" href="./index.html" data-lang="zh">返回首页</a>
         </div>
       </section>
 
       <section class="section">
-        <h2>发给候选人的话术</h2>
-        <p class="mini">
-          把下面这段 prompt 完整粘贴给你自己的 Claude Code / Codex 跑一下，把结果私信发我。这个测试只看宏观行为模式和产品产物，不要求你暴露敏感文档。
+        <h2 data-lang="en">Message To Send The Candidate</h2>
+        <h2 data-lang="zh">发给候选人的话术</h2>
+        <p class="mini" data-lang="en">
+          Paste the prompt below into your own Claude Code or Codex, run it, and send me the output. This test looks at macro working patterns and product artifacts only. It does not require sensitive documents.
+        </p>
+        <p class="mini" data-lang="zh">
+          把下面这段 prompt 完整粘贴给你自己的 Claude Code 或 Codex 跑一下，把结果私信发我。这个测试只看宏观行为模式和产品产物，不要求你暴露敏感文档。
         </p>
       </section>
 
       <section class="section">
-        <h2>这个测试主要看什么</h2>
-        <ul>
+        <h2 data-lang="en">What This Test Looks For</h2>
+        <h2 data-lang="zh">这个测试主要看什么</h2>
+        <ul data-lang="en">
+          <li>Whether the candidate defines real user problems instead of shipping feature factory output.</li>
+          <li>Whether they show MVP discipline and prioritization judgment.</li>
+          <li>Whether they can write specs that engineering, design, and growth can actually execute.</li>
+          <li>Whether they understand AI agent products instead of simply attaching an LLM to an old flow.</li>
+        </ul>
+        <ul data-lang="zh">
           <li>是否有真实的用户问题定义能力，而不是 feature factory。</li>
           <li>是否有 MVP 边界感和优先级判断。</li>
           <li>是否能写清晰 spec，并让工程、设计、增长可执行。</li>
@@ -42,10 +63,166 @@
 
       <section class="prompt-wrap">
         <div class="prompt-head">
-          <strong>复制后直接粘贴到 Claude Code / Codex</strong>
-          <button class="button" onclick="copyPrompt('prompt-pm', this)">复制 Prompt</button>
+          <strong data-lang="en">Copy this directly into Claude Code or Codex</strong>
+          <strong data-lang="zh">复制后直接粘贴到 Claude Code / Codex</strong>
+          <button
+            class="button"
+            data-copy-button="true"
+            data-label-en="Copy Prompt"
+            data-label-zh="复制 Prompt"
+            data-copied-en="Copied"
+            data-copied-zh="已复制"
+            data-failed-en="Copy Failed"
+            data-failed-zh="复制失败"
+            onclick="copyPrompt('prompt-pm', this)">Copy Prompt</button>
         </div>
-        <pre class="prompt" id="prompt-pm">你现在是一个招聘校准助手。你的任务是基于本机可观察到的 AI 工作痕迹和产品文档痕迹，判断这位候选人是否适合一家 AI Native 创业公司的 `产品经理` 岗位。
+        <pre class="prompt" id="prompt-pm-en" data-lang="en">You are a hiring calibration assistant. Your task is to inspect locally observable AI work traces and product artifacts, then judge whether this candidate fits an AI-native startup `Product Manager` role.
+
+This PM profile assumes someone who:
+
+- defines AI agent products instead of running a feature factory
+- compresses fuzzy ideas into clear specs
+- has MVP discipline
+- makes tradeoffs across user value, engineering complexity, and shipping speed
+- can coordinate across engineering, design, and growth
+
+Output language: English.
+
+Judgment rules:
+1. Evidence first. Do not invent.
+2. Documents, follow-up behavior, and revision patterns matter more than job titles.
+3. If there are not enough PM artifacts, do not force a high score.
+
+Privacy boundary:
+1. Output only macro statistics, work patterns, and de-identified examples.
+2. Do not print any secret, token, account, customer name, email, or full document.
+3. Each example must be at most 100 characters. Use `[REDACTED]` when needed.
+4. Do not dump raw jsonl or whole specs.
+
+Execute the task in 5 steps.
+
+## Step 1. Discover available data sources
+
+Prioritize:
+
+- `~/.claude/projects/**/*.jsonl`, excluding `subagents/`
+- Codex session directories, but only from common paths if they exist
+- product and collaboration artifacts from recently active projects:
+  - `PRD*`
+  - `SPEC*`
+  - `ROADMAP*`
+  - `DESIGN*`
+  - `REQUIREMENTS*`
+  - `LAUNCH*`
+  - `ANALYSIS*`
+  - `RETRO*`
+  - `POSTMORTEM*`
+  - `README*`
+  - `*.md`
+- issue, task, and planning files
+- local git history, but only at a macro level
+
+Prefer reading small amounts of material related to:
+
+- problem framing
+- user workflow
+- agent UX
+- MVP
+- prioritization
+- metrics
+- launch
+- feedback
+- experimentation
+
+If usable data is clearly insufficient, do not stop immediately. Ask the user for one local project directory that best represents their product work, then run the same macro analysis inside that directory.
+
+## Step 2. Extract user messages
+
+Look only at `type="user"` messages and filter out:
+
+- `&lt;command-...&gt;`, `&lt;local-command-...&gt;`, `&lt;user-prompt-submit ... interrupted by user&gt;`
+- `Reply with exactly`, `Continue from where you left off`
+- ultra-short confirmations with no semantic value
+
+Mark the first valid user message in each session as `INITIAL`. Mark all others as `FOLLOW_UP`.
+
+## Step 3. Analyze only FOLLOW_UP messages and classify them semantically
+
+Choose one primary label per message:
+
+- `USER_PROBLEM_FRAMING`: discusses users, scenarios, pain points, workflows, or real demand
+- `MVP_SCOPING`: reduces scope, defines v1, or cuts non-core work
+- `PRIORITIZATION`: sets sequencing, resource tradeoffs, or impact ordering
+- `SPEC_CLARIFICATION`: adds boundaries, I/O details, or acceptance criteria
+- `METRIC_THINKING`: focuses on success metrics, funnels, retention, conversion, or quality
+- `EXPERIMENT_DESIGN`: proposes validation, experiments, controls, or sample strategy
+- `CROSS_FUNCTIONAL_HANDOFF`: explains coordination with engineering, design, or growth
+- `AI_PRODUCT_REASONING`: discusses agent workflows, tool use, or human-in-the-loop design
+- `FEATURE_FACTORY`: mechanically piles on features with weak reasoning
+- `OVERBUILDING`: clearly exceeds MVP boundaries
+- `VAGUE_OPINION`: vague judgment with weak execution detail
+
+## Step 4. Combine docs, git, and sessions to judge role fit
+
+Focus on whether this person fits the following profile:
+
+- not a story-writing PM, but a PM who can compress product ambiguity into buildable specs
+- genuinely understands AI agent products instead of attaching LLMs to old workflows
+- can translate ambiguity into action for engineering, design, and growth
+- shows MVP instinct instead of one-shot overbuilding
+- shows startup-level urgency and ownership
+
+Score each dimension from 1 to 5 with evidence:
+
+1. User Empathy & Problem Definition
+2. MVP Boundary Control
+3. Spec Writing & Clarity
+4. Metrics & Experimentation
+5. AI / Agent Product Intuition
+6. Prioritization & Tradeoff Judgment
+7. Cross-functional Communication
+8. Startup Execution Fit
+
+## Step 5. Output
+
+Use this structure:
+
+# Product Manager Fit Report
+
+## A. Data Coverage
+- sessions discovered
+- valid sessions
+- total FOLLOW_UP count
+- source types used
+- evidence sufficiency: high / medium / low
+
+## B. FOLLOW_UP Distribution
+For each primary label, output:
+- count
+- percentage
+- one-line explanation
+- 2 de-identified examples
+
+## C. Core Judgment
+- overall result: `strong fit / interviewable / borderline / not recommended`
+- one-line reason
+- top 5 positive signals
+- top 5 risks or gaps
+
+## D. Scorecard
+For each dimension, output: `score / evidence / why it matters`
+
+## E. What Most Resembles The PM We Want
+Write 3 concrete points.
+
+## F. What Does Not
+Write 3 concrete points.
+
+## G. Interview Follow-ups
+Give 8 follow-up interview questions that would test whether your judgment is correct.
+
+If the evidence comes mostly from chat without real product artifacts, explicitly lower your confidence.</pre>
+        <pre class="prompt" id="prompt-pm-zh" data-lang="zh">你现在是一个招聘校准助手。你的任务是基于本机可观察到的 AI 工作痕迹和产品文档痕迹，判断这位候选人是否适合一家 AI Native 创业公司的 `产品经理` 岗位。
 
 这里的 PM 画像默认是：
 
@@ -193,7 +370,19 @@
 如果数据主要来自聊天而缺少真实产品文档，请显式降低置信度。</pre>
       </section>
 
-      <p class="footer">This is the default AI-native PM profile. Edit it as your PM JD evolves.</p>
+      <section class="section">
+        <p class="author-line" data-lang="en">
+          Created by <a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>.
+          Repository: <a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
+        </p>
+        <p class="author-line" data-lang="zh">
+          作者：<a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>。
+          仓库地址：<a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
+        </p>
+      </section>
+
+      <p class="footer" data-lang="en">This is the default AI-native PM profile. Source prompt: <code>prompts/product-manager.md</code></p>
+      <p class="footer" data-lang="zh">这是默认的 AI Native PM 画像。源 prompt：<code>prompts/product-manager.md</code></p>
     </main>
   </body>
 </html>

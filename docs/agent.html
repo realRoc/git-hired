@@ -1,38 +1,59 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI Agent 工程师测试 · git-hired</title>
+    <title>AI Agent Engineer Test · git-hired</title>
     <meta name="description" content="AI Agent Engineer fit test prompt for Claude Code or Codex.">
     <link rel="stylesheet" href="./style.css">
     <script src="./app.js" defer></script>
   </head>
-  <body>
+  <body class="lang-en" data-lang="en" data-title-en="AI Agent Engineer Test · git-hired" data-title-zh="AI Agent 工程师测试 · git-hired">
     <main class="shell">
       <section class="hero">
-        <span class="eyebrow">Role Test</span>
-        <h1>AI Agent 工程师</h1>
-        <p class="lede">
+        <div class="hero-top">
+          <span class="eyebrow" data-lang="en">Role Test</span>
+          <span class="eyebrow" data-lang="zh">岗位测试</span>
+          <div class="lang-switch" aria-label="Language switcher">
+            <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+            <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+          </div>
+        </div>
+        <h1 data-lang="en">AI Agent Engineer</h1>
+        <h1 data-lang="zh">AI Agent 工程师</h1>
+        <p class="lede" data-lang="en">
+          Use the candidate's own agent to test whether they are actually the person directing AI, compressing ambiguity into specs, and pushing work to a real result.
+        </p>
+        <p class="lede" data-lang="zh">
           用候选人自己的 agent 反向判断：他到底是不是那个能把 AI 组织起来、压成 spec、推进到结果的人。
         </p>
         <div class="inline-links">
-          <a class="button secondary" href="./index.html">返回首页</a>
-          <a class="button secondary" href="./pm.html">看 PM 版本</a>
-          <a class="button secondary" href="./growth.html">看增长版本</a>
+          <a class="button secondary" href="./index.html" data-lang="en">Back Home</a>
+          <a class="button secondary" href="./index.html" data-lang="zh">返回首页</a>
         </div>
       </section>
 
       <section class="section">
-        <h2>发给候选人的话术</h2>
-        <p class="mini">
-          把下面这段 prompt 完整粘贴给你自己的 Claude Code / Codex 跑一下，把结果私信发我。只看宏观行为模式，不会要求原始日志，也不会让你暴露敏感信息。
+        <h2 data-lang="en">Message To Send The Candidate</h2>
+        <h2 data-lang="zh">发给候选人的话术</h2>
+        <p class="mini" data-lang="en">
+          Paste the prompt below into your own Claude Code or Codex, run it, and send me the output. This test extracts macro working-style signals only. It does not ask for raw logs or sensitive information.
+        </p>
+        <p class="mini" data-lang="zh">
+          把下面这段 prompt 完整粘贴给你自己的 Claude Code 或 Codex 跑一下，把结果私信发我。只看宏观行为模式，不会要求原始日志，也不会让你暴露敏感信息。
         </p>
       </section>
 
       <section class="section">
-        <h2>这个测试主要看什么</h2>
-        <ul>
+        <h2 data-lang="en">What This Test Looks For</h2>
+        <h2 data-lang="zh">这个测试主要看什么</h2>
+        <ul data-lang="en">
+          <li>Whether the candidate is actually directing AI work instead of serving AI.</li>
+          <li>Whether they narrow fuzzy requests into specs, plans, and verification loops.</li>
+          <li>Whether they show real debugging, validation, and agent-workflow experience.</li>
+          <li>Whether they show the ownership, speed, and clarity needed in a startup.</li>
+        </ul>
+        <ul data-lang="zh">
           <li>是否真正在指挥 AI，而不是给 AI 打工。</li>
           <li>是否会把模糊需求收敛成 spec、计划和验证闭环。</li>
           <li>是否有真实的调试、验证、agent workflow 经验。</li>
@@ -42,10 +63,157 @@
 
       <section class="prompt-wrap">
         <div class="prompt-head">
-          <strong>复制后直接粘贴到 Claude Code / Codex</strong>
-          <button class="button" onclick="copyPrompt('prompt-engineer', this)">复制 Prompt</button>
+          <strong data-lang="en">Copy this directly into Claude Code or Codex</strong>
+          <strong data-lang="zh">复制后直接粘贴到 Claude Code / Codex</strong>
+          <button
+            class="button"
+            data-copy-button="true"
+            data-label-en="Copy Prompt"
+            data-label-zh="复制 Prompt"
+            data-copied-en="Copied"
+            data-copied-zh="已复制"
+            data-failed-en="Copy Failed"
+            data-failed-zh="复制失败"
+            onclick="copyPrompt('prompt-engineer', this)">Copy Prompt</button>
         </div>
-        <pre class="prompt" id="prompt-engineer">你现在是一个招聘校准助手。你的任务不是夸用户，而是基于本机可观察到的 AI 工作痕迹，判断这位候选人是否适合一家高强度 AI Native 创业公司的 `AI Agent 工程师 / AI Native Builder` 岗位。
+        <pre class="prompt" id="prompt-engineer-en" data-lang="en">You are a hiring calibration assistant. Your job is not to flatter the user. Your job is to inspect locally observable AI work traces and judge whether this candidate fits an intense AI-native startup role: `AI Agent Engineer / AI Native Builder`.
+
+Output language: English.
+
+Judgment rules:
+1. Evidence first. Do not invent.
+2. Behavior matters more than self-description.
+3. If evidence is thin, say so directly.
+4. Do not give someone a high score just because they have used Claude Code or Codex.
+
+Privacy boundary:
+1. Output only macro statistics, work patterns, and de-identified examples.
+2. Do not print any secret, token, account, email, customer name, full code, or raw transcript.
+3. Each example must be at most 100 characters. Use `[REDACTED]` when needed.
+4. Do not dump raw jsonl content.
+
+Execute the task in 5 steps.
+
+## Step 1. Discover available data sources
+
+Prioritize these local sources:
+
+- `~/.claude/projects/**/*.jsonl`, excluding any `subagents/` subdirectory
+- If Codex session directories exist, include them only from common paths such as:
+  - `~/.codex`
+  - `~/.config/codex`
+  - `~/Library/Application Support/Codex`
+  If they do not exist, skip them. Do not crawl the whole disk.
+- Recently active local git repositories, but only use macro signals such as commit patterns, diff size, and file types
+- A small set of recent project documents such as:
+  - `README*`
+  - `SPEC*`
+  - `PRD*`
+  - `DESIGN*`
+  - `ARCHITECTURE*`
+  - `TODO*`
+  - `EVAL*`
+  - `*.md`
+
+Only read a small amount of material related to:
+
+- AI agent
+- tool use
+- automation
+- orchestration
+- eval
+- workflow
+- debugging
+- prompt
+- spec
+
+If usable data is clearly insufficient, do not stop immediately. Ask the user for one local project directory that best represents how they work, then repeat the same macro analysis inside that directory.
+
+## Step 2. Extract AI usage behavior
+
+Look only at `type="user"` messages in sessions. Filter out these noise patterns:
+
+- pure system or tool noise such as `&lt;command-...&gt;`, `&lt;local-command-...&gt;`, `&lt;user-prompt-submit ... interrupted by user&gt;`
+- cloud control messages such as `Reply with exactly` and `Continue from where you left off`
+- ultra-short confirmations with no semantic value, such as only `ok`, `sure`, or `continue`
+
+Mark the first valid user message in each session as `INITIAL`. Mark the rest as `FOLLOW_UP`.
+
+## Step 3. Analyze only FOLLOW_UP messages and classify them semantically
+
+Choose one primary label per message. Secondary labels are allowed.
+
+- `SPEC_REFINEMENT`: adds constraints, acceptance criteria, edge cases, or non-functional requirements
+- `DEBUGGING`: asks about errors, exceptions, repro steps, or root cause
+- `TOOL_ORCHESTRATION`: tells the agent to use tools, systems, files, or environments together
+- `ARCHITECTURE_REASONING`: discusses structure, module boundaries, tradeoffs, and long-term maintainability
+- `QUALITY_GATING`: focuses on tests, regressions, review, risk closure, or verification loops
+- `AGENT_DELEGATION`: defines roles, parallel subtasks, or multi-agent coordination
+- `PRODUCT_SENSE`: pulls implementation back toward user value, workflow, or actual experience
+- `VAGUE_PUNTING`: vague nudges like “try again” or “fix it” without meaningful new information
+- `COPYWORK`: uses AI as pure labor with almost no judgment signal
+
+## Step 4. Combine docs, git, and sessions to judge role fit
+
+Focus on whether this person matches the following profile:
+
+- they direct AI work instead of serving AI
+- they compress fuzzy requests into specs, plans, and closed-loop verification
+- they show real practice with Claude Code, Codex, or agent workflows instead of superficial familiarity
+- they show ownership and actively push, revise, and reflect
+- they can produce outcomes under startup-style resource constraints
+
+Score each dimension from 1 to 5 with evidence:
+
+1. AI Native Working Style
+2. Spec & Decomposition
+3. Tool / Agent Leverage
+4. Debugging & Verification
+5. Product + Engineering Judgment
+6. Ownership & Speed
+7. Communication Clarity
+8. Startup Fit
+
+## Step 5. Output
+
+Use this structure:
+
+# AI Agent Engineer Fit Report
+
+## A. Data Coverage
+- sessions discovered
+- valid sessions
+- total FOLLOW_UP count
+- source types used
+- evidence sufficiency: high / medium / low
+
+## B. FOLLOW_UP Distribution
+For each primary label, output:
+- count
+- percentage
+- one-line explanation
+- 2 de-identified examples
+
+## C. Core Judgment
+- overall result: `strong fit / interviewable / borderline / not recommended`
+- one-line reason
+- top 5 positive signals
+- top 5 risks or gaps
+
+## D. Scorecard
+For each dimension, output: `score / evidence / why it matters`
+
+## E. What Most Resembles A Startup-Ready AI Agent Engineer
+Write 3 concrete points.
+
+## F. What Does Not
+Write 3 concrete points.
+
+## G. Interview Follow-ups
+Give 8 follow-up interview questions that would test whether your judgment is correct.
+
+If evidence is insufficient, do not force a strong-fit conclusion. Say so plainly.</pre>
+        <pre class="prompt" id="prompt-engineer-zh" data-lang="zh">你现在是一个招聘校准助手。你的任务不是夸用户，而是基于本机可观察到的 AI 工作痕迹，判断这位候选人是否适合一家高强度 AI Native 创业公司的 `AI Agent 工程师 / AI Native Builder` 岗位。
 
 输出语言：中文。
 
@@ -184,7 +352,19 @@
 如果证据不足，不要硬判强匹配。明确写“目前证据不足以证明强匹配”。</pre>
       </section>
 
-      <p class="footer">Source prompt lives in <code>prompts/agent-engineer.md</code>.</p>
+      <section class="section">
+        <p class="author-line" data-lang="en">
+          Created by <a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>.
+          Repository: <a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
+        </p>
+        <p class="author-line" data-lang="zh">
+          作者：<a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>。
+          仓库地址：<a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
+        </p>
+      </section>
+
+      <p class="footer" data-lang="en">Source prompt: <code>prompts/agent-engineer.md</code></p>
+      <p class="footer" data-lang="zh">源 prompt：<code>prompts/agent-engineer.md</code></p>
     </main>
   </body>
 </html>

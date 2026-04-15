@@ -1,72 +1,119 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>git-hired</title>
     <meta name="description" content="Prompt-first candidate fit tests for AI-native startups.">
     <link rel="stylesheet" href="./style.css">
+    <script src="./app.js" defer></script>
   </head>
-  <body>
+  <body class="lang-en" data-lang="en" data-title-en="git-hired" data-title-zh="git-hired">
     <main class="shell">
       <section class="hero">
-        <span class="eyebrow">git-hired</span>
+        <div class="hero-top">
+          <span class="eyebrow">git-hired</span>
+          <div class="lang-switch" aria-label="Language switcher">
+            <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+            <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+          </div>
+        </div>
         <h1>$ git hired</h1>
-        <p class="lede">
-          fatal: not a qualified candidate。
-          不是看候选人怎么介绍自己，而是看他在自己的 Claude Code / Codex 里怎么工作。
-          这些页面给候选人一个可直接执行的岗位 prompt，让 agent 在本机做宏观、去敏感化的行为分析，然后返回岗位匹配判断。
+        <p class="lede" data-lang="en">
+          `fatal: not a qualified candidate`. Do not ask candidates to narrate how they work. Ask their own Claude Code or Codex to inspect how they actually work.
+          These pages give candidates a role-specific prompt that produces a privacy-bounded fit report from local evidence.
+        </p>
+        <p class="lede" data-lang="zh">
+          `fatal: not a qualified candidate`。不要只听候选人讲自己怎么工作，更直接的办法是让他自己的 Claude Code 或 Codex 去分析他到底是怎么工作的。
+          这些页面给候选人一段岗位专属 prompt，让 agent 在本机证据范围内返回一份带隐私边界的匹配报告。
         </p>
         <div class="meta">
-          <span class="tag">MIT Licensed</span>
-          <span class="tag">Prompt-first</span>
-          <span class="tag">Privacy-bounded</span>
-          <span class="tag">GitHub Pages Ready</span>
+          <span class="tag" data-lang="en">MIT Licensed</span>
+          <span class="tag" data-lang="zh">MIT 协议</span>
+          <span class="tag" data-lang="en">Prompt-first</span>
+          <span class="tag" data-lang="zh">Prompt 优先</span>
+          <span class="tag" data-lang="en">Privacy-bounded</span>
+          <span class="tag" data-lang="zh">隐私边界明确</span>
+          <span class="tag" data-lang="en">GitHub Pages Ready</span>
+          <span class="tag" data-lang="zh">可直接走 GitHub Pages</span>
         </div>
       </section>
 
       <section class="grid cards">
         <article class="card">
-          <h3>AI Agent 工程师</h3>
-          <p>看候选人是否真正在“指挥 AI 干活”，还是只是在把 AI 当外包体力。</p>
-          <a class="button" href="./agent.html">打开岗位测试</a>
+          <h3 data-lang="en">AI Agent Engineer</h3>
+          <h3 data-lang="zh">AI Agent 工程师</h3>
+          <p data-lang="en">See whether a candidate is truly directing AI work, instead of using AI as outsourced typing labor.</p>
+          <p data-lang="zh">看候选人是否真正在指挥 AI 干活，而不是把 AI 当成外包体力。</p>
+          <a class="button" href="./agent.html" data-lang="en">Open Test</a>
+          <a class="button" href="./agent.html" data-lang="zh">打开测试</a>
         </article>
 
         <article class="card">
-          <h3>产品经理</h3>
-          <p>看候选人是否有 AI 产品思维、MVP 边界感、spec 能力和跨职能推进能力。</p>
-          <a class="button" href="./pm.html">打开岗位测试</a>
+          <h3 data-lang="en">Product Manager</h3>
+          <h3 data-lang="zh">产品经理</h3>
+          <p data-lang="en">See whether a candidate has AI product judgment, MVP discipline, spec writing ability, and cross-functional execution.</p>
+          <p data-lang="zh">看候选人是否有 AI 产品判断、MVP 边界感、spec 能力和跨职能推进能力。</p>
+          <a class="button" href="./pm.html" data-lang="en">Open Test</a>
+          <a class="button" href="./pm.html" data-lang="zh">打开测试</a>
         </article>
 
         <article class="card">
-          <h3>海外增长负责人</h3>
-          <p>看候选人是否有从信号到实验、从渠道到 ROI 的完整增长系统操盘能力。</p>
-          <a class="button" href="./growth.html">打开岗位测试</a>
+          <h3 data-lang="en">Head of Global Growth</h3>
+          <h3 data-lang="zh">海外增长负责人</h3>
+          <p data-lang="en">See whether a candidate can build a real growth system, from user signals to channel strategy, experiments, retention, and ROI.</p>
+          <p data-lang="zh">看候选人是否具备完整增长系统能力，能把用户信号转成渠道策略、实验、留存和 ROI。</p>
+          <a class="button" href="./growth.html" data-lang="en">Open Test</a>
+          <a class="button" href="./growth.html" data-lang="zh">打开测试</a>
         </article>
       </section>
 
       <section class="section">
-        <h2>怎么发给候选人</h2>
-        <div class="callout">
-          把对应岗位页面发给候选人，让他把页面里的 prompt 完整粘贴到自己的 Claude Code 或 Codex 中执行，再把结果发回给你。
+        <h2 data-lang="en">How To Send This</h2>
+        <h2 data-lang="zh">怎么发给候选人</h2>
+        <div class="callout" data-lang="en">
+          Send the relevant role page to the candidate. They paste the prompt into their own Claude Code or Codex, run it locally, and send the resulting report back to you.
         </div>
-        <ul>
-          <li>适合用在 AI Native 岗位的初筛或加深判断。</li>
-          <li>输出面向招聘判断，不是监控工具。</li>
-          <li>只要求宏观分布、去标识化证据和结构化结论。</li>
+        <div class="callout" data-lang="zh">
+          把岗位对应页面发给候选人，让他把页面里的 prompt 粘贴到自己的 Claude Code 或 Codex 中执行，再把结果发回给你。
+        </div>
+        <ul data-lang="en">
+          <li>Useful for screening AI-native roles or adding signal before an interview.</li>
+          <li>This is a hiring input, not a monitoring tool.</li>
+          <li>The prompts ask for aggregate evidence, redacted examples, and structured conclusions only.</li>
+        </ul>
+        <ul data-lang="zh">
+          <li>适合 AI Native 岗位的初筛，或在面试前补充行为信号。</li>
+          <li>这是招聘输入，不是监控工具。</li>
+          <li>prompt 只要求宏观分布、脱敏例子和结构化结论。</li>
         </ul>
       </section>
 
       <section class="section">
-        <h2>你会得到什么</h2>
-        <ul>
-          <li>候选人的 AI 使用习惯，而不是他对自己使用习惯的描述。</li>
-          <li>这个人更像 builder、PM、operator，还是只是会说术语。</li>
-          <li>一个可直接带入面试的追问清单。</li>
+        <h2 data-lang="en">What You Get</h2>
+        <h2 data-lang="zh">你会得到什么</h2>
+        <ul data-lang="en">
+          <li>How the candidate actually uses AI, not how they say they use AI.</li>
+          <li>A clearer sense of whether this person is a builder, PM, operator, or just fluent in buzzwords.</li>
+          <li>A list of interview questions tied to observed behavior.</li>
         </ul>
+        <ul data-lang="zh">
+          <li>候选人真实的 AI 使用习惯，而不是他对自己使用习惯的描述。</li>
+          <li>更快判断这个人更像 builder、PM、operator，还是只是会说术语。</li>
+          <li>一组可以直接带进面试的、基于证据的追问问题。</li>
+        </ul>
+        <p class="author-line" data-lang="en">
+          Created by <a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>.
+          Repository: <a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
+        </p>
+        <p class="author-line" data-lang="zh">
+          作者：<a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>。
+          仓库地址：<a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
+        </p>
       </section>
 
-      <p class="footer">Open source under MIT. `git hired`, `git rejected`, your call.</p>
+      <p class="footer" data-lang="en">Open source under MIT. `git hired`, `git rejected`, your call.</p>
+      <p class="footer" data-lang="zh">MIT 开源。`git hired` 还是 `git rejected`，你说了算。</p>
     </main>
   </body>
 </html>
