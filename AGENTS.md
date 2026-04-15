@@ -364,11 +364,12 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - a subtitle or portrait label
    - a result label
    - the best-fit role right now
+   - an alignment code
    - a memorable archetype title plus short acronym
    - an ability score
-   - a compact signal board
-   - strongest evidence-backed strengths
-   - upgrade path
+   - a compact core board
+   - talent tags
+   - locked or not-yet-awakened skills
    - the local detailed-report path
 4. The summary should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
 5. Detailed evidence belongs in a local markdown report, not in the terminal summary.
@@ -378,6 +379,8 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - `60-74` or `5-6/10` is solid but not rare
    - below `60` or `0-4/10` means meaningful gaps, thin proof, or inconsistent evidence
 7. If evidence is thin, round down and say so explicitly instead of flattering the candidate.
+8. Avoid essay-like explanation in the TUI. Prefer labels, tags, fragments, and compressed lines over paragraphs.
+9. In the TUI, sections like talent tags and locked skills should read like a game system, not like an HR memo.
 
 ## Best-Fit Role Recommendation
 
@@ -390,6 +393,41 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - what role or direction looks stronger right now
    - what evidence is missing for the tested role
    - what to improve next
+
+## MBTI-Style Compression For JD Prompts
+
+This rule applies whenever adding or editing any role prompt in `prompts/`, the universal-entry prompt, or the role template in `new_role.py`.
+
+1. Do not let Step 5 drift into analyst prose or a diagnostic essay.
+2. The TUI should feel closer to a game profile, alignment test, or typed archetype than to a formal report.
+3. Every TUI output must include a four-slot alignment code derived from explicit binary axes.
+4. The default universal axis system is:
+   - `D / S`: `Dominate / Submit`
+   - `A / T`: `Architect / Tinkerer`
+   - `P / G`: `Proof / Guess`
+   - `M / H`: `Momentum / Hesitation`
+5. Use the axis code conservatively. If evidence is thin, lower confidence rather than fabricating certainty.
+6. Replace long “why this works” explanation blocks with exactly 3 `Talent Tags`.
+7. Talent tags must be noun-phrase style, not mini paragraphs:
+   - short
+   - label-first
+   - highly compressible
+   - screenshot-friendly
+8. Replace ordinary weakness/improvement sections with 2-3 `Locked Skills`, `Version Bottlenecks`, or `Not-Yet-Awakened` abilities.
+9. Those “gap” sections must still be respectful and useful to the candidate. Game framing should remove HR stiffness, not empathy.
+10. The visible TUI score board should be compressed to 4-5 core dimensions for each role, not 8-9 spreadsheet lines.
+11. Step 4 may still use evidence-rich analysis internally, but the candidate-facing surface must present only the compressed core board.
+12. When creating or revising a role, the 4-5 core dimensions should be custom to that role rather than generic boilerplate.
+13. Avoid generic AI flourish such as:
+   - “you are not just X, you are Y”
+   - long motivational framing
+   - over-explaining obvious strengths in full sentences
+14. Prefer direct definitions such as:
+   - alignment code
+   - archetype
+   - talent tags
+   - locked skills
+   - best-fit role
 
 ## Local Detailed Report Output
 

@@ -52,6 +52,12 @@ def main() -> None:
             errors.append("docs/general.html still contains salary/compensation hook language in prompt templates")
         if "best-fit role" not in general_text or "最适合的岗位" not in general_text:
             errors.append("docs/general.html missing best-fit role guidance in prompt templates")
+        if "alignment code" not in general_text or "阵营编码" not in general_text:
+            errors.append("docs/general.html missing alignment-code guidance in prompt templates")
+        if "Talent Tags" not in general_text or "天赋词缀" not in general_text:
+            errors.append("docs/general.html missing talent-tag guidance in prompt templates")
+        if "Locked Skills" not in general_text or "待解锁天赋" not in general_text:
+            errors.append("docs/general.html missing locked-skill guidance in prompt templates")
         if "https://github.com/realRoc" not in general_text:
             errors.append("docs/general.html missing author GitHub link")
         if "https://github.com/realRoc/git-hired" not in general_text:
@@ -109,6 +115,14 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md still contains salary/compensation language")
             if "最适合的岗位" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing best-fit role guidance")
+            if "阵营编码" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing alignment-code guidance")
+            if "天赋词缀" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing talent-tag guidance")
+            if "待解锁天赋" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing locked-skill guidance")
+            if "Signal Board" in zh_prompt_text or "你已经很亮眼的地方" in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md still contains pre-MBTI output sections")
             if "## G. 面试建议" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains interviewer-facing interview section")
         if en_prompt.exists():
@@ -123,6 +137,14 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains salary/compensation language")
             if "best-fit role" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing best-fit role guidance")
+            if "alignment code" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing alignment-code guidance")
+            if "Talent Tags" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing talent-tag guidance")
+            if "Locked Skills" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing locked-skill guidance")
+            if "Signal Board" in en_prompt_text or "What already stands out" in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md still contains pre-MBTI output sections")
             if "Interview Follow-ups" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains interviewer-facing interview section")
 

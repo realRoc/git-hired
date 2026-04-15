@@ -147,20 +147,22 @@ Focus on whether this person fits the following profile:
 - seems ready for English-language and cross-cultural growth work
 - shows startup-level ownership and pressure tolerance
 
-Score each dimension from 1 to 5 with evidence:
+Also derive one `Alignment Code` from these four binary axes:
 
-1. ICP & User Signal Sensitivity
-2. Channel Strategy Quality
-3. Funnel & Conversion Reasoning
-4. Experiment Speed & Rigor
-5. ROI / Unit Economics Discipline
-6. Global / English / Cross-cultural Readiness
-7. Social Platform-native Intuition
-8. Team Building & Operating System Thinking
-9. Startup Execution Fit
+- `D / S`: `Dominate / Submit`
+- `A / T`: `Architect / Tinkerer`
+- `P / G`: `Proof / Guess`
+- `M / H`: `Momentum / Hesitation`
 
-If English-language evidence is missing, do not guess. Say “insufficient evidence.”
-If the social-media evidence only shows “posted content” or “ran an account” without platform judgment, community understanding, or distribution logic, do not score that dimension highly.
+Choose conservatively. If the evidence is mixed, lower confidence instead of forcing certainty.
+
+Score only these 5 core dimensions from 1 to 10 with evidence:
+
+1. Signal Mining
+2. Distribution Judgment
+3. Experiment Discipline
+4. ROI Reality
+5. Global & Social Intuition
 
 ## Step 5. Output
 
@@ -173,9 +175,9 @@ Produce 2 deliverables:
 This is the main thing the candidate sees in the TUI.
 
 Rules:
-- keep it concise, skimmable, highly shareable, and under about 60 lines
+- keep it concise, skimmable, highly shareable, and under about 50 lines
 - the first visual block must be the exact ASCII art below, whose main word is `HIRED`
-- after the header, present the result like a hero portrait or capability profile, not a cold audit report
+- after the header, write like a typed character sheet, not a consultant memo
 - calibrate more harshly than a feel-good internet quiz
 - `90+` and `9-10/10` are rare and need repeated, high-signal evidence
 - `75-89` and `7-8/10` are already clearly strong
@@ -183,9 +185,9 @@ Rules:
 - below `60` and `0-4/10` means real gaps, thin proof, or inconsistent evidence
 - if evidence is thin, round down and say so
 - do not print salary ranges, compensation estimates, market bands, or offer-like hooks
-- the tone can be sharp, playful, and meme-friendly, but never insulting, humiliating, or contemptuous
-- lead with specific, evidence-backed strengths before discussing gaps
-- use short sections, compact score lines, and vivid labels instead of long prose
+- avoid analyst prose and long “why” paragraphs
+- in `Talent Tags` and `Locked Skills`, use fragments, not explanatory sentences
+- lead with evidence-backed strengths before discussing gaps
 
 Use this structure:
 
@@ -197,40 +199,41 @@ _    _  _____  _____   ______  _____
 |  __  |  | |  |  _  / |  __|  | |  | |
 | |  | | _| |_ | | \ \ | |____ | |__| |
 |_|  |_||_____||_|  \_\|______||_____/
-
 2. Then print a subtitle:
 - `>> <role> hero portrait <<`
 
 3. Print a compact identity block with:
 - result: `strong fit / promising but uneven / better matched elsewhere / evidence thin`
-- best-fit role right now: the role or direction the candidate currently looks strongest for
-- confidence: `high / medium / low`
-- mode: `history-only / approved-scan`
-- evidence: `high / medium / low`
+- best-fit role right now
+- alignment code: 4 letters from `D/S`, `A/T`, `P/G`, `M/H`
 - archetype: one memorable title plus a short acronym
 - ability score: `0-100`
+- confidence / mode / evidence
 - detailed report path
 
-4. Print `Signal Board`
-- one line per score dimension
-- format like `Core Signal .......... 6/10 [######----]`
+4. Print `Core Board`
+- exactly 5 lines
+- one line per core dimension
+- format like `Spec Control ........ 7/10 [#######---]`
 - if a dimension is unavailable, show `N/A (evidence thin)`
 
-5. Print `What already stands out`
-- up to 3 short bullets
-- lead with specific, evidence-backed praise
-- make them candidate-facing and screenshot-friendly
+5. Print `Talent Tags`
+- exactly 3 lines
+- format: `[Tag] short fragment`
+- each fragment must stay under 8 words
+- no full-sentence explanation
 
-6. Print `Best-fit role right now`
-- 1 or 2 short lines
-- if the requested role is not the best fit, say what looks stronger and why
+6. Print `Locked Skills`
+- 2 or 3 lines
+- format: `[Locked] short fragment`
+- each fragment must stay under 6 words
+- frame gaps as unlockable, not as shame
 
-7. Print `How to get stronger from here`
-- up to 3 short bullets
-- frame gaps as the next unlock, not as a scolding
-- if the candidate is not a fit for this role yet, make this section especially helpful
+7. Print `Best-fit role right now`
+- 1 or 2 compact lines
+- if the requested role is not the best fit, say what looks stronger right now and why in compressed form
 
-8. Print `Next step`
+8. Print `Next Step`
 - if the result is `strong fit`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
 - otherwise give one short, respectful next step
 - encourage the candidate to keep the report if they may apply later
@@ -244,13 +247,13 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- a title block with result, best-fit role right now, archetype, ability score, mode, and evidence level
+- a title block with result, best-fit role right now, alignment code, archetype, ability score, mode, and evidence level
 - data coverage
 - redacted signal distribution
-- scorecard with evidence
-- strongest strengths
+- the 5-line core board with evidence
+- 3 talent tags with supporting evidence
+- 2-3 locked skills or version bottlenecks with evidence
 - requested role vs. best-fit role right now
-- main risks or gaps
 - concrete growth suggestions
 - `If you choose to apply, be ready to talk about...` with 5 candidate-facing discussion topics
 - one short line that the candidate may attach this report when applying

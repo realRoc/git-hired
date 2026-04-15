@@ -60,7 +60,7 @@ def zh_prompt(title_zh: str) -> str:
 输出要求：
 1. 最终输出是给候选人看的，不是给招聘方或面试官看的。
 2. 终端里的主输出要对 TUI 友好、简洁、易截图传播，并使用更清晰的 `HIRED` ASCII 横幅开头，而不是稀疏字母块。
-3. 终端摘要要更像“能力画像 / 英雄画像”，包含结果判断、最适合的岗位、archetype、ability score、signal board、upgrade path 和详细报告路径。
+3. 终端摘要要更像“能力画像 / 英雄画像”，包含结果判断、最适合的岗位、四轴阵营编码、archetype、ability score、压缩后的核心分板、天赋词缀、待解锁天赋和详细报告路径。
 4. 打分要明显更严：高分稀缺，证据不足时宁可保守降分，也不要做鼓励式灌水。
 5. 终端里给一个简短摘要，再在本地生成一份更完整的 `.md` 详细报告，并打印详细报告路径。
 6. 不要输出任何薪资范围、市场估值、虚构年包、offer 类钩子。
@@ -70,6 +70,8 @@ def zh_prompt(title_zh: str) -> str:
 10. 如果候选人存在明显短板，补充最多 3 条平等友好的改进建议，帮助他更接近目标岗位。
 11. 如果结论为强匹配，明确建议候选人把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告。
 12. 如果是 extended 模式，详细报告里要对 repo 名、文件路径、secret 等敏感信息做更严格脱敏。
+13. 避免分析师口吻的长句解释；TUI 中优先使用标签、词缀、极短短语，而不是长段论述。
+14. 核心分板控制在 4-5 个维度，不要做成 Excel 风格的 8-9 维清单。
 
 Consent & local-only notice:
 1. 默认只使用本地 AI 会话历史和候选人主动粘贴或明确批准的材料。
@@ -119,7 +121,7 @@ Privacy boundary:
 Output requirements:
 1. The final output is for the candidate to read, not for the interviewer or hiring team.
 2. The main terminal output should be concise, TUI-friendly, easy to share, and start with a clearer `HIRED` ASCII banner instead of a sparse single-letter block.
-3. The terminal summary should feel like a hero portrait or capability profile, including a result call, the best-fit role right now, an archetype, an ability score, a compact signal board, upgrade paths, and the detailed-report path.
+3. The terminal summary should feel like a hero portrait or capability profile, including a result call, the best-fit role right now, a four-slot alignment code, an archetype, an ability score, a compressed core board, talent tags, locked skills, and the detailed-report path.
 4. Score more harshly than a feel-good quiz: high scores should be rare, and thin evidence should round down rather than inflate.
 5. Give a short terminal summary, then generate a fuller local `.md` report and print its path.
 6. Do not print any salary range, market band, fictional package, or offer-like hook.
@@ -129,6 +131,8 @@ Output requirements:
 10. If there are meaningful gaps, add up to 3 respectful and practical improvement suggestions that help the candidate move toward the role they want.
 11. If the result is a strong fit, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com` and attach the detailed report.
 12. In extended mode, redact repo names, file paths, secrets, and similar identifiers more aggressively in the markdown report.
+13. Avoid analyst-style long explanations in the TUI; prefer labels, tags, and compressed fragments.
+14. Keep the visible core board to 4-5 dimensions rather than an 8-9 line spreadsheet.
 
 Consent & local-only notice:
 1. Default to using local AI session history and any material the candidate explicitly pastes or approves.
