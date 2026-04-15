@@ -381,6 +381,9 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 7. If evidence is thin, round down and say so explicitly instead of flattering the candidate.
 8. Avoid essay-like explanation in the TUI. Prefer labels, tags, fragments, and compressed lines over paragraphs.
 9. In the TUI, sections like talent tags and locked skills should read like a game system, not like an HR memo.
+10. The `HIRED` header should use a simple animated reveal or pulse in the terminal when possible, but it must stay dependency-free and terminal-safe.
+11. The `HIRED` ASCII art should feel more dimensional and more legible than a flat block. Prefer a bold, easy-to-recognize shape over decorative noise.
+12. Do not require external packages, terminal UI libraries, or browser-only rendering tricks for the `HIRED` animation. The effect must work as plain terminal output.
 
 ## Best-Fit Role Recommendation
 
@@ -428,6 +431,8 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
    - talent tags
    - locked skills
    - best-fit role
+15. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
+16. Use a clearer bar-first format such as `[████████░░] 8` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
 
 ## Per-JD Prompt Versioning
 
