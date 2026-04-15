@@ -131,6 +131,30 @@ def role_page(
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{title_en} Test · git-hired</title>
     <meta name="description" content="{title_en} fit test prompt for Claude Code or Codex.">
+    <script>
+      (function () {{
+        var key = "git-hired-lang";
+        var lang = "en";
+        try {{
+          var stored = window.localStorage.getItem(key);
+          if (stored === "en" || stored === "zh") {{
+            lang = stored;
+          }} else {{
+            var candidates = Array.isArray(navigator.languages) && navigator.languages.length
+              ? navigator.languages
+              : [navigator.language || navigator.userLanguage || ""];
+            lang = candidates.some(function (value) {{
+              return /^zh\\b/i.test(String(value || "").trim());
+            }}) ? "zh" : "en";
+          }}
+        }} catch (error) {{
+          var fallback = navigator.language || navigator.userLanguage || "";
+          lang = /^zh\\b/i.test(String(fallback || "").trim()) ? "zh" : "en";
+        }}
+        document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+        document.documentElement.dataset.lang = lang;
+      }})();
+    </script>
     <link rel="stylesheet" href="./style.css">
     <script src="./app.js" defer></script>
   </head>

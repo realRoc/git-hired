@@ -26,6 +26,8 @@ def main() -> None:
 
     if "<!-- AUTO:role-cards:start -->" not in index_text or "<!-- AUTO:role-cards:end -->" not in index_text:
         errors.append("docs/index.html missing AUTO role-cards markers")
+    if "git-hired-lang" not in index_text:
+        errors.append("docs/index.html missing language bootstrap script")
 
     if "<!-- AUTO:live-links:start -->" not in readme_en or "<!-- AUTO:live-links:end -->" not in readme_en:
         errors.append("README.md missing AUTO live-links markers")
@@ -89,6 +91,8 @@ def main() -> None:
 
         if page.exists():
             page_text = page.read_text(encoding="utf-8")
+            if "git-hired-lang" not in page_text:
+                errors.append(f"docs/{page_slug}.html missing language bootstrap script")
             if 'href="./index.html"' not in page_text:
                 errors.append(f"docs/{page_slug}.html missing back-home link")
             if "https://github.com/realRoc" not in page_text:

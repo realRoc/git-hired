@@ -32,6 +32,8 @@ body {
   line-height: 1.6;
 }
 
+html[data-lang="en"] body [data-lang="zh"],
+html[data-lang="zh"] body [data-lang="en"],
 body.lang-en [data-lang="zh"],
 body.lang-zh [data-lang="en"] {
   display: none !important;

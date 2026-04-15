@@ -195,6 +195,16 @@ When writing or editing prompts, preserve all of the following:
 - fair JD-based evaluation
 - direct resume recommendation for clearly strong-fit candidates
 
+## Docs Language Behavior
+
+All candidate-facing HTML pages under `docs/` must follow this language behavior:
+
+1. If the user has a cached manual language choice, respect it first.
+2. If there is no cached choice, default to `zh` only when the browser language is Chinese.
+3. In every other case, default to `en`.
+4. The language switch must persist the user's choice in local storage.
+5. The first rendered language should match the resolved default as early as possible, not switch late after obvious content flash.
+
 ## What Counts As A One-Sentence JD Operation
 
 The following should be treated as valid single-message execution requests:
@@ -349,6 +359,7 @@ Every completed JD operation must leave the repo in this state:
 - every role has one candidate-facing HTML page
 - every role page defaults to English
 - every role page supports `EN / 中文`
+- every role page defaults to cached language choice first, otherwise browser language, with `en` as the fallback
 - every role page has only a home link, not cross-role links
 - every role page keeps author GitHub info and repo link
 - `docs/index.html`, `README.md`, and `README.zh-CN.md` are in sync with `roles.json`
