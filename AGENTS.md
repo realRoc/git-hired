@@ -293,6 +293,45 @@ Default title style:
 3. Only keep or add seniority markers when the user explicitly asks for them.
 4. Prefer short, stable, candidate-facing titles that match the public page and prompt wording.
 
+## Candidate-Facing Prompt Output
+
+This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, and the role template in `new_role.py`.
+
+1. The final output is for the candidate to read, not for the interviewer or hiring team.
+2. Do not include interviewer-facing sections such as interview plans, recruiter follow-up questions, or hiring-team instructions.
+3. If the report suggests discussion topics, phrase them as candidate-facing preparation guidance, for example:
+   - `If you choose to apply, be ready to talk about...`
+4. The tone must remain respectful, equal, and useful to the candidate's own growth.
+
+## TUI-Friendly Summary Output
+
+This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, and the role template in `new_role.py`.
+
+1. The terminal output should be concise, TUI-friendly, skimmable, and easy to share.
+2. Prefer a short ASCII card, one-line score rows, and a compact signal board over long prose.
+3. Keep the terminal summary short enough to read comfortably in a TUI. Do not dump the whole analysis into the terminal.
+4. A short meme-style footer such as `git hired`, `git leveling-up`, or `git not-yet` is encouraged when it fits the result.
+5. Detailed evidence belongs in a local markdown report, not in the terminal summary.
+
+## Local Detailed Report Output
+
+This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, and the role template in `new_role.py`.
+
+1. Every role prompt should ask the agent to generate a concise TUI summary plus a more detailed local `.md` report.
+2. The terminal summary must print the local path of that markdown report.
+3. The markdown report must also stay candidate-facing.
+4. The markdown report should encourage the candidate to keep or attach it if they decide to apply.
+5. The markdown report must remain privacy-bounded and de-identified.
+
+## Extended-Mode Redaction
+
+This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, and the role template in `new_role.py`.
+
+1. If the candidate runs the prompt in extended mode, the markdown report must redact more aggressively than the terminal summary.
+2. Never expose raw repo names, org names, branch names, file paths, issue numbers, domains, customer names, emails, internal URLs, or secrets in the extended-mode markdown report.
+3. Replace sensitive identifiers with placeholders such as `[REPO]`, `[ORG]`, `[FILE]`, `[URL]`, `[CUSTOMER]`, and `[SECRET]`.
+4. Do not paste raw logs, raw transcripts, raw tables, or secret-bearing text into the markdown report.
+
 ## What Counts As A One-Sentence JD Operation
 
 The following should be treated as valid single-message execution requests:

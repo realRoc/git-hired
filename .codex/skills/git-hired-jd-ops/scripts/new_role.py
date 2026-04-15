@@ -58,9 +58,12 @@ def zh_prompt(title_zh: str) -> str:
 4. 不要主动读取与岗位无关的私人聊天、照片、财务、医疗、家庭、法律或其他私密文件。
 
 输出要求：
-1. 给出客观匹配判断。
-2. 如果候选人存在明显短板，补充 3 条平等友好的改进建议。
-3. 如果结论为强匹配，明确建议候选人把简历发送到 `wuyupeng@floatmiracle.com`。
+1. 最终输出是给候选人看的，不是给招聘方或面试官看的。
+2. 终端里的主输出要对 TUI 友好、简洁、易截图传播。
+3. 终端里给一个简短摘要，再在本地生成一份更完整的 `.md` 详细报告，并打印详细报告路径。
+4. 如果候选人存在明显短板，补充最多 3 条平等友好的改进建议。
+5. 如果结论为强匹配，明确建议候选人把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告。
+6. 如果是 extended 模式，详细报告里要对 repo 名、文件路径、secret 等敏感信息做更严格脱敏。
 
 Consent & local-only notice:
 1. 默认只使用本地 AI 会话历史和候选人主动粘贴或明确批准的材料。
@@ -76,7 +79,8 @@ TODO:
 - 补数据源
 - 补行为分类
 - 补评分维度
-- 补输出结构
+- 补候选人视角的 TUI 输出结构
+- 补详细报告 `.md` 生成路径和内容结构
 """
 
 
@@ -107,9 +111,12 @@ Privacy boundary:
 4. Do not proactively open private chats, photos, finance, medical, family, legal, or other unrelated personal files.
 
 Output requirements:
-1. Give an objective fit judgment.
-2. If there are meaningful gaps, add 3 respectful and practical improvement suggestions.
-3. If the result is a strong fit, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com`.
+1. The final output is for the candidate to read, not for the interviewer or hiring team.
+2. The main terminal output should be concise, TUI-friendly, and easy to share.
+3. Give a short terminal summary, then generate a fuller local `.md` report and print its path.
+4. If there are meaningful gaps, add up to 3 respectful and practical improvement suggestions.
+5. If the result is a strong fit, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com` and attach the detailed report.
+6. In extended mode, redact repo names, file paths, secrets, and similar identifiers more aggressively in the markdown report.
 
 Consent & local-only notice:
 1. Default to using local AI session history and any material the candidate explicitly pastes or approves.
@@ -125,7 +132,8 @@ TODO:
 - add data sources
 - add behavior labels
 - add score dimensions
-- add output structure
+- add candidate-facing TUI output structure
+- add detailed `.md` report path and structure
 """
 
 

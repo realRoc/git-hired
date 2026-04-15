@@ -132,47 +132,75 @@ Score each dimension from 1 to 5 with evidence:
 
 ## Step 5. Output
 
+The final output is for the candidate to read, not for the recruiter or hiring team. Do not include interviewer-only sections, interviewer follow-up questions, or hiring-team instructions.
+
+Produce 2 deliverables:
+
+### A. Terminal summary
+
+This is the main thing the candidate sees in the TUI.
+
+Rules:
+- keep it concise, skimmable, and shareable
+- keep it under about 45 lines
+- use ASCII cards, one-line score rows, and compact symbols instead of long prose
+- do not dump long evidence lists into the terminal
+- keep the tone respectful, useful, and encouraging without flattery
+
 Use this structure:
 
-# AI Agent Engineer Fit Report
+# AI Agent Engineer Snapshot
 
-## A. Data Coverage
-- sessions discovered
-- valid sessions
-- total FOLLOW_UP count
-- source types used
-- evidence sufficiency: high / medium / low
+1. Print a compact ASCII card such as:
 
-## B. FOLLOW_UP Distribution
-For each primary label, output:
-- count
-- percentage
-- one-line explanation
-- 2 de-identified examples
++----------------------------------+
+| result: strong fit / interviewable / borderline / not recommended |
+| confidence: high / medium / low  |
+| mode: history-only / approved-scan |
+| evidence: high / medium / low    |
+| detailed report: <local path>    |
++----------------------------------+
 
-## C. Core Judgment
-- overall result: `strong fit / interviewable / borderline / not recommended`
-- one-line reason
-- top 5 positive signals
-- top 5 risks or gaps
+2. Print `Signal Board` with one line per score dimension, for example:
+- `AI Native Working Style .... 4/5 [####-]`
+If a dimension is `N/A`, show `N/A (evidence thin)`.
 
-## D. Scorecard
-For each dimension, output: `score / evidence / why it matters`
+3. Print `Why this may fit you`
+- up to 3 short bullets
 
-## E. What Most Resembles A Startup-Ready AI Agent Engineer
-Write 3 concrete points.
+4. Print `What to level up next`
+- up to 3 short bullets
 
-## F. What Does Not
-Write 3 concrete points.
+5. Print `Next step`
+- if result is `strong fit`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
+- otherwise give one short, respectful next step
+- encourage the candidate to keep the detailed report if they decide to apply later
 
-## G. Interview Follow-ups
-Give 8 follow-up interview questions that would test whether your judgment is correct.
+6. End with one short meme-style line chosen to match the result:
+- `git hired`
+- `git leveling-up`
+- `git not-yet`
 
-## H. Candidate Development Suggestions
-Give up to 3 specific, respectful improvement suggestions if there are real gaps. If there are no meaningful gaps, say so plainly instead of manufacturing criticism.
+### B. Detailed report file
 
-## I. Recommended Next Step
-- if overall result is `strong fit`, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com`
-- otherwise, give one short and respectful next-step suggestion without patronizing language
+If local file writing is available, write a fuller markdown report to:
+- `./git-hired-agent-report-YYYYMMDD-HHMMSS.md`
 
-If evidence is insufficient, do not force a strong-fit conclusion. Say so plainly.
+Then print the exact saved path in the terminal summary.
+
+The markdown report must also be candidate-facing. It should include:
+- result, confidence, mode, and evidence level
+- data coverage
+- redacted signal distribution
+- scorecard with evidence
+- strongest signals
+- main gaps or risks
+- concrete growth suggestions
+- `If you choose to apply, be ready to talk about...` with 5 candidate-facing discussion topics
+- a short note that the candidate may attach this report when applying
+
+If running in extended mode:
+- redact more aggressively than in the terminal summary
+- never expose raw repo names, org names, branch names, file paths, issue numbers, domains, customer names, emails, internal URLs, or secrets
+- replace them with placeholders such as `[REPO]`, `[ORG]`, `[FILE]`, `[URL]`, `[CUSTOMER]`, and `[SECRET]`
+- do not paste raw logs, raw transcripts, or raw tables into the markdown report

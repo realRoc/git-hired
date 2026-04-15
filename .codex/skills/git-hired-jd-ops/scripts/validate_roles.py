@@ -73,10 +73,18 @@ def main() -> None:
             zh_prompt_text = zh_prompt.read_text(encoding="utf-8")
             if "history-only" not in zh_prompt_text or "上传到我们的服务器" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing consent-first local-only notice")
+            if "详细报告" not in zh_prompt_text or "git hired" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing candidate-facing TUI/report output requirements")
+            if "## G. 面试建议" in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md still contains interviewer-facing interview section")
         if en_prompt.exists():
             en_prompt_text = en_prompt.read_text(encoding="utf-8")
             if "history-only" not in en_prompt_text or "our server" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing consent-first local-only notice")
+            if "Detailed report" not in en_prompt_text or "git hired" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing candidate-facing TUI/report output requirements")
+            if "Interview Follow-ups" in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md still contains interviewer-facing interview section")
 
         if "summary_en" not in role or not role["summary_en"]:
             errors.append(f"missing summary_en in roles.json for {page_slug}")
