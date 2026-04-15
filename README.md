@@ -11,6 +11,21 @@ Prompt-first candidate fit tests for AI-native startups.
 
 `git-hired` gives candidates a role-specific prompt to run inside their own AI agent, such as Claude Code or Codex, and asks that agent to return a structured, privacy-bounded fit report based on how the candidate actually works.
 
+## Privacy First
+
+> `git-hired` is consent-first and local-only.
+> By default, every role prompt stays `history-only`.
+> It should not scan a candidate's local repo, project folder, or document files unless the candidate explicitly allows it.
+> If the candidate opts in, any approved scan runs locally inside the candidate's own Claude Code or Codex session.
+> No candidate repo or local file data is uploaded from the candidate's machine to our server.
+
+At a glance:
+
+- default mode: `history-only`
+- optional mode: candidate-approved scanning of specific repos / local folders / files
+- analysis location: the candidate's own machine
+- server upload of local repo / file data: `none`
+
 This is not resume theater.
 
 It is a practical way to inspect signals that matter more in AI-native teams:
@@ -71,9 +86,9 @@ Can this person direct AI well enough to ship, learn, and iterate under startup 
 
 ## Consent-First, Local-Only
 
-> By default, these prompts stay `history-only`.
-> They should not scan a candidate's local repo, project directory, or document files unless the candidate explicitly allows it.
-> If the candidate opts in, any approved scan runs locally inside the candidate's own Claude Code or Codex session and is not uploaded to our server.
+> The privacy rule is simple:
+> no local repo or document scanning without explicit permission,
+> and no candidate repo or local file data uploaded from the candidate's machine to our server.
 
 Candidates can choose:
 
@@ -87,7 +102,7 @@ If they do not allow repo or document scanning, the agent should still make the 
 You can send something like:
 
 > Paste the prompt from this link into your own Claude Code or Codex, run it, and send me the output.  
-> By default it stays history-only and will ask before scanning any local repo or document. Any approved scan stays local on your machine and is not uploaded to our server.
+> By default it stays history-only. If you want a stronger score, you can explicitly allow scanning of specific local repos or files. Any approved scan stays local on your machine, and no local repo or file data is uploaded to our server.
 
 Or lean into the joke:
 

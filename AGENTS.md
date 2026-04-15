@@ -214,6 +214,19 @@ This policy applies to every existing role prompt and every future role prompt i
 5. If the candidate does not allow scanning repo or document sources, still give the best objective judgment you can from history-only evidence, and state the resulting confidence limits clearly.
 6. If consent is unclear, ask a short permission question before scanning any repo or document source.
 
+## README Privacy Emphasis
+
+The first visible section of `README.md` and `README.zh-CN.md` must foreground the privacy guarantee.
+
+That top section must make these points explicit:
+
+1. by default the prompts stay `history-only`
+2. repo / project / document scanning requires explicit candidate permission
+3. any approved scan runs locally inside the candidate's own Claude Code or Codex session
+4. no candidate repo or local file data is uploaded from the candidate's machine to our server
+
+Do not bury this message in later sections. Keep it visible near the top so candidates do not feel tricked, monitored, or data-mined.
+
 ## Docs Language Behavior
 
 All candidate-facing HTML pages under `docs/` must follow this language behavior:
