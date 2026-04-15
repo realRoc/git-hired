@@ -178,58 +178,6 @@ git-hired/
 
 这个仓库应该像一个 builder 会真的转发给别人用的工具，而不是一个很重营销味的招聘专题页。
 
-## 说明
-
-目前我拿到的明确 JD 只有：
-
-- `AI Agent Engineer`
-- `Head of Global Growth`
-- `AI Product Operations Specialist`
-
-所以 `Product Manager` 版本现在是一份比较强的默认画像，适用于做 agent workflow、spec、MVP 划界和跨职能推进的 AI Native PM。你后续可以继续按自己的招聘标准改。
-
-## 可定制项
-
-建议你按这些维度继续调整 prompt：
-
-- 公司阶段
-- 产品类型
-- 团队文化
-- 招聘标准
-- 隐私要求
-
-## Prompt 源文件
-
-<!-- AUTO:prompt-sources:start -->
-- AI Agent 工程师
-  - 中文：`prompts/agent-engineer.md`
-  - 英文：`prompts/agent-engineer.en.md`
-- 产品经理
-  - 中文：`prompts/product-manager.md`
-  - 英文：`prompts/product-manager.en.md`
-- 海外增长负责人
-  - 中文：`prompts/global-growth.md`
-  - 英文：`prompts/global-growth.en.md`
-- AI产品运营专员
-  - 中文：`prompts/ai-product-operations.md`
-  - 英文：`prompts/ai-product-operations.en.md`
-<!-- AUTO:prompt-sources:end -->
-
-## 维护者 Skill
-
-仓库里已经内置了一个 project-local skill，专门处理 JD 的新增和修改：
-
-- `.codex/skills/git-hired-jd-ops/SKILL.md`
-
-适用场景：
-
-- 新增岗位
-- 新增 JD
-- 优化现有 JD
-- 把 prompt 源文件同步进岗位页
-- 从 `roles.json` 同步首页和 README 的岗位清单
-- 校验 `roles.json`、`prompts/`、`docs/`、`README*` 是否一致
-
 ## 协议
 
 MIT。

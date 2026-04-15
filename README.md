@@ -178,58 +178,6 @@ It is short, memorable, and already carries the tone:
 
 This repo should feel like a tool builders would actually pass around, not a corporate recruiting microsite.
 
-## Notes
-
-I only had explicit JD text for:
-
-- `AI Agent Engineer`
-- `Head of Global Growth`
-- `AI Product Operations Specialist`
-
-So the `Product Manager` prompt is a strong default profile for an AI-native startup PM working on agent workflows, specs, MVP scoping, and cross-functional execution. Edit it as your PM hiring bar evolves.
-
-## Customization
-
-You should adapt the prompts for:
-
-- your company stage
-- your product category
-- your team culture
-- your hiring bar
-- your privacy expectations
-
-## Prompt Sources
-
-<!-- AUTO:prompt-sources:start -->
-- AI Agent Engineer
-  - Chinese: `prompts/agent-engineer.md`
-  - English: `prompts/agent-engineer.en.md`
-- Product Manager
-  - Chinese: `prompts/product-manager.md`
-  - English: `prompts/product-manager.en.md`
-- Head of Global Growth
-  - Chinese: `prompts/global-growth.md`
-  - English: `prompts/global-growth.en.md`
-- AI Product Operations Specialist
-  - Chinese: `prompts/ai-product-operations.md`
-  - English: `prompts/ai-product-operations.en.md`
-<!-- AUTO:prompt-sources:end -->
-
-## Maintainer Skill
-
-This repo now includes a project-local skill for fast JD operations:
-
-- `.codex/skills/git-hired-jd-ops/SKILL.md`
-
-Use it when you need to:
-
-- add a new role
-- add a new JD
-- optimize an existing JD
-- sync prompt source files into role pages
-- sync homepage and README role listings from `roles.json`
-- validate that `roles.json`, `prompts/`, `docs/`, and `README*` stay consistent
-
 ## License
 
 MIT.

@@ -463,9 +463,24 @@ If you are the maintainer and want the fastest path, open Claude Code or Codex i
 
 ## Commit Policy
 
-For ordinary code or content changes, do not commit or push unless the user explicitly asks for it.
+Inside this repo, commit and push every completed file change by default.
 
-Exception:
+Default rule:
 
-- if this turn updates any `AGENTS.md`, commit and push automatically
-- that commit must use the `docs:` prefix
+- if a turn changes files and the work is complete, automatically `git add`, `git commit`, and `git push`
+- use a focused commit message that matches the change
+- do not leave finished file edits unpushed unless the user explicitly says not to push
+
+Validation rule:
+
+- if a relevant validation command exists, run it before commit/push
+- if validation fails, fix or report the issue before pushing
+
+Opt-out:
+
+- if the user explicitly says not to commit or not to push, follow that instruction instead
+
+AGENTS update rule:
+
+- if this turn updates any `AGENTS.md`, commit and push automatically in the same turn
+- if the commit is primarily about `AGENTS.md`, use the `docs:` prefix
