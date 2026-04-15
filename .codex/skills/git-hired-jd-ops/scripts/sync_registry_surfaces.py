@@ -96,31 +96,6 @@ def generate_role_list(roles: list[dict], language: str) -> str:
     return "\n".join(lines)
 
 
-def generate_prompt_sources(roles: list[dict], language: str) -> str:
-    lines = ["<!-- AUTO:prompt-sources:start -->"]
-    for role in roles:
-        title = role["title_en"] if language == "en" else role["title_zh"]
-        prompt_slug = role["prompt_slug"]
-        if language == "en":
-            lines.extend(
-                [
-                    f"- {title}",
-                    f"  - Chinese: `prompts/{prompt_slug}.md`",
-                    f"  - English: `prompts/{prompt_slug}.en.md`",
-                ]
-            )
-        else:
-            lines.extend(
-                [
-                    f"- {title}",
-                    f"  - 中文：`prompts/{prompt_slug}.md`",
-                    f"  - 英文：`prompts/{prompt_slug}.en.md`",
-                ]
-            )
-    lines.append("<!-- AUTO:prompt-sources:end -->")
-    return "\n".join(lines)
-
-
 def sync_index(repo_root: Path, roles: list[dict]) -> None:
     path = repo_root / "docs" / "index.html"
     text = path.read_text(encoding="utf-8")
@@ -147,12 +122,6 @@ def sync_readme(repo_root: Path, roles: list[dict], filename: str, language: str
         "<!-- AUTO:role-list:start -->",
         "<!-- AUTO:role-list:end -->",
         generate_role_list(roles, language),
-    )
-    text = replace_block(
-        text,
-        "<!-- AUTO:prompt-sources:start -->",
-        "<!-- AUTO:prompt-sources:end -->",
-        generate_prompt_sources(roles, language),
     )
     path.write_text(text, encoding="utf-8")
 

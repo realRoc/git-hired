@@ -33,15 +33,10 @@ def main() -> None:
         errors.append("README.md missing AUTO live-links markers")
     if "<!-- AUTO:role-list:start -->" not in readme_en or "<!-- AUTO:role-list:end -->" not in readme_en:
         errors.append("README.md missing AUTO role-list markers")
-    if "<!-- AUTO:prompt-sources:start -->" not in readme_en or "<!-- AUTO:prompt-sources:end -->" not in readme_en:
-        errors.append("README.md missing AUTO prompt-sources markers")
-
     if "<!-- AUTO:live-links:start -->" not in readme_zh or "<!-- AUTO:live-links:end -->" not in readme_zh:
         errors.append("README.zh-CN.md missing AUTO live-links markers")
     if "<!-- AUTO:role-list:start -->" not in readme_zh or "<!-- AUTO:role-list:end -->" not in readme_zh:
         errors.append("README.zh-CN.md missing AUTO role-list markers")
-    if "<!-- AUTO:prompt-sources:start -->" not in readme_zh or "<!-- AUTO:prompt-sources:end -->" not in readme_zh:
-        errors.append("README.zh-CN.md missing AUTO prompt-sources markers")
 
     page_slugs = set()
     prompt_slugs = set()
@@ -90,12 +85,6 @@ def main() -> None:
 
         if f'href="./{page_slug}.html"' not in index_text:
             errors.append(f"docs/index.html missing link to ./{page_slug}.html")
-
-        if f"prompts/{prompt_slug}.md" not in readme_en or f"prompts/{prompt_slug}.en.md" not in readme_en:
-            warnings.append(f"README.md may be missing prompt source references for {prompt_slug}")
-
-        if f"prompts/{prompt_slug}.md" not in readme_zh or f"prompts/{prompt_slug}.en.md" not in readme_zh:
-            warnings.append(f"README.zh-CN.md may be missing prompt source references for {prompt_slug}")
 
         if page.exists():
             page_text = page.read_text(encoding="utf-8")

@@ -237,6 +237,30 @@ All candidate-facing HTML pages under `docs/` must follow this language behavior
 4. The language switch must persist the user's choice in local storage.
 5. The first rendered language should match the resolved default as early as possible, not switch late after obvious content flash.
 
+## Product Manager Prompt Evidence Discipline
+
+This rule applies to the `Product Manager` role prompt and to any future PM-like role prompt.
+
+When evaluating PM candidates:
+
+1. Distinguish candidate-authored product judgment from AI-generated or AI-polished product language.
+2. Treat pasted PRDs, generic rewrite requests, and polished PM wording without explicit reasoning as weak evidence, not strong PM signals.
+3. Treat the following as stronger PM evidence:
+   - original prioritization calls
+   - scope cuts and MVP boundary decisions
+   - tradeoff reasoning
+   - acceptance criteria
+   - critique of an AI draft with clear rationale
+   - explicit product decisions that change implementation or launch direction
+4. Do not infer team-driving ability, collaboration momentum, or cross-functional leadership from solo AI chat alone.
+5. Only treat collaboration and tempo as strong signals when there is human-collaboration evidence, such as:
+   - handoff notes
+   - stakeholder or teammate coordination artifacts
+   - issue or planning threads
+   - launch checklists with ownership and sequencing
+   - meeting notes or decision logs
+6. If collaboration evidence is thin, mark that dimension as `N/A` or low-confidence instead of treating the absence of evidence as proof of weakness.
+
 ## What Counts As A One-Sentence JD Operation
 
 The following should be treated as valid single-message execution requests:
