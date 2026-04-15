@@ -42,6 +42,7 @@ fatal: not a qualified candidate
 
 - 一个可直接发给候选人的独立页面
 - 一份便于维护的源 prompt
+- 一套中文和英文源文件
 - 明确的隐私边界，要求 agent 输出聚合信号，而不是原始转储
 
 ## 为什么要做这个
@@ -113,8 +114,11 @@ git-hired/
 │   ├── style.css
 │   └── app.js
 ├── prompts/
+│   ├── agent-engineer.en.md
 │   ├── agent-engineer.md
+│   ├── product-manager.en.md
 │   ├── product-manager.md
+│   ├── global-growth.en.md
 │   └── global-growth.md
 ├── LICENSE
 ├── README.md
@@ -150,6 +154,18 @@ git-hired/
 - 团队文化
 - 招聘标准
 - 隐私要求
+
+## Prompt 源文件
+
+- AI Agent 工程师
+  - 中文：`prompts/agent-engineer.md`
+  - 英文：`prompts/agent-engineer.en.md`
+- 产品经理
+  - 中文：`prompts/product-manager.md`
+  - 英文：`prompts/product-manager.en.md`
+- 海外增长负责人
+  - 中文：`prompts/global-growth.md`
+  - 英文：`prompts/global-growth.en.md`
 
 ## 协议
 

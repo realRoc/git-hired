@@ -42,6 +42,7 @@ Each role includes:
 
 - a standalone page under `docs/`
 - a source prompt under `prompts/`
+- both Chinese and English source prompt files
 - a privacy boundary that asks the agent to output aggregate signals instead of raw dumps
 
 ## Why This Exists
@@ -113,8 +114,11 @@ git-hired/
 │   ├── style.css
 │   └── app.js
 ├── prompts/
+│   ├── agent-engineer.en.md
 │   ├── agent-engineer.md
+│   ├── product-manager.en.md
 │   ├── product-manager.md
+│   ├── global-growth.en.md
 │   └── global-growth.md
 ├── LICENSE
 ├── README.md
@@ -150,6 +154,18 @@ You should adapt the prompts for:
 - your team culture
 - your hiring bar
 - your privacy expectations
+
+## Prompt Sources
+
+- AI Agent Engineer
+  - Chinese: `prompts/agent-engineer.md`
+  - English: `prompts/agent-engineer.en.md`
+- Product Manager
+  - Chinese: `prompts/product-manager.md`
+  - English: `prompts/product-manager.en.md`
+- Head of Global Growth
+  - Chinese: `prompts/global-growth.md`
+  - English: `prompts/global-growth.en.md`
 
 ## License
 
