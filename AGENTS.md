@@ -303,14 +303,36 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - `If you choose to apply, be ready to talk about...`
 4. The tone must remain respectful, equal, and useful to the candidate's own growth.
 
-## TUI-Friendly Summary Output
+## Universal Entry Flow
 
-This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, and the role template in `new_role.py`.
+This rule applies to `docs/index.html`, the universal-entry page under `docs/`, and any future shared test-entry surface.
 
-1. The terminal output should be concise, TUI-friendly, skimmable, and easy to share.
-2. Prefer a short ASCII card, one-line score rows, and a compact signal board over long prose.
-3. Keep the terminal summary short enough to read comfortably in a TUI. Do not dump the whole analysis into the terminal.
-4. A short meme-style footer such as `git hired`, `git leveling-up`, or `git not-yet` is encouraged when it fits the result.
+1. The homepage must include a clear universal test entry in addition to role-specific entries.
+2. The universal entry should send the candidate into a short intake flow before showing the prompt.
+3. That intake flow must collect:
+   - the candidate's current profession
+   - the candidate's target profession
+4. After profession intake, the universal entry must clearly explain the two privacy modes:
+   - `history-only`
+   - allow scanning of specific local repos / projects / files after explicit approval
+5. The universal-entry prompt must carry the candidate's profession context and chosen privacy preference into the generated prompt text.
+
+## HIRED TUI Output
+
+This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, the universal-entry prompt, and the role template in `new_role.py`.
+
+1. The terminal output should feel like a candidate-facing hero portrait, not a dry audit log.
+2. The first visual block in the terminal must be ASCII art whose main word is exactly `HIRED`.
+3. After the `HIRED` header, the terminal summary should present:
+   - a subtitle or portrait label
+   - a memorable archetype title plus short acronym
+   - an ability score
+   - a compact signal board
+   - a short illustrative market band disclaimered as not an offer
+   - strongest signals
+   - upgrade path
+   - the local detailed-report path
+4. The summary should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
 5. Detailed evidence belongs in a local markdown report, not in the terminal summary.
 
 ## Local Detailed Report Output

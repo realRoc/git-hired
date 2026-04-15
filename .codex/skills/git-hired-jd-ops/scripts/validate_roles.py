@@ -20,6 +20,7 @@ def main() -> None:
     index_text = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
     readme_en = (repo_root / "README.md").read_text(encoding="utf-8")
     readme_zh = (repo_root / "README.zh-CN.md").read_text(encoding="utf-8")
+    general_page = repo_root / "docs" / "general.html"
 
     errors: list[str] = []
     warnings: list[str] = []
@@ -28,6 +29,25 @@ def main() -> None:
         errors.append("docs/index.html missing AUTO role-cards markers")
     if "git-hired-lang" not in index_text:
         errors.append("docs/index.html missing language bootstrap script")
+    if "./general.html" not in index_text:
+        errors.append("docs/index.html missing universal entry link to ./general.html")
+
+    if not general_page.exists():
+        errors.append("docs/general.html missing universal entry page")
+    else:
+        general_text = general_page.read_text(encoding="utf-8")
+        if "git-hired-lang" not in general_text:
+            errors.append("docs/general.html missing language bootstrap script")
+        if "current-role" not in general_text or "target-role" not in general_text:
+            errors.append("docs/general.html missing current/target profession intake fields")
+        if "history-only" not in general_text or "repo-scan-ready" not in general_text:
+            errors.append("docs/general.html missing privacy mode controls")
+        if 'id="prompt-general-en"' not in general_text or 'id="prompt-general-zh"' not in general_text:
+            errors.append("docs/general.html missing generated prompt blocks")
+        if "https://github.com/realRoc" not in general_text:
+            errors.append("docs/general.html missing author GitHub link")
+        if "https://github.com/realRoc/git-hired" not in general_text:
+            errors.append("docs/general.html missing repo link")
 
     if "<!-- AUTO:live-links:start -->" not in readme_en or "<!-- AUTO:live-links:end -->" not in readme_en:
         errors.append("README.md missing AUTO live-links markers")
@@ -73,7 +93,7 @@ def main() -> None:
             zh_prompt_text = zh_prompt.read_text(encoding="utf-8")
             if "history-only" not in zh_prompt_text or "上传到我们的服务器" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing consent-first local-only notice")
-            if "详细报告" not in zh_prompt_text or "git hired" not in zh_prompt_text:
+            if "详细报告" not in zh_prompt_text or "HIRED" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing candidate-facing TUI/report output requirements")
             if "## G. 面试建议" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains interviewer-facing interview section")
@@ -81,7 +101,7 @@ def main() -> None:
             en_prompt_text = en_prompt.read_text(encoding="utf-8")
             if "history-only" not in en_prompt_text or "our server" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing consent-first local-only notice")
-            if "Detailed report" not in en_prompt_text or "git hired" not in en_prompt_text:
+            if "Detailed report" not in en_prompt_text or "HIRED" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing candidate-facing TUI/report output requirements")
             if "Interview Follow-ups" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains interviewer-facing interview section")

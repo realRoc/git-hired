@@ -168,68 +168,78 @@ The final output is for the candidate to read, not for the recruiter or hiring t
 
 Produce 2 deliverables:
 
-### A. Terminal summary
+### A. Terminal hero portrait
 
 This is the main thing the candidate sees in the TUI.
 
 Rules:
-- keep it concise, skimmable, and shareable
-- keep it under about 45 lines
-- use ASCII cards, one-line score rows, and compact symbols instead of long prose
-- do not dump long evidence lists into the terminal
-- keep the tone respectful, useful, and encouraging without flattery
+- keep it concise, skimmable, highly shareable, and under about 55 lines
+- the first visual block must be ASCII art whose main word is exactly `HIRED`
+- after the header, present the result like a hero portrait or capability profile, not a cold audit report
+- use short sections, compact score lines, and vivid labels instead of long prose
+- keep the tone respectful, energizing, and concrete
 
 Use this structure:
 
-# Global Growth Snapshot
+1. Print this exact ASCII header:
 
-1. Print a compact ASCII card such as:
+H   H  III  RRRR   EEEE  DDDD
+H   H   I   R   R  E     D   D
+HHHHH   I   RRRR   EEE   D   D
+H   H   I   R  R   E     D   D
+H   H  III  R   R  EEEE  DDDD
 
-+----------------------------------+
-| result: strong fit / interviewable / borderline / not recommended |
-| confidence: high / medium / low  |
-| mode: history-only / approved-scan |
-| evidence: high / medium / low    |
-| detailed report: <local path>    |
-+----------------------------------+
+2. Then print a subtitle:
+- `>> <role> hero portrait <<`
 
-2. Print `Signal Board` with one line per score dimension, for example:
-- `Channel Strategy Quality .... 4/5 [####-]`
-If a dimension is `N/A`, show `N/A (evidence thin)`.
+3. Print a compact identity block with:
+- result: `strong fit / interviewable / borderline / not recommended`
+- confidence: `high / medium / low`
+- mode: `history-only / approved-scan`
+- evidence: `high / medium / low`
+- archetype: one memorable title plus a short acronym
+- ability score: `0-100`
+- detailed report path
 
-3. Print `Why this may fit you`
+4. Print `Signal Board`
+- one line per score dimension
+- format like `Core Signal .......... 8/10 [########--]`
+- if a dimension is unavailable, show `N/A (evidence thin)`
+
+5. Print `Market Band (illustrative, not an offer)`
+- one short line only
+
+6. Print `Why you look promising`
 - up to 3 short bullets
+- make them vivid and candidate-facing
 
-4. Print `What to level up next`
+7. Print `Upgrade path`
 - up to 3 short bullets
+- frame gaps as the next unlock, not as a scolding
 
-5. Print `Next step`
+8. Print `Next step`
 - if result is `strong fit`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
 - otherwise give one short, respectful next step
-- encourage the candidate to keep the detailed report if they decide to apply later
+- encourage the candidate to keep the report if they may apply later
 
-6. End with one short meme-style line chosen to match the result:
-- `git hired`
-- `git leveling-up`
-- `git not-yet`
+9. End with:
+- `>> If this portrait feels right, star github.com/realRoc/git-hired`
 
 ### B. Detailed report file
 
 If local file writing is available, write a fuller markdown report to:
-- `./git-hired-growth-report-YYYYMMDD-HHMMSS.md`
-
-Then print the exact saved path in the terminal summary.
+- `./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- result, confidence, mode, and evidence level
+- a title block with result, archetype, ability score, mode, and evidence level
 - data coverage
 - redacted signal distribution
 - scorecard with evidence
 - strongest signals
-- main gaps or risks
+- main risks or upgrade paths
 - concrete growth suggestions
 - `If you choose to apply, be ready to talk about...` with 5 candidate-facing discussion topics
-- a short note that the candidate may attach this report when applying
+- one short line that the candidate may attach this report when applying
 
 If running in extended mode:
 - redact more aggressively than in the terminal summary

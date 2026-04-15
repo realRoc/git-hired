@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Universal Entry · git-hired</title>
+    <meta name="description" content="Universal cross-role entry for git-hired. Collect current role, target role, and privacy preference before generating a local prompt.">
+    <script>
+      (function () {
+        var key = "git-hired-lang";
+        var lang = "en";
+        try {
+          var stored = window.localStorage.getItem(key);
+          if (stored === "en" || stored === "zh") {
+            lang = stored;
+          } else {
+            var candidates = Array.isArray(navigator.languages) && navigator.languages.length
+              ? navigator.languages
+              : [navigator.language || navigator.userLanguage || ""];
+            lang = candidates.some(function (value) {
+              return /^zh\b/i.test(String(value || "").trim());
+            }) ? "zh" : "en";
+          }
+        } catch (error) {
+          var fallback = navigator.language || navigator.userLanguage || "";
+          lang = /^zh\b/i.test(String(fallback || "").trim()) ? "zh" : "en";
+        }
+        document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+        document.documentElement.dataset.lang = lang;
+      }());
+    </script>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./app.js" defer></script>
+  </head>
+  <body class="lang-en" data-lang="en" data-title-en="Universal Entry · git-hired" data-title-zh="通用测试入口 · git-hired">
+    <main class="shell" data-general-builder="true">
+      <section class="hero">
+        <div class="hero-top">
+          <span class="eyebrow" data-lang="en">Universal Entry</span>
+          <span class="eyebrow" data-lang="zh">通用测试入口</span>
+          <div class="lang-switch" aria-label="Language switcher">
+            <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+            <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+          </div>
+        </div>
+        <h1 data-lang="en">Universal Entry</h1>
+        <h1 data-lang="zh">通用测试入口</h1>
+        <p class="lede" data-lang="en">
+          Start here if the candidate is switching tracks, sits between roles, or simply does not know which role page to use.
+          This page first collects their current profession, target profession, and privacy preference, then generates a local prompt.
+        </p>
+        <p class="lede" data-lang="zh">
+          如果候选人正在转岗、角色横跨多个方向，或者还不确定该用哪个岗位页，就从这里开始。
+          这个页面会先收集候选人当前职业、目标职业和隐私偏好，再在本地生成对应 prompt。
+        </p>
+        <div class="inline-links">
+          <a class="button secondary" href="./index.html" data-lang="en">Back Home</a>
+          <a class="button secondary" href="./index.html" data-lang="zh">返回首页</a>
+        </div>
+      </section>
+
+      <section class="section builder">
+        <h2 data-lang="en">1. Role Context</h2>
+        <h2 data-lang="zh">1. 职业背景</h2>
+        <p class="mini" data-lang="en">
+          Fill in where the candidate is now and where they want to go. The generated prompt will use this to choose the closest role lens and judge transition fit.
+        </p>
+        <p class="mini" data-lang="zh">
+          先填写候选人现在在做什么，以及他想去做什么。生成后的 prompt 会基于这两点选择最接近的岗位视角，并判断转岗信号。
+        </p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="current-role" data-lang="en">Current profession</label>
+            <label for="current-role" data-lang="zh">当前职业</label>
+            <input id="current-role" name="current-role" type="text" placeholder="e.g. frontend engineer / consultant / PM">
+          </div>
+          <div class="field">
+            <label for="target-role" data-lang="en">Target profession</label>
+            <label for="target-role" data-lang="zh">目标职业</label>
+            <input id="target-role" name="target-role" type="text" placeholder="e.g. AI agent engineer / growth / product">
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 data-lang="en">2. Privacy Mode</h2>
+        <h2 data-lang="zh">2. 隐私模式</h2>
+        <p class="mini" data-lang="en">
+          Choose whether the prompt should stay in `history-only`, or whether the candidate is open to allowing scans of only specific local repos or files later.
+        </p>
+        <p class="mini" data-lang="zh">
+          选择这次测试是保持在 `history-only`，还是候选人后续愿意按需允许扫描指定的本地 repo 或文件。
+        </p>
+
+        <div class="option-list">
+          <label class="option">
+            <input type="radio" name="scan-mode" value="history-only" checked>
+            <div>
+              <strong data-lang="en">history-only</strong>
+              <strong data-lang="zh">history-only</strong>
+              <p data-lang="en">Recommended. Stay inside local AI session history unless the candidate later opts in to a specific repo or file set.</p>
+              <p data-lang="zh">推荐。默认只看本地 AI 会话历史，除非候选人之后主动允许查看指定 repo 或文件集合。</p>
+            </div>
+          </label>
+
+          <label class="option">
+            <input type="radio" name="scan-mode" value="repo-scan-ready">
+            <div>
+              <strong data-lang="en">specific repo scan after explicit confirmation</strong>
+              <strong data-lang="zh">在明确确认后扫描指定 repo</strong>
+              <p data-lang="en">The prompt may later inspect only the specific repos or files the candidate explicitly approves in-session. Nothing is uploaded to our server.</p>
+              <p data-lang="zh">后续 prompt 只会在候选人会话内扫描其明确批准的指定 repo 或文件，不会上传任何内容到我们的服务器。</p>
+            </div>
+          </label>
+        </div>
+
+        <div class="callout mode-note" data-general-mode-note-en data-lang="en"></div>
+        <div class="callout mode-note" data-general-mode-note-zh data-lang="zh"></div>
+      </section>
+
+      <section class="prompt-wrap">
+        <div class="prompt-head">
+          <strong data-lang="en">Generate Then Copy The Universal Prompt</strong>
+          <strong data-lang="zh">先生成，再复制这段通用 Prompt</strong>
+          <button
+            class="button"
+            data-copy-button="true"
+            data-general-copy="true"
+            data-label-en="Copy Prompt"
+            data-label-zh="复制 Prompt"
+            data-copied-en="Copied"
+            data-copied-zh="已复制"
+            data-failed-en="Copy Failed"
+            data-failed-zh="复制失败"
+            onclick="copyPrompt('prompt-general', this)"
+            disabled
+            aria-disabled="true">Copy Prompt</button>
+        </div>
+        <pre class="prompt" id="prompt-general-en" data-lang="en">Fill in your current profession and target profession above to generate the universal prompt.</pre>
+        <pre class="prompt" id="prompt-general-zh" data-lang="zh">先在上方填写你当前的职业和目标职业，再生成通用测试 prompt。</pre>
+      </section>
+
+      <section class="section">
+        <h2 data-lang="en">What This Universal Entry Does</h2>
+        <h2 data-lang="zh">这个通用入口会做什么</h2>
+        <ul data-lang="en">
+          <li>Map the candidate's current profession to the closest git-hired lens.</li>
+          <li>Judge whether the target move looks realistic from real work traces, not self-description.</li>
+          <li>Keep the output candidate-facing, local-first, and privacy-bounded.</li>
+        </ul>
+        <ul data-lang="zh">
+          <li>把候选人当前职业映射到最接近的 git-hired 岗位视角。</li>
+          <li>基于真实工作痕迹判断目标转向是否靠谱，而不是只听自我描述。</li>
+          <li>让最终输出保持候选人视角、本地优先、隐私边界明确。</li>
+        </ul>
+        <p class="author-line" data-lang="en">
+          Created by <a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>.
+          Repository: <a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
+        </p>
+        <p class="author-line" data-lang="zh">
+          作者：<a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>。
+          仓库地址：<a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
+        </p>
+      </section>
+
+      <p class="footer" data-lang="en">This page generates the prompt locally in your browser first, then you copy it into Claude Code or Codex.</p>
+      <p class="footer" data-lang="zh">这个页面会先在你的浏览器本地生成 prompt，再由你复制进 Claude Code 或 Codex。</p>
+
+      <script id="general-template-en" type="text/plain">
+# Universal Entry Prompt
+
+Paste the full prompt below into Claude Code or Codex and run it:
+
+---
+
+You are a hiring calibration assistant. The candidate is using the universal entry of `git-hired` because they want a cross-role calibration instead of a single fixed JD page.
+
+Candidate context collected before this prompt:
+- current profession: {{CURRENT_PROFESSION}}
+- target profession: {{TARGET_PROFESSION}}
+- selected privacy preference: {{SCAN_MODE_EN}}
+
+Your job is to inspect locally observable AI work traces and job-relevant artifacts, then judge:
+- which of these lenses is the closest fit right now:
+  - `AI Agent Engineer`
+  - `Product Manager`
+  - `Global Growth`
+  - `AI Product Operations`
+- how strong the candidate's transition signal looks from current profession to target profession
+- what transferable strengths already exist
+- what the sharpest upgrade path is
+
+Output language: English.
+
+Judgment rules:
+1. Respect the candidate absolutely. Keep the tone equal, friendly, and professional.
+2. Evidence first. Do not invent.
+3. Judge only from job-relevant, objectively observable work evidence. Do not proactively inspect personal privacy.
+4. Treat this as a candidate-facing transition portrait, not an interviewer memo.
+5. If the target profession does not cleanly map to one of the four built-in lenses, choose the closest lens and explain the gap clearly.
+6. If evidence is thin, say so directly.
+7. If you identify gaps, give concrete and constructive upgrade advice without sounding patronizing.
+8. If the candidate already looks clearly strong for the target direction, explicitly recommend sending a resume to `wuyupeng@floatmiracle.com`.
+
+Privacy boundary:
+1. Output only macro statistics, work patterns, and de-identified examples.
+2. Do not print any secret, token, account, email, customer name, raw transcript, raw table, or full document.
+3. Each example must be at most 100 characters. Use `[REDACTED]` when needed.
+4. Do not proactively open private chats, photos, finance, medical, family, legal, or other unrelated personal files.
+
+## Consent & Local-Only Notice
+
+The candidate selected this privacy preference before generating the prompt:
+- `{{SCAN_MODE_EN}}`
+
+Rules:
+- tell the candidate that this analysis runs locally inside their own Claude Code or Codex session
+- tell the candidate that any approved scan stays local on their machine and must not upload scanned repo or file content to our server
+- if the selected mode is effectively `history-only`, stay within history-only unless the candidate explicitly changes their mind in-session
+- if the selected mode allows repo scanning later, do not broad-scan the machine; first ask which specific local repos / project directories / files are approved
+
+Execute the task in 5 steps.
+
+## Step 1. Confirm the boundary and discover data sources
+
+First ask one short boundary-confirmation question that respects the selected privacy mode above.
+
+Always-allowed baseline sources:
+- `~/.claude/projects/**/*.jsonl`, excluding `subagents/`
+- Codex session directories from common paths only, if they exist
+
+Only with explicit repo/file permission:
+- recently active project docs such as `README*`, `SPEC*`, `PRD*`, `ROADMAP*`, `ANALYSIS*`, `RETRO*`, `*.md`
+- local git history at a macro level
+
+If evidence is clearly insufficient under the chosen boundary, say so plainly before asking for any broader material.
+
+## Step 2. Extract user behavior
+
+Look only at `type="user"` messages and filter out:
+- `<command-...>`, `<local-command-...>`, `<user-prompt-submit ... interrupted by user>`
+- `Reply with exactly`, `Continue from where you left off`
+- ultra-short confirmations with no semantic value
+
+Mark the first valid user message in each session as `INITIAL`. Mark all others as `FOLLOW_UP`.
+
+## Step 3. Classify transition-relevant signals
+
+Choose one primary label per FOLLOW_UP:
+- `AI_NATIVE_EXECUTION`
+- `SYSTEM_THINKING`
+- `PRODUCT_OR_USER_SENSE`
+- `GROWTH_OR_OPERATIONS_SIGNAL`
+- `COMMUNICATION_CLARITY`
+- `OWNERSHIP_AND_FOLLOWTHROUGH`
+- `ROLE_TRANSITION_SIGNAL`
+- `VAGUE_SELF_DESCRIPTION`
+- `AI_AS_OUTSOURCED_LABOR`
+
+Then decide which built-in lens is closest:
+- `AI Agent Engineer`
+- `Product Manager`
+- `Global Growth`
+- `AI Product Operations`
+- or `Hybrid / Emerging`
+
+## Step 4. Judge role proximity and transition fit
+
+Score these dimensions from 1 to 5:
+1. AI Leverage
+2. Structured Problem Solving
+3. Ownership & Follow-through
+4. Communication Clarity
+5. User / Product / Market Sensitivity
+6. Transition Readiness
+
+Also state:
+- closest lens right now
+- strongest transferable strengths
+- biggest gap between current profession and target profession
+
+## Step 5. Output
+
+The final output is for the candidate to read, not for the recruiter or hiring team.
+
+Produce 2 deliverables:
+
+### A. Terminal hero portrait
+
+Keep it concise, skimmable, highly shareable, and under about 55 lines.
+
+1. Start with this exact ASCII header:
+
+H   H  III  RRRR   EEEE  DDDD
+H   H   I   R   R  E     D   D
+HHHHH   I   RRRR   EEE   D   D
+H   H   I   R  R   E     D   D
+H   H  III  R   R  EEEE  DDDD
+
+2. Then present a compact hero portrait with:
+- subtitle: `>> universal transition portrait <<`
+- result: `strong fit / interviewable / borderline / not recommended`
+- confidence: `high / medium / low`
+- closest lens
+- archetype title plus short acronym
+- ability score: `0-100`
+- mode and evidence level
+- detailed report path
+
+3. Print `Signal Board`
+- one line per dimension
+- format like `AI Leverage .......... 8/10 [########--]`
+
+4. Print `Market Band (illustrative, not an offer)`
+- one short line only
+
+5. Print `Why you look promising`
+- up to 3 short bullets
+
+6. Print `Upgrade path`
+- up to 3 short bullets
+
+7. Print `Next step`
+- if result is `strong fit`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
+- otherwise give one short, respectful next step
+
+8. End with:
+- `>> If this portrait feels right, star github.com/realRoc/git-hired`
+
+### B. Detailed report file
+
+If local file writing is available, write a fuller markdown report to:
+- `./git-hired-universal-report-YYYYMMDD-HHMMSS.md`
+
+The markdown report must remain candidate-facing. It should include:
+- result, closest lens, archetype, ability score, mode, and evidence level
+- data coverage
+- redacted signal distribution
+- scorecard with evidence
+- strongest transferable strengths
+- main transition gaps
+- concrete upgrade suggestions
+- `If you choose to apply, be ready to talk about...` with 5 candidate-facing discussion topics
+- a short line saying the candidate may attach this report when applying
+
+If running in extended mode:
+- redact more aggressively than in the terminal summary
+- never expose raw repo names, org names, branch names, file paths, issue numbers, domains, customer names, emails, internal URLs, or secrets
+- replace them with placeholders such as `[REPO]`, `[ORG]`, `[FILE]`, `[URL]`, `[CUSTOMER]`, and `[SECRET]`
+- do not paste raw logs, raw transcripts, or raw tables into the markdown report
+      </script>
+
+      <script id="general-template-zh" type="text/plain">
+# 通用测试入口 Prompt
+
+把下面整段完整粘贴到 Claude Code 或 Codex 中执行：
+
+---
+
+你现在是一个招聘校准助手。候选人正在使用 `git-hired` 的通用测试入口，因为他想先做跨岗位校准，而不是直接进入某一个固定 JD 页面。
+
+在生成这段 prompt 之前，候选人已经补充了：
+- 当前职业：{{CURRENT_PROFESSION}}
+- 目标职业：{{TARGET_PROFESSION}}
+- 已选择的隐私偏好：{{SCAN_MODE_ZH}}
+
+你的任务是基于本机可观察到的 AI 工作痕迹和岗位相关材料，判断：
+- 候选人当前最接近下面哪个镜头：
+  - `AI Agent Engineer`
+  - `Product Manager`
+  - `Global Growth`
+  - `AI Product Operations`
+- 从当前职业走向目标职业，这个转向信号到底强不强
+- 候选人已经具备哪些可迁移优势
+- 当前最需要补的升级路径是什么
+
+输出语言：中文。
+
+判断原则：
+1. 绝对尊重候选人，语气平等、友好、专业，不要居高临下。
+2. 证据优先，不要脑补。
+3. 只基于与岗位相关的客观工作证据做判断，不要主动探究个人隐私。
+4. 把这次输出写成给候选人看的转岗画像，而不是给招聘方看的备忘录。
+5. 如果目标职业和内置 4 个镜头都不完全重合，就选择最接近的那个，并把差距说清楚。
+6. 如果证据不足，就直接说证据不足。
+7. 如果发现不足，给出具体、克制、对候选人成长有帮助的升级建议，不要有爹味。
+8. 如果候选人已经对目标方向表现出明显强信号，直接建议其把简历发送到 `wuyupeng@floatmiracle.com`。
+
+隐私边界：
+1. 只输出宏观统计、行为模式、去标识化例子。
+2. 不要输出任何 secret、token、账号、邮箱、客户名、原始 transcript、原始表格、完整文档。
+3. 引用例子时，单条最多 100 个字符，必要时用 `[REDACTED]`。
+4. 不要主动读取与岗位无关的私人聊天、照片、财务、医疗、家庭、法律或其他私密文件。
+
+## 同意与本地运行说明
+
+候选人在生成这段 prompt 之前已经选了这个隐私偏好：
+- `{{SCAN_MODE_ZH}}`
+
+执行规则：
+- 先明确告诉候选人：这次分析只会在候选人自己的 Claude Code 或 Codex 本地运行中完成
+- 先明确告诉候选人：任何批准的扫描都只停留在其本地机器上，不会上传到我们的服务器
+- 如果上面的模式本质上是 `history-only`，那就保持在 history-only，除非候选人会话里明确改口
+- 如果上面的模式允许 repo 扫描，也不要广泛扫描整机；先问清楚候选人批准的是哪些具体 repo / 项目目录 / 文件
+
+任务分 5 步执行。
+
+## Step 1. 先确认边界，再发现数据源
+
+先问 1 个简短的边界确认问题，尊重候选人上面已经选过的隐私模式。
+
+始终可用的基础来源：
+- `~/.claude/projects/**/*.jsonl`，排除 `subagents/`
+- 若存在 Codex 会话目录，可纳入，但仅限常见路径
+
+只有在明确获得 repo / 文件许可后才可使用：
+- 最近活跃项目中的文档，如 `README*`、`SPEC*`、`PRD*`、`ROADMAP*`、`ANALYSIS*`、`RETRO*`、`*.md`
+- 本地 git 历史，但只做宏观分析
+
+如果在当前边界下证据明显不足，先明确告诉候选人，再询问是否愿意额外提供更具体的材料。
+
+## Step 2. 提取用户行为
+
+从会话里只看 `type="user"` 的消息，过滤掉：
+- `<command-...>`、`<local-command-...>`、`<user-prompt-submit ... interrupted by user>`
+- `Reply with exactly`、`Continue from where you left off`
+- 明显无语义价值的超短确认
+
+把每个会话的第一条有效用户消息标为 `INITIAL`，其余标为 `FOLLOW_UP`。
+
+## Step 3. 归类与转岗信号
+
+为每条 FOLLOW_UP 选择 1 个主标签：
+- `AI_NATIVE_EXECUTION`
+- `SYSTEM_THINKING`
+- `PRODUCT_OR_USER_SENSE`
+- `GROWTH_OR_OPERATIONS_SIGNAL`
+- `COMMUNICATION_CLARITY`
+- `OWNERSHIP_AND_FOLLOWTHROUGH`
+- `ROLE_TRANSITION_SIGNAL`
+- `VAGUE_SELF_DESCRIPTION`
+- `AI_AS_OUTSOURCED_LABOR`
+
+然后判断候选人最接近哪个内置镜头：
+- `AI Agent Engineer`
+- `Product Manager`
+- `Global Growth`
+- `AI Product Operations`
+- 或 `Hybrid / Emerging`
+
+## Step 4. 判断岗位接近度与转岗匹配度
+
+给以下维度打 1-5 分：
+1. AI Leverage
+2. Structured Problem Solving
+3. Ownership & Follow-through
+4. Communication Clarity
+5. User / Product / Market Sensitivity
+6. Transition Readiness
+
+同时明确：
+- 当前最接近的镜头
+- 最强的可迁移优势
+- 当前职业到目标职业之间最大的缺口
+
+## Step 5. 输出
+
+最终输出是给候选人看的，不是给招聘方或面试官看的。
+
+请生成 2 份结果：
+
+### A. TUI 英雄画像
+
+控制在约 55 行以内，要求易读、易截图、易传播。
+
+1. 必须先输出这段 ASCII 艺术字：
+
+H   H  III  RRRR   EEEE  DDDD
+H   H   I   R   R  E     D   D
+HHHHH   I   RRRR   EEE   D   D
+H   H   I   R  R   E     D   D
+H   H  III  R   R  EEEE  DDDD
+
+2. 然后输出一个紧凑的英雄画像，包括：
+- 副标题：`>> universal transition portrait <<`
+- 结果：`强匹配 / 可面试 / 边缘 / 不建议`
+- 置信度：`高 / 中 / 低`
+- 最接近的镜头
+- archetype 称号和缩写
+- 能力值：`0-100`
+- 模式与证据充分度
+- 详细报告路径
+
+3. 输出 `Signal Board`
+- 每个维度一行
+- 格式类似：`AI Leverage .......... 8/10 [########--]`
+
+4. 输出 `市场估值（示意，不是 offer）`
+- 只用 1 行
+
+5. 输出 `为什么你看起来有机会`
+- 最多 3 条短 bullet
+
+6. 输出 `升级路径`
+- 最多 3 条短 bullet
+
+7. 输出 `下一步`
+- 如果结果是 `强匹配`，明确建议把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告
+- 否则给 1 条简短、尊重人的下一步建议
+
+8. 最后补一句：
+- `>> 如果这份画像像你，去 github.com/realRoc/git-hired 点个 star`
+
+### B. 详细报告文件
+
+如果当前环境允许写文件，请在本地生成一份更完整的 markdown 报告：
+- `./git-hired-universal-report-YYYYMMDD-HHMMSS.md`
+
+这份 markdown 报告仍然必须站在候选人视角，包含：
+- 结果、最接近镜头、archetype、能力值、模式、证据充分度
+- 数据覆盖
+- 去标识化的信号分布
+- 带证据的评分卡
+- 最强的可迁移优势
+- 主要转岗缺口
+- 具体升级建议
+- `如果你决定申请，建议准备好聊这 5 个点`
+- 一句短提醒：申请时可以附上这份报告
+
+如果处于 extended 模式：
+- 比终端摘要更严格地脱敏
+- 不要暴露原始 repo 名称、组织名、分支名、文件路径、issue 编号、域名、客户名、邮箱、内部 URL、secret
+- 用 `[REPO]`、`[ORG]`、`[FILE]`、`[URL]`、`[CUSTOMER]`、`[SECRET]` 等占位符替换
+- 不要把原始日志、原始 transcript、原始表格直接贴进详细报告
+      </script>
+    </main>
+  </body>
+</html>
