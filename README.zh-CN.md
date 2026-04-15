@@ -41,6 +41,8 @@ fatal: not a qualified candidate
 
 启用 GitHub Pages 之后，可直接使用：
 
+- 通用测试入口: <https://realroc.github.io/git-hired/general.html>
+
 <!-- AUTO:live-links:start -->
 - AI Agent 工程师: <https://realroc.github.io/git-hired/agent.html>
 - 产品经理: <https://realroc.github.io/git-hired/pm.html>
@@ -142,6 +144,7 @@ fatal: not a qualified candidate
 git-hired/
 ├── docs/
 │   ├── index.html
+│   ├── general.html
 │   ├── agent.html
 │   ├── pm.html
 │   ├── growth.html

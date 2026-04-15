@@ -317,6 +317,21 @@ This rule applies to `docs/index.html`, the universal-entry page under `docs/`, 
    - allow scanning of specific local repos / projects / files after explicit approval
 5. The universal-entry prompt must carry the candidate's profession context and chosen privacy preference into the generated prompt text.
 
+## Candidate-Serving Shared Pages
+
+This rule applies to `docs/index.html`, `docs/general.html`, and any future shared entry or landing page.
+
+1. Treat these pages as candidate-serving surfaces, not recruiter-operating surfaces.
+2. Use candidate-facing headings and action labels, for example `How To Start`, not recruiter phrasing such as `How To Send This`.
+3. Explain next steps from the candidate's point of view:
+   - which test to choose
+   - how privacy works
+   - what they will get after running the prompt
+4. Avoid employer-facing copy on shared pages, such as:
+   - screening instructions
+   - internal hiring-process framing
+   - recruiter workflow language
+
 ## HIRED TUI Output
 
 This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, the universal-entry prompt, and the role template in `new_role.py`.
