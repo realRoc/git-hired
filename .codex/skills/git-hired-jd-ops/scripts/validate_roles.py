@@ -74,6 +74,14 @@ def main() -> None:
             errors.append(f"missing English prompt file: prompts/{prompt_slug}.en.md")
         if not page.exists():
             errors.append(f"missing role page: docs/{page_slug}.html")
+        if zh_prompt.exists():
+            zh_prompt_text = zh_prompt.read_text(encoding="utf-8")
+            if "history-only" not in zh_prompt_text or "上传到我们的服务器" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing consent-first local-only notice")
+        if en_prompt.exists():
+            en_prompt_text = en_prompt.read_text(encoding="utf-8")
+            if "history-only" not in en_prompt_text or "our server" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing consent-first local-only notice")
 
         if "summary_en" not in role or not role["summary_en"]:
             errors.append(f"missing summary_en in roles.json for {page_slug}")
@@ -91,6 +99,8 @@ def main() -> None:
 
         if page.exists():
             page_text = page.read_text(encoding="utf-8")
+            if "history-only" not in page_text or "上传到我们的服务器" not in page_text:
+                errors.append(f"docs/{page_slug}.html missing consent-first local-only candidate notice")
             if "git-hired-lang" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing language bootstrap script")
             if 'href="./index.html"' not in page_text:

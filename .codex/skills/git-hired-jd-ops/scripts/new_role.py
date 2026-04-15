@@ -62,6 +62,15 @@ def zh_prompt(title_zh: str) -> str:
 2. 如果候选人存在明显短板，补充 3 条平等友好的改进建议。
 3. 如果结论为强匹配，明确建议候选人把简历发送到 `wuyupeng@floatmiracle.com`。
 
+Consent & local-only notice:
+1. 默认只使用本地 AI 会话历史和候选人主动粘贴或明确批准的材料。
+2. 除非候选人明确允许，否则不要扫描其本地 repo、项目目录或文档文件。
+3. 先向候选人说明：任何批准的扫描都只会在候选人自己的 Claude Code 或 Codex 本地运行中完成，不会上传到我们的服务器。
+4. 先询问候选人要走哪种模式：
+   - `history-only`
+   - 或允许扫描指定的 repo / 本地项目 / 文件，以帮助你更准确评分
+5. 如果候选人不允许扫描 repo 或文档，就基于历史记录做尽可能客观的判断，并明确说明置信度限制。
+
 TODO:
 - 补岗位画像
 - 补数据源
@@ -101,6 +110,15 @@ Output requirements:
 1. Give an objective fit judgment.
 2. If there are meaningful gaps, add 3 respectful and practical improvement suggestions.
 3. If the result is a strong fit, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com`.
+
+Consent & local-only notice:
+1. Default to using local AI session history and any material the candidate explicitly pastes or approves.
+2. Do not scan the candidate's local repos, project directories, or document files unless the candidate explicitly allows it.
+3. First tell the candidate that any approved scanning runs locally inside their own Claude Code or Codex session and must not upload scanned repo or file content to our server.
+4. Ask the candidate which mode to use:
+   - `history-only`
+   - or allow scanning of specific repos / local projects / files for better scoring
+5. If the candidate does not allow repo or document scanning, make the best objective judgment you can from history-only evidence and state the resulting confidence limits clearly.
 
 TODO:
 - add role profile
@@ -182,8 +200,12 @@ def role_page(
       <section class="section">
         <h2 data-lang="en">Message To Send The Candidate</h2>
         <h2 data-lang="zh">发给候选人的话术</h2>
-        <p class="mini" data-lang="en">Paste the prompt below into your own Claude Code or Codex, run it, and send me the output.</p>
-        <p class="mini" data-lang="zh">把下面这段 prompt 完整粘贴给你自己的 Claude Code 或 Codex 跑一下，把结果私信发我。</p>
+        <p class="mini" data-lang="en">
+          Paste the prompt below into your own Claude Code or Codex, run it, and send me the output. By default it stays history-only and will ask before scanning any local repo or document. Any approved scan stays local on your machine and is not uploaded to our server.
+        </p>
+        <p class="mini" data-lang="zh">
+          把下面这段 prompt 完整粘贴给你自己的 Claude Code 或 Codex 跑一下，把结果私信发我。默认只看历史记录，如需扫描本地 repo 或文档会先征求你的允许；任何批准的扫描都只在你自己的机器本地运行，不会上传到我们的服务器。
+        </p>
       </section>
 
       <section class="section">

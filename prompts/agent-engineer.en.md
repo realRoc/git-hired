@@ -25,11 +25,31 @@ Privacy boundary:
 4. Do not dump raw jsonl content.
 5. Do not proactively open private chats, photos, finance, medical, family, legal, or other unrelated personal files.
 
+## Consent & Local-Only Notice
+
+Before scanning any local repo, project directory, or document file:
+
+- tell the candidate that this analysis runs locally inside their own Claude Code or Codex session
+- tell the candidate that any approved scan stays local on their machine and must not upload scanned repo or file content to our server
+- ask whether they want `history-only`, or whether they explicitly allow scanning of specific local repos / project directories / files for better scoring
+- if they do not explicitly allow it, do not scan local repos, project directories, or document files
+- if they do not allow it, use local AI session history plus any material they explicitly paste or approve, then make the best objective judgment you can from that smaller evidence base
+- if consent is unclear, ask a short permission question first
+
 Execute the task in 5 steps.
 
-## Step 1. Discover available data sources
+## Step 1. Set the analysis boundary and discover available data sources
 
-Prioritize these local sources:
+First ask:
+
+- Do you want `history-only`, or do you explicitly allow me to inspect specific local repos / project directories / document files for a better score?
+
+Then apply the answer:
+
+- If the candidate says `history-only` or does not clearly allow scanning, use only the baseline history sources below plus any explicitly approved material.
+- If the candidate explicitly allows scanning, you may also inspect the repo / project / document sources listed below.
+
+Always-allowed baseline sources:
 
 - `~/.claude/projects/**/*.jsonl`, excluding any `subagents/` subdirectory
 - If Codex session directories exist, include them only from common paths such as:
@@ -37,8 +57,11 @@ Prioritize these local sources:
   - `~/.config/codex`
   - `~/Library/Application Support/Codex`
   If they do not exist, skip them. Do not crawl the whole disk.
-- Recently active local git repositories, but only use macro signals such as commit patterns, diff size, and file types
-- A small set of recent project documents such as:
+
+Only with the candidate's explicit permission:
+
+- recently active local git repositories, but only use macro signals such as commit patterns, diff size, and file types
+- a small set of recent project documents such as:
   - `README*`
   - `SPEC*`
   - `PRD*`
@@ -60,7 +83,7 @@ Only read a small amount of material related to:
 - prompt
 - spec
 
-If usable data is clearly insufficient, do not stop immediately. Ask the user for one local project directory that best represents how they work, then repeat the same macro analysis inside that directory.
+If usable data is clearly insufficient under `history-only`, do not silently expand scope. Say that the evidence is limited and ask whether the candidate wants to explicitly allow one specific local project directory or file set to improve scoring.
 
 ## Step 2. Extract AI usage behavior
 

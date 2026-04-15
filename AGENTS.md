@@ -195,6 +195,25 @@ When writing or editing prompts, preserve all of the following:
 - fair JD-based evaluation
 - direct resume recommendation for clearly strong-fit candidates
 
+## Consent-First Local Scan Policy
+
+This policy applies to every existing role prompt and every future role prompt in this repo.
+
+1. Do not scan a candidate's local repo, project directory, or document files unless the candidate explicitly allows it in that session.
+2. The default mode is `history-only`:
+   - local AI session history is allowed
+   - explicitly pasted or approved material is allowed
+   - repo / local project / document scanning is not allowed unless the candidate opts in
+3. Prompts must explicitly tell the candidate:
+   - the analysis runs locally on the candidate's own machine
+   - any approved scanning stays inside the candidate's own Claude Code or Codex run
+   - scanned repo or document content must not be uploaded to our server
+4. Prompts must explicitly offer the candidate a choice:
+   - `history-only`
+   - or allow scanning of specific repos / local projects / files for better scoring
+5. If the candidate does not allow scanning repo or document sources, still give the best objective judgment you can from history-only evidence, and state the resulting confidence limits clearly.
+6. If consent is unclear, ask a short permission question before scanning any repo or document source.
+
 ## Docs Language Behavior
 
 All candidate-facing HTML pages under `docs/` must follow this language behavior:
@@ -365,6 +384,7 @@ Every completed JD operation must leave the repo in this state:
 - `docs/index.html`, `README.md`, and `README.zh-CN.md` are in sync with `roles.json`
 - `validate_roles.py` passes
 - every JD prompt preserves the Global Candidate Evaluation Principles above
+- every JD prompt preserves the Consent-First Local Scan Policy above
 
 ## One-Sentence Prompt Templates
 

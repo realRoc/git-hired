@@ -61,10 +61,10 @@
         <h2 data-lang="en">Message To Send The Candidate</h2>
         <h2 data-lang="zh">发给候选人的话术</h2>
         <p class="mini" data-lang="en">
-          Paste the prompt below into your own Claude Code or Codex, run it, and send me the output. This test only extracts macro growth signals. It does not require user-level data, ad-account details, or sensitive business information.
+          Paste the prompt below into your own Claude Code or Codex, run it, and send me the output. By default it stays history-only and will ask before scanning any local repo or document. Any approved scan stays local on your machine and is not uploaded to our server.
         </p>
         <p class="mini" data-lang="zh">
-          把下面这段 prompt 完整粘贴给你自己的 Claude Code 或 Codex 跑一下，把结果私信发我。这个测试只提取宏观增长行为信号，不要求你暴露用户数据、广告账户或敏感业务细节。
+          把下面这段 prompt 完整粘贴给你自己的 Claude Code 或 Codex 跑一下，把结果私信发我。默认只看历史记录，如需扫描本地 repo 或文档会先征求你的允许；任何批准的扫描都只在你自己的机器本地运行，不会上传到我们的服务器。
         </p>
       </section>
 
@@ -134,14 +134,37 @@ Privacy boundary:
 4. Each example must be at most 100 characters. Use `[REDACTED]` when needed.
 5. Do not proactively open private chats, photos, finance, medical, family, legal, or other unrelated personal files.
 
+## Consent &amp; Local-Only Notice
+
+Before scanning any local repo, project directory, or document file:
+
+- tell the candidate that this analysis runs locally inside their own Claude Code or Codex session
+- tell the candidate that any approved scan stays local on their machine and must not upload scanned repo or file content to our server
+- ask whether they want `history-only`, or whether they explicitly allow scanning of specific local repos / project directories / files for better scoring
+- if they do not explicitly allow it, do not scan local repos, project directories, or document files
+- if they do not allow it, use local AI session history plus any material they explicitly paste or approve, then make the best objective judgment you can from that smaller evidence base
+- if consent is unclear, ask a short permission question first
+
 Execute the task in 5 steps.
 
-## Step 1. Discover available data sources
+## Step 1. Set the analysis boundary and discover available data sources
 
-Prioritize:
+First ask:
+
+- Do you want `history-only`, or do you explicitly allow me to inspect specific local repos / project directories / document files for a better score?
+
+Then apply the answer:
+
+- If the candidate says `history-only` or does not clearly allow scanning, use only the baseline history sources below plus any explicitly approved material.
+- If the candidate explicitly allows scanning, you may also inspect the repo / growth-doc sources listed below.
+
+Always-allowed baseline sources:
 
 - `~/.claude/projects/**/*.jsonl`, excluding `subagents/`
 - Codex session directories from common paths only, if they exist
+
+Only with the candidate's explicit permission:
+
 - growth-related artifacts from recently active projects:
   - `GROWTH*`
   - `MARKETING*`
@@ -176,7 +199,7 @@ Prefer reading small amounts of material related to:
 - localization
 - ROI / CAC / payback
 
-If usable data is clearly insufficient, do not stop immediately. Ask the user for one local project directory that best represents their growth work, then run the same macro analysis inside that directory.
+If usable data is clearly insufficient under `history-only`, do not silently expand scope. Say that the evidence is limited and ask whether the candidate wants to explicitly allow one specific local project directory or file set to improve scoring.
 
 ## Step 2. Extract user messages
 
@@ -309,14 +332,37 @@ If the evidence only shows execution-level skill without system-building ability
 4. 引用例子时，单条最多 100 个字符，必要时用 `[REDACTED]`。
 5. 不要主动读取与岗位无关的私人聊天、照片、财务、医疗、家庭、法律或其他私密文件。
 
+## 同意与本地运行说明
+
+在扫描任何本地 repo、项目目录或文档文件之前：
+
+- 先明确告诉候选人：这次分析只会在候选人自己的 Claude Code 或 Codex 本地运行中完成
+- 先明确告诉候选人：任何批准的扫描都只停留在其本地机器上，不会上传到我们的服务器
+- 先询问候选人是要走 `history-only`，还是明确允许你扫描指定的本地 repo / 项目目录 / 文件，以帮助你更准确评分
+- 如果候选人没有明确允许，就不要扫描本地 repo、项目目录或文档文件
+- 如果候选人不允许，就只使用本地 AI 会话历史，以及候选人主动粘贴或明确批准的材料，再基于这部分证据做尽可能客观的判断
+- 如果同意边界不清晰，先补一个简短的权限确认问题
+
 任务分 5 步执行：
 
-## Step 1. 发现可用数据源
+## Step 1. 先设定分析边界，再发现可用数据源
 
-优先扫描：
+先问候选人：
+
+- 你希望走 `history-only`，还是明确允许我扫描指定的本地 repo / 项目目录 / 文档文件，以帮助我更准确评分？
+
+然后按回答执行：
+
+- 如果候选人选择 `history-only`，或没有明确给出允许，就只使用下面的历史记录类来源，以及候选人明确批准的材料。
+- 只有候选人明确允许时，你才可以额外扫描 repo / 增长文档来源。
+
+始终可用的基础来源：
 
 - `~/.claude/projects/**/*.jsonl`，排除 `subagents/`
 - 若存在 Codex 会话目录，可纳入，但仅限常见路径
+
+只有在候选人明确允许后才可使用：
+
 - 最近活跃项目中的增长相关文件：
   - `GROWTH*`
   - `MARKETING*`
@@ -351,7 +397,7 @@ If the evidence only shows execution-level skill without system-building ability
 - localization
 - ROI / CAC / payback
 
-如果可用数据明显不足，不要立刻停止。先提示用户给你一个最能代表其增长工作的本地项目目录，再在该目录内做同样的宏观分析。
+如果在 `history-only` 模式下可用数据明显不足，不要擅自扩大范围。明确告诉候选人当前证据有限，再询问其是否愿意额外允许你查看一个最能代表其增长工作的本地项目目录或一组文件。
 
 ## Step 2. 提取用户消息
 

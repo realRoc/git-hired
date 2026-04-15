@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI Agent Engineer Test · git-hired</title>
-    <meta name="description" content="AI Agent Engineer fit test prompt for Claude Code or Codex.">
+    <title>AI Product Operations Specialist Test · git-hired</title>
+    <meta name="description" content="AI Product Operations Specialist fit test prompt for Claude Code or Codex.">
     <script>
       (function () {
         var key = "git-hired-lang";
@@ -27,12 +27,12 @@
         }
         document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
         document.documentElement.dataset.lang = lang;
-      }());
+      })();
     </script>
     <link rel="stylesheet" href="./style.css">
     <script src="./app.js" defer></script>
   </head>
-  <body class="lang-en" data-lang="en" data-title-en="AI Agent Engineer Test · git-hired" data-title-zh="AI Agent 工程师测试 · git-hired">
+  <body class="lang-en" data-lang="en" data-title-en="AI Product Operations Specialist Test · git-hired" data-title-zh="AI产品运营专员测试 · git-hired">
     <main class="shell">
       <section class="hero">
         <div class="hero-top">
@@ -43,14 +43,10 @@
             <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
           </div>
         </div>
-        <h1 data-lang="en">AI Agent Engineer</h1>
-        <h1 data-lang="zh">AI Agent 工程师</h1>
-        <p class="lede" data-lang="en">
-          Use the candidate's own agent to test whether they are actually the person directing AI, compressing ambiguity into specs, and pushing work to a real result.
-        </p>
-        <p class="lede" data-lang="zh">
-          用候选人自己的 agent 反向判断：他到底是不是那个能把 AI 组织起来、压成 spec、推进到结果的人。
-        </p>
+        <h1 data-lang="en">AI Product Operations Specialist</h1>
+        <h1 data-lang="zh">AI产品运营专员</h1>
+        <p class="lede" data-lang="en">See whether a candidate can run AI product operations with fast response, user empathy, clean execution, and feedback loops that improve the product.</p>
+        <p class="lede" data-lang="zh">看候选人是否具备 AI 产品运营能力，能快速响应用户、做好细致执行，并把反馈沉淀成推动产品优化的闭环。</p>
         <div class="inline-links">
           <a class="button secondary" href="./index.html" data-lang="en">Back Home</a>
           <a class="button secondary" href="./index.html" data-lang="zh">返回首页</a>
@@ -72,16 +68,16 @@
         <h2 data-lang="en">What This Test Looks For</h2>
         <h2 data-lang="zh">这个测试主要看什么</h2>
         <ul data-lang="en">
-          <li>Whether the candidate is actually directing AI work instead of serving AI.</li>
-          <li>Whether they narrow fuzzy requests into specs, plans, and verification loops.</li>
-          <li>Whether they show real debugging, validation, and agent-workflow experience.</li>
-          <li>Whether they show the ownership, speed, and clarity needed in a startup.</li>
+          <li>Whether the candidate responds to users clearly, respectfully, and with reliable follow-through.</li>
+          <li>Whether they can handle detail-heavy operational work such as refunds, invoices, and order follow-up without sloppy execution.</li>
+          <li>Whether they can turn repeated user questions into product insight instead of just clearing queues.</li>
+          <li>Whether they show process thinking, AI-product curiosity, and startup-level ownership.</li>
         </ul>
         <ul data-lang="zh">
-          <li>是否真正在指挥 AI，而不是给 AI 打工。</li>
-          <li>是否会把模糊需求收敛成 spec、计划和验证闭环。</li>
-          <li>是否有真实的调试、验证、agent workflow 经验。</li>
-          <li>是否有创业公司需要的 owner 意识、速度感和清晰表达。</li>
+          <li>是否能清楚、尊重、及时地响应用户，并把问题跟进到闭环。</li>
+          <li>是否能稳定处理退款、发票、订单跟进等细节型运营事务，不粗糙、不丢项。</li>
+          <li>是否会把高频问题沉淀成产品洞察，而不只是清工单。</li>
+          <li>是否具备流程意识、AI 产品兴趣和创业公司需要的 owner 意识。</li>
         </ul>
       </section>
 
@@ -98,15 +94,26 @@
             data-copied-zh="已复制"
             data-failed-en="Copy Failed"
             data-failed-zh="复制失败"
-            onclick="copyPrompt('prompt-engineer', this)">Copy Prompt</button>
+            onclick="copyPrompt('prompt-ops', this)">Copy Prompt</button>
         </div>
-        <pre class="prompt" id="prompt-engineer-en" data-lang="en"># AI Agent Engineer Prompt
+        <pre class="prompt" id="prompt-ops-en" data-lang="en"># AI Product Operations Specialist Prompt
 
 Paste the full prompt below into Claude Code or Codex and run it:
 
 ---
 
-You are a hiring calibration assistant. Your job is not to flatter the user. Your job is to inspect locally observable AI work traces and judge whether this candidate fits an intense AI-native startup role: `AI Agent Engineer / AI Native Builder`.
+You are a hiring calibration assistant. Your job is to inspect locally observable AI work traces, user-operations artifacts, and communication workflows, then judge whether this candidate fits an AI-native startup `AI Product Operations Specialist` role.
+
+Target role profile:
+
+- runs day-to-day user operations reliably
+- responds to users clearly, quickly, and respectfully
+- handles detail-heavy operations such as orders, refunds, rebates, and invoices without sloppy execution
+- turns recurring user questions and complaints into useful product insight
+- can write concise user-facing notices, updates, and operational copy
+- helps build SOPs and operating rhythm instead of only reacting to tickets
+- shows real interest in AI products, LLMs, and agent tools
+- may be early-career, but should still show ownership, curiosity, and responsiveness
 
 Output language: English.
 
@@ -114,17 +121,17 @@ Judgment rules:
 1. Respect the candidate absolutely. Keep the tone equal, friendly, and professional.
 2. Evidence first. Do not invent.
 3. Judge only from job-relevant, objectively observable work evidence. Do not proactively inspect personal privacy.
-4. Behavior matters more than self-description.
-5. If evidence is thin, say so directly.
-6. Do not give someone a high score just because they have used Claude Code or Codex.
+4. Do not over-weight formal job titles or years of experience. This role can fit an early-career candidate if the evidence is strong.
+5. Work patterns, follow-through, and writing quality matter more than self-description.
+6. If evidence is thin, say so directly.
 7. If you identify gaps, give concrete and constructive improvement suggestions without sounding patronizing.
 8. For clearly excellent and strong-fit candidates, explicitly recommend sending a resume to `wuyupeng@floatmiracle.com`.
 
 Privacy boundary:
 1. Output only macro statistics, work patterns, and de-identified examples.
-2. Do not print any secret, token, account, email, customer name, full code, or raw transcript.
-3. Each example must be at most 100 characters. Use `[REDACTED]` when needed.
-4. Do not dump raw jsonl content.
+2. Do not print any secret, token, account, email, customer name, user handle, full chat log, or raw ticket dump.
+3. For spreadsheets or CSV files, inspect only headers, fields, and aggregate patterns. Do not print row-level user records.
+4. Each example must be at most 100 characters. Use `[REDACTED]` when needed.
 5. Do not proactively open private chats, photos, finance, medical, family, legal, or other unrelated personal files.
 
 ## Consent &amp; Local-Only Notice
@@ -149,94 +156,107 @@ First ask:
 Then apply the answer:
 
 - If the candidate says `history-only` or does not clearly allow scanning, use only the baseline history sources below plus any explicitly approved material.
-- If the candidate explicitly allows scanning, you may also inspect the repo / project / document sources listed below.
+- If the candidate explicitly allows scanning, you may also inspect the repo / operations-doc sources listed below.
 
 Always-allowed baseline sources:
 
-- `~/.claude/projects/**/*.jsonl`, excluding any `subagents/` subdirectory
-- If Codex session directories exist, include them only from common paths such as:
-  - `~/.codex`
-  - `~/.config/codex`
-  - `~/Library/Application Support/Codex`
-  If they do not exist, skip them. Do not crawl the whole disk.
+- `~/.claude/projects/**/*.jsonl`, excluding `subagents/`
+- Codex session directories from common paths only, if they exist
 
 Only with the candidate's explicit permission:
 
-- recently active local git repositories, but only use macro signals such as commit patterns, diff size, and file types
-- a small set of recent project documents such as:
+- user-operations artifacts from recently active projects:
+  - `FAQ*`
+  - `SOP*`
+  - `SUPPORT*`
+  - `HELP*`
+  - `TICKET*`
+  - `COMMUNITY*`
+  - `USER*`
+  - `FEEDBACK*`
+  - `ANNOUNCEMENT*`
+  - `NOTICE*`
+  - `UPDATE*`
+  - `ORDER*`
+  - `REFUND*`
+  - `REBATE*`
+  - `INVOICE*`
+  - `REPORT*`
+  - `RETRO*`
   - `README*`
-  - `SPEC*`
-  - `PRD*`
-  - `DESIGN*`
-  - `ARCHITECTURE*`
-  - `TODO*`
-  - `EVAL*`
   - `*.md`
+  - `*.csv`
+- local git history, but only at a macro level
 
-Only read a small amount of material related to:
+Prefer reading small amounts of material related to:
 
-- AI agent
-- tool use
-- automation
-- orchestration
-- eval
-- workflow
-- debugging
-- prompt
-- spec
+- user response
+- community operations
+- FAQ or help content
+- issue handling
+- refund / invoice / order flow
+- feedback collection
+- product insight
+- SOP
+- AI product usage
+- announcement copy
 
 If usable data is clearly insufficient under `history-only`, do not silently expand scope. Say that the evidence is limited and ask whether the candidate wants to explicitly allow one specific local project directory or file set to improve scoring.
 
-## Step 2. Extract AI usage behavior
+## Step 2. Extract user messages
 
-Look only at `type="user"` messages in sessions. Filter out these noise patterns:
+Look only at `type="user"` messages and filter out:
 
-- pure system or tool noise such as `&lt;command-...&gt;`, `&lt;local-command-...&gt;`, `&lt;user-prompt-submit ... interrupted by user&gt;`
-- cloud control messages such as `Reply with exactly` and `Continue from where you left off`
-- ultra-short confirmations with no semantic value, such as only `ok`, `sure`, or `continue`
+- `&lt;command-...&gt;`, `&lt;local-command-...&gt;`, `&lt;user-prompt-submit ... interrupted by user&gt;`
+- `Reply with exactly`, `Continue from where you left off`
+- ultra-short confirmations with no semantic value
 
-Mark the first valid user message in each session as `INITIAL`. Mark the rest as `FOLLOW_UP`.
+Mark the first valid user message in each session as `INITIAL`. Mark all others as `FOLLOW_UP`.
 
 ## Step 3. Analyze only FOLLOW_UP messages and classify them semantically
 
-Choose one primary label per message. Secondary labels are allowed.
+Choose one primary label per message:
 
-- `SPEC_REFINEMENT`: adds constraints, acceptance criteria, edge cases, or non-functional requirements
-- `DEBUGGING`: asks about errors, exceptions, repro steps, or root cause
-- `TOOL_ORCHESTRATION`: tells the agent to use tools, systems, files, or environments together
-- `ARCHITECTURE_REASONING`: discusses structure, module boundaries, tradeoffs, and long-term maintainability
-- `QUALITY_GATING`: focuses on tests, regressions, review, risk closure, or verification loops
-- `AGENT_DELEGATION`: defines roles, parallel subtasks, or multi-agent coordination
-- `PRODUCT_SENSE`: pulls implementation back toward user value, workflow, or actual experience
-- `VAGUE_PUNTING`: vague nudges like “try again” or “fix it” without meaningful new information
-- `COPYWORK`: uses AI as pure labor with almost no judgment signal
+- `USER_RESPONSE_DISCIPLINE`: responds clearly, politely, and within a time-sensitive ops rhythm
+- `ISSUE_TRIAGE_AND_CLOSURE`: identifies issue type, next steps, owner, and closure path
+- `OPERATIONS_ADMIN_EXECUTION`: handles refunds, invoices, rebates, order follow-up, or routine admin execution
+- `FEEDBACK_SYNTHESIS`: clusters repeated questions or complaints into product insight
+- `SOP_OR_PROCESS_IMPROVEMENT`: creates or improves checklists, templates, escalation paths, or recurring workflows
+- `ANNOUNCEMENT_OR_COPY`: writes product updates, notifications, notices, or user-facing ops copy
+- `CROSS_TEAM_ESCALATION`: escalates to product, engineering, or finance with enough context and prioritization
+- `AI_PRODUCT_CURIOSITY`: shows real curiosity about AI products, LLMs, agents, or direct product usage
+- `PROACTIVE_OWNERSHIP`: anticipates needs, follows through, or closes loops without waiting to be told
+- `PASSIVE_WAITING`: waits for instructions, forwards issues blindly, or shows weak initiative
+- `SLOPPY_FOLLOWTHROUGH`: misses details, leaves ambiguous replies, or shows weak operational closure
 
 ## Step 4. Combine docs, git, and sessions to judge role fit
 
-Focus on whether this person matches the following profile:
+Focus on whether this person fits the following profile:
 
-- they direct AI work instead of serving AI
-- they compress fuzzy requests into specs, plans, and closed-loop verification
-- they show real practice with Claude Code, Codex, or agent workflows instead of superficial familiarity
-- they show ownership and actively push, revise, and reflect
-- they can produce outcomes under startup-style resource constraints
+- can serve as the frontline bridge between product and users
+- handles repetitive but important operational work with accuracy and calmness
+- shows empathy without becoming vague or over-accommodating
+- can turn user noise into structured product feedback
+- can help build a cleaner operating system over time
+- shows real interest in AI products rather than treating them as buzzwords
+- looks able to work in a fast-moving startup with short decision loops
 
 Score each dimension from 1 to 5 with evidence:
 
-1. AI Native Working Style
-2. Spec &amp; Decomposition
-3. Tool / Agent Leverage
-4. Debugging &amp; Verification
-5. Product + Engineering Judgment
-6. Ownership &amp; Speed
-7. Communication Clarity
-8. Startup Fit
+1. Response Speed &amp; Reliability
+2. User Empathy &amp; Communication Clarity
+3. Operational Accuracy &amp; Detail
+4. Issue Triage &amp; Closure
+5. Feedback Capture &amp; Product Insight
+6. SOP / Process Thinking
+7. AI Product Interest &amp; Tool Usage
+8. Startup Execution Fit
 
 ## Step 5. Output
 
 Use this structure:
 
-# AI Agent Engineer Fit Report
+# AI Product Operations Specialist Fit Report
 
 ## A. Data Coverage
 - sessions discovered
@@ -261,7 +281,7 @@ For each primary label, output:
 ## D. Scorecard
 For each dimension, output: `score / evidence / why it matters`
 
-## E. What Most Resembles A Startup-Ready AI Agent Engineer
+## E. What Most Resembles The Operator We Want
 Write 3 concrete points.
 
 ## F. What Does Not
@@ -277,15 +297,26 @@ Give up to 3 specific, respectful improvement suggestions if there are real gaps
 - if overall result is `strong fit`, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com`
 - otherwise, give one short and respectful next-step suggestion without patronizing language
 
-If evidence is insufficient, do not force a strong-fit conclusion. Say so plainly.
+If the evidence mainly shows generic customer service behavior but not product feedback loops, AI interest, or process thinking, say so directly.
 </pre>
-        <pre class="prompt" id="prompt-engineer-zh" data-lang="zh"># AI Agent Engineer Prompt
+        <pre class="prompt" id="prompt-ops-zh" data-lang="zh"># AI产品运营专员 Prompt
 
 把下面整段完整粘贴到 Claude Code 或 Codex 中执行：
 
 ---
 
-你现在是一个招聘校准助手。你的任务不是夸用户，而是基于本机可观察到的 AI 工作痕迹，判断这位候选人是否适合一家高强度 AI Native 创业公司的 `AI Agent 工程师 / AI Native Builder` 岗位。
+你现在是一个招聘校准助手。你的任务是基于本机可观察到的 AI 工作痕迹、用户运营资料和沟通流程痕迹，判断这位候选人是否适合一家 AI Native 创业公司的 `AI产品运营专员` 岗位。
+
+目标岗位画像：
+
+- 能稳定负责用户运营的日常工作
+- 面对用户时反应及时、表达清楚、态度尊重
+- 对订单、退款、返利、发票等细节型事务执行不马虎
+- 能把高频问题和反馈沉淀成有用的产品洞察
+- 能写清晰简洁的更新公告、通知和运营文案
+- 不只是处理工单，也能协助搭 SOP 和优化流程
+- 对 AI 产品、LLM、Agent 有真实兴趣和使用意愿
+- 即使经验不长，也要体现出责任心、主动性和学习速度
 
 输出语言：中文。
 
@@ -293,17 +324,17 @@ If evidence is insufficient, do not force a strong-fit conclusion. Say so plainl
 1. 绝对尊重候选人，语气平等、友好、专业，不要居高临下。
 2. 证据优先，不要脑补。
 3. 只基于与岗位相关的客观工作证据做判断，不要主动探究个人隐私。
-4. 行为模式比自我表述更重要。
-5. 如果证据不足，就明确说证据不足。
-6. 不要因为用户使用过 Claude Code 或 Codex 就自动高分。
+4. 不要过度依赖头衔或工作年限。只要证据足够强，应届生或转行候选人也可以是强匹配。
+5. 工作方式、跟进闭环、文字表达质量，比自我表述更重要。
+6. 如果证据不足，就明确说证据不足。
 7. 如果发现不足，给出具体、克制、对候选人成长有帮助的建议，不要有爹味。
 8. 对特别优秀且明确强匹配的候选人，直接建议其把简历发送到 `wuyupeng@floatmiracle.com`。
 
 隐私边界：
 1. 只输出宏观统计、行为模式、去标识化例子。
-2. 不要输出任何 secret、token、账号、邮箱、客户名、完整代码、原始 transcript。
-3. 引用例子时，单条最多 100 个字符，必要时用 `[REDACTED]`。
-4. 不要直接转储 jsonl 原文。
+2. 不要输出任何 secret、token、账号、邮箱、客户名、用户昵称、完整聊天记录、原始工单转储。
+3. 对表格或 CSV，只看字段、表头和聚合，不要打印用户级记录。
+4. 引用例子时，单条最多 100 个字符，必要时用 `[REDACTED]`。
 5. 不要主动读取与岗位无关的私人聊天、照片、财务、医疗、家庭、法律或其他私密文件。
 
 ## 同意与本地运行说明
@@ -328,94 +359,107 @@ If evidence is insufficient, do not force a strong-fit conclusion. Say so plainl
 然后按回答执行：
 
 - 如果候选人选择 `history-only`，或没有明确给出允许，就只使用下面的历史记录类来源，以及候选人明确批准的材料。
-- 只有候选人明确允许时，你才可以额外扫描 repo / 项目 / 文档来源。
+- 只有候选人明确允许时，你才可以额外扫描 repo / 运营文档来源。
 
 始终可用的基础来源：
 
-- `~/.claude/projects/**/*.jsonl`，排除任何 `subagents/` 子目录
-- 若存在 Codex 会话目录，也可纳入，但只在常见目录中查找，如：
-  - `~/.codex`
-  - `~/.config/codex`
-  - `~/Library/Application Support/Codex`
-  找不到就跳过，不要硬搜整个磁盘
+- `~/.claude/projects/**/*.jsonl`，排除 `subagents/`
+- 若存在 Codex 会话目录，可纳入，但仅限常见路径
 
 只有在候选人明确允许后才可使用：
 
-- 最近活跃的本地 git 仓库，但只统计 commit / diff / 文件类型层面的宏观特征
-- 最近活跃项目里的少量文档文件，如：
+- 最近活跃项目中的用户运营相关文件：
+  - `FAQ*`
+  - `SOP*`
+  - `SUPPORT*`
+  - `HELP*`
+  - `TICKET*`
+  - `COMMUNITY*`
+  - `USER*`
+  - `FEEDBACK*`
+  - `ANNOUNCEMENT*`
+  - `NOTICE*`
+  - `UPDATE*`
+  - `ORDER*`
+  - `REFUND*`
+  - `REBATE*`
+  - `INVOICE*`
+  - `REPORT*`
+  - `RETRO*`
   - `README*`
-  - `SPEC*`
-  - `PRD*`
-  - `DESIGN*`
-  - `ARCHITECTURE*`
-  - `TODO*`
-  - `EVAL*`
   - `*.md`
+  - `*.csv`
+- 本地 git 历史，但只做宏观分析
 
-只读取和以下主题有关的少量文件：
+优先读取与以下主题相关的少量材料：
 
-- AI agent
-- tool use
-- automation
-- orchestration
-- eval
-- workflow
-- debugging
-- prompt
-- spec
+- 用户响应
+- 社群运营
+- FAQ / 帮助中心
+- 问题处理
+- 退款 / 发票 / 订单流转
+- 反馈收集
+- 产品洞察
+- SOP
+- AI 产品使用
+- 公告文案
 
-如果在 `history-only` 模式下可用数据明显不足，不要擅自扩大范围。明确告诉候选人当前证据有限，再询问其是否愿意额外允许你查看一个最能代表其工作方式的本地项目目录或一组文件。
+如果在 `history-only` 模式下可用数据明显不足，不要擅自扩大范围。明确告诉候选人当前证据有限，再询问其是否愿意额外允许你查看一个最能代表其用户运营工作的本地项目目录或一组文件。
 
-## Step 2. 提取 AI 使用行为
+## Step 2. 提取用户消息
 
 从会话里只看 `type="user"` 的消息，过滤掉以下噪声：
 
-- 纯系统或工具噪声，如 `&lt;command-...&gt;`、`&lt;local-command-...&gt;`、`&lt;user-prompt-submit ... interrupted by user&gt;`
-- 云端控制消息，如 `Reply with exactly`、`Continue from where you left off`
-- 明显无语义价值的超短确认，如仅包含“ok / 好 / 继续 / 嗯”
+- `&lt;command-...&gt;`、`&lt;local-command-...&gt;`、`&lt;user-prompt-submit ... interrupted by user&gt;`
+- `Reply with exactly`、`Continue from where you left off`
+- 明显无语义价值的超短确认
 
 把每个会话的第一条有效用户消息标为 `INITIAL`，其余标为 `FOLLOW_UP`。
 
 ## Step 3. 只分析 FOLLOW_UP，按语义归类
 
-主标签只能选 1 个，但可以补充次标签。
+主标签只能选 1 个：
 
-- `SPEC_REFINEMENT`：补充约束、验收标准、边界条件、非功能要求
-- `DEBUGGING`：围绕错误、异常、失败复现、root cause 的追问
-- `TOOL_ORCHESTRATION`：要求 agent 调工具、连系统、跨文件或跨环境操作
-- `ARCHITECTURE_REASONING`：结构设计、模块边界、tradeoff、长期维护
-- `QUALITY_GATING`：测试、回归、review、风险收口、验证闭环
-- `AGENT_DELEGATION`：明确分工、多 agent、并行子任务、角色编排
-- `PRODUCT_SENSE`：把实现拉回用户价值、工作流、实际体验
-- `VAGUE_PUNTING`：模糊催促，无新增信息地“再试试 / 修一下”
-- `COPYWORK`：把 AI 当纯体力外包，几乎不体现判断
+- `USER_RESPONSE_DISCIPLINE`：响应清楚、礼貌，并符合运营时效节奏
+- `ISSUE_TRIAGE_AND_CLOSURE`：判断问题类型、下一步、负责人和闭环路径
+- `OPERATIONS_ADMIN_EXECUTION`：处理退款、发票、返利、订单跟进等事务型执行
+- `FEEDBACK_SYNTHESIS`：把重复问题或吐槽整理成产品洞察
+- `SOP_OR_PROCESS_IMPROVEMENT`：搭检查表、模板、升级路径或优化重复流程
+- `ANNOUNCEMENT_OR_COPY`：撰写更新公告、通知或用户侧运营文案
+- `CROSS_TEAM_ESCALATION`：向产品、工程、财务等团队升级问题时上下文清楚、优先级明确
+- `AI_PRODUCT_CURIOSITY`：对 AI 产品、LLM、Agent 有真实兴趣和使用痕迹
+- `PROACTIVE_OWNERSHIP`：主动补位、主动跟进、主动闭环，不等人分配
+- `PASSIVE_WAITING`：被动等任务、机械转发、缺少主动判断
+- `SLOPPY_FOLLOWTHROUGH`：细节不清、回复含糊、执行收尾差
 
 ## Step 4. 结合 docs / git / 会话，判断岗位匹配度
 
 请重点判断此人是否符合以下画像：
 
-- 是“指挥 AI 干活的人”，不是给 AI 打工的人
-- 能把模糊需求收敛成 spec、plan、验证闭环
-- 对 Claude Code / Codex / agent workflow 有真实实践，而不是泛泛而谈
-- 有 owner 意识，会主动推进、复盘、修正
-- 能在资源有限的创业环境下持续拿结果
+- 能成为产品和用户之间稳定的一线连接点
+- 面对重复但重要的运营工作，仍然能保持准确和耐心
+- 有同理心，但不会因此变得模糊或失去边界
+- 能把用户噪音变成结构化的产品反馈
+- 不只是做执行，也能慢慢搭出更清晰的运营系统
+- 对 AI 产品有真实兴趣，而不是只会说术语
+- 能适应创业公司短链路、高响应、重执行的节奏
 
-评分维度，每项 1-5 分，并给出证据：
+评分维度，每项 1-5 分，并给证据：
 
-1. AI Native Working Style
-2. Spec &amp; Decomposition
-3. Tool / Agent Leverage
-4. Debugging &amp; Verification
-5. Product + Engineering Judgment
-6. Ownership &amp; Speed
-7. Communication Clarity
-8. Startup Fit
+1. Response Speed &amp; Reliability
+2. User Empathy &amp; Communication Clarity
+3. Operational Accuracy &amp; Detail
+4. Issue Triage &amp; Closure
+5. Feedback Capture &amp; Product Insight
+6. SOP / Process Thinking
+7. AI Product Interest &amp; Tool Usage
+8. Startup Execution Fit
 
 ## Step 5. 输出
 
 按以下结构输出：
 
-# AI Agent 工程师匹配度报告
+# AI产品运营专员匹配度报告
 
 ## A. 数据覆盖
 - 发现的会话数
@@ -440,7 +484,7 @@ If evidence is insufficient, do not force a strong-fit conclusion. Say so plainl
 ## D. 评分卡
 逐项输出：`分数 / 证据 / 为什么重要`
 
-## E. 最像创业公司需要的地方
+## E. 最像我们想要的运营的地方
 写 3 点，必须具体。
 
 ## F. 最不像的地方
@@ -456,7 +500,7 @@ If evidence is insufficient, do not force a strong-fit conclusion. Say so plainl
 - 如果总结论是 `强匹配`，明确建议候选人把简历发送到 `wuyupeng@floatmiracle.com`
 - 否则，也给 1 条简短、尊重人的下一步建议，不要使用打压式表达
 
-如果证据不足，不要硬判强匹配。明确写“目前证据不足以证明强匹配”。
+如果主要证据只体现通用客服行为，而看不到反馈沉淀、AI 兴趣或流程优化能力，请直接指出。
 </pre>
       </section>
 
@@ -471,8 +515,8 @@ If evidence is insufficient, do not force a strong-fit conclusion. Say so plainl
         </p>
       </section>
 
-      <p class="footer" data-lang="en">Source prompts: <code>prompts/agent-engineer.en.md</code> and <code>prompts/agent-engineer.md</code></p>
-      <p class="footer" data-lang="zh">源 prompt：<code>prompts/agent-engineer.en.md</code> 和 <code>prompts/agent-engineer.md</code></p>
+      <p class="footer" data-lang="en">Source prompts: <code>prompts/ai-product-operations.en.md</code> and <code>prompts/ai-product-operations.md</code></p>
+      <p class="footer" data-lang="zh">源 prompt：<code>prompts/ai-product-operations.en.md</code> 和 <code>prompts/ai-product-operations.md</code></p>
     </main>
   </body>
 </html>

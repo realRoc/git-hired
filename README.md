@@ -30,16 +30,18 @@ After GitHub Pages is enabled for this repo:
 - AI Agent Engineer: <https://realroc.github.io/git-hired/agent.html>
 - Product Manager: <https://realroc.github.io/git-hired/pm.html>
 - Head of Global Growth: <https://realroc.github.io/git-hired/growth.html>
+- AI Product Operations Specialist: <https://realroc.github.io/git-hired/ops.html>
 <!-- AUTO:live-links:end -->
 
 ## What This Repo Includes
 
-Three public, shareable candidate tests:
+Four public, shareable candidate tests:
 
 <!-- AUTO:role-list:start -->
 - `AI Agent Engineer`
 - `Product Manager`
 - `Head of Global Growth`
+- `AI Product Operations Specialist`
 <!-- AUTO:role-list:end -->
 
 Each role includes:
@@ -67,12 +69,25 @@ Can this person direct AI well enough to ship, learn, and iterate under startup 
 4. The candidate sends back the generated report.
 5. You use that report as a structured screening input, not as the final decision.
 
+## Consent-First, Local-Only
+
+> By default, these prompts stay `history-only`.
+> They should not scan a candidate's local repo, project directory, or document files unless the candidate explicitly allows it.
+> If the candidate opts in, any approved scan runs locally inside the candidate's own Claude Code or Codex session and is not uploaded to our server.
+
+Candidates can choose:
+
+- `history-only` for a lighter, privacy-first evaluation
+- or allow scanning of specific local repos / project folders / files for a stronger score
+
+If they do not allow repo or document scanning, the agent should still make the best objective judgment it can from history-only evidence and clearly state the resulting confidence limits.
+
 ## Suggested Candidate Message
 
 You can send something like:
 
 > Paste the prompt from this link into your own Claude Code or Codex, run it, and send me the output.  
-> It is designed to extract macro working-style signals only, not raw logs or sensitive information.
+> By default it stays history-only and will ask before scanning any local repo or document. Any approved scan stays local on your machine and is not uploaded to our server.
 
 Or lean into the joke:
 
@@ -115,6 +130,7 @@ git-hired/
 │   ├── agent.html
 │   ├── pm.html
 │   ├── growth.html
+│   ├── ops.html
 │   ├── style.css
 │   └── app.js
 ├── roles.json
@@ -124,7 +140,9 @@ git-hired/
 │   ├── product-manager.en.md
 │   ├── product-manager.md
 │   ├── global-growth.en.md
-│   └── global-growth.md
+│   ├── global-growth.md
+│   ├── ai-product-operations.en.md
+│   └── ai-product-operations.md
 ├── .codex/skills/git-hired-jd-ops/
 │   ├── SKILL.md
 │   ├── references/
@@ -151,6 +169,7 @@ I only had explicit JD text for:
 
 - `AI Agent Engineer`
 - `Head of Global Growth`
+- `AI Product Operations Specialist`
 
 So the `Product Manager` prompt is a strong default profile for an AI-native startup PM working on agent workflows, specs, MVP scoping, and cross-functional execution. Edit it as your PM hiring bar evolves.
 
@@ -176,6 +195,9 @@ You should adapt the prompts for:
 - Head of Global Growth
   - Chinese: `prompts/global-growth.md`
   - English: `prompts/global-growth.en.md`
+- AI Product Operations Specialist
+  - Chinese: `prompts/ai-product-operations.md`
+  - English: `prompts/ai-product-operations.en.md`
 <!-- AUTO:prompt-sources:end -->
 
 ## Maintainer Skill

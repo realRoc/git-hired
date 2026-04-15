@@ -30,16 +30,18 @@ fatal: not a qualified candidate
 - AI Agent 工程师: <https://realroc.github.io/git-hired/agent.html>
 - 产品经理: <https://realroc.github.io/git-hired/pm.html>
 - 海外增长负责人: <https://realroc.github.io/git-hired/growth.html>
+- AI产品运营专员: <https://realroc.github.io/git-hired/ops.html>
 <!-- AUTO:live-links:end -->
 
 ## 仓库包含什么
 
-目前包含三个公开可分享的岗位测试：
+目前包含四个公开可分享的岗位测试：
 
 <!-- AUTO:role-list:start -->
 - `AI Agent 工程师`
 - `产品经理`
 - `海外增长负责人`
+- `AI产品运营专员`
 <!-- AUTO:role-list:end -->
 
 每个岗位都包含：
@@ -67,12 +69,25 @@ fatal: not a qualified candidate
 4. 候选人把生成报告发回给你
 5. 你把这个报告作为结构化初筛输入，而不是最终结论
 
+## 先同意，再扫描；且只在本地运行
+
+> 默认模式是 `history-only`。
+> 除非候选人明确允许，否则这些 prompt 不会扫描对方的本地 repo、项目目录或文档文件。
+> 如果候选人主动允许，任何批准的扫描也只会在候选人自己的 Claude Code 或 Codex 本地运行中完成，不会上传到我们的服务器。
+
+候选人可以主动选择：
+
+- `history-only`，走更轻量、更注重隐私的评估
+- 或允许扫描指定的本地 repo / 项目目录 / 文件，以换取更充分的评分依据
+
+如果候选人不允许扫描 repo 或文档，agent 也应该基于历史记录做尽可能客观的判断，并明确说明置信度限制。
+
 ## 推荐给候选人的发送文案
 
 你可以直接发：
 
 > 把这个链接里的 prompt 粘贴到你自己的 Claude Code 或 Codex 里跑一下，把结果发我。  
-> 这个测试只提取宏观工作方式信号，不要求你暴露原始日志或敏感信息。
+> 默认只看历史记录，如需扫描本地 repo 或文档会先征求你的允许；任何批准的扫描都只在你自己的机器本地运行，不会上传到我们的服务器。
 
 如果想更有梗一点：
 
@@ -115,6 +130,7 @@ git-hired/
 │   ├── agent.html
 │   ├── pm.html
 │   ├── growth.html
+│   ├── ops.html
 │   ├── style.css
 │   └── app.js
 ├── roles.json
@@ -124,7 +140,9 @@ git-hired/
 │   ├── product-manager.en.md
 │   ├── product-manager.md
 │   ├── global-growth.en.md
-│   └── global-growth.md
+│   ├── global-growth.md
+│   ├── ai-product-operations.en.md
+│   └── ai-product-operations.md
 ├── .codex/skills/git-hired-jd-ops/
 │   ├── SKILL.md
 │   ├── references/
@@ -151,6 +169,7 @@ git-hired/
 
 - `AI Agent Engineer`
 - `Head of Global Growth`
+- `AI Product Operations Specialist`
 
 所以 `Product Manager` 版本现在是一份比较强的默认画像，适用于做 agent workflow、spec、MVP 划界和跨职能推进的 AI Native PM。你后续可以继续按自己的招聘标准改。
 
@@ -176,6 +195,9 @@ git-hired/
 - 海外增长负责人
   - 中文：`prompts/global-growth.md`
   - 英文：`prompts/global-growth.en.md`
+- AI产品运营专员
+  - 中文：`prompts/ai-product-operations.md`
+  - 英文：`prompts/ai-product-operations.en.md`
 <!-- AUTO:prompt-sources:end -->
 
 ## 维护者 Skill

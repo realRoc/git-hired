@@ -25,5 +25,14 @@
     "title_zh": "海外增长负责人",
     "summary_en": "See whether a candidate can build a real growth system, from user signals to channel strategy, experiments, retention, and ROI.",
     "summary_zh": "看候选人是否具备完整增长系统能力，能把用户信号转成渠道策略、实验、留存和 ROI。"
+  },
+  {
+    "page_slug": "ops",
+    "prompt_slug": "ai-product-operations",
+    "prompt_base": "prompt-ops",
+    "title_en": "AI Product Operations Specialist",
+    "title_zh": "AI产品运营专员",
+    "summary_en": "See whether a candidate can run AI product operations with fast response, user empathy, clean execution, and feedback loops that improve the product.",
+    "summary_zh": "看候选人是否具备 AI 产品运营能力，能快速响应用户、做好细致执行，并把反馈沉淀成推动产品优化的闭环。"
   }
 ]
