@@ -10,6 +10,9 @@ from pathlib import Path
 
 EN_VERSION_RE = re.compile(r"- exact version: `([^`]+)`")
 ZH_VERSION_RE = re.compile(r"- 精确版本：`([^`]+)`")
+HIRED_HEADER_MARKER = "██╗  ██╗██╗██████╗ ███████╗██████╗"
+BLOCK_BAR_MARKER = "[███████░░░] 7"
+OLD_BAR_MARKER = "[#######---]"
 
 
 def extract_en_prompt_version(text: str) -> str | None:
@@ -61,8 +64,14 @@ def main() -> None:
             errors.append("docs/general.html missing privacy mode controls")
         if 'id="prompt-general-en"' not in general_text or 'id="prompt-general-zh"' not in general_text:
             errors.append("docs/general.html missing generated prompt blocks")
-        if "_    _  _____  _____   ______  _____" not in general_text:
-            errors.append("docs/general.html missing updated readable HIRED ASCII banner in prompt templates")
+        if HIRED_HEADER_MARKER not in general_text:
+            errors.append("docs/general.html missing updated readable HIRED header in prompt templates")
+        if "Play a simple 3-frame `HIRED` animation" not in general_text or "先播放一个简单的 3 帧 `HIRED` 动态开场" not in general_text:
+            errors.append("docs/general.html missing dependency-free HIRED animation guidance in prompt templates")
+        if BLOCK_BAR_MARKER not in general_text:
+            errors.append("docs/general.html missing block-bar score format guidance in prompt templates")
+        if OLD_BAR_MARKER in general_text:
+            errors.append("docs/general.html still contains old hash-based score bar examples")
         if "Fantasy annual package" in general_text or "虚构年包" in general_text or "市场估值（示意" in general_text:
             errors.append("docs/general.html still contains salary/compensation hook language in prompt templates")
         if "best-fit role" not in general_text or "最适合的岗位" not in general_text:
@@ -73,6 +82,8 @@ def main() -> None:
             errors.append("docs/general.html missing talent-tag guidance in prompt templates")
         if "Locked Skills" not in general_text or "待解锁天赋" not in general_text:
             errors.append("docs/general.html missing locked-skill guidance in prompt templates")
+        if "JD prompt version" not in general_text or "universal-entry@" not in general_text:
+            errors.append("docs/general.html missing prompt-version traceability in prompt templates")
         if "https://github.com/realRoc" not in general_text:
             errors.append("docs/general.html missing author GitHub link")
         if "https://github.com/realRoc/git-hired" not in general_text:
@@ -126,8 +137,14 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing consent-first local-only notice")
             if "详细报告" not in zh_prompt_text or "HIRED" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing candidate-facing TUI/report output requirements")
-            if "_    _  _____  _____   ______  _____" not in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md missing updated readable HIRED ASCII banner")
+            if HIRED_HEADER_MARKER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing updated readable HIRED header")
+            if "先播放一个简单的 3 帧 `HIRED` 动态开场" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing dependency-free HIRED animation guidance")
+            if BLOCK_BAR_MARKER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing block-bar score format guidance")
+            if OLD_BAR_MARKER in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md still contains old hash-based score bar examples")
             if "虚构年包" in zh_prompt_text or "市场估值（示意" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains salary/compensation language")
             if "最适合的岗位" not in zh_prompt_text:
@@ -155,8 +172,14 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing consent-first local-only notice")
             if "Detailed report" not in en_prompt_text or "HIRED" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing candidate-facing TUI/report output requirements")
-            if "_    _  _____  _____   ______  _____" not in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md missing updated readable HIRED ASCII banner")
+            if HIRED_HEADER_MARKER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing updated readable HIRED header")
+            if "Play a simple 3-frame `HIRED` animation" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing dependency-free HIRED animation guidance")
+            if BLOCK_BAR_MARKER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing block-bar score format guidance")
+            if OLD_BAR_MARKER in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md still contains old hash-based score bar examples")
             if "Fantasy annual package" in en_prompt_text or "Market Band (illustrative, not an offer)" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains salary/compensation language")
             if "best-fit role" not in en_prompt_text:
@@ -212,6 +235,12 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing repo link")
             if "JD prompt version" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing embedded prompt version guidance")
+            if HIRED_HEADER_MARKER not in page_text:
+                errors.append(f"docs/{page_slug}.html missing synced readable HIRED header")
+            if BLOCK_BAR_MARKER not in page_text:
+                errors.append(f"docs/{page_slug}.html missing synced block-bar score format guidance")
+            if OLD_BAR_MARKER in page_text:
+                errors.append(f"docs/{page_slug}.html still contains old hash-based score bar examples")
             if zh_prompt_version and zh_prompt_version not in page_text:
                 errors.append(f"docs/{page_slug}.html missing synced prompt version {zh_prompt_version}")
             if en_prompt_version and en_prompt_version not in page_text:

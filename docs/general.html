@@ -193,6 +193,10 @@ Your job is to inspect locally observable AI work traces and job-relevant artifa
 
 Output language: English.
 
+JD prompt version:
+- exact version: `universal-entry@2026-04-16.1`
+- when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
+
 Judgment rules:
 1. Respect the candidate absolutely. Keep the tone equal, friendly, and professional.
 2. Evidence first. Do not invent.
@@ -300,7 +304,10 @@ This is the main thing the candidate sees in the TUI.
 
 Rules:
 - keep it concise, skimmable, highly shareable, and under about 50 lines
-- the first visual block must be the exact ASCII art below, whose main word is `HIRED`
+- the first visual block must be a short, dependency-free animated `HIRED` reveal in the terminal
+- use at most 3 frames and keep the total animation under about 900ms
+- use plain stdout only; ANSI clear / cursor-home sequences are allowed, but no external packages or TUI frameworks
+- if redraw is unavailable, skip the animation and print only the final resting header
 - after the header, write like a typed transition profile, not a consultant memo
 - calibrate more harshly than a feel-good internet quiz
 - `90+` and `9-10/10` are rare and need repeated, high-signal evidence
@@ -315,14 +322,21 @@ Rules:
 
 Use this structure:
 
-1. Start with this exact ASCII header:
+1. Play a simple 3-frame `HIRED` animation:
+- frame 1: show the same `HIRED` shape in a dim or outline-like state, for example with `░`
+- frame 2: brighten it with a mid-fill state, for example with `▓`
+- frame 3: settle on the final header below in the clearest, boldest state
+- keep the effect clean, dependency-free, terminal-safe, and easy to recognize
+- if animation support is weak, print only the final frame below
 
-_    _  _____  _____   ______  _____
-| |  | ||_   _||  __ \ |  ____||  __ \
-| |__| |  | |  | |__) || |__   | |  | |
-|  __  |  | |  |  _  / |  __|  | |  | |
-| |  | | _| |_ | | \ \ | |____ | |__| |
-|_|  |_||_____||_|  \_\|______||_____/
+Final resting header:
+
+██╗  ██╗██╗██████╗ ███████╗██████╗
+██║  ██║██║██╔══██╗██╔════╝██╔══██╗
+███████║██║██████╔╝█████╗  ██║  ██║
+██╔══██║██║██╔══██╗██╔══╝  ██║  ██║
+██║  ██║██║██║  ██║███████╗██████╔╝
+╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
 
 2. Then present a compact hero portrait with:
 - subtitle: `>> universal transition portrait <<`
@@ -333,12 +347,15 @@ _    _  _____  _____   ______  _____
 - archetype title plus short acronym
 - ability score: `0-100`
 - confidence / mode / evidence
+- JD prompt version: exact string from the top of this prompt
 - detailed report path
 
 3. Print `Core Board`
 - exactly 5 lines
-- format like `AI Leverage .......... 7/10 [#######---]`
-- if a dimension is unavailable, show `N/A (evidence thin)`
+- format like `AI Leverage      [███████░░░] 7`
+- use a fixed 10-cell bar made from `█` and `░`
+- do not use dotted fillers or `7/10` style fractions
+- if a dimension is unavailable, show `AI Leverage      [░░░░░░░░░░] N/A (evidence thin)`
 
 4. Print `Talent Tags`
 - exactly 3 lines
@@ -370,10 +387,10 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-universal-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must remain candidate-facing. It should include:
-- result, best-fit role right now, closest lens, alignment code, archetype, ability score, mode, and evidence level
+- result, best-fit role right now, closest lens, JD prompt version, alignment code, archetype, ability score, mode, and evidence level
 - data coverage
 - redacted signal distribution
-- the 5-line core board with evidence
+- the 5-line core board with evidence, keeping the visible score line in the same `Label [███████░░░] 7` format
 - 3 talent tags with supporting evidence
 - 2-3 locked skills or transition bottlenecks with evidence
 - strongest transferable strengths
@@ -381,6 +398,7 @@ The markdown report must remain candidate-facing. It should include:
 - concrete upgrade suggestions
 - `If you choose to apply, be ready to talk about...` with 5 candidate-facing discussion topics
 - a short line saying the candidate may attach this report when applying
+- keep `JD prompt version` exactly identical to the version string at the top of this prompt
 
 If running in extended mode:
 - redact more aggressively than in the terminal summary
@@ -414,6 +432,10 @@ If running in extended mode:
 - 当前最需要补的升级路径是什么
 
 输出语言：中文。
+
+岗位 Prompt 版本：
+- 精确版本：`universal-entry@2026-04-16.1`
+- 生成终端摘要和 markdown 报告时，都要原样记录这串版本号，并使用字段名 `JD prompt version`
 
 判断原则：
 1. 绝对尊重候选人，语气平等、友好、专业，不要居高临下。
@@ -522,7 +544,10 @@ If running in extended mode:
 
 要求：
 - 对 TUI 友好，易读、易截图、易传播，控制在约 50 行以内
-- 第一块视觉内容必须是下面这段固定 ASCII 艺术字，主词为 `HIRED`
+- 第一块视觉内容必须是一个简短、无依赖的 `HIRED` 动态开场
+- 最多使用 3 帧，总时长控制在约 900ms 以内
+- 只允许使用普通终端输出；可以使用 ANSI 清屏 / 光标归位，但不要依赖外部包或 TUI 框架
+- 如果当前终端不适合重绘，就直接输出最终定格帧
 - 在 ASCII 头图之后，要写得像“转岗面板 / 阵营卡”，而不是咨询顾问的分析报告
 - 打分要比常见的“鼓励式测评”更严格
 - `90+` 和 `9-10/10` 只有在证据连续、稀缺且强时才给
@@ -537,14 +562,21 @@ If running in extended mode:
 
 按以下结构输出：
 
-1. 必须先输出这段 ASCII 艺术字：
+1. 先播放一个简单的 3 帧 `HIRED` 动态开场：
+- 第 1 帧：用偏暗或轮廓态的同一组 `HIRED` 形状，例如 `░`
+- 第 2 帧：切到中间填充态，例如 `▓`
+- 第 3 帧：落到下面这组最清晰、最容易识别的最终定格
+- 效果要干净、无依赖、终端安全，并且一眼能认出 `HIRED`
+- 如果动画支持较弱，就直接输出下面这组最终定格
 
-_    _  _____  _____   ______  _____
-| |  | ||_   _||  __ \ |  ____||  __ \
-| |__| |  | |  | |__) || |__   | |  | |
-|  __  |  | |  |  _  / |  __|  | |  | |
-| |  | | _| |_ | | \ \ | |____ | |__| |
-|_|  |_||_____||_|  \_\|______||_____/
+最终定格：
+
+██╗  ██╗██╗██████╗ ███████╗██████╗
+██║  ██║██║██╔══██╗██╔════╝██╔══██╗
+███████║██║██████╔╝█████╗  ██║  ██║
+██╔══██║██║██╔══██╗██╔══╝  ██║  ██║
+██║  ██║██║██║  ██║███████╗██████╔╝
+╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
 
 2. 然后输出一个紧凑的转岗画像，包括：
 - 副标题：`>> universal transition portrait <<`
@@ -555,12 +587,15 @@ _    _  _____  _____   ______  _____
 - archetype 称号和缩写
 - 能力值：`0-100`
 - 置信度 / 模式 / 证据充分度
+- `JD prompt version`：原样填写本 prompt 顶部的精确版本字符串
 - 详细报告路径
 
 3. 输出 `Core Board`
 - 恰好 5 行
-- 格式类似：`AI Leverage .......... 7/10 [#######---]`
-- 如果某一维不可判断，写 `N/A（证据不足）`
+- 格式类似：`AI Leverage      [███████░░░] 7`
+- 使用固定 10 格的条形块，只用 `█` 和 `░`
+- 不要再使用点状补位或 `7/10` 这种分数字样
+- 如果某一维不可判断，写 `AI Leverage      [░░░░░░░░░░] N/A（证据不足）`
 
 4. 输出 `天赋词缀`
 - 恰好 3 行
@@ -592,10 +627,10 @@ _    _  _____  _____   ______  _____
 - `./git-hired-universal-report-YYYYMMDD-HHMMSS.md`
 
 这份 markdown 报告仍然必须站在候选人视角，包含：
-- 结果、最适合的岗位、最接近镜头、阵营编码、archetype、能力值、模式、证据充分度
+- 结果、最适合的岗位、最接近镜头、`JD prompt version`、阵营编码、archetype、能力值、模式、证据充分度
 - 数据覆盖
 - 去标识化的信号分布
-- 5 行核心分板及其证据
+- 5 行核心分板及其证据，且可见分数行保持 `Label [███████░░░] 7` 这种格式
 - 3 个天赋词缀及证据
 - 2 到 3 个待解锁天赋 / 转岗瓶颈及证据
 - 最强的可迁移优势
@@ -603,6 +638,7 @@ _    _  _____  _____   ______  _____
 - 具体升级建议
 - `如果你决定申请，建议准备好聊这 5 个点`
 - 一句短提醒：申请时可以附上这份报告
+- `JD prompt version` 必须与本 prompt 顶部版本字符串完全一致
 
 如果处于 extended 模式：
 - 比终端摘要更严格地脱敏

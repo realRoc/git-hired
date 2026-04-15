@@ -17,7 +17,7 @@ This PM profile assumes someone who:
 Output language: English.
 
 JD prompt version:
-- exact version: `product-manager@2026-04-16.1`
+- exact version: `product-manager@2026-04-16.2`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -200,7 +200,10 @@ This is the main thing the candidate sees in the TUI.
 
 Rules:
 - keep it concise, skimmable, highly shareable, and under about 50 lines
-- the first visual block must be the exact ASCII art below, whose main word is `HIRED`
+- the first visual block must be a short, dependency-free animated `HIRED` reveal in the terminal
+- use at most 3 frames and keep the total animation under about 900ms
+- use plain stdout only; ANSI clear / cursor-home sequences are allowed, but no external packages or TUI frameworks
+- if redraw is unavailable, skip the animation and print only the final resting header
 - after the header, write like a typed character sheet, not a consultant memo
 - calibrate more harshly than a feel-good internet quiz
 - `90+` and `9-10/10` are rare and need repeated, high-signal evidence
@@ -215,14 +218,21 @@ Rules:
 
 Use this structure:
 
-1. Print this exact ASCII header:
+1. Play a simple 3-frame `HIRED` animation:
+- frame 1: show the same `HIRED` shape in a dim or outline-like state, for example with `░`
+- frame 2: brighten it with a mid-fill state, for example with `▓`
+- frame 3: settle on the final header below in the clearest, boldest state
+- keep the effect clean, dependency-free, terminal-safe, and easy to recognize
+- if animation support is weak, print only the final frame below
 
-_    _  _____  _____   ______  _____
-| |  | ||_   _||  __ \ |  ____||  __ \
-| |__| |  | |  | |__) || |__   | |  | |
-|  __  |  | |  |  _  / |  __|  | |  | |
-| |  | | _| |_ | | \ \ | |____ | |__| |
-|_|  |_||_____||_|  \_\|______||_____/
+Final resting header:
+
+██╗  ██╗██╗██████╗ ███████╗██████╗
+██║  ██║██║██╔══██╗██╔════╝██╔══██╗
+███████║██║██████╔╝█████╗  ██║  ██║
+██╔══██║██║██╔══██╗██╔══╝  ██║  ██║
+██║  ██║██║██║  ██║███████╗██████╔╝
+╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
 2. Then print a subtitle:
 - `>> <role> hero portrait <<`
 
@@ -239,8 +249,10 @@ _    _  _____  _____   ______  _____
 4. Print `Core Board`
 - exactly 5 lines
 - one line per core dimension
-- format like `Spec Control ........ 7/10 [#######---]`
-- if a dimension is unavailable, show `N/A (evidence thin)`
+- format like `Spec Control      [███████░░░] 7`
+- use a fixed 10-cell bar made from `█` and `░`
+- do not use dotted fillers or `7/10` style fractions
+- if a dimension is unavailable, show `Spec Control      [░░░░░░░░░░] N/A (evidence thin)`
 
 5. Print `Talent Tags`
 - exactly 3 lines
@@ -275,7 +287,7 @@ The markdown report must also be candidate-facing. It should include:
 - a title block with result, best-fit role right now, JD prompt version, alignment code, archetype, ability score, mode, and evidence level
 - data coverage
 - redacted signal distribution
-- the 5-line core board with evidence
+- the 5-line core board with evidence, keeping the visible score line in the same `Label [███████░░░] 7` format
 - 3 talent tags with supporting evidence
 - 2-3 locked skills or version bottlenecks with evidence
 - requested role vs. best-fit role right now

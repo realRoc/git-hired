@@ -68,8 +68,8 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
 
 输出要求：
 1. 最终输出是给候选人看的，不是给招聘方或面试官看的。
-2. 终端里的主输出要对 TUI 友好、简洁、易截图传播，并使用更清晰的 `HIRED` ASCII 横幅开头，而不是稀疏字母块。
-3. 终端摘要要更像“能力画像 / 英雄画像”，包含结果判断、最适合的岗位、四轴阵营编码、archetype、ability score、压缩后的核心分板、天赋词缀、待解锁天赋和详细报告路径。
+2. 终端里的主输出要对 TUI 友好、简洁、易截图传播，并使用一个无依赖、3 帧以内、终端安全的动态 `HIRED` 开场，而不是静态稀疏字母块。
+3. 终端摘要要更像“能力画像 / 英雄画像”，包含结果判断、最适合的岗位、四轴阵营编码、archetype、ability score、压缩后的核心分板、天赋词缀、待解锁天赋和详细报告路径。核心分板的可见分数行应优先使用 `Label [████████░░] 8` 这类块状条格式。
 4. 打分要明显更严：高分稀缺，证据不足时宁可保守降分，也不要做鼓励式灌水。
 5. 终端里给一个简短摘要，再在本地生成一份更完整的 `.md` 详细报告，并打印详细报告路径。
 6. 终端摘要和详细报告都必须记录 `JD prompt version`，且与本 prompt 顶部版本字符串完全一致。
@@ -97,7 +97,7 @@ TODO:
 - 补数据源
 - 补行为分类
 - 补评分维度
-- 补候选人视角的 TUI 输出结构
+- 补候选人视角的 TUI 输出结构，包括无依赖动态 `HIRED` 开场和块状条分板格式
 - 补详细报告 `.md` 生成路径和内容结构
 """
 
@@ -134,8 +134,8 @@ Privacy boundary:
 
 Output requirements:
 1. The final output is for the candidate to read, not for the interviewer or hiring team.
-2. The main terminal output should be concise, TUI-friendly, easy to share, and start with a clearer `HIRED` ASCII banner instead of a sparse single-letter block.
-3. The terminal summary should feel like a hero portrait or capability profile, including a result call, the best-fit role right now, a four-slot alignment code, an archetype, an ability score, a compressed core board, talent tags, locked skills, and the detailed-report path.
+2. The main terminal output should be concise, TUI-friendly, easy to share, and start with a dependency-free, terminal-safe animated `HIRED` reveal that stays within about 3 frames.
+3. The terminal summary should feel like a hero portrait or capability profile, including a result call, the best-fit role right now, a four-slot alignment code, an archetype, an ability score, a compressed core board, talent tags, locked skills, and the detailed-report path. Visible score lines in the core board should prefer a block-bar format such as `Label [████████░░] 8`.
 4. Score more harshly than a feel-good quiz: high scores should be rare, and thin evidence should round down rather than inflate.
 5. Give a short terminal summary, then generate a fuller local `.md` report and print its path.
 6. Both the terminal summary and markdown report must record `JD prompt version`, exactly identical to the version string at the top of this prompt.
@@ -163,7 +163,7 @@ TODO:
 - add data sources
 - add behavior labels
 - add score dimensions
-- add candidate-facing TUI output structure
+- add candidate-facing TUI output structure, including a dependency-free animated `HIRED` reveal and block-bar score rows
 - add detailed `.md` report path and structure
 """
 
