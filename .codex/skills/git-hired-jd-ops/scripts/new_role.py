@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
+from datetime import date
 from pathlib import Path
 
 
@@ -31,7 +32,11 @@ def write_file_if_missing(path: Path, content: str, force: bool) -> None:
     path.write_text(content, encoding="utf-8")
 
 
-def zh_prompt(title_zh: str) -> str:
+def default_prompt_version(prompt_slug: str) -> str:
+    return f"{prompt_slug}@{date.today().isoformat()}.1"
+
+
+def zh_prompt(title_zh: str, prompt_version: str) -> str:
     return f"""# {title_zh} Prompt
 
 把下面整段完整粘贴到 Claude Code 或 Codex 中执行：
@@ -41,6 +46,10 @@ def zh_prompt(title_zh: str) -> str:
 你现在是一个招聘校准助手。你的任务是基于本机可观察到的工作痕迹，判断这位候选人是否适合 `TODO: {title_zh}` 岗位。
 
 输出语言：中文。
+
+岗位 Prompt 版本：
+- 精确版本：`{prompt_version}`
+- 生成终端摘要和 markdown 报告时，都要原样记录这串版本号，并使用字段名 `JD prompt version`
 
 判断原则：
 1. 绝对尊重候选人，语气平等、友好、专业，不要居高临下。
@@ -63,15 +72,16 @@ def zh_prompt(title_zh: str) -> str:
 3. 终端摘要要更像“能力画像 / 英雄画像”，包含结果判断、最适合的岗位、四轴阵营编码、archetype、ability score、压缩后的核心分板、天赋词缀、待解锁天赋和详细报告路径。
 4. 打分要明显更严：高分稀缺，证据不足时宁可保守降分，也不要做鼓励式灌水。
 5. 终端里给一个简短摘要，再在本地生成一份更完整的 `.md` 详细报告，并打印详细报告路径。
-6. 不要输出任何薪资范围、市场估值、虚构年包、offer 类钩子。
-7. 语气可以有一点梗感和轻微毒舌，但不能羞辱、贬低或人身攻击候选人。
-8. 先夸候选人最值得肯定的强项，再讨论不足。
-9. 如果当前岗位并不是最适合的方向，要明确告诉候选人他当前更像哪个岗位或方向，并说明原因。
-10. 如果候选人存在明显短板，补充最多 3 条平等友好的改进建议，帮助他更接近目标岗位。
-11. 如果结论为强匹配，明确建议候选人把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告。
-12. 如果是 extended 模式，详细报告里要对 repo 名、文件路径、secret 等敏感信息做更严格脱敏。
-13. 避免分析师口吻的长句解释；TUI 中优先使用标签、词缀、极短短语，而不是长段论述。
-14. 核心分板控制在 4-5 个维度，不要做成 Excel 风格的 8-9 维清单。
+6. 终端摘要和详细报告都必须记录 `JD prompt version`，且与本 prompt 顶部版本字符串完全一致。
+7. 不要输出任何薪资范围、市场估值、虚构年包、offer 类钩子。
+8. 语气可以有一点梗感和轻微毒舌，但不能羞辱、贬低或人身攻击候选人。
+9. 先夸候选人最值得肯定的强项，再讨论不足。
+10. 如果当前岗位并不是最适合的方向，要明确告诉候选人他当前更像哪个岗位或方向，并说明原因。
+11. 如果候选人存在明显短板，补充最多 3 条平等友好的改进建议，帮助他更接近目标岗位。
+12. 如果结论为强匹配，明确建议候选人把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告。
+13. 如果是 extended 模式，详细报告里要对 repo 名、文件路径、secret 等敏感信息做更严格脱敏。
+14. 避免分析师口吻的长句解释；TUI 中优先使用标签、词缀、极短短语，而不是长段论述。
+15. 核心分板控制在 4-5 个维度，不要做成 Excel 风格的 8-9 维清单。
 
 Consent & local-only notice:
 1. 默认只使用本地 AI 会话历史和候选人主动粘贴或明确批准的材料。
@@ -92,7 +102,7 @@ TODO:
 """
 
 
-def en_prompt(title_en: str) -> str:
+def en_prompt(title_en: str, prompt_version: str) -> str:
     return f"""# {title_en} Prompt
 
 Paste the full prompt below into Claude Code or Codex and run it:
@@ -102,6 +112,10 @@ Paste the full prompt below into Claude Code or Codex and run it:
 You are a hiring calibration assistant. Your task is to inspect locally observable work traces and judge whether this candidate fits the `TODO: {title_en}` role.
 
 Output language: English.
+
+JD prompt version:
+- exact version: `{prompt_version}`
+- when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
 1. Respect the candidate absolutely. Keep the tone equal, friendly, and professional.
@@ -124,15 +138,16 @@ Output requirements:
 3. The terminal summary should feel like a hero portrait or capability profile, including a result call, the best-fit role right now, a four-slot alignment code, an archetype, an ability score, a compressed core board, talent tags, locked skills, and the detailed-report path.
 4. Score more harshly than a feel-good quiz: high scores should be rare, and thin evidence should round down rather than inflate.
 5. Give a short terminal summary, then generate a fuller local `.md` report and print its path.
-6. Do not print any salary range, market band, fictional package, or offer-like hook.
-7. The tone may be playful, meme-friendly, and a little sharp, but never insulting or demeaning.
-8. Praise the candidate's strongest evidence-backed strengths before discussing gaps.
-9. If the tested role is not the best fit, explicitly recommend the role or direction that currently looks strongest and explain why.
-10. If there are meaningful gaps, add up to 3 respectful and practical improvement suggestions that help the candidate move toward the role they want.
-11. If the result is a strong fit, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com` and attach the detailed report.
-12. In extended mode, redact repo names, file paths, secrets, and similar identifiers more aggressively in the markdown report.
-13. Avoid analyst-style long explanations in the TUI; prefer labels, tags, and compressed fragments.
-14. Keep the visible core board to 4-5 dimensions rather than an 8-9 line spreadsheet.
+6. Both the terminal summary and markdown report must record `JD prompt version`, exactly identical to the version string at the top of this prompt.
+7. Do not print any salary range, market band, fictional package, or offer-like hook.
+8. The tone may be playful, meme-friendly, and a little sharp, but never insulting or demeaning.
+9. Praise the candidate's strongest evidence-backed strengths before discussing gaps.
+10. If the tested role is not the best fit, explicitly recommend the role or direction that currently looks strongest and explain why.
+11. If there are meaningful gaps, add up to 3 respectful and practical improvement suggestions that help the candidate move toward the role they want.
+12. If the result is a strong fit, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com` and attach the detailed report.
+13. In extended mode, redact repo names, file paths, secrets, and similar identifiers more aggressively in the markdown report.
+14. Avoid analyst-style long explanations in the TUI; prefer labels, tags, and compressed fragments.
+15. Keep the visible core board to 4-5 dimensions rather than an 8-9 line spreadsheet.
 
 Consent & local-only notice:
 1. Default to using local AI session history and any material the candidate explicitly pastes or approves.
@@ -290,6 +305,7 @@ def main() -> None:
     parser.add_argument("--title-zh", required=True)
     parser.add_argument("--summary-en", required=True)
     parser.add_argument("--summary-zh", required=True)
+    parser.add_argument("--prompt-version")
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
 
@@ -308,9 +324,10 @@ def main() -> None:
     zh_prompt_path = repo_root / "prompts" / f"{args.prompt_slug}.md"
     en_prompt_path = repo_root / "prompts" / f"{args.prompt_slug}.en.md"
     page_path = repo_root / "docs" / f"{args.page_slug}.html"
+    prompt_version = args.prompt_version or default_prompt_version(args.prompt_slug)
 
-    zh_text = zh_prompt(args.title_zh)
-    en_text = en_prompt(args.title_en)
+    zh_text = zh_prompt(args.title_zh, prompt_version)
+    en_text = en_prompt(args.title_en, prompt_version)
 
     write_file_if_missing(zh_prompt_path, zh_text, args.force)
     write_file_if_missing(en_prompt_path, en_text, args.force)

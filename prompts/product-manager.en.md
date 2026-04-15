@@ -16,6 +16,10 @@ This PM profile assumes someone who:
 
 Output language: English.
 
+JD prompt version:
+- exact version: `product-manager@2026-04-16.1`
+- when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
+
 Judgment rules:
 1. Respect the candidate absolutely. Keep the tone equal, friendly, and professional.
 2. Evidence first. Do not invent.
@@ -229,6 +233,7 @@ _    _  _____  _____   ______  _____
 - archetype: one memorable title plus a short acronym
 - ability score: `0-100`
 - confidence / mode / evidence
+- JD prompt version: exact string from the top of this prompt
 - detailed report path
 
 4. Print `Core Board`
@@ -267,7 +272,7 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- a title block with result, best-fit role right now, alignment code, archetype, ability score, mode, and evidence level
+- a title block with result, best-fit role right now, JD prompt version, alignment code, archetype, ability score, mode, and evidence level
 - data coverage
 - redacted signal distribution
 - the 5-line core board with evidence
@@ -277,6 +282,7 @@ The markdown report must also be candidate-facing. It should include:
 - concrete growth suggestions
 - `If you choose to apply, be ready to talk about...` with 5 candidate-facing discussion topics
 - one short line that the candidate may attach this report when applying
+- keep `JD prompt version` exactly identical to the version string at the top of this prompt
 
 If running in extended mode:
 - redact more aggressively than in the terminal summary

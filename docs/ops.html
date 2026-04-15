@@ -117,6 +117,10 @@ Target role profile:
 
 Output language: English.
 
+JD prompt version:
+- exact version: `ai-product-operations@2026-04-16.1`
+- when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
+
 Judgment rules:
 1. Respect the candidate absolutely. Keep the tone equal, friendly, and professional.
 2. Evidence first. Do not invent.
@@ -303,6 +307,7 @@ _    _  _____  _____   ______  _____
 - archetype: one memorable title plus a short acronym
 - ability score: `0-100`
 - confidence / mode / evidence
+- JD prompt version: exact string from the top of this prompt
 - detailed report path
 
 4. Print `Core Board`
@@ -341,7 +346,7 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-&lt;role&gt;-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- a title block with result, best-fit role right now, alignment code, archetype, ability score, mode, and evidence level
+- a title block with result, best-fit role right now, JD prompt version, alignment code, archetype, ability score, mode, and evidence level
 - data coverage
 - redacted signal distribution
 - the 5-line core board with evidence
@@ -351,6 +356,7 @@ The markdown report must also be candidate-facing. It should include:
 - concrete growth suggestions
 - `If you choose to apply, be ready to talk about...` with 5 candidate-facing discussion topics
 - one short line that the candidate may attach this report when applying
+- keep `JD prompt version` exactly identical to the version string at the top of this prompt
 
 If running in extended mode:
 - redact more aggressively than in the terminal summary
@@ -378,6 +384,10 @@ If running in extended mode:
 - 即使经验不长，也要体现出责任心、主动性和学习速度
 
 输出语言：中文。
+
+岗位 Prompt 版本：
+- 精确版本：`ai-product-operations@2026-04-16.1`
+- 生成终端摘要和 markdown 报告时，都要原样记录这串版本号，并使用字段名 `JD prompt version`
 
 判断原则：
 1. 绝对尊重候选人，语气平等、友好、专业，不要居高临下。
@@ -565,6 +575,7 @@ _    _  _____  _____   ______  _____
 - archetype：一个有记忆点的称号 + 缩写
 - 能力值：`0-100`
 - 置信度 / 模式 / 证据充分度
+- `JD prompt version`：原样填写本 prompt 顶部的精确版本字符串
 - 详细报告路径
 
 4. 输出 `Core Board`
@@ -603,7 +614,7 @@ _    _  _____  _____   ______  _____
 - `./git-hired-&lt;role&gt;-report-YYYYMMDD-HHMMSS.md`
 
 这份 markdown 报告仍然必须站在候选人视角，包含：
-- 标题区：结果、最适合的岗位、阵营编码、archetype、能力值、模式、证据充分度
+- 标题区：结果、最适合的岗位、`JD prompt version`、阵营编码、archetype、能力值、模式、证据充分度
 - 数据覆盖
 - 去标识化的信号分布
 - 5 行核心分板及其证据
@@ -613,6 +624,7 @@ _    _  _____  _____   ______  _____
 - 具体成长建议
 - `如果你决定申请，建议准备好聊这 5 个点`
 - 一句短提醒：申请时可以附上这份报告
+- `JD prompt version` 必须与本 prompt 顶部版本字符串完全一致
 
 如果处于 extended 模式：
 - 比终端摘要更严格地脱敏

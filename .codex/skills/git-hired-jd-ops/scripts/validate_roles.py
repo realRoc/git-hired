@@ -3,8 +3,23 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
+
+
+EN_VERSION_RE = re.compile(r"- exact version: `([^`]+)`")
+ZH_VERSION_RE = re.compile(r"- 精确版本：`([^`]+)`")
+
+
+def extract_en_prompt_version(text: str) -> str | None:
+    match = EN_VERSION_RE.search(text)
+    return match.group(1) if match else None
+
+
+def extract_zh_prompt_version(text: str) -> str | None:
+    match = ZH_VERSION_RE.search(text)
+    return match.group(1) if match else None
 
 
 def find_repo_root(start: Path) -> Path:
@@ -103,6 +118,8 @@ def main() -> None:
             errors.append(f"missing English prompt file: prompts/{prompt_slug}.en.md")
         if not page.exists():
             errors.append(f"missing role page: docs/{page_slug}.html")
+        zh_prompt_version = None
+        en_prompt_version = None
         if zh_prompt.exists():
             zh_prompt_text = zh_prompt.read_text(encoding="utf-8")
             if "history-only" not in zh_prompt_text or "上传到我们的服务器" not in zh_prompt_text:
@@ -121,10 +138,17 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing talent-tag guidance")
             if "待解锁天赋" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing locked-skill guidance")
+            if "岗位 Prompt 版本" not in zh_prompt_text or "JD prompt version" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing prompt-version guidance")
             if "Signal Board" in zh_prompt_text or "你已经很亮眼的地方" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains pre-MBTI output sections")
             if "## G. 面试建议" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains interviewer-facing interview section")
+            zh_prompt_version = extract_zh_prompt_version(zh_prompt_text)
+            if not zh_prompt_version:
+                errors.append(f"prompts/{prompt_slug}.md missing exact prompt version string")
+            elif not zh_prompt_version.startswith(f"{prompt_slug}@"):
+                errors.append(f"prompts/{prompt_slug}.md prompt version should start with {prompt_slug}@")
         if en_prompt.exists():
             en_prompt_text = en_prompt.read_text(encoding="utf-8")
             if "history-only" not in en_prompt_text or "our server" not in en_prompt_text:
@@ -143,10 +167,20 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing talent-tag guidance")
             if "Locked Skills" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing locked-skill guidance")
+            if "JD prompt version" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing prompt-version guidance")
             if "Signal Board" in en_prompt_text or "What already stands out" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains pre-MBTI output sections")
             if "Interview Follow-ups" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains interviewer-facing interview section")
+            en_prompt_version = extract_en_prompt_version(en_prompt_text)
+            if not en_prompt_version:
+                errors.append(f"prompts/{prompt_slug}.en.md missing exact prompt version string")
+            elif not en_prompt_version.startswith(f"{prompt_slug}@"):
+                errors.append(f"prompts/{prompt_slug}.en.md prompt version should start with {prompt_slug}@")
+
+        if zh_prompt_version and en_prompt_version and zh_prompt_version != en_prompt_version:
+            errors.append(f"prompt version mismatch for {prompt_slug}: zh={zh_prompt_version} en={en_prompt_version}")
 
         if "summary_en" not in role or not role["summary_en"]:
             errors.append(f"missing summary_en in roles.json for {page_slug}")
@@ -176,6 +210,12 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing author GitHub link")
             if "https://github.com/realRoc/git-hired" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing repo link")
+            if "JD prompt version" not in page_text:
+                errors.append(f"docs/{page_slug}.html missing embedded prompt version guidance")
+            if zh_prompt_version and zh_prompt_version not in page_text:
+                errors.append(f"docs/{page_slug}.html missing synced prompt version {zh_prompt_version}")
+            if en_prompt_version and en_prompt_version not in page_text:
+                errors.append(f"docs/{page_slug}.html missing synced prompt version {en_prompt_version}")
             if f'prompts/{prompt_slug}.md' not in page_text:
                 warnings.append(f"docs/{page_slug}.html may be missing Chinese source prompt footer for {prompt_slug}")
             if f'prompts/{prompt_slug}.en.md' not in page_text:
