@@ -272,7 +272,9 @@ Rules:
 - `60-74` and `5-6/10` are solid but not special
 - below `60` and `0-4/10` means real gaps, thin proof, or inconsistent evidence
 - if evidence is thin, round down and say so
+- do not print salary ranges, compensation estimates, market bands, or offer-like hooks
 - the tone can be sharp, playful, and meme-friendly, but never insulting, humiliating, or contemptuous
+- lead with specific, evidence-backed strengths before discussing gaps
 - use short sections, compact score lines, and vivid labels instead of long prose
 
 Use this structure:
@@ -290,7 +292,8 @@ _    _  _____  _____   ______  _____
 - `&gt;&gt; &lt;role&gt; hero portrait &lt;&lt;`
 
 3. Print a compact identity block with:
-- result tier: `cxo-bait / high-upside / industry-solid / needs-leveling`
+- result: `strong fit / promising but uneven / better matched elsewhere / evidence thin`
+- best-fit role right now: the role or direction the candidate currently looks strongest for
 - confidence: `high / medium / low`
 - mode: `history-only / approved-scan`
 - evidence: `high / medium / low`
@@ -303,29 +306,24 @@ _    _  _____  _____   ______  _____
 - format like `Core Signal .......... 6/10 [######----]`
 - if a dimension is unavailable, show `N/A (evidence thin)`
 
-5. Print `Why this hits`
+5. Print `What already stands out`
 - up to 3 short bullets
-- make them vivid, candidate-facing, and screenshot-friendly
+- lead with specific, evidence-backed praise
+- make them candidate-facing and screenshot-friendly
 
-6. Print `Upgrade path`
+6. Print `Best-fit role right now`
+- 1 or 2 short lines
+- if the requested role is not the best fit, say what looks stronger and why
+
+7. Print `How to get stronger from here`
 - up to 3 short bullets
 - frame gaps as the next unlock, not as a scolding
+- if the candidate is not a fit for this role yet, make this section especially helpful
 
-7. Print `Next step`
-- if result tier is `cxo-bait` or `high-upside`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
+8. Print `Next step`
+- if the result is `strong fit`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
 - otherwise give one short, respectful next step
 - encourage the candidate to keep the report if they may apply later
-
-8. Print `Fantasy annual package (for social sharing, not a real offer)`
-- one short line only
-- use `USD`
-- tie the range to the strict result tier:
-  - `cxo-bait`: `$350k-$900k / year`
-  - `high-upside`: `$150k-$350k / year`
-  - `industry-solid`: `$60k-$150k / year`
-  - `needs-leveling`: `$-5k-$40k / year`
-- invent one playful fictional company name on the spot every time, such as `Pear Systems`, `Overtime Capital Partners`, or `Spreadsheet Necromancy Labs`
-- make it explicit that the company is fictional, the line is for fun, and it is not an actual offer or compensation promise
 
 9. End with:
 - `&gt;&gt; If this portrait feels right, star github.com/realRoc/git-hired`
@@ -336,14 +334,14 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-&lt;role&gt;-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- a title block with result tier, archetype, ability score, mode, and evidence level
+- a title block with result, best-fit role right now, archetype, ability score, mode, and evidence level
 - data coverage
 - redacted signal distribution
 - scorecard with evidence
-- strongest signals
-- main risks or upgrade paths
+- strongest strengths
+- requested role vs. best-fit role right now
+- main risks or gaps
 - concrete growth suggestions
-- one short `Fantasy annual package` line using the same strict tier logic, still marked as fictional and not an offer
 - `If you choose to apply, be ready to talk about...` with 5 candidate-facing discussion topics
 - one short line that the candidate may attach this report when applying
 
@@ -529,7 +527,9 @@ If running in extended mode:
 - `60-74` 和 `5-6/10` 是 solid，但还不算稀缺
 - `60 以下` 和 `0-4/10` 说明存在明显短板、证据稀薄或表现不稳定
 - 证据不足时，宁可保守降分，也不要脑补
-- 语气可以带一点毒舌、梗感和传播性，但不能羞辱、贬低或人身攻击
+- 不要输出任何薪资范围、市场估值、年包、offer 暗示或类似钩子
+- 语气可以带一点梗感和传播性，但不能羞辱、贬低或人身攻击
+- 先夸候选人最值得肯定的强项，再谈不足
 - 多用短区块、单行评分条、强标签，不要长篇大论
 
 按以下结构输出：
@@ -547,7 +547,8 @@ _    _  _____  _____   ______  _____
 - `&gt;&gt; &lt;role&gt; hero portrait &lt;&lt;`
 
 3. 输出一个紧凑身份卡，包含：
-- 结果档位：`CXO 预备役 / 高潜力 / 行业标准 / 还需升级`
+- 结果：`强匹配 / 有潜力但还不稳 / 更适合其他方向 / 证据不足`
+- 最适合的岗位：候选人当前最自然、最有把握的岗位或方向
 - 置信度：`高 / 中 / 低`
 - 模式：`history-only / approved-scan`
 - 证据充分度：`高 / 中 / 低`
@@ -560,29 +561,24 @@ _    _  _____  _____   ______  _____
 - 格式类似：`核心信号 .............. 6/10 [######----]`
 - 如果某一维不可判断，写 `N/A（证据不足）`
 
-5. 输出 `为什么这次会打动人`
+5. 输出 `你已经很亮眼的地方`
 - 最多 3 条短 bullet
-- 表达要具体、站在候选人视角、适合截图传播
+- 先给具体、基于证据的肯定
+- 表达要站在候选人视角，适合截图传播
 
-6. 输出 `升级路径`
+6. 输出 `最适合的岗位`
+- 用 1 到 2 行说清楚
+- 如果当前测试岗位不是最佳匹配，要明确告诉候选人他现在更像什么方向，以及为什么
+
+7. 输出 `接下来怎么变得更强`
 - 最多 3 条短 bullet
 - 把短板写成下一阶段的解锁方向，而不是训话
+- 如果当前并不适合这个岗位，这一段要尤其有帮助
 
-7. 输出 `下一步`
-- 如果结果档位是 `CXO 预备役` 或 `高潜力`，明确建议把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告
+8. 输出 `下一步`
+- 如果结果是 `强匹配`，明确建议把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告
 - 否则给 1 条简短、尊重人的下一步建议
 - 鼓励候选人保留这份报告，以后申请时也可以附上
-
-8. 输出 `虚构年包（仅供社交传播，不是 offer）`
-- 只用 1 行
-- 使用 RMB
-- 按严格档位给范围：
-  - `CXO 预备役`：`¥120万-¥350万 / 年`
-  - `高潜力`：`¥60万-¥120万 / 年`
-  - `行业标准`：`¥25万-¥60万 / 年`
-  - `还需升级`：`¥-1万-¥18万 / 年`
-- 每次都现场脑暴一个有趣的虚构公司名，比如 `某著名科技大厂「水果」`、`某创业公司「周会终结者」`、`某独角兽「表格修仙厂」`
-- 必须明确写清楚这是虚构公司、只是玩梗，不构成真实 offer 或薪资承诺
 
 9. 最后补一句：
 - `&gt;&gt; 如果这份画像像你，去 github.com/realRoc/git-hired 点个 star`
@@ -593,14 +589,14 @@ _    _  _____  _____   ______  _____
 - `./git-hired-&lt;role&gt;-report-YYYYMMDD-HHMMSS.md`
 
 这份 markdown 报告仍然必须站在候选人视角，包含：
-- 标题区：结果档位、archetype、能力值、模式、证据充分度
+- 标题区：结果、最适合的岗位、archetype、能力值、模式、证据充分度
 - 数据覆盖
 - 去标识化的信号分布
 - 带证据的评分卡
-- 最强信号
-- 主要风险或升级路径
+- 最强项
+- 当前测试岗位 vs 最适合的岗位
+- 主要风险或差距
 - 具体成长建议
-- 一行短的 `虚构年包`，沿用同样的严格档位逻辑，并明确写明是虚构玩梗、不是 offer
 - `如果你决定申请，建议准备好聊这 5 个点`
 - 一句短提醒：申请时可以附上这份报告
 

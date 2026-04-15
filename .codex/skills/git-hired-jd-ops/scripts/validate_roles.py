@@ -48,8 +48,10 @@ def main() -> None:
             errors.append("docs/general.html missing generated prompt blocks")
         if "_    _  _____  _____   ______  _____" not in general_text:
             errors.append("docs/general.html missing updated readable HIRED ASCII banner in prompt templates")
-        if "Fantasy annual package" not in general_text or "虚构年包" not in general_text:
-            errors.append("docs/general.html missing fictional compensation hook in prompt templates")
+        if "Fantasy annual package" in general_text or "虚构年包" in general_text or "市场估值（示意" in general_text:
+            errors.append("docs/general.html still contains salary/compensation hook language in prompt templates")
+        if "best-fit role" not in general_text or "最适合的岗位" not in general_text:
+            errors.append("docs/general.html missing best-fit role guidance in prompt templates")
         if "https://github.com/realRoc" not in general_text:
             errors.append("docs/general.html missing author GitHub link")
         if "https://github.com/realRoc/git-hired" not in general_text:
@@ -103,8 +105,10 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing candidate-facing TUI/report output requirements")
             if "_    _  _____  _____   ______  _____" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing updated readable HIRED ASCII banner")
-            if "虚构年包" not in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md missing fictional compensation hook")
+            if "虚构年包" in zh_prompt_text or "市场估值（示意" in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md still contains salary/compensation language")
+            if "最适合的岗位" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing best-fit role guidance")
             if "## G. 面试建议" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains interviewer-facing interview section")
         if en_prompt.exists():
@@ -115,8 +119,10 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing candidate-facing TUI/report output requirements")
             if "_    _  _____  _____   ______  _____" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing updated readable HIRED ASCII banner")
-            if "Fantasy annual package" not in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md missing fictional compensation hook")
+            if "Fantasy annual package" in en_prompt_text or "Market Band (illustrative, not an offer)" in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md still contains salary/compensation language")
+            if "best-fit role" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing best-fit role guidance")
             if "Interview Follow-ups" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains interviewer-facing interview section")
 

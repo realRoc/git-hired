@@ -303,6 +303,8 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - `If you choose to apply, be ready to talk about...`
 4. The tone must remain respectful, equal, and useful to the candidate's own growth.
 5. Public prompt output may be playful, meme-friendly, and a little sharp, but it must never become insulting, humiliating, or contemptuous.
+6. Lead with the candidate's strongest evidence-backed strengths before discussing gaps.
+7. If the candidate is not a strong fit for the tested role, explicitly help them by recommending the role or direction they currently look best suited for.
 
 ## Universal Entry Flow
 
@@ -360,14 +362,14 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 2. The first visual block in the terminal must be a readable ASCII banner whose main word is exactly `HIRED`, not a sparse single-letter block.
 3. After the `HIRED` header, the terminal summary should present:
    - a subtitle or portrait label
-   - a result tier
+   - a result label
+   - the best-fit role right now
    - a memorable archetype title plus short acronym
    - an ability score
    - a compact signal board
-   - strongest signals
+   - strongest evidence-backed strengths
    - upgrade path
    - the local detailed-report path
-   - a fictional annual-package hook near the end
 4. The summary should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
 5. Detailed evidence belongs in a local markdown report, not in the terminal summary.
 6. Score more harshly than a feel-good internet quiz:
@@ -377,19 +379,17 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - below `60` or `0-4/10` means meaningful gaps, thin proof, or inconsistent evidence
 7. If evidence is thin, round down and say so explicitly instead of flattering the candidate.
 
-## Fictional Compensation Hook
+## Best-Fit Role Recommendation
 
 This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, the universal-entry prompt, and the role template in `new_role.py`.
 
-1. Near the end of the TUI summary, include one short `Fantasy annual package` line as a social-sharing hook.
-2. It must be explicitly marked as fictional, for fun, and not a real offer or compensation promise.
-3. Use language-local currency:
-   - English output: USD
-   - Chinese output: RMB
-4. Tie the band to the strict result tier rather than printing a generic number.
-5. Invent a playful fictional company name on the spot every time.
-6. Fictional company names may parody startup or big-tech vibes, but they must not imply a real employer made the offer.
-7. The hook may be a little spicy or teasing, but it must still respect the candidate and avoid personal humiliation.
+1. Do not print salary ranges, compensation bands, fictional packages, or offer-like hooks anywhere in the terminal summary or markdown report.
+2. Instead, give a clear `best-fit role right now` recommendation based on the evidence.
+3. If the tested role is not the best fit, say which direction looks more natural and why.
+4. For weaker or mismatched candidates, the recommendation must still be helpful from the candidate's point of view:
+   - what role or direction looks stronger right now
+   - what evidence is missing for the tested role
+   - what to improve next
 
 ## Local Detailed Report Output
 
