@@ -83,18 +83,19 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
 14. 避免分析师口吻的长句解释；TUI 中优先使用标签、词缀、极短短语，而不是长段论述。
 15. 核心分板控制在 4-5 个维度，不要做成 Excel 风格的 8-9 维清单。
 16. MBTI 只能基于可观察工作证据推断为“工作人格”，不是对候选人整个人生人格下定义。
-17. 终端里在 `HIRED` ASCII 头图下方要优先打印对应的 MBTI ASCII 卡片。使用预先设计好的固定文本资源：
+17. MBTI 轴的判定必须保持中性：不要默认套用 `INTJ`、`TJ` 或任何“强 builder”刻板印象；要先分别判断四条轴，再组合 4 字母类型；不要把技术严谨、创业紧迫感或产出质量自动等同于 `T` 或 `J`；如果主要证据来自单人 agent 历史，要把 `E`、`F`、`P` 视为“欠观察”而不是“没有”。
+18. 终端里在 `HIRED` ASCII 头图下方要优先打印对应的 MBTI ASCII 卡片。使用预先设计好的固定文本资源：
    - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
    - 如果能访问 repo 里的文本资产，优先读取 `docs/assets/mbti/<mbti-lowercase>.txt` 的原始内容并直接打印
    - 如果资产文件暂时读不到，再补一个同气质的简短 fallback 图案，而不是重新发明一整套新风格。
-18. 默认把测试时长控制在 1 分钟内。优先看最近、最有信号的材料，够用就收口，不要为了“更全”而无限扫描。
-19. 如果本地数据很多，就做快速采样而不是深度遍历；如果时间预算到了，就带着较低置信度收尾，不要继续扩展范围。
-20. 不要给终端摘要的每一行都加 `>>`、`>>>` 或类似前缀。`HIRED` 头图之外，优先使用干净的普通标签行。
-21. `下一步` 不要只写泛泛建议。要补一个 `提升预估`：
+19. 默认把测试时长控制在 1 分钟内。优先看最近、最有信号的材料，够用就收口，不要为了“更全”而无限扫描。
+20. 如果本地数据很多，就做快速采样而不是深度遍历；如果时间预算到了，就带着较低置信度收尾，不要继续扩展范围。
+21. 不要给终端摘要的每一行都加 `>>`、`>>>` 或类似前缀。`HIRED` 头图之外，优先使用干净的普通标签行。
+22. `下一步` 不要只写泛泛建议。要补一个 `提升预估`：
    - 完成这一步后，最可能提升的单点核心维度
    - 该维度大概能提升多少分
    - 整体能力值大概能提升多少
-22. `提升预估` 必须写成保守估算，而不是承诺。可以使用“如果做完且做扎实”“大概率”“约”等措辞。
+23. `提升预估` 必须写成保守估算，而不是承诺。可以使用“如果做完且做扎实”“大概率”“约”等措辞。
 
 Consent & local-only notice:
 1. 默认只使用所选工作 agent 已有的会话历史，以及候选人主动粘贴或明确批准的材料。
@@ -169,18 +170,19 @@ Output requirements:
 14. Avoid analyst-style long explanations in the TUI; prefer labels, tags, and compressed fragments.
 15. Keep the visible core board to 4-5 dimensions rather than an 8-9 line spreadsheet.
 16. Treat MBTI only as an evidence-backed work-style read, not as a total personality verdict.
-17. Right below the `HIRED` banner, print the matching predesigned MBTI ASCII card from:
+17. Keep MBTI inference neutral: do not default to `INTJ`, `TJ`, or any single “strong builder” stereotype; infer each axis independently before composing the 4-letter type; do not treat rigor, startup urgency, or output quality as automatic evidence for `T` or `J`; when the evidence mostly comes from solo agent history, treat `E`, `F`, and `P` as under-observed rather than absent.
+18. Right below the `HIRED` banner, print the matching predesigned MBTI ASCII card from:
    - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
    - when repo text assets are reachable, prefer `docs/assets/mbti/<mbti-lowercase>.txt` and print its raw contents directly
    - if the asset file cannot be loaded, render one compact fallback emblem instead of inventing a whole new visual style.
-18. Keep the full test within about 1 minute by default. Prefer recent, high-signal material and stop once confidence is sufficient.
-19. If local data is large, sample rather than crawl. When the time budget is reached, finish with lower confidence instead of expanding the scan.
-20. Do not prefix every visible TUI line with `>>`, `>>>`, or similar markers. After the `HIRED` banner, use clean plain labels instead.
-21. `Next Step` should not stop at a vague suggestion. Include an `Expected uplift`:
+19. Keep the full test within about 1 minute by default. Prefer recent, high-signal material and stop once confidence is sufficient.
+20. If local data is large, sample rather than crawl. When the time budget is reached, finish with lower confidence instead of expanding the scan.
+21. Do not prefix every visible TUI line with `>>`, `>>>`, or similar markers. After the `HIRED` banner, use clean plain labels instead.
+22. `Next Step` should not stop at a vague suggestion. Include an `Expected uplift`:
    - the single core dimension most likely to improve
    - the approximate gain for that dimension
    - the approximate gain in overall ability score
-22. The uplift must be framed as a conservative estimate, not a promise. Use language such as `likely`, `approximately`, or `if done well`.
+23. The uplift must be framed as a conservative estimate, not a promise. Use language such as `likely`, `approximately`, or `if done well`.
 
 Consent & local-only notice:
 1. Default to using the chosen work agent's existing history and any material the candidate explicitly pastes or approves.

@@ -18,7 +18,7 @@ Target role profile:
 Output language: English.
 
 JD prompt version:
-- exact version: `global-growth@2026-04-16.6`
+- exact version: `global-growth@2026-04-16.7`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -164,11 +164,15 @@ Focus on whether this person fits the following profile:
 
 Also derive one `MBTI work personality` using standard MBTI letters, but keep it strictly as a work-style read from observable evidence:
 
-- `E / I`: outward collaboration loops vs quieter solo synthesis
-- `S / N`: concrete execution detail vs abstraction and pattern synthesis
-- `T / F`: tradeoff logic vs people or user-attunement
-- `J / P`: structure and closure vs exploration and adaptation
+- `E / I`: external interaction energy vs internal reflection energy
+- `S / N`: concrete evidence focus vs pattern / possibility focus
+- `T / F`: impersonal analysis and consistency vs human-context and value-weighting
+- `J / P`: planned closure and decided structure vs adaptive optionality and open exploration
 
+Do not default to `INTJ`, `TJ`, or any single "strong builder" stereotype.
+Infer each axis independently before combining the 4-letter type.
+Do not treat rigor, startup urgency, or technical competence as automatic evidence for `T` or `J`.
+If most evidence comes from solo agent history, treat `E`, `F`, and `P` as under-observed rather than absent.
 If one or more axes are mixed or weakly evidenced, lower confidence instead of forcing certainty.
 
 Score only these 5 core dimensions from 1 to 10 with evidence:
@@ -241,7 +245,7 @@ Final resting header:
 4. Print a compact identity block with:
 - result: `strong fit / promising but uneven / better matched elsewhere / evidence thin`
 - best-fit role right now
-- MBTI work personality: one standard 4-letter type such as `INTJ`
+- MBTI work personality: one standard 4-letter type, with no default or prestige example
 - MBTI confidence: `high / medium / low`
 - one plain-language work read in a few words, not an opaque codename
 - ability score: `0-100`

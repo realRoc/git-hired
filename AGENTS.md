@@ -445,43 +445,47 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
    - `T / F`
    - `J / P`
 4. MBTI here is a work-style read from observable evidence, not a life-wide personality claim. Keep that boundary explicit in prompts and reports.
-5. Infer each MBTI axis conservatively from work evidence:
-   - `E / I`: outward collaboration loops vs quieter solo synthesis
-   - `S / N`: concrete execution detail vs abstraction and pattern synthesis
-   - `T / F`: tradeoff logic vs people or user-attunement
-   - `J / P`: structure and closure vs exploration and adaptation
-6. If one or more axes are weakly evidenced, lower confidence rather than forcing certainty.
-7. Replace long “why this works” explanation blocks with exactly 3 `Talent Tags`.
-8. Talent tags must be noun-phrase style, not mini paragraphs:
+5. Infer each MBTI axis conservatively and neutrally from work evidence:
+   - `E / I`: external interaction energy vs internal reflection energy
+   - `S / N`: concrete evidence focus vs pattern / possibility focus
+   - `T / F`: impersonal analysis and consistency vs human-context and value-weighting
+   - `J / P`: planned closure and decided structure vs adaptive optionality and open exploration
+6. Do not default to `INTJ`, `TJ`, or any single “strong builder” stereotype.
+7. Infer each axis independently before combining the final 4-letter type.
+8. Do not treat technical rigor, startup urgency, product quality, or verbal sharpness as automatic evidence for `T` or `J`.
+9. When most evidence comes from solo agent history, treat `E`, `F`, and `P` as under-observed rather than absent.
+10. If one or more axes are weakly evidenced, lower confidence rather than forcing certainty.
+11. Replace long “why this works” explanation blocks with exactly 3 `Talent Tags`.
+12. Talent tags must be noun-phrase style, not mini paragraphs:
    - short
    - label-first
    - highly compressible
    - screenshot-friendly
-9. Replace ordinary weakness/improvement sections with 2-3 `Locked Skills`, `Version Bottlenecks`, or `Not-Yet-Awakened` abilities.
-10. Those “gap” sections must still be respectful and useful to the candidate. Game framing should remove HR stiffness, not empathy.
-11. The visible TUI score board should be compressed to 4-5 core dimensions for each role, not 8-9 spreadsheet lines.
-12. Step 4 may still use evidence-rich analysis internally, but the candidate-facing surface must present only the compressed core board.
-13. When creating or revising a role, the 4-5 core dimensions should be custom to that role rather than generic boilerplate.
-14. Avoid generic AI flourish such as:
+13. Replace ordinary weakness/improvement sections with 2-3 `Locked Skills`, `Version Bottlenecks`, or `Not-Yet-Awakened` abilities.
+14. Those “gap” sections must still be respectful and useful to the candidate. Game framing should remove HR stiffness, not empathy.
+15. The visible TUI score board should be compressed to 4-5 core dimensions for each role, not 8-9 spreadsheet lines.
+16. Step 4 may still use evidence-rich analysis internally, but the candidate-facing surface must present only the compressed core board.
+17. When creating or revising a role, the 4-5 core dimensions should be custom to that role rather than generic boilerplate.
+18. Avoid generic AI flourish such as:
    - “you are not just X, you are Y”
    - long motivational framing
    - over-explaining obvious strengths in full sentences
-15. Prefer direct definitions such as:
+19. Prefer direct definitions such as:
    - MBTI work personality
    - talent tags
    - locked skills
    - best-fit role
-16. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
-17. Use a clearer bar-first format such as `[████████░░] 8` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
-18. Do not decorate every visible line with repeated prefixes such as `>>`.
-19. In the terminal summary, reserve strong decoration for the `HIRED` banner itself. After that, prefer plain labels such as:
+20. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
+21. Use a clearer bar-first format such as `[████████░░] 8` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
+22. Do not decorate every visible line with repeated prefixes such as `>>`.
+23. In the terminal summary, reserve strong decoration for the `HIRED` banner itself. After that, prefer plain labels such as:
    - `MBTI Work Personality`
    - `Result`
    - `Core Board`
    - `Talent Tags`
    - `Locked Skills`
    - `Next Step`
-20. Avoid visual noise that makes the report feel like raw debug output. The TUI should read like a clean card, not a terminal log dump.
+24. Avoid visual noise that makes the report feel like raw debug output. The TUI should read like a clean card, not a terminal log dump.
 
 ## Runtime Budget
 

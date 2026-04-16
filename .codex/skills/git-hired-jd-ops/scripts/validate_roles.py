@@ -24,6 +24,12 @@ ASCII_CARD_ZH_MARKER = "ASCII 卡片"
 ASCII_CARD_URL_BASE = "https://realroc.github.io/git-hired/assets/mbti/"
 WORK_AGENT_EN_MARKER = "work agent"
 WORK_AGENT_ZH_MARKER = "工作 agent"
+MBTI_ANTI_ANCHOR_EN_MARKER = "Do not default to `INTJ`, `TJ`, or any single"
+MBTI_ANTI_ANCHOR_ZH_MARKER = "不要默认套用 `INTJ`、`TJ`"
+MBTI_NEUTRAL_TF_EN_MARKER = "impersonal analysis and consistency vs human-context and value-weighting"
+MBTI_NEUTRAL_TF_ZH_MARKER = "非人格化分析与一致性"
+MBTI_SOLO_HISTORY_EN_MARKER = "treat `E`, `F`, and `P` as under-observed rather than absent"
+MBTI_SOLO_HISTORY_ZH_MARKER = "把 `E`、`F`、`P` 视为“欠观察”而不是“没有”"
 MBTI_TYPES = (
     "intj", "intp", "entj", "entp",
     "infj", "infp", "enfj", "enfp",
@@ -126,6 +132,19 @@ def main() -> None:
             errors.append("docs/general.html still contains deprecated alignment-code language")
         if MBTI_EN_MARKER not in general_text or MBTI_ZH_MARKER not in general_text:
             errors.append("docs/general.html missing MBTI work-personality guidance in prompt templates")
+        if "such as `INTJ`" in general_text or "例如 `INTJ`" in general_text:
+            errors.append("docs/general.html still contains INTJ example anchoring in prompt templates")
+        if "tradeoff logic vs people or user-attunement" in general_text or "structure and closure vs exploration and adaptation" in general_text:
+            errors.append("docs/general.html still contains biased legacy MBTI axis wording in prompt templates")
+        if (
+            MBTI_ANTI_ANCHOR_EN_MARKER not in general_text
+            or MBTI_ANTI_ANCHOR_ZH_MARKER not in general_text
+            or MBTI_NEUTRAL_TF_EN_MARKER not in general_text
+            or MBTI_NEUTRAL_TF_ZH_MARKER not in general_text
+            or MBTI_SOLO_HISTORY_EN_MARKER not in general_text
+            or MBTI_SOLO_HISTORY_ZH_MARKER not in general_text
+        ):
+            errors.append("docs/general.html missing MBTI de-bias guidance in prompt templates")
         if "pixel card" in general_text or ".svg" in general_text:
             errors.append("docs/general.html still contains legacy pixel-card or SVG language")
         if (
@@ -227,6 +246,16 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md still contains deprecated alignment-code language")
             if MBTI_ZH_MARKER not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing MBTI work-personality guidance")
+            if "例如 `INTJ`" in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md still contains INTJ example anchoring")
+            if "逻辑取舍，还是更偏用户 / 人的感受与关系" in zh_prompt_text or "结构、计划、收口，还是更偏探索、试错、临场适配" in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md still contains biased legacy MBTI axis wording")
+            if (
+                MBTI_ANTI_ANCHOR_ZH_MARKER not in zh_prompt_text
+                or MBTI_NEUTRAL_TF_ZH_MARKER not in zh_prompt_text
+                or MBTI_SOLO_HISTORY_ZH_MARKER not in zh_prompt_text
+            ):
+                errors.append(f"prompts/{prompt_slug}.md missing MBTI de-bias guidance")
             if "pixel card" in zh_prompt_text or ".svg" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains legacy pixel-card or SVG language")
             if ASCII_CARD_URL_BASE not in zh_prompt_text or ASCII_CARD_ZH_MARKER not in zh_prompt_text or ".txt" not in zh_prompt_text:
@@ -278,6 +307,16 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains deprecated alignment-code language")
             if MBTI_EN_MARKER not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing MBTI work-personality guidance")
+            if "such as `INTJ`" in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md still contains INTJ example anchoring")
+            if "tradeoff logic vs people or user-attunement" in en_prompt_text or "structure and closure vs exploration and adaptation" in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md still contains biased legacy MBTI axis wording")
+            if (
+                MBTI_ANTI_ANCHOR_EN_MARKER not in en_prompt_text
+                or MBTI_NEUTRAL_TF_EN_MARKER not in en_prompt_text
+                or MBTI_SOLO_HISTORY_EN_MARKER not in en_prompt_text
+            ):
+                errors.append(f"prompts/{prompt_slug}.en.md missing MBTI de-bias guidance")
             if "pixel card" in en_prompt_text or ".svg" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains legacy pixel-card or SVG language")
             if ASCII_CARD_URL_BASE not in en_prompt_text or ASCII_CARD_EN_MARKER not in en_prompt_text or ".txt" not in en_prompt_text:
@@ -353,6 +392,19 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html still contains deprecated alignment-code language")
             if MBTI_EN_MARKER not in page_text or MBTI_ZH_MARKER not in page_text:
                 errors.append(f"docs/{page_slug}.html missing synced MBTI work-personality guidance")
+            if "such as `INTJ`" in page_text or "例如 `INTJ`" in page_text:
+                errors.append(f"docs/{page_slug}.html still contains synced INTJ example anchoring")
+            if "tradeoff logic vs people or user-attunement" in page_text or "structure and closure vs exploration and adaptation" in page_text:
+                errors.append(f"docs/{page_slug}.html still contains synced biased legacy MBTI axis wording")
+            if (
+                MBTI_ANTI_ANCHOR_EN_MARKER not in page_text
+                or MBTI_ANTI_ANCHOR_ZH_MARKER not in page_text
+                or MBTI_NEUTRAL_TF_EN_MARKER not in page_text
+                or MBTI_NEUTRAL_TF_ZH_MARKER not in page_text
+                or MBTI_SOLO_HISTORY_EN_MARKER not in page_text
+                or MBTI_SOLO_HISTORY_ZH_MARKER not in page_text
+            ):
+                errors.append(f"docs/{page_slug}.html missing synced MBTI de-bias guidance")
             if "pixel card" in page_text or ".svg" in page_text:
                 errors.append(f"docs/{page_slug}.html still contains legacy pixel-card or SVG language")
             if (
