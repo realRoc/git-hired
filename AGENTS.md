@@ -334,6 +334,7 @@ This rule applies to `docs/index.html`, `docs/general.html`, and any future shar
    - screening instructions
    - internal hiring-process framing
    - recruiter workflow language
+5. If a page asks the candidate to run a prompt in Claude Code or Codex, include one short bilingual runtime tip recommending Claude Code `bypass` mode or Codex `YOLO` mode for a smoother experience.
 
 ## Candidate-Serving JD Descriptions
 
@@ -353,6 +354,7 @@ This rule applies to `roles.json`, the role cards in `docs/index.html`, every pu
    - how the candidate starts the test
    - what the test helps the candidate show
    - what privacy boundary applies while they run it
+   - one short bilingual runtime tip recommending Claude Code `bypass` mode or Codex `YOLO` mode
 
 ## HIRED TUI Output
 

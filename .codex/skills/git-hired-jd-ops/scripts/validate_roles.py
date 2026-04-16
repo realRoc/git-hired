@@ -64,6 +64,8 @@ def main() -> None:
             errors.append("docs/general.html missing privacy mode controls")
         if 'id="prompt-general-en"' not in general_text or 'id="prompt-general-zh"' not in general_text:
             errors.append("docs/general.html missing generated prompt blocks")
+        if "bypass mode" not in general_text or "YOLO mode" not in general_text or "bypass 模式" not in general_text or "yolo 模式" not in general_text:
+            errors.append("docs/general.html missing bilingual runtime-mode tip")
         if HIRED_HEADER_MARKER not in general_text:
             errors.append("docs/general.html missing updated readable HIRED header in prompt templates")
         if "Play a simple 3-frame `HIRED` animation" not in general_text or "先播放一个简单的 3 帧 `HIRED` 动态开场" not in general_text:
@@ -225,6 +227,8 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing language bootstrap script")
             if 'href="./index.html"' not in page_text:
                 errors.append(f"docs/{page_slug}.html missing back-home link")
+            if "bypass mode" not in page_text or "YOLO mode" not in page_text or "bypass 模式" not in page_text or "yolo 模式" not in page_text:
+                errors.append(f"docs/{page_slug}.html missing bilingual runtime-mode tip")
             if "Message To Send The Candidate" in page_text or "发给候选人的话术" in page_text:
                 errors.append(f"docs/{page_slug}.html still contains recruiter-facing section headings")
             if "send me the output" in page_text or "把结果私信发我" in page_text:
