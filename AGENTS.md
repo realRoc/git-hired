@@ -382,7 +382,6 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - an MBTI work personality type
    - MBTI confidence or evidence strength
    - an ability score
-   - a one-line scale note
    - a one-line strength read
    - a compact core board
    - talent tags
@@ -392,14 +391,13 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - the local detailed-report path
 4. The summary should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
 5. Detailed evidence belongs in a local markdown report, not in the terminal summary.
-6. Show candidate-facing scores on a harsh but human-readable `0-100` scale:
-   - `90+` on a core dimension should be rare, but it should appear when a candidate has repeated standout evidence in that exact area
+6. Show candidate-facing scores on a readable `0-100` scale with a slightly warmer calibration than the old harsh-scale compression:
+   - `90+` on a core dimension should stay rare, but it must remain reachable whenever standout evidence clearly justifies it
    - `80-89` is clearly strong
-   - `70-79` is already above bar and worth feeling good about
-   - `60-69` is workable but uneven
-   - below `60` means meaningful gaps, thin proof, or inconsistent evidence
-7. Add a short `Scale note / 刻度说明` so candidates do not misread a harsh `72` as “bad”. Make it explicit that `70+` is already clearly strong in this system.
-8. If the result is `strong fit`, at least one visible core dimension should usually land at `90+` when the evidence shows a real standout edge. Do not keep every dimension trapped in the `70s` and `80s` if one area is obviously exceptional.
+   - `70-79` is solid
+   - below `70` means meaningful gaps, thin proof, or inconsistent evidence
+7. Do not add defensive score-explainer lines such as `Scale note / 刻度说明`. Instead, calibrate visible scores more naturally so strong candidates do not get artificially trapped in the `70s`.
+8. For clearly strong candidates, let standout dimensions rise into the `90s` when justified by evidence, but do not turn this into a hard threshold or mandatory rule.
 9. If evidence is thin, round down and say so explicitly instead of flattering the candidate.
 10. Avoid essay-like explanation in the TUI. Prefer labels, tags, fragments, and compressed lines over paragraphs.
 11. In the TUI, sections like talent tags and locked skills should read like a game system, not like an HR memo.
@@ -486,7 +484,6 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
 23. In the terminal summary, reserve strong decoration for the `HIRED` banner itself. After that, prefer plain labels such as:
    - `MBTI Work Personality`
    - `Result`
-   - `Scale Note`
    - `Strength Read`
    - `Core Board`
    - `Talent Tags`

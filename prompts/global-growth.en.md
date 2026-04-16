@@ -18,7 +18,7 @@ Target role profile:
 Output language: English.
 
 JD prompt version:
-- exact version: `global-growth@2026-04-16.8`
+- exact version: `global-growth@2026-04-16.9`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -201,15 +201,14 @@ Rules:
 - if redraw is unavailable, skip the animation and print only the final resting header
 - after the header, write like a clean MBTI work-personality card, not a consultant memo
 - calibrate more harshly than a feel-good internet quiz
-- show visible scores on a harsh but human-readable `0-100` scale
+- show visible scores on a readable `0-100` scale with a slightly warmer calibration than the previous harsh compression
 - `90+` on a core dimension is rare and needs repeated standout evidence in that exact area
 - `80-89` is clearly strong
-- `70-79` is already above bar and worth feeling good about
-- `60-69` is workable but uneven
+- `70-79` is solid
 - below `60` means real gaps, thin proof, or inconsistent evidence
 - if evidence is thin, round down and say so
-- include one short `Scale note` that makes it explicit that `70+` is already clearly strong here
-- if the result is `strong fit` and one dimension is obviously standout, that visible core dimension should usually cross `90+` instead of leaving every score clustered in the `70s` and `80s`
+- do not add a defensive score-explainer line for the candidate
+- do not artificially compress strong candidates into the `70s` and `80s`; let standout dimensions rise into the `90s` when the evidence justifies it
 - do not print salary ranges, compensation estimates, market bands, or offer-like hooks
 - avoid analyst prose and long “why” paragraphs
 - in `Talent Tags` and `Locked Skills`, use fragments, not explanatory sentences
@@ -254,7 +253,6 @@ Final resting header:
 - MBTI confidence: `high / medium / low`
 - one plain-language work read in a few words, not an opaque codename
 - ability score: `0-100`
-- scale note: `70+ is already clearly strong here`
 - strength read: one short evidence-backed compliment
 - confidence / mode / evidence
 - `JD prompt version`: exact string from the top of this prompt
@@ -303,7 +301,7 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- a title block with result, best-fit role right now, `JD prompt version`, MBTI work personality, MBTI confidence, ASCII card source, ability score, scale note, strength read, mode, and evidence level
+- a title block with result, best-fit role right now, `JD prompt version`, MBTI work personality, MBTI confidence, ASCII card source, ability score, strength read, mode, and evidence level
 - data coverage
 - a 4-line MBTI axis read with evidence for `E/I`, `S/N`, `T/F`, and `J/P`
 - redacted signal distribution

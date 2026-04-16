@@ -69,9 +69,9 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
 输出要求：
 1. 最终输出是给候选人看的，不是给招聘方或面试官看的。
 2. 终端里的主输出要对 TUI 友好、简洁、易截图传播，并使用一个无依赖、3 帧以内、终端安全的动态 `HIRED` 开场，而不是静态稀疏字母块。
-3. 终端摘要的主目标是“测试你的 MBTI 工作人格”，不要再发明候选人看不懂的阵营编码或 archetype。摘要里要直接呈现 MBTI 工作人格、能力值、`刻度说明`、一句基于证据的夸夸、最适合的岗位、压缩后的核心分板、天赋词缀、待解锁天赋、ASCII 卡片和详细报告路径。核心分板的可见分数行应优先使用 `Label [█████████░] 92` 这类块状条格式。
-4. 打分要明显更严，但展示刻度要对候选人友好：要明确说明 `70+` 在这套体系里已经是明显强，不要让候选人把 harsh scale 的 72 误读成“很菜”。
-5. 如果结论为强匹配，且某个维度证据明显突出，这个维度通常应该出现 `90+` 的分数；不要把所有维度都机械压在 70-80 分。
+3. 终端摘要的主目标是“测试你的 MBTI 工作人格”，不要再发明候选人看不懂的阵营编码或 archetype。摘要里要直接呈现 MBTI 工作人格、能力值、一句基于证据的夸夸、最适合的岗位、压缩后的核心分板、天赋词缀、待解锁天赋、ASCII 卡片和详细报告路径。核心分板的可见分数行应优先使用 `Label [█████████░] 92` 这类块状条格式。
+4. 打分仍然要严格，但候选人可见刻度可以比上一版更自然、更暖一点：不要刻意把强候选人的所有维度都压在 70-80 分。
+5. 对明显强的候选人，只要证据成立，就让高光维度自然进入 `90+`；但不要把这件事写成硬约束。
 6. 终端里给一个简短摘要，再在本地生成一份更完整的 `.md` 详细报告，并打印详细报告路径。
 7. 终端摘要和详细报告都必须记录 `JD prompt version`，且与本 prompt 顶部版本字符串完全一致。
 8. 不要输出任何薪资范围、市场估值、虚构年包、offer 类钩子。
@@ -157,9 +157,9 @@ Privacy boundary:
 Output requirements:
 1. The final output is for the candidate to read, not for the interviewer or hiring team.
 2. The main terminal output should be concise, TUI-friendly, easy to share, and start with a dependency-free, terminal-safe animated `HIRED` reveal that stays within about 3 frames.
-3. The terminal summary should aim to `test your MBTI work personality`, not invent opaque alignment codes or archetypes. Show the MBTI work personality directly, along with the ability score, a `Scale note`, one evidence-backed praise line, the best-fit role right now, a compressed core board, talent tags, locked skills, the matching ASCII card, and the detailed-report path. Visible score lines in the core board should prefer a block-bar format such as `Label [█████████░] 92`.
-4. Score more harshly than a feel-good quiz, but present the scale in a candidate-friendly way: explicitly tell the reader that `70+` is already clearly strong in this system, so a harsh-scale `72` is not “bad”.
-5. If the result is a strong fit and one dimension is truly standout, that visible core dimension should usually cross `90+` instead of leaving every score clustered in the `70s` and `80s`.
+3. The terminal summary should aim to `test your MBTI work personality`, not invent opaque alignment codes or archetypes. Show the MBTI work personality directly, along with the ability score, one evidence-backed praise line, the best-fit role right now, a compressed core board, talent tags, locked skills, the matching ASCII card, and the detailed-report path. Visible score lines in the core board should prefer a block-bar format such as `Label [█████████░] 92`.
+4. Keep scoring strict, but use a slightly warmer candidate-facing calibration than the last harsh-scale compression. Do not artificially trap strong candidates in the `70s` and `80s`.
+5. For clearly strong candidates, let standout dimensions rise into the `90s` whenever the evidence justifies it, but do not turn that into a hard requirement.
 6. Give a short terminal summary, then generate a fuller local `.md` report and print its path.
 7. Both the terminal summary and markdown report must record `JD prompt version`, exactly identical to the version string at the top of this prompt.
 8. Do not print any salary range, market band, fictional package, or offer-like hook.
