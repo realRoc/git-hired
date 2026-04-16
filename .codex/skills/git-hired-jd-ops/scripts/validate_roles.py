@@ -11,7 +11,7 @@ from pathlib import Path
 EN_VERSION_RE = re.compile(r"- exact version: `([^`]+)`")
 ZH_VERSION_RE = re.compile(r"- 精确版本：`([^`]+)`")
 HIRED_HEADER_MARKER = "██╗  ██╗██╗██████╗ ███████╗██████╗"
-BLOCK_BAR_MARKER = "[███████░░░] 7"
+BLOCK_BAR_MARKER = "[█████████░] 92"
 OLD_BAR_MARKER = "[#######---]"
 MBTI_EN_MARKER = "MBTI work personality"
 MBTI_ZH_MARKER = "MBTI 工作人格"
@@ -30,6 +30,12 @@ MBTI_NEUTRAL_TF_EN_MARKER = "impersonal analysis and consistency vs human-contex
 MBTI_NEUTRAL_TF_ZH_MARKER = "非人格化分析与一致性"
 MBTI_SOLO_HISTORY_EN_MARKER = "treat `E`, `F`, and `P` as under-observed rather than absent"
 MBTI_SOLO_HISTORY_ZH_MARKER = "把 `E`、`F`、`P` 视为“欠观察”而不是“没有”"
+SCALE_NOTE_EN_MARKER = "Scale note"
+SCALE_NOTE_ZH_MARKER = "刻度说明"
+STRONG_SCORE_EN_MARKER = "70+ is already clearly strong here"
+STRONG_SCORE_ZH_MARKER = "70+ 在这套体系里已经是明显强"
+STANDOUT_DIMENSION_EN_MARKER = "should usually cross `90+`"
+STANDOUT_DIMENSION_ZH_MARKER = "通常应该出现 `90+`"
 MBTI_TYPES = (
     "intj", "intp", "entj", "entp",
     "infj", "infp", "enfj", "enfp",
@@ -122,6 +128,12 @@ def main() -> None:
             errors.append("docs/general.html missing dependency-free HIRED animation guidance in prompt templates")
         if BLOCK_BAR_MARKER not in general_text:
             errors.append("docs/general.html missing block-bar score format guidance in prompt templates")
+        if SCALE_NOTE_EN_MARKER not in general_text or SCALE_NOTE_ZH_MARKER not in general_text:
+            errors.append("docs/general.html missing bilingual scale-note guidance in prompt templates")
+        if STRONG_SCORE_EN_MARKER not in general_text or STRONG_SCORE_ZH_MARKER not in general_text:
+            errors.append("docs/general.html missing harsh-scale score explanation in prompt templates")
+        if STANDOUT_DIMENSION_EN_MARKER not in general_text or STANDOUT_DIMENSION_ZH_MARKER not in general_text:
+            errors.append("docs/general.html missing strong-fit 90-plus standout-dimension guidance in prompt templates")
         if OLD_BAR_MARKER in general_text:
             errors.append("docs/general.html still contains old hash-based score bar examples")
         if "Fantasy annual package" in general_text or "虚构年包" in general_text or "市场估值（示意" in general_text:
@@ -236,6 +248,12 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing dependency-free HIRED animation guidance")
             if BLOCK_BAR_MARKER not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing block-bar score format guidance")
+            if SCALE_NOTE_ZH_MARKER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing scale-note guidance")
+            if STRONG_SCORE_ZH_MARKER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing harsh-scale score explanation")
+            if STANDOUT_DIMENSION_ZH_MARKER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing strong-fit 90-plus standout-dimension guidance")
             if OLD_BAR_MARKER in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains old hash-based score bar examples")
             if "虚构年包" in zh_prompt_text or "市场估值（示意" in zh_prompt_text:
@@ -297,6 +315,12 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing dependency-free HIRED animation guidance")
             if BLOCK_BAR_MARKER not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing block-bar score format guidance")
+            if SCALE_NOTE_EN_MARKER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing scale-note guidance")
+            if STRONG_SCORE_EN_MARKER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing harsh-scale score explanation")
+            if STANDOUT_DIMENSION_EN_MARKER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing strong-fit 90-plus standout-dimension guidance")
             if OLD_BAR_MARKER in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains old hash-based score bar examples")
             if "Fantasy annual package" in en_prompt_text or "Market Band (illustrative, not an offer)" in en_prompt_text:
@@ -386,6 +410,12 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing synced readable HIRED header")
             if BLOCK_BAR_MARKER not in page_text:
                 errors.append(f"docs/{page_slug}.html missing synced block-bar score format guidance")
+            if SCALE_NOTE_EN_MARKER not in page_text or SCALE_NOTE_ZH_MARKER not in page_text:
+                errors.append(f"docs/{page_slug}.html missing synced scale-note guidance")
+            if STRONG_SCORE_EN_MARKER not in page_text or STRONG_SCORE_ZH_MARKER not in page_text:
+                errors.append(f"docs/{page_slug}.html missing synced harsh-scale score explanation")
+            if STANDOUT_DIMENSION_EN_MARKER not in page_text or STANDOUT_DIMENSION_ZH_MARKER not in page_text:
+                errors.append(f"docs/{page_slug}.html missing synced strong-fit 90-plus standout-dimension guidance")
             if OLD_BAR_MARKER in page_text:
                 errors.append(f"docs/{page_slug}.html still contains old hash-based score bar examples")
             if "alignment code" in page_text or "阵营编码" in page_text:

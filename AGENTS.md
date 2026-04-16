@@ -382,6 +382,8 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - an MBTI work personality type
    - MBTI confidence or evidence strength
    - an ability score
+   - a one-line scale note
+   - a one-line strength read
    - a compact core board
    - talent tags
    - locked or not-yet-awakened skills
@@ -390,18 +392,21 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - the local detailed-report path
 4. The summary should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
 5. Detailed evidence belongs in a local markdown report, not in the terminal summary.
-6. Score more harshly than a feel-good internet quiz:
-   - `90+` or `9-10/10` should be rare
-   - `75-89` or `7-8/10` is already clearly strong
-   - `60-74` or `5-6/10` is solid but not rare
-   - below `60` or `0-4/10` means meaningful gaps, thin proof, or inconsistent evidence
-7. If evidence is thin, round down and say so explicitly instead of flattering the candidate.
-8. Avoid essay-like explanation in the TUI. Prefer labels, tags, fragments, and compressed lines over paragraphs.
-9. In the TUI, sections like talent tags and locked skills should read like a game system, not like an HR memo.
-10. The `HIRED` header should use a simple animated reveal or pulse in the terminal when possible, but it must stay dependency-free and terminal-safe.
-11. The `HIRED` ASCII art should feel more dimensional and more legible than a flat block. Prefer a bold, easy-to-recognize shape over decorative noise.
-12. Do not require external packages, terminal UI libraries, or browser-only rendering tricks for the `HIRED` animation. The effect must work as plain terminal output.
-13. Do not reintroduce opaque labels such as custom alignment codes or obscure archetype acronyms. The visible identity system should use standard MBTI letters directly.
+6. Show candidate-facing scores on a harsh but human-readable `0-100` scale:
+   - `90+` on a core dimension should be rare, but it should appear when a candidate has repeated standout evidence in that exact area
+   - `80-89` is clearly strong
+   - `70-79` is already above bar and worth feeling good about
+   - `60-69` is workable but uneven
+   - below `60` means meaningful gaps, thin proof, or inconsistent evidence
+7. Add a short `Scale note / 刻度说明` so candidates do not misread a harsh `72` as “bad”. Make it explicit that `70+` is already clearly strong in this system.
+8. If the result is `strong fit`, at least one visible core dimension should usually land at `90+` when the evidence shows a real standout edge. Do not keep every dimension trapped in the `70s` and `80s` if one area is obviously exceptional.
+9. If evidence is thin, round down and say so explicitly instead of flattering the candidate.
+10. Avoid essay-like explanation in the TUI. Prefer labels, tags, fragments, and compressed lines over paragraphs.
+11. In the TUI, sections like talent tags and locked skills should read like a game system, not like an HR memo.
+12. The `HIRED` header should use a simple animated reveal or pulse in the terminal when possible, but it must stay dependency-free and terminal-safe.
+13. The `HIRED` ASCII art should feel more dimensional and more legible than a flat block. Prefer a bold, easy-to-recognize shape over decorative noise.
+14. Do not require external packages, terminal UI libraries, or browser-only rendering tricks for the `HIRED` animation. The effect must work as plain terminal output.
+15. Do not reintroduce opaque labels such as custom alignment codes or obscure archetype acronyms. The visible identity system should use standard MBTI letters directly.
 
 ## Best-Fit Role Recommendation
 
@@ -476,11 +481,13 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
    - locked skills
    - best-fit role
 20. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
-21. Use a clearer bar-first format such as `[████████░░] 8` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
+21. Use a clearer bar-first format such as `[█████████░] 92` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
 22. Do not decorate every visible line with repeated prefixes such as `>>`.
 23. In the terminal summary, reserve strong decoration for the `HIRED` banner itself. After that, prefer plain labels such as:
    - `MBTI Work Personality`
    - `Result`
+   - `Scale Note`
+   - `Strength Read`
    - `Core Board`
    - `Talent Tags`
    - `Locked Skills`

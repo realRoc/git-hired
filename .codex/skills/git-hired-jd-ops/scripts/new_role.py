@@ -69,33 +69,34 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
 输出要求：
 1. 最终输出是给候选人看的，不是给招聘方或面试官看的。
 2. 终端里的主输出要对 TUI 友好、简洁、易截图传播，并使用一个无依赖、3 帧以内、终端安全的动态 `HIRED` 开场，而不是静态稀疏字母块。
-3. 终端摘要的主目标是“测试你的 MBTI 工作人格”，不要再发明候选人看不懂的阵营编码或 archetype。摘要里要直接呈现 MBTI 工作人格、能力值、最适合的岗位、压缩后的核心分板、天赋词缀、待解锁天赋、ASCII 卡片和详细报告路径。核心分板的可见分数行应优先使用 `Label [████████░░] 8` 这类块状条格式。
-4. 打分要明显更严：高分稀缺，证据不足时宁可保守降分，也不要做鼓励式灌水。
-5. 终端里给一个简短摘要，再在本地生成一份更完整的 `.md` 详细报告，并打印详细报告路径。
-6. 终端摘要和详细报告都必须记录 `JD prompt version`，且与本 prompt 顶部版本字符串完全一致。
-7. 不要输出任何薪资范围、市场估值、虚构年包、offer 类钩子。
-8. 语气可以有一点梗感和轻微毒舌，但不能羞辱、贬低或人身攻击候选人。
-9. 先夸候选人最值得肯定的强项，再讨论不足。
-10. 如果当前岗位并不是最适合的方向，要明确告诉候选人他当前更像哪个岗位或方向，并说明原因。
-11. 如果候选人存在明显短板，补充最多 3 条平等友好的改进建议，帮助他更接近目标岗位。
-12. 如果结论为强匹配，明确建议候选人把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告。
-13. 如果是 extended 模式，详细报告里要对 repo 名、文件路径、secret 等敏感信息做更严格脱敏。
-14. 避免分析师口吻的长句解释；TUI 中优先使用标签、词缀、极短短语，而不是长段论述。
-15. 核心分板控制在 4-5 个维度，不要做成 Excel 风格的 8-9 维清单。
-16. MBTI 只能基于可观察工作证据推断为“工作人格”，不是对候选人整个人生人格下定义。
-17. MBTI 轴的判定必须保持中性：不要默认套用 `INTJ`、`TJ` 或任何“强 builder”刻板印象；要先分别判断四条轴，再组合 4 字母类型；不要把技术严谨、创业紧迫感或产出质量自动等同于 `T` 或 `J`；如果主要证据来自单人 agent 历史，要把 `E`、`F`、`P` 视为“欠观察”而不是“没有”。
-18. 终端里在 `HIRED` ASCII 头图下方要优先打印对应的 MBTI ASCII 卡片。使用预先设计好的固定文本资源：
+3. 终端摘要的主目标是“测试你的 MBTI 工作人格”，不要再发明候选人看不懂的阵营编码或 archetype。摘要里要直接呈现 MBTI 工作人格、能力值、`刻度说明`、一句基于证据的夸夸、最适合的岗位、压缩后的核心分板、天赋词缀、待解锁天赋、ASCII 卡片和详细报告路径。核心分板的可见分数行应优先使用 `Label [█████████░] 92` 这类块状条格式。
+4. 打分要明显更严，但展示刻度要对候选人友好：要明确说明 `70+` 在这套体系里已经是明显强，不要让候选人把 harsh scale 的 72 误读成“很菜”。
+5. 如果结论为强匹配，且某个维度证据明显突出，这个维度通常应该出现 `90+` 的分数；不要把所有维度都机械压在 70-80 分。
+6. 终端里给一个简短摘要，再在本地生成一份更完整的 `.md` 详细报告，并打印详细报告路径。
+7. 终端摘要和详细报告都必须记录 `JD prompt version`，且与本 prompt 顶部版本字符串完全一致。
+8. 不要输出任何薪资范围、市场估值、虚构年包、offer 类钩子。
+9. 语气可以有一点梗感和轻微毒舌，但不能羞辱、贬低或人身攻击候选人。
+10. 先夸候选人最值得肯定的强项，再讨论不足，而且夸夸必须基于证据，不能是空泛安慰。
+11. 如果当前岗位并不是最适合的方向，要明确告诉候选人他当前更像哪个岗位或方向，并说明原因。
+12. 如果候选人存在明显短板，补充最多 3 条平等友好的改进建议，帮助他更接近目标岗位。
+13. 如果结论为强匹配，明确建议候选人把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告。
+14. 如果是 extended 模式，详细报告里要对 repo 名、文件路径、secret 等敏感信息做更严格脱敏。
+15. 避免分析师口吻的长句解释；TUI 中优先使用标签、词缀、极短短语，而不是长段论述。
+16. 核心分板控制在 4-5 个维度，不要做成 Excel 风格的 8-9 维清单。
+17. MBTI 只能基于可观察工作证据推断为“工作人格”，不是对候选人整个人生人格下定义。
+18. MBTI 轴的判定必须保持中性：不要默认套用 `INTJ`、`TJ` 或任何“强 builder”刻板印象；要先分别判断四条轴，再组合 4 字母类型；不要把技术严谨、创业紧迫感或产出质量自动等同于 `T` 或 `J`；如果主要证据来自单人 agent 历史，要把 `E`、`F`、`P` 视为“欠观察”而不是“没有”。
+19. 终端里在 `HIRED` ASCII 头图下方要优先打印对应的 MBTI ASCII 卡片。使用预先设计好的固定文本资源：
    - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
    - 如果能访问 repo 里的文本资产，优先读取 `docs/assets/mbti/<mbti-lowercase>.txt` 的原始内容并直接打印
    - 如果资产文件暂时读不到，再补一个同气质的简短 fallback 图案，而不是重新发明一整套新风格。
-19. 默认把测试时长控制在 1 分钟内。优先看最近、最有信号的材料，够用就收口，不要为了“更全”而无限扫描。
-20. 如果本地数据很多，就做快速采样而不是深度遍历；如果时间预算到了，就带着较低置信度收尾，不要继续扩展范围。
-21. 不要给终端摘要的每一行都加 `>>`、`>>>` 或类似前缀。`HIRED` 头图之外，优先使用干净的普通标签行。
-22. `下一步` 不要只写泛泛建议。要补一个 `提升预估`：
+20. 默认把测试时长控制在 1 分钟内。优先看最近、最有信号的材料，够用就收口，不要为了“更全”而无限扫描。
+21. 如果本地数据很多，就做快速采样而不是深度遍历；如果时间预算到了，就带着较低置信度收尾，不要继续扩展范围。
+22. 不要给终端摘要的每一行都加 `>>`、`>>>` 或类似前缀。`HIRED` 头图之外，优先使用干净的普通标签行。
+23. `下一步` 不要只写泛泛建议。要补一个 `提升预估`：
    - 完成这一步后，最可能提升的单点核心维度
    - 该维度大概能提升多少分
    - 整体能力值大概能提升多少
-23. `提升预估` 必须写成保守估算，而不是承诺。可以使用“如果做完且做扎实”“大概率”“约”等措辞。
+24. `提升预估` 必须写成保守估算，而不是承诺。可以使用“如果做完且做扎实”“大概率”“约”等措辞。
 
 Consent & local-only notice:
 1. 默认只使用所选工作 agent 已有的会话历史，以及候选人主动粘贴或明确批准的材料。
@@ -156,33 +157,34 @@ Privacy boundary:
 Output requirements:
 1. The final output is for the candidate to read, not for the interviewer or hiring team.
 2. The main terminal output should be concise, TUI-friendly, easy to share, and start with a dependency-free, terminal-safe animated `HIRED` reveal that stays within about 3 frames.
-3. The terminal summary should aim to `test your MBTI work personality`, not invent opaque alignment codes or archetypes. Show the MBTI work personality directly, along with the best-fit role right now, the ability score, a compressed core board, talent tags, locked skills, the matching ASCII card, and the detailed-report path. Visible score lines in the core board should prefer a block-bar format such as `Label [████████░░] 8`.
-4. Score more harshly than a feel-good quiz: high scores should be rare, and thin evidence should round down rather than inflate.
-5. Give a short terminal summary, then generate a fuller local `.md` report and print its path.
-6. Both the terminal summary and markdown report must record `JD prompt version`, exactly identical to the version string at the top of this prompt.
-7. Do not print any salary range, market band, fictional package, or offer-like hook.
-8. The tone may be playful, meme-friendly, and a little sharp, but never insulting or demeaning.
-9. Praise the candidate's strongest evidence-backed strengths before discussing gaps.
-10. If the tested role is not the best fit, explicitly recommend the role or direction that currently looks strongest and explain why.
-11. If there are meaningful gaps, add up to 3 respectful and practical improvement suggestions that help the candidate move toward the role they want.
-12. If the result is a strong fit, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com` and attach the detailed report.
-13. In extended mode, redact repo names, file paths, secrets, and similar identifiers more aggressively in the markdown report.
-14. Avoid analyst-style long explanations in the TUI; prefer labels, tags, and compressed fragments.
-15. Keep the visible core board to 4-5 dimensions rather than an 8-9 line spreadsheet.
-16. Treat MBTI only as an evidence-backed work-style read, not as a total personality verdict.
-17. Keep MBTI inference neutral: do not default to `INTJ`, `TJ`, or any single “strong builder” stereotype; infer each axis independently before composing the 4-letter type; do not treat rigor, startup urgency, or output quality as automatic evidence for `T` or `J`; when the evidence mostly comes from solo agent history, treat `E`, `F`, and `P` as under-observed rather than absent.
-18. Right below the `HIRED` banner, print the matching predesigned MBTI ASCII card from:
+3. The terminal summary should aim to `test your MBTI work personality`, not invent opaque alignment codes or archetypes. Show the MBTI work personality directly, along with the ability score, a `Scale note`, one evidence-backed praise line, the best-fit role right now, a compressed core board, talent tags, locked skills, the matching ASCII card, and the detailed-report path. Visible score lines in the core board should prefer a block-bar format such as `Label [█████████░] 92`.
+4. Score more harshly than a feel-good quiz, but present the scale in a candidate-friendly way: explicitly tell the reader that `70+` is already clearly strong in this system, so a harsh-scale `72` is not “bad”.
+5. If the result is a strong fit and one dimension is truly standout, that visible core dimension should usually cross `90+` instead of leaving every score clustered in the `70s` and `80s`.
+6. Give a short terminal summary, then generate a fuller local `.md` report and print its path.
+7. Both the terminal summary and markdown report must record `JD prompt version`, exactly identical to the version string at the top of this prompt.
+8. Do not print any salary range, market band, fictional package, or offer-like hook.
+9. The tone may be playful, meme-friendly, and a little sharp, but never insulting or demeaning.
+10. Praise the candidate's strongest evidence-backed strengths before discussing gaps, and keep that praise specific rather than generic cheerleading.
+11. If the tested role is not the best fit, explicitly recommend the role or direction that currently looks strongest and explain why.
+12. If there are meaningful gaps, add up to 3 respectful and practical improvement suggestions that help the candidate move toward the role they want.
+13. If the result is a strong fit, explicitly recommend that the candidate send a resume to `wuyupeng@floatmiracle.com` and attach the detailed report.
+14. In extended mode, redact repo names, file paths, secrets, and similar identifiers more aggressively in the markdown report.
+15. Avoid analyst-style long explanations in the TUI; prefer labels, tags, and compressed fragments.
+16. Keep the visible core board to 4-5 dimensions rather than an 8-9 line spreadsheet.
+17. Treat MBTI only as an evidence-backed work-style read, not as a total personality verdict.
+18. Keep MBTI inference neutral: do not default to `INTJ`, `TJ`, or any single “strong builder” stereotype; infer each axis independently before composing the 4-letter type; do not treat rigor, startup urgency, or output quality as automatic evidence for `T` or `J`; when the evidence mostly comes from solo agent history, treat `E`, `F`, and `P` as under-observed rather than absent.
+19. Right below the `HIRED` banner, print the matching predesigned MBTI ASCII card from:
    - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
    - when repo text assets are reachable, prefer `docs/assets/mbti/<mbti-lowercase>.txt` and print its raw contents directly
    - if the asset file cannot be loaded, render one compact fallback emblem instead of inventing a whole new visual style.
-19. Keep the full test within about 1 minute by default. Prefer recent, high-signal material and stop once confidence is sufficient.
-20. If local data is large, sample rather than crawl. When the time budget is reached, finish with lower confidence instead of expanding the scan.
-21. Do not prefix every visible TUI line with `>>`, `>>>`, or similar markers. After the `HIRED` banner, use clean plain labels instead.
-22. `Next Step` should not stop at a vague suggestion. Include an `Expected uplift`:
+20. Keep the full test within about 1 minute by default. Prefer recent, high-signal material and stop once confidence is sufficient.
+21. If local data is large, sample rather than crawl. When the time budget is reached, finish with lower confidence instead of expanding the scan.
+22. Do not prefix every visible TUI line with `>>`, `>>>`, or similar markers. After the `HIRED` banner, use clean plain labels instead.
+23. `Next Step` should not stop at a vague suggestion. Include an `Expected uplift`:
    - the single core dimension most likely to improve
    - the approximate gain for that dimension
    - the approximate gain in overall ability score
-23. The uplift must be framed as a conservative estimate, not a promise. Use language such as `likely`, `approximately`, or `if done well`.
+24. The uplift must be framed as a conservative estimate, not a promise. Use language such as `likely`, `approximately`, or `if done well`.
 
 Consent & local-only notice:
 1. Default to using the chosen work agent's existing history and any material the candidate explicitly pastes or approves.

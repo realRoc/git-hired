@@ -17,7 +17,7 @@ This PM profile assumes someone who:
 Output language: English.
 
 JD prompt version:
-- exact version: `product-manager@2026-04-16.7`
+- exact version: `product-manager@2026-04-16.8`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -195,7 +195,7 @@ Do not treat rigor, startup urgency, or technical competence as automatic eviden
 If most evidence comes from solo agent history, treat `E`, `F`, and `P` as under-observed rather than absent.
 If one or more axes are mixed or weakly evidenced, lower confidence instead of forcing certainty.
 
-Score only these 5 core dimensions from 1 to 10. If evidence is clearly insufficient, you may write `N/A`. Always include confidence and evidence:
+Score only these 5 core dimensions from 0 to 100. If evidence is clearly insufficient, you may write `N/A`. Always include confidence and evidence:
 
 1. Problem Framing
 2. MVP Knife
@@ -221,15 +221,20 @@ Rules:
 - if redraw is unavailable, skip the animation and print only the final resting header
 - after the header, write like a clean MBTI work-personality card, not a consultant memo
 - calibrate more harshly than a feel-good internet quiz
-- `90+` and `9-10/10` are rare and need repeated, high-signal evidence
-- `75-89` and `7-8/10` are already clearly strong
-- `60-74` and `5-6/10` are solid but not special
-- below `60` and `0-4/10` means real gaps, thin proof, or inconsistent evidence
+- show visible scores on a harsh but human-readable `0-100` scale
+- `90+` on a core dimension is rare and needs repeated standout evidence in that exact area
+- `80-89` is clearly strong
+- `70-79` is already above bar and worth feeling good about
+- `60-69` is workable but uneven
+- below `60` means real gaps, thin proof, or inconsistent evidence
 - if evidence is thin, round down and say so
+- include one short `Scale note` that makes it explicit that `70+` is already clearly strong here
+- if the result is `strong fit` and one dimension is obviously standout, that visible core dimension should usually cross `90+` instead of leaving every score clustered in the `70s` and `80s`
 - do not print salary ranges, compensation estimates, market bands, or offer-like hooks
 - avoid analyst prose and long “why” paragraphs
 - in `Talent Tags` and `Locked Skills`, use fragments, not explanatory sentences
 - lead with evidence-backed strengths before discussing gaps
+- keep praise specific and grounded in evidence, not generic cheerleading
 - keep the full test within about 1 minute by default
 - if local data is large, sample rather than crawl
 - do not prefix every visible line with `>>`, `>>>`, or similar markers after the `HIRED` banner
@@ -269,6 +274,8 @@ Final resting header:
 - MBTI confidence: `high / medium / low`
 - one plain-language work read in a few words, not an opaque codename
 - ability score: `0-100`
+- scale note: `70+ is already clearly strong here`
+- strength read: one short evidence-backed compliment
 - confidence / mode / evidence
 - `JD prompt version`: exact string from the top of this prompt
 - detailed report path
@@ -276,7 +283,7 @@ Final resting header:
 5. Print `Core Board`
 - exactly 5 lines
 - one line per core dimension
-- format like `Spec Control      [███████░░░] 7`
+- format like `Problem Framing      [█████████░] 92`
 - use a fixed 10-cell bar made from `█` and `░`
 - do not use dotted fillers or `7/10` style fractions
 - if a dimension is unavailable, show `Spec Control      [░░░░░░░░░░] N/A (evidence thin)`
@@ -316,11 +323,11 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- a title block with result, best-fit role right now, `JD prompt version`, MBTI work personality, MBTI confidence, ASCII card source, ability score, mode, and evidence level
+- a title block with result, best-fit role right now, `JD prompt version`, MBTI work personality, MBTI confidence, ASCII card source, ability score, scale note, strength read, mode, and evidence level
 - data coverage
 - a 4-line MBTI axis read with evidence for `E/I`, `S/N`, `T/F`, and `J/P`
 - redacted signal distribution
-- the 5-line core board with evidence, keeping the visible score line in the same `Label [███████░░░] 7` format
+- the 5-line core board with evidence, keeping the visible score line in the same `Label [█████████░] 92` format
 - 3 talent tags with supporting evidence
 - 2-3 locked skills or version bottlenecks with evidence
 - requested role vs. best-fit role right now
