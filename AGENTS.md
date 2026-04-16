@@ -1,6 +1,6 @@
 # git-hired Agent Guide
 
-This file defines how Claude Code, Codex, or similar agents should operate inside this repo.
+This file defines how maintenance agents should operate inside this repo.
 
 ## Scope
 
@@ -205,9 +205,9 @@ This policy applies to every existing role prompt and every future role prompt i
    - explicitly pasted or approved material is allowed
    - repo / local project / document scanning is not allowed unless the candidate opts in
 3. Prompts must explicitly tell the candidate:
-   - the analysis runs locally on the candidate's own machine
-   - any approved scanning stays inside the candidate's own Claude Code or Codex run
-   - scanned repo or document content must not be uploaded to our server
+   - `git-hired` does not upload candidate repo or local file data to our server
+   - the chosen work agent may inspect only the projects, files, or knowledge-base material the candidate explicitly authorizes for that run
+   - if the chosen work agent supports direct local access, any approved scanning should stay inside the candidate's own machine or connected workspace whenever possible
 4. Prompts must explicitly offer the candidate a choice:
    - `history-only`
    - or allow scanning of specific repos / local projects / files for better scoring
@@ -222,8 +222,9 @@ That top section must make these points explicit:
 
 1. by default the prompts stay `history-only`
 2. repo / project / document scanning requires explicit candidate permission
-3. any approved scan runs locally inside the candidate's own Claude Code or Codex session
-4. no candidate repo or local file data is uploaded from the candidate's machine to our server
+3. `git-hired` does not upload candidate repo or local file data to our server
+4. the chosen work agent may inspect only the projects, files, or knowledge-base material the candidate explicitly authorizes
+5. if the chosen work agent supports direct local access, any approved scan should stay inside the candidate's own machine or connected workspace whenever possible
 
 Do not bury this message in later sections. Keep it visible near the top so candidates do not feel tricked, monitored, or data-mined.
 
@@ -334,7 +335,14 @@ This rule applies to `docs/index.html`, `docs/general.html`, and any future shar
    - screening instructions
    - internal hiring-process framing
    - recruiter workflow language
-5. If a page asks the candidate to run a prompt in Claude Code or Codex, include one short bilingual runtime tip recommending Claude Code `bypass` mode or Codex `YOLO` mode for a smoother experience.
+5. Candidate-facing copy must describe runtime compatibility as examples, not exclusivity. Use wording such as:
+   - `Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability`
+   - `Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent`
+6. Candidate-facing copy must explicitly say:
+   - `git-hired` does not upload candidate repo or local file data to our server
+   - the chosen work agent should inspect only the projects or files the candidate explicitly authorizes
+7. If a page includes a runtime tip, phrase it conditionally, for example:
+   - `If you're using Claude Code or Codex, bypass / YOLO usually makes the run smoother.`
 
 ## Candidate-Serving JD Descriptions
 
@@ -354,7 +362,8 @@ This rule applies to `roles.json`, the role cards in `docs/index.html`, every pu
    - how the candidate starts the test
    - what the test helps the candidate show
    - what privacy boundary applies while they run it
-   - one short bilingual runtime tip recommending Claude Code `bypass` mode or Codex `YOLO` mode
+   - one short bilingual runtime tip that conditionally mentions Claude Code `bypass` mode or Codex `YOLO` mode when the candidate is using those tools
+6. When describing how to start the test, do not frame Claude Code or Codex as the only supported runtimes. Present them as examples of compatible work agents alongside Notion AI and other memory-enabled work agents.
 
 ## HIRED TUI Output
 
@@ -708,7 +717,7 @@ If the request is not clear enough, ask the minimum necessary clarification.
 
 ## Human Quickstart
 
-If you are the maintainer and want the fastest path, open Claude Code or Codex in `git-hired/` and say one of these:
+If you are the maintainer and want the fastest path, open your repo-capable coding agent in `git-hired/` and say one of these:
 
 ```text
 新增一个 Founding Designer 岗位，中文叫创始产品设计师，页面 slug 用 design，强调产品审美、快速原型、用户研究和 AI Native 工作流。

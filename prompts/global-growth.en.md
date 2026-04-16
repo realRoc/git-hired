@@ -1,6 +1,6 @@
 # Global Growth Prompt
 
-Paste the full prompt below into Claude Code or Codex and run it:
+Paste the full prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent, and run it:
 
 ---
 
@@ -18,7 +18,7 @@ Target role profile:
 Output language: English.
 
 JD prompt version:
-- exact version: `global-growth@2026-04-16.3`
+- exact version: `global-growth@2026-04-16.4`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -42,11 +42,12 @@ Privacy boundary:
 
 Before scanning any local repo, project directory, or document file:
 
-- tell the candidate that this analysis runs locally inside their own Claude Code or Codex session
-- tell the candidate that any approved scan stays local on their machine and must not upload scanned repo or file content to our server
+- tell the candidate that `git-hired` does not upload local repo or file data to our server
+- tell the candidate that the chosen work agent should inspect only the projects, files, or knowledge-base material they explicitly authorize for this run
+- if the chosen work agent supports direct local access, keep any approved scanning inside the candidate's own machine or connected workspace whenever possible
 - ask whether they want `history-only`, or whether they explicitly allow scanning of specific local repos / project directories / files for better scoring
 - if they do not explicitly allow it, do not scan local repos, project directories, or document files
-- if they do not allow it, use local AI session history plus any material they explicitly paste or approve, then make the best objective judgment you can from that smaller evidence base
+- if they do not allow it, use the chosen work agent's existing history plus any material they explicitly paste or approve, then make the best objective judgment you can from that smaller evidence base
 - if consent is unclear, ask a short permission question first
 
 Execute the task in 5 steps.
@@ -55,14 +56,18 @@ Execute the task in 5 steps.
 
 First ask:
 
+- Which work agent are you using for this run, such as Claude Code, Codex, Notion AI, or another knowledge-enabled work agent?
 - Do you want `history-only`, or do you explicitly allow me to inspect specific local repos / project directories / document files for a better score?
 
 Then apply the answer:
 
 - If the candidate says `history-only` or does not clearly allow scanning, use only the baseline history sources below plus any explicitly approved material.
 - If the candidate explicitly allows scanning, you may also inspect the repo / growth-doc sources listed below.
+- If the chosen work agent cannot inspect local files directly, stay history-only unless the candidate explicitly pastes or connects approved material inside that agent.
 
 Always-allowed baseline sources:
+
+- any session history, workspace artifacts, or knowledge-base material already available inside the chosen work agent, but only if the candidate explicitly made that material available there
 
 - `~/.claude/projects/**/*.jsonl`, excluding `subagents/`
 - Codex session directories from common paths only, if they exist

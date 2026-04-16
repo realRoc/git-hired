@@ -18,6 +18,8 @@ MBTI_ZH_MARKER = "MBTI 工作人格"
 ASCII_CARD_EN_MARKER = "ASCII card"
 ASCII_CARD_ZH_MARKER = "ASCII 卡片"
 ASCII_CARD_URL_BASE = "https://realroc.github.io/git-hired/assets/mbti/"
+WORK_AGENT_EN_MARKER = "work agent"
+WORK_AGENT_ZH_MARKER = "工作 agent"
 MBTI_TYPES = (
     "intj", "intp", "entj", "entp",
     "infj", "infp", "enfj", "enfp",
@@ -92,6 +94,12 @@ def main() -> None:
             errors.append("docs/general.html missing generated prompt blocks")
         if "bypass mode" not in general_text or "YOLO mode" not in general_text or "bypass 模式" not in general_text or "yolo 模式" not in general_text:
             errors.append("docs/general.html missing bilingual runtime-mode tip")
+        if WORK_AGENT_EN_MARKER not in general_text or WORK_AGENT_ZH_MARKER not in general_text:
+            errors.append("docs/general.html missing work-agent compatibility wording")
+        if "our server" not in general_text or "我们的服务器" not in general_text:
+            errors.append("docs/general.html missing explicit no-upload privacy wording")
+        if "Paste the full prompt below into Claude Code or Codex and run it:" in general_text or "把下面整段完整粘贴到 Claude Code 或 Codex 中执行：" in general_text:
+            errors.append("docs/general.html still contains Claude Code/Codex-exclusive prompt wording")
         if HIRED_HEADER_MARKER not in general_text:
             errors.append("docs/general.html missing updated readable HIRED header in prompt templates")
         if "Play a simple 3-frame `HIRED` animation" not in general_text or "先播放一个简单的 3 帧 `HIRED` 动态开场" not in general_text:
@@ -135,6 +143,14 @@ def main() -> None:
         errors.append("README.zh-CN.md missing AUTO live-links markers")
     if "<!-- AUTO:role-list:start -->" not in readme_zh or "<!-- AUTO:role-list:end -->" not in readme_zh:
         errors.append("README.zh-CN.md missing AUTO role-list markers")
+    if WORK_AGENT_EN_MARKER not in readme_en or "our server" not in readme_en:
+        errors.append("README.md missing work-agent compatibility or privacy-upload wording")
+    if WORK_AGENT_ZH_MARKER not in readme_zh or "我们的服务器" not in readme_zh:
+        errors.append("README.zh-CN.md missing work-agent compatibility or privacy-upload wording")
+    if "Paste the prompt from this link into your own Claude Code or Codex" in readme_en:
+        errors.append("README.md still contains Claude Code/Codex-exclusive candidate wording")
+    if "粘贴到你自己的 Claude Code 或 Codex" in readme_zh:
+        errors.append("README.zh-CN.md still contains Claude Code/Codex-exclusive candidate wording")
 
     page_slugs = set()
     prompt_slugs = set()
@@ -173,6 +189,10 @@ def main() -> None:
             zh_prompt_text = zh_prompt.read_text(encoding="utf-8")
             if "history-only" not in zh_prompt_text or "上传到我们的服务器" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing consent-first local-only notice")
+            if WORK_AGENT_ZH_MARKER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing work-agent compatibility wording")
+            if "把下面整段完整粘贴到 Claude Code 或 Codex 中执行：" in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md still contains Claude Code/Codex-exclusive intro wording")
             if "详细报告" not in zh_prompt_text or "HIRED" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing candidate-facing TUI/report output requirements")
             if HIRED_HEADER_MARKER not in zh_prompt_text:
@@ -214,6 +234,10 @@ def main() -> None:
             en_prompt_text = en_prompt.read_text(encoding="utf-8")
             if "history-only" not in en_prompt_text or "our server" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing consent-first local-only notice")
+            if WORK_AGENT_EN_MARKER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing work-agent compatibility wording")
+            if "Paste the full prompt below into Claude Code or Codex and run it:" in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md still contains Claude Code/Codex-exclusive intro wording")
             if "Detailed report" not in en_prompt_text or "HIRED" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing candidate-facing TUI/report output requirements")
             if HIRED_HEADER_MARKER not in en_prompt_text:
@@ -271,6 +295,10 @@ def main() -> None:
             page_text = page.read_text(encoding="utf-8")
             if "history-only" not in page_text or "上传到我们的服务器" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing consent-first local-only candidate notice")
+            if WORK_AGENT_EN_MARKER not in page_text or WORK_AGENT_ZH_MARKER not in page_text:
+                errors.append(f"docs/{page_slug}.html missing work-agent compatibility wording")
+            if "Paste the prompt below into your own Claude Code or Codex" in page_text or "复制后直接粘贴到 Claude Code / Codex" in page_text:
+                errors.append(f"docs/{page_slug}.html still contains Claude Code/Codex-exclusive candidate wording")
             if "git-hired-lang" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing language bootstrap script")
             if 'href="./index.html"' not in page_text:

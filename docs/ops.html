@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AI Product Operations Test · git-hired</title>
-    <meta name="description" content="AI Product Operations fit test prompt for Claude Code or Codex.">
+    <meta name="description" content="AI Product Operations candidate test prompt for Claude Code, Codex, Notion AI, or similar work agents.">
     <script>
       (function () {
         var key = "git-hired-lang";
@@ -57,16 +57,16 @@
         <h2 data-lang="en">How To Run This Test</h2>
         <h2 data-lang="zh">怎么开始这个测试</h2>
         <p class="mini" data-lang="en">
-          Paste the prompt below into your own Claude Code or Codex and run it. By default it stays history-only, asks before scanning any local repo or document, and keeps any approved scan local to your own machine.
+          Paste the prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent. By default it stays history-only, only accesses projects or files you explicitly authorize, and never uploads your local repo or file data to our server.
         </p>
         <p class="mini" data-lang="zh">
-          把下面这段 prompt 完整粘贴到你自己的 Claude Code 或 Codex 里运行。默认只看历史记录，如需扫描本地 repo 或文档会先征求你的允许；任何批准的扫描也只在你自己的机器本地运行。
+          把下面这段 prompt 完整粘贴到你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent。默认只看历史记录，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。
         </p>
         <div class="callout" data-lang="en">
-          Friendly tip: for a smoother run, strongly consider turning on Claude Code's bypass mode or Codex's YOLO mode before starting the test.
+          Friendly tip: if you're using Claude Code or Codex, turning on Claude Code's bypass mode or Codex's YOLO mode usually makes the run smoother.
         </div>
         <div class="callout" data-lang="zh">
-          友情提示：为了让测试过程更顺畅，强烈建议先开启 Claude Code 的 bypass 模式，或 Codex 的 yolo 模式，再开始运行。
+          友情提示：如果你这次使用的是 Claude Code 或 Codex，先开启 Claude Code 的 bypass 模式，或 Codex 的 yolo 模式，通常会让测试过程更顺畅。
         </div>
       </section>
 
@@ -89,8 +89,8 @@
 
       <section class="prompt-wrap">
         <div class="prompt-head">
-          <strong data-lang="en">Copy this directly into Claude Code or Codex</strong>
-          <strong data-lang="zh">复制后直接粘贴到 Claude Code / Codex</strong>
+          <strong data-lang="en">Copy this into your work agent</strong>
+          <strong data-lang="zh">复制后直接粘贴到你的工作 agent</strong>
           <button
             class="button"
             data-copy-button="true"
@@ -104,7 +104,7 @@
         </div>
         <pre class="prompt" id="prompt-ops-en" data-lang="en"># AI Product Operations Prompt
 
-Paste the full prompt below into Claude Code or Codex and run it:
+Paste the full prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent, and run it:
 
 ---
 
@@ -124,7 +124,7 @@ Target role profile:
 Output language: English.
 
 JD prompt version:
-- exact version: `ai-product-operations@2026-04-16.3`
+- exact version: `ai-product-operations@2026-04-16.4`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -148,11 +148,12 @@ Privacy boundary:
 
 Before scanning any local repo, project directory, or document file:
 
-- tell the candidate that this analysis runs locally inside their own Claude Code or Codex session
-- tell the candidate that any approved scan stays local on their machine and must not upload scanned repo or file content to our server
+- tell the candidate that `git-hired` does not upload local repo or file data to our server
+- tell the candidate that the chosen work agent should inspect only the projects, files, or knowledge-base material they explicitly authorize for this run
+- if the chosen work agent supports direct local access, keep any approved scanning inside the candidate's own machine or connected workspace whenever possible
 - ask whether they want `history-only`, or whether they explicitly allow scanning of specific local repos / project directories / files for better scoring
 - if they do not explicitly allow it, do not scan local repos, project directories, or document files
-- if they do not allow it, use local AI session history plus any material they explicitly paste or approve, then make the best objective judgment you can from that smaller evidence base
+- if they do not allow it, use the chosen work agent's existing history plus any material they explicitly paste or approve, then make the best objective judgment you can from that smaller evidence base
 - if consent is unclear, ask a short permission question first
 
 Execute the task in 5 steps.
@@ -161,14 +162,18 @@ Execute the task in 5 steps.
 
 First ask:
 
+- Which work agent are you using for this run, such as Claude Code, Codex, Notion AI, or another knowledge-enabled work agent?
 - Do you want `history-only`, or do you explicitly allow me to inspect specific local repos / project directories / document files for a better score?
 
 Then apply the answer:
 
 - If the candidate says `history-only` or does not clearly allow scanning, use only the baseline history sources below plus any explicitly approved material.
 - If the candidate explicitly allows scanning, you may also inspect the repo / operations-doc sources listed below.
+- If the chosen work agent cannot inspect local files directly, stay history-only unless the candidate explicitly pastes or connects approved material inside that agent.
 
 Always-allowed baseline sources:
+
+- any session history, workspace artifacts, or knowledge-base material already available inside the chosen work agent, but only if the candidate explicitly made that material available there
 
 - `~/.claude/projects/**/*.jsonl`, excluding `subagents/`
 - Codex session directories from common paths only, if they exist
@@ -394,7 +399,7 @@ If running in extended mode:
 </pre>
         <pre class="prompt" id="prompt-ops-zh" data-lang="zh"># AI产品运营 Prompt
 
-把下面整段完整粘贴到 Claude Code 或 Codex 中执行：
+把下面整段完整粘贴到你自己的工作 agent 中执行，例如 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent：
 
 ---
 
@@ -414,7 +419,7 @@ If running in extended mode:
 输出语言：中文。
 
 岗位 Prompt 版本：
-- 精确版本：`ai-product-operations@2026-04-16.3`
+- 精确版本：`ai-product-operations@2026-04-16.4`
 - 生成终端摘要和 markdown 报告时，都要原样记录这串版本号，并使用字段名 `JD prompt version`
 
 判断原则：
@@ -438,11 +443,12 @@ If running in extended mode:
 
 在扫描任何本地 repo、项目目录或文档文件之前：
 
-- 先明确告诉候选人：这次分析只会在候选人自己的 Claude Code 或 Codex 本地运行中完成
-- 先明确告诉候选人：任何批准的扫描都只停留在其本地机器上，不会上传到我们的服务器
+- 先明确告诉候选人：`git-hired` 不会把本地 repo 或文件数据上传到我们的服务器
+- 先明确告诉候选人：所选工作 agent 只应访问他在本次运行中明确授权的项目、文件或知识库材料
+- 如果所选工作 agent 支持直接访问本地文件，任何批准的扫描也应尽量只停留在候选人自己的机器或已连接工作区内完成
 - 先询问候选人是要走 `history-only`，还是明确允许你扫描指定的本地 repo / 项目目录 / 文件，以帮助你更准确评分
 - 如果候选人没有明确允许，就不要扫描本地 repo、项目目录或文档文件
-- 如果候选人不允许，就只使用本地 AI 会话历史，以及候选人主动粘贴或明确批准的材料，再基于这部分证据做尽可能客观的判断
+- 如果候选人不允许，就只使用所选工作 agent 已有的会话历史，以及候选人主动粘贴或明确批准的材料，再基于这部分证据做尽可能客观的判断
 - 如果同意边界不清晰，先补一个简短的权限确认问题
 
 任务分 5 步执行：
@@ -459,6 +465,8 @@ If running in extended mode:
 - 只有候选人明确允许时，你才可以额外扫描 repo / 运营文档来源。
 
 始终可用的基础来源：
+
+- 候选人在所选工作 agent 中已经明确开放的会话历史、工作区材料或知识库内容
 
 - `~/.claude/projects/**/*.jsonl`，排除 `subagents/`
 - 若存在 Codex 会话目录，可纳入，但仅限常见路径

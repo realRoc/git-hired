@@ -46,12 +46,12 @@
         <h1 data-lang="en">Universal Entry</h1>
         <h1 data-lang="zh">通用测试入口</h1>
         <p class="lede" data-lang="en">
-          Start here if the candidate is switching tracks, sits between roles, or simply does not know which role page to use.
-          This page first collects their current profession, target profession, and privacy preference, then generates a local prompt.
+          Start here if you are switching tracks, sit between roles, or simply are not sure which role page fits best.
+          This page first collects your current profession, target profession, and privacy preference, then generates a prompt for Claude Code, Codex, Notion AI, or any similar work agent with knowledge-base and memory capability.
         </p>
         <p class="lede" data-lang="zh">
-          如果候选人正在转岗、角色横跨多个方向，或者还不确定该用哪个岗位页，就从这里开始。
-          这个页面会先收集候选人当前职业、目标职业和隐私偏好，再在本地生成对应 prompt。
+          如果你正在转岗、角色横跨多个方向，或者还不确定该用哪个岗位页，就从这里开始。
+          这个页面会先收集你当前职业、目标职业和隐私偏好，再生成一段适用于 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent 的 prompt。
         </p>
         <div class="inline-links">
           <a class="button secondary" href="./index.html" data-lang="en">Back Home</a>
@@ -63,10 +63,10 @@
         <h2 data-lang="en">1. Role Context</h2>
         <h2 data-lang="zh">1. 职业背景</h2>
         <p class="mini" data-lang="en">
-          Fill in where the candidate is now and where they want to go. The generated prompt will use this to choose the closest role lens and judge transition fit.
+          Fill in where you are now and where you want to go. The generated prompt will use this to choose the closest role lens and judge your transition fit.
         </p>
         <p class="mini" data-lang="zh">
-          先填写候选人现在在做什么，以及他想去做什么。生成后的 prompt 会基于这两点选择最接近的岗位视角，并判断转岗信号。
+          先填写你现在在做什么，以及你想去做什么。生成后的 prompt 会基于这两点选择最接近的岗位视角，并判断你的转岗信号。
         </p>
 
         <div class="form-grid">
@@ -87,10 +87,10 @@
         <h2 data-lang="en">2. Privacy Mode</h2>
         <h2 data-lang="zh">2. 隐私模式</h2>
         <p class="mini" data-lang="en">
-          Choose whether the prompt should stay in `history-only`, or whether the candidate is open to allowing scans of only specific local repos or files later.
+          Choose whether the prompt should stay in `history-only`, or whether you may later authorize access to only specific repos or files. `git-hired` never uploads your local repo or file data to our server.
         </p>
         <p class="mini" data-lang="zh">
-          选择这次测试是保持在 `history-only`，还是候选人后续愿意按需允许扫描指定的本地 repo 或文件。
+          选择这次测试是保持在 `history-only`，还是你后续愿意按需授权访问指定的本地 repo 或文件。`git-hired` 不会把你的本地 repo 或文件数据上传到我们的服务器。
         </p>
 
         <div class="option-list">
@@ -99,8 +99,8 @@
             <div>
               <strong data-lang="en">history-only</strong>
               <strong data-lang="zh">history-only</strong>
-              <p data-lang="en">Recommended. Stay inside local AI session history unless the candidate later opts in to a specific repo or file set.</p>
-              <p data-lang="zh">推荐。默认只看本地 AI 会话历史，除非候选人之后主动允许查看指定 repo 或文件集合。</p>
+              <p data-lang="en">Recommended. Stay inside the chosen work agent's existing history or knowledge-base context unless you later opt in to a specific repo or file set.</p>
+              <p data-lang="zh">推荐。默认只看所选工作 agent 已有的历史记录或知识库上下文，除非你之后主动允许查看指定 repo 或文件集合。</p>
             </div>
           </label>
 
@@ -109,8 +109,8 @@
             <div>
               <strong data-lang="en">specific repo scan after explicit confirmation</strong>
               <strong data-lang="zh">在明确确认后扫描指定 repo</strong>
-              <p data-lang="en">The prompt may later inspect only the specific repos or files the candidate explicitly approves in-session. Nothing is uploaded to our server.</p>
-              <p data-lang="zh">后续 prompt 只会在候选人会话内扫描其明确批准的指定 repo 或文件，不会上传任何内容到我们的服务器。</p>
+              <p data-lang="en">The prompt may later inspect only the specific repos or files you explicitly approve in-session. Nothing from your local repo or files is uploaded to our server.</p>
+              <p data-lang="zh">后续 prompt 只会在会话内访问你明确批准的指定 repo 或文件，不会把你的本地 repo 或文件数据上传到我们的服务器。</p>
             </div>
           </label>
         </div>
@@ -118,10 +118,10 @@
         <div class="callout mode-note" data-general-mode-note-en data-lang="en"></div>
         <div class="callout mode-note" data-general-mode-note-zh data-lang="zh"></div>
         <div class="callout" data-lang="en">
-          Friendly tip: for a smoother run, strongly consider turning on Claude Code's bypass mode or Codex's YOLO mode before starting the test.
+          Friendly tip: if you're using Claude Code or Codex, turning on Claude Code's bypass mode or Codex's YOLO mode usually makes the run smoother.
         </div>
         <div class="callout" data-lang="zh">
-          友情提示：为了让测试过程更顺畅，强烈建议先开启 Claude Code 的 bypass 模式，或 Codex 的 yolo 模式，再开始运行。
+          友情提示：如果你这次使用的是 Claude Code 或 Codex，先开启 Claude Code 的 bypass 模式，或 Codex 的 yolo 模式，通常会让测试过程更顺畅。
         </div>
       </section>
 
@@ -170,13 +170,13 @@
         </p>
       </section>
 
-      <p class="footer" data-lang="en">This page generates the prompt locally in your browser first, then you copy it into Claude Code or Codex.</p>
-      <p class="footer" data-lang="zh">这个页面会先在你的浏览器本地生成 prompt，再由你复制进 Claude Code 或 Codex。</p>
+      <p class="footer" data-lang="en">This page generates the prompt locally in your browser first, then you copy it into your own work agent.</p>
+      <p class="footer" data-lang="zh">这个页面会先在你的浏览器本地生成 prompt，再由你复制进自己的工作 agent。</p>
 
       <script id="general-template-en" type="text/plain">
 # Universal Entry Prompt
 
-Paste the full prompt below into Claude Code or Codex and run it:
+Paste the full prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent, and run it:
 
 ---
 
@@ -200,7 +200,7 @@ Your job is to inspect locally observable AI work traces and job-relevant artifa
 Output language: English.
 
 JD prompt version:
-- exact version: `universal-entry@2026-04-16.2`
+- exact version: `universal-entry@2026-04-16.3`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -225,8 +225,9 @@ The candidate selected this privacy preference before generating the prompt:
 - `{{SCAN_MODE_EN}}`
 
 Rules:
-- tell the candidate that this analysis runs locally inside their own Claude Code or Codex session
-- tell the candidate that any approved scan stays local on their machine and must not upload scanned repo or file content to our server
+- tell the candidate that `git-hired` does not upload local repo or file data to our server
+- tell the candidate that the chosen work agent should inspect only the projects, files, or knowledge-base material they explicitly authorize for this run
+- if the chosen work agent supports direct local access, keep any approved scanning inside the candidate's own machine or connected workspace whenever possible
 - if the selected mode is effectively `history-only`, stay within history-only unless the candidate explicitly changes their mind in-session
 - if the selected mode allows repo scanning later, do not broad-scan the machine; first ask which specific local repos / project directories / files are approved
 
@@ -234,9 +235,10 @@ Execute the task in 5 steps.
 
 ## Step 1. Confirm the boundary and discover data sources
 
-First ask one short boundary-confirmation question that respects the selected privacy mode above.
+First ask one short boundary-confirmation question that confirms which work agent the candidate is using and respects the selected privacy mode above.
 
 Always-allowed baseline sources:
+- any session history, workspace artifacts, or knowledge-base material already available inside the chosen work agent, but only if the candidate explicitly made that material available there
 - `~/.claude/projects/**/*.jsonl`, excluding `subagents/`
 - Codex session directories from common paths only, if they exist
 
@@ -425,7 +427,7 @@ If running in extended mode:
       <script id="general-template-zh" type="text/plain">
 # 通用测试入口 Prompt
 
-把下面整段完整粘贴到 Claude Code 或 Codex 中执行：
+把下面整段完整粘贴到你自己的工作 agent 中执行，例如 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent：
 
 ---
 
@@ -449,7 +451,7 @@ If running in extended mode:
 输出语言：中文。
 
 岗位 Prompt 版本：
-- 精确版本：`universal-entry@2026-04-16.2`
+- 精确版本：`universal-entry@2026-04-16.3`
 - 生成终端摘要和 markdown 报告时，都要原样记录这串版本号，并使用字段名 `JD prompt version`
 
 判断原则：
@@ -474,8 +476,9 @@ If running in extended mode:
 - `{{SCAN_MODE_ZH}}`
 
 执行规则：
-- 先明确告诉候选人：这次分析只会在候选人自己的 Claude Code 或 Codex 本地运行中完成
-- 先明确告诉候选人：任何批准的扫描都只停留在其本地机器上，不会上传到我们的服务器
+- 先明确告诉候选人：`git-hired` 不会把本地 repo 或文件数据上传到我们的服务器
+- 先明确告诉候选人：所选工作 agent 只应访问他在本次运行中明确授权的项目、文件或知识库材料
+- 如果所选工作 agent 支持直接访问本地文件，任何批准的扫描也应尽量只停留在候选人自己的机器或已连接工作区内完成
 - 如果上面的模式本质上是 `history-only`，那就保持在 history-only，除非候选人会话里明确改口
 - 如果上面的模式允许 repo 扫描，也不要广泛扫描整机；先问清楚候选人批准的是哪些具体 repo / 项目目录 / 文件
 
@@ -483,9 +486,10 @@ If running in extended mode:
 
 ## Step 1. 先确认边界，再发现数据源
 
-先问 1 个简短的边界确认问题，尊重候选人上面已经选过的隐私模式。
+先问 1 个简短的边界确认问题，同时确认候选人这次使用的是哪一种工作 agent，并尊重其上面已经选过的隐私模式。
 
 始终可用的基础来源：
+- 候选人在所选工作 agent 中已经明确开放的会话历史、工作区材料或知识库内容
 - `~/.claude/projects/**/*.jsonl`，排除 `subagents/`
 - 若存在 Codex 会话目录，可纳入，但仅限常见路径
 

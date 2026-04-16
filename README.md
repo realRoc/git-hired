@@ -9,15 +9,16 @@ fatal: not a qualified candidate
 
 Prompt-first candidate fit tests for AI-native startups.
 
-`git-hired` gives candidates a role-specific prompt to run inside their own AI agent, such as Claude Code or Codex, and asks that agent to return a structured, privacy-bounded fit report based on how the candidate actually works.
+`git-hired` gives candidates a role-specific prompt to run inside their own work agent, such as Claude Code, Codex, Notion AI, or any similar agent with knowledge-base and memory capability, and asks that agent to return a structured, privacy-bounded fit report based on how the candidate actually works.
 
 ## Privacy First
 
 > `git-hired` is consent-first and local-only.
 > By default, every role prompt stays `history-only`.
 > It should not scan a candidate's local repo, project folder, or document files unless the candidate explicitly allows it.
-> If the candidate opts in, any approved scan runs locally inside the candidate's own Claude Code or Codex session.
-> No candidate repo or local file data is uploaded from the candidate's machine to our server.
+> `git-hired` never uploads candidate repo or local file data to our server.
+> The chosen work agent should only inspect projects, files, or knowledge-base material the candidate explicitly authorizes.
+> If the chosen work agent supports direct local access, any approved scan should stay inside the candidate's own machine or connected workspace whenever possible.
 
 At a glance:
 
@@ -81,7 +82,7 @@ Can this person direct AI well enough to ship, learn, and iterate under startup 
 ## How It Works
 
 1. Send the candidate the role-specific page.
-2. They copy the prompt into their own Claude Code or Codex.
+2. They copy the prompt into their own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent.
 3. Their agent analyzes local work traces with explicit privacy limits.
 4. The candidate sends back the generated report.
 5. You use that report as a structured screening input, not as the final decision.
@@ -103,8 +104,8 @@ If they do not allow repo or document scanning, the agent should still make the 
 
 You can send something like:
 
-> Paste the prompt from this link into your own Claude Code or Codex, run it, and send me the output.  
-> By default it stays history-only. If you want a stronger score, you can explicitly allow scanning of specific local repos or files. Any approved scan stays local on your machine, and no local repo or file data is uploaded to our server.
+> Paste the prompt from this link into your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent, run it, and send me the output.
+> By default it stays history-only. If you want a stronger score, you can explicitly allow access to specific repos or files. `git-hired` does not upload your local repo or file data to our server, and the agent should only inspect material you explicitly authorize.
 
 Or lean into the joke:
 

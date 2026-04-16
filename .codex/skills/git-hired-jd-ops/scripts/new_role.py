@@ -39,7 +39,7 @@ def default_prompt_version(prompt_slug: str) -> str:
 def zh_prompt(title_zh: str, prompt_version: str) -> str:
     return f"""# {title_zh} Prompt
 
-把下面整段完整粘贴到 Claude Code 或 Codex 中执行：
+把下面整段完整粘贴到你自己的工作 agent 中执行，例如 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent：
 
 ---
 
@@ -89,13 +89,14 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
    - 如果资产文件暂时读不到，再补一个同气质的简短 fallback 图案，而不是重新发明一整套新风格。
 
 Consent & local-only notice:
-1. 默认只使用本地 AI 会话历史和候选人主动粘贴或明确批准的材料。
+1. 默认只使用所选工作 agent 已有的会话历史，以及候选人主动粘贴或明确批准的材料。
 2. 除非候选人明确允许，否则不要扫描其本地 repo、项目目录或文档文件。
-3. 先向候选人说明：任何批准的扫描都只会在候选人自己的 Claude Code 或 Codex 本地运行中完成，不会上传到我们的服务器。
-4. 先询问候选人要走哪种模式：
+3. 先向候选人说明：`git-hired` 不会把本地 repo 或文件数据上传到我们的服务器，且所选工作 agent 只应访问其明确授权的项目、文件或知识库材料。
+4. 如果所选工作 agent 支持直接访问本地文件，说明任何批准的扫描也应尽量只停留在候选人自己的机器或已连接工作区内完成。
+5. 先询问候选人要走哪种模式：
    - `history-only`
    - 或允许扫描指定的 repo / 本地项目 / 文件，以帮助你更准确评分
-5. 如果候选人不允许扫描 repo 或文档，就基于历史记录做尽可能客观的判断，并明确说明置信度限制。
+6. 如果候选人不允许扫描 repo 或文档，就基于历史记录做尽可能客观的判断，并明确说明置信度限制。
 
 TODO:
 - 补岗位画像
@@ -110,7 +111,7 @@ TODO:
 def en_prompt(title_en: str, prompt_version: str) -> str:
     return f"""# {title_en} Prompt
 
-Paste the full prompt below into Claude Code or Codex and run it:
+Paste the full prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent, and run it:
 
 ---
 
@@ -160,13 +161,14 @@ Output requirements:
    - if the asset file cannot be loaded, render one compact fallback emblem instead of inventing a whole new visual style.
 
 Consent & local-only notice:
-1. Default to using local AI session history and any material the candidate explicitly pastes or approves.
+1. Default to using the chosen work agent's existing history and any material the candidate explicitly pastes or approves.
 2. Do not scan the candidate's local repos, project directories, or document files unless the candidate explicitly allows it.
-3. First tell the candidate that any approved scanning runs locally inside their own Claude Code or Codex session and must not upload scanned repo or file content to our server.
-4. Ask the candidate which mode to use:
+3. First tell the candidate that `git-hired` does not upload local repo or file data to our server and that the chosen work agent should inspect only the projects, files, or knowledge-base material they explicitly authorize for this run.
+4. If the chosen work agent supports direct local access, say that any approved scanning should stay inside the candidate's own machine or connected workspace whenever possible.
+5. Ask the candidate which mode to use:
    - `history-only`
    - or allow scanning of specific repos / local projects / files for better scoring
-5. If the candidate does not allow repo or document scanning, make the best objective judgment you can from history-only evidence and state the resulting confidence limits clearly.
+6. If the candidate does not allow repo or document scanning, make the best objective judgment you can from history-only evidence and state the resulting confidence limits clearly.
 
 TODO:
 - add role profile
@@ -197,7 +199,7 @@ def role_page(
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{title_en} Test · git-hired</title>
-    <meta name="description" content="{title_en} fit test prompt for Claude Code or Codex.">
+    <meta name="description" content="{title_en} candidate test prompt for Claude Code, Codex, Notion AI, or similar work agents.">
     <script>
       (function () {{
         var key = "git-hired-lang";
@@ -250,16 +252,16 @@ def role_page(
         <h2 data-lang="en">How To Run This Test</h2>
         <h2 data-lang="zh">怎么开始这个测试</h2>
         <p class="mini" data-lang="en">
-          Paste the prompt below into your own Claude Code or Codex and run it. By default it stays history-only, asks before scanning any local repo or document, and keeps any approved scan local to your own machine.
+          Paste the prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent. By default it stays history-only, only accesses projects or files you explicitly authorize, and never uploads your local repo or file data to our server.
         </p>
         <p class="mini" data-lang="zh">
-          把下面这段 prompt 完整粘贴到你自己的 Claude Code 或 Codex 里运行。默认只看历史记录，如需扫描本地 repo 或文档会先征求你的允许；任何批准的扫描也只在你自己的机器本地运行。
+          把下面这段 prompt 完整粘贴到你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent。默认只看历史记录，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。
         </p>
         <div class="callout" data-lang="en">
-          Friendly tip: for a smoother run, strongly consider turning on Claude Code's bypass mode or Codex's YOLO mode before starting the test.
+          Friendly tip: if you're using Claude Code or Codex, turning on Claude Code's bypass mode or Codex's YOLO mode usually makes the run smoother.
         </div>
         <div class="callout" data-lang="zh">
-          友情提示：为了让测试过程更顺畅，强烈建议先开启 Claude Code 的 bypass 模式，或 Codex 的 yolo 模式，再开始运行。
+          友情提示：如果你这次使用的是 Claude Code 或 Codex，先开启 Claude Code 的 bypass 模式，或 Codex 的 yolo 模式，通常会让测试过程更顺畅。
         </div>
       </section>
 
@@ -276,8 +278,8 @@ def role_page(
 
       <section class="prompt-wrap">
         <div class="prompt-head">
-          <strong data-lang="en">Copy this directly into Claude Code or Codex</strong>
-          <strong data-lang="zh">复制后直接粘贴到 Claude Code / Codex</strong>
+          <strong data-lang="en">Copy this into your work agent</strong>
+          <strong data-lang="zh">复制后直接粘贴到你的工作 agent</strong>
           <button
             class="button"
             data-copy-button="true"
