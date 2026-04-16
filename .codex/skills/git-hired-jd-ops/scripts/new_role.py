@@ -69,7 +69,7 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
 输出要求：
 1. 最终输出是给候选人看的，不是给招聘方或面试官看的。
 2. 终端里的主输出要对 TUI 友好、简洁、易截图传播，并使用一个无依赖、3 帧以内、终端安全的动态 `HIRED` 开场，而不是静态稀疏字母块。
-3. 终端摘要要更像“能力画像 / 英雄画像”，包含结果判断、最适合的岗位、四轴阵营编码、archetype、ability score、压缩后的核心分板、天赋词缀、待解锁天赋和详细报告路径。核心分板的可见分数行应优先使用 `Label [████████░░] 8` 这类块状条格式。
+3. 终端摘要的主目标是“测试你的 MBTI 工作人格”，不要再发明候选人看不懂的阵营编码或 archetype。摘要里要直接呈现 MBTI 工作人格、能力值、最适合的岗位、压缩后的核心分板、天赋词缀、待解锁天赋、像素人格卡路径和详细报告路径。核心分板的可见分数行应优先使用 `Label [████████░░] 8` 这类块状条格式。
 4. 打分要明显更严：高分稀缺，证据不足时宁可保守降分，也不要做鼓励式灌水。
 5. 终端里给一个简短摘要，再在本地生成一份更完整的 `.md` 详细报告，并打印详细报告路径。
 6. 终端摘要和详细报告都必须记录 `JD prompt version`，且与本 prompt 顶部版本字符串完全一致。
@@ -82,6 +82,10 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
 13. 如果是 extended 模式，详细报告里要对 repo 名、文件路径、secret 等敏感信息做更严格脱敏。
 14. 避免分析师口吻的长句解释；TUI 中优先使用标签、词缀、极短短语，而不是长段论述。
 15. 核心分板控制在 4-5 个维度，不要做成 Excel 风格的 8-9 维清单。
+16. MBTI 只能基于可观察工作证据推断为“工作人格”，不是对候选人整个人生人格下定义。
+17. 终端里在 `HIRED` ASCII 头图下方要优先显示对应的 MBTI 像素人格卡。使用预先设计好的固定资源：
+   - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.svg`
+   - 如果当前终端不能内联图片，就打印这张像素卡的 URL 或本地路径，而不是临时现编 ASCII 小人。
 
 Consent & local-only notice:
 1. 默认只使用本地 AI 会话历史和候选人主动粘贴或明确批准的材料。
@@ -97,7 +101,7 @@ TODO:
 - 补数据源
 - 补行为分类
 - 补评分维度
-- 补候选人视角的 TUI 输出结构，包括无依赖动态 `HIRED` 开场和块状条分板格式
+- 补候选人视角的 TUI 输出结构，包括无依赖动态 `HIRED` 开场、MBTI 工作人格、像素人格卡和块状条分板格式
 - 补详细报告 `.md` 生成路径和内容结构
 """
 
@@ -135,7 +139,7 @@ Privacy boundary:
 Output requirements:
 1. The final output is for the candidate to read, not for the interviewer or hiring team.
 2. The main terminal output should be concise, TUI-friendly, easy to share, and start with a dependency-free, terminal-safe animated `HIRED` reveal that stays within about 3 frames.
-3. The terminal summary should feel like a hero portrait or capability profile, including a result call, the best-fit role right now, a four-slot alignment code, an archetype, an ability score, a compressed core board, talent tags, locked skills, and the detailed-report path. Visible score lines in the core board should prefer a block-bar format such as `Label [████████░░] 8`.
+3. The terminal summary should aim to `test your MBTI work personality`, not invent opaque alignment codes or archetypes. Show the MBTI work personality directly, along with the best-fit role right now, the ability score, a compressed core board, talent tags, locked skills, the matching pixel-card path, and the detailed-report path. Visible score lines in the core board should prefer a block-bar format such as `Label [████████░░] 8`.
 4. Score more harshly than a feel-good quiz: high scores should be rare, and thin evidence should round down rather than inflate.
 5. Give a short terminal summary, then generate a fuller local `.md` report and print its path.
 6. Both the terminal summary and markdown report must record `JD prompt version`, exactly identical to the version string at the top of this prompt.
@@ -148,6 +152,10 @@ Output requirements:
 13. In extended mode, redact repo names, file paths, secrets, and similar identifiers more aggressively in the markdown report.
 14. Avoid analyst-style long explanations in the TUI; prefer labels, tags, and compressed fragments.
 15. Keep the visible core board to 4-5 dimensions rather than an 8-9 line spreadsheet.
+16. Treat MBTI only as an evidence-backed work-style read, not as a total personality verdict.
+17. Right below the `HIRED` banner, prefer showing the matching predesigned MBTI pixel card from:
+   - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.svg`
+   - if inline image rendering is unavailable, print the pixel-card URL or local path instead of improvising custom ASCII character art.
 
 Consent & local-only notice:
 1. Default to using local AI session history and any material the candidate explicitly pastes or approves.
@@ -163,7 +171,7 @@ TODO:
 - add data sources
 - add behavior labels
 - add score dimensions
-- add candidate-facing TUI output structure, including a dependency-free animated `HIRED` reveal and block-bar score rows
+- add candidate-facing TUI output structure, including a dependency-free animated `HIRED` reveal, MBTI work personality, the matching pixel card, and block-bar score rows
 - add detailed `.md` report path and structure
 """
 

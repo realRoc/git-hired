@@ -363,15 +363,16 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 1. The terminal output should feel like a candidate-facing hero portrait, not a dry audit log.
 2. The first visual block in the terminal must be a readable ASCII banner whose main word is exactly `HIRED`, not a sparse single-letter block.
 3. After the `HIRED` header, the terminal summary should present:
-   - a subtitle or portrait label
+   - a subtitle focused on `MBTI work personality`
    - a result label
    - the best-fit role right now
-   - an alignment code
-   - a memorable archetype title plus short acronym
+   - an MBTI work personality type
+   - MBTI confidence or evidence strength
    - an ability score
    - a compact core board
    - talent tags
    - locked or not-yet-awakened skills
+   - a matching MBTI pixel-card asset or path
    - the local detailed-report path
 4. The summary should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
 5. Detailed evidence belongs in a local markdown report, not in the terminal summary.
@@ -386,6 +387,7 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 10. The `HIRED` header should use a simple animated reveal or pulse in the terminal when possible, but it must stay dependency-free and terminal-safe.
 11. The `HIRED` ASCII art should feel more dimensional and more legible than a flat block. Prefer a bold, easy-to-recognize shape over decorative noise.
 12. Do not require external packages, terminal UI libraries, or browser-only rendering tricks for the `HIRED` animation. The effect must work as plain terminal output.
+13. Do not reintroduce opaque labels such as custom alignment codes or obscure archetype acronyms. The visible identity system should use standard MBTI letters directly.
 
 ## Best-Fit Role Recommendation
 
@@ -399,42 +401,63 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - what evidence is missing for the tested role
    - what to improve next
 
-## MBTI-Style Compression For JD Prompts
+## MBTI Work Personality Output
 
 This rule applies whenever adding or editing any role prompt in `prompts/`, the universal-entry prompt, or the role template in `new_role.py`.
 
 1. Do not let Step 5 drift into analyst prose or a diagnostic essay.
-2. The TUI should feel closer to a game profile, alignment test, or typed archetype than to a formal report.
-3. Every TUI output must include a four-slot alignment code derived from explicit binary axes.
-4. The default universal axis system is:
-   - `D / S`: `Dominate / Submit`
-   - `A / T`: `Architect / Tinkerer`
-   - `P / G`: `Proof / Guess`
-   - `M / H`: `Momentum / Hesitation`
-5. Use the axis code conservatively. If evidence is thin, lower confidence rather than fabricating certainty.
-6. Replace long “why this works” explanation blocks with exactly 3 `Talent Tags`.
-7. Talent tags must be noun-phrase style, not mini paragraphs:
+2. The visible goal of the test should be framed as `test your MBTI work personality`, not as a custom in-house alignment quiz.
+3. Every TUI output must use standard MBTI letters directly:
+   - `E / I`
+   - `S / N`
+   - `T / F`
+   - `J / P`
+4. MBTI here is a work-style read from observable evidence, not a life-wide personality claim. Keep that boundary explicit in prompts and reports.
+5. Infer each MBTI axis conservatively from work evidence:
+   - `E / I`: outward collaboration loops vs quieter solo synthesis
+   - `S / N`: concrete execution detail vs abstraction and pattern synthesis
+   - `T / F`: tradeoff logic vs people or user-attunement
+   - `J / P`: structure and closure vs exploration and adaptation
+6. If one or more axes are weakly evidenced, lower confidence rather than forcing certainty.
+7. Replace long “why this works” explanation blocks with exactly 3 `Talent Tags`.
+8. Talent tags must be noun-phrase style, not mini paragraphs:
    - short
    - label-first
    - highly compressible
    - screenshot-friendly
-8. Replace ordinary weakness/improvement sections with 2-3 `Locked Skills`, `Version Bottlenecks`, or `Not-Yet-Awakened` abilities.
-9. Those “gap” sections must still be respectful and useful to the candidate. Game framing should remove HR stiffness, not empathy.
-10. The visible TUI score board should be compressed to 4-5 core dimensions for each role, not 8-9 spreadsheet lines.
-11. Step 4 may still use evidence-rich analysis internally, but the candidate-facing surface must present only the compressed core board.
-12. When creating or revising a role, the 4-5 core dimensions should be custom to that role rather than generic boilerplate.
-13. Avoid generic AI flourish such as:
+9. Replace ordinary weakness/improvement sections with 2-3 `Locked Skills`, `Version Bottlenecks`, or `Not-Yet-Awakened` abilities.
+10. Those “gap” sections must still be respectful and useful to the candidate. Game framing should remove HR stiffness, not empathy.
+11. The visible TUI score board should be compressed to 4-5 core dimensions for each role, not 8-9 spreadsheet lines.
+12. Step 4 may still use evidence-rich analysis internally, but the candidate-facing surface must present only the compressed core board.
+13. When creating or revising a role, the 4-5 core dimensions should be custom to that role rather than generic boilerplate.
+14. Avoid generic AI flourish such as:
    - “you are not just X, you are Y”
    - long motivational framing
    - over-explaining obvious strengths in full sentences
-14. Prefer direct definitions such as:
-   - alignment code
-   - archetype
+15. Prefer direct definitions such as:
+   - MBTI work personality
    - talent tags
    - locked skills
    - best-fit role
-15. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
-16. Use a clearer bar-first format such as `[████████░░] 8` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
+16. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
+17. Use a clearer bar-first format such as `[████████░░] 8` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
+
+## MBTI Pixel Card Assets
+
+This rule applies whenever adding or editing any role prompt in `prompts/`, the universal-entry prompt, the role template in `new_role.py`, or any asset under `docs/assets/mbti/`.
+
+1. The canonical MBTI image set lives under `docs/assets/mbti/`.
+2. Maintain one predesigned pixel card per MBTI type:
+   - `intj.svg`, `intp.svg`, `entj.svg`, `entp.svg`
+   - `infj.svg`, `infp.svg`, `enfj.svg`, `enfp.svg`
+   - `istj.svg`, `isfj.svg`, `estj.svg`, `esfj.svg`
+   - `istp.svg`, `isfp.svg`, `estp.svg`, `esfp.svg`
+3. Keep `docs/assets/mbti/manifest.json` aligned with the actual asset files.
+4. Candidate-facing prompts should reference the public asset URL pattern:
+   - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.svg`
+5. In terminal output, place the MBTI pixel-card immediately below the `HIRED` header when inline image rendering is available.
+6. If inline image rendering is not available, print the matching pixel-card URL or local path instead of inventing ASCII substitute art.
+7. Do not generate a fresh one-off image during the test. Reuse the predesigned MBTI card set so the result is consistent and recognizable across candidates.
 
 ## Per-JD Prompt Versioning
 

@@ -1,0 +1,101 @@
+{
+  "base_url": "https://realroc.github.io/git-hired/assets/mbti",
+  "types": {
+    "INTJ": {
+      "file": "assets/mbti/intj.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/intj.svg",
+      "descriptor_en": "quiet systems strategist",
+      "descriptor_zh": "安静型系统策士"
+    },
+    "INTP": {
+      "file": "assets/mbti/intp.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/intp.svg",
+      "descriptor_en": "pattern-first tool thinker",
+      "descriptor_zh": "模式优先的工具思考者"
+    },
+    "ENTJ": {
+      "file": "assets/mbti/entj.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/entj.svg",
+      "descriptor_en": "decisive build commander",
+      "descriptor_zh": "果断推进的搭建指挥官"
+    },
+    "ENTP": {
+      "file": "assets/mbti/entp.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/entp.svg",
+      "descriptor_en": "prototype-hungry idea hacker",
+      "descriptor_zh": "原型上瘾的点子黑客"
+    },
+    "INFJ": {
+      "file": "assets/mbti/infj.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/infj.svg",
+      "descriptor_en": "signal-reading meaning weaver",
+      "descriptor_zh": "擅长读信号的意义编织者"
+    },
+    "INFP": {
+      "file": "assets/mbti/infp.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/infp.svg",
+      "descriptor_en": "value-led craft idealist",
+      "descriptor_zh": "价值驱动的创作理想派"
+    },
+    "ENFJ": {
+      "file": "assets/mbti/enfj.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/enfj.svg",
+      "descriptor_en": "team-lifting catalyst",
+      "descriptor_zh": "带动团队的催化者"
+    },
+    "ENFP": {
+      "file": "assets/mbti/enfp.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/enfp.svg",
+      "descriptor_en": "spark-chasing possibility scout",
+      "descriptor_zh": "追逐火花的可能性侦察兵"
+    },
+    "ISTJ": {
+      "file": "assets/mbti/istj.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/istj.svg",
+      "descriptor_en": "process-locking keeper",
+      "descriptor_zh": "流程锁定的守成者"
+    },
+    "ISFJ": {
+      "file": "assets/mbti/isfj.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/isfj.svg",
+      "descriptor_en": "trust-first stabilizer",
+      "descriptor_zh": "以信任为先的稳定器"
+    },
+    "ESTJ": {
+      "file": "assets/mbti/estj.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/estj.svg",
+      "descriptor_en": "hard-closing operator",
+      "descriptor_zh": "强执行的收口型操盘手"
+    },
+    "ESFJ": {
+      "file": "assets/mbti/esfj.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/esfj.svg",
+      "descriptor_en": "care-driven coordinator",
+      "descriptor_zh": "关照型协同组织者"
+    },
+    "ISTP": {
+      "file": "assets/mbti/istp.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/istp.svg",
+      "descriptor_en": "debug-minded field mechanic",
+      "descriptor_zh": "调试脑的现场机械师"
+    },
+    "ISFP": {
+      "file": "assets/mbti/isfp.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/isfp.svg",
+      "descriptor_en": "taste-heavy quiet maker",
+      "descriptor_zh": "审美驱动的安静创作者"
+    },
+    "ESTP": {
+      "file": "assets/mbti/estp.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/estp.svg",
+      "descriptor_en": "impact-first mover",
+      "descriptor_zh": "冲击优先的行动派"
+    },
+    "ESFP": {
+      "file": "assets/mbti/esfp.svg",
+      "url": "https://realroc.github.io/git-hired/assets/mbti/esfp.svg",
+      "descriptor_en": "audience-aware live wire",
+      "descriptor_zh": "感知现场的高能导体"
+    }
+  }
+}

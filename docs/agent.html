@@ -231,14 +231,14 @@ Focus on whether this person matches the following profile:
 - they show ownership and actively push, revise, and reflect
 - they can produce outcomes under startup-style resource constraints
 
-Also derive one `Alignment Code` from these four binary axes:
+Also derive one `MBTI work personality` using standard MBTI letters, but keep it strictly as a work-style read from observable evidence:
 
-- `D / S`: `Dominate / Submit`
-- `A / T`: `Architect / Tinkerer`
-- `P / G`: `Proof / Guess`
-- `M / H`: `Momentum / Hesitation`
+- `E / I`: outward collaboration loops vs quieter solo synthesis
+- `S / N`: concrete execution detail vs abstraction and pattern synthesis
+- `T / F`: tradeoff logic vs people or user-attunement
+- `J / P`: structure and closure vs exploration and adaptation
 
-Choose conservatively. If the evidence is mixed, lower confidence instead of forcing certainty.
+If one or more axes are mixed or weakly evidenced, lower confidence instead of forcing certainty.
 
 Score only these 5 core dimensions from 1 to 10 with evidence:
 
@@ -264,7 +264,7 @@ Rules:
 - use at most 3 frames and keep the total animation under about 900ms
 - use plain stdout only; ANSI clear / cursor-home sequences are allowed, but no external packages or TUI frameworks
 - if redraw is unavailable, skip the animation and print only the final resting header
-- after the header, write like a typed character sheet, not a consultant memo
+- after the header, write like a clean MBTI work-personality card, not a consultant memo
 - calibrate more harshly than a feel-good internet quiz
 - `90+` and `9-10/10` are rare and need repeated, high-signal evidence
 - `75-89` and `7-8/10` are already clearly strong
@@ -293,20 +293,28 @@ Final resting header:
 ██╔══██║██║██╔══██╗██╔══╝  ██║  ██║
 ██║  ██║██║██║  ██║███████╗██████╔╝
 ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
-2. Then print a subtitle:
-- `&gt;&gt; &lt;role&gt; hero portrait &lt;&lt;`
 
-3. Print a compact identity block with:
+2. Immediately below the `HIRED` header, determine the MBTI work personality and attach the matching predesigned pixel card:
+- canonical public asset URL pattern: `https://realroc.github.io/git-hired/assets/mbti/&lt;mbti-lowercase&gt;.svg`
+- if inline image or markdown-image rendering is available, show the matching pixel card directly below the header
+- otherwise print one compact line: `Pixel card: &lt;url&gt;`
+- do not invent a custom ASCII avatar or regenerate the image from scratch
+
+3. Then print a subtitle:
+- `&gt;&gt; MBTI work personality &lt;&lt;`
+
+4. Print a compact identity block with:
 - result: `strong fit / promising but uneven / better matched elsewhere / evidence thin`
 - best-fit role right now
-- alignment code: 4 letters from `D/S`, `A/T`, `P/G`, `M/H`
-- archetype: one memorable title plus a short acronym
+- MBTI work personality: one standard 4-letter type such as `INTJ`
+- MBTI confidence: `high / medium / low`
+- one plain-language work read in a few words, not an opaque codename
 - ability score: `0-100`
 - confidence / mode / evidence
-- JD prompt version: exact string from the top of this prompt
+- `JD prompt version`: exact string from the top of this prompt
 - detailed report path
 
-4. Print `Core Board`
+5. Print `Core Board`
 - exactly 5 lines
 - one line per core dimension
 - format like `Spec Control      [███████░░░] 7`
@@ -314,28 +322,28 @@ Final resting header:
 - do not use dotted fillers or `7/10` style fractions
 - if a dimension is unavailable, show `Spec Control      [░░░░░░░░░░] N/A (evidence thin)`
 
-5. Print `Talent Tags`
+6. Print `Talent Tags`
 - exactly 3 lines
 - format: `[Tag] short fragment`
 - each fragment must stay under 8 words
 - no full-sentence explanation
 
-6. Print `Locked Skills`
+7. Print `Locked Skills`
 - 2 or 3 lines
 - format: `[Locked] short fragment`
 - each fragment must stay under 6 words
 - frame gaps as unlockable, not as shame
 
-7. Print `Best-fit role right now`
+8. Print `Best-fit role right now`
 - 1 or 2 compact lines
 - if the requested role is not the best fit, say what looks stronger right now and why in compressed form
 
-8. Print `Next Step`
+9. Print `Next Step`
 - if the result is `strong fit`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
 - otherwise give one short, respectful next step
 - encourage the candidate to keep the report if they may apply later
 
-9. End with:
+10. End with:
 - `&gt;&gt; If this portrait feels right, star github.com/realRoc/git-hired`
 
 ### B. Detailed report file
@@ -344,8 +352,9 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-&lt;role&gt;-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- a title block with result, best-fit role right now, JD prompt version, alignment code, archetype, ability score, mode, and evidence level
+- a title block with result, best-fit role right now, `JD prompt version`, MBTI work personality, MBTI confidence, pixel-card URL, ability score, mode, and evidence level
 - data coverage
+- a 4-line MBTI axis read with evidence for `E/I`, `S/N`, `T/F`, and `J/P`
 - redacted signal distribution
 - the 5-line core board with evidence, keeping the visible score line in the same `Label [███████░░░] 7` format
 - 3 talent tags with supporting evidence
@@ -487,14 +496,14 @@ If running in extended mode:
 - 有 owner 意识，会主动推进、复盘、修正
 - 能在资源有限的创业环境下持续拿结果
 
-另外还要根据证据，给出一个四轴 `阵营编码`：
+另外还要基于证据，给出一个 `MBTI 工作人格`，但只能把它当作工作风格读取，不要把它写成对候选人整个人格的武断定义：
 
-- `D / S`：`掌控 / 顺从`
-- `A / T`：`全局 / 局部`
-- `P / G`：`证据 / 猜测`
-- `M / H`：`推进 / 迟滞`
+- `E / I`：更偏外部协作回路，还是更偏安静独立综合
+- `S / N`：更偏具体执行细节，还是更偏抽象模式与洞察
+- `T / F`：更偏逻辑取舍，还是更偏用户 / 人的感受与关系
+- `J / P`：更偏结构、计划、收口，还是更偏探索、试错、临场适配
 
-如果证据混杂，不要硬判，宁可降低置信度。
+如果某些轴证据不够，不要硬判，宁可降低 MBTI 置信度。
 
 只对下面这 5 个核心维度按 `1-10` 打分，并给出证据：
 
@@ -520,7 +529,7 @@ If running in extended mode:
 - 最多使用 3 帧，总时长控制在约 900ms 以内
 - 只允许使用普通终端输出；可以使用 ANSI 清屏 / 光标归位，但不要依赖外部包或 TUI 框架
 - 如果当前终端不适合重绘，就直接输出最终定格帧
-- 在 ASCII 头图之后，要写得像“角色面板 / 阵营卡”，而不是咨询顾问的分析报告
+- 在 ASCII 头图之后，要写得像一张清晰的 `MBTI 工作人格卡`，而不是咨询顾问的分析报告
 - 打分要比常见的“鼓励式测评”更严格
 - `90+` 和 `9-10/10` 只有在证据连续、稀缺且强时才给
 - `75-89` 和 `7-8/10` 已经是明显强信号
@@ -549,20 +558,28 @@ If running in extended mode:
 ██╔══██║██║██╔══██╗██╔══╝  ██║  ██║
 ██║  ██║██║██║  ██║███████╗██████╔╝
 ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
-2. 然后输出副标题：
-- `&gt;&gt; &lt;role&gt; hero portrait &lt;&lt;`
 
-3. 输出一个紧凑身份卡，包含：
+2. 在 `HIRED` 头图正下方，先判定 MBTI 工作人格，再调用匹配的预设像素人格卡：
+- 统一使用这套固定资源：`https://realroc.github.io/git-hired/assets/mbti/&lt;mbti-lowercase&gt;.svg`
+- 如果当前环境支持内联图片或 markdown 图片渲染，就把对应像素卡直接显示在头图下方
+- 如果不支持，就打印一行：`Pixel card: &lt;url&gt;`
+- 不要临时现编 ASCII 小人，也不要重新生成新的图片
+
+3. 然后输出副标题：
+- `&gt;&gt; MBTI 工作人格 &lt;&lt;`
+
+4. 输出一个紧凑身份卡，包含：
 - 结果：`强匹配 / 有潜力但还不稳 / 更适合其他方向 / 证据不足`
 - 最适合的岗位
-- 阵营编码：从 `D/S`、`A/T`、`P/G`、`M/H` 四轴中各取 1 个字母
-- archetype：一个有记忆点的称号 + 缩写
+- MBTI 工作人格：一个标准 4 字母 MBTI 类型，例如 `INTJ`
+- MBTI 置信度：`high / medium / low`
+- 一句很短的工作风格解释，用白话，不要再造难懂黑话
 - 能力值：`0-100`
 - 置信度 / 模式 / 证据充分度
 - `JD prompt version`：原样填写本 prompt 顶部的精确版本字符串
 - 详细报告路径
 
-4. 输出 `Core Board`
+5. 输出 `Core Board`
 - 恰好 5 行
 - 每个核心维度一行
 - 格式类似：`Spec Control      [███████░░░] 7`
@@ -570,28 +587,28 @@ If running in extended mode:
 - 不要再使用点状补位或 `7/10` 这种分数字样
 - 如果某一维不可判断，写 `Spec Control      [░░░░░░░░░░] N/A（证据不足）`
 
-5. 输出 `天赋词缀`
+6. 输出 `天赋词缀`
 - 恰好 3 行
 - 格式：`[词缀] 极短短语`
 - 每条尽量控制在 8 个汉字左右
 - 不要写成长句解释
 
-6. 输出 `待解锁天赋`
+7. 输出 `待解锁天赋`
 - 2 到 3 行
 - 格式：`[待解锁] 极短短语`
 - 每条尽量控制在 6 个汉字左右
 - 把短板写成可解锁能力，不要写成训话
 
-7. 输出 `最适合的岗位`
+8. 输出 `最适合的岗位`
 - 用 1 到 2 行说清楚
 - 如果当前测试岗位不是最佳匹配，要明确告诉候选人他现在更像什么方向，以及为什么
 
-8. 输出 `下一步`
+9. 输出 `下一步`
 - 如果结果是 `强匹配`，明确建议把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告
 - 否则给 1 条简短、尊重人的下一步建议
 - 鼓励候选人保留这份报告，以后申请时也可以附上
 
-9. 最后补一句：
+10. 最后补一句：
 - `&gt;&gt; 如果这份画像像你，去 github.com/realRoc/git-hired 点个 star`
 
 ### B. 详细报告文件
@@ -600,8 +617,9 @@ If running in extended mode:
 - `./git-hired-&lt;role&gt;-report-YYYYMMDD-HHMMSS.md`
 
 这份 markdown 报告仍然必须站在候选人视角，包含：
-- 标题区：结果、最适合的岗位、`JD prompt version`、阵营编码、archetype、能力值、模式、证据充分度
+- 标题区：结果、最适合的岗位、`JD prompt version`、MBTI 工作人格、MBTI 置信度、像素卡 URL、能力值、模式、证据充分度
 - 数据覆盖
+- `E/I`、`S/N`、`T/F`、`J/P` 四条 MBTI 轴读取及证据
 - 去标识化的信号分布
 - 5 行核心分板及其证据，且可见分数行保持 `Label [███████░░░] 7` 这种格式
 - 3 个天赋词缀及证据

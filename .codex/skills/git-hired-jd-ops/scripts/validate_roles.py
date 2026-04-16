@@ -13,6 +13,16 @@ ZH_VERSION_RE = re.compile(r"- 精确版本：`([^`]+)`")
 HIRED_HEADER_MARKER = "██╗  ██╗██╗██████╗ ███████╗██████╗"
 BLOCK_BAR_MARKER = "[███████░░░] 7"
 OLD_BAR_MARKER = "[#######---]"
+MBTI_EN_MARKER = "MBTI work personality"
+MBTI_ZH_MARKER = "MBTI 工作人格"
+PIXEL_CARD_MARKER = "assets/mbti/<mbti-lowercase>.svg"
+PIXEL_CARD_URL_BASE = "https://realroc.github.io/git-hired/assets/mbti/"
+MBTI_TYPES = (
+    "intj", "intp", "entj", "entp",
+    "infj", "infp", "enfj", "enfp",
+    "istj", "isfj", "estj", "esfj",
+    "istp", "isfp", "estp", "esfp",
+)
 
 
 def extract_en_prompt_version(text: str) -> str | None:
@@ -39,6 +49,7 @@ def main() -> None:
     readme_en = (repo_root / "README.md").read_text(encoding="utf-8")
     readme_zh = (repo_root / "README.zh-CN.md").read_text(encoding="utf-8")
     general_page = repo_root / "docs" / "general.html"
+    mbti_asset_dir = repo_root / "docs" / "assets" / "mbti"
 
     errors: list[str] = []
     warnings: list[str] = []
@@ -51,6 +62,18 @@ def main() -> None:
         errors.append("docs/index.html missing universal entry link to ./general.html")
     if "See whether a candidate" in index_text or "看候选人是否" in index_text:
         errors.append("docs/index.html still contains recruiter-facing JD summary wording")
+    if MBTI_EN_MARKER not in index_text or MBTI_ZH_MARKER not in index_text:
+        errors.append("docs/index.html missing MBTI work-personality candidate copy")
+
+    if not mbti_asset_dir.exists():
+        errors.append("docs/assets/mbti missing MBTI pixel-card asset directory")
+    else:
+        manifest = mbti_asset_dir / "manifest.json"
+        if not manifest.exists():
+            errors.append("docs/assets/mbti/manifest.json missing")
+        for mbti_type in MBTI_TYPES:
+            if not (mbti_asset_dir / f"{mbti_type}.svg").exists():
+                errors.append(f"docs/assets/mbti missing {mbti_type}.svg")
 
     if not general_page.exists():
         errors.append("docs/general.html missing universal entry page")
@@ -78,8 +101,12 @@ def main() -> None:
             errors.append("docs/general.html still contains salary/compensation hook language in prompt templates")
         if "best-fit role" not in general_text or "最适合的岗位" not in general_text:
             errors.append("docs/general.html missing best-fit role guidance in prompt templates")
-        if "alignment code" not in general_text or "阵营编码" not in general_text:
-            errors.append("docs/general.html missing alignment-code guidance in prompt templates")
+        if "alignment code" in general_text or "阵营编码" in general_text:
+            errors.append("docs/general.html still contains deprecated alignment-code language")
+        if MBTI_EN_MARKER not in general_text or MBTI_ZH_MARKER not in general_text:
+            errors.append("docs/general.html missing MBTI work-personality guidance in prompt templates")
+        if PIXEL_CARD_URL_BASE not in general_text or "Pixel card:" not in general_text:
+            errors.append("docs/general.html missing MBTI pixel-card guidance in prompt templates")
         if "Talent Tags" not in general_text or "天赋词缀" not in general_text:
             errors.append("docs/general.html missing talent-tag guidance in prompt templates")
         if "Locked Skills" not in general_text or "待解锁天赋" not in general_text:
@@ -151,8 +178,12 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md still contains salary/compensation language")
             if "最适合的岗位" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing best-fit role guidance")
-            if "阵营编码" not in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md missing alignment-code guidance")
+            if "阵营编码" in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md still contains deprecated alignment-code language")
+            if MBTI_ZH_MARKER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing MBTI work-personality guidance")
+            if PIXEL_CARD_URL_BASE not in zh_prompt_text or "Pixel card:" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing MBTI pixel-card guidance")
             if "天赋词缀" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing talent-tag guidance")
             if "待解锁天赋" not in zh_prompt_text:
@@ -186,8 +217,12 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains salary/compensation language")
             if "best-fit role" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing best-fit role guidance")
-            if "alignment code" not in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md missing alignment-code guidance")
+            if "alignment code" in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md still contains deprecated alignment-code language")
+            if MBTI_EN_MARKER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing MBTI work-personality guidance")
+            if PIXEL_CARD_URL_BASE not in en_prompt_text or "Pixel card:" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing MBTI pixel-card guidance")
             if "Talent Tags" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing talent-tag guidance")
             if "Locked Skills" not in en_prompt_text:
@@ -245,6 +280,12 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing synced block-bar score format guidance")
             if OLD_BAR_MARKER in page_text:
                 errors.append(f"docs/{page_slug}.html still contains old hash-based score bar examples")
+            if "alignment code" in page_text or "阵营编码" in page_text:
+                errors.append(f"docs/{page_slug}.html still contains deprecated alignment-code language")
+            if MBTI_EN_MARKER not in page_text or MBTI_ZH_MARKER not in page_text:
+                errors.append(f"docs/{page_slug}.html missing synced MBTI work-personality guidance")
+            if PIXEL_CARD_URL_BASE not in page_text or "Pixel card:" not in page_text:
+                errors.append(f"docs/{page_slug}.html missing synced MBTI pixel-card guidance")
             if zh_prompt_version and zh_prompt_version not in page_text:
                 errors.append(f"docs/{page_slug}.html missing synced prompt version {zh_prompt_version}")
             if en_prompt_version and en_prompt_version not in page_text:

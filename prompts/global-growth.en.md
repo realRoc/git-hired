@@ -151,14 +151,14 @@ Focus on whether this person fits the following profile:
 - seems ready for English-language and cross-cultural growth work
 - shows startup-level ownership and pressure tolerance
 
-Also derive one `Alignment Code` from these four binary axes:
+Also derive one `MBTI work personality` using standard MBTI letters, but keep it strictly as a work-style read from observable evidence:
 
-- `D / S`: `Dominate / Submit`
-- `A / T`: `Architect / Tinkerer`
-- `P / G`: `Proof / Guess`
-- `M / H`: `Momentum / Hesitation`
+- `E / I`: outward collaboration loops vs quieter solo synthesis
+- `S / N`: concrete execution detail vs abstraction and pattern synthesis
+- `T / F`: tradeoff logic vs people or user-attunement
+- `J / P`: structure and closure vs exploration and adaptation
 
-Choose conservatively. If the evidence is mixed, lower confidence instead of forcing certainty.
+If one or more axes are mixed or weakly evidenced, lower confidence instead of forcing certainty.
 
 Score only these 5 core dimensions from 1 to 10 with evidence:
 
@@ -184,7 +184,7 @@ Rules:
 - use at most 3 frames and keep the total animation under about 900ms
 - use plain stdout only; ANSI clear / cursor-home sequences are allowed, but no external packages or TUI frameworks
 - if redraw is unavailable, skip the animation and print only the final resting header
-- after the header, write like a typed character sheet, not a consultant memo
+- after the header, write like a clean MBTI work-personality card, not a consultant memo
 - calibrate more harshly than a feel-good internet quiz
 - `90+` and `9-10/10` are rare and need repeated, high-signal evidence
 - `75-89` and `7-8/10` are already clearly strong
@@ -213,20 +213,28 @@ Final resting header:
 ██╔══██║██║██╔══██╗██╔══╝  ██║  ██║
 ██║  ██║██║██║  ██║███████╗██████╔╝
 ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
-2. Then print a subtitle:
-- `>> <role> hero portrait <<`
 
-3. Print a compact identity block with:
+2. Immediately below the `HIRED` header, determine the MBTI work personality and attach the matching predesigned pixel card:
+- canonical public asset URL pattern: `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.svg`
+- if inline image or markdown-image rendering is available, show the matching pixel card directly below the header
+- otherwise print one compact line: `Pixel card: <url>`
+- do not invent a custom ASCII avatar or regenerate the image from scratch
+
+3. Then print a subtitle:
+- `>> MBTI work personality <<`
+
+4. Print a compact identity block with:
 - result: `strong fit / promising but uneven / better matched elsewhere / evidence thin`
 - best-fit role right now
-- alignment code: 4 letters from `D/S`, `A/T`, `P/G`, `M/H`
-- archetype: one memorable title plus a short acronym
+- MBTI work personality: one standard 4-letter type such as `INTJ`
+- MBTI confidence: `high / medium / low`
+- one plain-language work read in a few words, not an opaque codename
 - ability score: `0-100`
 - confidence / mode / evidence
-- JD prompt version: exact string from the top of this prompt
+- `JD prompt version`: exact string from the top of this prompt
 - detailed report path
 
-4. Print `Core Board`
+5. Print `Core Board`
 - exactly 5 lines
 - one line per core dimension
 - format like `Spec Control      [███████░░░] 7`
@@ -234,28 +242,28 @@ Final resting header:
 - do not use dotted fillers or `7/10` style fractions
 - if a dimension is unavailable, show `Spec Control      [░░░░░░░░░░] N/A (evidence thin)`
 
-5. Print `Talent Tags`
+6. Print `Talent Tags`
 - exactly 3 lines
 - format: `[Tag] short fragment`
 - each fragment must stay under 8 words
 - no full-sentence explanation
 
-6. Print `Locked Skills`
+7. Print `Locked Skills`
 - 2 or 3 lines
 - format: `[Locked] short fragment`
 - each fragment must stay under 6 words
 - frame gaps as unlockable, not as shame
 
-7. Print `Best-fit role right now`
+8. Print `Best-fit role right now`
 - 1 or 2 compact lines
 - if the requested role is not the best fit, say what looks stronger right now and why in compressed form
 
-8. Print `Next Step`
+9. Print `Next Step`
 - if the result is `strong fit`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
 - otherwise give one short, respectful next step
 - encourage the candidate to keep the report if they may apply later
 
-9. End with:
+10. End with:
 - `>> If this portrait feels right, star github.com/realRoc/git-hired`
 
 ### B. Detailed report file
@@ -264,8 +272,9 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- a title block with result, best-fit role right now, JD prompt version, alignment code, archetype, ability score, mode, and evidence level
+- a title block with result, best-fit role right now, `JD prompt version`, MBTI work personality, MBTI confidence, pixel-card URL, ability score, mode, and evidence level
 - data coverage
+- a 4-line MBTI axis read with evidence for `E/I`, `S/N`, `T/F`, and `J/P`
 - redacted signal distribution
 - the 5-line core board with evidence, keeping the visible score line in the same `Label [███████░░░] 7` format
 - 3 talent tags with supporting evidence
