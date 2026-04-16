@@ -124,7 +124,7 @@ Target role profile:
 Output language: English.
 
 JD prompt version:
-- exact version: `ai-product-operations@2026-04-16.2`
+- exact version: `ai-product-operations@2026-04-16.3`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -314,11 +314,12 @@ Final resting header:
 ██║  ██║██║██║  ██║███████╗██████╔╝
 ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
 
-2. Immediately below the `HIRED` header, determine the MBTI work personality and attach the matching predesigned pixel card:
-- canonical public asset URL pattern: `https://realroc.github.io/git-hired/assets/mbti/&lt;mbti-lowercase&gt;.svg`
-- if inline image or markdown-image rendering is available, show the matching pixel card directly below the header
-- otherwise print one compact line: `Pixel card: &lt;url&gt;`
-- do not invent a custom ASCII avatar or regenerate the image from scratch
+2. Immediately below the `HIRED` header, determine the MBTI work personality and print the matching predesigned ASCII card:
+- canonical public asset URL pattern: `https://realroc.github.io/git-hired/assets/mbti/&lt;mbti-lowercase&gt;.txt`
+- preferred repo asset path when available: `docs/assets/mbti/&lt;mbti-lowercase&gt;.txt`
+- print the raw card contents directly in the terminal
+- if the asset file cannot be loaded, render one compact fallback emblem in the same spirit and keep it under about 8 lines
+- do not regenerate a brand-new visual style when the asset file is available
 
 3. Then print a subtitle:
 - `&gt;&gt; MBTI work personality &lt;&lt;`
@@ -372,7 +373,7 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-&lt;role&gt;-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- a title block with result, best-fit role right now, `JD prompt version`, MBTI work personality, MBTI confidence, pixel-card URL, ability score, mode, and evidence level
+- a title block with result, best-fit role right now, `JD prompt version`, MBTI work personality, MBTI confidence, ASCII card source, ability score, mode, and evidence level
 - data coverage
 - a 4-line MBTI axis read with evidence for `E/I`, `S/N`, `T/F`, and `J/P`
 - redacted signal distribution
@@ -413,7 +414,7 @@ If running in extended mode:
 输出语言：中文。
 
 岗位 Prompt 版本：
-- 精确版本：`ai-product-operations@2026-04-16.2`
+- 精确版本：`ai-product-operations@2026-04-16.3`
 - 生成终端摘要和 markdown 报告时，都要原样记录这串版本号，并使用字段名 `JD prompt version`
 
 判断原则：
@@ -603,11 +604,12 @@ If running in extended mode:
 ██║  ██║██║██║  ██║███████╗██████╔╝
 ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
 
-2. 在 `HIRED` 头图正下方，先判定 MBTI 工作人格，再调用匹配的预设像素人格卡：
-- 统一使用这套固定资源：`https://realroc.github.io/git-hired/assets/mbti/&lt;mbti-lowercase&gt;.svg`
-- 如果当前环境支持内联图片或 markdown 图片渲染，就把对应像素卡直接显示在头图下方
-- 如果不支持，就打印一行：`Pixel card: &lt;url&gt;`
-- 不要临时现编 ASCII 小人，也不要重新生成新的图片
+2. 在 `HIRED` 头图正下方，先判定 MBTI 工作人格，再打印匹配的预设 ASCII 卡片：
+- 统一使用这套固定资源：`https://realroc.github.io/git-hired/assets/mbti/&lt;mbti-lowercase&gt;.txt`
+- 如果能访问 repo 里的文本资产，优先读取：`docs/assets/mbti/&lt;mbti-lowercase&gt;.txt`
+- 把对应 ASCII 卡片的原始内容直接打印在终端里
+- 如果资产文件暂时读不到，再补一个同气质的紧凑 fallback 图案，并控制在约 8 行以内
+- 如果资产文件可用，就不要临时重新发明一套新图案
 
 3. 然后输出副标题：
 - `&gt;&gt; MBTI 工作人格 &lt;&lt;`
@@ -661,7 +663,7 @@ If running in extended mode:
 - `./git-hired-&lt;role&gt;-report-YYYYMMDD-HHMMSS.md`
 
 这份 markdown 报告仍然必须站在候选人视角，包含：
-- 标题区：结果、最适合的岗位、`JD prompt version`、MBTI 工作人格、MBTI 置信度、像素卡 URL、能力值、模式、证据充分度
+- 标题区：结果、最适合的岗位、`JD prompt version`、MBTI 工作人格、MBTI 置信度、ASCII 卡片来源、能力值、模式、证据充分度
 - 数据覆盖
 - `E/I`、`S/N`、`T/F`、`J/P` 四条 MBTI 轴读取及证据
 - 去标识化的信号分布

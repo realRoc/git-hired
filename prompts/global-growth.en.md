@@ -18,7 +18,7 @@ Target role profile:
 Output language: English.
 
 JD prompt version:
-- exact version: `global-growth@2026-04-16.2`
+- exact version: `global-growth@2026-04-16.3`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -214,11 +214,12 @@ Final resting header:
 ██║  ██║██║██║  ██║███████╗██████╔╝
 ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
 
-2. Immediately below the `HIRED` header, determine the MBTI work personality and attach the matching predesigned pixel card:
-- canonical public asset URL pattern: `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.svg`
-- if inline image or markdown-image rendering is available, show the matching pixel card directly below the header
-- otherwise print one compact line: `Pixel card: <url>`
-- do not invent a custom ASCII avatar or regenerate the image from scratch
+2. Immediately below the `HIRED` header, determine the MBTI work personality and print the matching predesigned ASCII card:
+- canonical public asset URL pattern: `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
+- preferred repo asset path when available: `docs/assets/mbti/<mbti-lowercase>.txt`
+- print the raw card contents directly in the terminal
+- if the asset file cannot be loaded, render one compact fallback emblem in the same spirit and keep it under about 8 lines
+- do not regenerate a brand-new visual style when the asset file is available
 
 3. Then print a subtitle:
 - `>> MBTI work personality <<`
@@ -272,7 +273,7 @@ If local file writing is available, write a fuller markdown report to:
 - `./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
 
 The markdown report must also be candidate-facing. It should include:
-- a title block with result, best-fit role right now, `JD prompt version`, MBTI work personality, MBTI confidence, pixel-card URL, ability score, mode, and evidence level
+- a title block with result, best-fit role right now, `JD prompt version`, MBTI work personality, MBTI confidence, ASCII card source, ability score, mode, and evidence level
 - data coverage
 - a 4-line MBTI axis read with evidence for `E/I`, `S/N`, `T/F`, and `J/P`
 - redacted signal distribution

@@ -372,7 +372,7 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - a compact core board
    - talent tags
    - locked or not-yet-awakened skills
-   - a matching MBTI pixel-card asset or path
+   - a matching MBTI ASCII card rendered directly in the terminal when possible
    - the local detailed-report path
 4. The summary should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
 5. Detailed evidence belongs in a local markdown report, not in the terminal summary.
@@ -442,22 +442,23 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
 16. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
 17. Use a clearer bar-first format such as `[████████░░] 8` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
 
-## MBTI Pixel Card Assets
+## MBTI ASCII Card Assets
 
 This rule applies whenever adding or editing any role prompt in `prompts/`, the universal-entry prompt, the role template in `new_role.py`, or any asset under `docs/assets/mbti/`.
 
-1. The canonical MBTI image set lives under `docs/assets/mbti/`.
-2. Maintain one predesigned pixel card per MBTI type:
-   - `intj.svg`, `intp.svg`, `entj.svg`, `entp.svg`
-   - `infj.svg`, `infp.svg`, `enfj.svg`, `enfp.svg`
-   - `istj.svg`, `isfj.svg`, `estj.svg`, `esfj.svg`
-   - `istp.svg`, `isfp.svg`, `estp.svg`, `esfp.svg`
+1. The canonical MBTI ASCII deck lives under `docs/assets/mbti/`.
+2. Maintain one predesigned ASCII card per MBTI type:
+   - `intj.txt`, `intp.txt`, `entj.txt`, `entp.txt`
+   - `infj.txt`, `infp.txt`, `enfj.txt`, `enfp.txt`
+   - `istj.txt`, `isfj.txt`, `estj.txt`, `esfj.txt`
+   - `istp.txt`, `isfp.txt`, `estp.txt`, `esfp.txt`
 3. Keep `docs/assets/mbti/manifest.json` aligned with the actual asset files.
 4. Candidate-facing prompts should reference the public asset URL pattern:
-   - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.svg`
-5. In terminal output, place the MBTI pixel-card immediately below the `HIRED` header when inline image rendering is available.
-6. If inline image rendering is not available, print the matching pixel-card URL or local path instead of inventing ASCII substitute art.
-7. Do not generate a fresh one-off image during the test. Reuse the predesigned MBTI card set so the result is consistent and recognizable across candidates.
+   - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
+5. In terminal output, place the MBTI ASCII card immediately below the `HIRED` header by printing the raw text card directly in the TUI.
+6. Prefer the repo text asset itself over a generated substitute. Only fall back to a compact emblem when the asset file cannot be loaded.
+7. Do not use SVG, raster images, or inline-image assumptions for the MBTI deck. This repo’s MBTI visuals are terminal-first text assets.
+8. Do not generate a fresh one-off visual style during the test. Reuse the predesigned ASCII deck so the result is consistent and recognizable across candidates.
 
 ## Per-JD Prompt Versioning
 

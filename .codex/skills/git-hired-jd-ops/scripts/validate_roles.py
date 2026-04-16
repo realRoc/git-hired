@@ -15,8 +15,9 @@ BLOCK_BAR_MARKER = "[███████░░░] 7"
 OLD_BAR_MARKER = "[#######---]"
 MBTI_EN_MARKER = "MBTI work personality"
 MBTI_ZH_MARKER = "MBTI 工作人格"
-PIXEL_CARD_MARKER = "assets/mbti/<mbti-lowercase>.svg"
-PIXEL_CARD_URL_BASE = "https://realroc.github.io/git-hired/assets/mbti/"
+ASCII_CARD_EN_MARKER = "ASCII card"
+ASCII_CARD_ZH_MARKER = "ASCII 卡片"
+ASCII_CARD_URL_BASE = "https://realroc.github.io/git-hired/assets/mbti/"
 MBTI_TYPES = (
     "intj", "intp", "entj", "entp",
     "infj", "infp", "enfj", "enfp",
@@ -66,14 +67,16 @@ def main() -> None:
         errors.append("docs/index.html missing MBTI work-personality candidate copy")
 
     if not mbti_asset_dir.exists():
-        errors.append("docs/assets/mbti missing MBTI pixel-card asset directory")
+        errors.append("docs/assets/mbti missing MBTI ASCII-card asset directory")
     else:
         manifest = mbti_asset_dir / "manifest.json"
         if not manifest.exists():
             errors.append("docs/assets/mbti/manifest.json missing")
         for mbti_type in MBTI_TYPES:
-            if not (mbti_asset_dir / f"{mbti_type}.svg").exists():
-                errors.append(f"docs/assets/mbti missing {mbti_type}.svg")
+            if not (mbti_asset_dir / f"{mbti_type}.txt").exists():
+                errors.append(f"docs/assets/mbti missing {mbti_type}.txt")
+        if list(mbti_asset_dir.glob("*.svg")):
+            errors.append("docs/assets/mbti should not contain legacy SVG files")
 
     if not general_page.exists():
         errors.append("docs/general.html missing universal entry page")
@@ -105,8 +108,14 @@ def main() -> None:
             errors.append("docs/general.html still contains deprecated alignment-code language")
         if MBTI_EN_MARKER not in general_text or MBTI_ZH_MARKER not in general_text:
             errors.append("docs/general.html missing MBTI work-personality guidance in prompt templates")
-        if PIXEL_CARD_URL_BASE not in general_text or "Pixel card:" not in general_text:
-            errors.append("docs/general.html missing MBTI pixel-card guidance in prompt templates")
+        if "pixel card" in general_text or ".svg" in general_text:
+            errors.append("docs/general.html still contains legacy pixel-card or SVG language")
+        if (
+            ASCII_CARD_URL_BASE not in general_text
+            or (ASCII_CARD_EN_MARKER not in general_text and ASCII_CARD_ZH_MARKER not in general_text)
+            or ".txt" not in general_text
+        ):
+            errors.append("docs/general.html missing MBTI ASCII-card guidance in prompt templates")
         if "Talent Tags" not in general_text or "天赋词缀" not in general_text:
             errors.append("docs/general.html missing talent-tag guidance in prompt templates")
         if "Locked Skills" not in general_text or "待解锁天赋" not in general_text:
@@ -182,8 +191,10 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md still contains deprecated alignment-code language")
             if MBTI_ZH_MARKER not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing MBTI work-personality guidance")
-            if PIXEL_CARD_URL_BASE not in zh_prompt_text or "Pixel card:" not in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md missing MBTI pixel-card guidance")
+            if "pixel card" in zh_prompt_text or ".svg" in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md still contains legacy pixel-card or SVG language")
+            if ASCII_CARD_URL_BASE not in zh_prompt_text or ASCII_CARD_ZH_MARKER not in zh_prompt_text or ".txt" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing MBTI ASCII-card guidance")
             if "天赋词缀" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing talent-tag guidance")
             if "待解锁天赋" not in zh_prompt_text:
@@ -221,8 +232,10 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains deprecated alignment-code language")
             if MBTI_EN_MARKER not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing MBTI work-personality guidance")
-            if PIXEL_CARD_URL_BASE not in en_prompt_text or "Pixel card:" not in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md missing MBTI pixel-card guidance")
+            if "pixel card" in en_prompt_text or ".svg" in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md still contains legacy pixel-card or SVG language")
+            if ASCII_CARD_URL_BASE not in en_prompt_text or ASCII_CARD_EN_MARKER not in en_prompt_text or ".txt" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing MBTI ASCII-card guidance")
             if "Talent Tags" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing talent-tag guidance")
             if "Locked Skills" not in en_prompt_text:
@@ -284,8 +297,14 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html still contains deprecated alignment-code language")
             if MBTI_EN_MARKER not in page_text or MBTI_ZH_MARKER not in page_text:
                 errors.append(f"docs/{page_slug}.html missing synced MBTI work-personality guidance")
-            if PIXEL_CARD_URL_BASE not in page_text or "Pixel card:" not in page_text:
-                errors.append(f"docs/{page_slug}.html missing synced MBTI pixel-card guidance")
+            if "pixel card" in page_text or ".svg" in page_text:
+                errors.append(f"docs/{page_slug}.html still contains legacy pixel-card or SVG language")
+            if (
+                ASCII_CARD_URL_BASE not in page_text
+                or (ASCII_CARD_EN_MARKER not in page_text and ASCII_CARD_ZH_MARKER not in page_text)
+                or ".txt" not in page_text
+            ):
+                errors.append(f"docs/{page_slug}.html missing synced MBTI ASCII-card guidance")
             if zh_prompt_version and zh_prompt_version not in page_text:
                 errors.append(f"docs/{page_slug}.html missing synced prompt version {zh_prompt_version}")
             if en_prompt_version and en_prompt_version not in page_text:

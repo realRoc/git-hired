@@ -9,7 +9,7 @@
 输出语言：中文。
 
 岗位 Prompt 版本：
-- 精确版本：`agent-engineer@2026-04-16.2`
+- 精确版本：`agent-engineer@2026-04-16.3`
 - 生成终端摘要和 markdown 报告时，都要原样记录这串版本号，并使用字段名 `JD prompt version`
 
 判断原则：
@@ -186,11 +186,12 @@
 ██║  ██║██║██║  ██║███████╗██████╔╝
 ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
 
-2. 在 `HIRED` 头图正下方，先判定 MBTI 工作人格，再调用匹配的预设像素人格卡：
-- 统一使用这套固定资源：`https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.svg`
-- 如果当前环境支持内联图片或 markdown 图片渲染，就把对应像素卡直接显示在头图下方
-- 如果不支持，就打印一行：`Pixel card: <url>`
-- 不要临时现编 ASCII 小人，也不要重新生成新的图片
+2. 在 `HIRED` 头图正下方，先判定 MBTI 工作人格，再打印匹配的预设 ASCII 卡片：
+- 统一使用这套固定资源：`https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
+- 如果能访问 repo 里的文本资产，优先读取：`docs/assets/mbti/<mbti-lowercase>.txt`
+- 把对应 ASCII 卡片的原始内容直接打印在终端里
+- 如果资产文件暂时读不到，再补一个同气质的紧凑 fallback 图案，并控制在约 8 行以内
+- 如果资产文件可用，就不要临时重新发明一套新图案
 
 3. 然后输出副标题：
 - `>> MBTI 工作人格 <<`
@@ -244,7 +245,7 @@
 - `./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
 
 这份 markdown 报告仍然必须站在候选人视角，包含：
-- 标题区：结果、最适合的岗位、`JD prompt version`、MBTI 工作人格、MBTI 置信度、像素卡 URL、能力值、模式、证据充分度
+- 标题区：结果、最适合的岗位、`JD prompt version`、MBTI 工作人格、MBTI 置信度、ASCII 卡片来源、能力值、模式、证据充分度
 - 数据覆盖
 - `E/I`、`S/N`、`T/F`、`J/P` 四条 MBTI 轴读取及证据
 - 去标识化的信号分布
