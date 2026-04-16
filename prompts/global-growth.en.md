@@ -18,7 +18,7 @@ Target role profile:
 Output language: English.
 
 JD prompt version:
-- exact version: `global-growth@2026-04-16.4`
+- exact version: `global-growth@2026-04-16.5`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -51,6 +51,12 @@ Before scanning any local repo, project directory, or document file:
 - if consent is unclear, ask a short permission question first
 
 Execute the task in 5 steps.
+
+Time budget:
+1. Default target: finish the full test within about 1 minute.
+2. Sample recent, high-signal sessions or materials first instead of doing an exhaustive crawl.
+3. Stop early once confidence is sufficient.
+4. If the time budget is reached and evidence is still thin, finish with lower confidence instead of running indefinitely.
 
 ## Step 1. Set the analysis boundary and discover available data sources
 
@@ -200,6 +206,9 @@ Rules:
 - avoid analyst prose and long “why” paragraphs
 - in `Talent Tags` and `Locked Skills`, use fragments, not explanatory sentences
 - lead with evidence-backed strengths before discussing gaps
+- keep the full test within about 1 minute by default
+- if local data is large, sample rather than crawl
+- do not prefix every visible line with `>>`, `>>>`, or similar markers after the `HIRED` banner
 
 Use this structure:
 
@@ -227,7 +236,7 @@ Final resting header:
 - do not regenerate a brand-new visual style when the asset file is available
 
 3. Then print a subtitle:
-- `>> MBTI work personality <<`
+- `MBTI Work Personality`
 
 4. Print a compact identity block with:
 - result: `strong fit / promising but uneven / better matched elsewhere / evidence thin`
@@ -270,7 +279,7 @@ Final resting header:
 - encourage the candidate to keep the report if they may apply later
 
 10. End with:
-- `>> If this portrait feels right, star github.com/realRoc/git-hired`
+- `If this portrait feels right, star github.com/realRoc/git-hired`
 
 ### B. Detailed report file
 

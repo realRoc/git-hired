@@ -450,6 +450,31 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
    - best-fit role
 16. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
 17. Use a clearer bar-first format such as `[████████░░] 8` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
+18. Do not decorate every visible line with repeated prefixes such as `>>`.
+19. In the terminal summary, reserve strong decoration for the `HIRED` banner itself. After that, prefer plain labels such as:
+   - `MBTI Work Personality`
+   - `Result`
+   - `Core Board`
+   - `Talent Tags`
+   - `Locked Skills`
+   - `Next Step`
+20. Avoid visual noise that makes the report feel like raw debug output. The TUI should read like a clean card, not a terminal log dump.
+
+## Runtime Budget
+
+This rule applies whenever adding or editing any role prompt in `prompts/`, the universal-entry prompt, embedded prompts under `docs/`, the role template in `new_role.py`, or related validation rules.
+
+1. The default runtime target for a test is `within about 1 minute`.
+2. Prompts must explicitly tell the agent to optimize for fast, good-enough evidence gathering rather than exhaustive scanning.
+3. If the candidate exposes a large amount of local history or project material, the agent should:
+   - sample recent, high-signal material first
+   - prefer bounded reads over deep crawls
+   - stop once confidence is sufficient
+   - state when the result is based on a fast sample
+4. Do not silently sprawl into long scans just because more data is available.
+5. If evidence is still thin at the end of the time budget, the agent should finish with a lower-confidence result rather than running indefinitely.
+6. When prompts mention data sources, they should frame them as bounded, recent, or small-scope sources unless the candidate explicitly asks for a deeper pass.
+7. `new_role.py`, public prompts, and validation rules must all carry this time-budget constraint so future JD edits inherit it automatically.
 
 ## MBTI ASCII Card Assets
 

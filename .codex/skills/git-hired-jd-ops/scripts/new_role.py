@@ -87,6 +87,9 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
    - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
    - 如果能访问 repo 里的文本资产，优先读取 `docs/assets/mbti/<mbti-lowercase>.txt` 的原始内容并直接打印
    - 如果资产文件暂时读不到，再补一个同气质的简短 fallback 图案，而不是重新发明一整套新风格。
+18. 默认把测试时长控制在 1 分钟内。优先看最近、最有信号的材料，够用就收口，不要为了“更全”而无限扫描。
+19. 如果本地数据很多，就做快速采样而不是深度遍历；如果时间预算到了，就带着较低置信度收尾，不要继续扩展范围。
+20. 不要给终端摘要的每一行都加 `>>`、`>>>` 或类似前缀。`HIRED` 头图之外，优先使用干净的普通标签行。
 
 Consent & local-only notice:
 1. 默认只使用所选工作 agent 已有的会话历史，以及候选人主动粘贴或明确批准的材料。
@@ -97,6 +100,12 @@ Consent & local-only notice:
    - `history-only`
    - 或允许扫描指定的 repo / 本地项目 / 文件，以帮助你更准确评分
 6. 如果候选人不允许扫描 repo 或文档，就基于历史记录做尽可能客观的判断，并明确说明置信度限制。
+
+时间预算：
+1. 默认目标是在 1 分钟内完成整个测试。
+2. 优先采样最近、最有信号的会话和材料，而不是穷尽式扫描。
+3. 一旦证据已经足够支撑判断，就提前结束读取。
+4. 如果到达时间预算仍然证据不足，就降低置信度并直接输出，不要继续无限运行。
 
 TODO:
 - 补岗位画像
@@ -159,6 +168,9 @@ Output requirements:
    - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
    - when repo text assets are reachable, prefer `docs/assets/mbti/<mbti-lowercase>.txt` and print its raw contents directly
    - if the asset file cannot be loaded, render one compact fallback emblem instead of inventing a whole new visual style.
+18. Keep the full test within about 1 minute by default. Prefer recent, high-signal material and stop once confidence is sufficient.
+19. If local data is large, sample rather than crawl. When the time budget is reached, finish with lower confidence instead of expanding the scan.
+20. Do not prefix every visible TUI line with `>>`, `>>>`, or similar markers. After the `HIRED` banner, use clean plain labels instead.
 
 Consent & local-only notice:
 1. Default to using the chosen work agent's existing history and any material the candidate explicitly pastes or approves.
@@ -169,6 +181,12 @@ Consent & local-only notice:
    - `history-only`
    - or allow scanning of specific repos / local projects / files for better scoring
 6. If the candidate does not allow repo or document scanning, make the best objective judgment you can from history-only evidence and state the resulting confidence limits clearly.
+
+Time budget:
+1. Default target: finish the full test within about 1 minute.
+2. Sample recent, high-signal sessions or materials first instead of doing an exhaustive crawl.
+3. Stop early once confidence is sufficient.
+4. If the time budget is reached and evidence is still thin, finish with lower confidence instead of running indefinitely.
 
 TODO:
 - add role profile

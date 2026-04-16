@@ -200,7 +200,7 @@ Your job is to inspect locally observable AI work traces and job-relevant artifa
 Output language: English.
 
 JD prompt version:
-- exact version: `universal-entry@2026-04-16.3`
+- exact version: `universal-entry@2026-04-16.4`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -232,6 +232,12 @@ Rules:
 - if the selected mode allows repo scanning later, do not broad-scan the machine; first ask which specific local repos / project directories / files are approved
 
 Execute the task in 5 steps.
+
+Time budget:
+1. Default target: finish the full test within about 1 minute.
+2. Sample recent, high-signal sessions or materials first instead of doing an exhaustive crawl.
+3. Stop early once confidence is sufficient.
+4. If the time budget is reached and evidence is still thin, finish with lower confidence instead of running indefinitely.
 
 ## Step 1. Confirm the boundary and discover data sources
 
@@ -327,6 +333,9 @@ Rules:
 - avoid analyst prose and long “why” paragraphs
 - in `Talent Tags` and `Locked Skills`, use fragments, not explanatory sentences
 - lead with evidence-backed strengths before discussing gaps
+- keep the full test within about 1 minute by default
+- if local data is large, sample rather than crawl
+- do not prefix every visible line with `>>`, `>>>`, or similar markers after the `HIRED` banner
 
 Use this structure:
 
@@ -354,7 +363,7 @@ Final resting header:
 - do not regenerate a brand-new visual style when the asset file is available
 
 3. Then present a compact transition card with:
-- subtitle: `>> MBTI work personality <<`
+- subtitle: `MBTI Work Personality`
 - result: `strong fit / promising but uneven / better matched elsewhere / evidence thin`
 - best-fit role right now
 - closest lens
@@ -395,7 +404,7 @@ Final resting header:
 - encourage the candidate to keep the report if they may apply later
 
 9. End with:
-- `>> If this portrait feels right, star github.com/realRoc/git-hired`
+- `If this portrait feels right, star github.com/realRoc/git-hired`
 
 ### B. Detailed report file
 
@@ -451,7 +460,7 @@ If running in extended mode:
 输出语言：中文。
 
 岗位 Prompt 版本：
-- 精确版本：`universal-entry@2026-04-16.3`
+- 精确版本：`universal-entry@2026-04-16.4`
 - 生成终端摘要和 markdown 报告时，都要原样记录这串版本号，并使用字段名 `JD prompt version`
 
 判断原则：
@@ -483,6 +492,12 @@ If running in extended mode:
 - 如果上面的模式允许 repo 扫描，也不要广泛扫描整机；先问清楚候选人批准的是哪些具体 repo / 项目目录 / 文件
 
 任务分 5 步执行。
+
+时间预算：
+1. 默认目标是在 1 分钟内完成整个测试。
+2. 优先采样最近、最有信号的会话和材料，而不是做穷尽式扫描。
+3. 一旦证据已经足够支撑判断，就提前结束读取。
+4. 如果到达时间预算仍然证据不足，就降低置信度并直接输出，不要继续无限运行。
 
 ## Step 1. 先确认边界，再发现数据源
 
@@ -578,6 +593,9 @@ If running in extended mode:
 - 避免分析师口吻的长段解释
 - `天赋词缀` 和 `待解锁天赋` 一律用短标签、短短语，不要写成长句
 - 先夸候选人最值得肯定的强项，再谈不足
+- 默认把测试时长控制在 1 分钟内
+- 如果本地数据很多，就做快速采样，不要深度遍历
+- `HIRED` 头图之后，不要给每一行都加 `>>`、`>>>` 或类似前缀
 
 按以下结构输出：
 
@@ -605,7 +623,7 @@ If running in extended mode:
 - 如果资产文件可用，就不要临时重新发明一套新图案
 
 3. 然后输出一个紧凑的转岗画像，包括：
-- 副标题：`>> MBTI 工作人格 <<`
+- 副标题：`MBTI 工作人格`
 - 结果：`强匹配 / 有潜力但还不稳 / 更适合其他方向 / 证据不足`
 - 最适合的岗位
 - 最接近的镜头
@@ -646,7 +664,7 @@ If running in extended mode:
 - 鼓励候选人保留这份报告，以后申请时也可以附上
 
 9. 最后补一句：
-- `>> 如果这份画像像你，去 github.com/realRoc/git-hired 点个 star`
+- `如果这份画像像你，去 github.com/realRoc/git-hired 点个 star`
 
 ### B. 详细报告文件
 

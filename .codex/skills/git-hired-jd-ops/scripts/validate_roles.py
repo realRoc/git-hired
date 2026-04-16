@@ -15,6 +15,8 @@ BLOCK_BAR_MARKER = "[███████░░░] 7"
 OLD_BAR_MARKER = "[#######---]"
 MBTI_EN_MARKER = "MBTI work personality"
 MBTI_ZH_MARKER = "MBTI 工作人格"
+TIME_BUDGET_EN_MARKER = "within about 1 minute"
+TIME_BUDGET_ZH_MARKER = "1 分钟内"
 ASCII_CARD_EN_MARKER = "ASCII card"
 ASCII_CARD_ZH_MARKER = "ASCII 卡片"
 ASCII_CARD_URL_BASE = "https://realroc.github.io/git-hired/assets/mbti/"
@@ -96,10 +98,16 @@ def main() -> None:
             errors.append("docs/general.html missing bilingual runtime-mode tip")
         if WORK_AGENT_EN_MARKER not in general_text or WORK_AGENT_ZH_MARKER not in general_text:
             errors.append("docs/general.html missing work-agent compatibility wording")
+        if TIME_BUDGET_EN_MARKER not in general_text or TIME_BUDGET_ZH_MARKER not in general_text:
+            errors.append("docs/general.html missing 1-minute runtime-budget guidance")
         if "our server" not in general_text or "我们的服务器" not in general_text:
             errors.append("docs/general.html missing explicit no-upload privacy wording")
         if "Paste the full prompt below into Claude Code or Codex and run it:" in general_text or "把下面整段完整粘贴到 Claude Code 或 Codex 中执行：" in general_text:
             errors.append("docs/general.html still contains Claude Code/Codex-exclusive prompt wording")
+        if ">> MBTI work personality <<" in general_text or ">> MBTI 工作人格 <<" in general_text:
+            errors.append("docs/general.html still contains noisy double-angle subtitle markers")
+        if ">> If this portrait feels right" in general_text or ">> 如果这份画像像你" in general_text:
+            errors.append("docs/general.html still contains noisy double-angle footer CTA markers")
         if HIRED_HEADER_MARKER not in general_text:
             errors.append("docs/general.html missing updated readable HIRED header in prompt templates")
         if "Play a simple 3-frame `HIRED` animation" not in general_text or "先播放一个简单的 3 帧 `HIRED` 动态开场" not in general_text:
@@ -191,8 +199,12 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing consent-first local-only notice")
             if WORK_AGENT_ZH_MARKER not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing work-agent compatibility wording")
+            if TIME_BUDGET_ZH_MARKER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing 1-minute runtime-budget guidance")
             if "把下面整段完整粘贴到 Claude Code 或 Codex 中执行：" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains Claude Code/Codex-exclusive intro wording")
+            if ">> MBTI 工作人格 <<" in zh_prompt_text or ">> 如果这份画像像你" in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md still contains noisy double-angle TUI markers")
             if "详细报告" not in zh_prompt_text or "HIRED" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing candidate-facing TUI/report output requirements")
             if HIRED_HEADER_MARKER not in zh_prompt_text:
@@ -236,8 +248,12 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing consent-first local-only notice")
             if WORK_AGENT_EN_MARKER not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing work-agent compatibility wording")
+            if TIME_BUDGET_EN_MARKER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing 1-minute runtime-budget guidance")
             if "Paste the full prompt below into Claude Code or Codex and run it:" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains Claude Code/Codex-exclusive intro wording")
+            if ">> MBTI work personality <<" in en_prompt_text or ">> If this portrait feels right" in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md still contains noisy double-angle TUI markers")
             if "Detailed report" not in en_prompt_text or "HIRED" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing candidate-facing TUI/report output requirements")
             if HIRED_HEADER_MARKER not in en_prompt_text:
@@ -297,8 +313,12 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing consent-first local-only candidate notice")
             if WORK_AGENT_EN_MARKER not in page_text or WORK_AGENT_ZH_MARKER not in page_text:
                 errors.append(f"docs/{page_slug}.html missing work-agent compatibility wording")
+            if TIME_BUDGET_EN_MARKER not in page_text or TIME_BUDGET_ZH_MARKER not in page_text:
+                errors.append(f"docs/{page_slug}.html missing synced 1-minute runtime-budget guidance")
             if "Paste the prompt below into your own Claude Code or Codex" in page_text or "复制后直接粘贴到 Claude Code / Codex" in page_text:
                 errors.append(f"docs/{page_slug}.html still contains Claude Code/Codex-exclusive candidate wording")
+            if ">> MBTI work personality <<" in page_text or ">> MBTI 工作人格 <<" in page_text or ">> If this portrait feels right" in page_text or ">> 如果这份画像像你" in page_text:
+                errors.append(f"docs/{page_slug}.html still contains noisy double-angle TUI markers")
             if "git-hired-lang" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing language bootstrap script")
             if 'href="./index.html"' not in page_text:
