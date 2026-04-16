@@ -17,6 +17,8 @@ MBTI_EN_MARKER = "MBTI work personality"
 MBTI_ZH_MARKER = "MBTI 工作人格"
 TIME_BUDGET_EN_MARKER = "within about 1 minute"
 TIME_BUDGET_ZH_MARKER = "1 分钟内"
+UPLIFT_EN_MARKER = "Expected uplift"
+UPLIFT_ZH_MARKER = "提升预估"
 ASCII_CARD_EN_MARKER = "ASCII card"
 ASCII_CARD_ZH_MARKER = "ASCII 卡片"
 ASCII_CARD_URL_BASE = "https://realroc.github.io/git-hired/assets/mbti/"
@@ -136,6 +138,8 @@ def main() -> None:
             errors.append("docs/general.html missing talent-tag guidance in prompt templates")
         if "Locked Skills" not in general_text or "待解锁天赋" not in general_text:
             errors.append("docs/general.html missing locked-skill guidance in prompt templates")
+        if UPLIFT_EN_MARKER not in general_text or UPLIFT_ZH_MARKER not in general_text:
+            errors.append("docs/general.html missing next-step uplift guidance in prompt templates")
         if "JD prompt version" not in general_text or "universal-entry@" not in general_text:
             errors.append("docs/general.html missing prompt-version traceability in prompt templates")
         if "https://github.com/realRoc" not in general_text:
@@ -231,6 +235,8 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing talent-tag guidance")
             if "待解锁天赋" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing locked-skill guidance")
+            if UPLIFT_ZH_MARKER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing next-step uplift guidance")
             if "岗位 Prompt 版本" not in zh_prompt_text or "JD prompt version" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing prompt-version guidance")
             if "Signal Board" in zh_prompt_text or "你已经很亮眼的地方" in zh_prompt_text:
@@ -280,6 +286,8 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing talent-tag guidance")
             if "Locked Skills" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing locked-skill guidance")
+            if UPLIFT_EN_MARKER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing next-step uplift guidance")
             if "JD prompt version" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing prompt-version guidance")
             if "Signal Board" in en_prompt_text or "What already stands out" in en_prompt_text:

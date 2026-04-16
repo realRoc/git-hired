@@ -385,6 +385,7 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - a compact core board
    - talent tags
    - locked or not-yet-awakened skills
+   - a quantified next-step uplift estimate
    - a matching MBTI ASCII card rendered directly in the terminal when possible
    - the local detailed-report path
 4. The summary should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
@@ -413,6 +414,24 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
    - what role or direction looks stronger right now
    - what evidence is missing for the tested role
    - what to improve next
+
+## Next-Step Uplift
+
+This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, the universal-entry prompt, and the role template in `new_role.py`.
+
+1. The `Next Step` section should not stop at a vague suggestion.
+2. Give one concrete next action that is realistic for the candidate to finish next.
+3. For that action, include a conservative `uplift estimate`, not a promise:
+   - which single core dimension is most likely to improve
+   - the approximate score increase for that dimension
+   - the approximate increase in overall ability score
+4. Use estimate language such as:
+   - `Expected uplift`
+   - `提升预估`
+   - `likely`, `approximately`, `if done well`
+5. Do not present the uplift as guaranteed, deterministic, or mathematically exact.
+6. The uplift should be specific enough to create an aha moment, but still honest about uncertainty.
+7. The detailed markdown report should also carry the same next-step uplift estimate in a slightly fuller form.
 
 ## MBTI Work Personality Output
 

@@ -90,6 +90,11 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
 18. 默认把测试时长控制在 1 分钟内。优先看最近、最有信号的材料，够用就收口，不要为了“更全”而无限扫描。
 19. 如果本地数据很多，就做快速采样而不是深度遍历；如果时间预算到了，就带着较低置信度收尾，不要继续扩展范围。
 20. 不要给终端摘要的每一行都加 `>>`、`>>>` 或类似前缀。`HIRED` 头图之外，优先使用干净的普通标签行。
+21. `下一步` 不要只写泛泛建议。要补一个 `提升预估`：
+   - 完成这一步后，最可能提升的单点核心维度
+   - 该维度大概能提升多少分
+   - 整体能力值大概能提升多少
+22. `提升预估` 必须写成保守估算，而不是承诺。可以使用“如果做完且做扎实”“大概率”“约”等措辞。
 
 Consent & local-only notice:
 1. 默认只使用所选工作 agent 已有的会话历史，以及候选人主动粘贴或明确批准的材料。
@@ -171,6 +176,11 @@ Output requirements:
 18. Keep the full test within about 1 minute by default. Prefer recent, high-signal material and stop once confidence is sufficient.
 19. If local data is large, sample rather than crawl. When the time budget is reached, finish with lower confidence instead of expanding the scan.
 20. Do not prefix every visible TUI line with `>>`, `>>>`, or similar markers. After the `HIRED` banner, use clean plain labels instead.
+21. `Next Step` should not stop at a vague suggestion. Include an `Expected uplift`:
+   - the single core dimension most likely to improve
+   - the approximate gain for that dimension
+   - the approximate gain in overall ability score
+22. The uplift must be framed as a conservative estimate, not a promise. Use language such as `likely`, `approximately`, or `if done well`.
 
 Consent & local-only notice:
 1. Default to using the chosen work agent's existing history and any material the candidate explicitly pastes or approves.
