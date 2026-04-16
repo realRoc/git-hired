@@ -343,6 +343,10 @@ This rule applies to `docs/index.html`, `docs/general.html`, and any future shar
    - the chosen work agent should inspect only the projects or files the candidate explicitly authorizes
 7. If a page includes a runtime tip, phrase it conditionally, for example:
    - `If you're using Claude Code or Codex, bypass / YOLO usually makes the run smoother.`
+8. On `docs/index.html`, the hero copy should follow this order:
+   - first, one short sentence that introduces `git-hired` as a way to test the candidate's `MBTI work personality` from how they actually work
+   - second, one explicit privacy line saying we do not upload local repo, file, or other local data to our server
+   - third, let the page flow into the universal-entry section
 
 ## Candidate-Serving JD Descriptions
 
