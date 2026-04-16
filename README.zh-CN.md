@@ -9,7 +9,7 @@ fatal: not a qualified candidate
 
 面向 AI Native 创业公司的、以 prompt 为核心的候选人匹配度测试仓库。
 
-`git-hired` 的思路很直接：给候选人一段岗位专属 prompt，让他在自己常用的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent；再由 agent 基于可授权的工作痕迹，返回一份结构化、带隐私边界的岗位匹配报告。
+`git-hired` 现在从一个公开的 `skill.md` 单入口开始。候选人把它粘贴进自己常用的工作 agent，例如 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent；随后 agent 会先询问目标岗位、确认隐私边界、按需抓取对应 prompt，再基于可授权的工作痕迹返回一份结构化、带隐私边界的岗位匹配报告。
 
 ## 隐私优先
 
@@ -42,7 +42,8 @@ fatal: not a qualified candidate
 
 启用 GitHub Pages 之后，可直接使用：
 
-- 通用测试入口: <https://realroc.github.io/git-hired/general.html>
+- Agent 入口（`skill.md`）: <https://realroc.github.io/git-hired/skill.md>
+- 流程说明页: <https://realroc.github.io/git-hired/general.html>
 
 <!-- AUTO:live-links:start -->
 - AI Agent 工程师: <https://realroc.github.io/git-hired/agent.html>
@@ -81,11 +82,13 @@ fatal: not a qualified candidate
 
 ## 怎么使用
 
-1. 把岗位对应页面发给候选人
-2. 候选人复制 prompt 到自己常用的工作 agent，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent
-3. 他的 agent 在隐私边界内分析本地工作痕迹
-4. 候选人把生成报告发回给你
-5. 你把这个报告作为结构化初筛输入，而不是最终结论
+1. 把 `skill.md` 发给候选人
+2. 候选人把它粘贴到自己常用的工作 agent，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent
+3. 他的 agent 会先问目标岗位；如果目标还不明确，就回到候选人当前职业或身份
+4. agent 会先确认隐私边界，再决定是否允许访问任何本地 repo 或文件
+5. 如果需要，agent 会抓取对应的岗位 prompt，并在批准范围内分析本地工作痕迹
+6. 候选人把生成报告发回给你
+7. 你把这个报告作为结构化初筛输入，而不是最终结论
 
 ## 先同意，再扫描；且只在本地运行
 
@@ -104,7 +107,7 @@ fatal: not a qualified candidate
 
 你可以直接发：
 
-> 把这个链接里的 prompt 粘贴到你自己的工作 agent 里跑一下，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent，然后把结果发我。
+> 把这个链接里的 `skill.md` 粘贴到你自己的工作 agent 里跑一下，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent，然后把结果发我。
 > 默认只看历史记录。如果你愿意拿到更充分的评分，也可以主动允许访问指定的本地 repo 或文件。`git-hired` 不会把你的本地 repo 或文件数据上传到我们的服务器，agent 也只应访问你明确授权的材料。
 
 如果想更有梗一点：
@@ -143,8 +146,10 @@ fatal: not a qualified candidate
 
 ```text
 git-hired/
+├── skill.md
 ├── docs/
 │   ├── index.html
+│   ├── skill.md
 │   ├── general.html
 │   ├── agent.html
 │   ├── pm.html

@@ -9,7 +9,7 @@ fatal: not a qualified candidate
 
 Prompt-first candidate fit tests for AI-native startups.
 
-`git-hired` gives candidates a role-specific prompt to run inside their own work agent, such as Claude Code, Codex, Notion AI, or any similar agent with knowledge-base and memory capability, and asks that agent to return a structured, privacy-bounded fit report based on how the candidate actually works.
+`git-hired` now starts from a single public `skill.md` entry. The candidate pastes that entry into their own work agent, such as Claude Code, Codex, Notion AI, or any similar agent with knowledge-base and memory capability; the agent then asks the target-role question, confirms the privacy boundary, fetches the right prompt when needed, and returns a structured, privacy-bounded fit report based on how the candidate actually works.
 
 ## Privacy First
 
@@ -42,7 +42,8 @@ It is a practical way to inspect signals that matter more in AI-native teams:
 
 After GitHub Pages is enabled for this repo:
 
-- Universal Entry: <https://realroc.github.io/git-hired/general.html>
+- Agent Entry (`skill.md`): <https://realroc.github.io/git-hired/skill.md>
+- Flow Guide: <https://realroc.github.io/git-hired/general.html>
 
 <!-- AUTO:live-links:start -->
 - AI Agent Engineer: <https://realroc.github.io/git-hired/agent.html>
@@ -81,11 +82,13 @@ Can this person direct AI well enough to ship, learn, and iterate under startup 
 
 ## How It Works
 
-1. Send the candidate the role-specific page.
-2. They copy the prompt into their own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent.
-3. Their agent analyzes local work traces with explicit privacy limits.
-4. The candidate sends back the generated report.
-5. You use that report as a structured screening input, not as the final decision.
+1. Send the candidate `skill.md`.
+2. They paste it into their own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent.
+3. Their agent asks the target-role question first, or falls back to current profession / identity if the role is still unclear.
+4. The agent confirms the privacy boundary before touching any local repo or file.
+5. The agent fetches the right role prompt when needed, analyzes local work traces within the approved scope, and returns the report.
+6. The candidate sends back the generated report.
+7. You use that report as a structured screening input, not as the final decision.
 
 ## Consent-First, Local-Only
 
@@ -104,7 +107,7 @@ If they do not allow repo or document scanning, the agent should still make the 
 
 You can send something like:
 
-> Paste the prompt from this link into your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent, run it, and send me the output.
+> Paste the `skill.md` from this link into your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent, run it, and send me the output.
 > By default it stays history-only. If you want a stronger score, you can explicitly allow access to specific repos or files. `git-hired` does not upload your local repo or file data to our server, and the agent should only inspect material you explicitly authorize.
 
 Or lean into the joke:
@@ -143,8 +146,10 @@ The intended output is:
 
 ```text
 git-hired/
+├── skill.md
 ├── docs/
 │   ├── index.html
+│   ├── skill.md
 │   ├── general.html
 │   ├── agent.html
 │   ├── pm.html

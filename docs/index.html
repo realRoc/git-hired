@@ -70,41 +70,41 @@
       <section class="section">
         <div class="feature-grid">
           <div>
-            <h2 data-lang="en">Start With Universal Entry</h2>
-            <h2 data-lang="zh">先走通用测试入口</h2>
+            <h2 data-lang="en">Start With `skill.md`</h2>
+            <h2 data-lang="zh">先从 `skill.md` 开始</h2>
             <p data-lang="en">
-              If the candidate is changing tracks, between roles, or simply not sure which page fits best, start with the universal entry first.
-              It asks for their current profession, target profession, and privacy preference before generating the right prompt.
+              `skill.md` is now the main public entry. Paste it into Claude Code, Codex, Notion AI, or another memory-enabled work agent, and let the agent ask the missing questions, fetch the right role prompt, and route the session from there.
             </p>
             <p data-lang="zh">
-              如果候选人正在转岗、角色边界不清，或者还不确定该走哪个岗位页，先从通用测试入口开始。
-              它会先收集候选人当前职业、目标职业和隐私偏好，再生成对应 prompt。
+              `skill.md` 现在是主入口。把它粘贴到 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent 里，让 agent 自己补齐问题、抓取正确的角色 prompt，并完成路由。
             </p>
             <ol class="steps" data-lang="en">
-              <li>Tell us the candidate's current profession.</li>
-              <li>Tell us the candidate's target profession.</li>
-              <li>Choose `history-only` or opt in to specific repo scans later.</li>
+              <li>Paste `skill.md` into your own work agent.</li>
+              <li>Answer the target-role question, or give your current profession if you do not have a clear target yet.</li>
+              <li>Confirm `history-only` or explicitly name the repos or files the agent may inspect.</li>
             </ol>
             <ol class="steps" data-lang="zh">
-              <li>先填写候选人当前的职业。</li>
-              <li>再填写候选人目标想去的职业。</li>
-              <li>最后确认是 `history-only`，还是后续可按需允许扫描指定 repo。</li>
+              <li>先把 `skill.md` 粘贴到你自己的工作 agent 里。</li>
+              <li>回答目标岗位；如果你还没有明确目标，就补充你当前的职业或身份。</li>
+              <li>确认这次是 `history-only`，还是明确点名允许 agent 查看哪些 repo 或文件。</li>
             </ol>
           </div>
 
           <aside class="feature-card">
-            <span class="eyebrow" data-lang="en">Universal Entry</span>
-            <span class="eyebrow" data-lang="zh">通用入口</span>
-            <h3 data-lang="en">Not sure which role page fits yet?</h3>
-            <h3 data-lang="zh">还不确定该进哪个岗位页？</h3>
+            <span class="eyebrow" data-lang="en">Agent Entry</span>
+            <span class="eyebrow" data-lang="zh">Agent 主入口</span>
+            <h3 data-lang="en">Let the agent route the right test</h3>
+            <h3 data-lang="zh">让 agent 自己路由到正确测试</h3>
             <p data-lang="en">
-              Start here for cross-role calibration. The generated prompt stays local, defaults to privacy-safe behavior, and then routes the analysis from the candidate's real trajectory.
+              The entry flow now asks for the target role first, falls back to the candidate's current profession or identity if needed, and then confirms the privacy boundary before any local scan.
             </p>
             <p data-lang="zh">
-              先从这里做跨岗位校准。生成后的 prompt 仍然是本地运行、默认隐私优先，再从候选人的真实职业路径出发完成分析。
+              现在的入口流程会先问目标岗位；如果还不明确，就回到候选人当前职业或身份；在任何本地扫描前，还会先确认隐私边界。
             </p>
-            <a class="button" href="./general.html" data-lang="en">Open Universal Test</a>
-            <a class="button" href="./general.html" data-lang="zh">打开通用测试</a>
+            <a class="button" href="./skill.md" data-lang="en">Open skill.md</a>
+            <a class="button" href="./skill.md" data-lang="zh">打开 skill.md</a>
+            <a class="button secondary" href="./general.html" data-lang="en">Read The Guide</a>
+            <a class="button secondary" href="./general.html" data-lang="zh">查看说明</a>
           </aside>
         </div>
       </section>
@@ -153,19 +153,19 @@
         <h2 data-lang="en">How To Start</h2>
         <h2 data-lang="zh">怎么开始测试</h2>
         <div class="callout" data-lang="en">
-          Pick the closest role page, or start from the Universal Entry if you are changing tracks or not sure which role fits best. The prompt works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability. By default it stays history-only, only touches projects or files you explicitly authorize, and never uploads your local repo or file data to our server.
+          Start from `skill.md`. It works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability. The agent will ask your target role first, fall back to your current profession or identity when needed, keep the default mode as `history-only`, and touch only the projects or files you explicitly authorize. We never upload your local repo or file data to our server.
         </div>
         <div class="callout" data-lang="zh">
-          选择最接近你的岗位页；如果你正在转岗，或暂时不确定该选哪个岗位，就从通用测试入口开始。这个 prompt 支持 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。默认只看历史记录，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。
+          从 `skill.md` 开始。它支持 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。agent 会先问你的目标岗位；如果暂时没有，再回到你当前的职业或身份；默认保持 `history-only`，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。
         </div>
         <ul data-lang="en">
-          <li>Pick the test that best matches what you do now or what you want to do next.</li>
-          <li>Run the prompt inside your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled agent.</li>
+          <li>Open `skill.md` and run it inside your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled agent.</li>
+          <li>Answer the role-routing and privacy questions directly inside that agent session.</li>
           <li>Keep the short `HIRED` snapshot, and optionally attach the markdown report if you decide to apply.</li>
         </ul>
         <ul data-lang="zh">
-          <li>选择最接近你当前职业，或你下一步目标职业的测试入口。</li>
-          <li>在你自己的工作 agent 里运行 prompt，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的 agent。</li>
+          <li>打开 `skill.md`，并在你自己的工作 agent 里运行它，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的 agent。</li>
+          <li>直接在那个 agent 会话里回答岗位路由和隐私边界问题。</li>
           <li>保留终端里的 `HIRED` 快照；如果后续要申请，也可以附上本地生成的 markdown 详细报告。</li>
         </ul>
       </section>

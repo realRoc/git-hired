@@ -64,6 +64,8 @@ def find_repo_root(start: Path) -> Path:
 def main() -> None:
     repo_root = find_repo_root(Path.cwd())
     roles = json.loads((repo_root / "roles.json").read_text(encoding="utf-8"))
+    skill_source = repo_root / "skill.md"
+    skill_public = repo_root / "docs" / "skill.md"
     index_text = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
     readme_en = (repo_root / "README.md").read_text(encoding="utf-8")
     readme_zh = (repo_root / "README.zh-CN.md").read_text(encoding="utf-8")
@@ -77,12 +79,36 @@ def main() -> None:
         errors.append("docs/index.html missing AUTO role-cards markers")
     if "git-hired-lang" not in index_text:
         errors.append("docs/index.html missing language bootstrap script")
+    if "./skill.md" not in index_text:
+        errors.append("docs/index.html missing link to ./skill.md")
     if "./general.html" not in index_text:
-        errors.append("docs/index.html missing universal entry link to ./general.html")
+        errors.append("docs/index.html missing guide link to ./general.html")
     if "See whether a candidate" in index_text or "看候选人是否" in index_text:
         errors.append("docs/index.html still contains recruiter-facing JD summary wording")
     if MBTI_EN_MARKER not in index_text or MBTI_ZH_MARKER not in index_text:
         errors.append("docs/index.html missing MBTI work-personality candidate copy")
+    if "Open skill.md" not in index_text or "打开 skill.md" not in index_text:
+        errors.append("docs/index.html missing skill.md primary CTA")
+
+    if not skill_source.exists():
+        errors.append("skill.md missing root entry spec")
+    if not skill_public.exists():
+        errors.append("docs/skill.md missing deployed entry spec")
+    if skill_source.exists() and skill_public.exists():
+        skill_source_text = skill_source.read_text(encoding="utf-8")
+        skill_public_text = skill_public.read_text(encoding="utf-8")
+        if skill_source_text != skill_public_text:
+            errors.append("skill.md and docs/skill.md must stay content-identical")
+        if "What target role are you aiming for right now?" not in skill_source_text or "你现在最想申请或转向的岗位是什么？" not in skill_source_text:
+            errors.append("skill.md missing target-role-first entry question")
+        if "What is your current profession or identity right now?" not in skill_source_text or "你当前的职业或身份是什么？" not in skill_source_text:
+            errors.append("skill.md missing current profession / identity fallback question")
+        if "history-only" not in skill_source_text or "our server" not in skill_source_text:
+            errors.append("skill.md missing privacy-boundary wording")
+        if "AI Agent Engineer" not in skill_source_text or "Product Manager" not in skill_source_text or "Global Growth" not in skill_source_text or "AI Product Operations" not in skill_source_text:
+            errors.append("skill.md missing supported role registry")
+        if "wuyupeng@floatmiracle.com" not in skill_source_text:
+            errors.append("skill.md missing strong-candidate resume instruction")
 
     if not mbti_asset_dir.exists():
         errors.append("docs/assets/mbti missing MBTI ASCII-card asset directory")
@@ -102,77 +128,20 @@ def main() -> None:
         general_text = general_page.read_text(encoding="utf-8")
         if "git-hired-lang" not in general_text:
             errors.append("docs/general.html missing language bootstrap script")
-        if "current-role" not in general_text or "target-role" not in general_text:
-            errors.append("docs/general.html missing current/target profession intake fields")
-        if "history-only" not in general_text or "repo-scan-ready" not in general_text:
-            errors.append("docs/general.html missing privacy mode controls")
-        if 'id="prompt-general-en"' not in general_text or 'id="prompt-general-zh"' not in general_text:
-            errors.append("docs/general.html missing generated prompt blocks")
-        if "bypass mode" not in general_text or "YOLO mode" not in general_text or "bypass 模式" not in general_text or "yolo 模式" not in general_text:
+        if "./skill.md" not in general_text:
+            errors.append("docs/general.html missing link to ./skill.md")
+        if "target role" not in general_text or "目标岗位" not in general_text:
+            errors.append("docs/general.html missing target-role-first copy")
+        if "current profession or identity" not in general_text or "当前的职业或身份" not in general_text:
+            errors.append("docs/general.html missing current profession / identity fallback copy")
+        if "history-only" not in general_text:
+            errors.append("docs/general.html missing history-only privacy wording")
+        if "bypass / YOLO" not in general_text:
             errors.append("docs/general.html missing bilingual runtime-mode tip")
         if WORK_AGENT_EN_MARKER not in general_text or WORK_AGENT_ZH_MARKER not in general_text:
             errors.append("docs/general.html missing work-agent compatibility wording")
-        if TIME_BUDGET_EN_MARKER not in general_text or TIME_BUDGET_ZH_MARKER not in general_text:
-            errors.append("docs/general.html missing 1-minute runtime-budget guidance")
         if "our server" not in general_text or "我们的服务器" not in general_text:
             errors.append("docs/general.html missing explicit no-upload privacy wording")
-        if "Paste the full prompt below into Claude Code or Codex and run it:" in general_text or "把下面整段完整粘贴到 Claude Code 或 Codex 中执行：" in general_text:
-            errors.append("docs/general.html still contains Claude Code/Codex-exclusive prompt wording")
-        if ">> MBTI work personality <<" in general_text or ">> MBTI 工作人格 <<" in general_text:
-            errors.append("docs/general.html still contains noisy double-angle subtitle markers")
-        if ">> If this portrait feels right" in general_text or ">> 如果这份画像像你" in general_text:
-            errors.append("docs/general.html still contains noisy double-angle footer CTA markers")
-        if HIRED_HEADER_MARKER not in general_text:
-            errors.append("docs/general.html missing updated readable HIRED header in prompt templates")
-        if "Play a simple 3-frame `HIRED` animation" not in general_text or "先播放一个简单的 3 帧 `HIRED` 动态开场" not in general_text:
-            errors.append("docs/general.html missing dependency-free HIRED animation guidance in prompt templates")
-        if BLOCK_BAR_MARKER not in general_text:
-            errors.append("docs/general.html missing block-bar score format guidance in prompt templates")
-        if SCALE_NOTE_EN_MARKER in general_text or SCALE_NOTE_ZH_MARKER in general_text:
-            errors.append("docs/general.html should not contain scale-note score explanations in prompt templates")
-        if STRONG_SCORE_EN_MARKER in general_text or STRONG_SCORE_ZH_MARKER in general_text:
-            errors.append("docs/general.html should not contain explicit 70-plus score-defense wording in prompt templates")
-        if STANDOUT_DIMENSION_EN_MARKER in general_text or STANDOUT_DIMENSION_ZH_MARKER in general_text:
-            errors.append("docs/general.html should not contain hard-rule 90-plus wording in prompt templates")
-        if OLD_BAR_MARKER in general_text:
-            errors.append("docs/general.html still contains old hash-based score bar examples")
-        if "Fantasy annual package" in general_text or "虚构年包" in general_text or "市场估值（示意" in general_text:
-            errors.append("docs/general.html still contains salary/compensation hook language in prompt templates")
-        if "best-fit role" not in general_text or "最适合的岗位" not in general_text:
-            errors.append("docs/general.html missing best-fit role guidance in prompt templates")
-        if "alignment code" in general_text or "阵营编码" in general_text:
-            errors.append("docs/general.html still contains deprecated alignment-code language")
-        if MBTI_EN_MARKER not in general_text or MBTI_ZH_MARKER not in general_text:
-            errors.append("docs/general.html missing MBTI work-personality guidance in prompt templates")
-        if "such as `INTJ`" in general_text or "例如 `INTJ`" in general_text:
-            errors.append("docs/general.html still contains INTJ example anchoring in prompt templates")
-        if "tradeoff logic vs people or user-attunement" in general_text or "structure and closure vs exploration and adaptation" in general_text:
-            errors.append("docs/general.html still contains biased legacy MBTI axis wording in prompt templates")
-        if (
-            MBTI_ANTI_ANCHOR_EN_MARKER not in general_text
-            or MBTI_ANTI_ANCHOR_ZH_MARKER not in general_text
-            or MBTI_NEUTRAL_TF_EN_MARKER not in general_text
-            or MBTI_NEUTRAL_TF_ZH_MARKER not in general_text
-            or MBTI_SOLO_HISTORY_EN_MARKER not in general_text
-            or MBTI_SOLO_HISTORY_ZH_MARKER not in general_text
-        ):
-            errors.append("docs/general.html missing MBTI de-bias guidance in prompt templates")
-        if "pixel card" in general_text or ".svg" in general_text:
-            errors.append("docs/general.html still contains legacy pixel-card or SVG language")
-        if (
-            ASCII_CARD_URL_BASE not in general_text
-            or (ASCII_CARD_EN_MARKER not in general_text and ASCII_CARD_ZH_MARKER not in general_text)
-            or ".txt" not in general_text
-        ):
-            errors.append("docs/general.html missing MBTI ASCII-card guidance in prompt templates")
-        if "Talent Tags" not in general_text or "天赋词缀" not in general_text:
-            errors.append("docs/general.html missing talent-tag guidance in prompt templates")
-        if "Locked Skills" not in general_text or "待解锁天赋" not in general_text:
-            errors.append("docs/general.html missing locked-skill guidance in prompt templates")
-        if UPLIFT_EN_MARKER not in general_text or UPLIFT_ZH_MARKER not in general_text:
-            errors.append("docs/general.html missing next-step uplift guidance in prompt templates")
-        if "JD prompt version" not in general_text or "universal-entry@" not in general_text:
-            errors.append("docs/general.html missing prompt-version traceability in prompt templates")
         if "https://github.com/realRoc" not in general_text:
             errors.append("docs/general.html missing author GitHub link")
         if "https://github.com/realRoc/git-hired" not in general_text:
@@ -190,6 +159,10 @@ def main() -> None:
         errors.append("README.md missing work-agent compatibility or privacy-upload wording")
     if WORK_AGENT_ZH_MARKER not in readme_zh or "我们的服务器" not in readme_zh:
         errors.append("README.zh-CN.md missing work-agent compatibility or privacy-upload wording")
+    if "skill.md" not in readme_en or "https://realroc.github.io/git-hired/skill.md" not in readme_en:
+        errors.append("README.md missing skill.md live link")
+    if "skill.md" not in readme_zh or "https://realroc.github.io/git-hired/skill.md" not in readme_zh:
+        errors.append("README.zh-CN.md missing skill.md live link")
     if "Paste the prompt from this link into your own Claude Code or Codex" in readme_en:
         errors.append("README.md still contains Claude Code/Codex-exclusive candidate wording")
     if "粘贴到你自己的 Claude Code 或 Codex" in readme_zh:
