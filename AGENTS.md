@@ -37,6 +37,8 @@ Only ask follow-up questions when missing information would likely break:
 These are the only paths that matter for JD operations:
 
 - repo root: `.`
+- agent-readable entry spec source: `skill.md`
+- deployed agent-readable entry spec: `docs/skill.md`
 - role registry: `roles.json`
 - editable source prompts:
   - `prompts/<prompt_slug>.md`
@@ -307,23 +309,25 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 6. Lead with the candidate's strongest evidence-backed strengths before discussing gaps.
 7. If the candidate is not a strong fit for the tested role, explicitly help them by recommending the role or direction they currently look best suited for.
 
-## Universal Entry Flow
+## Skill Entry Flow
 
-This rule applies to `docs/index.html`, the universal-entry page under `docs/`, and any future shared test-entry surface.
+This rule applies to `skill.md`, `docs/skill.md`, `docs/index.html`, `docs/general.html`, and any future shared test-entry surface.
 
-1. The homepage must include a clear universal test entry in addition to role-specific entries.
-2. The universal entry should send the candidate into a short intake flow before showing the prompt.
-3. That intake flow must collect:
-   - the candidate's current profession
-   - the candidate's target profession
-4. After profession intake, the universal entry must clearly explain the two privacy modes:
-   - `history-only`
-   - allow scanning of specific local repos / projects / files after explicit approval
-5. The universal-entry prompt must carry the candidate's profession context and chosen privacy preference into the generated prompt text.
+1. `skill.md` is the canonical agent-readable entry spec for Claude Code, Codex, and similar work agents.
+2. `docs/skill.md` is the deployed public copy of that entry spec and must stay content-identical to the root `skill.md`.
+3. Shared pages should point candidates to `skill.md` as the primary start path before role-specific pages.
+4. The first interaction in `skill.md` must:
+   - introduce `git-hired` briefly
+   - ask the candidate for the target role they want right now
+5. If the candidate names a supported target role clearly, the flow should fetch the corresponding canonical role prompt immediately and continue the test from that role lens.
+6. If the candidate does not yet have a clear target role, the flow should ask for the candidate's current profession or identity first, then route into the universal calibration path.
+7. Before any local scan, the flow must explicitly state the privacy boundary and ask which local repos, projects, files, or other data sources are approved.
+8. `history-only` remains the default unless the candidate explicitly approves a narrower named data scope.
+9. The shared entry flow should remove unnecessary manual prompt assembly. The agent should read the entry spec, collect the missing context, fetch the right prompt when needed, and then start analysis.
 
 ## Candidate-Serving Shared Pages
 
-This rule applies to `docs/index.html`, `docs/general.html`, and any future shared entry or landing page.
+This rule applies to `docs/index.html`, `docs/general.html`, `docs/skill.md`, and any future shared entry or landing page.
 
 1. Treat these pages as candidate-serving surfaces, not recruiter-operating surfaces.
 2. Use candidate-facing headings and action labels, for example `How To Start`, not recruiter phrasing such as `How To Send This`.
