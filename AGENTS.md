@@ -336,6 +336,28 @@ This rule applies to `skill.md`, `docs/skill.md`, `docs/index.html`, `docs/gener
    - do not summarize or restate the file
    - send the first role question immediately as the next assistant turn
 
+## History-Only Auto Analysis
+
+This rule applies to `skill.md`, every role prompt in `prompts/`, every embedded prompt in `docs/`, and the role template in `new_role.py`.
+
+1. `git-hired` is not a self-report interview flow after routing and consent are complete.
+2. After the candidate answers:
+   - the target role question, or the current-profession fallback
+   - the privacy / permission question
+   the agent should move into evidence collection and analysis automatically.
+3. If the candidate keeps `history-only`, do not replace missing repo or file access with manual competency Q&A.
+4. In `history-only` mode, the agent should directly inspect the allowed session-history and already-approved work traces, then complete the full evaluation from those records.
+5. If `history-only` evidence is thin, the agent may:
+   - finish with lower confidence
+   - or ask one narrow follow-up permission question for one specific repo / project / file set
+   but it should not turn the test into a human interview about skills.
+6. Role prompts and the shared entry flow should ask only the minimum human questions needed to:
+   - route the right role lens
+   - resolve the privacy boundary
+7. The candidate-facing deliverables must still be:
+   - a designed `HIRED` TUI summary
+   - a more detailed local markdown report when file writing is available
+
 ## Candidate-Serving Shared Pages
 
 This rule applies to `docs/index.html`, `docs/general.html`, `docs/skill.md`, and any future shared entry or landing page.
