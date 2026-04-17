@@ -46,10 +46,10 @@
         <h1 data-lang="en">Start From `skill.md`</h1>
         <h1 data-lang="zh">从 `skill.md` 开始</h1>
         <p class="lede" data-lang="en">
-          `skill.md` is now the main public entry for `git-hired`. In Claude Code, Codex, Notion AI, or any similar work agent with knowledge-base and memory capability, the fastest path is a single `read .../skill.md` command.
+          `skill.md` is now the main public entry for `git-hired`. In Claude Code, Codex, Notion AI, or any similar work agent with knowledge-base and memory capability, the safest path is a single `read .../skill.md` command that also says "do not summarize" and "start immediately."
         </p>
         <p class="lede" data-lang="zh">
-          `skill.md` 现在是 `git-hired` 的主入口。在 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent 里，最快的启动方式就是一行 `read .../skill.md` 命令。
+          `skill.md` 现在是 `git-hired` 的主入口。在 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent 里，更稳的启动方式是一行带上“不要总结、立刻开始”的 `read .../skill.md` 命令。
         </p>
         <p class="mini" data-lang="en">
           Privacy first: we never upload your local repo, files, or any other local data to our server.
@@ -72,8 +72,8 @@
               data-failed-zh="复制失败"
               onclick="copyPrompt('starter-command', this)">Copy Command</button>
           </div>
-          <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md</pre>
-          <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md</pre>
+          <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language.</pre>
+          <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。</pre>
         </section>
         <div class="inline-links">
           <a class="button" href="./skill.md" data-lang="en">Open skill.md</a>

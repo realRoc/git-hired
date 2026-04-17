@@ -25,6 +25,10 @@ ASCII_CARD_URL_BASE = "https://realroc.github.io/git-hired/assets/mbti/"
 WORK_AGENT_EN_MARKER = "work agent"
 WORK_AGENT_ZH_MARKER = "工作 agent"
 READ_COMMAND_MARKER = "read https://realroc.github.io/git-hired/skill.md"
+NO_SUMMARY_EN_MARKER = "Do not summarize it."
+NO_SUMMARY_ZH_MARKER = "不要总结"
+IMMEDIATE_START_EN_MARKER = "Ask the first test question immediately"
+IMMEDIATE_START_ZH_MARKER = "直接用我的语言开始第一问"
 MBTI_ANTI_ANCHOR_EN_MARKER = "Do not default to `INTJ`, `TJ`, or any single"
 MBTI_ANTI_ANCHOR_ZH_MARKER = "不要默认套用 `INTJ`、`TJ`"
 MBTI_NEUTRAL_TF_EN_MARKER = "impersonal analysis and consistency vs human-context and value-weighting"
@@ -90,6 +94,8 @@ def main() -> None:
         errors.append("docs/index.html missing MBTI work-personality candidate copy")
     if READ_COMMAND_MARKER not in index_text:
         errors.append("docs/index.html missing one-line read skill command")
+    if NO_SUMMARY_EN_MARKER not in index_text or IMMEDIATE_START_EN_MARKER not in index_text:
+        errors.append("docs/index.html missing execution-first starter command wording")
     if "Copy Command" not in index_text or "复制命令" not in index_text:
         errors.append("docs/index.html missing copyable starter command UI")
 
@@ -104,7 +110,7 @@ def main() -> None:
             errors.append("skill.md and docs/skill.md must stay content-identical")
         if READ_COMMAND_MARKER not in skill_source_text:
             errors.append("skill.md missing public read command")
-        if "do not summarize this file first" not in skill_source_text:
+        if "## Execute, do not summarize" not in skill_source_text or "Your next assistant message must start the test immediately" not in skill_source_text:
             errors.append("skill.md missing immediate-execution guardrail")
         if "What target role are you aiming for right now?" not in skill_source_text or "你现在最想申请或转向的岗位是什么？" not in skill_source_text:
             errors.append("skill.md missing target-role-first entry question")
@@ -149,8 +155,14 @@ def main() -> None:
             errors.append("docs/general.html missing work-agent compatibility wording")
         if "our server" not in general_text or "我们的服务器" not in general_text:
             errors.append("docs/general.html missing explicit no-upload privacy wording")
-        if READ_COMMAND_MARKER not in general_text:
-            warnings.append("docs/general.html missing explicit read-skill starter command")
+        if (
+            READ_COMMAND_MARKER not in general_text
+            or NO_SUMMARY_EN_MARKER not in general_text
+            or NO_SUMMARY_ZH_MARKER not in general_text
+            or IMMEDIATE_START_EN_MARKER not in general_text
+            or IMMEDIATE_START_ZH_MARKER not in general_text
+        ):
+            errors.append("docs/general.html missing execution-first starter command")
         if "https://github.com/realRoc" not in general_text:
             errors.append("docs/general.html missing author GitHub link")
         if "https://github.com/realRoc/git-hired" not in general_text:
