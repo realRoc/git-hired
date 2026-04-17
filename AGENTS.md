@@ -315,7 +315,7 @@ This rule applies to `skill.md`, `docs/skill.md`, `docs/index.html`, `docs/gener
 
 1. `skill.md` is the canonical agent-readable entry spec for Claude Code, Codex, and similar work agents.
 2. `docs/skill.md` is the deployed public copy of that entry spec and must stay content-identical to the root `skill.md`.
-3. Shared pages should point candidates to `skill.md` as the primary start path before role-specific pages.
+3. Shared pages should present `skill.md` as a direct `read .../skill.md` start path before role-specific pages.
 4. The first interaction in `skill.md` must:
    - introduce `git-hired` briefly
    - ask the candidate for the target role they want right now
@@ -324,6 +324,9 @@ This rule applies to `skill.md`, `docs/skill.md`, `docs/index.html`, `docs/gener
 7. Before any local scan, the flow must explicitly state the privacy boundary and ask which local repos, projects, files, or other data sources are approved.
 8. `history-only` remains the default unless the candidate explicitly approves a narrower named data scope.
 9. The shared entry flow should remove unnecessary manual prompt assembly. The agent should read the entry spec, collect the missing context, fetch the right prompt when needed, and then start analysis.
+10. `skill.md` must be written so that a work agent can be given a one-line command such as `read https://realroc.github.io/git-hired/skill.md` and immediately enter the test flow without extra setup text from the candidate.
+11. On `docs/index.html`, include a copyable one-line starter command that minimizes pre-run friction. The default public command should be:
+   - `read https://realroc.github.io/git-hired/skill.md`
 
 ## Candidate-Serving Shared Pages
 
@@ -350,7 +353,7 @@ This rule applies to `docs/index.html`, `docs/general.html`, `docs/skill.md`, an
 8. On `docs/index.html`, the hero copy should follow this order:
    - first, one short sentence that introduces `git-hired` as a way to test the candidate's `MBTI work personality` from how they actually work
    - second, one explicit privacy line saying we do not upload local repo, file, or other local data to our server
-   - third, let the page flow into the universal-entry section
+   - third, show the one-line copyable `read .../skill.md` starter command before flowing into the shared-entry section
 
 ## Candidate-Serving JD Descriptions
 
