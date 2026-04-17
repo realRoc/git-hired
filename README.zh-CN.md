@@ -9,7 +9,7 @@ fatal: not a qualified candidate
 
 面向 AI Native 创业公司的、以 prompt 为核心的候选人匹配度测试仓库。
 
-`git-hired` 现在从一个公开的 `skill.md` 单入口开始。实践里更稳的方式，是直接给工作 agent 一行：`read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。` 随后 agent 会先询问目标岗位、确认隐私边界、按需抓取对应 prompt，再基于可授权的工作痕迹返回一份结构化、带隐私边界的岗位匹配报告。
+`git-hired` 现在从一个公开的 `skill.md` 单入口开始。实践里更稳的方式，是直接给工作 agent 一行：`read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。` 随后 agent 会先完成岗位路由、确认隐私边界、按需抓取对应 prompt，再只基于允许的工作痕迹返回一份结构化、带隐私边界的岗位匹配报告。
 
 ## 隐私优先
 
@@ -82,11 +82,11 @@ fatal: not a qualified candidate
 
 ## 怎么使用
 
-1. 把一行 `read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。` 命令发给候选人
+1. 把一行 `read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。` 命令发给候选人
 2. 候选人把它粘贴到自己常用的工作 agent，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent
 3. 他的 agent 会先问目标岗位；如果目标还不明确，就回到候选人当前职业或身份
-4. agent 会先确认隐私边界，再决定是否允许访问任何本地 repo 或文件
-5. 如果需要，agent 会抓取对应的岗位 prompt，并在批准范围内分析本地工作痕迹
+4. agent 会先问清隐私边界，再决定是否允许访问任何本地 repo 或文件
+5. 如果需要，agent 会抓取对应的岗位 prompt，并在批准范围内自动分析工作痕迹，而不是继续让候选人人工答题
 6. 候选人把生成报告发回给你
 7. 你把这个报告作为结构化初筛输入，而不是最终结论
 
@@ -107,7 +107,7 @@ fatal: not a qualified candidate
 
 你可以直接发：
 
-> 把这行 `read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。` 粘贴到你自己的工作 agent 里跑一下，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent，然后把结果发我。
+> 把这行 `read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。` 粘贴到你自己的工作 agent 里跑一下，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent，然后把结果发我。
 > 默认只看历史记录。如果你愿意拿到更充分的评分，也可以主动允许访问指定的本地 repo 或文件。`git-hired` 不会把你的本地 repo 或文件数据上传到我们的服务器，agent 也只应访问你明确授权的材料。
 
 如果想更有梗一点：
@@ -140,7 +140,7 @@ fatal: not a qualified candidate
 - 去标识化例子
 - 评分
 - 匹配度判断
-- 面试追问建议
+- 一份面向候选人的本地 markdown 详细报告
 
 ## 目录结构
 

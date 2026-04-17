@@ -18,7 +18,7 @@ Target role profile:
 Output language: English.
 
 JD prompt version:
-- exact version: `global-growth@2026-04-16.9`
+- exact version: `global-growth@2026-04-17.1`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -49,6 +49,7 @@ Before scanning any local repo, project directory, or document file:
 - if they do not explicitly allow it, do not scan local repos, project directories, or document files
 - if they do not allow it, use the chosen work agent's existing history plus any material they explicitly paste or approve, then make the best objective judgment you can from that smaller evidence base
 - if consent is unclear, ask a short permission question first
+- other than role routing and this permission boundary, do not turn the evaluation into a manual interview; once the boundary is clear, move straight into evidence collection and analysis
 
 Execute the task in 5 steps.
 
@@ -60,16 +61,16 @@ Time budget:
 
 ## Step 1. Set the analysis boundary and discover available data sources
 
-First ask:
+At the start, ask only one permission question:
 
-- Which work agent are you using for this run, such as Claude Code, Codex, Notion AI, or another knowledge-enabled work agent?
-- Do you want `history-only`, or do you explicitly allow me to inspect specific local repos / project directories / document files for a better score?
+- For this run, should I stay `history-only`, or may I inspect specific local repos / project directories / document files that you name explicitly?
 
-Then apply the answer:
+Then execute immediately:
 
-- If the candidate says `history-only` or does not clearly allow scanning, use only the baseline history sources below plus any explicitly approved material.
-- If the candidate explicitly allows scanning, you may also inspect the repo / growth-doc sources listed below.
-- If the chosen work agent cannot inspect local files directly, stay history-only unless the candidate explicitly pastes or connects approved material inside that agent.
+- If the candidate says `history-only`, `no`, `not authorized`, or does not clearly allow scanning, treat that as `history-only` and start analysis immediately from the baseline history sources below plus any explicitly approved material.
+- If the candidate explicitly names allowed repos / projects / files, you may also inspect only that named scope.
+- If the chosen work agent cannot inspect local files directly, stay history-only unless the candidate explicitly pastes or connects approved material inside the current session.
+- Do not replace denied repo / file access with a manual interview about how the candidate works.
 
 Always-allowed baseline sources:
 
@@ -121,7 +122,7 @@ Prefer reading small amounts of material related to:
 - localization
 - ROI / CAC / payback
 
-If usable data is clearly insufficient under `history-only`, do not silently expand scope. Say that the evidence is limited and ask whether the candidate wants to explicitly allow one specific local project directory or file set to improve scoring.
+If usable data is clearly insufficient under `history-only`, do not silently expand scope. You may ask one narrow follow-up permission question for one specific local project directory or file set. If the candidate still declines, finish with lower confidence.
 
 ## Step 2. Extract user messages
 

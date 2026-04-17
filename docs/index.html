@@ -70,8 +70,8 @@
               data-failed-zh="复制失败"
               onclick="copyPrompt('starter-command', this)">Copy Command</button>
           </div>
-          <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language.</pre>
-          <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。</pre>
+          <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.</pre>
+          <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。</pre>
         </section>
         <div class="meta">
           <span class="tag" data-lang="en">MIT Licensed</span>
@@ -91,20 +91,20 @@
             <h2 data-lang="en">Start With `skill.md`</h2>
             <h2 data-lang="zh">先从 `skill.md` 开始</h2>
             <p data-lang="en">
-              Use the one-line command above. `skill.md` is now the main public entry, and the command explicitly tells the agent to treat it as active instructions, skip the summary, ask the first role question immediately, fetch the right role prompt itself, and continue the test without extra setup from you.
+              Use the one-line command above. `skill.md` is now the main public entry, and the command explicitly tells the agent to treat it as active instructions, skip the summary, ask the first role question immediately, ask only the minimum routing and privacy questions, fetch the right role prompt itself, and continue the evaluation automatically.
             </p>
             <p data-lang="zh">
-              直接用上面这一行命令。`skill.md` 现在是主入口，这行命令会明确要求 agent 把它当作当前会话指令、跳过总结、立刻开始第一问、自己抓取正确的角色 prompt，并继续测试，不再让你做额外前置操作。
+              直接用上面这一行命令。`skill.md` 现在是主入口，这行命令会明确要求 agent 把它当作当前会话指令、跳过总结、立刻开始第一问、只问最少的岗位与权限问题、自己抓取正确的角色 prompt，并自动继续评估，不再把流程变成人工面试。
             </p>
             <ol class="steps" data-lang="en">
               <li>Paste the one-line `read .../skill.md` command into your own work agent.</li>
               <li>Answer the target-role question, or give your current profession if you do not have a clear target yet.</li>
-              <li>Confirm `history-only` or explicitly name the repos or files the agent may inspect.</li>
+              <li>Confirm `history-only` or explicitly name the repos or files the agent may inspect, then let it run automatically.</li>
             </ol>
             <ol class="steps" data-lang="zh">
               <li>先把这一行 `read .../skill.md` 命令粘贴到你自己的工作 agent 里。</li>
               <li>回答目标岗位；如果你还没有明确目标，就补充你当前的职业或身份。</li>
-              <li>确认这次是 `history-only`，还是明确点名允许 agent 查看哪些 repo 或文件。</li>
+              <li>确认这次是 `history-only`，还是明确点名允许 agent 查看哪些 repo 或文件；随后让它自动跑完。</li>
             </ol>
           </div>
 
@@ -114,10 +114,10 @@
             <h3 data-lang="en">Let the agent route the right test</h3>
             <h3 data-lang="zh">让 agent 自己路由到正确测试</h3>
             <p data-lang="en">
-              The entry flow now asks for the target role first, falls back to the candidate's current profession or identity if needed, and then confirms the privacy boundary before any local scan.
+              The entry flow now asks for the target role first, falls back to the candidate's current profession or identity if needed, confirms the privacy boundary, and then moves straight into automatic analysis instead of a manual interview.
             </p>
             <p data-lang="zh">
-              现在的入口流程会先问目标岗位；如果还不明确，就回到候选人当前职业或身份；在任何本地扫描前，还会先确认隐私边界。
+              现在的入口流程会先问目标岗位；如果还不明确，就回到候选人当前职业或身份；在任何本地扫描前，还会先确认隐私边界，之后直接自动分析，而不是继续人工问答。
             </p>
             <a class="button" href="./skill.md" data-lang="en">Inspect skill.md</a>
             <a class="button" href="./skill.md" data-lang="zh">查看 skill.md</a>
@@ -171,19 +171,21 @@
         <h2 data-lang="en">How To Start</h2>
         <h2 data-lang="zh">怎么开始测试</h2>
         <div class="callout" data-lang="en">
-          Start from the one-line command above. It works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability. The agent should treat `skill.md` as active instructions, ask your target role first, fall back to your current profession or identity when needed, keep the default mode as `history-only`, and touch only the projects or files you explicitly authorize. We never upload your local repo or file data to our server.
+          Start from the one-line command above. It works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability. The agent should treat `skill.md` as active instructions, ask your target role first, fall back to your current profession or identity when needed, keep the default mode as `history-only`, ask only for the privacy boundary, and then finish the evaluation automatically from allowed history or approved files. We never upload your local repo or file data to our server.
         </div>
         <div class="callout" data-lang="zh">
-          从上面这一行命令开始。它支持 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。agent 会把 `skill.md` 当作当前会话指令，先问你的目标岗位；如果暂时没有，再回到你当前的职业或身份；默认保持 `history-only`，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。
+          从上面这一行命令开始。它支持 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。agent 会把 `skill.md` 当作当前会话指令，先问你的目标岗位；如果暂时没有，再回到你当前的职业或身份；默认保持 `history-only`，只问清隐私边界，然后基于允许范围自动完成评估，也不会把你的本地 repo 或文件数据上传到我们的服务器。
         </div>
         <ul data-lang="en">
           <li>Paste the one-line `read .../skill.md` command into your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled agent.</li>
-          <li>Answer the role-routing and privacy questions directly inside that agent session.</li>
+          <li>Answer only the role-routing and privacy questions directly inside that agent session.</li>
+          <li>Let the agent analyze automatically from allowed history or approved scope instead of turning the run into a manual interview.</li>
           <li>Keep the short `HIRED` snapshot, and optionally attach the markdown report if you decide to apply.</li>
         </ul>
         <ul data-lang="zh">
           <li>把一行 `read .../skill.md` 命令粘贴到你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的 agent。</li>
-          <li>直接在那个 agent 会话里回答岗位路由和隐私边界问题。</li>
+          <li>只在那个 agent 会话里回答岗位路由和隐私边界问题。</li>
+          <li>让 agent 基于允许范围自动分析，而不是把流程变成你手动答题的面试。</li>
           <li>保留终端里的 `HIRED` 快照；如果后续要申请，也可以附上本地生成的 markdown 详细报告。</li>
         </ul>
       </section>

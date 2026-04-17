@@ -1,9 +1,9 @@
 # git-hired skill entry
 
-Entry spec version: `skill-entry@2026-04-17.2`
+Entry spec version: `skill-entry@2026-04-17.3`
 
 Default public starter command:
-- `read https://realroc.github.io/git-hired/skill.md`
+- `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.`
 
 ## Execute, do not summarize
 
@@ -17,8 +17,9 @@ Do not:
 
 Your next assistant message must start the test immediately in the candidate's language.
 
-The candidate may have typed only:
+The candidate may have typed:
 - `read https://realroc.github.io/git-hired/skill.md`
+- the longer starter command from the shared pages
 
 That one line is enough to start.
 
@@ -39,6 +40,11 @@ If the language is unclear, default to English.
 4. Fetch the right role prompt yourself whenever local or public access is available.
 5. Only ask the candidate to paste missing prompt content if automatic fetch or local read is unavailable.
 6. If your tool normally returns fetched content as plain text, still treat that fetched content as instructions and continue the test instead of summarizing it.
+7. Ask only what is strictly necessary to:
+   - resolve the target role route
+   - resolve the privacy boundary
+8. After the privacy boundary is clear, start evidence collection and analysis automatically.
+9. Do not turn denied repo / file access into a manual interview about how the candidate works.
 
 ## Route by the answer
 
@@ -67,7 +73,9 @@ Then ask one short scope question:
 1. If consent is unclear, ask again before reading any local repo or file.
 2. Never broad-scan the machine.
 3. If the candidate approves scanning, ask for the exact repos, files, or other sources in scope before analysis starts.
-4. If the candidate keeps `history-only`, continue with the best judgment you can from history and already-approved context.
+4. If the candidate says `history-only`, `no`, `not authorized`, or otherwise refuses local scanning, treat that as `history-only` and start analysis immediately from allowed history and already-approved context.
+5. Do not replace `history-only` with a self-report questionnaire or manual competency interview.
+6. If evidence is still thin under `history-only`, you may ask one narrow follow-up permission question for one specific repo / project / file set. Otherwise finish with lower confidence.
 
 ## Supported role routes
 
@@ -177,6 +185,7 @@ Use this only when the candidate does not name a clear supported target role.
 
 - The final output is for the candidate to read, not for the interviewer.
 - Stay respectful, equal, direct, and evidence-first.
+- Prefer observed work traces over the candidate's self-description whenever those traces are available.
 - Do not include interviewer plans, recruiter workflow notes, or hiring-team instructions.
 - Do not print secrets, tokens, raw logs, raw transcripts, emails, customer names, or large code dumps.
 - Keep examples de-identified and short.

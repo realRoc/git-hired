@@ -46,10 +46,10 @@
         <h1 data-lang="en">Start From `skill.md`</h1>
         <h1 data-lang="zh">从 `skill.md` 开始</h1>
         <p class="lede" data-lang="en">
-          `skill.md` is now the main public entry for `git-hired`. In Claude Code, Codex, Notion AI, or any similar work agent with knowledge-base and memory capability, the safest path is a single `read .../skill.md` command that also says "do not summarize" and "start immediately."
+          `skill.md` is now the main public entry for `git-hired`. In Claude Code, Codex, Notion AI, or any similar work agent with knowledge-base and memory capability, the safest path is a single `read .../skill.md` command that says "do not summarize", "start immediately", and "do not turn this into a manual interview."
         </p>
         <p class="lede" data-lang="zh">
-          `skill.md` 现在是 `git-hired` 的主入口。在 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent 里，更稳的启动方式是一行带上“不要总结、立刻开始”的 `read .../skill.md` 命令。
+          `skill.md` 现在是 `git-hired` 的主入口。在 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent 里，更稳的启动方式是一行带上“不要总结、立刻开始、不要转成人工问答”的 `read .../skill.md` 命令。
         </p>
         <p class="mini" data-lang="en">
           Privacy first: we never upload your local repo, files, or any other local data to our server.
@@ -72,8 +72,8 @@
               data-failed-zh="复制失败"
               onclick="copyPrompt('starter-command', this)">Copy Command</button>
           </div>
-          <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language.</pre>
-          <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。</pre>
+          <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.</pre>
+          <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。</pre>
         </section>
         <div class="inline-links">
           <a class="button" href="./skill.md" data-lang="en">Open skill.md</a>
@@ -93,14 +93,14 @@
               <li>If you already have a clear target role, fetch the matching role prompt and continue directly.</li>
               <li>If you do not have a clear target role yet, ask for your current profession or identity first, then route into a universal calibration flow.</li>
               <li>Explain the privacy boundary and confirm whether this run stays `history-only` or may inspect only specific repos or files you name explicitly.</li>
-              <li>Start analysis only after the data boundary is clear.</li>
+              <li>Once the data boundary is clear, analyze automatically from allowed history or approved scope instead of interviewing the candidate.</li>
             </ol>
             <ol class="steps" data-lang="zh">
               <li>先简短介绍 `git-hired`，然后问你现在最想去的目标岗位。</li>
               <li>如果你已经有明确目标岗位，就直接抓取对应 prompt 开始测试。</li>
               <li>如果你还没有明确目标岗位，就先问你当前的职业或身份，再进入通用校准流程。</li>
               <li>说明隐私边界，并确认这次是保持 `history-only`，还是只查看你明确点名允许的 repo 或文件。</li>
-              <li>只有在数据边界清楚之后，才开始分析。</li>
+              <li>一旦数据边界清楚，就基于允许范围自动分析，而不是继续让你人工答题。</li>
             </ol>
           </div>
 
@@ -125,10 +125,10 @@
         <h2 data-lang="en">Privacy Boundary</h2>
         <h2 data-lang="zh">隐私边界</h2>
         <div class="callout" data-lang="en">
-          `git-hired` does not upload your local repo or file data to our server. The chosen work agent should inspect only the projects, files, or knowledge-base material you explicitly authorize for this run. If you are using Claude Code or Codex, bypass / YOLO usually makes the run smoother.
+          `git-hired` does not upload your local repo or file data to our server. The chosen work agent should inspect only the projects, files, or knowledge-base material you explicitly authorize for this run. If you keep `history-only`, it should still finish the evaluation from allowed history instead of switching to a manual interview. If you are using Claude Code or Codex, bypass / YOLO usually makes the run smoother.
         </div>
         <div class="callout" data-lang="zh">
-          `git-hired` 不会把你的本地 repo 或文件数据上传到我们的服务器。你所选的工作 agent 只应访问你这次明确授权的项目、文件或知识库材料。如果你使用的是 Claude Code 或 Codex，bypass / YOLO 通常会让整个流程更顺。
+          `git-hired` 不会把你的本地 repo 或文件数据上传到我们的服务器。你所选的工作 agent 只应访问你这次明确授权的项目、文件或知识库材料。如果你选择 `history-only`，它也应该直接基于允许的历史记录完成评估，而不是转成人工问答。如果你使用的是 Claude Code 或 Codex，bypass / YOLO 通常会让整个流程更顺。
         </div>
         <ul data-lang="en">
           <li>Default mode is `history-only`.</li>
@@ -147,14 +147,14 @@
         <h2 data-lang="zh">怎么使用</h2>
         <ul data-lang="en">
           <li>Paste the one-line `read .../skill.md` command into your own work agent.</li>
-          <li>Answer the agent's role and privacy questions honestly.</li>
-          <li>Let the agent fetch the right prompt or route you through universal calibration.</li>
+          <li>Answer only the agent's role-routing and privacy questions honestly.</li>
+          <li>Let the agent fetch the right prompt or route you through universal calibration, then finish the test automatically from allowed evidence.</li>
           <li>Keep the `HIRED` summary and the local markdown report if you decide to apply.</li>
         </ul>
         <ul data-lang="zh">
           <li>把一行 `read .../skill.md` 命令粘贴到你自己的工作 agent 里。</li>
-          <li>如实回答 agent 关于岗位和隐私边界的问题。</li>
-          <li>让 agent 自己抓取对应 prompt，或者带你走通用校准流程。</li>
+          <li>只如实回答 agent 关于岗位路由和隐私边界的问题。</li>
+          <li>让 agent 自己抓取对应 prompt，或者带你走通用校准流程，然后基于允许证据自动跑完。</li>
           <li>保留 `HIRED` 结果和本地 markdown 报告；如果之后想申请，可以直接附上。</li>
         </ul>
         <p class="author-line" data-lang="en">

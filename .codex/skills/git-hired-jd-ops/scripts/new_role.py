@@ -106,7 +106,8 @@ Consent & local-only notice:
 5. 先询问候选人要走哪种模式：
    - `history-only`
    - 或允许扫描指定的 repo / 本地项目 / 文件，以帮助你更准确评分
-6. 如果候选人不允许扫描 repo 或文档，就基于历史记录做尽可能客观的判断，并明确说明置信度限制。
+6. 除了岗位路由和这个权限问题，不要再把评估变成人工问答；边界一旦明确，就直接开始分析允许范围内的证据。
+7. 如果候选人不允许扫描 repo 或文档，就基于历史记录做尽可能客观的判断，并明确说明置信度限制。
 
 时间预算：
 1. 默认目标是在 1 分钟内完成整个测试。
@@ -194,7 +195,8 @@ Consent & local-only notice:
 5. Ask the candidate which mode to use:
    - `history-only`
    - or allow scanning of specific repos / local projects / files for better scoring
-6. If the candidate does not allow repo or document scanning, make the best objective judgment you can from history-only evidence and state the resulting confidence limits clearly.
+6. Other than role routing and this permission boundary, do not turn the evaluation into a manual interview; once the boundary is clear, move straight into evidence collection and analysis.
+7. If the candidate does not allow repo or document scanning, make the best objective judgment you can from history-only evidence and state the resulting confidence limits clearly.
 
 Time budget:
 1. Default target: finish the full test within about 1 minute.
@@ -284,10 +286,10 @@ def role_page(
         <h2 data-lang="en">How To Run This Test</h2>
         <h2 data-lang="zh">怎么开始这个测试</h2>
         <p class="mini" data-lang="en">
-          Paste the prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent. By default it stays history-only, only accesses projects or files you explicitly authorize, and never uploads your local repo or file data to our server.
+          Paste the prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent. By default it stays history-only, only accesses projects or files you explicitly authorize, never uploads your local repo or file data to our server, and should run the evaluation automatically after the privacy boundary is clear.
         </p>
         <p class="mini" data-lang="zh">
-          把下面这段 prompt 完整粘贴到你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent。默认只看历史记录，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。
+          把下面这段 prompt 完整粘贴到你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent。默认只看历史记录，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器；隐私边界一旦确认，就应自动完成评估。
         </p>
         <div class="callout" data-lang="en">
           Friendly tip: if you're using Claude Code or Codex, turning on Claude Code's bypass mode or Codex's YOLO mode usually makes the run smoother.

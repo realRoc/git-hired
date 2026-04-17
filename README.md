@@ -9,7 +9,7 @@ fatal: not a qualified candidate
 
 Prompt-first candidate fit tests for AI-native startups.
 
-`git-hired` now starts from a single public `skill.md` entry. In practice, the more reliable one-line command is: `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language.` The agent should then ask the target-role question, confirm the privacy boundary, fetch the right prompt when needed, and return a structured, privacy-bounded fit report based on how the candidate actually works.
+`git-hired` now starts from a single public `skill.md` entry. In practice, the more reliable one-line command is: `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.` The agent should then route the right role, confirm the privacy boundary, inspect only the allowed evidence, and return a structured, privacy-bounded fit report based on how the candidate actually works.
 
 ## Privacy First
 
@@ -82,11 +82,11 @@ Can this person direct AI well enough to ship, learn, and iterate under startup 
 
 ## How It Works
 
-1. Send the candidate the one-line command `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language.`
+1. Send the candidate the one-line command `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.`
 2. They paste it into their own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent.
 3. Their agent asks the target-role question first, or falls back to current profession / identity if the role is still unclear.
-4. The agent confirms the privacy boundary before touching any local repo or file.
-5. The agent fetches the right role prompt when needed, analyzes local work traces within the approved scope, and returns the report.
+4. The agent asks one privacy-boundary question before touching any local repo or file.
+5. The agent fetches the right role prompt when needed, analyzes allowed history or approved local work traces automatically, and returns the report without switching into manual competency Q&A.
 6. The candidate sends back the generated report.
 7. You use that report as a structured screening input, not as the final decision.
 
@@ -107,7 +107,7 @@ If they do not allow repo or document scanning, the agent should still make the 
 
 You can send something like:
 
-> Paste `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language.` into your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent, run it, and send me the output.
+> Paste `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.` into your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent, run it, and send me the output.
 > By default it stays history-only. If you want a stronger score, you can explicitly allow access to specific repos or files. `git-hired` does not upload your local repo or file data to our server, and the agent should only inspect material you explicitly authorize.
 
 Or lean into the joke:
@@ -140,7 +140,7 @@ The intended output is:
 - de-identified examples
 - scoring
 - fit assessment
-- interview follow-up questions
+- a candidate-facing local markdown report
 
 ## Repo Structure
 

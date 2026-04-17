@@ -124,7 +124,7 @@ Target role profile:
 Output language: English.
 
 JD prompt version:
-- exact version: `ai-product-operations@2026-04-16.9`
+- exact version: `ai-product-operations@2026-04-17.1`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -155,6 +155,7 @@ Before scanning any local repo, project directory, or document file:
 - if they do not explicitly allow it, do not scan local repos, project directories, or document files
 - if they do not allow it, use the chosen work agent's existing history plus any material they explicitly paste or approve, then make the best objective judgment you can from that smaller evidence base
 - if consent is unclear, ask a short permission question first
+- other than role routing and this permission boundary, do not turn the evaluation into a manual interview; once the boundary is clear, move straight into evidence collection and analysis
 
 Execute the task in 5 steps.
 
@@ -166,16 +167,16 @@ Time budget:
 
 ## Step 1. Set the analysis boundary and discover available data sources
 
-First ask:
+At the start, ask only one permission question:
 
-- Which work agent are you using for this run, such as Claude Code, Codex, Notion AI, or another knowledge-enabled work agent?
-- Do you want `history-only`, or do you explicitly allow me to inspect specific local repos / project directories / document files for a better score?
+- For this run, should I stay `history-only`, or may I inspect specific local repos / project directories / document files that you name explicitly?
 
-Then apply the answer:
+Then execute immediately:
 
-- If the candidate says `history-only` or does not clearly allow scanning, use only the baseline history sources below plus any explicitly approved material.
-- If the candidate explicitly allows scanning, you may also inspect the repo / operations-doc sources listed below.
-- If the chosen work agent cannot inspect local files directly, stay history-only unless the candidate explicitly pastes or connects approved material inside that agent.
+- If the candidate says `history-only`, `no`, `not authorized`, or does not clearly allow scanning, treat that as `history-only` and start analysis immediately from the baseline history sources below plus any explicitly approved material.
+- If the candidate explicitly names allowed repos / projects / files, you may also inspect only that named scope.
+- If the chosen work agent cannot inspect local files directly, stay history-only unless the candidate explicitly pastes or connects approved material inside the current session.
+- Do not replace denied repo / file access with a manual interview about how the candidate works.
 
 Always-allowed baseline sources:
 
@@ -222,7 +223,7 @@ Prefer reading small amounts of material related to:
 - AI product usage
 - announcement copy
 
-If usable data is clearly insufficient under `history-only`, do not silently expand scope. Say that the evidence is limited and ask whether the candidate wants to explicitly allow one specific local project directory or file set to improve scoring.
+If usable data is clearly insufficient under `history-only`, do not silently expand scope. You may ask one narrow follow-up permission question for one specific local project directory or file set. If the candidate still declines, finish with lower confidence.
 
 ## Step 2. Extract user messages
 
@@ -443,7 +444,7 @@ If running in extended mode:
 输出语言：中文。
 
 岗位 Prompt 版本：
-- 精确版本：`ai-product-operations@2026-04-16.9`
+- 精确版本：`ai-product-operations@2026-04-17.1`
 - 生成终端摘要和 markdown 报告时，都要原样记录这串版本号，并使用字段名 `JD prompt version`
 
 判断原则：
@@ -474,6 +475,7 @@ If running in extended mode:
 - 如果候选人没有明确允许，就不要扫描本地 repo、项目目录或文档文件
 - 如果候选人不允许，就只使用所选工作 agent 已有的会话历史，以及候选人主动粘贴或明确批准的材料，再基于这部分证据做尽可能客观的判断
 - 如果同意边界不清晰，先补一个简短的权限确认问题
+- 除了岗位路由和这个权限问题，不要再把评估变成人工问答；边界一旦明确，就直接开始分析允许范围内的证据
 
 任务分 5 步执行：
 
@@ -485,14 +487,16 @@ If running in extended mode:
 
 ## Step 1. 先设定分析边界，再发现可用数据源
 
-先问候选人：
+开始时只问 1 个权限问题：
 
-- 你希望走 `history-only`，还是明确允许我扫描指定的本地 repo / 项目目录 / 文档文件，以帮助我更准确评分？
+- 这次测试你要保持 `history-only`，还是明确允许我查看你点名授权的本地 repo / 项目目录 / 文档文件？
 
-然后按回答执行：
+然后立刻按回答执行：
 
-- 如果候选人选择 `history-only`，或没有明确给出允许，就只使用下面的历史记录类来源，以及候选人明确批准的材料。
-- 只有候选人明确允许时，你才可以额外扫描 repo / 运营文档来源。
+- 如果候选人回答 `history-only`、`不授权`、`先别扫本地文件`，或没有明确给出允许，就把这视为 `history-only`，直接开始分析下面的历史记录类来源，以及候选人明确批准的材料。
+- 只有候选人明确点名允许时，你才可以额外扫描这些命名范围内的 repo / 运营文档来源。
+- 如果当前 work agent 不支持直接访问本地文件，就保持 `history-only`，除非候选人主动在当前会话里粘贴或接入已批准材料。
+- 不要因为候选人拒绝 repo / 文件扫描，就继续追问“你怎么处理用户反馈”“你如何做运营 SOP”之类的人类答题问题。
 
 始终可用的基础来源：
 
@@ -539,7 +543,7 @@ If running in extended mode:
 - AI 产品使用
 - 公告文案
 
-如果在 `history-only` 模式下可用数据明显不足，不要擅自扩大范围。明确告诉候选人当前证据有限，再询问其是否愿意额外允许你查看一个最能代表其用户运营工作的本地项目目录或一组文件。
+如果在 `history-only` 模式下可用数据明显不足，不要擅自扩大范围。你可以补 1 个很窄的权限问题，询问候选人是否愿意额外允许你查看一个最能代表其用户运营工作的本地项目目录或一组文件；如果对方不愿意，就直接以较低置信度完成结果。
 
 ## Step 2. 提取用户消息
 

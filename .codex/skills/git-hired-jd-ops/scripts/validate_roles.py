@@ -29,6 +29,14 @@ NO_SUMMARY_EN_MARKER = "Do not summarize it."
 NO_SUMMARY_ZH_MARKER = "不要总结"
 IMMEDIATE_START_EN_MARKER = "Ask the first test question immediately"
 IMMEDIATE_START_ZH_MARKER = "直接用我的语言开始第一问"
+AUTO_EVAL_EN_MARKER = "run the evaluation automatically from allowed history or approved files"
+AUTO_EVAL_ZH_MARKER = "基于允许范围自动完成评估"
+NO_INTERVIEW_EN_MARKER = "Do not turn it into a manual interview."
+NO_INTERVIEW_ZH_MARKER = "不要转成面试式问答"
+PROMPT_AUTO_EN_MARKER = "Do not replace denied repo / file access with a manual interview"
+PROMPT_AUTO_ZH_MARKER = "不要因为候选人拒绝 repo / 文件扫描，就继续追问"
+MIN_PERMISSION_EN_MARKER = "ask only one permission question"
+MIN_PERMISSION_ZH_MARKER = "只问 1 个权限问题"
 MBTI_ANTI_ANCHOR_EN_MARKER = "Do not default to `INTJ`, `TJ`, or any single"
 MBTI_ANTI_ANCHOR_ZH_MARKER = "不要默认套用 `INTJ`、`TJ`"
 MBTI_NEUTRAL_TF_EN_MARKER = "impersonal analysis and consistency vs human-context and value-weighting"
@@ -96,6 +104,8 @@ def main() -> None:
         errors.append("docs/index.html missing one-line read skill command")
     if NO_SUMMARY_EN_MARKER not in index_text or IMMEDIATE_START_EN_MARKER not in index_text:
         errors.append("docs/index.html missing execution-first starter command wording")
+    if AUTO_EVAL_EN_MARKER not in index_text or NO_INTERVIEW_EN_MARKER not in index_text:
+        errors.append("docs/index.html missing auto-analysis no-interview wording")
     if "Copy Command" not in index_text or "复制命令" not in index_text:
         errors.append("docs/index.html missing copyable starter command UI")
 
@@ -118,6 +128,8 @@ def main() -> None:
             errors.append("skill.md missing current profession / identity fallback question")
         if "history-only" not in skill_source_text or "our server" not in skill_source_text:
             errors.append("skill.md missing privacy-boundary wording")
+        if "start evidence collection and analysis automatically" not in skill_source_text or "Do not replace `history-only` with a self-report questionnaire" not in skill_source_text:
+            errors.append("skill.md missing auto-analysis no-interview rule")
         if "AI Agent Engineer" not in skill_source_text or "Product Manager" not in skill_source_text or "Global Growth" not in skill_source_text or "AI Product Operations" not in skill_source_text:
             errors.append("skill.md missing supported role registry")
         if "wuyupeng@floatmiracle.com" not in skill_source_text:
@@ -163,6 +175,8 @@ def main() -> None:
             or IMMEDIATE_START_ZH_MARKER not in general_text
         ):
             errors.append("docs/general.html missing execution-first starter command")
+        if AUTO_EVAL_EN_MARKER not in general_text or AUTO_EVAL_ZH_MARKER not in general_text or NO_INTERVIEW_ZH_MARKER not in general_text:
+            errors.append("docs/general.html missing auto-analysis no-interview wording")
         if "https://github.com/realRoc" not in general_text:
             errors.append("docs/general.html missing author GitHub link")
         if "https://github.com/realRoc/git-hired" not in general_text:
@@ -188,6 +202,10 @@ def main() -> None:
         errors.append("README.md still contains Claude Code/Codex-exclusive candidate wording")
     if "粘贴到你自己的 Claude Code 或 Codex" in readme_zh:
         errors.append("README.zh-CN.md still contains Claude Code/Codex-exclusive candidate wording")
+    if AUTO_EVAL_EN_MARKER not in readme_en or NO_INTERVIEW_EN_MARKER not in readme_en:
+        errors.append("README.md missing auto-analysis starter wording")
+    if AUTO_EVAL_ZH_MARKER not in readme_zh or NO_INTERVIEW_ZH_MARKER not in readme_zh:
+        errors.append("README.zh-CN.md missing auto-analysis starter wording")
 
     page_slugs = set()
     prompt_slugs = set()
@@ -226,6 +244,8 @@ def main() -> None:
             zh_prompt_text = zh_prompt.read_text(encoding="utf-8")
             if "history-only" not in zh_prompt_text or "上传到我们的服务器" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing consent-first local-only notice")
+            if MIN_PERMISSION_ZH_MARKER not in zh_prompt_text or PROMPT_AUTO_ZH_MARKER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing auto-analysis no-interview consent flow")
             if WORK_AGENT_ZH_MARKER not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing work-agent compatibility wording")
             if TIME_BUDGET_ZH_MARKER not in zh_prompt_text:
@@ -293,6 +313,8 @@ def main() -> None:
             en_prompt_text = en_prompt.read_text(encoding="utf-8")
             if "history-only" not in en_prompt_text or "our server" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing consent-first local-only notice")
+            if MIN_PERMISSION_EN_MARKER not in en_prompt_text or PROMPT_AUTO_EN_MARKER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing auto-analysis no-interview consent flow")
             if WORK_AGENT_EN_MARKER not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing work-agent compatibility wording")
             if TIME_BUDGET_EN_MARKER not in en_prompt_text:
