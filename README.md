@@ -9,7 +9,7 @@ fatal: not a qualified candidate
 
 Prompt-first candidate fit tests for AI-native startups.
 
-`git-hired` now starts from a single public `skill.md` entry. The candidate pastes that entry into their own work agent, such as Claude Code, Codex, Notion AI, or any similar agent with knowledge-base and memory capability; the agent then asks the target-role question, confirms the privacy boundary, fetches the right prompt when needed, and returns a structured, privacy-bounded fit report based on how the candidate actually works.
+`git-hired` now starts from a single public `skill.md` entry. The fastest path is to give a work agent one line, `read https://realroc.github.io/git-hired/skill.md`; the agent should then ask the target-role question, confirm the privacy boundary, fetch the right prompt when needed, and return a structured, privacy-bounded fit report based on how the candidate actually works.
 
 ## Privacy First
 
@@ -82,7 +82,7 @@ Can this person direct AI well enough to ship, learn, and iterate under startup 
 
 ## How It Works
 
-1. Send the candidate `skill.md`.
+1. Send the candidate the one-line command `read https://realroc.github.io/git-hired/skill.md`.
 2. They paste it into their own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent.
 3. Their agent asks the target-role question first, or falls back to current profession / identity if the role is still unclear.
 4. The agent confirms the privacy boundary before touching any local repo or file.
@@ -107,7 +107,7 @@ If they do not allow repo or document scanning, the agent should still make the 
 
 You can send something like:
 
-> Paste the `skill.md` from this link into your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent, run it, and send me the output.
+> Paste `read https://realroc.github.io/git-hired/skill.md` into your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent, run it, and send me the output.
 > By default it stays history-only. If you want a stronger score, you can explicitly allow access to specific repos or files. `git-hired` does not upload your local repo or file data to our server, and the agent should only inspect material you explicitly authorize.
 
 Or lean into the joke:

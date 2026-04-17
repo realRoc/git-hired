@@ -55,6 +55,24 @@
         <p class="mini" data-lang="zh">
           隐私优先：我们不会把你的本地 repo、文件或任何其他本地数据上传到我们的服务器。
         </p>
+        <section class="prompt-wrap">
+          <div class="prompt-head">
+            <strong data-lang="en">One-Line Starter For Claude Code / Codex</strong>
+            <strong data-lang="zh">给 Claude Code / Codex 的一行启动命令</strong>
+            <button
+              class="button"
+              data-copy-button="true"
+              data-label-en="Copy Command"
+              data-label-zh="复制命令"
+              data-copied-en="Copied"
+              data-copied-zh="已复制"
+              data-failed-en="Copy Failed"
+              data-failed-zh="复制失败"
+              onclick="copyPrompt('starter-command', this)">Copy Command</button>
+          </div>
+          <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md</pre>
+          <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md</pre>
+        </section>
         <div class="meta">
           <span class="tag" data-lang="en">MIT Licensed</span>
           <span class="tag" data-lang="zh">MIT 协议</span>
@@ -73,18 +91,18 @@
             <h2 data-lang="en">Start With `skill.md`</h2>
             <h2 data-lang="zh">先从 `skill.md` 开始</h2>
             <p data-lang="en">
-              `skill.md` is now the main public entry. Paste it into Claude Code, Codex, Notion AI, or another memory-enabled work agent, and let the agent ask the missing questions, fetch the right role prompt, and route the session from there.
+              Use the one-line command above. `skill.md` is now the main public entry, and the agent should read it, ask the first role question immediately, fetch the right role prompt itself, and continue the test without extra setup from you.
             </p>
             <p data-lang="zh">
-              `skill.md` 现在是主入口。把它粘贴到 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent 里，让 agent 自己补齐问题、抓取正确的角色 prompt，并完成路由。
+              直接用上面这一行命令。`skill.md` 现在是主入口，agent 读完后就应该立刻开始第一问，自己抓取正确的角色 prompt，并继续测试，不再让你做额外前置操作。
             </p>
             <ol class="steps" data-lang="en">
-              <li>Paste `skill.md` into your own work agent.</li>
+              <li>Paste the one-line `read .../skill.md` command into your own work agent.</li>
               <li>Answer the target-role question, or give your current profession if you do not have a clear target yet.</li>
               <li>Confirm `history-only` or explicitly name the repos or files the agent may inspect.</li>
             </ol>
             <ol class="steps" data-lang="zh">
-              <li>先把 `skill.md` 粘贴到你自己的工作 agent 里。</li>
+              <li>先把这一行 `read .../skill.md` 命令粘贴到你自己的工作 agent 里。</li>
               <li>回答目标岗位；如果你还没有明确目标，就补充你当前的职业或身份。</li>
               <li>确认这次是 `history-only`，还是明确点名允许 agent 查看哪些 repo 或文件。</li>
             </ol>
@@ -101,8 +119,8 @@
             <p data-lang="zh">
               现在的入口流程会先问目标岗位；如果还不明确，就回到候选人当前职业或身份；在任何本地扫描前，还会先确认隐私边界。
             </p>
-            <a class="button" href="./skill.md" data-lang="en">Open skill.md</a>
-            <a class="button" href="./skill.md" data-lang="zh">打开 skill.md</a>
+            <a class="button" href="./skill.md" data-lang="en">Inspect skill.md</a>
+            <a class="button" href="./skill.md" data-lang="zh">查看 skill.md</a>
             <a class="button secondary" href="./general.html" data-lang="en">Read The Guide</a>
             <a class="button secondary" href="./general.html" data-lang="zh">查看说明</a>
           </aside>
@@ -153,18 +171,18 @@
         <h2 data-lang="en">How To Start</h2>
         <h2 data-lang="zh">怎么开始测试</h2>
         <div class="callout" data-lang="en">
-          Start from `skill.md`. It works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability. The agent will ask your target role first, fall back to your current profession or identity when needed, keep the default mode as `history-only`, and touch only the projects or files you explicitly authorize. We never upload your local repo or file data to our server.
+          Start from the one-line `read https://realroc.github.io/git-hired/skill.md` command. It works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability. The agent should ask your target role first, fall back to your current profession or identity when needed, keep the default mode as `history-only`, and touch only the projects or files you explicitly authorize. We never upload your local repo or file data to our server.
         </div>
         <div class="callout" data-lang="zh">
-          从 `skill.md` 开始。它支持 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。agent 会先问你的目标岗位；如果暂时没有，再回到你当前的职业或身份；默认保持 `history-only`，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。
+          从这行 `read https://realroc.github.io/git-hired/skill.md` 命令开始。它支持 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。agent 会先问你的目标岗位；如果暂时没有，再回到你当前的职业或身份；默认保持 `history-only`，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。
         </div>
         <ul data-lang="en">
-          <li>Open `skill.md` and run it inside your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled agent.</li>
+          <li>Paste the one-line `read .../skill.md` command into your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled agent.</li>
           <li>Answer the role-routing and privacy questions directly inside that agent session.</li>
           <li>Keep the short `HIRED` snapshot, and optionally attach the markdown report if you decide to apply.</li>
         </ul>
         <ul data-lang="zh">
-          <li>打开 `skill.md`，并在你自己的工作 agent 里运行它，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的 agent。</li>
+          <li>把一行 `read .../skill.md` 命令粘贴到你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的 agent。</li>
           <li>直接在那个 agent 会话里回答岗位路由和隐私边界问题。</li>
           <li>保留终端里的 `HIRED` 快照；如果后续要申请，也可以附上本地生成的 markdown 详细报告。</li>
         </ul>

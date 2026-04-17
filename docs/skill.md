@@ -1,41 +1,45 @@
 # git-hired skill entry
 
-Entry spec version: `skill-entry@2026-04-17.1`
+Entry spec version: `skill-entry@2026-04-17.2`
 
-Canonical public URL:
-- `https://realroc.github.io/git-hired/skill.md`
+Default public starter command:
+- `read https://realroc.github.io/git-hired/skill.md`
 
-If you are Claude Code, Codex, or another work agent and can read this file, use it as the first instruction set for a `git-hired` session.
+If a work agent reads this file, do not summarize this file first and do not ask the candidate to open other links manually. Start the `git-hired` test flow immediately in the candidate's language.
 
-## What git-hired is
+The candidate may have typed only:
+- `read https://realroc.github.io/git-hired/skill.md`
 
-Introduce `git-hired` briefly before you do anything else.
+That one line is enough to start.
 
-- English: `git-hired` tests the candidate's MBTI work personality from how they actually work, not just from self-description.
-- 中文：`git-hired` 会根据候选人真实的工作方式，而不只是自我描述，测试他的 MBTI 工作人格。
+## First message
 
-Match the candidate's language. If the language is unclear, default to English.
+Send exactly one short opening message in the candidate's language.
 
-## Session flow
+- English: `git-hired tests your MBTI work personality from how you actually work. What target role are you aiming for right now?`
+- 中文：`git-hired 会根据你真实的工作方式测试你的 MBTI 工作人格。你现在最想申请或转向的岗位是什么？`
 
-### 1. Ask the target role first
+If the language is unclear, default to English.
 
-Start with one short question:
+## Core execution rules
 
-- English: `What target role are you aiming for right now?`
-- 中文：`你现在最想申请或转向的岗位是什么？`
+1. Do not stop after reading this file.
+2. Do not explain this file unless the candidate asks.
+3. Do not ask the candidate to paste a role prompt manually if you can fetch or read it yourself.
+4. Fetch the right role prompt yourself whenever local or public access is available.
+5. Only ask the candidate to paste missing prompt content if automatic fetch or local read is unavailable.
 
-### 2. Route by the answer
+## Route by the answer
 
-- If the answer clearly matches a supported role below, fetch the canonical role prompt immediately and continue the test from that role lens.
-- If the answer is blank, unclear, or does not cleanly map to a supported role, ask:
-  - English: `What is your current profession or identity right now?`
-  - 中文：`你当前的职业或身份是什么？`
-- If the candidate is exploring instead of targeting one exact role, you may ask one short follow-up about the direction they are considering next, but keep it short.
+1. If the answer clearly matches a supported role below, fetch the canonical role prompt immediately and continue the test from that role lens.
+2. If the answer is blank, unclear, or does not cleanly map to a supported role, ask:
+   - English: `What is your current profession or identity right now?`
+   - 中文：`你当前的职业或身份是什么？`
+3. If the candidate is exploring instead of targeting one exact role, you may ask one short follow-up about the direction they are considering next, but keep it short.
 
-### 3. Explain the privacy boundary before any scan
+## Privacy boundary before any scan
 
-Always tell the candidate:
+Before reading any local repo, project directory, or file, always tell the candidate:
 
 - `git-hired` does not upload local repo or file data to our server
 - default mode is `history-only`
@@ -47,16 +51,12 @@ Then ask one short scope question:
 - English: `For this run, should I stay history-only, or may I inspect specific local repos/files you name explicitly?`
 - 中文：`这次测试我要保持 history-only，还是你愿意明确点名允许我查看某些本地 repo / 文件？`
 
-### 4. Wait for clear consent
+## Consent rules
 
-- If consent is unclear, ask again before reading any local repo or file.
-- Never broad-scan the machine.
-- If the candidate approves scanning, ask for the exact repos, files, or other sources in scope before analysis starts.
-
-### 5. Start analysis
-
-- If a role prompt was fetched, treat that prompt as the canonical evaluation spec and follow it.
-- If there is no clear built-in role, use the universal fallback in this file.
+1. If consent is unclear, ask again before reading any local repo or file.
+2. Never broad-scan the machine.
+3. If the candidate approves scanning, ask for the exact repos, files, or other sources in scope before analysis starts.
+4. If the candidate keeps `history-only`, continue with the best judgment you can from history and already-approved context.
 
 ## Supported role routes
 
@@ -115,7 +115,7 @@ Prefer local prompt files when this repository is available. Otherwise fetch the
 When you are working only from the public site:
 
 1. Resolve the candidate language first.
-2. GET the matching role page.
+2. GET the matching role page yourself.
 3. Extract only the selected prompt block listed above.
 4. Do not copy unrelated HTML, CSS, or navigation text into the active evaluation context.
 5. Run the fetched prompt after you already know:

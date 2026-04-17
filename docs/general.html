@@ -46,10 +46,10 @@
         <h1 data-lang="en">Start From `skill.md`</h1>
         <h1 data-lang="zh">从 `skill.md` 开始</h1>
         <p class="lede" data-lang="en">
-          `skill.md` is now the main public entry for `git-hired`. Paste it into Claude Code, Codex, Notion AI, or any similar work agent with knowledge-base and memory capability, and let the agent route the session from there.
+          `skill.md` is now the main public entry for `git-hired`. In Claude Code, Codex, Notion AI, or any similar work agent with knowledge-base and memory capability, the fastest path is a single `read .../skill.md` command.
         </p>
         <p class="lede" data-lang="zh">
-          `skill.md` 现在是 `git-hired` 的主入口。把它粘贴到 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent 里，让 agent 自己完成路由和测试流程。
+          `skill.md` 现在是 `git-hired` 的主入口。在 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent 里，最快的启动方式就是一行 `read .../skill.md` 命令。
         </p>
         <p class="mini" data-lang="en">
           Privacy first: we never upload your local repo, files, or any other local data to our server.
@@ -57,6 +57,24 @@
         <p class="mini" data-lang="zh">
           隐私优先：我们不会把你的本地 repo、文件或任何其他本地数据上传到我们的服务器。
         </p>
+        <section class="prompt-wrap">
+          <div class="prompt-head">
+            <strong data-lang="en">Fastest Start</strong>
+            <strong data-lang="zh">最快开始方式</strong>
+            <button
+              class="button"
+              data-copy-button="true"
+              data-label-en="Copy Command"
+              data-label-zh="复制命令"
+              data-copied-en="Copied"
+              data-copied-zh="已复制"
+              data-failed-en="Copy Failed"
+              data-failed-zh="复制失败"
+              onclick="copyPrompt('starter-command', this)">Copy Command</button>
+          </div>
+          <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md</pre>
+          <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md</pre>
+        </section>
         <div class="inline-links">
           <a class="button" href="./skill.md" data-lang="en">Open skill.md</a>
           <a class="button" href="./skill.md" data-lang="zh">打开 skill.md</a>
@@ -128,13 +146,13 @@
         <h2 data-lang="en">How To Use It</h2>
         <h2 data-lang="zh">怎么使用</h2>
         <ul data-lang="en">
-          <li>Open `skill.md` and paste the content into your own work agent.</li>
+          <li>Paste the one-line `read .../skill.md` command into your own work agent.</li>
           <li>Answer the agent's role and privacy questions honestly.</li>
           <li>Let the agent fetch the right prompt or route you through universal calibration.</li>
           <li>Keep the `HIRED` summary and the local markdown report if you decide to apply.</li>
         </ul>
         <ul data-lang="zh">
-          <li>打开 `skill.md`，把内容粘贴到你自己的工作 agent 里。</li>
+          <li>把一行 `read .../skill.md` 命令粘贴到你自己的工作 agent 里。</li>
           <li>如实回答 agent 关于岗位和隐私边界的问题。</li>
           <li>让 agent 自己抓取对应 prompt，或者带你走通用校准流程。</li>
           <li>保留 `HIRED` 结果和本地 markdown 报告；如果之后想申请，可以直接附上。</li>

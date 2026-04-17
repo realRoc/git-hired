@@ -24,6 +24,7 @@ ASCII_CARD_ZH_MARKER = "ASCII 卡片"
 ASCII_CARD_URL_BASE = "https://realroc.github.io/git-hired/assets/mbti/"
 WORK_AGENT_EN_MARKER = "work agent"
 WORK_AGENT_ZH_MARKER = "工作 agent"
+READ_COMMAND_MARKER = "read https://realroc.github.io/git-hired/skill.md"
 MBTI_ANTI_ANCHOR_EN_MARKER = "Do not default to `INTJ`, `TJ`, or any single"
 MBTI_ANTI_ANCHOR_ZH_MARKER = "不要默认套用 `INTJ`、`TJ`"
 MBTI_NEUTRAL_TF_EN_MARKER = "impersonal analysis and consistency vs human-context and value-weighting"
@@ -87,8 +88,10 @@ def main() -> None:
         errors.append("docs/index.html still contains recruiter-facing JD summary wording")
     if MBTI_EN_MARKER not in index_text or MBTI_ZH_MARKER not in index_text:
         errors.append("docs/index.html missing MBTI work-personality candidate copy")
-    if "Open skill.md" not in index_text or "打开 skill.md" not in index_text:
-        errors.append("docs/index.html missing skill.md primary CTA")
+    if READ_COMMAND_MARKER not in index_text:
+        errors.append("docs/index.html missing one-line read skill command")
+    if "Copy Command" not in index_text or "复制命令" not in index_text:
+        errors.append("docs/index.html missing copyable starter command UI")
 
     if not skill_source.exists():
         errors.append("skill.md missing root entry spec")
@@ -99,6 +102,10 @@ def main() -> None:
         skill_public_text = skill_public.read_text(encoding="utf-8")
         if skill_source_text != skill_public_text:
             errors.append("skill.md and docs/skill.md must stay content-identical")
+        if READ_COMMAND_MARKER not in skill_source_text:
+            errors.append("skill.md missing public read command")
+        if "do not summarize this file first" not in skill_source_text:
+            errors.append("skill.md missing immediate-execution guardrail")
         if "What target role are you aiming for right now?" not in skill_source_text or "你现在最想申请或转向的岗位是什么？" not in skill_source_text:
             errors.append("skill.md missing target-role-first entry question")
         if "What is your current profession or identity right now?" not in skill_source_text or "你当前的职业或身份是什么？" not in skill_source_text:
@@ -142,6 +149,8 @@ def main() -> None:
             errors.append("docs/general.html missing work-agent compatibility wording")
         if "our server" not in general_text or "我们的服务器" not in general_text:
             errors.append("docs/general.html missing explicit no-upload privacy wording")
+        if READ_COMMAND_MARKER not in general_text:
+            warnings.append("docs/general.html missing explicit read-skill starter command")
         if "https://github.com/realRoc" not in general_text:
             errors.append("docs/general.html missing author GitHub link")
         if "https://github.com/realRoc/git-hired" not in general_text:
