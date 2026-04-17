@@ -327,6 +327,14 @@ This rule applies to `skill.md`, `docs/skill.md`, `docs/index.html`, `docs/gener
 10. `skill.md` must be written so that a work agent can be given a one-line command such as `read https://realroc.github.io/git-hired/skill.md` and immediately enter the test flow without extra setup text from the candidate.
 11. On `docs/index.html`, include a copyable one-line starter command that minimizes pre-run friction. The default public command should be:
    - `read https://realroc.github.io/git-hired/skill.md`
+12. Because some work agents treat `read <url>` as a document-reading action first, the default starter command on shared pages should explicitly say:
+   - execute the fetched file directly
+   - do not summarize the file
+   - start the first test question immediately in the candidate's language
+13. The top of `skill.md` must be execution-first, not explanatory. Before any background description, it should explicitly say:
+   - treat the file as active instructions for the current session
+   - do not summarize or restate the file
+   - send the first role question immediately as the next assistant turn
 
 ## Candidate-Serving Shared Pages
 
