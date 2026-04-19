@@ -9,7 +9,7 @@ fatal: not a qualified candidate
 
 Prompt-first candidate fit tests for AI-native startups.
 
-`git-hired` now starts from a single public `skill.md` entry. In practice, the more reliable one-line command is: `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.` The agent should then route the right role, confirm the privacy boundary, inspect only the allowed evidence, and return a structured, privacy-bounded fit report based on how the candidate actually works.
+`git-hired` now starts from a single public `skill.md` entry. In practice, the more reliable one-line command is: `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.` The agent should then route the right role, confirm the privacy boundary, inspect only the allowed evidence, and return a structured, privacy-bounded fit report based on how the candidate actually works. If the runtime is Notion AI or another rich-text surface, it should fall back to a compact card instead of forcing terminal-heavy ASCII.
 
 ## Privacy First
 

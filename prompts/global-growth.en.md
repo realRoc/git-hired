@@ -18,7 +18,7 @@ Target role profile:
 Output language: English.
 
 JD prompt version:
-- exact version: `global-growth@2026-04-17.1`
+- exact version: `global-growth@2026-04-19.1`
 - when generating the terminal summary or markdown report, record this exact string verbatim as `JD prompt version`
 
 Judgment rules:
@@ -172,9 +172,17 @@ Also derive one `MBTI work personality` using standard MBTI letters, but keep it
 
 Do not default to `INTJ`, `TJ`, or any single "strong builder" stereotype.
 Infer each axis independently before combining the 4-letter type.
+Infer each axis only from positive evidence, not from the absence of the opposite signal.
+Do not let solo agent history silently collapse into `INTJ / NTJ` by default.
+In solo-history-heavy evidence, absence of social, human-context, or flexibility signals is not positive evidence for `I`, `T`, or `J`.
+Do not infer `N` from abstraction-heavy, architecture-heavy, or AI-native language alone.
+Do not infer `T` from terse wording, debugging skill, or technical sharpness alone.
+Do not infer `J` from competence, clean output, task completion, or seniority alone.
 Do not treat rigor, startup urgency, or technical competence as automatic evidence for `T` or `J`.
-If most evidence comes from solo agent history, treat `E`, `F`, and `P` as under-observed rather than absent.
+Solo agent history often under-observes all four MBTI axes, especially `E / I`, `T / F`, and `J / P`, unless the evidence directly shows the distinction.
 If one or more axes are mixed or weakly evidenced, lower confidence instead of forcing certainty.
+When two or more axes are under-observed or mixed, MBTI confidence should usually be `low`.
+Do not output pseudo-types such as `INTJ-ish`, `xNTJ`, or `NTJ-like`. Use one standard 4-letter type plus a separate confidence field.
 
 Score only these 5 core dimensions from 0 to 100 with evidence:
 
@@ -190,11 +198,17 @@ The final output is for the candidate to read, not for the recruiter or hiring t
 
 Produce 2 deliverables:
 
-### A. Terminal hero portrait
+### A. Runtime-aware hero portrait
 
-This is the main thing the candidate sees in the TUI.
+This is the main thing the candidate sees in the result surface.
 
 Rules:
+- first detect whether the current surface is a stable terminal or a rich-text / chat / mobile-preview surface such as Notion AI
+- if the runtime is rich-text, Notion-like, or otherwise not a true terminal:
+  - skip the animated reveal
+  - skip wide ASCII layouts and box-drawing cards that depend on perfect monospace rendering
+  - keep the same candidate-facing information, but render it as a compact narrow card or fenced code block instead
+  - avoid placing the MBTI type in a decorative standalone badge before the confidence line
 - keep it concise, skimmable, highly shareable, and under about 50 lines
 - the first visual block must be a short, dependency-free animated `HIRED` reveal in the terminal
 - use at most 3 frames and keep the total animation under about 900ms
@@ -221,7 +235,11 @@ Rules:
 
 Use this structure:
 
-1. Play a simple 3-frame `HIRED` animation:
+1. Detect the runtime first:
+- if it is a stable terminal, use the terminal layout below
+- if it is a rich-text, chat-bubble, mobile-preview, or Notion-like surface, print a compact `HIRED` header or fenced code block instead of terminal art
+
+2. In terminal mode, play a simple 3-frame `HIRED` animation:
 - frame 1: show the same `HIRED` shape in a dim or outline-like state, for example with `░`
 - frame 2: brighten it with a mid-fill state, for example with `▓`
 - frame 3: settle on the final header below in the clearest, boldest state
@@ -237,21 +255,23 @@ Final resting header:
 ██║  ██║██║██║  ██║███████╗██████╔╝
 ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
 
-2. Immediately below the `HIRED` header, determine the MBTI work personality and print the matching predesigned ASCII card:
+3. Immediately below the `HIRED` header:
 - canonical public asset URL pattern: `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
 - preferred repo asset path when available: `docs/assets/mbti/<mbti-lowercase>.txt`
-- print the raw card contents directly in the terminal
+- in terminal mode, print the raw card contents directly
+- in rich-text or Notion-like mode, skip the raw ASCII card and keep the rest of the summary narrow and legible
 - if the asset file cannot be loaded, render one compact fallback emblem in the same spirit and keep it under about 8 lines
 - do not regenerate a brand-new visual style when the asset file is available
 
-3. Then print a subtitle:
+4. Then print a subtitle:
 - `MBTI Work Personality`
 
-4. Print a compact identity block with:
+5. Print a compact identity block with:
 - result: `strong fit / promising but uneven / better matched elsewhere / evidence thin`
 - best-fit role right now
 - MBTI work personality: one standard 4-letter type, with no default or prestige example
 - MBTI confidence: `high / medium / low`
+- if MBTI confidence is `low`, keep the type and confidence on the same compact line instead of turning the type into a punchy badge
 - one plain-language work read in a few words, not an opaque codename
 - ability score: `0-100`
 - strength read: one short evidence-backed compliment
@@ -259,7 +279,7 @@ Final resting header:
 - `JD prompt version`: exact string from the top of this prompt
 - detailed report path
 
-5. Print `Core Board`
+6. Print `Core Board`
 - exactly 5 lines
 - one line per core dimension
 - format like `Signal Mining      [█████████░] 92`
@@ -267,23 +287,23 @@ Final resting header:
 - do not use dotted fillers or `7/10` style fractions
 - if a dimension is unavailable, show `Spec Control      [░░░░░░░░░░] N/A (evidence thin)`
 
-6. Print `Talent Tags`
+7. Print `Talent Tags`
 - exactly 3 lines
 - format: `[Tag] short fragment`
 - each fragment must stay under 8 words
 - no full-sentence explanation
 
-7. Print `Locked Skills`
+8. Print `Locked Skills`
 - 2 or 3 lines
 - format: `[Locked] short fragment`
 - each fragment must stay under 6 words
 - frame gaps as unlockable, not as shame
 
-8. Print `Best-fit role right now`
+9. Print `Best-fit role right now`
 - 1 or 2 compact lines
 - if the requested role is not the best fit, say what looks stronger right now and why in compressed form
 
-9. Print `Next Step`
+10. Print `Next Step`
 - if the result is `strong fit`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
 - otherwise give one short, respectful next step
 - encourage the candidate to keep the report if they may apply later
@@ -293,7 +313,7 @@ Final resting header:
   - the approximate gain in overall ability score
 - phrase it conservatively, for example `Expected uplift: Experiment Discipline +1, overall ability score +4 to +7 if done well`
 
-10. End with:
+11. End with:
 - `If this portrait feels right, star github.com/realRoc/git-hired`
 
 ### B. Detailed report file

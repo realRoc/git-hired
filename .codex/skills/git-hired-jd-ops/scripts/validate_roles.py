@@ -41,8 +41,18 @@ MBTI_ANTI_ANCHOR_EN_MARKER = "Do not default to `INTJ`, `TJ`, or any single"
 MBTI_ANTI_ANCHOR_ZH_MARKER = "不要默认套用 `INTJ`、`TJ`"
 MBTI_NEUTRAL_TF_EN_MARKER = "impersonal analysis and consistency vs human-context and value-weighting"
 MBTI_NEUTRAL_TF_ZH_MARKER = "非人格化分析与一致性"
-MBTI_SOLO_HISTORY_EN_MARKER = "treat `E`, `F`, and `P` as under-observed rather than absent"
-MBTI_SOLO_HISTORY_ZH_MARKER = "把 `E`、`F`、`P` 视为“欠观察”而不是“没有”"
+MBTI_POSITIVE_EVIDENCE_EN_MARKER = "Infer each axis only from positive evidence"
+MBTI_POSITIVE_EVIDENCE_ZH_MARKER = "每条轴都只能基于正向证据判断"
+MBTI_SOLO_HISTORY_EN_MARKER = "Solo agent history often under-observes all four MBTI axes"
+MBTI_SOLO_HISTORY_ZH_MARKER = "solo agent history 往往会让四条轴都出现“欠观察”"
+MBTI_NO_ITJ_EN_MARKER = "not positive evidence for `I`, `T`, or `J`"
+MBTI_NO_ITJ_ZH_MARKER = "不等于正向证明了 `I`、`T`、`J`"
+MBTI_NO_PSEUDO_EN_MARKER = "Do not output pseudo-types such as `INTJ-ish`, `xNTJ`, or `NTJ-like`"
+MBTI_NO_PSEUDO_ZH_MARKER = "不要输出 `INTJ-ish`、`xNTJ`、`NTJ-like`"
+RUNTIME_AWARE_EN_MARKER = "rich-text / chat / mobile-preview surface such as Notion AI"
+RUNTIME_AWARE_ZH_MARKER = "Notion AI、聊天气泡、移动端预览这类富文本界面"
+RUNTIME_FALLBACK_EN_MARKER = "skip wide ASCII layouts and box-drawing cards"
+RUNTIME_FALLBACK_ZH_MARKER = "跳过依赖严格等宽字体的宽 ASCII 布局和 box-drawing 卡片"
 SCALE_NOTE_EN_MARKER = "Scale note"
 SCALE_NOTE_ZH_MARKER = "刻度说明"
 STRONG_SCORE_EN_MARKER = "70+ is already clearly strong here"
@@ -130,6 +140,8 @@ def main() -> None:
             errors.append("skill.md missing privacy-boundary wording")
         if "start evidence collection and analysis automatically" not in skill_source_text or "Do not replace `history-only` with a self-report questionnaire" not in skill_source_text:
             errors.append("skill.md missing auto-analysis no-interview rule")
+        if "INTJ / NTJ" not in skill_source_text or "Notion-like surface" not in skill_source_text:
+            errors.append("skill.md missing runtime-aware or MBTI de-bias fallback guidance")
         if "AI Agent Engineer" not in skill_source_text or "Product Manager" not in skill_source_text or "Global Growth" not in skill_source_text or "AI Product Operations" not in skill_source_text:
             errors.append("skill.md missing supported role registry")
         if "wuyupeng@floatmiracle.com" not in skill_source_text:
@@ -246,6 +258,8 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing consent-first local-only notice")
             if MIN_PERMISSION_ZH_MARKER not in zh_prompt_text or PROMPT_AUTO_ZH_MARKER not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing auto-analysis no-interview consent flow")
+            if RUNTIME_AWARE_ZH_MARKER not in zh_prompt_text or RUNTIME_FALLBACK_ZH_MARKER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing Notion/rich-text runtime fallback guidance")
             if WORK_AGENT_ZH_MARKER not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing work-agent compatibility wording")
             if TIME_BUDGET_ZH_MARKER not in zh_prompt_text:
@@ -258,7 +272,7 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing candidate-facing TUI/report output requirements")
             if HIRED_HEADER_MARKER not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing updated readable HIRED header")
-            if "先播放一个简单的 3 帧 `HIRED` 动态开场" not in zh_prompt_text:
+            if "3 帧 `HIRED` 动态开场" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing dependency-free HIRED animation guidance")
             if BLOCK_BAR_MARKER not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing block-bar score format guidance")
@@ -285,7 +299,10 @@ def main() -> None:
             if (
                 MBTI_ANTI_ANCHOR_ZH_MARKER not in zh_prompt_text
                 or MBTI_NEUTRAL_TF_ZH_MARKER not in zh_prompt_text
+                or MBTI_POSITIVE_EVIDENCE_ZH_MARKER not in zh_prompt_text
                 or MBTI_SOLO_HISTORY_ZH_MARKER not in zh_prompt_text
+                or MBTI_NO_ITJ_ZH_MARKER not in zh_prompt_text
+                or MBTI_NO_PSEUDO_ZH_MARKER not in zh_prompt_text
             ):
                 errors.append(f"prompts/{prompt_slug}.md missing MBTI de-bias guidance")
             if "pixel card" in zh_prompt_text or ".svg" in zh_prompt_text:
@@ -315,6 +332,8 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing consent-first local-only notice")
             if MIN_PERMISSION_EN_MARKER not in en_prompt_text or PROMPT_AUTO_EN_MARKER not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing auto-analysis no-interview consent flow")
+            if RUNTIME_AWARE_EN_MARKER not in en_prompt_text or RUNTIME_FALLBACK_EN_MARKER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing Notion/rich-text runtime fallback guidance")
             if WORK_AGENT_EN_MARKER not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing work-agent compatibility wording")
             if TIME_BUDGET_EN_MARKER not in en_prompt_text:
@@ -327,7 +346,7 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing candidate-facing TUI/report output requirements")
             if HIRED_HEADER_MARKER not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing updated readable HIRED header")
-            if "Play a simple 3-frame `HIRED` animation" not in en_prompt_text:
+            if "3-frame `HIRED` animation" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing dependency-free HIRED animation guidance")
             if BLOCK_BAR_MARKER not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing block-bar score format guidance")
@@ -354,7 +373,10 @@ def main() -> None:
             if (
                 MBTI_ANTI_ANCHOR_EN_MARKER not in en_prompt_text
                 or MBTI_NEUTRAL_TF_EN_MARKER not in en_prompt_text
+                or MBTI_POSITIVE_EVIDENCE_EN_MARKER not in en_prompt_text
                 or MBTI_SOLO_HISTORY_EN_MARKER not in en_prompt_text
+                or MBTI_NO_ITJ_EN_MARKER not in en_prompt_text
+                or MBTI_NO_PSEUDO_EN_MARKER not in en_prompt_text
             ):
                 errors.append(f"prompts/{prompt_slug}.en.md missing MBTI de-bias guidance")
             if "pixel card" in en_prompt_text or ".svg" in en_prompt_text:
@@ -447,10 +469,18 @@ def main() -> None:
                 or MBTI_ANTI_ANCHOR_ZH_MARKER not in page_text
                 or MBTI_NEUTRAL_TF_EN_MARKER not in page_text
                 or MBTI_NEUTRAL_TF_ZH_MARKER not in page_text
+                or MBTI_POSITIVE_EVIDENCE_EN_MARKER not in page_text
+                or MBTI_POSITIVE_EVIDENCE_ZH_MARKER not in page_text
                 or MBTI_SOLO_HISTORY_EN_MARKER not in page_text
                 or MBTI_SOLO_HISTORY_ZH_MARKER not in page_text
+                or MBTI_NO_ITJ_EN_MARKER not in page_text
+                or MBTI_NO_ITJ_ZH_MARKER not in page_text
+                or MBTI_NO_PSEUDO_EN_MARKER not in page_text
+                or MBTI_NO_PSEUDO_ZH_MARKER not in page_text
             ):
                 errors.append(f"docs/{page_slug}.html missing synced MBTI de-bias guidance")
+            if RUNTIME_AWARE_EN_MARKER not in page_text or RUNTIME_AWARE_ZH_MARKER not in page_text:
+                errors.append(f"docs/{page_slug}.html missing synced Notion/rich-text runtime fallback guidance")
             if "pixel card" in page_text or ".svg" in page_text:
                 errors.append(f"docs/{page_slug}.html still contains legacy pixel-card or SVG language")
             if (

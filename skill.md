@@ -1,6 +1,6 @@
 # git-hired skill entry
 
-Entry spec version: `skill-entry@2026-04-17.3`
+Entry spec version: `skill-entry@2026-04-19.1`
 
 Default public starter command:
 - `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.`
@@ -160,14 +160,16 @@ Use this only when the candidate does not name a clear supported target role.
    - `T / F`
    - `J / P`
 5. Keep MBTI as a work-style read from observable evidence, not a life-wide personality claim.
-6. If evidence is thin, lower confidence instead of forcing certainty.
-7. Score these 5 core dimensions from `0-100`:
+6. Infer each axis only from positive evidence, not from the absence of the opposite signal.
+7. Do not let solo agent history silently collapse into `INTJ / NTJ` by default. In solo-history-heavy runs, absence of social, human-context, or flexibility signals is not positive evidence for `I`, `T`, or `J`.
+8. If evidence is thin or multiple axes are under-observed, lower confidence instead of forcing certainty or inventing pseudo-types such as `INTJ-ish`.
+9. Score these 5 core dimensions from `0-100`:
    - `AI Leverage`
    - `Structure Sense`
    - `Ownership Tempo`
    - `User / Market Sensitivity`
    - `Transition Readiness`
-8. Tell the candidate clearly:
+10. Tell the candidate clearly:
    - best-fit role right now
    - strongest transferable strengths
    - biggest missing signal or upgrade gap
@@ -207,6 +209,11 @@ Produce 2 deliverables whenever possible:
    - next step
    - local report path
 2. A local markdown report.
+
+If the current runtime is a rich-text, chat-bubble, mobile-preview, or Notion-like surface rather than a stable terminal:
+- skip the animated reveal
+- skip wide ASCII layouts or box-drawing cards that rely on exact monospace rendering
+- keep the same information, but render it as a compact narrow card or fenced code block instead
 
 If you can write files, save one local `.md` report and print its exact path.
 If file writing is not available, say that clearly and provide the detailed report inline instead.

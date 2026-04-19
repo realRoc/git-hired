@@ -84,19 +84,22 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
 15. 避免分析师口吻的长句解释；TUI 中优先使用标签、词缀、极短短语，而不是长段论述。
 16. 核心分板控制在 4-5 个维度，不要做成 Excel 风格的 8-9 维清单。
 17. MBTI 只能基于可观察工作证据推断为“工作人格”，不是对候选人整个人生人格下定义。
-18. MBTI 轴的判定必须保持中性：不要默认套用 `INTJ`、`TJ` 或任何“强 builder”刻板印象；要先分别判断四条轴，再组合 4 字母类型；不要把技术严谨、创业紧迫感或产出质量自动等同于 `T` 或 `J`；如果主要证据来自单人 agent 历史，要把 `E`、`F`、`P` 视为“欠观察”而不是“没有”。
-19. 终端里在 `HIRED` ASCII 头图下方要优先打印对应的 MBTI ASCII 卡片。使用预先设计好的固定文本资源：
+18. MBTI 轴的判定必须保持中性：不要默认套用 `INTJ`、`TJ` 或任何“强 builder”刻板印象；要先分别判断四条轴，再组合 4 字母类型；每条轴都只能基于正向证据判断，不能靠“缺少反向信号”来偷渡结论；不要把技术严谨、创业紧迫感或产出质量自动等同于 `T` 或 `J`。
+19. 不要让 solo agent history 默默塌成 `INTJ / NTJ` 默认值：缺少社交、人的处境或灵活性信号，不等于正向证明了 `I`、`T`、`J`；solo 历史往往会让四条轴都出现“欠观察”，尤其是 `E / I`、`T / F`、`J / P`；如果两条及以上轴处于混合或欠观察状态，MBTI 置信度通常应为 `low`。
+20. 不要输出 `INTJ-ish`、`xNTJ`、`NTJ-like` 这类伪类型。只输出一个标准 4 字母 MBTI 类型，并把不确定性放进单独的置信度字段。
+21. 如果运行容器不是稳定终端，而是 Notion AI、聊天气泡、移动端预览或其他富文本界面，就跳过动态开场与宽 ASCII / box-drawing 布局，改用紧凑窄版卡片或 fenced code block，优先保证可读性。
+22. 终端里在 `HIRED` ASCII 头图下方要优先打印对应的 MBTI ASCII 卡片。使用预先设计好的固定文本资源：
    - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
    - 如果能访问 repo 里的文本资产，优先读取 `docs/assets/mbti/<mbti-lowercase>.txt` 的原始内容并直接打印
    - 如果资产文件暂时读不到，再补一个同气质的简短 fallback 图案，而不是重新发明一整套新风格。
-20. 默认把测试时长控制在 1 分钟内。优先看最近、最有信号的材料，够用就收口，不要为了“更全”而无限扫描。
-21. 如果本地数据很多，就做快速采样而不是深度遍历；如果时间预算到了，就带着较低置信度收尾，不要继续扩展范围。
-22. 不要给终端摘要的每一行都加 `>>`、`>>>` 或类似前缀。`HIRED` 头图之外，优先使用干净的普通标签行。
-23. `下一步` 不要只写泛泛建议。要补一个 `提升预估`：
+23. 默认把测试时长控制在 1 分钟内。优先看最近、最有信号的材料，够用就收口，不要为了“更全”而无限扫描。
+24. 如果本地数据很多，就做快速采样而不是深度遍历；如果时间预算到了，就带着较低置信度收尾，不要继续扩展范围。
+25. 不要给终端摘要的每一行都加 `>>`、`>>>` 或类似前缀。`HIRED` 头图之外，优先使用干净的普通标签行。
+26. `下一步` 不要只写泛泛建议。要补一个 `提升预估`：
    - 完成这一步后，最可能提升的单点核心维度
    - 该维度大概能提升多少分
    - 整体能力值大概能提升多少
-24. `提升预估` 必须写成保守估算，而不是承诺。可以使用“如果做完且做扎实”“大概率”“约”等措辞。
+27. `提升预估` 必须写成保守估算，而不是承诺。可以使用“如果做完且做扎实”“大概率”“约”等措辞。
 
 Consent & local-only notice:
 1. 默认只使用所选工作 agent 已有的会话历史，以及候选人主动粘贴或明确批准的材料。
@@ -173,19 +176,22 @@ Output requirements:
 15. Avoid analyst-style long explanations in the TUI; prefer labels, tags, and compressed fragments.
 16. Keep the visible core board to 4-5 dimensions rather than an 8-9 line spreadsheet.
 17. Treat MBTI only as an evidence-backed work-style read, not as a total personality verdict.
-18. Keep MBTI inference neutral: do not default to `INTJ`, `TJ`, or any single “strong builder” stereotype; infer each axis independently before composing the 4-letter type; do not treat rigor, startup urgency, or output quality as automatic evidence for `T` or `J`; when the evidence mostly comes from solo agent history, treat `E`, `F`, and `P` as under-observed rather than absent.
-19. Right below the `HIRED` banner, print the matching predesigned MBTI ASCII card from:
+18. Keep MBTI inference neutral: do not default to `INTJ`, `TJ`, or any single “strong builder” stereotype; infer each axis independently before composing the 4-letter type; infer an axis only from positive evidence, not from the absence of the opposite signal; do not treat rigor, startup urgency, or output quality as automatic evidence for `T` or `J`.
+19. Do not let solo agent history silently collapse into `INTJ / NTJ` by default: absence of social, human-context, or flexibility signals is not positive evidence for `I`, `T`, or `J`; solo agent history often under-observes all four MBTI axes, especially `E / I`, `T / F`, and `J / P`; when two or more axes are under-observed or mixed, MBTI confidence should usually be `low`.
+20. Do not output pseudo-types such as `INTJ-ish`, `xNTJ`, or `NTJ-like`. Use one standard 4-letter MBTI type plus a separate confidence field.
+21. If the runtime is not a stable terminal but a Notion AI, chat-bubble, mobile-preview, or other rich-text surface, skip the animated reveal and wide ASCII / box-drawing layouts; use a compact narrow card or fenced code block instead.
+22. Right below the `HIRED` banner, print the matching predesigned MBTI ASCII card from:
    - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
    - when repo text assets are reachable, prefer `docs/assets/mbti/<mbti-lowercase>.txt` and print its raw contents directly
    - if the asset file cannot be loaded, render one compact fallback emblem instead of inventing a whole new visual style.
-20. Keep the full test within about 1 minute by default. Prefer recent, high-signal material and stop once confidence is sufficient.
-21. If local data is large, sample rather than crawl. When the time budget is reached, finish with lower confidence instead of expanding the scan.
-22. Do not prefix every visible TUI line with `>>`, `>>>`, or similar markers. After the `HIRED` banner, use clean plain labels instead.
-23. `Next Step` should not stop at a vague suggestion. Include an `Expected uplift`:
+23. Keep the full test within about 1 minute by default. Prefer recent, high-signal material and stop once confidence is sufficient.
+24. If local data is large, sample rather than crawl. When the time budget is reached, finish with lower confidence instead of expanding the scan.
+25. Do not prefix every visible TUI line with `>>`, `>>>`, or similar markers. After the `HIRED` banner, use clean plain labels instead.
+26. `Next Step` should not stop at a vague suggestion. Include an `Expected uplift`:
    - the single core dimension most likely to improve
    - the approximate gain for that dimension
    - the approximate gain in overall ability score
-24. The uplift must be framed as a conservative estimate, not a promise. Use language such as `likely`, `approximately`, or `if done well`.
+27. The uplift must be framed as a conservative estimate, not a promise. Use language such as `likely`, `approximately`, or `if done well`.
 
 Consent & local-only notice:
 1. Default to using the chosen work agent's existing history and any material the candidate explicitly pastes or approves.
