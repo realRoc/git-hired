@@ -443,6 +443,21 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 14. Do not require external packages, terminal UI libraries, or browser-only rendering tricks for the `HIRED` animation. The effect must work as plain terminal output.
 15. Do not reintroduce opaque labels such as custom alignment codes or obscure archetype acronyms. The visible identity system should use standard MBTI letters directly.
 
+## Runtime-Aware Report Rendering
+
+This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, the universal-entry prompt, and the role template in `new_role.py`.
+
+1. Not every supported work agent renders like a true terminal. Claude Code, Codex, and Notion AI may expose the result through different UI containers.
+2. If the runtime is a rich-text, chat-bubble, mobile-preview, or Notion-like surface rather than a stable terminal:
+   - skip the animated reveal
+   - skip wide ASCII layouts that depend on exact monospace alignment
+   - keep the same candidate-facing information, but render it as a compact narrow card or fenced code block
+3. In non-terminal runtimes, prioritize legibility over decoration:
+   - target a narrow width
+   - avoid layered box-drawing that collapses when line height or font metrics drift
+   - keep the `HIRED` identity and the same section order, but with simpler formatting
+4. Candidate-facing prompts must explicitly tell the agent to degrade gracefully on Notion AI and similar surfaces instead of forcing terminal-only art that breaks layout.
+
 ## Best-Fit Role Recommendation
 
 This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, the universal-entry prompt, and the role template in `new_role.py`.
@@ -495,30 +510,36 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
 8. Do not treat technical rigor, startup urgency, product quality, or verbal sharpness as automatic evidence for `T` or `J`.
 9. When most evidence comes from solo agent history, treat `E`, `F`, and `P` as under-observed rather than absent.
 10. If one or more axes are weakly evidenced, lower confidence rather than forcing certainty.
-11. Replace long “why this works” explanation blocks with exactly 3 `Talent Tags`.
-12. Talent tags must be noun-phrase style, not mini paragraphs:
+11. Infer an axis only from positive evidence, not from the mere absence of the opposite signal.
+12. Do not infer `N` from abstraction-heavy, architecture-heavy, or AI-native language alone.
+13. Do not infer `T` from terse wording, debugging skill, or technical sharpness alone.
+14. Do not infer `J` from competence, clean output, task completion, or seniority alone.
+15. When two or more axes are under-observed or mixed, MBTI confidence should usually be `low`, and the visible type label should be visually de-emphasized rather than treated as a punchline or badge.
+16. Do not output hedged pseudo-types such as `INTJ-ish`, `xNTJ`, `NTJ-like`, or similar variants. Use one standard 4-letter MBTI type plus a separate confidence field.
+17. Replace long “why this works” explanation blocks with exactly 3 `Talent Tags`.
+18. Talent tags must be noun-phrase style, not mini paragraphs:
    - short
    - label-first
    - highly compressible
    - screenshot-friendly
-13. Replace ordinary weakness/improvement sections with 2-3 `Locked Skills`, `Version Bottlenecks`, or `Not-Yet-Awakened` abilities.
-14. Those “gap” sections must still be respectful and useful to the candidate. Game framing should remove HR stiffness, not empathy.
-15. The visible TUI score board should be compressed to 4-5 core dimensions for each role, not 8-9 spreadsheet lines.
-16. Step 4 may still use evidence-rich analysis internally, but the candidate-facing surface must present only the compressed core board.
-17. When creating or revising a role, the 4-5 core dimensions should be custom to that role rather than generic boilerplate.
-18. Avoid generic AI flourish such as:
+19. Replace ordinary weakness/improvement sections with 2-3 `Locked Skills`, `Version Bottlenecks`, or `Not-Yet-Awakened` abilities.
+20. Those “gap” sections must still be respectful and useful to the candidate. Game framing should remove HR stiffness, not empathy.
+21. The visible TUI score board should be compressed to 4-5 core dimensions for each role, not 8-9 spreadsheet lines.
+22. Step 4 may still use evidence-rich analysis internally, but the candidate-facing surface must present only the compressed core board.
+23. When creating or revising a role, the 4-5 core dimensions should be custom to that role rather than generic boilerplate.
+24. Avoid generic AI flourish such as:
    - “you are not just X, you are Y”
    - long motivational framing
    - over-explaining obvious strengths in full sentences
-19. Prefer direct definitions such as:
+25. Prefer direct definitions such as:
    - MBTI work personality
    - talent tags
    - locked skills
    - best-fit role
-20. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
-21. Use a clearer bar-first format such as `[█████████░] 92` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
-22. Do not decorate every visible line with repeated prefixes such as `>>`.
-23. In the terminal summary, reserve strong decoration for the `HIRED` banner itself. After that, prefer plain labels such as:
+26. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
+27. Use a clearer bar-first format such as `[█████████░] 92` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
+28. Do not decorate every visible line with repeated prefixes such as `>>`.
+29. In the terminal summary, reserve strong decoration for the `HIRED` banner itself. After that, prefer plain labels such as:
    - `MBTI Work Personality`
    - `Result`
    - `Strength Read`
@@ -526,7 +547,7 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
    - `Talent Tags`
    - `Locked Skills`
    - `Next Step`
-24. Avoid visual noise that makes the report feel like raw debug output. The TUI should read like a clean card, not a terminal log dump.
+30. Avoid visual noise that makes the report feel like raw debug output. The TUI should read like a clean card, not a terminal log dump.
 
 ## Runtime Budget
 
