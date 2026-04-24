@@ -386,6 +386,7 @@ This rule applies to `docs/index.html`, `docs/skill.md`, and any future shared e
    - third, show the one-line copyable `read .../skill.md` starter command before flowing into the shared-entry section
 9. Do not keep a standalone guide page when it only repeats the homepage starter flow, privacy explanation, or role-routing explanation.
 10. Prefer one strong homepage over a homepage-plus-guide split. Fold repeated shared-entry copy into `docs/index.html`, then remove the extra page and links.
+11. On the homepage shared entry, keep one primary action only: the copyable starter command. Do not add a secondary `Open skill.md` button or other raw-spec browse action beside it.
 
 ## Candidate-Serving JD Descriptions
 
