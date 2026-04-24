@@ -445,7 +445,7 @@ This rule applies to `roles.json`, the role cards in `docs/index.html`, every pu
 7. Role pages should stay visually clean and should not render the full long role prompt as the primary page content.
 8. Role pages should mimic the homepage one-line starter command pattern:
    - show a compact copyable command
-   - place the command directly below the hero section before longer explanatory copy
+   - place the command inside the hero section, directly under the role intro copy and before longer explanatory copy
    - route through `skill.md` plus the selected role context
    - avoid asking candidates to copy a long raw prompt from the page
 9. The full role prompt may remain in source prompt files and agent-readable deployed artifacts, but public role pages should treat those long prompts as implementation detail rather than candidate-facing page content.
