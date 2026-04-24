@@ -101,8 +101,8 @@ def main() -> None:
         errors.append("docs/index.html missing AUTO role-cards markers")
     if "git-hired-lang" not in index_text:
         errors.append("docs/index.html missing language bootstrap script")
-    if "./skill.md" not in index_text:
-        errors.append("docs/index.html missing link to ./skill.md")
+    if "Open skill.md" in index_text or "打开 skill.md" in index_text:
+        errors.append("docs/index.html should keep copy command as the only shared-entry action")
     if "./general.html" in index_text:
         errors.append("docs/index.html should not link to redundant ./general.html guide page")
     if "See whether a candidate" in index_text or "看候选人是否" in index_text:
