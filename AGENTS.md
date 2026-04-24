@@ -466,6 +466,7 @@ This rule applies to every public HTML page under `docs/`, the role-page templat
    - `github.com/realRoc/git-hired`
 4. Do not show source prompt filenames, source prompt links, or raw prompt provenance in public page footers.
 5. The homepage author line must use `$ whoami` framing, not `built by`.
+6. Public page footers must be horizontally centered on both desktop and mobile.
 
 ## HIRED TUI Output
 
