@@ -43,7 +43,6 @@ fatal: not a qualified candidate
 启用 GitHub Pages 之后，可直接使用：
 
 - Agent 入口（`skill.md`）: <https://realroc.github.io/git-hired/skill.md>
-- 流程说明页: <https://realroc.github.io/git-hired/general.html>
 
 <!-- AUTO:live-links:start -->
 - AI Agent 工程师: <https://realroc.github.io/git-hired/agent.html>
@@ -150,7 +149,6 @@ git-hired/
 ├── docs/
 │   ├── index.html
 │   ├── skill.md
-│   ├── general.html
 │   ├── agent.html
 │   ├── pm.html
 │   ├── growth.html

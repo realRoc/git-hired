@@ -57,8 +57,8 @@
         </p>
         <section class="prompt-wrap">
           <div class="prompt-head">
-            <strong data-lang="en">One-Line Starter For Claude Code / Codex</strong>
-            <strong data-lang="zh">给 Claude Code / Codex 的一行启动命令</strong>
+            <strong data-lang="en">One-Line Starter</strong>
+            <strong data-lang="zh">一行启动命令</strong>
             <button
               class="button"
               data-copy-button="true"
@@ -73,57 +73,15 @@
           <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.</pre>
           <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。</pre>
         </section>
-        <div class="meta">
-          <span class="tag" data-lang="en">MIT Licensed</span>
-          <span class="tag" data-lang="zh">MIT 协议</span>
-          <span class="tag" data-lang="en">Prompt-first</span>
-          <span class="tag" data-lang="zh">Prompt 优先</span>
-          <span class="tag" data-lang="en">Privacy-bounded</span>
-          <span class="tag" data-lang="zh">隐私边界明确</span>
-          <span class="tag" data-lang="en">GitHub Pages Ready</span>
-          <span class="tag" data-lang="zh">可直接走 GitHub Pages</span>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="feature-grid">
-          <div>
-            <h2 data-lang="en">Start With `skill.md`</h2>
-            <h2 data-lang="zh">先从 `skill.md` 开始</h2>
-            <p data-lang="en">
-              Use the one-line command above. `skill.md` is now the main public entry, and the command explicitly tells the agent to treat it as active instructions, skip the summary, ask the first role question immediately, ask only the minimum routing and privacy questions, fetch the right role prompt itself, and continue the evaluation automatically.
-            </p>
-            <p data-lang="zh">
-              直接用上面这一行命令。`skill.md` 现在是主入口，这行命令会明确要求 agent 把它当作当前会话指令、跳过总结、立刻开始第一问、只问最少的岗位与权限问题、自己抓取正确的角色 prompt，并自动继续评估，不再把流程变成人工面试。
-            </p>
-            <ol class="steps" data-lang="en">
-              <li>Paste the one-line `read .../skill.md` command into your own work agent.</li>
-              <li>Answer the target-role question, or give your current profession if you do not have a clear target yet.</li>
-              <li>Confirm `history-only` or explicitly name the repos or files the agent may inspect, then let it run automatically.</li>
-            </ol>
-            <ol class="steps" data-lang="zh">
-              <li>先把这一行 `read .../skill.md` 命令粘贴到你自己的工作 agent 里。</li>
-              <li>回答目标岗位；如果你还没有明确目标，就补充你当前的职业或身份。</li>
-              <li>确认这次是 `history-only`，还是明确点名允许 agent 查看哪些 repo 或文件；随后让它自动跑完。</li>
-            </ol>
-          </div>
-
-          <aside class="feature-card">
-            <span class="eyebrow" data-lang="en">Agent Entry</span>
-            <span class="eyebrow" data-lang="zh">Agent 主入口</span>
-            <h3 data-lang="en">Let the agent route the right test</h3>
-            <h3 data-lang="zh">让 agent 自己路由到正确测试</h3>
-            <p data-lang="en">
-              The entry flow now asks for the target role first, falls back to the candidate's current profession or identity if needed, confirms the privacy boundary, and then moves straight into automatic analysis instead of a manual interview.
-            </p>
-            <p data-lang="zh">
-              现在的入口流程会先问目标岗位；如果还不明确，就回到候选人当前职业或身份；在任何本地扫描前，还会先确认隐私边界，之后直接自动分析，而不是继续人工问答。
-            </p>
-            <a class="button" href="./skill.md" data-lang="en">Inspect skill.md</a>
-            <a class="button" href="./skill.md" data-lang="zh">查看 skill.md</a>
-            <a class="button secondary" href="./general.html" data-lang="en">Read The Guide</a>
-            <a class="button secondary" href="./general.html" data-lang="zh">查看说明</a>
-          </aside>
+        <p class="mini" data-lang="en">
+          You only need to answer two things: your target role and whether this run stays `history-only`.
+        </p>
+        <p class="mini" data-lang="zh">
+          你只需要回答两件事：目标岗位，以及这次是否保持 `history-only`。
+        </p>
+        <div class="inline-links">
+          <a class="button secondary" href="./skill.md" data-lang="en">Open skill.md</a>
+          <a class="button secondary" href="./skill.md" data-lang="zh">打开 skill.md</a>
         </div>
       </section>
 
@@ -168,31 +126,14 @@
       </section>
 
       <section class="section">
-        <h2 data-lang="en">How To Start</h2>
-        <h2 data-lang="zh">怎么开始测试</h2>
+        <h2 data-lang="en">What You Get</h2>
+        <h2 data-lang="zh">你会拿到什么</h2>
         <div class="callout" data-lang="en">
-          Start from the one-line command above. It works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability. The agent should treat `skill.md` as active instructions, ask your target role first, fall back to your current profession or identity when needed, keep the default mode as `history-only`, ask only for the privacy boundary, and then finish the evaluation automatically from allowed history or approved files. On Notion AI or other rich-text surfaces, it should fall back to a compact card instead of forcing wide terminal ASCII. We never upload your local repo or file data to our server.
+          Works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability. If the runtime is a rich-text surface, the result should fall back to a compact card instead of wide terminal ASCII.
         </div>
         <div class="callout" data-lang="zh">
-          从上面这一行命令开始。它支持 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。agent 会把 `skill.md` 当作当前会话指令，先问你的目标岗位；如果暂时没有，再回到你当前的职业或身份；默认保持 `history-only`，只问清隐私边界，然后基于允许范围自动完成评估。如果运行在 Notion AI 或其他富文本界面上，它应自动退化成紧凑卡片，而不是硬塞宽终端 ASCII。整个过程中也不会把你的本地 repo 或文件数据上传到我们的服务器。
+          支持 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。如果运行环境是富文本界面，结果应自动退化成紧凑卡片，而不是宽终端 ASCII。
         </div>
-        <ul data-lang="en">
-          <li>Paste the one-line `read .../skill.md` command into your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled agent.</li>
-          <li>Answer only the role-routing and privacy questions directly inside that agent session.</li>
-          <li>Let the agent analyze automatically from allowed history or approved scope instead of turning the run into a manual interview.</li>
-          <li>Keep the short `HIRED` snapshot, and optionally attach the markdown report if you decide to apply.</li>
-        </ul>
-        <ul data-lang="zh">
-          <li>把一行 `read .../skill.md` 命令粘贴到你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的 agent。</li>
-          <li>只在那个 agent 会话里回答岗位路由和隐私边界问题。</li>
-          <li>让 agent 基于允许范围自动分析，而不是把流程变成你手动答题的面试。</li>
-          <li>保留终端里的 `HIRED` 快照；如果后续要申请，也可以附上本地生成的 markdown 详细报告。</li>
-        </ul>
-      </section>
-
-      <section class="section">
-        <h2 data-lang="en">What You'll Get</h2>
-        <h2 data-lang="zh">跑完之后你会拿到什么</h2>
         <ul data-lang="en">
           <li>A clearer view of how you actually use AI, not just how you would describe your workflow.</li>
           <li>A shareable `HIRED` snapshot with your MBTI work personality, ability score, compact signal board, and matching ASCII card.</li>

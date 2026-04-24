@@ -92,7 +92,6 @@ def main() -> None:
     index_text = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
     readme_en = (repo_root / "README.md").read_text(encoding="utf-8")
     readme_zh = (repo_root / "README.zh-CN.md").read_text(encoding="utf-8")
-    general_page = repo_root / "docs" / "general.html"
     mbti_asset_dir = repo_root / "docs" / "assets" / "mbti"
 
     errors: list[str] = []
@@ -104,8 +103,8 @@ def main() -> None:
         errors.append("docs/index.html missing language bootstrap script")
     if "./skill.md" not in index_text:
         errors.append("docs/index.html missing link to ./skill.md")
-    if "./general.html" not in index_text:
-        errors.append("docs/index.html missing guide link to ./general.html")
+    if "./general.html" in index_text:
+        errors.append("docs/index.html should not link to redundant ./general.html guide page")
     if "See whether a candidate" in index_text or "看候选人是否" in index_text:
         errors.append("docs/index.html still contains recruiter-facing JD summary wording")
     if MBTI_EN_MARKER not in index_text or MBTI_ZH_MARKER not in index_text:
@@ -159,40 +158,8 @@ def main() -> None:
         if list(mbti_asset_dir.glob("*.svg")):
             errors.append("docs/assets/mbti should not contain legacy SVG files")
 
-    if not general_page.exists():
-        errors.append("docs/general.html missing universal entry page")
-    else:
-        general_text = general_page.read_text(encoding="utf-8")
-        if "git-hired-lang" not in general_text:
-            errors.append("docs/general.html missing language bootstrap script")
-        if "./skill.md" not in general_text:
-            errors.append("docs/general.html missing link to ./skill.md")
-        if "target role" not in general_text or "目标岗位" not in general_text:
-            errors.append("docs/general.html missing target-role-first copy")
-        if "current profession or identity" not in general_text or "当前的职业或身份" not in general_text:
-            errors.append("docs/general.html missing current profession / identity fallback copy")
-        if "history-only" not in general_text:
-            errors.append("docs/general.html missing history-only privacy wording")
-        if "bypass / YOLO" not in general_text:
-            errors.append("docs/general.html missing bilingual runtime-mode tip")
-        if WORK_AGENT_EN_MARKER not in general_text or WORK_AGENT_ZH_MARKER not in general_text:
-            errors.append("docs/general.html missing work-agent compatibility wording")
-        if "our server" not in general_text or "我们的服务器" not in general_text:
-            errors.append("docs/general.html missing explicit no-upload privacy wording")
-        if (
-            READ_COMMAND_MARKER not in general_text
-            or NO_SUMMARY_EN_MARKER not in general_text
-            or NO_SUMMARY_ZH_MARKER not in general_text
-            or IMMEDIATE_START_EN_MARKER not in general_text
-            or IMMEDIATE_START_ZH_MARKER not in general_text
-        ):
-            errors.append("docs/general.html missing execution-first starter command")
-        if AUTO_EVAL_EN_MARKER not in general_text or AUTO_EVAL_ZH_MARKER not in general_text or NO_INTERVIEW_ZH_MARKER not in general_text:
-            errors.append("docs/general.html missing auto-analysis no-interview wording")
-        if "https://github.com/realRoc" not in general_text:
-            errors.append("docs/general.html missing author GitHub link")
-        if "https://github.com/realRoc/git-hired" not in general_text:
-            errors.append("docs/general.html missing repo link")
+    if (repo_root / "docs" / "general.html").exists():
+        errors.append("docs/general.html should be removed after shared-entry simplification")
 
     if "<!-- AUTO:live-links:start -->" not in readme_en or "<!-- AUTO:live-links:end -->" not in readme_en:
         errors.append("README.md missing AUTO live-links markers")

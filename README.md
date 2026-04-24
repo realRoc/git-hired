@@ -43,7 +43,6 @@ It is a practical way to inspect signals that matter more in AI-native teams:
 After GitHub Pages is enabled for this repo:
 
 - Agent Entry (`skill.md`): <https://realroc.github.io/git-hired/skill.md>
-- Flow Guide: <https://realroc.github.io/git-hired/general.html>
 
 <!-- AUTO:live-links:start -->
 - AI Agent Engineer: <https://realroc.github.io/git-hired/agent.html>
@@ -150,7 +149,6 @@ git-hired/
 ├── docs/
 │   ├── index.html
 │   ├── skill.md
-│   ├── general.html
 │   ├── agent.html
 │   ├── pm.html
 │   ├── growth.html
