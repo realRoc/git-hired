@@ -450,8 +450,17 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing compact copy-command UI")
             if "full role prompt is bundled inside skill.md" not in page_text or "完整岗位 prompt 已经打包在 skill.md" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing role-prompt-in-skill wording")
+            if "Use the one-line command directly above" not in page_text or "使用上方的一行命令" not in page_text:
+                errors.append(f"docs/{page_slug}.html should describe the role starter as directly above the run instructions")
+            hero_end = page_text.find("</section>")
+            starter_index = page_text.find('class="prompt-wrap role-starter"')
+            how_to_index = page_text.find("How To Run This Test")
+            if not (hero_end != -1 and starter_index != -1 and how_to_index != -1 and hero_end < starter_index < how_to_index):
+                errors.append(f"docs/{page_slug}.html should place the one-line starter directly below the hero section")
             if "Paste the prompt below into your own Claude Code or Codex" in page_text or "复制后直接粘贴到 Claude Code / Codex" in page_text:
                 errors.append(f"docs/{page_slug}.html still contains Claude Code/Codex-exclusive candidate wording")
+            if "one-line command below" in page_text or "下面的一行命令" in page_text:
+                errors.append(f"docs/{page_slug}.html still describes the starter as below the instructions")
             if "Paste the full prompt below" in page_text or "把下面整段完整粘贴" in page_text:
                 errors.append(f"docs/{page_slug}.html still renders the long raw prompt")
             if "JD prompt version" in page_text or HIRED_HEADER_MARKER in page_text or BLOCK_BAR_MARKER in page_text:

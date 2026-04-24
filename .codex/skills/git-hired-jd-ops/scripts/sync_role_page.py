@@ -72,11 +72,18 @@ def replace_first(pattern: str, replacement: str, page_text: str, label: str) ->
 
 
 def replace_prompt_section(page_text: str, role: dict) -> str:
-    return replace_first(
+    starter = compact_starter_section(role)
+    page_without_starter = replace_first(
         r'\n\s*<section class="prompt-wrap(?: [^"]*)?">.*?\n\s*</section>',
-        "\n" + compact_starter_section(role),
+        "",
         page_text,
         "role prompt/starter section",
+    )
+    return replace_first(
+        r'(<section class="hero">.*?\n\s*</section>)',
+        r"\1\n\n" + starter,
+        page_without_starter,
+        "hero section for starter insertion",
     )
 
 
@@ -84,10 +91,10 @@ def replace_run_intro(page_text: str) -> str:
     intro = "\n".join(
         [
             '        <p class="mini" data-lang="en">',
-            "          Copy the one-line command below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent. The full role prompt is bundled inside skill.md, so this page stays clean. By default the run stays history-only, only accesses projects or files you explicitly authorize, and never uploads your local repo or file data to our server.",
+            "          Use the one-line command directly above in your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent. The full role prompt is bundled inside skill.md, so this page stays clean. By default the run stays history-only, only accesses projects or files you explicitly authorize, and never uploads your local repo or file data to our server.",
             "        </p>",
             '        <p class="mini" data-lang="zh">',
-            "          把下面的一行命令复制到你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent。完整岗位 prompt 已经打包在 skill.md 里，所以页面保持简洁。默认只看 history-only，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。",
+            "          使用上方的一行命令，在你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent。完整岗位 prompt 已经打包在 skill.md 里，所以页面保持简洁。默认只看 history-only，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。",
             "        </p>",
         ]
     )

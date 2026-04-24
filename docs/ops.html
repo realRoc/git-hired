@@ -70,17 +70,36 @@
         </div>
       </section>
 
+      <section class="prompt-wrap role-starter">
+        <div class="prompt-head">
+          <strong data-lang="en">One-Line Starter</strong>
+          <strong data-lang="zh">一行启动命令</strong>
+          <button
+            class="button"
+            data-copy-button="true"
+            data-label-en="Copy Command"
+            data-label-zh="复制命令"
+            data-copied-en="Copied"
+            data-copied-zh="已复制"
+            data-failed-en="Copy Failed"
+            data-failed-zh="复制失败"
+            onclick="copyPrompt('prompt-ops', this)">Copy Command</button>
+        </div>
+        <pre class="prompt" id="prompt-ops-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. My target role is AI Product Operations. Confirm only my data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.</pre>
+        <pre class="prompt" id="prompt-ops-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结。我的目标岗位是AI产品运营。直接用我的语言确认数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。</pre>
+      </section>
+
       <section class="section">
         <div class="section-head">
           <span class="hash">01 /</span>
           <h2 data-lang="en">How To Run This Test</h2>
           <h2 data-lang="zh">怎么开始这个测试</h2>
         </div>
-                <p class="mini" data-lang="en">
-          Copy the one-line command below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent. The full role prompt is bundled inside skill.md, so this page stays clean. By default the run stays history-only, only accesses projects or files you explicitly authorize, and never uploads your local repo or file data to our server.
+                        <p class="mini" data-lang="en">
+          Use the one-line command directly above in your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent. The full role prompt is bundled inside skill.md, so this page stays clean. By default the run stays history-only, only accesses projects or files you explicitly authorize, and never uploads your local repo or file data to our server.
         </p>
         <p class="mini" data-lang="zh">
-          把下面的一行命令复制到你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent。完整岗位 prompt 已经打包在 skill.md 里，所以页面保持简洁。默认只看 history-only，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。
+          使用上方的一行命令，在你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent。完整岗位 prompt 已经打包在 skill.md 里，所以页面保持简洁。默认只看 history-only，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。
         </p>
         <div class="callout" data-lang="en">
           Friendly tip: if you're using Claude Code or Codex, turning on Claude Code's bypass mode or Codex's YOLO mode usually makes the run smoother.
@@ -108,24 +127,6 @@
           <li>你是否会把高频问题沉淀成产品洞察，而不只是清工单。</li>
           <li>你的工作里是否能看到流程意识、AI 产品兴趣和创业公司需要的 owner 意识。</li>
         </ul>
-      </section>
-      <section class="prompt-wrap role-starter">
-        <div class="prompt-head">
-          <strong data-lang="en">One-Line Starter</strong>
-          <strong data-lang="zh">一行启动命令</strong>
-          <button
-            class="button"
-            data-copy-button="true"
-            data-label-en="Copy Command"
-            data-label-zh="复制命令"
-            data-copied-en="Copied"
-            data-copied-zh="已复制"
-            data-failed-en="Copy Failed"
-            data-failed-zh="复制失败"
-            onclick="copyPrompt('prompt-ops', this)">Copy Command</button>
-        </div>
-        <pre class="prompt" id="prompt-ops-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. My target role is AI Product Operations. Confirm only my data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.</pre>
-        <pre class="prompt" id="prompt-ops-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结。我的目标岗位是AI产品运营。直接用我的语言确认数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。</pre>
       </section>
 
       <section class="section">
