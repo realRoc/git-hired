@@ -47,22 +47,30 @@ def replace_block(text: str, start_marker: str, end_marker: str, replacement: st
 
 def generate_index_cards(roles: list[dict]) -> str:
     blocks: list[str] = []
-    for role in roles:
+    for index, role in enumerate(roles, start=1):
         title_en = html.escape(role["title_en"])
         title_zh = html.escape(role["title_zh"])
         summary_en = html.escape(role["summary_en"])
         summary_zh = html.escape(role["summary_zh"])
         page_slug = html.escape(role["page_slug"])
+        idx = f"{index:02d}"
         blocks.append(
             "\n".join(
                 [
                     '        <article class="card">',
+                    '          <div class="role-meta">',
+                    f'            <span class="slug">{page_slug}.html</span>',
+                    f'            <span class="idx">{idx}</span>',
+                    "          </div>",
                     f'          <h3 data-lang="en">{title_en}</h3>',
                     f'          <h3 data-lang="zh">{title_zh}</h3>',
                     f'          <p data-lang="en">{summary_en}</p>',
                     f'          <p data-lang="zh">{summary_zh}</p>',
-                    f'          <a class="button" href="./{page_slug}.html" data-lang="en">Open Test</a>',
-                    f'          <a class="button" href="./{page_slug}.html" data-lang="zh">打开测试</a>',
+                    f'          <a class="card-foot" href="./{page_slug}.html">',
+                    '            <span data-lang="en">open test</span>',
+                    '            <span data-lang="zh">打开测试</span>',
+                    '            <span class="open">./run</span>',
+                    "          </a>",
                     "        </article>",
                 ]
             )

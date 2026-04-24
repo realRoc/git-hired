@@ -99,6 +99,7 @@ def main() -> None:
 
     errors: list[str] = []
     warnings: list[str] = []
+    skill_source_text = skill_source.read_text(encoding="utf-8") if skill_source.exists() else ""
 
     if "<!-- AUTO:role-cards:start -->" not in index_text or "<!-- AUTO:role-cards:end -->" not in index_text:
         errors.append("docs/index.html missing AUTO role-cards markers")
@@ -124,6 +125,11 @@ def main() -> None:
         errors.append("docs/index.html missing mobile human quick-test entry")
     if "quick-test-qr.svg" not in index_text:
         errors.append("docs/index.html missing QR code for mobile quick-test entry")
+    if "quick-test-fallback" not in index_text:
+        errors.append("docs/index.html missing bottom quick-test fallback section")
+    if "quick-test-fallback" in index_text and "what you get" in index_text:
+        if index_text.find("quick-test-fallback") < index_text.find("what you get"):
+            errors.append("docs/index.html should place quick-test QR fallback after main explanatory content")
 
     if not quick_start.exists():
         errors.append("docs/start.html missing mobile human quick-test page")
@@ -157,7 +163,6 @@ def main() -> None:
     if not skill_public.exists():
         errors.append("docs/skill.md missing deployed entry spec")
     if skill_source.exists() and skill_public.exists():
-        skill_source_text = skill_source.read_text(encoding="utf-8")
         skill_public_text = skill_public.read_text(encoding="utf-8")
         if skill_source_text != skill_public_text:
             errors.append("skill.md and docs/skill.md must stay content-identical")
@@ -179,6 +184,14 @@ def main() -> None:
             errors.append("skill.md missing supported role registry")
         if "wuyupeng@floatmiracle.com" not in skill_source_text:
             errors.append("skill.md missing strong-candidate resume instruction")
+        if "<!-- AUTO:role-prompts:start -->" not in skill_source_text or "<!-- AUTO:role-prompts:end -->" not in skill_source_text:
+            errors.append("skill.md missing generated role-prompt appendix markers")
+        if "Canonical role prompt appendix" not in skill_source_text:
+            errors.append("skill.md missing bundled canonical role prompt appendix")
+        if "Prompt blocks:" in skill_source_text:
+            errors.append("skill.md should not route public agents through role-page prompt blocks")
+        if "role pages are intentionally compact" not in skill_source_text:
+            errors.append("skill.md missing compact-role-page public fetch guidance")
 
     if not mbti_asset_dir.exists():
         errors.append("docs/assets/mbti missing MBTI ASCII-card asset directory")
@@ -331,6 +344,8 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing exact prompt version string")
             elif not zh_prompt_version.startswith(f"{prompt_slug}@"):
                 errors.append(f"prompts/{prompt_slug}.md prompt version should start with {prompt_slug}@")
+            if zh_prompt_version and zh_prompt_version not in skill_source_text:
+                errors.append(f"skill.md missing bundled Chinese prompt version {zh_prompt_version}")
         if en_prompt.exists():
             en_prompt_text = en_prompt.read_text(encoding="utf-8")
             if "history-only" not in en_prompt_text or "our server" not in en_prompt_text:
@@ -405,6 +420,8 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing exact prompt version string")
             elif not en_prompt_version.startswith(f"{prompt_slug}@"):
                 errors.append(f"prompts/{prompt_slug}.en.md prompt version should start with {prompt_slug}@")
+            if en_prompt_version and en_prompt_version not in skill_source_text:
+                errors.append(f"skill.md missing bundled English prompt version {en_prompt_version}")
 
         if zh_prompt_version and en_prompt_version and zh_prompt_version != en_prompt_version:
             errors.append(f"prompt version mismatch for {prompt_slug}: zh={zh_prompt_version} en={en_prompt_version}")
@@ -427,12 +444,18 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing consent-first local-only candidate notice")
             if WORK_AGENT_EN_MARKER not in page_text or WORK_AGENT_ZH_MARKER not in page_text:
                 errors.append(f"docs/{page_slug}.html missing work-agent compatibility wording")
-            if TIME_BUDGET_EN_MARKER not in page_text or TIME_BUDGET_ZH_MARKER not in page_text:
-                errors.append(f"docs/{page_slug}.html missing synced 1-minute runtime-budget guidance")
+            if READ_COMMAND_MARKER not in page_text or "skill.md" not in page_text:
+                errors.append(f"docs/{page_slug}.html missing one-line skill.md starter command")
+            if "Copy Command" not in page_text or "复制命令" not in page_text:
+                errors.append(f"docs/{page_slug}.html missing compact copy-command UI")
+            if "full role prompt is bundled inside skill.md" not in page_text or "完整岗位 prompt 已经打包在 skill.md" not in page_text:
+                errors.append(f"docs/{page_slug}.html missing role-prompt-in-skill wording")
             if "Paste the prompt below into your own Claude Code or Codex" in page_text or "复制后直接粘贴到 Claude Code / Codex" in page_text:
                 errors.append(f"docs/{page_slug}.html still contains Claude Code/Codex-exclusive candidate wording")
-            if ">> MBTI work personality <<" in page_text or ">> MBTI 工作人格 <<" in page_text or ">> If this portrait feels right" in page_text or ">> 如果这份画像像你" in page_text:
-                errors.append(f"docs/{page_slug}.html still contains noisy double-angle TUI markers")
+            if "Paste the full prompt below" in page_text or "把下面整段完整粘贴" in page_text:
+                errors.append(f"docs/{page_slug}.html still renders the long raw prompt")
+            if "JD prompt version" in page_text or HIRED_HEADER_MARKER in page_text or BLOCK_BAR_MARKER in page_text:
+                errors.append(f"docs/{page_slug}.html should not render embedded long prompt internals")
             if "git-hired-lang" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing language bootstrap script")
             if 'href="./index.html"' not in page_text:
@@ -447,57 +470,6 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing author GitHub link")
             if "https://github.com/realRoc/git-hired" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing repo link")
-            if "JD prompt version" not in page_text:
-                errors.append(f"docs/{page_slug}.html missing embedded prompt version guidance")
-            if HIRED_HEADER_MARKER not in page_text:
-                errors.append(f"docs/{page_slug}.html missing synced readable HIRED header")
-            if BLOCK_BAR_MARKER not in page_text:
-                errors.append(f"docs/{page_slug}.html missing synced block-bar score format guidance")
-            if SCALE_NOTE_EN_MARKER in page_text or SCALE_NOTE_ZH_MARKER in page_text:
-                errors.append(f"docs/{page_slug}.html should not contain synced scale-note guidance")
-            if STRONG_SCORE_EN_MARKER in page_text or STRONG_SCORE_ZH_MARKER in page_text:
-                errors.append(f"docs/{page_slug}.html should not contain synced explicit 70-plus score-defense wording")
-            if STANDOUT_DIMENSION_EN_MARKER in page_text or STANDOUT_DIMENSION_ZH_MARKER in page_text:
-                errors.append(f"docs/{page_slug}.html should not contain synced hard-rule 90-plus wording")
-            if OLD_BAR_MARKER in page_text:
-                errors.append(f"docs/{page_slug}.html still contains old hash-based score bar examples")
-            if "alignment code" in page_text or "阵营编码" in page_text:
-                errors.append(f"docs/{page_slug}.html still contains deprecated alignment-code language")
-            if MBTI_EN_MARKER not in page_text or MBTI_ZH_MARKER not in page_text:
-                errors.append(f"docs/{page_slug}.html missing synced MBTI work-personality guidance")
-            if "such as `INTJ`" in page_text or "例如 `INTJ`" in page_text:
-                errors.append(f"docs/{page_slug}.html still contains synced INTJ example anchoring")
-            if "tradeoff logic vs people or user-attunement" in page_text or "structure and closure vs exploration and adaptation" in page_text:
-                errors.append(f"docs/{page_slug}.html still contains synced biased legacy MBTI axis wording")
-            if (
-                MBTI_ANTI_ANCHOR_EN_MARKER not in page_text
-                or MBTI_ANTI_ANCHOR_ZH_MARKER not in page_text
-                or MBTI_NEUTRAL_TF_EN_MARKER not in page_text
-                or MBTI_NEUTRAL_TF_ZH_MARKER not in page_text
-                or MBTI_POSITIVE_EVIDENCE_EN_MARKER not in page_text
-                or MBTI_POSITIVE_EVIDENCE_ZH_MARKER not in page_text
-                or MBTI_SOLO_HISTORY_EN_MARKER not in page_text
-                or MBTI_SOLO_HISTORY_ZH_MARKER not in page_text
-                or MBTI_NO_ITJ_EN_MARKER not in page_text
-                or MBTI_NO_ITJ_ZH_MARKER not in page_text
-                or MBTI_NO_PSEUDO_EN_MARKER not in page_text
-                or MBTI_NO_PSEUDO_ZH_MARKER not in page_text
-            ):
-                errors.append(f"docs/{page_slug}.html missing synced MBTI de-bias guidance")
-            if RUNTIME_AWARE_EN_MARKER not in page_text or RUNTIME_AWARE_ZH_MARKER not in page_text:
-                errors.append(f"docs/{page_slug}.html missing synced Notion/rich-text runtime fallback guidance")
-            if "pixel card" in page_text or ".svg" in page_text:
-                errors.append(f"docs/{page_slug}.html still contains legacy pixel-card or SVG language")
-            if (
-                ASCII_CARD_URL_BASE not in page_text
-                or (ASCII_CARD_EN_MARKER not in page_text and ASCII_CARD_ZH_MARKER not in page_text)
-                or ".txt" not in page_text
-            ):
-                errors.append(f"docs/{page_slug}.html missing synced MBTI ASCII-card guidance")
-            if zh_prompt_version and zh_prompt_version not in page_text:
-                errors.append(f"docs/{page_slug}.html missing synced prompt version {zh_prompt_version}")
-            if en_prompt_version and en_prompt_version not in page_text:
-                errors.append(f"docs/{page_slug}.html missing synced prompt version {en_prompt_version}")
             if f'prompts/{prompt_slug}.md' not in page_text:
                 warnings.append(f"docs/{page_slug}.html may be missing Chinese source prompt footer for {prompt_slug}")
             if f'prompts/{prompt_slug}.en.md' not in page_text:

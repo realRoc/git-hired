@@ -38,7 +38,16 @@ This page must:
 - include author GitHub info
 - include repo link
 - include only a home link, not cross-role links
-- contain both embedded prompt blocks that match the source prompt files
+- show compact bilingual one-line starter commands
+- avoid rendering the full long prompt as public page content
+
+## Shared skill entry
+
+`skill.md` and `docs/skill.md`
+
+These must stay content-identical.
+
+The public skill entry bundles the full canonical role prompt appendix generated from `prompts/`, so compact role pages can route public agents without exposing long raw prompts in the page UI.
 
 ## Homepage
 
@@ -53,7 +62,7 @@ The homepage also links to the mobile human quick test:
 - `docs/start.html`
 - QR asset: `docs/assets/quick-test-qr.svg`
 
-Keep this as a lightweight self-report entry that hands off to the deeper `skill.md` agent test.
+Keep this as a lightweight self-report entry that hands off to the deeper `skill.md` agent test. On the homepage, place this QR fallback near the bottom after the main explanatory content.
 
 ## READMEs
 

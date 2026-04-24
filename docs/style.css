@@ -490,7 +490,8 @@ body.lang-zh .tagline {
   color: var(--accent);
 }
 
-.mobile-entry h2 {
+.mobile-entry h2,
+.mobile-entry h3 {
   margin: 0;
   font-family: var(--mono);
   font-size: 22px;

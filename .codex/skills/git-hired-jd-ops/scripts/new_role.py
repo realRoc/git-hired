@@ -231,8 +231,21 @@ def role_page(
     prompt_en_text: str,
     prompt_zh_text: str,
 ) -> str:
-    prompt_en = html.escape(prompt_en_text, quote=False)
-    prompt_zh = html.escape(prompt_zh_text, quote=False)
+    _ = (prompt_en_text, prompt_zh_text)
+    command_en = html.escape(
+        "read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. "
+        "Do not summarize it. "
+        f"My target role is {title_en}. "
+        "Confirm only my data permission scope, then run the evaluation automatically from allowed history or approved files. "
+        "Do not turn it into a manual interview.",
+        quote=False,
+    )
+    command_zh = html.escape(
+        "read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结。"
+        f"我的目标岗位是{title_zh}。直接用我的语言确认数据权限边界，然后基于允许范围自动完成评估，"
+        "不要转成面试式问答。",
+        quote=False,
+    )
     return f"""<!doctype html>
 <html lang="en">
   <head>
@@ -292,10 +305,10 @@ def role_page(
         <h2 data-lang="en">How To Run This Test</h2>
         <h2 data-lang="zh">怎么开始这个测试</h2>
         <p class="mini" data-lang="en">
-          Paste the prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent. By default it stays history-only, only accesses projects or files you explicitly authorize, never uploads your local repo or file data to our server, and should run the evaluation automatically after the privacy boundary is clear.
+          Copy the one-line command below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent. The full role prompt is bundled inside skill.md, so this page stays clean. By default the run stays history-only, only accesses projects or files you explicitly authorize, and never uploads your local repo or file data to our server.
         </p>
         <p class="mini" data-lang="zh">
-          把下面这段 prompt 完整粘贴到你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent。默认只看历史记录，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器；隐私边界一旦确认，就应自动完成评估。
+          把下面的一行命令复制到你自己的工作 agent 里运行，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent。完整岗位 prompt 已经打包在 skill.md 里，所以页面保持简洁。默认只看 history-only，只会访问你明确授权的项目或文件，也不会把你的本地 repo 或文件数据上传到我们的服务器。
         </p>
         <div class="callout" data-lang="en">
           Friendly tip: if you're using Claude Code or Codex, turning on Claude Code's bypass mode or Codex's YOLO mode usually makes the run smoother.
@@ -316,23 +329,23 @@ def role_page(
         </ul>
       </section>
 
-      <section class="prompt-wrap">
+      <section class="prompt-wrap role-starter">
         <div class="prompt-head">
-          <strong data-lang="en">Copy this into your work agent</strong>
-          <strong data-lang="zh">复制后直接粘贴到你的工作 agent</strong>
+          <strong data-lang="en">One-Line Starter</strong>
+          <strong data-lang="zh">一行启动命令</strong>
           <button
             class="button"
             data-copy-button="true"
-            data-label-en="Copy Prompt"
-            data-label-zh="复制 Prompt"
+            data-label-en="Copy Command"
+            data-label-zh="复制命令"
             data-copied-en="Copied"
             data-copied-zh="已复制"
             data-failed-en="Copy Failed"
             data-failed-zh="复制失败"
-            onclick="copyPrompt('{prompt_base}', this)">Copy Prompt</button>
+            onclick="copyPrompt('{prompt_base}', this)">Copy Command</button>
         </div>
-        <pre class="prompt" id="{prompt_base}-en" data-lang="en">{prompt_en}</pre>
-        <pre class="prompt" id="{prompt_base}-zh" data-lang="zh">{prompt_zh}</pre>
+        <pre class="prompt" id="{prompt_base}-en" data-lang="en">{command_en}</pre>
+        <pre class="prompt" id="{prompt_base}-zh" data-lang="zh">{command_zh}</pre>
       </section>
 
       <section class="section">

@@ -54,19 +54,25 @@ python3 .codex/skills/git-hired-jd-ops/scripts/new_role.py \
 3. Edit the newly created source prompts first:
    - `prompts/<prompt_slug>.en.md`
    - `prompts/<prompt_slug>.md`
-4. Sync prompt source files into the candidate-facing page:
+4. Sync the compact role starter into the candidate-facing page:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/sync_role_page.py --page-slug <page_slug>
 ```
 
-5. Sync registry-driven surfaces:
+5. Sync the public `skill.md` role-prompt appendix:
+
+```bash
+python3 .codex/skills/git-hired-jd-ops/scripts/sync_skill_entry.py
+```
+
+6. Sync registry-driven surfaces:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/sync_registry_surfaces.py
 ```
 
-6. Validate:
+7. Validate:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/validate_roles.py
@@ -78,19 +84,25 @@ python3 .codex/skills/git-hired-jd-ops/scripts/validate_roles.py
 2. Edit prompt source files first:
    - `prompts/<prompt_slug>.en.md`
    - `prompts/<prompt_slug>.md`
-3. Sync the page:
+3. Sync the compact role starter into the page:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/sync_role_page.py --page-slug <page_slug>
 ```
 
-4. If title or summary changed in `roles.json`, or if a role was added or removed, sync registry-driven surfaces:
+4. Sync the public `skill.md` role-prompt appendix:
+
+```bash
+python3 .codex/skills/git-hired-jd-ops/scripts/sync_skill_entry.py
+```
+
+5. If title or summary changed in `roles.json`, or if a role was added or removed, sync registry-driven surfaces:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/sync_registry_surfaces.py
 ```
 
-5. Validate:
+6. Validate:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/validate_roles.py
@@ -112,8 +124,9 @@ If the rename is URL-safe and intentional:
 2. Rename the prompt files and page file
 3. Update internal links and prompt block ids
 4. Run `sync_role_page.py`
-5. Run `sync_registry_surfaces.py`
-6. Run `validate_roles.py`
+5. Run `sync_skill_entry.py`
+6. Run `sync_registry_surfaces.py`
+7. Run `validate_roles.py`
 
 ## Required repo invariants
 
@@ -129,6 +142,8 @@ Keep these true after every change:
   - has a single `Back Home / 返回首页` link
   - keeps author GitHub info
   - keeps repo link
+  - renders a compact one-line starter instead of the full long prompt
+- `skill.md` and `docs/skill.md` stay content-identical and include the generated canonical role-prompt appendix
 - every role change is reflected in:
   - `docs/index.html`
   - `README.md`
@@ -136,8 +151,9 @@ Keep these true after every change:
 
 ## Editing rules
 
-- Edit prompt source files first. Do not hand-edit embedded prompt blocks unless you are fixing page structure.
-- Use `sync_role_page.py` to push prompt changes into HTML.
+- Edit prompt source files first. Do not hand-edit public role-page starters unless you are fixing page structure.
+- Use `sync_role_page.py` to keep role pages compact.
+- Use `sync_skill_entry.py` to push prompt changes into the public `skill.md` appendix.
 - Use `sync_registry_surfaces.py` to update homepage cards and README role lists.
 - Keep English and Chinese prompt files semantically aligned.
 - Keep English as the default language in HTML.
@@ -150,6 +166,7 @@ Before finishing:
 
 ```bash
 python3 .codex/skills/git-hired-jd-ops/scripts/sync_registry_surfaces.py
+python3 .codex/skills/git-hired-jd-ops/scripts/sync_skill_entry.py
 python3 .codex/skills/git-hired-jd-ops/scripts/validate_roles.py
 git diff --stat
 ```
