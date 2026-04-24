@@ -113,6 +113,21 @@ def validate_public_footer(label: str, text: str, errors: list[str]) -> None:
         errors.append(f"{label} footer should not show source prompt filenames")
 
 
+def validate_footer_css(style_text: str, errors: list[str]) -> None:
+    footer_match = re.search(r"\.footer\s*\{(?P<body>.*?)\}", style_text, flags=re.S)
+    if not footer_match:
+        errors.append("docs/style.css missing .footer style block")
+        return
+    footer_body = footer_match.group("body")
+    if "text-align: center;" not in footer_body:
+        errors.append("docs/style.css .footer should center footer text")
+    if "justify-items: center;" not in footer_body:
+        errors.append("docs/style.css .footer should center footer grid items")
+    footer_line_match = re.search(r"\.footer-line\s*\{(?P<body>.*?)\}", style_text, flags=re.S)
+    if not footer_line_match or "text-align: center;" not in footer_line_match.group("body"):
+        errors.append("docs/style.css .footer-line should center each footer line")
+
+
 def main() -> None:
     repo_root = find_repo_root(Path.cwd())
     roles = json.loads((repo_root / "roles.json").read_text(encoding="utf-8"))
@@ -123,6 +138,7 @@ def main() -> None:
     quick_start_qr = repo_root / "docs" / "assets" / "quick-test-qr.svg"
     not_found_page = repo_root / "docs" / "404.html"
     index_text = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
+    style_text = (repo_root / "docs" / "style.css").read_text(encoding="utf-8")
     readme_en = (repo_root / "README.md").read_text(encoding="utf-8")
     readme_zh = (repo_root / "README.zh-CN.md").read_text(encoding="utf-8")
     mbti_asset_dir = repo_root / "docs" / "assets" / "mbti"
@@ -161,6 +177,7 @@ def main() -> None:
         if index_text.find("quick-test-fallback") < index_text.find("what you get"):
             errors.append("docs/index.html should place quick-test QR fallback after main explanatory content")
     validate_public_footer("docs/index.html", index_text, errors)
+    validate_footer_css(style_text, errors)
 
     if not quick_start.exists():
         errors.append("docs/start.html missing mobile human quick-test page")

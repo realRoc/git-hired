@@ -706,14 +706,18 @@ body.lang-zh .outputs-val {
   font-family: var(--mono);
   font-size: 12px;
   color: var(--muted);
-  text-align: left;
+  text-align: center;
   display: grid;
+  justify-items: center;
   gap: 8px;
   line-height: 1.75;
 }
 .footer a { color: var(--accent); }
 .footer a:hover { color: var(--ink); }
-.footer-line { display: block; }
+.footer-line {
+  display: block;
+  text-align: center;
+}
 html[data-lang="zh"] .footer,
 body.lang-zh .footer {
   font-family: var(--sans-cjk);
