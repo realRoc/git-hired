@@ -360,7 +360,7 @@ This rule applies to `skill.md`, every role prompt in `prompts/`, every embedded
 
 ## Candidate-Serving Shared Pages
 
-This rule applies to `docs/index.html`, `docs/skill.md`, and any future shared entry or landing page.
+This rule applies to `docs/index.html`, `docs/start.html`, `docs/skill.md`, and any future shared entry or landing page.
 
 1. Treat these pages as candidate-serving surfaces, not recruiter-operating surfaces.
 2. Use candidate-facing headings and action labels, for example `How To Start`, not recruiter phrasing such as `How To Send This`.
@@ -386,7 +386,39 @@ This rule applies to `docs/index.html`, `docs/skill.md`, and any future shared e
    - third, show the one-line copyable `read .../skill.md` starter command before flowing into the shared-entry section
 9. Do not keep a standalone guide page when it only repeats the homepage starter flow, privacy explanation, or role-routing explanation.
 10. Prefer one strong homepage over a homepage-plus-guide split. Fold repeated shared-entry copy into `docs/index.html`, then remove the extra page and links.
-11. On the homepage shared entry, keep one primary action only: the copyable starter command. Do not add a secondary `Open skill.md` button or other raw-spec browse action beside it.
+11. On the homepage agent shared-entry block, keep one primary action only: the copyable starter command. Do not add a secondary `Open skill.md` button or other raw-spec browse action beside it.
+12. The homepage may also expose a separate human quick-test entry for mobile sharing and QR-code traffic. This action must be clearly framed as a lightweight self-test, not as a replacement for the agent deep test.
+
+## Mobile Human Quick Test Entry
+
+This rule applies to `docs/start.html`, `docs/index.html`, README links, and any future mobile-first human test surface.
+
+1. Maintain a human-facing quick-test entry in addition to the agent-facing `skill.md` entry.
+2. The quick-test entry must be mobile-first and QR-friendly:
+   - readable on narrow screens
+   - no required desktop-only agent runtime
+   - quick enough to finish in roughly 1 minute
+   - shareable result output
+3. The quick test should ask only high-signal questions needed for lightweight role routing and MBTI work-personality calibration.
+4. The quick test must not imply it has the same evidence quality as the agent deep test. It should clearly label itself as a fast self-report / quick-signal result.
+5. The quick test must preserve the same privacy posture:
+   - no local repo, project, or document scanning
+   - no upload of local repo or file data to our server
+   - only candidate-entered answers and browser-local state should be used unless a future backend is explicitly designed and documented
+6. The result screen should include:
+   - a shareable `HIRED`-style summary
+   - best-fit role right now
+   - MBTI work personality with confidence
+   - ability score
+   - compact core board
+   - talent tags
+   - locked skills
+   - one concrete next step with uplift estimate
+7. The quick-test result must include a clear handoff path into the agent deep test:
+   - copyable `read https://realroc.github.io/git-hired/skill.md` command
+   - a handoff prompt that includes the quick-test role, answers, and result summary
+   - candidate-facing wording that explains the agent deep test is more accurate because it can inspect approved real work evidence
+8. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
 
 ## Candidate-Serving JD Descriptions
 
