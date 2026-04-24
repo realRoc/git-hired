@@ -478,7 +478,6 @@ body.lang-zh .tagline {
 }
 
 .mobile-entry-kicker,
-.quick-url,
 .qr-card {
   font-family: var(--mono);
   font-size: 11px;
@@ -502,11 +501,6 @@ body.lang-zh .tagline {
   margin: 10px 0 14px;
   max-width: 700px;
   color: var(--ink-dim);
-}
-
-.quick-url {
-  margin-top: 10px;
-  overflow-wrap: anywhere;
 }
 
 .qr-card {
