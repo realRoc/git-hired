@@ -30,151 +30,246 @@
       }());
     </script>
     <link rel="stylesheet" href="./style.css">
-    <script src="./app.js" defer></script>
+    <script src="./app.js?v=2" defer></script>
   </head>
   <body class="lang-en" data-lang="en" data-title-en="git-hired" data-title-zh="git-hired">
     <main class="shell">
-      <section class="hero">
-        <div class="hero-top">
-          <span class="eyebrow">git-hired</span>
-          <div class="lang-switch" aria-label="Language switcher">
-            <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
-            <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+
+      <!-- window chrome + lang switcher -->
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="topbar-path">
+            <span class="here">~/git-hired</span><span class="sep"> / </span><span>main</span>
           </div>
         </div>
-        <h1>$ git hired</h1>
+        <div class="lang-switch" aria-label="Language switcher">
+          <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+        </div>
+      </div>
+
+      <!-- hero / terminal -->
+      <section class="hero">
+        <div class="prompt-line">
+          <span class="user">you</span><span class="at">@</span><span class="host">work-agent</span>
+          <span class="cwd"> ~/git-hired</span>
+          <span class="dollar">$</span>
+        </div>
+
+        <pre class="ascii-banner" id="asciiBanner" aria-label="git-hired" role="img"><span class="ascii-inner"></span><span class="ascii-caret" id="asciiCaret" title="click to toggle CRT"></span></pre>
+        <h1 class="ascii-fallback" aria-hidden="true">git hired</h1>
+
         <p class="lede" data-lang="en">
-          `fatal: not a qualified candidate`. `git-hired` is a fast way to test your MBTI work personality from how you actually work. Let your own work agent analyze how you work, whether it is Claude Code, Codex, Notion AI, or another memory-enabled agent.
+          <code>git-hired</code> tests your MBTI work personality from how you <em>actually</em> work.
+          Let your own work agent — Claude Code, Codex, Notion AI, or any memory-enabled assistant —
+          analyze your real workflow.
         </p>
         <p class="lede" data-lang="zh">
-          `fatal: not a qualified candidate`。`git-hired` 是一个从真实工作方式出发，测试你 MBTI 工作人格的工具。让你自己的工作 agent 去分析你到底是怎么工作的，无论它是 Claude Code、Codex、Notion AI，还是其他具备知识库和记忆能力的工作 agent。
+          <code>git-hired</code> 从真实工作方式出发，测试你的 MBTI 工作人格。
+          让你自己的 Claude Code、Codex、Notion AI 或任何具备记忆能力的工作 agent，
+          去分析你到底是怎么工作的。
         </p>
+
         <p class="mini" data-lang="en">
-          Privacy first: we never upload your local repo, files, or any other local data to our server.
+          Privacy first — we never upload your local repo, files, or any local data.
         </p>
         <p class="mini" data-lang="zh">
-          隐私优先：我们不会把你的本地 repo、文件或任何其他本地数据上传到我们的服务器。
+          隐私优先 — 我们不会上传你的本地 repo、文件或任何本地数据。
         </p>
+
+        <!-- starter command -->
         <section class="prompt-wrap">
           <div class="prompt-head">
-            <strong data-lang="en">One-Line Starter</strong>
+            <strong data-lang="en">one-line starter</strong>
             <strong data-lang="zh">一行启动命令</strong>
             <button
               class="button"
               data-copy-button="true"
               data-label-en="Copy Command"
               data-label-zh="复制命令"
-              data-copied-en="Copied"
-              data-copied-zh="已复制"
-              data-failed-en="Copy Failed"
+              data-copied-en="copied ✓"
+              data-copied-zh="已复制 ✓"
+              data-failed-en="copy failed"
               data-failed-zh="复制失败"
               onclick="copyPrompt('starter-command', this)">Copy Command</button>
           </div>
           <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.</pre>
           <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。</pre>
         </section>
+
         <section class="mobile-entry">
-          <div>
-            <h2 data-lang="en">On your phone?</h2>
-            <h2 data-lang="zh">现在在手机上？</h2>
+          <div class="mobile-entry-copy">
+            <div class="mobile-entry-kicker">mobile / qr</div>
+            <h2 data-lang="en">Start Quick Test</h2>
+            <h2 data-lang="zh">开始快速测试</h2>
             <p data-lang="en">
-              Start the 1-minute human quick test first. It creates a shareable `HIRED` signal and a copyable handoff prompt for the deeper agent test.
+              On your phone, take the 1-minute human quick test first. It creates a shareable <code>HIRED</code> signal and a handoff prompt for the deeper agent test.
             </p>
             <p data-lang="zh">
-              先做 1 分钟人类 quick test。它会生成一张可分享的 `HIRED` 快速画像，并给你一段可复制的 agent 深度测试 handoff。
+              在手机上先做 1 分钟人类 quick test。它会生成一张可分享的 <code>HIRED</code> 快速画像，并给你一段 agent 深度测试 handoff。
             </p>
-            <div class="mobile-entry-actions">
-              <a class="button" href="./start.html" data-lang="en">Start Quick Test</a>
-              <a class="button" href="./start.html" data-lang="zh">开始快速测试</a>
-              <span class="mini" data-lang="en">QR-friendly: https://realroc.github.io/git-hired/start.html</span>
-              <span class="mini" data-lang="zh">适合二维码传播：https://realroc.github.io/git-hired/start.html</span>
-            </div>
+            <a class="button primary" href="./start.html" data-lang="en">Start Quick Test</a>
+            <a class="button primary" href="./start.html" data-lang="zh">开始快速测试</a>
+            <div class="quick-url">https://realroc.github.io/git-hired/start.html</div>
           </div>
           <div class="qr-card">
             <img src="./assets/quick-test-qr.svg" alt="QR code for the git-hired mobile quick test">
-            <span data-lang="en">Scan to start</span>
+            <span data-lang="en">scan to start</span>
             <span data-lang="zh">扫码开始</span>
           </div>
         </section>
+
         <p class="mini" data-lang="en">
-          You only need to answer two things: your target role and whether this run stays `history-only`.
+          Answer two things only — your target role, and whether this run stays <code>history-only</code>.
         </p>
         <p class="mini" data-lang="zh">
-          你只需要回答两件事：目标岗位，以及这次是否保持 `history-only`。
+          你只需要回答两件事 — 目标岗位，以及这次是否保持 <code>history-only</code>。
         </p>
       </section>
 
-      <section class="grid cards">
-        <!-- AUTO:role-cards:start -->
-        <article class="card">
-          <h3 data-lang="en">AI Agent Engineer</h3>
-          <h3 data-lang="zh">AI Agent 工程师</h3>
-          <p data-lang="en">Use this if you want to show how well you direct AI work, turn ambiguity into specs, and push agents to real shipped outcomes.</p>
-          <p data-lang="zh">如果你想展示自己如何指挥 AI 干活、把模糊需求压成 spec，并把 agent 推到真正交付结果，这个测试最适合你。</p>
-          <a class="button" href="./agent.html" data-lang="en">Open Test</a>
-          <a class="button" href="./agent.html" data-lang="zh">打开测试</a>
-        </article>
-
-        <article class="card">
-          <h3 data-lang="en">Product Manager</h3>
-          <h3 data-lang="zh">产品经理</h3>
-          <p data-lang="en">Use this if you want to show your AI product judgment, MVP boundary control, spec clarity, and ability to move messy work forward.</p>
-          <p data-lang="zh">如果你想展示自己的 AI 产品判断、MVP 边界感、spec 清晰度，以及推进复杂协作的能力，这个测试更适合你。</p>
-          <a class="button" href="./pm.html" data-lang="en">Open Test</a>
-          <a class="button" href="./pm.html" data-lang="zh">打开测试</a>
-        </article>
-
-        <article class="card">
-          <h3 data-lang="en">Global Growth</h3>
-          <h3 data-lang="zh">海外增长</h3>
-          <p data-lang="en">Use this if you want to show how you turn user signals and social-native intuition into channels, experiments, retention, and ROI.</p>
-          <p data-lang="zh">如果你想展示自己如何把用户信号和社媒原生直觉转成渠道策略、实验、留存和 ROI，这个测试最适合你。</p>
-          <a class="button" href="./growth.html" data-lang="en">Open Test</a>
-          <a class="button" href="./growth.html" data-lang="zh">打开测试</a>
-        </article>
-
-        <article class="card">
-          <h3 data-lang="en">AI Product Operations</h3>
-          <h3 data-lang="zh">AI产品运营</h3>
-          <p data-lang="en">Use this if you want to show your user empathy, response speed, operational reliability, and ability to turn feedback into product improvement.</p>
-          <p data-lang="zh">如果你想展示自己的用户同理心、响应速度、运营执行力，以及把反馈转成产品优化的能力，这个测试更适合你。</p>
-          <a class="button" href="./ops.html" data-lang="en">Open Test</a>
-          <a class="button" href="./ops.html" data-lang="zh">打开测试</a>
-        </article>
-        <!-- AUTO:role-cards:end -->
-      </section>
-
+      <!-- roles -->
       <section class="section">
-        <h2 data-lang="en">What You Get</h2>
-        <h2 data-lang="zh">你会拿到什么</h2>
-        <div class="callout" data-lang="en">
-          Works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability. If the runtime is a rich-text surface, the result should fall back to a compact card instead of wide terminal ASCII.
+        <div class="section-head">
+          <span class="hash">01 /</span>
+          <h2 data-lang="en">pick a role</h2>
+          <h2 data-lang="zh">选择岗位</h2>
         </div>
-        <div class="callout" data-lang="zh">
-          支持 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。如果运行环境是富文本界面，结果应自动退化成紧凑卡片，而不是宽终端 ASCII。
+
+        <div class="grid cards">
+          <!-- AUTO:role-cards:start -->
+          <article class="card">
+            <div class="role-meta">
+              <span class="slug">agent.html</span>
+              <span class="idx">01</span>
+            </div>
+            <h3 data-lang="en">AI Agent Engineer</h3>
+            <h3 data-lang="zh">AI Agent 工程师</h3>
+            <p data-lang="en">Show how well you direct AI work, turn ambiguity into specs, and push agents to real shipped outcomes.</p>
+            <p data-lang="zh">展示你如何指挥 AI 干活、把模糊需求压成 spec，并把 agent 推到真正交付结果。</p>
+            <a class="card-foot" href="./agent.html">
+              <span data-lang="en">open test</span>
+              <span data-lang="zh">打开测试</span>
+              <span class="open">./run</span>
+            </a>
+          </article>
+
+          <article class="card">
+            <div class="role-meta">
+              <span class="slug">pm.html</span>
+              <span class="idx">02</span>
+            </div>
+            <h3 data-lang="en">Product Manager</h3>
+            <h3 data-lang="zh">产品经理</h3>
+            <p data-lang="en">Show your AI product judgment, MVP boundary control, spec clarity, and ability to move messy work forward.</p>
+            <p data-lang="zh">展示你的 AI 产品判断、MVP 边界感、spec 清晰度，以及推进复杂协作的能力。</p>
+            <a class="card-foot" href="./pm.html">
+              <span data-lang="en">open test</span>
+              <span data-lang="zh">打开测试</span>
+              <span class="open">./run</span>
+            </a>
+          </article>
+
+          <article class="card">
+            <div class="role-meta">
+              <span class="slug">growth.html</span>
+              <span class="idx">03</span>
+            </div>
+            <h3 data-lang="en">Global Growth</h3>
+            <h3 data-lang="zh">海外增长</h3>
+            <p data-lang="en">Show how you turn user signals and social-native intuition into channels, experiments, retention, and ROI.</p>
+            <p data-lang="zh">展示你如何把用户信号和社媒原生直觉转成渠道策略、实验、留存和 ROI。</p>
+            <a class="card-foot" href="./growth.html">
+              <span data-lang="en">open test</span>
+              <span data-lang="zh">打开测试</span>
+              <span class="open">./run</span>
+            </a>
+          </article>
+
+          <article class="card">
+            <div class="role-meta">
+              <span class="slug">ops.html</span>
+              <span class="idx">04</span>
+            </div>
+            <h3 data-lang="en">AI Product Operations</h3>
+            <h3 data-lang="zh">AI 产品运营</h3>
+            <p data-lang="en">Show your user empathy, response speed, operational reliability, and ability to turn feedback into product improvement.</p>
+            <p data-lang="zh">展示你的用户同理心、响应速度、运营执行力，以及把反馈转成产品优化的能力。</p>
+            <a class="card-foot" href="./ops.html">
+              <span data-lang="en">open test</span>
+              <span data-lang="zh">打开测试</span>
+              <span class="open">./run</span>
+            </a>
+          </article>
+          <!-- AUTO:role-cards:end -->
         </div>
-        <ul data-lang="en">
-          <li>A clearer view of how you actually use AI, not just how you would describe your workflow.</li>
-          <li>A shareable `HIRED` snapshot with your MBTI work personality, ability score, compact signal board, and matching ASCII card.</li>
-          <li>A local markdown report you can keep for yourself, use for reflection, or attach later if you decide to apply.</li>
-        </ul>
-        <ul data-lang="zh">
-          <li>你真实的 AI 使用方式，而不只是你会如何描述自己的工作流。</li>
-          <li>一份可传播的 `HIRED` 工作画像，包含你的 MBTI 工作人格、能力值、紧凑信号板和匹配的 ASCII 卡片。</li>
-          <li>一份本地 markdown 详细报告，你可以自己留存、复盘，或在之后决定申请时附上。</li>
-        </ul>
-        <p class="author-line" data-lang="en">
-          Created by <a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>.
-          Repository: <a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
-        </p>
-        <p class="author-line" data-lang="zh">
-          作者：<a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>。
-          仓库地址：<a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
-        </p>
       </section>
 
-      <p class="footer" data-lang="en">Open source under MIT. `git hired`, `git rejected`, your call.</p>
-      <p class="footer" data-lang="zh">MIT 开源。`git hired` 还是 `git rejected`，你说了算。</p>
+      <!-- what you get -->
+      <section class="section">
+        <div class="section-head">
+          <span class="hash">02 /</span>
+          <h2 data-lang="en">what you get</h2>
+          <h2 data-lang="zh">你会拿到什么</h2>
+        </div>
+
+        <div class="outputs">
+          <div class="outputs-row">
+            <div class="outputs-key">runtime</div>
+            <div class="outputs-val" data-lang="en">
+              Works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory. On rich-text surfaces the result falls back to a compact card instead of wide terminal ASCII.
+            </div>
+            <div class="outputs-val" data-lang="zh">
+              支持 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。富文本界面下结果会自动退化成紧凑卡片，而不是宽终端 ASCII。
+            </div>
+          </div>
+
+          <div class="outputs-row">
+            <div class="outputs-key">signal</div>
+            <div class="outputs-val" data-lang="en">
+              A clearer view of how you <em>actually</em> use AI — not how you’d describe your workflow.
+            </div>
+            <div class="outputs-val" data-lang="zh">
+              你<em>真实的</em> AI 使用方式，而不只是你会如何描述自己的工作流。
+            </div>
+          </div>
+
+          <div class="outputs-row">
+            <div class="outputs-key">snapshot</div>
+            <div class="outputs-val" data-lang="en">
+              A shareable <code>HIRED</code> card — MBTI work personality, ability score, signal board, matching ASCII badge.
+            </div>
+            <div class="outputs-val" data-lang="zh">
+              一份可传播的 <code>HIRED</code> 卡片 — MBTI 工作人格、能力值、信号板、匹配 ASCII 徽章。
+            </div>
+          </div>
+
+          <div class="outputs-row">
+            <div class="outputs-key">report</div>
+            <div class="outputs-val" data-lang="en">
+              A local markdown report you keep for yourself — use it for reflection, or attach later if you decide to apply.
+            </div>
+            <div class="outputs-val" data-lang="zh">
+              一份本地 markdown 详细报告，可自己留存、复盘，或在之后申请时附上。
+            </div>
+          </div>
+
+          <div class="outputs-foot" data-lang="en">
+            built by <a href="https://github.com/realRoc" target="_blank" rel="noreferrer">@realRoc</a>
+            &nbsp;·&nbsp; source: <a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
+          </div>
+          <div class="outputs-foot" data-lang="zh">
+            作者：<a href="https://github.com/realRoc" target="_blank" rel="noreferrer">@realRoc</a>
+            &nbsp;·&nbsp; 源码：<a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span data-lang="en">MIT licensed — <code>git hired</code> or <code>git rejected</code>, your call.</span>
+        <span data-lang="zh">MIT 开源 — <code>git hired</code> 还是 <code>git rejected</code>，你说了算。</span>
+        <span class="mono">v1.0</span>
+      </footer>
     </main>
   </body>
 </html>

@@ -74,10 +74,6 @@ function setLanguage(lang) {
 
   updateLanguageButtons(next);
   updateCopyButtons(next);
-
-  document.dispatchEvent(new CustomEvent("git-hired:languagechange", {
-    detail: { lang: next },
-  }));
 }
 
 function copyPrompt(promptBase, button) {
@@ -105,7 +101,126 @@ function copyPrompt(promptBase, button) {
 window.setLanguage = setLanguage;
 window.copyPrompt = copyPrompt;
 
+/* ——— ASCII banner — ANSI Shadow "GIT-HIRED" + live typing ——— */
+
+const ASCII_WIDE = [
+"  ██████╗ ██╗████████╗       ██╗  ██╗██╗██████╗ ███████╗██████╗ ",
+"  ██╔════╝ ██║╚══██╔══╝       ██║  ██║██║██╔══██╗██╔════╝██╔══██╗",
+"  ██║  ███╗██║   ██║          ███████║██║██████╔╝█████╗  ██║  ██║",
+"  ██║   ██║██║   ██║          ██╔══██║██║██╔══██╗██╔══╝  ██║  ██║",
+"  ╚██████╔╝██║   ██║          ██║  ██║██║██║  ██║███████╗██████╔╝",
+"   ╚═════╝ ╚═╝   ╚═╝          ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝ ",
+].join("\n");
+
+const ASCII_STACK = [
+"  ██████╗ ██╗████████╗",
+"  ██╔════╝ ██║╚══██╔══╝",
+"  ██║  ███╗██║   ██║   ",
+"  ██║   ██║██║   ██║   ",
+"  ╚██████╔╝██║   ██║   ",
+"   ╚═════╝ ╚═╝   ╚═╝   ",
+"  ██╗  ██╗██╗██████╗ ███████╗██████╗ ",
+"  ██║  ██║██║██╔══██╗██╔════╝██╔══██╗",
+"  ███████║██║██████╔╝█████╗  ██║  ██║",
+"  ██╔══██║██║██╔══██╗██╔══╝  ██║  ██║",
+"  ██║  ██║██║██║  ██║███████╗██████╔╝",
+"  ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝ ",
+].join("\n");
+
+function pickAsciiArt() {
+  return window.matchMedia && window.matchMedia("(max-width: 620px)").matches
+    ? ASCII_STACK
+    : ASCII_WIDE;
+}
+
+let asciiTypingTimer = null;
+let asciiAnimated = false;
+
+function typeAscii(target, art, speed) {
+  if (asciiTypingTimer) clearInterval(asciiTypingTimer);
+  const banner = target.closest(".ascii-banner");
+  const inner = target;
+  inner.textContent = "";
+  banner && banner.classList.add("typing");
+
+  // Reveal in chunks (4–6 chars per tick) so it feels fast but still "typed"
+  let i = 0;
+  const total = art.length;
+  const chunk = Math.max(3, Math.floor(total / 220));
+  asciiTypingTimer = setInterval(() => {
+    i = Math.min(total, i + chunk);
+    inner.textContent = art.slice(0, i);
+    if (i >= total) {
+      clearInterval(asciiTypingTimer);
+      asciiTypingTimer = null;
+      setTimeout(() => banner && banner.classList.remove("typing"), 180);
+    }
+  }, speed || 14);
+}
+
+function renderAsciiBanner(animate) {
+  const banner = document.getElementById("asciiBanner");
+  if (!banner) return;
+  const inner = banner.querySelector(".ascii-inner");
+  if (!inner) return;
+  const art = pickAsciiArt();
+
+  if (animate && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    typeAscii(inner, art, 14);
+    asciiAnimated = true;
+  } else {
+    inner.textContent = art;
+  }
+}
+
+function initAsciiBanner() {
+  const banner = document.getElementById("asciiBanner");
+  const caret = document.getElementById("asciiCaret");
+  if (!banner || !caret) return;
+
+  renderAsciiBanner(true);
+
+  // hover re-types, throttled
+  let hoverLock = false;
+  banner.addEventListener("mouseenter", () => {
+    if (hoverLock) return;
+    hoverLock = true;
+    const inner = banner.querySelector(".ascii-inner");
+    if (inner) typeAscii(inner, pickAsciiArt(), 10);
+    setTimeout(() => { hoverLock = false; }, 1200);
+  });
+
+  // CRT toggle via caret click
+  try {
+    if (window.localStorage.getItem("git-hired-crt") === "1") {
+      document.body.classList.add("crt");
+    }
+  } catch (e) {}
+
+  caret.addEventListener("click", (e) => {
+    e.stopPropagation();
+    document.body.classList.toggle("crt");
+    try {
+      window.localStorage.setItem(
+        "git-hired-crt",
+        document.body.classList.contains("crt") ? "1" : "0"
+      );
+    } catch (err) {}
+  });
+
+  // Redraw on breakpoint change (wide <-> stack), no animation
+  let lastStack = window.matchMedia("(max-width: 620px)").matches;
+  window.addEventListener("resize", () => {
+    const nowStack = window.matchMedia("(max-width: 620px)").matches;
+    if (nowStack !== lastStack) {
+      lastStack = nowStack;
+      renderAsciiBanner(false);
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   applyDocumentLanguage(getPreferredLanguage());
   setLanguage(document.documentElement.dataset.lang || DEFAULT_LANG);
+  initAsciiBanner();
 });

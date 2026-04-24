@@ -33,18 +33,35 @@
     <script src="./app.js" defer></script>
   </head>
   <body class="lang-en" data-lang="en" data-title-en="Global Growth Test · git-hired" data-title-zh="海外增长测试 · git-hired">
-    <main class="shell">
-      <section class="hero">
-        <div class="hero-top">
-          <span class="eyebrow" data-lang="en">Role Test</span>
-          <span class="eyebrow" data-lang="zh">岗位测试</span>
-          <div class="lang-switch" aria-label="Language switcher">
-            <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
-            <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+        <main class="shell">
+
+      <!-- window chrome + lang switcher -->
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="topbar-path">
+            <span class="here">~/git-hired</span><span class="sep"> / </span><span>growth.html</span>
           </div>
         </div>
-        <h1 data-lang="en">Global Growth</h1>
-        <h1 data-lang="zh">海外增长</h1>
+        <div class="lang-switch" aria-label="Language switcher">
+          <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+        </div>
+      </div>
+
+      <section class="hero">
+        <div class="prompt-line">
+          <span class="user">you</span><span class="at">@</span><span class="host">work-agent</span>
+          <span class="cwd"> ~/git-hired/growth</span>
+          <span class="dollar">$</span>
+          <span style="color:var(--ink-dim);margin-left:4px">cat prompt.md</span>
+        </div>
+        <div style="margin:14px 0 6px">
+          <span class="eyebrow" data-lang="en">role-test · 03</span>
+          <span class="eyebrow" data-lang="zh">岗位测试 · 03</span>
+        </div>
+        <h1 class="role-title" data-lang="en">Global Growth</h1>
+        <h1 class="role-title" data-lang="zh">海外增长</h1>
         <p class="lede" data-lang="en">
           Use this test to see whether you can build a real global growth system from user signals, social-native distribution, and disciplined experiments.
         </p>
@@ -58,8 +75,11 @@
       </section>
 
       <section class="section">
-        <h2 data-lang="en">How To Run This Test</h2>
-        <h2 data-lang="zh">怎么开始这个测试</h2>
+        <div class="section-head">
+          <span class="hash">01 /</span>
+          <h2 data-lang="en">How To Run This Test</h2>
+          <h2 data-lang="zh">怎么开始这个测试</h2>
+        </div>
         <p class="mini" data-lang="en">
           Paste the prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent. By default it stays history-only, only accesses projects or files you explicitly authorize, and never uploads your local repo or file data to our server.
         </p>
@@ -75,8 +95,11 @@
       </section>
 
       <section class="section">
-        <h2 data-lang="en">What This Test Helps You Show</h2>
-        <h2 data-lang="zh">这个测试会帮你展示什么</h2>
+        <div class="section-head">
+          <span class="hash">02 /</span>
+          <h2 data-lang="en">What This Test Helps You Show</h2>
+          <h2 data-lang="zh">这个测试会帮你展示什么</h2>
+        </div>
         <ul data-lang="en">
           <li>How well you extract real signals from DMs, feedback, and interviews instead of staring at surface metrics.</li>
           <li>How effectively you convert those signals into experiments, funnel improvements, and channel strategy.</li>
@@ -807,8 +830,11 @@ solo agent history 往往会让四条轴都出现“欠观察”，尤其是 `E 
         </p>
       </section>
 
-      <p class="footer" data-lang="en">Source prompts: <code>prompts/global-growth.en.md</code> and <code>prompts/global-growth.md</code></p>
-      <p class="footer" data-lang="zh">源 prompt：<code>prompts/global-growth.en.md</code> 和 <code>prompts/global-growth.md</code></p>
+      <footer class="footer">
+        <span data-lang="en">Source prompts: <code>prompts/global-growth.en.md</code> and <code>prompts/global-growth.md</code></span>
+        <span data-lang="zh">源 prompt：<code>prompts/global-growth.en.md</code> 和 <code>prompts/global-growth.md</code></span>
+        <span class="mono">v1.0</span>
+      </footer>
     </main>
   </body>
 </html>

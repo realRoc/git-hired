@@ -31,21 +31,38 @@
     </script>
     <link rel="stylesheet" href="./style.css">
     <script src="./app.js" defer></script>
-    <script src="./start.js" defer></script>
+    <script src="./quick-test.js" defer></script>
   </head>
   <body class="lang-en start-page" data-lang="en" data-title-en="Quick Test · git-hired" data-title-zh="快速测试 · git-hired">
-    <main class="shell start-shell">
-      <section class="hero start-hero">
-        <div class="hero-top">
-          <span class="eyebrow" data-lang="en">Mobile Quick Test</span>
-          <span class="eyebrow" data-lang="zh">移动端快速测试</span>
-          <div class="lang-switch" aria-label="Language switcher">
-            <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
-            <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+        <main class="shell start-shell">
+
+      <!-- window chrome + lang switcher -->
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="topbar-path">
+            <span class="here">~/git-hired</span><span class="sep"> / </span><span>start.html</span>
           </div>
         </div>
-        <h1 data-lang="en">1-minute work-personality test</h1>
-        <h1 data-lang="zh">1 分钟工作人格测试</h1>
+        <div class="lang-switch" aria-label="Language switcher">
+          <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+        </div>
+      </div>
+
+      <section class="hero start-hero">
+        <div class="prompt-line">
+          <span class="user">you</span><span class="at">@</span><span class="host">work-agent</span>
+          <span class="cwd"> ~/git-hired/start</span>
+          <span class="dollar">$</span>
+          <span style="color:var(--ink-dim);margin-left:4px">./quick-test.sh</span>
+        </div>
+        <div style="margin:14px 0 6px">
+          <span class="eyebrow" data-lang="en">Mobile Quick Test</span>
+          <span class="eyebrow" data-lang="zh">移动端快速测试</span>
+        </div>
+        <h1 class="role-title" data-lang="en">1-minute work-personality test</h1>
+        <h1 class="role-title" data-lang="zh">1 分钟工作人格测试</h1>
         <p class="lede" data-lang="en">
           Scan, answer on your phone, get a shareable quick signal, then copy a handoff prompt if you want the more accurate agent deep test.
         </p>
@@ -381,12 +398,15 @@
         </div>
       </section>
 
-      <p class="footer" data-lang="en">
+      <footer class="footer">
+        <span data-lang="en">
         Quick test on phone. Deep test in your own work agent.
-      </p>
-      <p class="footer" data-lang="zh">
+      </span>
+        <span data-lang="zh">
         手机做 quick test，深度测试交给你自己的工作 agent。
-      </p>
+      </span>
+        <span class="mono">v1.0</span>
+      </footer>
     </main>
   </body>
 </html>

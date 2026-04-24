@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>fatal: not a qualified candidate — git-hired</title>
+    <meta name="description" content="404 — this page isn't in the repo.">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+      /* 404-only layout — centered, no topbar */
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+      .err-shell {
+        position: relative;
+        z-index: 1;
+        width: min(820px, calc(100vw - 32px));
+        padding: 28px 0;
+      }
+      .err-window {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+        overflow: hidden;
+      }
+      .err-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        background: var(--panel);
+        border-bottom: 1px solid var(--line);
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .err-top .dots { display: flex; gap: 6px; }
+      .err-top .dots span {
+        width: 10px; height: 10px; border-radius: 50%;
+        background: var(--line-2);
+      }
+      .err-top .path { color: var(--muted); }
+      .err-top .path .here { color: var(--ink-dim); }
+      .err-top .path .sep { color: var(--muted-2); margin: 0 4px; }
+      .err-top .status {
+        color: oklch(0.72 0.16 25);
+        letter-spacing: 0.04em;
+      }
+
+      .err-body {
+        padding: 34px 32px 30px;
+        font-family: var(--mono);
+        font-size: 13.5px;
+        line-height: 1.75;
+        color: var(--ink-dim);
+      }
+
+      .err-prompt { color: var(--muted); margin-bottom: 14px; }
+      .err-prompt .user { color: var(--accent); }
+      .err-prompt .at   { color: var(--muted-2); }
+      .err-prompt .host { color: var(--ink-dim); }
+      .err-prompt .dollar { color: var(--muted-2); margin: 0 6px 0 2px; }
+      .err-prompt .cmd { color: var(--ink); }
+
+      .err-fatal {
+        color: oklch(0.72 0.16 25);
+        font-weight: 500;
+        margin: 0;
+      }
+      .err-fatal::before { content: "fatal: "; opacity: 0.8; }
+
+      .err-hint {
+        color: var(--muted);
+        margin: 4px 0 22px;
+        padding-left: 6px;
+      }
+      .err-hint::before { content: "hint: "; color: var(--muted-2); }
+      .err-hint em {
+        color: var(--ink);
+        font-style: normal;
+      }
+
+      .err-diag {
+        margin: 0 0 22px;
+        padding: 12px 14px;
+        border: 1px dashed var(--line-2);
+        border-radius: 4px;
+        background: var(--bg-2);
+        font-size: 12.5px;
+        color: var(--muted);
+        word-break: break-all;
+      }
+      .err-diag .label { color: var(--muted-2); }
+      .err-diag .val { color: var(--ink-dim); }
+
+      .err-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 4px;
+      }
+
+      .err-actions .button { padding: 9px 14px; font-size: 12.5px; }
+      .err-actions .button.primary {
+        background: var(--accent);
+        color: #0b0d0c;
+        border-color: var(--accent);
+      }
+
+      .err-foot {
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px dashed var(--line);
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--muted-2);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .err-foot kbd {
+        border: 1px solid var(--line-2);
+        background: var(--bg-2);
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-family: inherit;
+        font-size: 11px;
+        color: var(--ink-dim);
+      }
+
+      /* the dino / mascot — pure ASCII, subtle */
+      .err-dino {
+        float: right;
+        margin: -6px 0 6px 20px;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        line-height: 1.1;
+        color: var(--muted);
+        white-space: pre;
+        opacity: 0.7;
+      }
+
+      @media (max-width: 560px) {
+        .err-body { padding: 24px 18px 22px; }
+        .err-dino { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="err-shell">
+      <div class="err-window">
+        <div class="err-top">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="path"><span class="here">~/git-hired</span><span class="sep">/</span><span id="errRef">?</span></div>
+          </div>
+          <div class="status">404 · not_found</div>
+        </div>
+
+        <div class="err-body">
+          <div class="err-dino" aria-hidden="true">  .---.
+ /     \
+ \.@-@./
+ /`\_/`\
+//  _  \\
+| \     )|_
+/`\_`&gt;  &lt;_/ \
+\__/'---'\__/</div>
+
+          <div class="err-prompt">
+            <span class="user">you</span><span class="at">@</span><span class="host">work-agent</span>
+            <span class="dollar">$</span>
+            <span class="cmd">git checkout <span id="errPath">/missing/page</span></span>
+          </div>
+
+          <p class="err-fatal">not a qualified candidate</p>
+          <p class="err-hint">this route doesn't exist in the repo — but <em>you</em> still might.</p>
+
+          <div class="err-diag">
+            <span class="label">ref:</span> <span class="val" id="errFullPath">—</span><br>
+            <span class="label">commit:</span> <span class="val">HEAD</span> &nbsp;
+            <span class="label">branch:</span> <span class="val">main</span>
+          </div>
+
+          <div class="err-actions">
+            <a class="button primary" href="./">./home</a>
+            <a class="button" href="./agent.html">./agent</a>
+            <a class="button" href="./pm.html">./pm</a>
+            <a class="button" href="./growth.html">./growth</a>
+            <a class="button" href="./ops.html">./ops</a>
+          </div>
+
+          <div class="err-foot">
+            <span>press <kbd>H</kbd> to go home &nbsp;·&nbsp; <kbd>esc</kbd> for the last page</span>
+            <span>MIT · git-hired</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Fill in the path the user tried to reach
+      (function () {
+        var p = window.location.pathname || "";
+        // Trim repo prefix so it reads cleanly
+        var shown = p.replace(/^.*?\/git-hired\//, "/").replace(/^\/+/, "");
+        if (!shown) shown = p;
+        var el = document.getElementById("errPath");
+        var full = document.getElementById("errFullPath");
+        var ref = document.getElementById("errRef");
+        if (el) el.textContent = shown || "unknown";
+        if (full) full.textContent = p + (window.location.search || "") + (window.location.hash || "");
+        if (ref) ref.textContent = (shown || "unknown").split("/").pop().split(".")[0] || "unknown";
+      })();
+
+      // Keyboard shortcuts
+      document.addEventListener("keydown", function (e) {
+        if (e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+        if (e.key === "h" || e.key === "H") { window.location.href = "./"; }
+        else if (e.key === "Escape") {
+          if (window.history.length > 1) window.history.back();
+          else window.location.href = "./";
+        }
+      });
+    </script>
+  </body>
+</html>
