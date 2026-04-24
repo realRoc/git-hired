@@ -691,18 +691,6 @@ body.lang-zh .tagline {
   font-family: var(--mono);
 }
 
-.outputs-foot {
-  padding: 16px 24px;
-  background: var(--panel-2);
-  border-top: 1px solid var(--line);
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.7;
-}
-.outputs-foot a { color: var(--accent); }
-.outputs-foot a:hover { color: var(--ink); }
-
 html[data-lang="zh"] .outputs-val,
 body.lang-zh .outputs-val {
   font-family: var(--sans-cjk);
@@ -719,16 +707,18 @@ body.lang-zh .outputs-val {
   font-size: 12px;
   color: var(--muted);
   text-align: left;
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-.footer::before {
-  content: "$ ";
-  color: var(--muted-2);
+  display: grid;
+  gap: 8px;
+  line-height: 1.75;
 }
 .footer a { color: var(--accent); }
+.footer a:hover { color: var(--ink); }
+.footer-line { display: block; }
+html[data-lang="zh"] .footer,
+body.lang-zh .footer {
+  font-family: var(--sans-cjk);
+  line-height: 1.85;
+}
 
 /* ——— scrollbar (subtle) ——— */
 
@@ -873,21 +863,6 @@ html[data-lang="zh"] .section ul li,
 body.lang-zh .section ul li {
   font-family: var(--sans-cjk);
   line-height: 1.85;
-}
-
-.author-line {
-  font-family: var(--mono);
-  font-size: 12.5px;
-  color: var(--muted);
-  margin: 0;
-  line-height: 1.8;
-}
-.author-line::before { content: "$ whoami "; color: var(--muted-2); }
-.author-line a { color: var(--accent); }
-.author-line a:hover { color: var(--ink); }
-html[data-lang="zh"] .author-line,
-body.lang-zh .author-line {
-  font-family: var(--sans-cjk);
 }
 
 .footer code {
@@ -1148,7 +1123,6 @@ body.lang-zh .quick-submit {
   .outputs-row { grid-template-columns: 1fr; }
   .outputs-key { border-right: 0; border-bottom: 1px solid var(--line); padding: 12px 18px; }
   .outputs-val { padding: 16px 18px; }
-  .outputs-foot { padding: 14px 18px; }
   .topbar { flex-wrap: wrap; }
   .topbar-path { display: none; }
   .mobile-entry { grid-template-columns: 1fr; }

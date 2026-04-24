@@ -231,7 +231,7 @@ def role_page(
     prompt_en_text: str,
     prompt_zh_text: str,
 ) -> str:
-    _ = (prompt_en_text, prompt_zh_text)
+    _ = (prompt_slug, prompt_en_text, prompt_zh_text)
     command_en = html.escape(
         "read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. "
         "Do not summarize it. "
@@ -349,19 +349,16 @@ def role_page(
         </ul>
       </section>
 
-      <section class="section">
-        <p class="author-line" data-lang="en">
-          Created by <a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>.
-          Repository: <a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
-        </p>
-        <p class="author-line" data-lang="zh">
-          作者：<a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>。
-          仓库地址：<a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>
-        </p>
-      </section>
-
-      <p class="footer" data-lang="en">Source prompts: <code>prompts/{prompt_slug}.en.md</code> and <code>prompts/{prompt_slug}.md</code></p>
-      <p class="footer" data-lang="zh">源 prompt：<code>prompts/{prompt_slug}.en.md</code> 和 <code>prompts/{prompt_slug}.md</code></p>
+      <footer class="footer">
+        <div class="footer-line">
+          <span data-lang="en">MIT licensed — <code>git hired</code> or <code>git rejected</code>, your call.</span>
+          <span data-lang="zh">MIT 开源 — <code>git hired</code> 还是 <code>git rejected</code>，你说了算。</span>
+        </div>
+        <div class="footer-line">
+          <span data-lang="en"><code>$ whoami</code> author: <a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>. repo: <a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>.</span>
+          <span data-lang="zh"><code>$ whoami</code> 作者：<a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>。 仓库地址：<a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>。</span>
+        </div>
+      </footer>
     </main>
   </body>
 </html>

@@ -37,6 +37,19 @@ PROMPT_AUTO_EN_MARKER = "Do not replace denied repo / file access with a manual 
 PROMPT_AUTO_ZH_MARKER = "不要因为候选人拒绝 repo / 文件扫描，就继续追问"
 MIN_PERMISSION_EN_MARKER = "ask only one permission question"
 MIN_PERMISSION_ZH_MARKER = "只问 1 个权限问题"
+FOOTER_REQUIRED_MARKERS = (
+    "MIT 开源",
+    "git hired",
+    "git rejected",
+    "$ whoami",
+    "realRoc",
+    "github.com/realRoc/git-hired",
+)
+FOOTER_FORBIDDEN_MARKERS = (
+    "Source prompts",
+    "源 prompt",
+    "built by",
+)
 MBTI_ANTI_ANCHOR_EN_MARKER = "Do not default to `INTJ`, `TJ`, or any single"
 MBTI_ANTI_ANCHOR_ZH_MARKER = "不要默认套用 `INTJ`、`TJ`"
 MBTI_NEUTRAL_TF_EN_MARKER = "impersonal analysis and consistency vs human-context and value-weighting"
@@ -84,6 +97,22 @@ def find_repo_root(start: Path) -> Path:
     raise SystemExit("Could not locate git-hired repo root.")
 
 
+def validate_public_footer(label: str, text: str, errors: list[str]) -> None:
+    if '<footer class="footer' not in text:
+        errors.append(f"{label} missing unified public footer")
+    for marker in FOOTER_REQUIRED_MARKERS:
+        if marker not in text:
+            errors.append(f"{label} footer missing required marker: {marker}")
+    for marker in FOOTER_FORBIDDEN_MARKERS:
+        if marker in text:
+            errors.append(f"{label} should not show legacy footer wording: {marker}")
+    if "author-line" in text:
+        errors.append(f"{label} should use the unified footer instead of author-line")
+    footer_blocks = re.findall(r"<footer[\s\S]*?</footer>", text)
+    if any("prompts/" in block for block in footer_blocks):
+        errors.append(f"{label} footer should not show source prompt filenames")
+
+
 def main() -> None:
     repo_root = find_repo_root(Path.cwd())
     roles = json.loads((repo_root / "roles.json").read_text(encoding="utf-8"))
@@ -92,6 +121,7 @@ def main() -> None:
     quick_start = repo_root / "docs" / "start.html"
     quick_start_js = repo_root / "docs" / "start.js"
     quick_start_qr = repo_root / "docs" / "assets" / "quick-test-qr.svg"
+    not_found_page = repo_root / "docs" / "404.html"
     index_text = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
     readme_en = (repo_root / "README.md").read_text(encoding="utf-8")
     readme_zh = (repo_root / "README.zh-CN.md").read_text(encoding="utf-8")
@@ -130,6 +160,7 @@ def main() -> None:
     if "quick-test-fallback" in index_text and "what you get" in index_text:
         if index_text.find("quick-test-fallback") < index_text.find("what you get"):
             errors.append("docs/index.html should place quick-test QR fallback after main explanatory content")
+    validate_public_footer("docs/index.html", index_text, errors)
 
     if not quick_start.exists():
         errors.append("docs/start.html missing mobile human quick-test page")
@@ -145,6 +176,11 @@ def main() -> None:
             errors.append("docs/start.html missing quick-result generation action")
         if "./index.html" not in quick_start_text:
             errors.append("docs/start.html missing home link")
+        validate_public_footer("docs/start.html", quick_start_text, errors)
+    if not not_found_page.exists():
+        errors.append("docs/404.html missing")
+    else:
+        validate_public_footer("docs/404.html", not_found_page.read_text(encoding="utf-8"), errors)
     if not quick_start_js.exists():
         errors.append("docs/start.js missing quick-test behavior")
     else:
@@ -440,6 +476,7 @@ def main() -> None:
 
         if page.exists():
             page_text = page.read_text(encoding="utf-8")
+            validate_public_footer(f"docs/{page_slug}.html", page_text, errors)
             if "history-only" not in page_text or "上传到我们的服务器" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing consent-first local-only candidate notice")
             if WORK_AGENT_EN_MARKER not in page_text or WORK_AGENT_ZH_MARKER not in page_text:
@@ -483,10 +520,8 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing author GitHub link")
             if "https://github.com/realRoc/git-hired" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing repo link")
-            if f'prompts/{prompt_slug}.md' not in page_text:
-                warnings.append(f"docs/{page_slug}.html may be missing Chinese source prompt footer for {prompt_slug}")
-            if f'prompts/{prompt_slug}.en.md' not in page_text:
-                warnings.append(f"docs/{page_slug}.html may be missing English source prompt footer for {prompt_slug}")
+            if f"prompts/{prompt_slug}" in page_text:
+                errors.append(f"docs/{page_slug}.html should not display source prompt filenames")
 
     if errors:
         print("Role validation failed:\n")

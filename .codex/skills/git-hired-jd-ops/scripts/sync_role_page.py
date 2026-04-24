@@ -66,6 +66,23 @@ def compact_starter_section(role: dict) -> str:
     )
 
 
+def public_footer() -> str:
+    return "\n".join(
+        [
+            '      <footer class="footer">',
+            '        <div class="footer-line">',
+            '          <span data-lang="en">MIT licensed — <code>git hired</code> or <code>git rejected</code>, your call.</span>',
+            '          <span data-lang="zh">MIT 开源 — <code>git hired</code> 还是 <code>git rejected</code>，你说了算。</span>',
+            "        </div>",
+            '        <div class="footer-line">',
+            '          <span data-lang="en"><code>$ whoami</code> author: <a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>. repo: <a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>.</span>',
+            '          <span data-lang="zh"><code>$ whoami</code> 作者：<a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>。 仓库地址：<a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>。</span>',
+            "        </div>",
+            "      </footer>",
+        ]
+    )
+
+
 def replace_first(pattern: str, replacement: str, page_text: str, label: str) -> str:
     new_text, count = re.subn(pattern, replacement, page_text, count=1, flags=re.S)
     if count != 1:
@@ -109,10 +126,26 @@ def replace_run_intro(page_text: str) -> str:
         ]
     )
     return replace_first(
-        r'(<h2 data-lang="en">How To Run This Test</h2>\s*\n\s*<h2 data-lang="zh">怎么开始这个测试</h2>\s*\n\s*</div>\s*)<p class="mini" data-lang="en">.*?</p>\s*<p class="mini" data-lang="zh">.*?</p>',
-        r"\1" + intro,
+        r'(<h2 data-lang="en">How To Run This Test</h2>\s*\n\s*<h2 data-lang="zh">怎么开始这个测试</h2>\s*\n\s*</div>)\s*<p class="mini" data-lang="en">.*?</p>\s*<p class="mini" data-lang="zh">.*?</p>',
+        r"\1" + "\n" + intro,
         page_text,
         "role run intro paragraphs",
+    )
+
+
+def replace_public_footer(page_text: str) -> str:
+    page_text = re.sub(
+        r'\n\s*<section class="section">\s*<p class="author-line" data-lang="en">.*?</p>\s*<p class="author-line" data-lang="zh">.*?</p>\s*</section>',
+        "",
+        page_text,
+        count=1,
+        flags=re.S,
+    )
+    return replace_first(
+        r'\n\s*(?:<footer class="footer">.*?</footer>|<p class="footer" data-lang="en">.*?</p>\s*<p class="footer" data-lang="zh">.*?</p>)',
+        "\n" + public_footer(),
+        page_text,
+        "public footer",
     )
 
 
@@ -146,6 +179,7 @@ def main() -> None:
     page_text = page_text.replace("cat prompt.md", "read skill.md")
     page_text = replace_run_intro(page_text)
     page_text = replace_prompt_section(page_text, role)
+    page_text = replace_public_footer(page_text)
     page_path.write_text(page_text, encoding="utf-8")
 
     print(f"Synchronized compact starter into docs/{role['page_slug']}.html")
