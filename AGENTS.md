@@ -388,6 +388,7 @@ This rule applies to `docs/index.html`, `docs/start.html`, `docs/skill.md`, and 
 10. Prefer one strong homepage over a homepage-plus-guide split. Fold repeated shared-entry copy into `docs/index.html`, then remove the extra page and links.
 11. On the homepage agent shared-entry block, keep one primary action only: the copyable starter command. Do not add a secondary `Open skill.md` button or other raw-spec browse action beside it.
 12. The homepage may also expose a separate human quick-test entry for mobile sharing and QR-code traffic. This action must be clearly framed as a lightweight self-test, not as a replacement for the agent deep test.
+13. On `docs/index.html`, place the QR-code quick-test fallback near the bottom of the page, after the main explanatory content. The intent is: if the page feels too long or detailed, the candidate can scan one clear bottom entry and start the quick test immediately.
 
 ## Mobile Human Quick Test Entry
 
@@ -419,6 +420,7 @@ This rule applies to `docs/start.html`, `docs/index.html`, README links, and any
    - a handoff prompt that includes the quick-test role, answers, and result summary
    - candidate-facing wording that explains the agent deep test is more accurate because it can inspect approved real work evidence
 8. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
+9. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
 
 ## Candidate-Serving JD Descriptions
 
@@ -440,6 +442,12 @@ This rule applies to `roles.json`, the role cards in `docs/index.html`, every pu
    - what privacy boundary applies while they run it
    - one short bilingual runtime tip that conditionally mentions Claude Code `bypass` mode or Codex `YOLO` mode when the candidate is using those tools
 6. When describing how to start the test, do not frame Claude Code or Codex as the only supported runtimes. Present them as examples of compatible work agents alongside Notion AI and other memory-enabled work agents.
+7. Role pages should stay visually clean and should not render the full long role prompt as the primary page content.
+8. Role pages should mimic the homepage one-line starter command pattern:
+   - show a compact copyable command
+   - route through `skill.md` plus the selected role context
+   - avoid asking candidates to copy a long raw prompt from the page
+9. The full role prompt may remain in source prompt files and agent-readable deployed artifacts, but public role pages should treat those long prompts as implementation detail rather than candidate-facing page content.
 
 ## HIRED TUI Output
 
