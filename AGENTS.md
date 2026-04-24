@@ -450,6 +450,23 @@ This rule applies to `roles.json`, the role cards in `docs/index.html`, every pu
    - avoid asking candidates to copy a long raw prompt from the page
 9. The full role prompt may remain in source prompt files and agent-readable deployed artifacts, but public role pages should treat those long prompts as implementation detail rather than candidate-facing page content.
 
+## Public Footer Style
+
+This rule applies to every public HTML page under `docs/`, the role-page template in `new_role.py`, and any future page-generation script.
+
+1. Public page footers must use a unified two-line format.
+2. The Chinese footer copy is:
+   - `MIT 开源 — git hired 还是 git rejected，你说了算。`
+   - `$ whoami 作者：realRoc。 仓库地址：github.com/realRoc/git-hired。`
+3. The English footer may be the direct equivalent, but it must preserve:
+   - MIT open-source framing
+   - `git hired` / `git rejected`
+   - `$ whoami`
+   - `realRoc`
+   - `github.com/realRoc/git-hired`
+4. Do not show source prompt filenames, source prompt links, or raw prompt provenance in public page footers.
+5. The homepage author line must use `$ whoami` framing, not `built by`.
+
 ## HIRED TUI Output
 
 This rule applies to every role prompt in `prompts/`, every embedded prompt in `docs/`, the universal-entry prompt, and the role template in `new_role.py`.
