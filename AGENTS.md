@@ -311,7 +311,7 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 
 ## Skill Entry Flow
 
-This rule applies to `skill.md`, `docs/skill.md`, `docs/index.html`, `docs/general.html`, and any future shared test-entry surface.
+This rule applies to `skill.md`, `docs/skill.md`, `docs/index.html`, and any future shared test-entry surface.
 
 1. `skill.md` is the canonical agent-readable entry spec for Claude Code, Codex, and similar work agents.
 2. `docs/skill.md` is the deployed public copy of that entry spec and must stay content-identical to the root `skill.md`.
@@ -360,7 +360,7 @@ This rule applies to `skill.md`, every role prompt in `prompts/`, every embedded
 
 ## Candidate-Serving Shared Pages
 
-This rule applies to `docs/index.html`, `docs/general.html`, `docs/skill.md`, and any future shared entry or landing page.
+This rule applies to `docs/index.html`, `docs/skill.md`, and any future shared entry or landing page.
 
 1. Treat these pages as candidate-serving surfaces, not recruiter-operating surfaces.
 2. Use candidate-facing headings and action labels, for example `How To Start`, not recruiter phrasing such as `How To Send This`.
@@ -384,6 +384,8 @@ This rule applies to `docs/index.html`, `docs/general.html`, `docs/skill.md`, an
    - first, one short sentence that introduces `git-hired` as a way to test the candidate's `MBTI work personality` from how they actually work
    - second, one explicit privacy line saying we do not upload local repo, file, or other local data to our server
    - third, show the one-line copyable `read .../skill.md` starter command before flowing into the shared-entry section
+9. Do not keep a standalone guide page when it only repeats the homepage starter flow, privacy explanation, or role-routing explanation.
+10. Prefer one strong homepage over a homepage-plus-guide split. Fold repeated shared-entry copy into `docs/index.html`, then remove the extra page and links.
 
 ## Candidate-Serving JD Descriptions
 
