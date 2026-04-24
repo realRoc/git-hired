@@ -295,29 +295,30 @@ def role_page(
         <h1 data-lang="zh">{title_zh}</h1>
         <p class="lede" data-lang="en">{summary_en}</p>
         <p class="lede" data-lang="zh">{summary_zh}</p>
+        <!-- role-starter:start -->
+        <div class="prompt-wrap role-starter">
+          <div class="prompt-head">
+            <strong data-lang="en">One-Line Starter</strong>
+            <strong data-lang="zh">一行启动命令</strong>
+            <button
+              class="button"
+              data-copy-button="true"
+              data-label-en="Copy Command"
+              data-label-zh="复制命令"
+              data-copied-en="Copied"
+              data-copied-zh="已复制"
+              data-failed-en="Copy Failed"
+              data-failed-zh="复制失败"
+              onclick="copyPrompt('{prompt_base}', this)">Copy Command</button>
+          </div>
+          <pre class="prompt" id="{prompt_base}-en" data-lang="en">{command_en}</pre>
+          <pre class="prompt" id="{prompt_base}-zh" data-lang="zh">{command_zh}</pre>
+        </div>
+        <!-- role-starter:end -->
         <div class="inline-links">
           <a class="button secondary" href="./index.html" data-lang="en">Back Home</a>
           <a class="button secondary" href="./index.html" data-lang="zh">返回首页</a>
         </div>
-      </section>
-
-      <section class="prompt-wrap role-starter">
-        <div class="prompt-head">
-          <strong data-lang="en">One-Line Starter</strong>
-          <strong data-lang="zh">一行启动命令</strong>
-          <button
-            class="button"
-            data-copy-button="true"
-            data-label-en="Copy Command"
-            data-label-zh="复制命令"
-            data-copied-en="Copied"
-            data-copied-zh="已复制"
-            data-failed-en="Copy Failed"
-            data-failed-zh="复制失败"
-            onclick="copyPrompt('{prompt_base}', this)">Copy Command</button>
-        </div>
-        <pre class="prompt" id="{prompt_base}-en" data-lang="en">{command_en}</pre>
-        <pre class="prompt" id="{prompt_base}-zh" data-lang="zh">{command_zh}</pre>
       </section>
 
       <section class="section">

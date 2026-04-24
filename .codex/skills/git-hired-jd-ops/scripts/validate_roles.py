@@ -452,11 +452,15 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html missing role-prompt-in-skill wording")
             if "Use the one-line command directly above" not in page_text or "使用上方的一行命令" not in page_text:
                 errors.append(f"docs/{page_slug}.html should describe the role starter as directly above the run instructions")
-            hero_end = page_text.find("</section>")
+            if "<!-- role-starter:start -->" not in page_text or "<!-- role-starter:end -->" not in page_text:
+                errors.append(f"docs/{page_slug}.html missing generated role starter markers")
+            hero_start = page_text.find('<section class="hero">')
+            hero_end = page_text.find("</section>", hero_start)
             starter_index = page_text.find('class="prompt-wrap role-starter"')
+            back_home_index = page_text.find('href="./index.html"', hero_start)
             how_to_index = page_text.find("How To Run This Test")
-            if not (hero_end != -1 and starter_index != -1 and how_to_index != -1 and hero_end < starter_index < how_to_index):
-                errors.append(f"docs/{page_slug}.html should place the one-line starter directly below the hero section")
+            if not (hero_start != -1 and starter_index != -1 and back_home_index != -1 and hero_end != -1 and how_to_index != -1 and hero_start < starter_index < back_home_index < hero_end < how_to_index):
+                errors.append(f"docs/{page_slug}.html should place the one-line starter inside the hero section before the back-home link and before longer instructions")
             if "Paste the prompt below into your own Claude Code or Codex" in page_text or "复制后直接粘贴到 Claude Code / Codex" in page_text:
                 errors.append(f"docs/{page_slug}.html still contains Claude Code/Codex-exclusive candidate wording")
             if "one-line command below" in page_text or "下面的一行命令" in page_text:

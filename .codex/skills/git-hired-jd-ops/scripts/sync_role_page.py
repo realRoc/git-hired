@@ -42,24 +42,26 @@ def compact_starter_section(role: dict) -> str:
     command_zh = html.escape(role_starter_command(role, "zh"), quote=False)
     return "\n".join(
         [
-            '      <section class="prompt-wrap role-starter">',
-            '        <div class="prompt-head">',
-            '          <strong data-lang="en">One-Line Starter</strong>',
-            '          <strong data-lang="zh">一行启动命令</strong>',
-            "          <button",
-            '            class="button"',
-            '            data-copy-button="true"',
-            '            data-label-en="Copy Command"',
-            '            data-label-zh="复制命令"',
-            '            data-copied-en="Copied"',
-            '            data-copied-zh="已复制"',
-            '            data-failed-en="Copy Failed"',
-            '            data-failed-zh="复制失败"',
-            f'            onclick="copyPrompt(\'{prompt_base}\', this)">Copy Command</button>',
+            "        <!-- role-starter:start -->",
+            '        <div class="prompt-wrap role-starter">',
+            '          <div class="prompt-head">',
+            '            <strong data-lang="en">One-Line Starter</strong>',
+            '            <strong data-lang="zh">一行启动命令</strong>',
+            "            <button",
+            '              class="button"',
+            '              data-copy-button="true"',
+            '              data-label-en="Copy Command"',
+            '              data-label-zh="复制命令"',
+            '              data-copied-en="Copied"',
+            '              data-copied-zh="已复制"',
+            '              data-failed-en="Copy Failed"',
+            '              data-failed-zh="复制失败"',
+            f'              onclick="copyPrompt(\'{prompt_base}\', this)">Copy Command</button>',
+            "          </div>",
+            f'          <pre class="prompt" id="{prompt_base}-en" data-lang="en">{command_en}</pre>',
+            f'          <pre class="prompt" id="{prompt_base}-zh" data-lang="zh">{command_zh}</pre>',
             "        </div>",
-            f'        <pre class="prompt" id="{prompt_base}-en" data-lang="en">{command_en}</pre>',
-            f'        <pre class="prompt" id="{prompt_base}-zh" data-lang="zh">{command_zh}</pre>',
-            "      </section>",
+            "        <!-- role-starter:end -->",
         ]
     )
 
@@ -73,17 +75,25 @@ def replace_first(pattern: str, replacement: str, page_text: str, label: str) ->
 
 def replace_prompt_section(page_text: str, role: dict) -> str:
     starter = compact_starter_section(role)
-    page_without_starter = replace_first(
-        r'\n\s*<section class="prompt-wrap(?: [^"]*)?">.*?\n\s*</section>',
-        "",
-        page_text,
-        "role prompt/starter section",
-    )
+    if "<!-- role-starter:start -->" in page_text:
+        page_without_starter = replace_first(
+            r'\n\s*<!-- role-starter:start -->.*?<!-- role-starter:end -->',
+            "",
+            page_text,
+            "generated role starter block",
+        )
+    else:
+        page_without_starter = replace_first(
+            r'\n\s*<section class="prompt-wrap(?: [^"]*)?">.*?\n\s*</section>',
+            "",
+            page_text,
+            "role prompt/starter section",
+        )
     return replace_first(
-        r'(<section class="hero">.*?\n\s*</section>)',
-        r"\1\n\n" + starter,
+        r'(\n\s*<div class="inline-links">)',
+        "\n" + starter + r"\1",
         page_without_starter,
-        "hero section for starter insertion",
+        "hero inline-links insertion point",
     )
 
 
