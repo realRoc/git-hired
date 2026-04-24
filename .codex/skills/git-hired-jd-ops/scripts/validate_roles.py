@@ -89,6 +89,9 @@ def main() -> None:
     roles = json.loads((repo_root / "roles.json").read_text(encoding="utf-8"))
     skill_source = repo_root / "skill.md"
     skill_public = repo_root / "docs" / "skill.md"
+    quick_start = repo_root / "docs" / "start.html"
+    quick_start_js = repo_root / "docs" / "start.js"
+    quick_start_qr = repo_root / "docs" / "assets" / "quick-test-qr.svg"
     index_text = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
     readme_en = (repo_root / "README.md").read_text(encoding="utf-8")
     readme_zh = (repo_root / "README.zh-CN.md").read_text(encoding="utf-8")
@@ -117,6 +120,37 @@ def main() -> None:
         errors.append("docs/index.html missing auto-analysis no-interview wording")
     if "Copy Command" not in index_text or "复制命令" not in index_text:
         errors.append("docs/index.html missing copyable starter command UI")
+    if "./start.html" not in index_text or "Start Quick Test" not in index_text or "开始快速测试" not in index_text:
+        errors.append("docs/index.html missing mobile human quick-test entry")
+    if "quick-test-qr.svg" not in index_text:
+        errors.append("docs/index.html missing QR code for mobile quick-test entry")
+
+    if not quick_start.exists():
+        errors.append("docs/start.html missing mobile human quick-test page")
+    else:
+        quick_start_text = quick_start.read_text(encoding="utf-8")
+        if "Mobile Quick Test" not in quick_start_text or "移动端快速测试" not in quick_start_text:
+            errors.append("docs/start.html missing bilingual quick-test identity")
+        if "does not scan local repos" not in quick_start_text or "不扫描本地 repo" not in quick_start_text:
+            errors.append("docs/start.html missing self-report no-scan privacy wording")
+        if "Agent Deep-Test Handoff" not in quick_start_text or "Agent 深度测试 Handoff" not in quick_start_text:
+            errors.append("docs/start.html missing agent deep-test handoff section")
+        if "Generate Quick Result" not in quick_start_text or "生成快速结果" not in quick_start_text:
+            errors.append("docs/start.html missing quick-result generation action")
+        if "./index.html" not in quick_start_text:
+            errors.append("docs/start.html missing home link")
+    if not quick_start_js.exists():
+        errors.append("docs/start.js missing quick-test behavior")
+    else:
+        quick_start_js_text = quick_start_js.read_text(encoding="utf-8")
+        if READ_COMMAND_MARKER not in quick_start_js_text:
+            errors.append("docs/start.js missing skill.md handoff command")
+        if "Quick-test answers" not in quick_start_js_text and "quick-test answers" not in quick_start_js_text:
+            errors.append("docs/start.js missing answer handoff text")
+        if "navigator.share" not in quick_start_js_text:
+            errors.append("docs/start.js missing mobile share behavior")
+    if not quick_start_qr.exists():
+        errors.append("docs/assets/quick-test-qr.svg missing quick-test QR asset")
 
     if not skill_source.exists():
         errors.append("skill.md missing root entry spec")
@@ -177,6 +211,10 @@ def main() -> None:
         errors.append("README.md missing skill.md live link")
     if "skill.md" not in readme_zh or "https://realroc.github.io/git-hired/skill.md" not in readme_zh:
         errors.append("README.zh-CN.md missing skill.md live link")
+    if "https://realroc.github.io/git-hired/start.html" not in readme_en or "Mobile Quick Test" not in readme_en:
+        errors.append("README.md missing mobile quick-test live link")
+    if "https://realroc.github.io/git-hired/start.html" not in readme_zh or "移动端快速测试" not in readme_zh:
+        errors.append("README.zh-CN.md missing mobile quick-test live link")
     if "Paste the prompt from this link into your own Claude Code or Codex" in readme_en:
         errors.append("README.md still contains Claude Code/Codex-exclusive candidate wording")
     if "粘贴到你自己的 Claude Code 或 Codex" in readme_zh:

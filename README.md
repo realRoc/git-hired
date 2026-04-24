@@ -9,7 +9,7 @@ fatal: not a qualified candidate
 
 Prompt-first candidate fit tests for AI-native startups.
 
-`git-hired` now starts from a single public `skill.md` entry. In practice, the more reliable one-line command is: `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.` The agent should then route the right role, confirm the privacy boundary, inspect only the allowed evidence, and return a structured, privacy-bounded fit report based on how the candidate actually works. If the runtime is Notion AI or another rich-text surface, it should fall back to a compact card instead of forcing terminal-heavy ASCII.
+`git-hired` has two candidate entries: a mobile human quick test for QR sharing, and the deeper public `skill.md` agent entry. In practice, the more reliable one-line agent command is: `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.` The agent should then route the right role, confirm the privacy boundary, inspect only the allowed evidence, and return a structured, privacy-bounded fit report based on how the candidate actually works. If the runtime is Notion AI or another rich-text surface, it should fall back to a compact card instead of forcing terminal-heavy ASCII.
 
 ## Privacy First
 
@@ -42,6 +42,7 @@ It is a practical way to inspect signals that matter more in AI-native teams:
 
 After GitHub Pages is enabled for this repo:
 
+- Mobile Quick Test: <https://realroc.github.io/git-hired/start.html>
 - Agent Entry (`skill.md`): <https://realroc.github.io/git-hired/skill.md>
 
 <!-- AUTO:live-links:start -->
@@ -81,13 +82,14 @@ Can this person direct AI well enough to ship, learn, and iterate under startup 
 
 ## How It Works
 
-1. Send the candidate the one-line command `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.`
-2. They paste it into their own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent.
-3. Their agent asks the target-role question first, or falls back to current profession / identity if the role is still unclear.
-4. The agent asks one privacy-boundary question before touching any local repo or file.
-5. The agent fetches the right role prompt when needed, analyzes allowed history or approved local work traces automatically, and returns the report without switching into manual competency Q&A.
-6. The candidate sends back the generated report.
-7. You use that report as a structured screening input, not as the final decision.
+1. On mobile or through a QR code, send the candidate to <https://realroc.github.io/git-hired/start.html> for a 1-minute self-report quick test.
+2. The quick test returns a shareable `HIRED` signal and a copyable handoff prompt.
+3. For the deeper version, send the candidate the one-line command `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.`
+4. They paste it into their own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent.
+5. Their agent asks the target-role question first, or falls back to current profession / identity if the role is still unclear.
+6. The agent asks one privacy-boundary question before touching any local repo or file.
+7. The agent fetches the right role prompt when needed, analyzes allowed history or approved local work traces automatically, and returns the report without switching into manual competency Q&A.
+8. The candidate sends back the generated report if they choose to apply.
 
 ## Consent-First, Local-Only
 
@@ -148,6 +150,8 @@ git-hired/
 ├── skill.md
 ├── docs/
 │   ├── index.html
+│   ├── start.html
+│   ├── start.js
 │   ├── skill.md
 │   ├── agent.html
 │   ├── pm.html

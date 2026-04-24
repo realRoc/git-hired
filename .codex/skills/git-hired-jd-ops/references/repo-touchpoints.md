@@ -48,6 +48,13 @@ The role-card section should be generated from `roles.json` by the registry sync
 
 Do not hand-edit role cards unless you are changing the layout template itself.
 
+The homepage also links to the mobile human quick test:
+
+- `docs/start.html`
+- QR asset: `docs/assets/quick-test-qr.svg`
+
+Keep this as a lightweight self-report entry that hands off to the deeper `skill.md` agent test.
+
 ## READMEs
 
 - `README.md`

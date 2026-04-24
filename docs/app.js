@@ -74,6 +74,10 @@ function setLanguage(lang) {
 
   updateLanguageButtons(next);
   updateCopyButtons(next);
+
+  document.dispatchEvent(new CustomEvent("git-hired:languagechange", {
+    detail: { lang: next },
+  }));
 }
 
 function copyPrompt(promptBase, button) {

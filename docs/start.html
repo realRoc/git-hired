@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quick Test · git-hired</title>
+    <meta name="description" content="Mobile-friendly git-hired quick test for MBTI work personality and role fit.">
+    <script>
+      (function () {
+        var key = "git-hired-lang";
+        var lang = "en";
+        try {
+          var stored = window.localStorage.getItem(key);
+          if (stored === "en" || stored === "zh") {
+            lang = stored;
+          } else {
+            var candidates = Array.isArray(navigator.languages) && navigator.languages.length
+              ? navigator.languages
+              : [navigator.language || navigator.userLanguage || ""];
+            lang = candidates.some(function (value) {
+              return /^zh\b/i.test(String(value || "").trim());
+            }) ? "zh" : "en";
+          }
+        } catch (error) {
+          var fallback = navigator.language || navigator.userLanguage || "";
+          lang = /^zh\b/i.test(String(fallback || "").trim()) ? "zh" : "en";
+        }
+        document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+        document.documentElement.dataset.lang = lang;
+      }());
+    </script>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./app.js" defer></script>
+    <script src="./start.js" defer></script>
+  </head>
+  <body class="lang-en start-page" data-lang="en" data-title-en="Quick Test · git-hired" data-title-zh="快速测试 · git-hired">
+    <main class="shell start-shell">
+      <section class="hero start-hero">
+        <div class="hero-top">
+          <span class="eyebrow" data-lang="en">Mobile Quick Test</span>
+          <span class="eyebrow" data-lang="zh">移动端快速测试</span>
+          <div class="lang-switch" aria-label="Language switcher">
+            <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+            <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+          </div>
+        </div>
+        <h1 data-lang="en">1-minute work-personality test</h1>
+        <h1 data-lang="zh">1 分钟工作人格测试</h1>
+        <p class="lede" data-lang="en">
+          Scan, answer on your phone, get a shareable quick signal, then copy a handoff prompt if you want the more accurate agent deep test.
+        </p>
+        <p class="lede" data-lang="zh">
+          扫码后直接在手机上作答，先拿到一张可分享的 quick signal；如果想要更准，再复制 handoff prompt 去做 agent 深度测试。
+        </p>
+        <p class="mini" data-lang="en">
+          Self-report only. This page does not scan local repos, projects, or documents, and `git-hired` does not upload local repo or file data to our server.
+        </p>
+        <p class="mini" data-lang="zh">
+          这里只做自评 quick test，不扫描本地 repo、项目或文档；`git-hired` 也不会把你的本地 repo 或文件数据上传到我们的服务器。
+        </p>
+        <div class="inline-links">
+          <a class="button secondary" href="./index.html" data-lang="en">Back Home</a>
+          <a class="button secondary" href="./index.html" data-lang="zh">返回首页</a>
+        </div>
+      </section>
+
+      <form id="quick-test-form" class="quick-form" autocomplete="off">
+        <section class="section question-block">
+          <div class="question-head">
+            <span class="question-step">01</span>
+            <h2 data-lang="en">Target Direction</h2>
+            <h2 data-lang="zh">目标方向</h2>
+          </div>
+          <p class="mini" data-lang="en">Pick the test lens you care about right now.</p>
+          <p class="mini" data-lang="zh">选择你现在最想测试的方向。</p>
+          <div class="choice-grid" role="radiogroup" aria-label="Target direction">
+            <label class="choice">
+              <input type="radio" name="target" value="agent" required data-label-en="AI Agent Engineer" data-label-zh="AI Agent 工程师" data-role-agent="20">
+              <span>
+                <strong data-lang="en">AI Agent Engineer</strong>
+                <strong data-lang="zh">AI Agent 工程师</strong>
+                <small data-lang="en">AI workflow, specs, tooling, automation.</small>
+                <small data-lang="zh">AI workflow、spec、工具链、自动化。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="target" value="pm" required data-label-en="Product Manager" data-label-zh="产品经理" data-role-pm="20">
+              <span>
+                <strong data-lang="en">Product Manager</strong>
+                <strong data-lang="zh">产品经理</strong>
+                <small data-lang="en">AI product judgment, MVP boundary, launch clarity.</small>
+                <small data-lang="zh">AI 产品判断、MVP 边界、上线清晰度。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="target" value="growth" required data-label-en="Global Growth" data-label-zh="海外增长" data-role-growth="20">
+              <span>
+                <strong data-lang="en">Global Growth</strong>
+                <strong data-lang="zh">海外增长</strong>
+                <small data-lang="en">Social-native signal, channel fit, experiments.</small>
+                <small data-lang="zh">社媒原生信号、渠道匹配、增长实验。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="target" value="ops" required data-label-en="AI Product Operations" data-label-zh="AI 产品运营" data-role-ops="20">
+              <span>
+                <strong data-lang="en">AI Product Operations</strong>
+                <strong data-lang="zh">AI 产品运营</strong>
+                <small data-lang="en">User feedback, response speed, reliable loops.</small>
+                <small data-lang="zh">用户反馈、响应速度、稳定闭环。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="target" value="unsure" required data-label-en="Not sure yet" data-label-zh="还不确定">
+              <span>
+                <strong data-lang="en">Not sure yet</strong>
+                <strong data-lang="zh">还不确定</strong>
+                <small data-lang="en">Let the quick test route the closest fit.</small>
+                <small data-lang="zh">让 quick test 先帮你路由最接近的方向。</small>
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section question-block">
+          <div class="question-head">
+            <span class="question-step">02</span>
+            <h2 data-lang="en">Strongest Recent Proof</h2>
+            <h2 data-lang="zh">最近最强证据</h2>
+          </div>
+          <p class="mini" data-lang="en">Choose the work evidence you would be most comfortable showing.</p>
+          <p class="mini" data-lang="zh">选择你最愿意拿出来展示的一类工作证据。</p>
+          <div class="choice-grid" role="radiogroup" aria-label="Strongest recent proof">
+            <label class="choice">
+              <input type="radio" name="proof" value="agent-proof" required data-label-en="I shipped an AI workflow, automation, or agent loop" data-label-zh="我交付过 AI workflow、自动化或 agent 闭环" data-role-agent="28" data-mbti-t="1" data-mbti-j="1">
+              <span>
+                <strong data-lang="en">Agent loop shipped</strong>
+                <strong data-lang="zh">Agent 闭环交付</strong>
+                <small data-lang="en">Workflow, automation, eval, tools, or debugging loops.</small>
+                <small data-lang="zh">Workflow、自动化、eval、工具或调试闭环。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="proof" value="pm-proof" required data-label-en="I turned messy needs into a usable product, spec, or MVP" data-label-zh="我把混乱需求变成过可用产品、spec 或 MVP" data-role-pm="28" data-mbti-n="1" data-mbti-j="1">
+              <span>
+                <strong data-lang="en">Product shape made clear</strong>
+                <strong data-lang="zh">产品形态被我收清楚</strong>
+                <small data-lang="en">Prioritization, scope cuts, acceptance criteria, launch path.</small>
+                <small data-lang="zh">优先级、范围裁剪、验收标准、上线路径。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="proof" value="growth-proof" required data-label-en="I turned social or user signals into growth experiments" data-label-zh="我把社媒或用户信号转成过增长实验" data-role-growth="28" data-mbti-e="1" data-mbti-p="1">
+              <span>
+                <strong data-lang="en">Signal to experiment</strong>
+                <strong data-lang="zh">信号转实验</strong>
+                <small data-lang="en">Hooks, comments, DMs, communities, channel tests.</small>
+                <small data-lang="zh">Hook、评论、私信、社区、渠道测试。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="proof" value="ops-proof" required data-label-en="I closed user feedback loops and improved product reliability" data-label-zh="我闭环过用户反馈，并提升了产品稳定性" data-role-ops="28" data-mbti-e="1" data-mbti-s="1" data-mbti-f="1">
+              <span>
+                <strong data-lang="en">User loop closed</strong>
+                <strong data-lang="zh">用户反馈闭环</strong>
+                <small data-lang="en">Support, feedback triage, response speed, product fixes.</small>
+                <small data-lang="zh">支持、反馈分诊、响应速度、产品修复。</small>
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section question-block">
+          <div class="question-head">
+            <span class="question-step">03</span>
+            <h2 data-lang="en">When Work Gets Messy</h2>
+            <h2 data-lang="zh">事情变乱时</h2>
+          </div>
+          <p class="mini" data-lang="en">What is your first useful move?</p>
+          <p class="mini" data-lang="zh">你第一个有效动作通常是什么？</p>
+          <div class="choice-grid" role="radiogroup" aria-label="Messy work response">
+            <label class="choice">
+              <input type="radio" name="messy" value="spec" required data-label-en="Write the spec, define checks, and push the agent or team" data-label-zh="写 spec、定义验收，然后推动 agent 或团队" data-role-agent="14" data-mbti-t="1" data-mbti-j="2" data-mbti-s="1">
+              <span>
+                <strong data-lang="en">Spec and checks</strong>
+                <strong data-lang="zh">Spec 和验收</strong>
+                <small data-lang="en">Make ambiguity executable.</small>
+                <small data-lang="zh">把模糊需求变得可执行。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="messy" value="mvp" required data-label-en="Find the user value and cut scope into a shippable MVP" data-label-zh="找到用户价值，把范围切成可交付 MVP" data-role-pm="14" data-mbti-f="1" data-mbti-j="1" data-mbti-n="1">
+              <span>
+                <strong data-lang="en">Value and MVP</strong>
+                <strong data-lang="zh">价值和 MVP</strong>
+                <small data-lang="en">Protect the product decision.</small>
+                <small data-lang="zh">守住产品判断。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="messy" value="experiment" required data-label-en="Run a small channel or content experiment and read feedback" data-label-zh="先跑一个小渠道或内容实验，再读反馈" data-role-growth="14" data-mbti-e="1" data-mbti-p="2" data-mbti-n="1">
+              <span>
+                <strong data-lang="en">Experiment first</strong>
+                <strong data-lang="zh">先做实验</strong>
+                <small data-lang="en">Let distribution reality answer fast.</small>
+                <small data-lang="zh">让分发现实尽快给答案。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="messy" value="user-loop" required data-label-en="Talk to the user, reproduce the issue, and close the loop" data-label-zh="先找用户、复现问题，然后闭环" data-role-ops="14" data-mbti-e="1" data-mbti-s="2" data-mbti-f="1" data-mbti-j="1">
+              <span>
+                <strong data-lang="en">User loop first</strong>
+                <strong data-lang="zh">先闭环用户</strong>
+                <small data-lang="en">Turn noise into accountable operations.</small>
+                <small data-lang="zh">把噪音变成可负责的运营动作。</small>
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section question-block compact-question">
+          <div class="question-head">
+            <span class="question-step">04</span>
+            <h2 data-lang="en">Work Energy</h2>
+            <h2 data-lang="zh">工作能量</h2>
+          </div>
+          <div class="choice-grid two-up" role="radiogroup" aria-label="Work energy">
+            <label class="choice">
+              <input type="radio" name="energy" value="e" required data-label-en="I create momentum by talking to users, teammates, or communities" data-label-zh="我通过和用户、队友或社区互动来制造推进力" data-mbti-e="3">
+              <span>
+                <strong data-lang="en">External momentum</strong>
+                <strong data-lang="zh">外部互动推进</strong>
+                <small data-lang="en">Users, teammates, community, feedback loops.</small>
+                <small data-lang="zh">用户、队友、社区、反馈循环。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="energy" value="i" required data-label-en="I create momentum by distilling traces, systems, and notes first" data-label-zh="我通常先整理痕迹、系统和笔记，再推进" data-mbti-i="3">
+              <span>
+                <strong data-lang="en">Internal distillation</strong>
+                <strong data-lang="zh">内部消化推进</strong>
+                <small data-lang="en">Think, compress, structure, then move.</small>
+                <small data-lang="zh">先思考、压缩、结构化，再行动。</small>
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section question-block compact-question">
+          <div class="question-head">
+            <span class="question-step">05</span>
+            <h2 data-lang="en">Evidence Style</h2>
+            <h2 data-lang="zh">证据偏好</h2>
+          </div>
+          <div class="choice-grid two-up" role="radiogroup" aria-label="Evidence style">
+            <label class="choice">
+              <input type="radio" name="evidenceStyle" value="s" required data-label-en="I trust concrete cases, logs, user words, and shipped details" data-label-zh="我更信具体案例、日志、用户原话和已交付细节" data-mbti-s="3">
+              <span>
+                <strong data-lang="en">Concrete evidence</strong>
+                <strong data-lang="zh">具体证据</strong>
+                <small data-lang="en">Cases, logs, details, direct signals.</small>
+                <small data-lang="zh">案例、日志、细节、直接信号。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="evidenceStyle" value="n" required data-label-en="I trust patterns, possibilities, system shape, and second-order effects" data-label-zh="我更信模式、可能性、系统形态和二阶影响" data-mbti-n="3">
+              <span>
+                <strong data-lang="en">Pattern read</strong>
+                <strong data-lang="zh">模式判断</strong>
+                <small data-lang="en">Possibilities, systems, trajectory, leverage.</small>
+                <small data-lang="zh">可能性、系统、趋势、杠杆。</small>
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section question-block compact-question">
+          <div class="question-head">
+            <span class="question-step">06</span>
+            <h2 data-lang="en">Decision Weight</h2>
+            <h2 data-lang="zh">决策权重</h2>
+          </div>
+          <div class="choice-grid two-up" role="radiogroup" aria-label="Decision weight">
+            <label class="choice">
+              <input type="radio" name="decision" value="t" required data-label-en="I decide through consistency, tradeoffs, constraints, and impersonal analysis" data-label-zh="我更靠一致性、取舍、约束和非人格化分析来决策" data-mbti-t="3">
+              <span>
+                <strong data-lang="en">Analytical consistency</strong>
+                <strong data-lang="zh">分析一致性</strong>
+                <small data-lang="en">Tradeoffs, constraints, clear rules.</small>
+                <small data-lang="zh">取舍、约束、清晰规则。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="decision" value="f" required data-label-en="I decide through human context, user emotion, team trust, and value impact" data-label-zh="我更看重人的处境、用户感受、团队信任和价值影响" data-mbti-f="3">
+              <span>
+                <strong data-lang="en">Human context</strong>
+                <strong data-lang="zh">人的处境</strong>
+                <small data-lang="en">Users, trust, value, relational cost.</small>
+                <small data-lang="zh">用户、信任、价值、关系成本。</small>
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section question-block compact-question">
+          <div class="question-head">
+            <span class="question-step">07</span>
+            <h2 data-lang="en">Shipping Rhythm</h2>
+            <h2 data-lang="zh">交付节奏</h2>
+          </div>
+          <div class="choice-grid two-up" role="radiogroup" aria-label="Shipping rhythm">
+            <label class="choice">
+              <input type="radio" name="rhythm" value="j" required data-label-en="I define the next closure point and make progress legible" data-label-zh="我会定义下一个收口点，让进度变得清楚" data-mbti-j="3">
+              <span>
+                <strong data-lang="en">Planned closure</strong>
+                <strong data-lang="zh">计划性收口</strong>
+                <small data-lang="en">Milestones, ownership, crisp next steps.</small>
+                <small data-lang="zh">里程碑、owner、清晰下一步。</small>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="rhythm" value="p" required data-label-en="I keep options open, test quickly, and adapt when evidence changes" data-label-zh="我会保留选项、快速试错，并随证据变化调整" data-mbti-p="3">
+              <span>
+                <strong data-lang="en">Adaptive testing</strong>
+                <strong data-lang="zh">适配式试错</strong>
+                <small data-lang="en">Prototype, react, update, keep moving.</small>
+                <small data-lang="zh">原型、响应、更新、持续前进。</small>
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section question-block">
+          <div class="question-head">
+            <span class="question-step">08</span>
+            <h2 data-lang="en">One Real Trace</h2>
+            <h2 data-lang="zh">一个真实痕迹</h2>
+          </div>
+          <p class="mini" data-lang="en">
+            One or two sentences: what did you ship, decide, debug, grow, or close recently?
+          </p>
+          <p class="mini" data-lang="zh">
+            用一两句话写一个最近真实工作片段：你交付、决策、调试、增长或闭环了什么？
+          </p>
+          <textarea
+            id="evidence-note"
+            name="evidenceNote"
+            class="quick-textarea"
+            rows="5"
+            maxlength="520"
+            data-placeholder-en="Example: I rewrote a vague AI feature request into a small MVP spec, cut two risky flows, asked the agent to build the first loop, and verified it with three user cases."
+            data-placeholder-zh="例：我把一个很虚的 AI 功能需求改成小 MVP spec，砍掉两个高风险流程，让 agent 先做第一个闭环，并用三个用户案例验证。"
+            required></textarea>
+          <p class="mini evidence-counter" id="evidence-counter">0 / 520</p>
+        </section>
+
+        <section class="section quick-actions">
+          <button class="button quick-submit" type="submit" data-lang="en">Generate Quick Result</button>
+          <button class="button quick-submit" type="submit" data-lang="zh">生成快速结果</button>
+          <p class="mini" data-lang="en">Result quality is capped because this is self-report. Use the agent handoff for a stronger evidence-based read.</p>
+          <p class="mini" data-lang="zh">因为这里只是自评，结果置信度会有上限。想要更准，请用 agent handoff 做真实工作证据分析。</p>
+        </section>
+      </form>
+
+      <section class="section result-shell is-hidden" id="quick-result" aria-live="polite">
+        <div class="result-card" id="result-card"></div>
+        <div class="result-actions">
+          <button class="button" type="button" id="share-result" data-lang="en">Share Result</button>
+          <button class="button" type="button" id="share-result-zh" data-lang="zh">分享结果</button>
+          <button class="button secondary" type="button" id="copy-result" data-lang="en">Copy Result</button>
+          <button class="button secondary" type="button" id="copy-result-zh" data-lang="zh">复制结果</button>
+          <button class="button secondary" type="button" id="copy-handoff" data-lang="en">Copy Agent Handoff</button>
+          <button class="button secondary" type="button" id="copy-handoff-zh" data-lang="zh">复制 Agent Handoff</button>
+        </div>
+        <div class="prompt-wrap handoff-wrap">
+          <div class="prompt-head">
+            <strong data-lang="en">Agent Deep-Test Handoff</strong>
+            <strong data-lang="zh">Agent 深度测试 Handoff</strong>
+          </div>
+          <pre class="prompt" id="handoff-prompt"></pre>
+        </div>
+      </section>
+
+      <p class="footer" data-lang="en">
+        Quick test on phone. Deep test in your own work agent.
+      </p>
+      <p class="footer" data-lang="zh">
+        手机做 quick test，深度测试交给你自己的工作 agent。
+      </p>
+    </main>
+  </body>
+</html>

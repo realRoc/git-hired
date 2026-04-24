@@ -9,7 +9,7 @@ fatal: not a qualified candidate
 
 面向 AI Native 创业公司的、以 prompt 为核心的候选人匹配度测试仓库。
 
-`git-hired` 现在从一个公开的 `skill.md` 单入口开始。实践里更稳的方式，是直接给工作 agent 一行：`read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。` 随后 agent 会先完成岗位路由、确认隐私边界、按需抓取对应 prompt，再只基于允许的工作痕迹返回一份结构化、带隐私边界的岗位匹配报告。如果运行环境是 Notion AI 或其他富文本界面，它应自动退化成紧凑卡片，而不是硬塞终端味很重的宽 ASCII。
+`git-hired` 现在有两个候选人入口：一个适合二维码传播的移动端人类 quick test，一个是更深入的公开 `skill.md` agent 入口。实践里更稳的 agent 方式，是直接给工作 agent 一行：`read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。` 随后 agent 会先完成岗位路由、确认隐私边界、按需抓取对应 prompt，再只基于允许的工作痕迹返回一份结构化、带隐私边界的岗位匹配报告。如果运行环境是 Notion AI 或其他富文本界面，它应自动退化成紧凑卡片，而不是硬塞终端味很重的宽 ASCII。
 
 ## 隐私优先
 
@@ -42,6 +42,7 @@ fatal: not a qualified candidate
 
 启用 GitHub Pages 之后，可直接使用：
 
+- 移动端快速测试：<https://realroc.github.io/git-hired/start.html>
 - Agent 入口（`skill.md`）: <https://realroc.github.io/git-hired/skill.md>
 
 <!-- AUTO:live-links:start -->
@@ -81,13 +82,14 @@ fatal: not a qualified candidate
 
 ## 怎么使用
 
-1. 把一行 `read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。` 命令发给候选人
-2. 候选人把它粘贴到自己常用的工作 agent，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent
-3. 他的 agent 会先问目标岗位；如果目标还不明确，就回到候选人当前职业或身份
-4. agent 会先问清隐私边界，再决定是否允许访问任何本地 repo 或文件
-5. 如果需要，agent 会抓取对应的岗位 prompt，并在批准范围内自动分析工作痕迹，而不是继续让候选人人工答题
-6. 候选人把生成报告发回给你
-7. 你把这个报告作为结构化初筛输入，而不是最终结论
+1. 如果候选人在手机上，或你准备二维码传播，先发 <https://realroc.github.io/git-hired/start.html>，让他做 1 分钟自评 quick test
+2. quick test 会返回一张可分享的 `HIRED` 快速画像，以及一段可复制的 agent handoff prompt
+3. 如果要做更深的版本，再把一行 `read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。` 命令发给候选人
+4. 候选人把它粘贴到自己常用的工作 agent，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent
+5. 他的 agent 会先问目标岗位；如果目标还不明确，就回到候选人当前职业或身份
+6. agent 会先问清隐私边界，再决定是否允许访问任何本地 repo 或文件
+7. 如果需要，agent 会抓取对应的岗位 prompt，并在批准范围内自动分析工作痕迹，而不是继续让候选人人工答题
+8. 候选人如果决定申请，再把生成报告发回给你
 
 ## 先同意，再扫描；且只在本地运行
 
@@ -148,6 +150,8 @@ git-hired/
 ├── skill.md
 ├── docs/
 │   ├── index.html
+│   ├── start.html
+│   ├── start.js
 │   ├── skill.md
 │   ├── agent.html
 │   ├── pm.html
