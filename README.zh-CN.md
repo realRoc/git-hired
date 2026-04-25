@@ -47,9 +47,9 @@ fatal: not a qualified candidate
 
 <!-- AUTO:live-links:start -->
 - 海外增长: <https://realroc.github.io/git-hired/growth.html>
-- AI Agent 工程师: <https://realroc.github.io/git-hired/agent.html>
+- Agent 工程师: <https://realroc.github.io/git-hired/agent.html>
 - 产品经理: <https://realroc.github.io/git-hired/pm.html>
-- AI产品运营: <https://realroc.github.io/git-hired/ops.html>
+- 产品运营: <https://realroc.github.io/git-hired/ops.html>
 <!-- AUTO:live-links:end -->
 
 ## 仓库包含什么
@@ -58,9 +58,9 @@ fatal: not a qualified candidate
 
 <!-- AUTO:role-list:start -->
 - `海外增长`
-- `AI Agent 工程师`
+- `Agent 工程师`
 - `产品经理`
-- `AI产品运营`
+- `产品运营`
 <!-- AUTO:role-list:end -->
 
 每个岗位都包含：

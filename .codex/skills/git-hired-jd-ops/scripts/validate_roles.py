@@ -285,7 +285,7 @@ def main() -> None:
             errors.append("skill.md missing auto-analysis no-interview rule")
         if "INTJ / NTJ" not in skill_source_text or "Notion-like surface" not in skill_source_text:
             errors.append("skill.md missing runtime-aware or MBTI de-bias fallback guidance")
-        if "AI Agent Engineer" not in skill_source_text or "Product Manager" not in skill_source_text or "Global Growth" not in skill_source_text or "AI Product Operations" not in skill_source_text:
+        if "Agent Engineer" not in skill_source_text or "Product Manager" not in skill_source_text or "Global Growth" not in skill_source_text or "Product Operations" not in skill_source_text:
             errors.append("skill.md missing supported role registry")
         if "wuyupeng@floatmiracle.com" not in skill_source_text:
             errors.append("skill.md missing strong-candidate resume instruction")

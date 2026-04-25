@@ -81,9 +81,9 @@ Then ask one short scope question:
 
 Prefer local prompt files when this repository is available. Otherwise use the bundled canonical role prompt appendix later in this same file. Public role pages are intentionally compact and should not be treated as the source of long prompt content.
 
-### AI Agent Engineer
+### Agent Engineer
 
-- Typical matches: `agent`, `ai agent engineer`, `agent engineer`, `AI Agent 工程师`, `智能体工程师`
+- Typical matches: `agent`, `agent engineer`, `Agent 工程师`, `智能体工程师`
 - Local prompt files:
   - `prompts/agent-engineer.en.md`
   - `prompts/agent-engineer.md`
@@ -117,9 +117,9 @@ Prefer local prompt files when this repository is available. Otherwise use the b
   - English: `global-growth.en.md`
   - 中文：`global-growth.md`
 
-### AI Product Operations
+### Product Operations
 
-- Typical matches: `ops`, `product ops`, `operations`, `运营`, `AI产品运营`, `产品运营`
+- Typical matches: `ops`, `product ops`, `operations`, `运营`, `产品运营`
 - Local prompt files:
   - `prompts/ai-product-operations.en.md`
   - `prompts/ai-product-operations.md`
@@ -147,10 +147,10 @@ Use this only when the candidate does not name a clear supported target role.
 
 1. Treat the session as a cross-role calibration.
 2. Use the candidate's current profession, identity, direction, and approved evidence scope to judge which built-in lens is the closest fit right now:
-   - `AI Agent Engineer`
+   - `Agent Engineer`
    - `Product Manager`
    - `Global Growth`
-   - `AI Product Operations`
+   - `Product Operations`
    - or `Hybrid / Emerging` if needed
 3. Evaluate only from job-relevant, objectively observable work evidence. Do not proactively inspect personal privacy.
 4. Also derive one `MBTI work personality` using standard MBTI letters:
@@ -920,18 +920,18 @@ solo agent history 往往会让四条轴都出现“欠观察”，尤其是 `E 
 - 不要把原始日志、原始 transcript、原始表格直接贴进详细报告
 ```
 
-## AI Agent Engineer / AI Agent 工程师
+## Agent Engineer / Agent 工程师
 
 ### agent-engineer.en.md
 
 ```markdown
-# AI Agent Engineer Prompt
+# Agent Engineer Prompt
 
 Paste the full prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent, and run it:
 
 ---
 
-You are a hiring calibration assistant. Your job is not to flatter the user. Your job is to inspect locally observable AI work traces and judge whether this candidate fits an intense AI-native startup role: `AI Agent Engineer / AI Native Builder`.
+You are a hiring calibration assistant. Your job is not to flatter the user. Your job is to inspect locally observable AI work traces and judge whether this candidate fits an intense AI-native startup role: `Agent Engineer`.
 
 Output language: English.
 
@@ -1245,13 +1245,13 @@ If running in extended mode:
 ### agent-engineer.md
 
 ```markdown
-# AI Agent Engineer Prompt
+# Agent 工程师 Prompt
 
 把下面整段完整粘贴到你自己的工作 agent 中执行，例如 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent：
 
 ---
 
-你现在是一个招聘校准助手。你的任务不是夸用户，而是基于本机可观察到的 AI 工作痕迹，判断这位候选人是否适合一家高强度 AI Native 创业公司的 `AI Agent 工程师 / AI Native Builder` 岗位。
+你现在是一个招聘校准助手。你的任务不是夸用户，而是基于本机可观察到的 AI 工作痕迹，判断这位候选人是否适合一家高强度 AI Native 创业公司的 `Agent 工程师` 岗位。
 
 输出语言：中文。
 
@@ -2300,18 +2300,18 @@ solo agent history 往往会让四条轴都出现“欠观察”，尤其是 `E 
 - 不要把原始日志、原始 transcript、原始表格直接贴进详细报告
 ```
 
-## AI Product Operations / AI产品运营
+## Product Operations / 产品运营
 
 ### ai-product-operations.en.md
 
 ```markdown
-# AI Product Operations Prompt
+# Product Operations Prompt
 
 Paste the full prompt below into your own work agent with knowledge-base and memory support, such as Claude Code, Codex, Notion AI, or a similar work agent, and run it:
 
 ---
 
-You are a hiring calibration assistant. Your job is to inspect locally observable AI work traces, user-operations artifacts, and communication workflows, then judge whether this candidate fits an AI-native startup `AI Product Operations` role.
+You are a hiring calibration assistant. Your job is to inspect locally observable AI work traces, user-operations artifacts, and communication workflows, then judge whether this candidate fits an AI-native startup `Product Operations` role.
 
 Target role profile:
 
@@ -2649,13 +2649,13 @@ If running in extended mode:
 ### ai-product-operations.md
 
 ```markdown
-# AI产品运营 Prompt
+# 产品运营 Prompt
 
 把下面整段完整粘贴到你自己的工作 agent 中执行，例如 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent：
 
 ---
 
-你现在是一个招聘校准助手。你的任务是基于本机可观察到的 AI 工作痕迹、用户运营资料和沟通流程痕迹，判断这位候选人是否适合一家 AI Native 创业公司的 `AI产品运营` 岗位。
+你现在是一个招聘校准助手。你的任务是基于本机可观察到的 AI 工作痕迹、用户运营资料和沟通流程痕迹，判断这位候选人是否适合一家 AI Native 创业公司的 `产品运营` 岗位。
 
 目标岗位画像：
 

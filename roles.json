@@ -12,10 +12,10 @@
     "page_slug": "agent",
     "prompt_slug": "agent-engineer",
     "prompt_base": "prompt-engineer",
-    "title_en": "AI Agent Engineer",
-    "title_zh": "AI Agent 工程师",
-    "summary_en": "Use this if you want to show how well you direct AI work, turn ambiguity into specs, and push agents to real shipped outcomes.",
-    "summary_zh": "如果你想展示自己如何指挥 AI 干活、把模糊需求压成 spec，并把 agent 推到真正交付结果，这个测试最适合你。"
+    "title_en": "Agent Engineer",
+    "title_zh": "Agent 工程师",
+    "summary_en": "Use this if you want to show how well you direct agent work, turn ambiguity into specs, and push agents to real shipped outcomes.",
+    "summary_zh": "如果你想展示自己如何指挥 agent 干活、把模糊需求压成 spec，并把 agent 推到真正交付结果，这个测试最适合你。"
   },
   {
     "page_slug": "pm",
@@ -30,8 +30,8 @@
     "page_slug": "ops",
     "prompt_slug": "ai-product-operations",
     "prompt_base": "prompt-ops",
-    "title_en": "AI Product Operations",
-    "title_zh": "AI产品运营",
+    "title_en": "Product Operations",
+    "title_zh": "产品运营",
     "summary_en": "Use this if you want to show your user empathy, response speed, operational reliability, and ability to turn feedback into product improvement.",
     "summary_zh": "如果你想展示自己的用户同理心、响应速度、运营执行力，以及把反馈转成产品优化的能力，这个测试更适合你。"
   }
