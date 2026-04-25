@@ -45,6 +45,17 @@ FOOTER_REQUIRED_MARKERS = (
     "realRoc",
     "github.com/realRoc/git-hired",
 )
+FOOTER_404_REQUIRED_MARKERS = (
+    "MIT licensed",
+    "git hired",
+    "git rejected",
+    "your call",
+    "$ whoami",
+    "author:",
+    "repo:",
+    "realRoc",
+    "github.com/realRoc/git-hired",
+)
 FOOTER_FORBIDDEN_MARKERS = (
     "Source prompts",
     "源 prompt",
@@ -100,7 +111,8 @@ def find_repo_root(start: Path) -> Path:
 def validate_public_footer(label: str, text: str, errors: list[str]) -> None:
     if '<footer class="footer' not in text:
         errors.append(f"{label} missing unified public footer")
-    for marker in FOOTER_REQUIRED_MARKERS:
+    required_markers = FOOTER_404_REQUIRED_MARKERS if label == "docs/404.html" else FOOTER_REQUIRED_MARKERS
+    for marker in required_markers:
         if marker not in text:
             errors.append(f"{label} footer missing required marker: {marker}")
     for marker in FOOTER_FORBIDDEN_MARKERS:
