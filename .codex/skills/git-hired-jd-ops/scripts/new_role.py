@@ -284,8 +284,6 @@ def role_page(
     <main class="shell">
       <section class="hero">
         <div class="hero-top">
-          <span class="eyebrow" data-lang="en">Role Test</span>
-          <span class="eyebrow" data-lang="zh">岗位测试</span>
           <div class="lang-switch" aria-label="Language switcher">
             <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
             <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>

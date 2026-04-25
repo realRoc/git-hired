@@ -560,6 +560,8 @@ def main() -> None:
                 errors.append(f"docs/{page_slug}.html should describe the role starter as directly above the run instructions")
             if "<!-- role-starter:start -->" not in page_text or "<!-- role-starter:end -->" not in page_text:
                 errors.append(f"docs/{page_slug}.html missing generated role starter markers")
+            if "role-test" in page_text or "岗位测试" in page_text:
+                errors.append(f"docs/{page_slug}.html should not show role-test / 岗位测试 eyebrow copy")
             hero_start = page_text.find('<section class="hero">')
             hero_end = page_text.find("</section>", hero_start)
             starter_index = page_text.find('class="prompt-wrap role-starter"')
