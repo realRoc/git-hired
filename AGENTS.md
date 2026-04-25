@@ -75,6 +75,19 @@ Do not manually maintain homepage cards or README role lists as separate sources
 
 Those are generated from `roles.json`.
 
+## Recruitment Display Priority
+
+This rule applies to `roles.json`, generated homepage role cards, README role lists, and any future public role index.
+
+Default recruitment display order:
+
+1. Global Growth / 海外增长
+2. AI Agent Engineer / AI Agent 工程师
+3. Product Manager / 产品经理
+4. AI Product Operations / AI产品运营
+
+Treat the array order in `roles.json` as the source of truth for this public display priority, then regenerate registry-driven surfaces instead of hand-editing homepage cards.
+
 ## Core Rule: Self-Evolving Spec Capture
 
 Do not delete, replace, or forget this rule.
