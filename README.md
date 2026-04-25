@@ -46,9 +46,9 @@ After GitHub Pages is enabled for this repo:
 - Agent Entry (`skill.md`): <https://realroc.github.io/git-hired/skill.md>
 
 <!-- AUTO:live-links:start -->
+- Global Growth: <https://realroc.github.io/git-hired/growth.html>
 - AI Agent Engineer: <https://realroc.github.io/git-hired/agent.html>
 - Product Manager: <https://realroc.github.io/git-hired/pm.html>
-- Global Growth: <https://realroc.github.io/git-hired/growth.html>
 - AI Product Operations: <https://realroc.github.io/git-hired/ops.html>
 <!-- AUTO:live-links:end -->
 
@@ -57,9 +57,9 @@ After GitHub Pages is enabled for this repo:
 Four public, shareable candidate tests:
 
 <!-- AUTO:role-list:start -->
+- `Global Growth`
 - `AI Agent Engineer`
 - `Product Manager`
-- `Global Growth`
 - `AI Product Operations`
 <!-- AUTO:role-list:end -->
 

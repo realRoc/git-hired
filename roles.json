@@ -1,5 +1,14 @@
 [
   {
+    "page_slug": "growth",
+    "prompt_slug": "global-growth",
+    "prompt_base": "prompt-growth",
+    "title_en": "Global Growth",
+    "title_zh": "海外增长",
+    "summary_en": "Use this if you want to show how you turn user signals and social-native intuition into channels, experiments, retention, and ROI.",
+    "summary_zh": "如果你想展示自己如何把用户信号和社媒原生直觉转成渠道策略、实验、留存和 ROI，这个测试最适合你。"
+  },
+  {
     "page_slug": "agent",
     "prompt_slug": "agent-engineer",
     "prompt_base": "prompt-engineer",
@@ -16,15 +25,6 @@
     "title_zh": "产品经理",
     "summary_en": "Use this if you want to show your AI product judgment, MVP boundary control, spec clarity, and ability to move messy work forward.",
     "summary_zh": "如果你想展示自己的 AI 产品判断、MVP 边界感、spec 清晰度，以及推进复杂协作的能力，这个测试更适合你。"
-  },
-  {
-    "page_slug": "growth",
-    "prompt_slug": "global-growth",
-    "prompt_base": "prompt-growth",
-    "title_en": "Global Growth",
-    "title_zh": "海外增长",
-    "summary_en": "Use this if you want to show how you turn user signals and social-native intuition into channels, experiments, retention, and ROI.",
-    "summary_zh": "如果你想展示自己如何把用户信号和社媒原生直觉转成渠道策略、实验、留存和 ROI，这个测试最适合你。"
   },
   {
     "page_slug": "ops",
