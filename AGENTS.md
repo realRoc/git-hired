@@ -467,6 +467,7 @@ This rule applies to every public HTML page under `docs/`, the role-page templat
 4. Do not show source prompt filenames, source prompt links, or raw prompt provenance in public page footers.
 5. The homepage author line must use `$ whoami` framing, not `built by`.
 6. Public page footers must be horizontally centered on both desktop and mobile.
+7. The standalone `docs/404.html` page has no language switch, so its footer should default to the English footer copy.
 
 ## HIRED TUI Output
 
