@@ -82,11 +82,17 @@ This rule applies to `roles.json`, generated homepage role cards, README role li
 Default recruitment display order:
 
 1. Global Growth / 海外增长
-2. AI Agent Engineer / AI Agent 工程师
+2. Agent Engineer / Agent 工程师
 3. Product Manager / 产品经理
-4. AI Product Operations / AI产品运营
+4. Product Operations / 产品运营
 
 Treat the array order in `roles.json` as the source of truth for this public display priority, then regenerate registry-driven surfaces instead of hand-editing homepage cards.
+
+Public role-title wording rule:
+
+- Do not prefix the Agent Engineer role with `AI`; use `Agent Engineer` / `Agent 工程师`.
+- Do not prefix the Product Operations role with `AI`; use `Product Operations` / `产品运营`.
+- Keep URL slugs and prompt file slugs stable unless the user explicitly asks to change links.
 
 ## Core Rule: Self-Evolving Spec Capture
 
