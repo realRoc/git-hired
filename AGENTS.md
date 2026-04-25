@@ -404,17 +404,27 @@ This rule applies to `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, 
 3. Use a compact step-by-step flow with one current question visible first, clear progress, and thumb-friendly single-tap choices.
 4. All quick-test questions must be single-choice questions. Do not use textarea, multi-select, free-form evidence fields, or manual role-target fields in the mobile quick test.
 5. Do not ask the candidate which role or direction they most want to test. The mobile quick test should focus on workplace behavior, team collaboration, decision-making, execution, communication, and other broad work-style dimensions.
-6. The mobile quick test should use exactly 10 simplified questions to estimate MBTI work personality.
-7. The quick result should output only high-confidence MBTI letters. If an axis is not confident enough, fill that position with `*`, for example `E*TJ` or `**FP`.
-8. The quick test must not imply it has the same evidence quality as the agent deep test. It should clearly label itself as a simple self-report / quick-signal result.
-9. The quick test must preserve the same privacy posture:
+6. Each quick-test question should have exactly 4 answer options.
+7. Answer option copy must be plain and concrete. Avoid clever labels, abstract jargon, or hidden MBTI-coded wording that normal candidates cannot understand.
+8. The mobile quick test should use exactly 10 simplified questions to estimate MBTI work personality.
+9. The quick result should output only high-confidence MBTI letters. If an axis is not confident enough, fill that position with `*`, for example `E*TJ` or `**FP`.
+10. The quick result must explain the output in plain language:
+   - what letters are confident
+   - what `*` means
+   - why the result is only a lightweight self-report signal
+11. The quick test must not imply it has the same evidence quality as the agent deep test. It should clearly label itself as a simple self-report / quick-signal result.
+12. The quick test must preserve the same privacy posture:
    - no local repo, project, or document scanning
    - no upload of local repo or file data to our server
    - only candidate-entered answers and browser-local state should be used unless a future backend is explicitly designed and documented
-10. The result screen should stay concise, shareable, and readable on a phone screen.
-11. The result screen must include a clear CTA back to `https://github.com/realRoc/git-hired` and explain that candidates should run the deeper test through Claude Code, Codex, or a similar work agent for detailed evidence-based results.
-12. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
-13. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
+13. The result screen should stay concise and readable on a phone screen.
+14. The result screen should only show two actions for now:
+   - go to `https://github.com/realRoc/git-hired` for the deeper test
+   - retake the quick test
+   Do not show share or copy actions on the result screen unless explicitly requested later.
+15. The result screen must include a clear CTA back to `https://github.com/realRoc/git-hired` and explain that candidates should run the deeper test through Claude Code, Codex, or a similar work agent for detailed evidence-based results.
+16. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
+17. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
 
 ## Candidate-Serving JD Descriptions
 
