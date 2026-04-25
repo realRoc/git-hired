@@ -558,12 +558,41 @@
       </form>
 
       <section class="section result-shell is-hidden" id="quick-result" aria-live="polite">
+        <div class="result-head">
+          <div class="result-prompt" aria-label="quick test report command">
+            <span class="result-user">you</span><span class="result-at">@</span><span class="result-host">git-hired</span>
+            <span class="result-cwd"> ~/quick</span>
+            <span class="result-dollar">$</span>
+            <span class="result-command">./quick-test --report</span>
+          </div>
+          <div class="result-status">
+            <span class="result-dot" aria-hidden="true"></span>
+            <span>exit 0</span>
+            <span class="result-sep" aria-hidden="true">|</span>
+            <span data-lang="en">10 answers · &lt; 1s</span>
+            <span data-lang="zh">10 题 · &lt; 1 秒</span>
+          </div>
+        </div>
+
         <div class="result-card" id="result-card"></div>
-        <div class="result-actions">
-          <a class="button primary result-cta" href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer" data-lang="en">Run Deep Test On GitHub</a>
-          <a class="button primary result-cta" href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer" data-lang="zh">去 GitHub 做深度测试</a>
-          <button class="button secondary" type="button" id="retake-test" data-lang="en">Retake</button>
-          <button class="button secondary" type="button" id="retake-test-zh" data-lang="zh">重测</button>
+
+        <div class="result-next">
+          <a class="result-action primary" href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">
+            <span class="result-action-prefix" aria-hidden="true">$</span>
+            <span data-lang="en">go to GitHub for deep test</span>
+            <span data-lang="zh">去 GitHub 做深度测试</span>
+            <span class="result-action-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="result-action ghost" type="button" id="retake-test">
+            <span class="result-action-prefix" aria-hidden="true">$</span>
+            <span data-lang="en">retake</span>
+            <span data-lang="zh">重测</span>
+          </button>
+          <button class="result-action ghost" type="button" id="copy-report">
+            <span class="result-action-prefix" aria-hidden="true">⧉</span>
+            <span class="copy-label" data-lang="en">copy report</span>
+            <span class="copy-label" data-lang="zh">复制结果</span>
+          </button>
         </div>
       </section>
 

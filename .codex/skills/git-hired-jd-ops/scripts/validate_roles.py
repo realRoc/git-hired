@@ -207,12 +207,23 @@ def main() -> None:
             errors.append("docs/start.html should not ask for the candidate's target role/direction")
         if "<textarea" in quick_start_text or "evidenceNote" in quick_start_text:
             errors.append("docs/start.html quick test should be single-choice only with no free-form fields")
-        if "share-result" in quick_start_text or "copy-result" in quick_start_text or ">Share<" in quick_start_text or ">Copy<" in quick_start_text:
-            errors.append("docs/start.html quick result should only show GitHub and retake actions")
+        if "share-result" in quick_start_text or ">Share<" in quick_start_text:
+            errors.append("docs/start.html quick result should not keep share actions")
         if "quick-progress" not in quick_start_text or "quick-step" not in quick_start_text:
             errors.append("docs/start.html missing step-by-step mobile quick-test UI")
-        if "Run Deep Test On GitHub" not in quick_start_text or "去 GitHub 做深度测试" not in quick_start_text:
-            errors.append("docs/start.html missing GitHub CTA for deeper testing")
+        if "Run Deep Test On GitHub" in quick_start_text:
+            errors.append("docs/start.html should use the terminal-style GitHub CTA copy")
+        required_result_html = [
+            "result-head",
+            "result-card",
+            "result-next",
+            "copy-report",
+            "go to GitHub for deep test",
+            "去 GitHub 做深度测试",
+        ]
+        for marker in required_result_html:
+            if marker not in quick_start_text:
+                errors.append(f"docs/start.html missing quick-result UI marker: {marker}")
         if "./index.html" not in quick_start_text:
             errors.append("docs/start.html missing home link")
         validate_public_footer("docs/start.html", quick_start_text, errors)
@@ -232,10 +243,23 @@ def main() -> None:
             errors.append("docs/quick-test.js missing GitHub repo CTA target")
         if "What looks clear" not in quick_start_js_text or "比较确定的部分" not in quick_start_js_text or "starMeaning" not in quick_start_js_text:
             errors.append("docs/quick-test.js missing plain-language quick-result explanation")
+        required_result_js = [
+            "renderResultCard",
+            "rc-type-strip",
+            "rc-readout",
+            "rc-section",
+            "copyText",
+            "copy report",
+        ]
+        for marker in required_result_js:
+            if marker not in quick_start_js_text:
+                errors.append(f"docs/quick-test.js missing structured quick-result marker: {marker}")
+        if "resultCard.textContent" in quick_start_js_text:
+            errors.append("docs/quick-test.js should render structured result DOM instead of raw text")
         if "target role" in quick_start_js_text or "targetRole" in quick_start_js_text or "role fit" in quick_start_js_text:
             errors.append("docs/quick-test.js should not route the mobile quick test by target role")
-        if "navigator.share" in quick_start_js_text or "copyText" in quick_start_js_text or "share-result" in quick_start_js_text or "copy-result" in quick_start_js_text:
-            errors.append("docs/quick-test.js should not keep share/copy result actions")
+        if "navigator.share" in quick_start_js_text or "share-result" in quick_start_js_text or "copy-result" in quick_start_js_text:
+            errors.append("docs/quick-test.js should not keep share or legacy copy result actions")
     if not quick_start_qr.exists():
         errors.append("docs/assets/quick-test-qr.svg missing quick-test QR asset")
 
