@@ -146,7 +146,7 @@ def main() -> None:
     skill_source = repo_root / "skill.md"
     skill_public = repo_root / "docs" / "skill.md"
     quick_start = repo_root / "docs" / "start.html"
-    quick_start_js = repo_root / "docs" / "start.js"
+    quick_start_js = repo_root / "docs" / "quick-test.js"
     quick_start_qr = repo_root / "docs" / "assets" / "quick-test-qr.svg"
     not_found_page = repo_root / "docs" / "404.html"
     index_text = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
@@ -199,10 +199,16 @@ def main() -> None:
             errors.append("docs/start.html missing bilingual quick-test identity")
         if "does not scan local repos" not in quick_start_text or "不扫描本地 repo" not in quick_start_text:
             errors.append("docs/start.html missing self-report no-scan privacy wording")
-        if "Agent Deep-Test Handoff" not in quick_start_text or "Agent 深度测试 Handoff" not in quick_start_text:
-            errors.append("docs/start.html missing agent deep-test handoff section")
-        if "Generate Quick Result" not in quick_start_text or "生成快速结果" not in quick_start_text:
-            errors.append("docs/start.html missing quick-result generation action")
+        if quick_start_text.count('class="section question-block quick-step') != 10:
+            errors.append("docs/start.html should render exactly 10 mobile quick-test questions")
+        if 'name="target"' in quick_start_text or "Target Direction" in quick_start_text or "目标方向" in quick_start_text:
+            errors.append("docs/start.html should not ask for the candidate's target role/direction")
+        if "<textarea" in quick_start_text or "evidenceNote" in quick_start_text:
+            errors.append("docs/start.html quick test should be single-choice only with no free-form fields")
+        if "quick-progress" not in quick_start_text or "quick-step" not in quick_start_text:
+            errors.append("docs/start.html missing step-by-step mobile quick-test UI")
+        if "Run Deep Test On GitHub" not in quick_start_text or "去 GitHub 做深度测试" not in quick_start_text:
+            errors.append("docs/start.html missing GitHub CTA for deeper testing")
         if "./index.html" not in quick_start_text:
             errors.append("docs/start.html missing home link")
         validate_public_footer("docs/start.html", quick_start_text, errors)
@@ -211,15 +217,19 @@ def main() -> None:
     else:
         validate_public_footer("docs/404.html", not_found_page.read_text(encoding="utf-8"), errors)
     if not quick_start_js.exists():
-        errors.append("docs/start.js missing quick-test behavior")
+        errors.append("docs/quick-test.js missing quick-test behavior")
     else:
         quick_start_js_text = quick_start_js.read_text(encoding="utf-8")
-        if READ_COMMAND_MARKER not in quick_start_js_text:
-            errors.append("docs/start.js missing skill.md handoff command")
-        if "Quick-test answers" not in quick_start_js_text and "quick-test answers" not in quick_start_js_text:
-            errors.append("docs/start.js missing answer handoff text")
+        if "HIGH_CONFIDENCE_MARGIN" not in quick_start_js_text or '"*"' not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing high-confidence star-fill MBTI logic")
+        if "Claude Code" not in quick_start_js_text or "Codex" not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing deeper-test guidance for Claude Code / Codex")
+        if "https://github.com/realRoc/git-hired" not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing GitHub repo CTA target")
+        if "target role" in quick_start_js_text or "targetRole" in quick_start_js_text or "role fit" in quick_start_js_text:
+            errors.append("docs/quick-test.js should not route the mobile quick test by target role")
         if "navigator.share" not in quick_start_js_text:
-            errors.append("docs/start.js missing mobile share behavior")
+            errors.append("docs/quick-test.js missing mobile share behavior")
     if not quick_start_qr.exists():
         errors.append("docs/assets/quick-test-qr.svg missing quick-test QR asset")
 

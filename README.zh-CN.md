@@ -151,7 +151,7 @@ git-hired/
 ├── docs/
 │   ├── index.html
 │   ├── start.html
-│   ├── start.js
+│   ├── quick-test.js
 │   ├── skill.md
 │   ├── agent.html
 │   ├── pm.html
