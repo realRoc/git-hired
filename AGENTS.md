@@ -418,13 +418,23 @@ This rule applies to `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, 
    - no upload of local repo or file data to our server
    - only candidate-entered answers and browser-local state should be used unless a future backend is explicitly designed and documented
 13. The result screen should stay concise and readable on a phone screen.
-14. The result screen should only show two actions for now:
+14. The result screen must be a designed terminal-style report, not a raw markdown or `<pre>` text dump.
+15. Render the quick result as structured DOM modules:
+   - shell-style status row
+   - 4 MBTI axis chips
+   - large quick-result readout
+   - confirmed section
+   - unknown section when needed
+   - simple-test footnote
+   - CTA row
+16. The result screen actions should be:
    - go to `https://github.com/realRoc/git-hired` for the deeper test
    - retake the quick test
-   Do not show share or copy actions on the result screen unless explicitly requested later.
-15. The result screen must include a clear CTA back to `https://github.com/realRoc/git-hired` and explain that candidates should run the deeper test through Claude Code, Codex, or a similar work agent for detailed evidence-based results.
-16. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
-17. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
+   - copy the report text
+   Do not show a share action unless explicitly requested later.
+17. The result screen must include a clear CTA back to `https://github.com/realRoc/git-hired` and explain that candidates should run the deeper test through Claude Code, Codex, or a similar work agent for detailed evidence-based results.
+18. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
+19. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
 
 ## Candidate-Serving JD Descriptions
 
