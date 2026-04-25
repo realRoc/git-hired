@@ -482,6 +482,7 @@ This rule applies to `roles.json`, the role cards in `docs/index.html`, every pu
    - route through `skill.md` plus the selected role context
    - avoid asking candidates to copy a long raw prompt from the page
 9. The full role prompt may remain in source prompt files and agent-readable deployed artifacts, but public role pages should treat those long prompts as implementation detail rather than candidate-facing page content.
+10. On individual role / JD pages, do not show a `role-test` / `岗位测试` eyebrow or ordinal label above the role title. Keep the hero focused on the actual role title and one-line starter.
 
 ## Public Footer Style
 
