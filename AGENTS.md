@@ -392,35 +392,29 @@ This rule applies to `docs/index.html`, `docs/start.html`, `docs/skill.md`, and 
 
 ## Mobile Human Quick Test Entry
 
-This rule applies to `docs/start.html`, `docs/index.html`, README links, and any future mobile-first human test surface.
+This rule applies to `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, `docs/index.html`, README links, and any future mobile-first human test surface.
 
 1. Maintain a human-facing quick-test entry in addition to the agent-facing `skill.md` entry.
-2. The quick-test entry must be mobile-first and QR-friendly:
+2. The QR-code quick-test entry must be extremely mobile-friendly:
    - readable on narrow screens
    - no required desktop-only agent runtime
    - quick enough to finish in roughly 1 minute
    - shareable result output
-3. The quick test should ask only high-signal questions needed for lightweight role routing and MBTI work-personality calibration.
-4. The quick test must not imply it has the same evidence quality as the agent deep test. It should clearly label itself as a fast self-report / quick-signal result.
-5. The quick test must preserve the same privacy posture:
+   - no long all-at-once scroll form as the primary experience
+3. Use a compact step-by-step flow with one current question visible first, clear progress, and thumb-friendly single-tap choices.
+4. All quick-test questions must be single-choice questions. Do not use textarea, multi-select, free-form evidence fields, or manual role-target fields in the mobile quick test.
+5. Do not ask the candidate which role or direction they most want to test. The mobile quick test should focus on workplace behavior, team collaboration, decision-making, execution, communication, and other broad work-style dimensions.
+6. The mobile quick test should use exactly 10 simplified questions to estimate MBTI work personality.
+7. The quick result should output only high-confidence MBTI letters. If an axis is not confident enough, fill that position with `*`, for example `E*TJ` or `**FP`.
+8. The quick test must not imply it has the same evidence quality as the agent deep test. It should clearly label itself as a simple self-report / quick-signal result.
+9. The quick test must preserve the same privacy posture:
    - no local repo, project, or document scanning
    - no upload of local repo or file data to our server
    - only candidate-entered answers and browser-local state should be used unless a future backend is explicitly designed and documented
-6. The result screen should include:
-   - a shareable `HIRED`-style summary
-   - best-fit role right now
-   - MBTI work personality with confidence
-   - ability score
-   - compact core board
-   - talent tags
-   - locked skills
-   - one concrete next step with uplift estimate
-7. The quick-test result must include a clear handoff path into the agent deep test:
-   - copyable `read https://realroc.github.io/git-hired/skill.md` command
-   - a handoff prompt that includes the quick-test role, answers, and result summary
-   - candidate-facing wording that explains the agent deep test is more accurate because it can inspect approved real work evidence
-8. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
-9. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
+10. The result screen should stay concise, shareable, and readable on a phone screen.
+11. The result screen must include a clear CTA back to `https://github.com/realRoc/git-hired` and explain that candidates should run the deeper test through Claude Code, Codex, or a similar work agent for detailed evidence-based results.
+12. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
+13. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
 
 ## Candidate-Serving JD Descriptions
 
