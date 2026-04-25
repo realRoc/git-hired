@@ -1,4 +1,4 @@
-/* global window, document, navigator, MutationObserver */
+/* global window, document, MutationObserver */
 (function () {
   "use strict";
 
@@ -14,33 +14,87 @@
   const COPY = {
     en: {
       resultTitle: "QUICK MBTI WORK SIGNAL",
-      resultLabel: "High-confidence result",
-      unknownLabel: "Unknown axes",
-      noUnknown: "none",
-      axisTitle: "Axis read",
+      resultLabel: "Your quick result",
+      confirmedTitle: "What looks clear",
+      unknownTitle: "What is still unknown",
+      noConfirmed: "No axis is strong enough yet.",
+      noUnknown: "No unknown axes in this quick run.",
+      starMeaning: "`*` means this part is still unclear from these 10 answers.",
       simple: "This is only a simple 10-question self-report test.",
       detail: "For a detailed evidence-based result, open the GitHub repo and run the deeper test through Claude Code, Codex, or a similar work agent.",
       cta: "CTA",
       repo: "GitHub repo",
-      shareTitle: "git-hired quick MBTI signal",
-      copied: "Copied",
       progress: (current, total) => String(current).padStart(2, "0") + " / " + String(total).padStart(2, "0"),
       back: "Back",
     },
     zh: {
       resultTitle: "快速 MBTI 工作信号",
-      resultLabel: "高置信结论",
-      unknownLabel: "未知轴",
-      noUnknown: "无",
-      axisTitle: "四轴判断",
+      resultLabel: "你的快速结论",
+      confirmedTitle: "比较确定的部分",
+      unknownTitle: "仍然未知的部分",
+      noConfirmed: "目前没有足够确定的轴。",
+      noUnknown: "这次快速测试里没有未知轴。",
+      starMeaning: "`*` 表示这部分仅凭 10 道题还判断不稳。",
       simple: "这只是一个 10 题简化自评测试。",
       detail: "如果需要详细、基于真实工作证据的结果，请回到 GitHub repo，用 Claude Code、Codex 或类似工作 agent 运行深度测试。",
       cta: "下一步",
       repo: "GitHub 仓库",
-      shareTitle: "git-hired 快速 MBTI 信号",
-      copied: "已复制",
       progress: (current, total) => String(current).padStart(2, "0") + " / " + String(total).padStart(2, "0"),
       back: "返回",
+    },
+  };
+
+  const LETTER_COPY = {
+    E: {
+      en: "E: You seem to move work forward through live interaction with people.",
+      zh: "E：你更像是通过和人实时互动来推进工作。",
+    },
+    I: {
+      en: "I: You seem to move work forward by thinking, writing, and structuring first.",
+      zh: "I：你更像是先自己思考、书写、结构化，再推进工作。",
+    },
+    S: {
+      en: "S: You seem to trust concrete facts, examples, and details first.",
+      zh: "S：你更信具体事实、案例和细节。",
+    },
+    N: {
+      en: "N: You seem to look for patterns, direction, and future leverage first.",
+      zh: "N：你更先看模式、方向和未来杠杆。",
+    },
+    T: {
+      en: "T: You seem to decide through logic, standards, and tradeoffs.",
+      zh: "T：你更常用逻辑、标准和取舍来决策。",
+    },
+    F: {
+      en: "F: You seem to weigh people, trust, morale, and user impact heavily.",
+      zh: "F：你更重视人的处境、信任、士气和用户影响。",
+    },
+    J: {
+      en: "J: You seem to prefer clear closure, ownership, and next steps.",
+      zh: "J：你更偏好清晰收口、负责人和下一步。",
+    },
+    P: {
+      en: "P: You seem to prefer keeping options open while evidence changes.",
+      zh: "P：你更偏好在证据变化时保留选项、继续调整。",
+    },
+  };
+
+  const AXIS_UNKNOWN_COPY = {
+    "E/I": {
+      en: "E/I: Your answers mix live interaction and solo processing.",
+      zh: "E/I：你的答案同时出现了实时互动和独立消化。",
+    },
+    "S/N": {
+      en: "S/N: Your answers mix concrete detail and big-picture pattern reading.",
+      zh: "S/N：你的答案同时出现了具体细节和整体模式判断。",
+    },
+    "T/F": {
+      en: "T/F: Your answers mix logic-first and people-impact-first decisions.",
+      zh: "T/F：你的答案同时出现了逻辑优先和人的影响优先。",
+    },
+    "J/P": {
+      en: "J/P: Your answers mix clear closure and flexible exploration.",
+      zh: "J/P：你的答案同时出现了清晰收口和弹性探索。",
     },
   };
 
@@ -91,60 +145,31 @@
   }
 
   function buildResultText(result, lang) {
+    const confirmed = result.axes
+      .filter((axis) => axis.confident)
+      .map((axis) => "- " + LETTER_COPY[axis.winner][lang]);
     const unknown = result.axes
       .filter((axis) => !axis.confident)
-      .map((axis) => axis.left + "/" + axis.right);
-    const axisLines = result.axes.map((axis) => {
-      const value = axis.confident ? axis.winner : "*";
-      return axis.left + "/" + axis.right + ": " + value + "  (" + axis.leftScore + " - " + axis.rightScore + ")";
-    });
+      .map((axis) => "- " + AXIS_UNKNOWN_COPY[axis.left + "/" + axis.right][lang]);
 
     return [
       "# HIRED",
       text(lang, "resultTitle"),
       "",
       text(lang, "resultLabel") + ": " + result.type,
-      text(lang, "unknownLabel") + ": " + (unknown.length ? unknown.join(", ") : text(lang, "noUnknown")),
+      text(lang, "starMeaning"),
       "",
-      text(lang, "axisTitle") + ":",
-      axisLines.join("\n"),
+      text(lang, "confirmedTitle") + ":",
+      confirmed.length ? confirmed.join("\n") : "- " + text(lang, "noConfirmed"),
+      "",
+      text(lang, "unknownTitle") + ":",
+      unknown.length ? unknown.join("\n") : "- " + text(lang, "noUnknown"),
       "",
       text(lang, "simple"),
       text(lang, "detail"),
       "",
       text(lang, "cta") + ": " + text(lang, "repo") + " -> " + REPO_URL,
     ].join("\n");
-  }
-
-  function copyText(value) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      return navigator.clipboard.writeText(value);
-    }
-    return new Promise((resolve, reject) => {
-      try {
-        const textarea = document.createElement("textarea");
-        textarea.value = value;
-        textarea.style.position = "fixed";
-        textarea.style.opacity = "0";
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textarea);
-        resolve();
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
-
-  function flashButton(button, lang) {
-    if (!button) return;
-    const original = button.dataset.originalLabel || button.textContent;
-    button.dataset.originalLabel = original;
-    button.textContent = text(lang, "copied");
-    window.setTimeout(() => {
-      button.textContent = original;
-    }, 1200);
   }
 
   function init() {
@@ -157,14 +182,6 @@
     const backButtons = [
       document.getElementById("quick-back"),
       document.getElementById("quick-back-zh"),
-    ].filter(Boolean);
-    const shareButtons = [
-      document.getElementById("share-result"),
-      document.getElementById("share-result-zh"),
-    ].filter(Boolean);
-    const copyButtons = [
-      document.getElementById("copy-result"),
-      document.getElementById("copy-result-zh"),
     ].filter(Boolean);
     const retakeButtons = [
       document.getElementById("retake-test"),
@@ -234,32 +251,6 @@
         if (currentIndex === 0) return;
         currentIndex -= 1;
         renderStep();
-      });
-    });
-
-    copyButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const lang = currentLang();
-        const value = lastResult ? buildResultText(lastResult, lang) : lastResultText;
-        if (!value) return;
-        copyText(value).then(() => flashButton(button, lang)).catch(() => {});
-      });
-    });
-
-    shareButtons.forEach((button) => {
-      button.addEventListener("click", async () => {
-        const lang = currentLang();
-        const value = lastResult ? buildResultText(lastResult, lang) : lastResultText;
-        if (!value) return;
-        if (navigator.share) {
-          try {
-            await navigator.share({ title: text(lang, "shareTitle"), text: value, url: REPO_URL });
-            return;
-          } catch (error) {
-            // User canceled or Web Share failed; fall back to copy.
-          }
-        }
-        copyText(value).then(() => flashButton(button, lang)).catch(() => {});
       });
     });
 

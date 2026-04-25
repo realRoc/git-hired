@@ -201,10 +201,14 @@ def main() -> None:
             errors.append("docs/start.html missing self-report no-scan privacy wording")
         if quick_start_text.count('class="section question-block quick-step') != 10:
             errors.append("docs/start.html should render exactly 10 mobile quick-test questions")
+        if quick_start_text.count('class="choice"') != 40:
+            errors.append("docs/start.html should render exactly 4 single-choice options per quick-test question")
         if 'name="target"' in quick_start_text or "Target Direction" in quick_start_text or "目标方向" in quick_start_text:
             errors.append("docs/start.html should not ask for the candidate's target role/direction")
         if "<textarea" in quick_start_text or "evidenceNote" in quick_start_text:
             errors.append("docs/start.html quick test should be single-choice only with no free-form fields")
+        if "share-result" in quick_start_text or "copy-result" in quick_start_text or ">Share<" in quick_start_text or ">Copy<" in quick_start_text:
+            errors.append("docs/start.html quick result should only show GitHub and retake actions")
         if "quick-progress" not in quick_start_text or "quick-step" not in quick_start_text:
             errors.append("docs/start.html missing step-by-step mobile quick-test UI")
         if "Run Deep Test On GitHub" not in quick_start_text or "去 GitHub 做深度测试" not in quick_start_text:
@@ -226,10 +230,12 @@ def main() -> None:
             errors.append("docs/quick-test.js missing deeper-test guidance for Claude Code / Codex")
         if "https://github.com/realRoc/git-hired" not in quick_start_js_text:
             errors.append("docs/quick-test.js missing GitHub repo CTA target")
+        if "What looks clear" not in quick_start_js_text or "比较确定的部分" not in quick_start_js_text or "starMeaning" not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing plain-language quick-result explanation")
         if "target role" in quick_start_js_text or "targetRole" in quick_start_js_text or "role fit" in quick_start_js_text:
             errors.append("docs/quick-test.js should not route the mobile quick test by target role")
-        if "navigator.share" not in quick_start_js_text:
-            errors.append("docs/quick-test.js missing mobile share behavior")
+        if "navigator.share" in quick_start_js_text or "copyText" in quick_start_js_text or "share-result" in quick_start_js_text or "copy-result" in quick_start_js_text:
+            errors.append("docs/quick-test.js should not keep share/copy result actions")
     if not quick_start_qr.exists():
         errors.append("docs/assets/quick-test-qr.svg missing quick-test QR asset")
 
