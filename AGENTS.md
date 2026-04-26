@@ -399,15 +399,48 @@ This rule applies to `docs/index.html`, `docs/start.html`, `docs/skill.md`, and 
    - the chosen work agent should inspect only the projects or files the candidate explicitly authorizes
 7. If a page includes a runtime tip, phrase it conditionally, for example:
    - `If you're using Claude Code or Codex, bypass / YOLO usually makes the run smoother.`
-8. On `docs/index.html`, the hero copy should follow this order:
-   - first, one short sentence that introduces `git-hired` as a way to test the candidate's `MBTI work personality` from how they actually work
-   - second, one explicit privacy line saying we do not upload local repo, file, or other local data to our server
-   - third, show the one-line copyable `read .../skill.md` starter command before flowing into the shared-entry section
+8. On `docs/index.html`, frame `git-hired` as an open-source AI-native hiring protocol, not merely a prompt collection. The hero should lead with a clear manifesto:
+   - ordinary hiring over-trusts resumes, interviews, and isolated take-home tasks
+   - AI-native teams should ask whether a candidate can use agents to handle ambiguity, inspect work traces, make tradeoffs, and ship
+   - the privacy boundary is explicit: no local repo, file, or local data upload to our server
+   - the simple `read https://realroc.github.io/git-hired/skill.md` starter is visible early, with advanced wording available separately when needed
 9. Do not keep a standalone guide page when it only repeats the homepage starter flow, privacy explanation, or role-routing explanation.
 10. Prefer one strong homepage over a homepage-plus-guide split. Fold repeated shared-entry copy into `docs/index.html`, then remove the extra page and links.
 11. On the homepage agent shared-entry block, keep one primary action only: the copyable starter command. Do not add a secondary `Open skill.md` button or other raw-spec browse action beside it.
 12. The homepage may also expose a separate human quick-test entry for mobile sharing and QR-code traffic. This action must be clearly framed as a lightweight self-test, not as a replacement for the agent deep test.
 13. On `docs/index.html`, place the QR-code quick-test fallback near the bottom of the page, after the main explanatory content. The intent is: if the page feels too long or detailed, the candidate can scan one clear bottom entry and start the quick test immediately.
+14. The homepage and README should expose exactly three audience CTAs near the top:
+   - candidates: run the test
+   - founders / hiring teams / evaluators: use the protocol
+   - contributors: add a role, improve the rubric, or improve examples
+15. Maintain dedicated audience pages:
+   - `docs/candidate.html`
+   - `docs/evaluator.html`
+   - `docs/contributor.html`
+   These pages should be concise protocol pages, not marketing landing pages.
+
+## Protocol Positioning
+
+This rule applies to `README.md`, `README.zh-CN.md`, `docs/index.html`, audience pages under `docs/`, `rubric.md`, `examples/`, and future launch copy.
+
+1. Public positioning should describe `git-hired` as:
+   - `git-hired is an open-source AI-native hiring test: candidates let their own AI agent analyze their real work traces and return a privacy-bounded fit report.`
+   - `git-hired 是一个 AI-native 招人测试：候选人用自己的 AI agent 分析自己的真实工作痕迹，然后返回一份隐私安全的能力报告。`
+2. The core reputation claim is: AI-native hiring should evaluate whether someone can direct agents through ambiguity into shipped outcomes, not merely whether they can present a resume or perform in an interview.
+3. Treat the repo as a protocol repo with three public protocols:
+   - Candidate Protocol
+   - Evaluator Protocol
+   - Contributor Protocol
+4. The public funnel should support:
+   - reputation building through a sharp point of view
+   - quick candidate trial through a short starter command
+   - collaborator discovery through public summaries and issues
+   - contributor participation through examples, rubrics, and role prompts
+5. Keep quick-start copy short and first. Longer execution-first prompt wording can exist as an advanced command, but it should not be the first thing a new visitor has to parse.
+6. Add and maintain `rubric.md` as the public evaluator standard.
+7. Add and maintain fictional, redacted examples under `examples/` so users can see what reports look like before running the test.
+8. The collaborator funnel should be explicit: strong-fit candidates interested in AI-native products can run `git-hired` and open an issue with a public summary, target role, and what they want to build next.
+9. Do not use real personal data in examples. Examples must be fictional or clearly redacted templates.
 
 ## Mobile Human Quick Test Entry
 
