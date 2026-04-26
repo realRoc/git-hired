@@ -562,6 +562,34 @@
           </button>
         </div>
 
+        <div class="result-share-grid" aria-label="Profile sharing actions">
+          <button class="result-action ghost" type="button" id="copy-profile">
+            <span class="result-action-prefix" aria-hidden="true">⧉</span>
+            <span class="copy-profile-label" data-lang="en">Copy profile</span>
+            <span class="copy-profile-label" data-lang="zh">复制 profile</span>
+          </button>
+          <button class="result-action ghost" type="button" id="download-card">
+            <span class="result-action-prefix" aria-hidden="true">↓</span>
+            <span class="download-card-label" data-lang="en">Download image</span>
+            <span class="download-card-label" data-lang="zh">下载图片</span>
+          </button>
+          <button class="result-action ghost" type="button" id="share-x">
+            <span class="result-action-prefix" aria-hidden="true">X</span>
+            <span data-lang="en">Share on X</span>
+            <span data-lang="zh">分享到 X</span>
+          </button>
+          <button class="result-action ghost" type="button" id="share-linkedin">
+            <span class="result-action-prefix" aria-hidden="true">in</span>
+            <span data-lang="en">Share on LinkedIn</span>
+            <span data-lang="zh">分享到 LinkedIn</span>
+          </button>
+          <button class="result-action ghost wide" type="button" id="create-public-profile">
+            <span class="result-action-prefix" aria-hidden="true">↗</span>
+            <span class="public-profile-label" data-lang="en">Copy public URL</span>
+            <span class="public-profile-label" data-lang="zh">复制公开链接</span>
+          </button>
+        </div>
+
         <section class="advanced-report" aria-label="Advanced agent report">
           <h2 data-lang="en">Want a deeper report?</h2>
           <h2 data-lang="zh">想要更准的结果？</h2>
@@ -584,6 +612,25 @@
             <span class="agent-copy-label" data-lang="en">Copy agent prompt</span>
             <span class="agent-copy-label" data-lang="zh">复制 Agent 指令</span>
           </button>
+        </section>
+
+        <section class="team-waitlist" aria-label="Team waitlist">
+          <div>
+            <h2 data-lang="en">Building a team?</h2>
+            <h2 data-lang="zh">你在组建团队吗？</h2>
+            <p data-lang="en">Tell us what kind of AI-native builder you want to meet.</p>
+            <p data-lang="zh">告诉我们你想找到哪类 AI-native builder。</p>
+          </div>
+          <a
+            class="button secondary team-waitlist-link"
+            id="team-waitlist-link"
+            href="https://github.com/realRoc/git-hired/issues/new?title=Team%20waitlist%3A%20looking%20for%20AI-native%20builders&body=What%20kind%20of%20builder%20are%20you%20looking%20for%3F%0A%0ATeam%20context%3A%0A%0ABest%20way%20to%20contact%20you%3A"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span data-lang="en">Join the team waitlist</span>
+            <span data-lang="zh">加入团队 waitlist</span>
+          </a>
         </section>
 
         <a class="button secondary result-home-link" href="./index.html" data-lang="en">Back Home</a>

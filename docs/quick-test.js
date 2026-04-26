@@ -3,7 +3,6 @@
   "use strict";
 
   const AGENT_PROMPT = "read https://realroc.github.io/git-hired/skill.md";
-  const RESULT_URL = "https://realroc.github.io/git-hired/start.html";
   const SIGNAL_KEYS = ["facts", "pattern", "collab", "solo", "logic", "empathy", "closure", "explore"];
   const ASCII_GIT_HIRED = [
     "  ██████╗ ██╗████████╗       ██╗  ██╗██╗██████╗ ███████╗██████╗ ",
@@ -220,6 +219,12 @@
       shareResult: "share",
       shared: "image copied",
       textCopied: "text copied",
+      copyProfile: "Copy profile",
+      profileCopied: "profile copied",
+      downloadCard: "Download image",
+      cardDownloaded: "download started",
+      copyPublicProfile: "Copy public URL",
+      publicProfileCopied: "public URL copied",
       copyAgentPrompt: "Copy agent prompt",
       promptCopied: "prompt copied",
       progress: (current, total) => String(current).padStart(2, "0") + " / " + String(total).padStart(2, "0"),
@@ -235,6 +240,12 @@
       shareResult: "分享",
       shared: "图片已复制",
       textCopied: "文字已复制",
+      copyProfile: "复制 profile",
+      profileCopied: "profile 已复制",
+      downloadCard: "下载图片",
+      cardDownloaded: "开始下载",
+      copyPublicProfile: "复制公开链接",
+      publicProfileCopied: "公开链接已复制",
       copyAgentPrompt: "复制 Agent 指令",
       promptCopied: "指令已复制",
       progress: (current, total) => String(current).padStart(2, "0") + " / " + String(total).padStart(2, "0"),
@@ -314,6 +325,33 @@
     return result?.builder?.key || "";
   }
 
+  function resultByKey(key) {
+    const builder = BUILDER_TYPES.find((item) => item.key === key);
+    return builder ? { builder } : null;
+  }
+
+  function resultFromLocation() {
+    let key = "";
+    try {
+      const url = new URL(window.location.href);
+      key = url.searchParams.get("result") || "";
+      if (!key && url.hash.startsWith("#result=")) {
+        key = decodeURIComponent(url.hash.slice("#result=".length));
+      }
+    } catch (error) {
+      key = "";
+    }
+    return resultByKey(key);
+  }
+
+  function publicProfileUrl(result) {
+    const key = resultType(result);
+    const url = new URL(window.location.href);
+    url.search = key ? "?result=" + encodeURIComponent(key) : "";
+    url.hash = "";
+    return url.toString();
+  }
+
   function questionStep(input) {
     const step = input.closest(".quick-step");
     return step?.dataset.step || "";
@@ -365,7 +403,7 @@
       text(lang, "nextTitle") + ":",
       localized(builder.next, lang),
       "",
-      RESULT_URL,
+      publicProfileUrl(result),
     ].join("\n");
   }
 
@@ -599,7 +637,7 @@
     ctx.fillStyle = "#7a847c";
     ctx.fillText("git-hired · local-first · share what you want", x, canvas.height - 104);
     ctx.fillStyle = "#8ee88f";
-    ctx.fillText(RESULT_URL, x, canvas.height - 66);
+    ctx.fillText(publicProfileUrl(result), x, canvas.height - 66);
 
     return canvasToBlob(canvas);
   }
@@ -611,6 +649,36 @@
       ]).then(() => "image").catch(() => copyText(buildResultText(result, lang)).then(() => "text"));
     }
     return copyText(buildResultText(result, lang)).then(() => "text");
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.rel = "noreferrer";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => window.URL.revokeObjectURL(url), 1200);
+  }
+
+  function downloadShareImage(result, lang) {
+    return renderShareImage(result, lang).then((blob) => {
+      downloadBlob(blob, "git-hired-" + resultType(result) + ".png");
+      return true;
+    });
+  }
+
+  function socialShareText(result, lang) {
+    const title = localized(result.builder.title, lang);
+    return lang === "zh"
+      ? "我是 " + title + "。这是我的 git-hired AI-native builder profile。"
+      : "I am " + title + ". This is my git-hired AI-native builder profile.";
+  }
+
+  function openShareUrl(url) {
+    window.open(url, "_blank", "noopener,noreferrer");
   }
 
   function setCopyLabel(button, selector, copied, idleKey, copiedKey) {
@@ -630,6 +698,12 @@
     const resultShell = document.getElementById("quick-result");
     const resultCard = document.getElementById("result-card");
     const shareResultButton = document.getElementById("share-result");
+    const copyProfileButton = document.getElementById("copy-profile");
+    const downloadCardButton = document.getElementById("download-card");
+    const shareXButton = document.getElementById("share-x");
+    const shareLinkedInButton = document.getElementById("share-linkedin");
+    const createPublicProfileButton = document.getElementById("create-public-profile");
+    const teamWaitlistLink = document.getElementById("team-waitlist-link");
     const copyAgentButton = document.getElementById("copy-agent-prompt");
     const backButtons = [
       document.getElementById("quick-back"),
@@ -644,9 +718,25 @@
     let currentIndex = 0;
     let copyTimer = 0;
     let agentCopyTimer = 0;
+    let profileCopyTimer = 0;
+    let downloadTimer = 0;
+    let publicProfileTimer = 0;
     let lastResult = null;
     let lastResultText = "";
     let quizStarted = false;
+
+    function resetResultActionLabels() {
+      window.clearTimeout(copyTimer);
+      window.clearTimeout(agentCopyTimer);
+      window.clearTimeout(profileCopyTimer);
+      window.clearTimeout(downloadTimer);
+      window.clearTimeout(publicProfileTimer);
+      setCopyLabel(shareResultButton, ".share-label", false, "shareResult", "shared");
+      setCopyLabel(copyProfileButton, ".copy-profile-label", false, "copyProfile", "profileCopied");
+      setCopyLabel(downloadCardButton, ".download-card-label", false, "downloadCard", "cardDownloaded");
+      setCopyLabel(createPublicProfileButton, ".public-profile-label", false, "copyPublicProfile", "publicProfileCopied");
+      setCopyLabel(copyAgentButton, ".agent-copy-label", false, "copyAgentPrompt", "promptCopied");
+    }
 
     function renderStep() {
       const lang = currentLang();
@@ -667,34 +757,36 @@
       });
     }
 
-    function showResult() {
-      lastResult = scoreQuickTest(form);
+    function showResult(result, source) {
+      lastResult = result || scoreQuickTest(form);
       const lang = currentLang();
       const builderType = resultType(lastResult);
       lastResultText = buildResultText(lastResult, lang);
       renderResultCard(resultCard, lastResult, lang);
       document.body.classList.add("result-mode");
-      setCopyLabel(shareResultButton, ".share-label", false, "shareResult", "shared");
-      setCopyLabel(copyAgentButton, ".agent-copy-label", false, "copyAgentPrompt", "promptCopied");
+      resetResultActionLabels();
       if (resultShell) resultShell.classList.remove("is-hidden");
       form.classList.add("is-complete");
-      trackEvent("select_role", {
-        location: "quick_result",
-        role: "builder_type",
-        result_type: builderType,
-        question_id: "q" + steps.length,
-        selection_type: "builder_type",
-      });
-      trackEvent("complete_quiz", {
-        location: "quick_test",
-        result_type: builderType,
-        question_id: "q" + steps.length,
-        answer_count: answeredCount(form),
-      });
+      if (source !== "public_profile") {
+        trackEvent("select_role", {
+          location: "quick_result",
+          role: "builder_type",
+          result_type: builderType,
+          question_id: "q" + steps.length,
+          selection_type: "builder_type",
+        });
+        trackEvent("complete_quiz", {
+          location: "quick_test",
+          result_type: builderType,
+          question_id: "q" + steps.length,
+          answer_count: answeredCount(form),
+        });
+      }
       trackEvent("view_result", {
-        location: "quick_result",
+        location: source === "public_profile" ? "public_profile" : "quick_result",
         result_type: builderType,
         question_id: "q" + steps.length,
+        profile_url: publicProfileUrl(lastResult),
       });
       window.requestAnimationFrame(() => {
         const y = resultShell ? resultShell.getBoundingClientRect().top + window.scrollY - 12 : 0;
@@ -752,10 +844,10 @@
         form.classList.remove("is-complete");
         document.body.classList.remove("result-mode");
         if (resultShell) resultShell.classList.add("is-hidden");
-        window.clearTimeout(copyTimer);
-        window.clearTimeout(agentCopyTimer);
-        setCopyLabel(shareResultButton, ".share-label", false, "shareResult", "shared");
-        setCopyLabel(copyAgentButton, ".agent-copy-label", false, "copyAgentPrompt", "promptCopied");
+        resetResultActionLabels();
+        if (window.location.search || window.location.hash.startsWith("#result=")) {
+          window.history.replaceState(null, "", window.location.pathname);
+        }
         renderStep();
         window.requestAnimationFrame(() => {
           const y = form.getBoundingClientRect().top + window.scrollY - 12;
@@ -773,12 +865,111 @@
           result_type: resultType(lastResult),
           question_id: "q" + steps.length,
           share_target: "clipboard",
+          profile_url: publicProfileUrl(lastResult),
         });
         lastResultText = buildResultText(lastResult, lang);
         copyShareImage(lastResult, lang).then((mode) => {
           setCopyLabel(shareResultButton, ".share-label", true, "shareResult", mode === "image" ? "shared" : "textCopied");
           window.clearTimeout(copyTimer);
           copyTimer = window.setTimeout(() => setCopyLabel(shareResultButton, ".share-label", false, "shareResult", "shared"), 1600);
+        });
+      });
+    }
+
+    if (copyProfileButton) {
+      copyProfileButton.addEventListener("click", () => {
+        if (!lastResult) return;
+        const lang = currentLang();
+        lastResultText = buildResultText(lastResult, lang);
+        trackEvent("copy_profile", {
+          location: "result_card",
+          result_type: resultType(lastResult),
+          question_id: "q" + steps.length,
+          profile_url: publicProfileUrl(lastResult),
+          content_type: "text",
+        });
+        copyText(lastResultText).then(() => {
+          setCopyLabel(copyProfileButton, ".copy-profile-label", true, "copyProfile", "profileCopied");
+          window.clearTimeout(profileCopyTimer);
+          profileCopyTimer = window.setTimeout(() => setCopyLabel(copyProfileButton, ".copy-profile-label", false, "copyProfile", "profileCopied"), 1400);
+        });
+      });
+    }
+
+    if (downloadCardButton) {
+      downloadCardButton.addEventListener("click", () => {
+        if (!lastResult) return;
+        const lang = currentLang();
+        trackEvent("download_card", {
+          location: "result_card",
+          result_type: resultType(lastResult),
+          question_id: "q" + steps.length,
+          file_format: "png",
+          profile_url: publicProfileUrl(lastResult),
+        });
+        downloadShareImage(lastResult, lang).then(() => {
+          setCopyLabel(downloadCardButton, ".download-card-label", true, "downloadCard", "cardDownloaded");
+          window.clearTimeout(downloadTimer);
+          downloadTimer = window.setTimeout(() => setCopyLabel(downloadCardButton, ".download-card-label", false, "downloadCard", "cardDownloaded"), 1400);
+        });
+      });
+    }
+
+    if (shareXButton) {
+      shareXButton.addEventListener("click", () => {
+        if (!lastResult) return;
+        const lang = currentLang();
+        const profileUrl = publicProfileUrl(lastResult);
+        trackEvent("share_x", {
+          location: "result_card",
+          result_type: resultType(lastResult),
+          question_id: "q" + steps.length,
+          profile_url: profileUrl,
+        });
+        openShareUrl("https://twitter.com/intent/tweet?text=" + encodeURIComponent(socialShareText(lastResult, lang)) + "&url=" + encodeURIComponent(profileUrl));
+      });
+    }
+
+    if (shareLinkedInButton) {
+      shareLinkedInButton.addEventListener("click", () => {
+        if (!lastResult) return;
+        const profileUrl = publicProfileUrl(lastResult);
+        trackEvent("share_linkedin", {
+          location: "result_card",
+          result_type: resultType(lastResult),
+          question_id: "q" + steps.length,
+          profile_url: profileUrl,
+        });
+        openShareUrl("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(profileUrl));
+      });
+    }
+
+    if (createPublicProfileButton) {
+      createPublicProfileButton.addEventListener("click", () => {
+        if (!lastResult) return;
+        const profileUrl = publicProfileUrl(lastResult);
+        trackEvent("create_public_profile", {
+          location: "result_card",
+          result_type: resultType(lastResult),
+          question_id: "q" + steps.length,
+          profile_url: profileUrl,
+        });
+        copyText(profileUrl).then(() => {
+          setCopyLabel(createPublicProfileButton, ".public-profile-label", true, "copyPublicProfile", "publicProfileCopied");
+          window.clearTimeout(publicProfileTimer);
+          publicProfileTimer = window.setTimeout(() => setCopyLabel(createPublicProfileButton, ".public-profile-label", false, "copyPublicProfile", "publicProfileCopied"), 1400);
+        });
+      });
+    }
+
+    if (teamWaitlistLink) {
+      teamWaitlistLink.addEventListener("click", () => {
+        trackEvent("click_team_waitlist", {
+          location: "result_page_secondary",
+          result_type: resultType(lastResult),
+          question_id: "q" + steps.length,
+          waitlist_target: "github_issue",
+          profile_url: lastResult ? publicProfileUrl(lastResult) : "",
         });
       });
     }
@@ -800,6 +991,9 @@
         lastResultText = buildResultText(lastResult, lang);
         renderResultCard(resultCard, lastResult, lang);
         setCopyLabel(shareResultButton, ".share-label", shareResultButton?.dataset.copyState === "copied", "shareResult", "shared");
+        setCopyLabel(copyProfileButton, ".copy-profile-label", copyProfileButton?.dataset.copyState === "copied", "copyProfile", "profileCopied");
+        setCopyLabel(downloadCardButton, ".download-card-label", downloadCardButton?.dataset.copyState === "copied", "downloadCard", "cardDownloaded");
+        setCopyLabel(createPublicProfileButton, ".public-profile-label", createPublicProfileButton?.dataset.copyState === "copied", "copyPublicProfile", "publicProfileCopied");
         setCopyLabel(copyAgentButton, ".agent-copy-label", copyAgentButton?.dataset.copyState === "copied", "copyAgentPrompt", "promptCopied");
       }
     }).observe(document.documentElement, {
@@ -807,7 +1001,12 @@
       attributeFilter: ["data-lang", "lang"],
     });
 
-    renderStep();
+    const publicResult = resultFromLocation();
+    if (publicResult) {
+      showResult(publicResult, "public_profile");
+    } else {
+      renderStep();
+    }
   }
 
   if (document.readyState === "loading") {
