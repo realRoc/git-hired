@@ -2,7 +2,7 @@
 (function () {
   "use strict";
 
-  var POSTHOG_API_KEY = "POSTHOG_API_KEY_HERE";
+  var POSTHOG_API_KEY = "phc_JQHakHYG7KOiZUXCqdojoXuAll5QW8DwkdJzk0Qzg0e";
   var POSTHOG_API_HOST = "https://us.i.posthog.com";
 
   var ROLE_BY_PAGE = {
@@ -23,7 +23,7 @@
     /* eslint-disable */
     !function (t, e) {
       var o, n, p, r;
-      e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) {
+      e.__SV || (window.posthog && window.posthog.__loaded) || (window.posthog = e, e._i = [], e.init = function (i, s, a) {
         function g(t, e) {
           var o = e.split(".");
           2 == o.length && (t = t[o[0]], e = o[1]);
@@ -57,6 +57,8 @@
 
     window.posthog.init(POSTHOG_API_KEY, {
       api_host: POSTHOG_API_HOST,
+      defaults: "2026-01-30",
+      person_profiles: "identified_only",
       capture_pageview: true,
       autocapture: true,
       disable_session_recording: true,
