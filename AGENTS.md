@@ -424,24 +424,65 @@ This rule applies to `docs/index.html`, `docs/start.html`, `docs/skill.md`, and 
 This rule applies to `README.md`, `README.zh-CN.md`, `docs/index.html`, audience pages under `docs/`, `rubric.md`, `examples/`, and future launch copy.
 
 1. Public positioning should describe `git-hired` as:
-   - `git-hired is an open-source AI-native hiring test: candidates let their own AI agent analyze their real work traces and return a privacy-bounded fit report.`
-   - `git-hired 是一个 AI-native 招人测试：候选人用自己的 AI agent 分析自己的真实工作痕迹，然后返回一份隐私安全的能力报告。`
-2. The core reputation claim is: AI-native hiring should evaluate whether someone can direct agents through ambiguity into shipped outcomes, not merely whether they can present a resume or perform in an interview.
-3. Treat the repo as a protocol repo with three public protocols:
+   - `git-hired is an open-source AI-native builder profile generator. It helps people turn selected work traces into a public-safe work profile, and helps teams discover people who can actually work with AI agents.`
+   - `git-hired 是一个开源的 AI-native builder 画像生成器。它帮助用户把自己选择的工作痕迹转成一份可公开分享的工作画像，也帮助团队发现真正会和 AI agent 一起工作的人。`
+2. The primary hook should be:
+   - `What kind of AI-native builder are you? Generate a public work profile from your real work traces.`
+   - `你是哪种 AI-native builder？用你的真实工作痕迹，生成一份可公开分享的工作画像。`
+3. Do not make MBTI the main hook, brand center, or visible product promise. MBTI may remain as a supporting work-style signal, but the primary identity system should be `AI-native builder profile`, `work profile`, `builder type`, or equivalent candidate-facing wording.
+4. The core reputation claim is not `trust the maintainer`. The public trust structure should be:
+   - user-selected historical work traces
+   - verifiable, inspectable output
+   - local-first execution
+   - open-source rules
+   - user-controlled disclosure
+5. The comparison to reputation-led tools should be expressed as:
+   - `gstack helps you build like a YC founder. git-hired helps you prove you work like an AI-native builder.`
+   - `gstack 帮你像 YC 创始人一样工作。git-hired 帮你证明自己是 AI-native builder。`
+   Use this comparison only when useful; do not depend on external institutional reputation as the reason to trust `git-hired`.
+6. The product should support three public hooks:
+   - personal sharing: `What kind of AI-native builder are you?` / `你是哪种 AI-native builder？`
+   - job or collaboration use: `Generate a public work profile from your real work traces.` / `用你的真实工作痕迹生成一份公开工作画像。`
+   - founder or team use: `Find people who can actually work with agents.` / `找到真正会和 AI agent 一起工作的人。`
+7. The evidence ladder should lower trust friction:
+   - Level 0: paste selected text into ChatGPT / Claude / Gemini / similar agent, with no file access
+   - Level 1: analyze a public GitHub profile, public PR, public issue, README, or project description
+   - Level 2: analyze selected repos, PRs, or files explicitly chosen by the candidate
+   - Level 3: analyze local agent history or local workspace material, opt-in only
+8. Public copy must avoid scary phrases like `analyze your history records` as the first promise. Prefer:
+   - `You choose the evidence. The agent only analyzes what you provide.`
+   - `你选择证据范围，agent 只分析你允许的内容。`
+9. Public trust copy should state plainly:
+   - `No server.`
+   - `No account.`
+   - `No upload.`
+   - `No tracking.`
+   - `Runs in your own AI agent.`
+   - `You decide what evidence to include.`
+   - `You decide what report to share.`
+10. Reports should distinguish:
+   - a private report with detailed evidence, reasoning, specific work traces, weak signals, and candidate-only next steps
+   - a public card with builder type, strengths, collaboration mode, best-fit roles, anonymized evidence, risk, and a one-line intro
+11. The default share object should be the public-safe card, not the full private report.
+12. Collaboration CTAs must be conditional and restrained. If a report detects strong AI-native builder signals, frame the action as `AI-native collaboration`, not as a personal appeal to work with the maintainer:
+   - `You may be a strong fit for AI-native collaboration. If you're interested, you can share your public report here.`
+   - `如果你正在寻找 AI-native 项目的合作机会，可以提交公开版报告。`
+13. Do not make public pages feel like the candidate is being screened by default. Lead with helping people understand and package their own AI-native work style; the collaboration or hiring use case should feel like a natural second step.
+14. Treat the repo as a protocol repo with three public protocols:
    - Candidate Protocol
    - Evaluator Protocol
    - Contributor Protocol
-4. The public funnel should support:
+15. The public funnel should support:
    - reputation building through a sharp point of view
    - quick candidate trial through a short starter command
    - collaborator discovery through public summaries and issues
    - contributor participation through examples, rubrics, and role prompts
-5. Keep quick-start copy short and first. Longer execution-first prompt wording can exist as an advanced command, but it should not be the first thing a new visitor has to parse.
-6. Add and maintain `rubric.md` as the public evaluator standard.
-7. Add and maintain fictional, redacted examples under `examples/` so users can see what reports look like before running the test.
-8. The collaborator funnel should be explicit: strong-fit candidates interested in AI-native products can run `git-hired` and open an issue with a public summary, target role, and what they want to build next.
-9. Do not use real personal data in examples. Examples must be fictional or clearly redacted templates.
-10. `README.md` and `README.zh-CN.md` should use the top hero/title area as a visual entry point, not a plain text dump:
+16. Keep quick-start copy short and first. Longer execution-first prompt wording can exist as an advanced command, but it should not be the first thing a new visitor has to parse.
+17. Add and maintain `rubric.md` as the public evaluator standard.
+18. Add and maintain fictional, redacted examples under `examples/` so users can see what reports look like before running the test.
+19. The collaborator funnel should be explicit: strong-fit candidates interested in AI-native products can run `git-hired` and open an issue with a public summary, target role, and what they want to build next.
+20. Do not use real personal data in examples. Examples must be fictional or clearly redacted templates.
+21. `README.md` and `README.zh-CN.md` should use the top hero/title area as a visual entry point, not a plain text dump:
    - include one obvious website entry near the top: `https://realroc.github.io/git-hired/`
    - avoid maintaining a generated `Live Links` / `在线链接` directory in README files
    - use terminal-style or ASCII `git-hired` identity art when it improves scanability
@@ -463,35 +504,38 @@ This rule applies to `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, 
 5. Do not ask the candidate which role or direction they most want to test. The mobile quick test should focus on workplace behavior, team collaboration, decision-making, execution, communication, and other broad work-style dimensions.
 6. Each quick-test question should have exactly 4 answer options.
 7. Answer option copy must be plain and concrete. Avoid clever labels, abstract jargon, or hidden MBTI-coded wording that normal candidates cannot understand.
-8. The mobile quick test should use exactly 10 simplified questions to estimate MBTI work personality.
-9. The quick result should output only high-confidence MBTI letters. If an axis is not confident enough, fill that position with `*`, for example `E*TJ` or `**FP`.
-10. The quick result must explain the output in plain language:
-   - what letters are confident
-   - what `*` means
+8. The mobile quick test should use exactly 10 simplified questions to estimate a lightweight `AI-native builder` work-style signal.
+9. The quick result should be builder-profile-first. MBTI letters may appear only as an optional secondary work-style read, never as the main result or share headline.
+10. If MBTI letters are shown, output only high-confidence letters. If an axis is not confident enough, fill that position with `*`, for example `E*TJ` or `**FP`, and explain that `*` means the axis is unclear from the quick answers.
+11. The quick result must explain the output in plain language:
+   - the inferred builder type or work-style direction
+   - what looks clear
+   - what remains uncertain
    - why the result is only a lightweight self-report signal
-11. The quick test must not imply it has the same evidence quality as the agent deep test. It should clearly label itself as a simple self-report / quick-signal result.
-12. The quick test must preserve the same privacy posture:
+12. The quick test must not imply it has the same evidence quality as the agent deep test. It should clearly label itself as a simple self-report / quick-signal result.
+13. The quick test must preserve the same privacy posture:
    - no local repo, project, or document scanning
    - no upload of local repo or file data to our server
    - only candidate-entered answers and browser-local state should be used unless a future backend is explicitly designed and documented
-13. The result screen should stay concise and readable on a phone screen.
-14. The result screen must be a designed terminal-style report, not a raw markdown or `<pre>` text dump.
-15. Render the quick result as structured DOM modules:
+14. The result screen should stay concise and readable on a phone screen.
+15. The result screen must be a designed terminal-style report, not a raw markdown or `<pre>` text dump.
+16. Render the quick result as structured DOM modules:
    - shell-style status row
-   - 4 MBTI axis chips
-   - large quick-result readout
+   - builder-type chips or work-style chips
+   - optional secondary MBTI axis chips when useful
+   - large builder-profile readout
    - confirmed section
    - unknown section when needed
    - simple-test footnote
    - CTA row
-16. The result screen actions should be:
+17. The result screen actions should be:
    - go to `https://github.com/realRoc/git-hired` for the deeper test
    - retake the quick test
    - copy the report text
    Do not show a share action unless explicitly requested later.
-17. The result screen must include a clear CTA back to `https://github.com/realRoc/git-hired` and explain that candidates should run the deeper test through Claude Code, Codex, or a similar work agent for detailed evidence-based results.
-18. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
-19. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
+18. The result screen must include a clear CTA back to `https://github.com/realRoc/git-hired` and explain that candidates should run the deeper test through Claude Code, Codex, or a similar work agent for detailed evidence-based results.
+19. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
+20. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
 
 ## Candidate-Serving JD Descriptions
 
@@ -548,18 +592,19 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 1. The terminal output should feel like a candidate-facing hero portrait, not a dry audit log.
 2. The first visual block in the terminal must be a readable ASCII banner whose main word is exactly `HIRED`, not a sparse single-letter block.
 3. After the `HIRED` header, the terminal summary should present:
-   - a subtitle focused on `MBTI work personality`
+   - a subtitle focused on `AI-native builder profile`
    - a result label
+   - the builder type or work-profile identity
    - the best-fit role right now
-   - an MBTI work personality type
-   - MBTI confidence or evidence strength
+   - optional MBTI work-style signal with confidence, if useful
+   - evidence strength
    - an ability score
    - a one-line strength read
    - a compact core board
    - talent tags
    - locked or not-yet-awakened skills
    - a quantified next-step uplift estimate
-   - a matching MBTI ASCII card rendered directly in the terminal when possible
+   - a public-safe card summary
    - the local detailed-report path
 4. The summary should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
 5. Detailed evidence belongs in a local markdown report, not in the terminal summary.
@@ -576,7 +621,7 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 12. The `HIRED` header should use a simple animated reveal or pulse in the terminal when possible, but it must stay dependency-free and terminal-safe.
 13. The `HIRED` ASCII art should feel more dimensional and more legible than a flat block. Prefer a bold, easy-to-recognize shape over decorative noise.
 14. Do not require external packages, terminal UI libraries, or browser-only rendering tricks for the `HIRED` animation. The effect must work as plain terminal output.
-15. Do not reintroduce opaque labels such as custom alignment codes or obscure archetype acronyms. The visible identity system should use standard MBTI letters directly.
+15. Do not reintroduce opaque labels such as custom alignment codes or obscure archetype acronyms. The visible identity system should use plain builder-type names such as `Prototype Hacker`, `Agent Orchestrator`, `Product Shaper`, `Systems Builder`, `Growth Experimenter`, `Taste-driven Designer`, `Debugging Detective`, or `Operator Builder`.
 
 ## Runtime-Aware Report Rendering
 
@@ -623,67 +668,80 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 6. The uplift should be specific enough to create an aha moment, but still honest about uncertainty.
 7. The detailed markdown report should also carry the same next-step uplift estimate in a slightly fuller form.
 
-## MBTI Work Personality Output
+## Builder Profile And Work-Style Output
 
 This rule applies whenever adding or editing any role prompt in `prompts/`, the universal-entry prompt, or the role template in `new_role.py`.
 
 1. Do not let Step 5 drift into analyst prose or a diagnostic essay.
-2. The visible goal of the test should be framed as `test your MBTI work personality`, not as a custom in-house alignment quiz.
-3. Every TUI output must use standard MBTI letters directly:
+2. The visible goal of the test should be framed as generating an `AI-native builder profile`, not testing MBTI.
+3. The primary visible type should be a direct builder/work profile label, such as:
+   - `Prototype Hacker`
+   - `Agent Orchestrator`
+   - `Product Shaper`
+   - `Systems Builder`
+   - `Growth Experimenter`
+   - `Taste-driven Designer`
+   - `Debugging Detective`
+   - `Operator Builder`
+4. MBTI may be included as a bounded supporting work-style signal when evidence justifies it, but it should not lead the report, hero copy, page title, or share card.
+5. If MBTI is included, every TUI output must use standard MBTI letters directly:
    - `E / I`
    - `S / N`
    - `T / F`
    - `J / P`
-4. MBTI here is a work-style read from observable evidence, not a life-wide personality claim. Keep that boundary explicit in prompts and reports.
-5. Infer each MBTI axis conservatively and neutrally from work evidence:
+6. MBTI here is a work-style read from observable evidence, not a life-wide personality claim. Keep that boundary explicit in prompts and reports.
+7. Infer each MBTI axis conservatively and neutrally from work evidence:
    - `E / I`: external interaction energy vs internal reflection energy
    - `S / N`: concrete evidence focus vs pattern / possibility focus
    - `T / F`: impersonal analysis and consistency vs human-context and value-weighting
    - `J / P`: planned closure and decided structure vs adaptive optionality and open exploration
-6. Do not default to `INTJ`, `TJ`, or any single “strong builder” stereotype.
-7. Infer each axis independently before combining the final 4-letter type.
-8. Do not treat technical rigor, startup urgency, product quality, or verbal sharpness as automatic evidence for `T` or `J`.
-9. When most evidence comes from solo agent history, do not treat the absence of social, human-context, or flexibility signals as positive evidence for `I`, `T`, or `J`.
-10. Solo agent history often under-observes all four MBTI axes, especially `E / I`, `T / F`, and `J / P`, unless the evidence directly shows the distinction.
-11. If one or more axes are weakly evidenced, lower confidence rather than forcing certainty.
-12. Infer an axis only from positive evidence, not from the mere absence of the opposite signal.
-13. Do not infer `N` from abstraction-heavy, architecture-heavy, or AI-native language alone.
-14. Do not infer `T` from terse wording, debugging skill, or technical sharpness alone.
-15. Do not infer `J` from competence, clean output, task completion, or seniority alone.
-16. When two or more axes are under-observed or mixed, MBTI confidence should usually be `low`, and the visible type label should be visually de-emphasized rather than treated as a punchline or badge.
-17. Do not output hedged pseudo-types such as `INTJ-ish`, `xNTJ`, `NTJ-like`, or similar variants. Use one standard 4-letter MBTI type plus a separate confidence field.
-18. Replace long “why this works” explanation blocks with exactly 3 `Talent Tags`.
-19. Talent tags must be noun-phrase style, not mini paragraphs:
+8. Do not default to `INTJ`, `TJ`, or any single “strong builder” stereotype.
+9. Infer each axis independently before combining the final 4-letter type.
+10. Do not treat technical rigor, startup urgency, product quality, or verbal sharpness as automatic evidence for `T` or `J`.
+11. When most evidence comes from solo agent history, do not treat the absence of social, human-context, or flexibility signals as positive evidence for `I`, `T`, or `J`.
+12. Solo agent history often under-observes all four MBTI axes, especially `E / I`, `T / F`, and `J / P`, unless the evidence directly shows the distinction.
+13. If one or more axes are weakly evidenced, lower confidence rather than forcing certainty.
+14. Infer an axis only from positive evidence, not from the mere absence of the opposite signal.
+15. Do not infer `N` from abstraction-heavy, architecture-heavy, or AI-native language alone.
+16. Do not infer `T` from terse wording, debugging skill, or technical sharpness alone.
+17. Do not infer `J` from competence, clean output, task completion, or seniority alone.
+18. When two or more axes are under-observed or mixed, MBTI confidence should usually be `low`, and the visible type label should be visually de-emphasized rather than treated as a punchline or badge.
+19. Do not output hedged pseudo-types such as `INTJ-ish`, `xNTJ`, `NTJ-like`, or similar variants. Use one standard 4-letter MBTI type plus a separate confidence field.
+20. Replace long “why this works” explanation blocks with exactly 3 `Talent Tags`.
+21. Talent tags must be noun-phrase style, not mini paragraphs:
    - short
    - label-first
    - highly compressible
    - screenshot-friendly
-20. Replace ordinary weakness/improvement sections with 2-3 `Locked Skills`, `Version Bottlenecks`, or `Not-Yet-Awakened` abilities.
-21. Those “gap” sections must still be respectful and useful to the candidate. Game framing should remove HR stiffness, not empathy.
-22. The visible TUI score board should be compressed to 4-5 core dimensions for each role, not 8-9 spreadsheet lines.
-23. Step 4 may still use evidence-rich analysis internally, but the candidate-facing surface must present only the compressed core board.
-24. When creating or revising a role, the 4-5 core dimensions should be custom to that role rather than generic boilerplate.
-25. Avoid generic AI flourish such as:
+22. Replace ordinary weakness/improvement sections with 2-3 `Locked Skills`, `Version Bottlenecks`, or `Not-Yet-Awakened` abilities.
+23. Those “gap” sections must still be respectful and useful to the candidate. Game framing should remove HR stiffness, not empathy.
+24. The visible TUI score board should be compressed to 4-5 core dimensions for each role, not 8-9 spreadsheet lines.
+25. Step 4 may still use evidence-rich analysis internally, but the candidate-facing surface must present only the compressed core board.
+26. When creating or revising a role, the 4-5 core dimensions should be custom to that role rather than generic boilerplate.
+27. Avoid generic AI flourish such as:
    - “you are not just X, you are Y”
    - long motivational framing
    - over-explaining obvious strengths in full sentences
-26. Prefer direct definitions such as:
-   - MBTI work personality
+28. Prefer direct definitions such as:
+   - AI-native builder profile
+   - builder type
+   - work profile
    - talent tags
    - locked skills
    - best-fit role
-27. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
-28. Use a clearer bar-first format such as `[█████████░] 92` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
-29. Do not decorate every visible line with repeated prefixes such as `>>`.
-30. In the terminal summary, reserve strong decoration for the `HIRED` banner itself. After that, prefer plain labels such as:
-   - `MBTI Work Personality`
+29. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
+30. Use a clearer bar-first format such as `[█████████░] 92` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
+31. Do not decorate every visible line with repeated prefixes such as `>>`.
+32. In the terminal summary, reserve strong decoration for the `HIRED` banner itself. After that, prefer plain labels such as:
+   - `AI-native Builder Profile`
+   - `Builder Type`
    - `Result`
    - `Strength Read`
    - `Core Board`
    - `Talent Tags`
    - `Locked Skills`
    - `Next Step`
-31. Avoid visual noise that makes the report feel like raw debug output. The TUI should read like a clean card, not a terminal log dump.
+33. Avoid visual noise that makes the report feel like raw debug output. The TUI should read like a clean card, not a terminal log dump.
 
 ## Runtime Budget
 
