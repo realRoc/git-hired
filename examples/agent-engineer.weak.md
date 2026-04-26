@@ -7,7 +7,6 @@ This sample is fictional and redacted. It does not describe a real person.
 - Target role: Agent Engineer
 - Evidence scope: `history-only`
 - Evidence confidence: low
-- MBTI work personality: `****`
 - Overall fit: pass for Agent Engineer right now
 
 ## Observed Signals
