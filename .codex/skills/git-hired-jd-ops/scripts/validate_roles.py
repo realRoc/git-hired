@@ -270,14 +270,37 @@ def main() -> None:
     else:
         quick_start_text = quick_start.read_text(encoding="utf-8")
         validate_no_personality_layer("docs/start.html", quick_start_text, errors)
-        if "What kind of AI-native builder are you?" not in quick_start_text or "你是哪种 AI-native builder" not in quick_start_text:
-            errors.append("docs/start.html missing simple builder-test identity")
-        if "Answer 10 quick questions" not in quick_start_text or "回答 10 道简短问题" not in quick_start_text:
-            errors.append("docs/start.html should start directly with the 10-question test")
+        if "start-hero" in quick_start_text or "class=\"hero" in quick_start_text:
+            errors.append("docs/start.html should not render a hero section above the single-choice test")
+        if "Answer 10 quick questions" in quick_start_text or "回答 10 道简短问题" in quick_start_text:
+            errors.append("docs/start.html should not show a pre-test hero explainer before the questions")
         if "Builder Quick Test" in quick_start_text or "Builder 快速测试" in quick_start_text:
             errors.append("docs/start.html should not expose quick/deep mode wording before the test")
         if "No local repo" in quick_start_text or "不扫描本地 repo" in quick_start_text:
             errors.append("docs/start.html should not explain privacy scope before the lightweight test")
+        quiz_topbar_index = quick_start_text.find("quiz-topbar")
+        form_index = quick_start_text.find('id="quick-test-form"')
+        result_index = quick_start_text.find('id="quick-result"')
+        result_topbar_index = quick_start_text.find("result-topbar")
+        result_card_index = quick_start_text.find('id="result-card"')
+        progress_index = quick_start_text.find("quick-progress")
+        first_step_index = quick_start_text.find("quick-step is-active")
+        if min(form_index, progress_index, first_step_index) == -1:
+            errors.append("docs/start.html should start the test with the form progress and first question")
+        if quiz_topbar_index == -1:
+            errors.append("docs/start.html should combine the quiz topbar and progress into one status bar")
+        if quiz_topbar_index != -1 and progress_index != -1 and form_index != -1 and not (quiz_topbar_index < progress_index < form_index):
+            errors.append("docs/start.html should keep quick progress inside the quiz topbar before the question form")
+        if result_index != -1 and form_index != -1 and result_index < form_index:
+            errors.append("docs/start.html should render the question form before the result card")
+        if result_topbar_index == -1:
+            errors.append("docs/start.html should render the final topbar outside the result card")
+        if result_index != -1 and result_topbar_index != -1 and result_card_index != -1 and not (result_index < result_topbar_index < result_card_index):
+            errors.append("docs/start.html should place the final topbar before and outside result-card")
+        if result_topbar_index != -1 and result_card_index != -1:
+            result_topbar_text = quick_start_text[result_topbar_index:result_card_index]
+            if 'data-lang-button="en"' not in result_topbar_text or 'data-lang-button="zh"' not in result_topbar_text:
+                errors.append("docs/start.html final topbar should keep the EN/中文 language switch")
         if quick_start_text.count('class="section question-block quick-step') != 10:
             errors.append("docs/start.html should render exactly 10 mobile quick-test questions")
         if quick_start_text.count('class="choice"') != 40:
@@ -288,18 +311,22 @@ def main() -> None:
             errors.append("docs/start.html quick test should be single-choice only with no free-form fields")
         if re.search(r'value="[EISNTFJP]2?"', quick_start_text):
             errors.append("docs/start.html should not keep legacy letter-code answer values")
-        if "share-result" in quick_start_text or ">Share<" in quick_start_text:
-            errors.append("docs/start.html quick result should not keep share actions")
+        if "share-result" not in quick_start_text or "分享" not in quick_start_text:
+            errors.append("docs/start.html quick result should expose the share-image action")
         if "quick-progress" not in quick_start_text or "quick-step" not in quick_start_text:
             errors.append("docs/start.html missing step-by-step mobile quick-test UI")
         if "Run Deep Test On GitHub" in quick_start_text:
             errors.append("docs/start.html should use the terminal-style GitHub CTA copy")
         required_result_html = [
             "result-card",
+            "result-topbar",
+            "RESULT READY",
+            "结果已生成",
             "result-next",
-            "copy-result",
+            "share-result",
             "advanced-report",
             "copy-agent-prompt",
+            "result-home-link",
             "Want a deeper report?",
             "想要更准的结果？",
             "You choose what evidence to provide.",
@@ -312,7 +339,7 @@ def main() -> None:
         for marker in required_result_html:
             if marker not in quick_start_text:
                 errors.append(f"docs/start.html missing quick-result UI marker: {marker}")
-        for forbidden in ("result-head", "copy-report", "go to GitHub for deep test", "去 GitHub 做深度测试"):
+        for forbidden in ("result-head", "copy-result", "copy-report", "go to GitHub for deep test", "去 GitHub 做深度测试"):
             if forbidden in quick_start_text:
                 errors.append(f"docs/start.html should not keep old quick-result UI marker: {forbidden}")
         if "./index.html" not in quick_start_text:
@@ -374,21 +401,29 @@ def main() -> None:
                 errors.append(f"docs/quick-test.js missing simple result-card section: {marker}")
         required_result_js = [
             "renderResultCard",
+            "builder-card-ascii",
             "builder-card-type",
             "builder-card-section",
+            "renderShareImage",
+            "copyShareImage",
+            "ClipboardItem",
             "copyText",
-            "copy result",
+            "share",
+            "result.card",
             "Copy agent prompt",
         ]
         for marker in required_result_js:
             if marker not in quick_start_js_text:
                 errors.append(f"docs/quick-test.js missing structured quick-result marker: {marker}")
+        for forbidden in ("renderResultTopbar", "builder-card-topbar"):
+            if forbidden in quick_start_js_text:
+                errors.append(f"docs/quick-test.js should not render the final topbar inside result-card: {forbidden}")
         if "resultCard.textContent" in quick_start_js_text:
             errors.append("docs/quick-test.js should render structured result DOM instead of raw text")
         if "target role" in quick_start_js_text or "targetRole" in quick_start_js_text or "role fit" in quick_start_js_text:
             errors.append("docs/quick-test.js should not route the mobile quick test by target role")
-        if "navigator.share" in quick_start_js_text or "share-result" in quick_start_js_text:
-            errors.append("docs/quick-test.js should not keep share actions")
+        if "navigator.share" in quick_start_js_text:
+            errors.append("docs/quick-test.js should copy an image to clipboard instead of using navigator.share")
     if not quick_start_qr.exists():
         errors.append("docs/assets/quick-test-qr.svg missing quick-test QR asset")
 
