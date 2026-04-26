@@ -596,37 +596,72 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 
 1. The terminal output should feel like a candidate-facing hero portrait, not a dry audit log.
 2. The first visual block in the terminal must be a readable ASCII banner whose main word is exactly `HIRED`, not a sparse single-letter block.
-3. After the `HIRED` header, the terminal summary should present:
-   - a subtitle focused on `AI-native builder profile`
-   - a result label
-   - the builder type or work-profile identity
-   - the best-fit role right now
-   - optional MBTI work-style signal with confidence, if useful
-   - evidence strength
-   - an ability score
-   - a one-line strength read
-   - a compact core board
-   - talent tags
-   - locked or not-yet-awakened skills
-   - a quantified next-step uplift estimate
-   - a public-safe card summary
-   - the local detailed-report path
-4. The summary should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
-5. Detailed evidence belongs in a local markdown report, not in the terminal summary.
-6. Show candidate-facing scores on a readable `0-100` scale with a slightly warmer calibration than the old harsh-scale compression:
+3. After the `HIRED` header, the terminal summary must render one public-safe `builder card` using this exact section order:
+   - outer box
+   - `[ git-hired ] ... builder card` header rail
+   - role or builder identity in uppercase
+   - result badge
+   - evidence and scope line
+   - `SIGNALS`
+   - `STRENGTHS` and `GAPS`
+   - `NEXT`
+   - footer line: `git-hired  ·  local-only  ·  candidate-controlled  ·  MIT`
+4. Use this canonical builder-card shape, shortening content rather than widening the frame when needed:
+
+```text
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║  ┌─[ git-hired ]─────────────────────────────────────── builder card ─┐  ║
+║  │                                                                    │  ║
+║  │   AGENT  ENGINEER                                     [STRONG YES] │  ║
+║  │   ─────────────────                                                │  ║
+║  │   evidence: high  ·  scope: history + approved repo                │  ║
+║  │                                                                    │  ║
+║  └────────────────────────────────────────────────────────────────────┘  ║
+║                                                                          ║
+║   SIGNALS                                                                ║
+║   ───────                                                                ║
+║   agency          ███████████████████░  5/5   turns vague into spec      ║
+║   ai fluency      ███████████████████░  5/5   agents as work partners    ║
+║   debug maturity  ███████████████████░  5/5   captures repro before fix  ║
+║   product sense   ███████████████░░░░░  4/5   tradeoffs visible          ║
+║   taste           ███████████████░░░░░  4/5   simplifies, polishes       ║
+║   trust           ███████████████░░░░░  4/5   scoped, redacted output    ║
+║   communication   ███████████░░░░░░░░░  3/5   crisp, low-drama notes     ║
+║                                                                          ║
+║   STRENGTHS                                  GAPS                        ║
+║   ─────────                                  ────                        ║
+║   + ambiguity to acceptance criteria         - solo > collab traces      ║
+║   + agent runs to compare paths              - user validation thin      ║
+║   + repro before declaring done                                          ║
+║                                                                          ║
+║   NEXT                                                                   ║
+║   ────                                                                   ║
+║   2-day scoped agent task: spec, slice, verify, summarize tradeoffs      ║
+║                                                                          ║
+║   ─────────────────────────────────────────────────────────────────────  ║
+║   git-hired  ·  local-only  ·  candidate-controlled  ·  MIT              ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+```
+
+5. The builder card must not include MBTI. Do not print `MBTI:` or MBTI letters in the card header, evidence line, signals, strengths, gaps, next step, or footer.
+6. The `SIGNALS` rows should use the shared dimensions `agency`, `ai fluency`, `debug maturity`, `product sense`, `taste`, `trust`, and `communication`, scored on a `1/5` to `5/5` scale with block bars.
+7. The card should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
+8. Detailed evidence belongs in a local markdown report, not in the terminal summary.
+9. Detailed markdown reports may still use richer `0-100` scoring with a slightly warmer calibration than the old harsh-scale compression:
    - `90+` on a core dimension should stay rare, but it must remain reachable whenever standout evidence clearly justifies it
    - `80-89` is clearly strong
    - `70-79` is solid
    - below `70` means meaningful gaps, thin proof, or inconsistent evidence
-7. Do not add defensive score-explainer lines such as `Scale note / 刻度说明`. Instead, calibrate visible scores more naturally so strong candidates do not get artificially trapped in the `70s`.
-8. For clearly strong candidates, let standout dimensions rise into the `90s` when justified by evidence, but do not turn this into a hard threshold or mandatory rule.
-9. If evidence is thin, round down and say so explicitly instead of flattering the candidate.
-10. Avoid essay-like explanation in the TUI. Prefer labels, tags, fragments, and compressed lines over paragraphs.
-11. In the TUI, sections like talent tags and locked skills should read like a game system, not like an HR memo.
-12. The `HIRED` header should use a simple animated reveal or pulse in the terminal when possible, but it must stay dependency-free and terminal-safe.
-13. The `HIRED` ASCII art should feel more dimensional and more legible than a flat block. Prefer a bold, easy-to-recognize shape over decorative noise.
-14. Do not require external packages, terminal UI libraries, or browser-only rendering tricks for the `HIRED` animation. The effect must work as plain terminal output.
-15. Do not reintroduce opaque labels such as custom alignment codes or obscure archetype acronyms. The visible identity system should use plain builder-type names such as `Prototype Hacker`, `Agent Orchestrator`, `Product Shaper`, `Systems Builder`, `Growth Experimenter`, `Taste-driven Designer`, `Debugging Detective`, or `Operator Builder`.
+10. Do not add defensive score-explainer lines such as `Scale note / 刻度说明`. Instead, calibrate visible scores more naturally so strong candidates do not get artificially trapped in the `70s`.
+11. For clearly strong candidates, let standout dimensions rise into the `90s` when justified by evidence, but do not turn this into a hard threshold or mandatory rule.
+12. If evidence is thin, round down and say so explicitly instead of flattering the candidate.
+13. Avoid essay-like explanation in the TUI. Prefer labels, tags, fragments, and compressed lines over paragraphs.
+14. The `HIRED` header should use a simple animated reveal or pulse in the terminal when possible, but it must stay dependency-free and terminal-safe.
+15. The `HIRED` ASCII art should feel more dimensional and more legible than a flat block. Prefer a bold, easy-to-recognize shape over decorative noise.
+16. Do not require external packages, terminal UI libraries, or browser-only rendering tricks for the `HIRED` animation. The effect must work as plain terminal output.
+17. Do not reintroduce opaque labels such as custom alignment codes or obscure archetype acronyms. The visible identity system should use plain builder-type names such as `Prototype Hacker`, `Agent Orchestrator`, `Product Shaper`, `Systems Builder`, `Growth Experimenter`, `Taste-driven Designer`, `Debugging Detective`, or `Operator Builder`.
 
 ## Runtime-Aware Report Rendering
 
@@ -636,11 +671,11 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 2. If the runtime is a rich-text, chat-bubble, mobile-preview, or Notion-like surface rather than a stable terminal:
    - skip the animated reveal
    - skip wide ASCII layouts that depend on exact monospace alignment
-   - keep the same candidate-facing information, but render it as a compact narrow card or fenced code block
+   - keep the same candidate-facing information and section order, but render it as a compact narrow card or fenced code block
 3. In non-terminal runtimes, prioritize legibility over decoration:
    - target a narrow width
    - avoid layered box-drawing that collapses when line height or font metrics drift
-   - keep the `HIRED` identity and the same section order, but with simpler formatting
+   - keep the `HIRED` identity and the same builder-card section order, but with simpler formatting
 4. Candidate-facing prompts must explicitly tell the agent to degrade gracefully on Notion AI and similar surfaces instead of forcing terminal-only art that breaks layout.
 
 ## Best-Fit Role Recommendation
@@ -688,8 +723,8 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
    - `Taste-driven Designer`
    - `Debugging Detective`
    - `Operator Builder`
-4. MBTI may be included as a bounded supporting work-style signal when evidence justifies it, but it should not lead the report, hero copy, page title, or share card.
-5. If MBTI is included, every TUI output must use standard MBTI letters directly:
+4. MBTI may be included as a bounded supporting work-style signal in the detailed markdown report when evidence justifies it, but it must not lead the report, hero copy, page title, public builder card, or share card.
+5. If MBTI is included outside the public builder card, use standard MBTI letters directly:
    - `E / I`
    - `S / N`
    - `T / F`
@@ -737,15 +772,11 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
 29. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
 30. Use a clearer bar-first format such as `[█████████░] 92` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
 31. Do not decorate every visible line with repeated prefixes such as `>>`.
-32. In the terminal summary, reserve strong decoration for the `HIRED` banner itself. After that, prefer plain labels such as:
-   - `AI-native Builder Profile`
-   - `Builder Type`
-   - `Result`
-   - `Strength Read`
-   - `Core Board`
-   - `Talent Tags`
-   - `Locked Skills`
-   - `Next Step`
+32. In the terminal summary, reserve strong decoration for the `HIRED` banner and canonical builder-card frame. After that, prefer only the card labels:
+   - `SIGNALS`
+   - `STRENGTHS`
+   - `GAPS`
+   - `NEXT`
 33. Avoid visual noise that makes the report feel like raw debug output. The TUI should read like a clean card, not a terminal log dump.
 
 ## Runtime Budget
@@ -777,10 +808,11 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
 3. Keep `docs/assets/mbti/manifest.json` aligned with the actual asset files.
 4. Candidate-facing prompts should reference the public asset URL pattern:
    - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
-5. In terminal output, place the MBTI ASCII card immediately below the `HIRED` header by printing the raw text card directly in the TUI.
-6. Prefer the repo text asset itself over a generated substitute. Only fall back to a compact emblem when the asset file cannot be loaded.
-7. Do not use SVG, raster images, or inline-image assumptions for the MBTI deck. This repo’s MBTI visuals are terminal-first text assets.
-8. Do not generate a fresh one-off visual style during the test. Reuse the predesigned ASCII deck so the result is consistent and recognizable across candidates.
+5. Do not place MBTI ASCII cards inside the public `HIRED` builder card or immediately below the `HIRED` header in deep-test TUI output.
+6. MBTI ASCII cards may be used only in quick-test or detailed-report contexts where MBTI is explicitly framed as secondary and optional.
+7. Prefer the repo text asset itself over a generated substitute. Only fall back to a compact emblem when the asset file cannot be loaded.
+8. Do not use SVG, raster images, or inline-image assumptions for the MBTI deck. This repo’s MBTI visuals are terminal-first text assets.
+9. Do not generate a fresh one-off visual style during the test. Reuse the predesigned ASCII deck so the result is consistent and recognizable across candidates.
 
 ## Per-JD Prompt Versioning
 
