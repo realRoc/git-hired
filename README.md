@@ -10,29 +10,30 @@
 ```
 
 > Website: <https://realroc.github.io/git-hired/>
-> Mobile Quick Test: <https://realroc.github.io/git-hired/start.html>
+> Builder Quick Test: <https://realroc.github.io/git-hired/start.html>
 
 [简体中文](./README.zh-CN.md)
 
-`git-hired` is an open-source AI-native hiring test: candidates let their own AI agent analyze their real work traces and return a privacy-bounded fit report.
+> No server. No account. No upload. No tracking.
+> Runs in your own AI agent.
+> You choose the evidence.
+> You decide what report to share.
 
-Hiring for AI-native teams is broken.
+`git-hired` is an open-source AI-native builder profile generator. It helps people turn selected work traces into a public-safe work profile, and helps teams discover people who can actually work with AI agents.
 
-Resumes show claims.
-Interviews show performance.
-Take-home tests show isolated skill.
+What kind of AI-native builder are you?
 
-`git-hired` asks a different question:
+Generate a public work profile from your real work traces.
 
-Can this person use AI agents to understand ambiguity, inspect real work traces, make tradeoffs, and ship?
+The point is not to trust a maintainer, a resume, or a personality test. The point is to let your own selected evidence and the resulting output be inspectable.
 
-| Old hiring signal | git-hired signal |
+| Weak trust signal | git-hired signal |
 | --- | --- |
 | Resume claims | Work-trace evidence |
-| Interview performance | Agent-observed workflow |
-| Take-home tasks | Historical execution pattern |
+| Interview performance | Agent-observed work style |
+| Take-home tasks | Historical execution patterns |
 | Self-reported AI usage | Actual agent practice |
-| Generic score | Role-specific fit report |
+| Generic score | Builder profile + public-safe card |
 
 ## Start Here
 
@@ -50,6 +51,16 @@ read https://realroc.github.io/git-hired/skill.md
 
 Paste that into your own work agent, such as Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability.
 
+Zero-install demo:
+
+```text
+Analyze my AI-native work style based only on this conversation.
+Do not access files. Do not ask for private data.
+Return a public-safe builder profile.
+```
+
+Paste that into ChatGPT, Claude, Gemini, or another AI chat with a selected conversation, PR description, issue, README, or project note.
+
 Advanced command:
 
 ```text
@@ -59,6 +70,7 @@ read https://realroc.github.io/git-hired/skill.md and treat it as active instruc
 ## Privacy First
 
 > `git-hired` is consent-first and local-only.
+> No server, no account, no upload, no tracking.
 > By default, every role prompt stays `history-only`.
 > It should not scan a candidate's local repo, project folder, or document files unless the candidate explicitly allows it.
 > `git-hired` never uploads candidate repo or local file data to our server.
@@ -71,16 +83,17 @@ At a glance:
 - optional mode: candidate-approved scanning of specific repos / local folders / files
 - analysis location: the candidate's own machine or connected workspace
 - server upload of local repo / file data: `none`
+- default share object: public-safe builder card, not the private report
 
 ## The Protocol
 
 ### Candidate Protocol
 
-1. Paste the quick start command into your own work agent.
+1. Choose evidence level: paste selected text, public GitHub material, selected repos / files, or local agent history with explicit opt-in.
 2. Choose a target role, or describe your current profession if you are unsure.
 3. Choose privacy scope: `history-only` or explicit named files / repos.
 4. Let the agent inspect only approved evidence.
-5. Keep the generated fit report, or send a public summary if you want to apply or collaborate.
+5. Keep the private report for yourself, or share the public-safe builder card if you want to apply or collaborate.
 
 ### Evaluator Protocol
 
@@ -119,7 +132,7 @@ Also included:
 - `rubric.md`: public evaluator standard
 - `examples/`: fictional, redacted sample reports
 
-## I Am Using This To Find Collaborators
+## AI-Native Collaboration
 
 I am building AI-native products and looking for people who can:
 
@@ -129,10 +142,10 @@ I am building AI-native products and looking for people who can:
 - think clearly about product, users, metrics, and tradeoffs
 - respect privacy and security boundaries
 
-If this sounds like you, run `git-hired` on yourself and open an issue with:
+If your report shows strong AI-native builder signals and you are interested in AI-native collaboration, open an issue with:
 
 - target role
-- public report summary
+- public-safe builder card or public report summary
 - what you want to build next
 - any privacy limits you want respected
 
@@ -155,17 +168,17 @@ Start here if you want to understand what a report looks like before running the
 | Interview answers | Agent-observed behavior |
 | Take-home task | Historical execution pattern |
 | Self-reported AI usage | Actual agent workflow |
-| Generic score | Role-specific fit report |
+| Generic score | Builder profile + role-specific fit |
 
 ## Why This Exists
 
-In AI-native hiring, titles are weak proxies.
+In AI-native hiring and collaboration, titles are weak proxies.
 
 The more useful question is:
 
-Can this person direct AI well enough to ship, learn, and iterate under startup constraints?
+Can this person direct AI well enough to handle ambiguity, make tradeoffs, ship, learn, and iterate?
 
-`git-hired` is built to make that visible without turning candidate evaluation into surveillance.
+`git-hired` is built to make that visible without turning work-profile generation into surveillance.
 
 ## Privacy Boundary
 
@@ -188,11 +201,13 @@ They explicitly ask the agent to avoid printing:
 
 The intended output is:
 
+- a public-safe builder card
+- a private evidence report
 - distributions
 - de-identified examples
 - scoring
 - fit assessment
-- MBTI work personality as a work-style read, not a life-wide personality claim
+- optional MBTI work-style signal, not a life-wide personality claim
 - a candidate-facing local markdown report
 
 ## Repo Structure

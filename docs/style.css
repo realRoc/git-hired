@@ -1221,6 +1221,14 @@ body.lang-zh .choice small {
 .rc-chip.is-unknown .rc-chip-name {
   color: var(--muted);
 }
+.rc-chip.builder-chip .rc-chip-letter {
+  font-size: 15px;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+}
+.rc-chip.builder-chip .rc-chip-name {
+  font-size: 10px;
+}
 
 .rc-readout {
   display: grid;

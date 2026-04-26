@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>git-hired</title>
-    <meta name="description" content="Open-source AI-native hiring protocol with privacy-bounded candidate fit reports.">
+    <meta name="description" content="Open-source AI-native builder profile generator with public-safe work profiles.">
     <script>
       (function () {
         var key = "git-hired-lang";
@@ -59,20 +59,20 @@
         <h1 class="ascii-fallback" aria-hidden="true">git hired</h1>
 
         <p class="lede manifesto" data-lang="en">
-          Hiring for AI-native teams is broken. Resumes show claims. Interviews show performance.
-          Take-home tests show isolated skill. <code>git-hired</code> asks a different question:
-          can this person use agents to understand ambiguity, inspect real work traces, make tradeoffs, and ship?
+          What kind of AI-native builder are you? <code>git-hired</code> helps you turn selected work traces
+          into a public-safe work profile, so your output can be judged from evidence instead of resume claims,
+          interviews, or a personality-test label.
         </p>
         <p class="lede manifesto" data-lang="zh">
-          AI-native 团队的招人方式坏掉了。简历展示的是声明，面试展示的是表演，作业题展示的是孤立技能。
-          <code>git-hired</code> 问的是另一个问题：这个人能不能用 agent 理解模糊任务、检查真实工作痕迹、做取舍，并把事情推进到交付？
+          你是哪种 AI-native builder？<code>git-hired</code> 帮你把自己选择的工作痕迹转成一份可公开分享的工作画像，
+          让别人看见证据，而不是只看简历声明、面试表现或人格测试标签。
         </p>
 
         <p class="mini" data-lang="en">
-          Open-source AI-native hiring protocol. Candidates run it inside their own work agent; `git-hired` never uploads local repo, file, or local data to our server.
+          No server. No account. No upload. No tracking. Runs in your own AI agent; you choose the evidence and decide what to share.
         </p>
         <p class="mini" data-lang="zh">
-          开源 AI-native 招人协议。候选人在自己的工作 agent 里运行；`git-hired` 不会把本地 repo、文件或本地数据上传到我们的服务器。
+          无服务器、无账号、不上传、不追踪。在你自己的 AI agent 里运行；你选择证据范围，也决定分享哪份报告。
         </p>
 
         <nav class="audience-ctas" aria-label="Audience entry points">
@@ -127,8 +127,8 @@
             </div>
             <h3 data-lang="en">Candidates</h3>
             <h3 data-lang="zh">候选人</h3>
-            <p data-lang="en">Run the test in your own agent, choose privacy scope, and keep or share a public fit summary.</p>
-            <p data-lang="zh">在自己的 agent 里运行测试，选择隐私范围，然后保留或分享公开摘要。</p>
+            <p data-lang="en">Generate a builder profile in your own agent, choose evidence scope, and share only the public-safe card.</p>
+            <p data-lang="zh">在自己的 agent 里生成 builder 画像，选择证据范围，只分享可公开的卡片。</p>
             <a class="card-foot" href="./candidate.html">
               <span data-lang="en">run protocol</span>
               <span data-lang="zh">运行协议</span>
@@ -142,8 +142,8 @@
             </div>
             <h3 data-lang="en">Founders / hiring teams</h3>
             <h3 data-lang="zh">创始人 / 招聘团队</h3>
-            <p data-lang="en">Use a public protocol for evidence confidence, AI workflow maturity, ambiguity handling, and trust boundaries.</p>
-            <p data-lang="zh">用公开协议判断证据置信度、AI 工作流成熟度、模糊任务处理和信任边界。</p>
+            <p data-lang="en">Find people who can actually work with agents by reading evidence confidence, workflow maturity, and trust boundaries.</p>
+            <p data-lang="zh">通过证据置信度、AI 工作流成熟度和信任边界，找到真正会和 agent 一起工作的人。</p>
             <a class="card-foot" href="./evaluator.html">
               <span data-lang="en">use protocol</span>
               <span data-lang="zh">使用协议</span>
@@ -253,6 +253,16 @@
 
         <div class="outputs">
           <div class="outputs-row">
+            <div class="outputs-key">level 0</div>
+            <div class="outputs-val" data-lang="en">
+              Paste selected text, a public PR, an issue, a README, or a project note into any AI chat and ask for a public-safe builder profile. No install required.
+            </div>
+            <div class="outputs-val" data-lang="zh">
+              把你选择的文本、公开 PR、issue、README 或项目说明粘进任意 AI chat，先生成可公开的 builder 画像。无需安装。
+            </div>
+          </div>
+
+          <div class="outputs-row">
             <div class="outputs-key">runtime</div>
             <div class="outputs-val" data-lang="en">
               Works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory. On rich-text surfaces the result falls back to a compact card instead of wide terminal ASCII.
@@ -265,20 +275,20 @@
           <div class="outputs-row">
             <div class="outputs-key">signal</div>
             <div class="outputs-val" data-lang="en">
-              Work-trace evidence, actual agent workflow, role-specific fit, and MBTI work personality as a bounded work-style read.
+              Builder type, work-trace evidence, actual agent workflow, role-specific fit, and optional MBTI as a bounded secondary work-style read.
             </div>
             <div class="outputs-val" data-lang="zh">
-              工作痕迹证据、真实 agent 工作流、角色匹配度，以及有边界的 MBTI 工作人格判断。
+              Builder 类型、工作痕迹证据、真实 agent 工作流、角色匹配度，以及可选的 MBTI 辅助工作风格判断。
             </div>
           </div>
 
           <div class="outputs-row">
             <div class="outputs-key">report</div>
             <div class="outputs-val" data-lang="en">
-              A privacy-bounded fit report with evidence confidence, strengths, risks, next steps, and a candidate-facing local markdown report.
+              A private evidence report plus a public-safe card with builder type, strengths, collaboration mode, best-fit roles, anonymized evidence, and risk.
             </div>
             <div class="outputs-val" data-lang="zh">
-              一份带隐私边界的匹配报告：证据置信度、优势、风险、下一步，以及候选人可留存的本地 markdown 详细报告。
+              一份私人证据报告，以及一张可公开分享的卡片：builder 类型、优势、协作模式、适合角色、脱敏证据和风险。
             </div>
           </div>
         </div>
@@ -321,16 +331,16 @@
         <section class="mobile-entry">
           <div class="mobile-entry-copy">
             <div class="mobile-entry-kicker">mobile / qr</div>
-            <h3 data-lang="en">Scan for a 1-minute quick test</h3>
-            <h3 data-lang="zh">扫码做 1 分钟快速测试</h3>
+            <h3 data-lang="en">Scan for a 1-minute builder signal</h3>
+            <h3 data-lang="zh">扫码拿 1 分钟 builder 信号</h3>
             <p data-lang="en">
-              If the agent path above feels too detailed, start here on your phone. The Mobile Quick Test gives you a lightweight self-report signal and a handoff path for the deeper agent protocol.
+              If the agent path above feels too detailed, start here on your phone. The quick test gives you a lightweight self-report builder signal and a handoff path for the deeper agent protocol.
             </p>
             <p data-lang="zh">
-              如果上面的 agent 流程信息太多，直接从这里用手机开始。移动端快速测试会给你一个轻量自评信号，以及后续 agent 深度测试 handoff。
+              如果上面的 agent 流程信息太多，直接从这里用手机开始。快速测试会给你一个轻量自评 builder 信号，以及后续 agent 深度测试 handoff。
             </p>
-            <a class="button primary" href="./start.html" data-lang="en">Start Quick Test</a>
-            <a class="button primary" href="./start.html" data-lang="zh">开始快速测试</a>
+            <a class="button primary" href="./start.html" data-lang="en">Find My Builder Type</a>
+            <a class="button primary" href="./start.html" data-lang="zh">测我的 Builder 类型</a>
           </div>
           <div class="qr-card">
             <img src="./assets/quick-test-qr.svg" alt="QR code for the git-hired mobile quick test">

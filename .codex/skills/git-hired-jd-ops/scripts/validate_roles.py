@@ -13,8 +13,10 @@ ZH_VERSION_RE = re.compile(r"- 精确版本：`([^`]+)`")
 HIRED_HEADER_MARKER = "██╗  ██╗██╗██████╗ ███████╗██████╗"
 BLOCK_BAR_MARKER = "[█████████░] 92"
 OLD_BAR_MARKER = "[#######---]"
-MBTI_EN_MARKER = "MBTI work personality"
-MBTI_ZH_MARKER = "MBTI 工作人格"
+BUILDER_EN_MARKER = "AI-native builder profile"
+BUILDER_ZH_MARKER = "AI-native builder 画像"
+MBTI_EN_MARKER = "secondary `MBTI work-style signal`"
+MBTI_ZH_MARKER = "辅助的 `MBTI 工作风格信号`"
 TIME_BUDGET_EN_MARKER = "within about 1 minute"
 TIME_BUDGET_ZH_MARKER = "1 分钟内"
 UPLIFT_EN_MARKER = "Expected uplift"
@@ -174,10 +176,10 @@ def main() -> None:
         errors.append("docs/index.html should not link to redundant ./general.html guide page")
     if "See whether a candidate" in index_text or "看候选人是否" in index_text:
         errors.append("docs/index.html still contains recruiter-facing JD summary wording")
-    if MBTI_EN_MARKER not in index_text or MBTI_ZH_MARKER not in index_text:
-        errors.append("docs/index.html missing MBTI work-personality candidate copy")
-    if "Hiring for AI-native teams is broken" not in index_text or "AI-native 团队的招人方式坏掉了" not in index_text:
-        errors.append("docs/index.html missing AI-native hiring manifesto copy")
+    if "Builder type" not in index_text or "Builder 类型" not in index_text:
+        errors.append("docs/index.html missing builder-profile candidate copy")
+    if "What kind of AI-native builder are you?" not in index_text or "你是哪种 AI-native builder" not in index_text:
+        errors.append("docs/index.html missing AI-native builder hook copy")
     for marker in ("./candidate.html", "./evaluator.html", "./contributor.html"):
         if marker not in index_text:
             errors.append(f"docs/index.html missing audience CTA link: {marker}")
@@ -191,8 +193,8 @@ def main() -> None:
         errors.append("docs/index.html missing auto-analysis no-interview wording")
     if "Copy Command" not in index_text or "复制命令" not in index_text:
         errors.append("docs/index.html missing copyable starter command UI")
-    if "./start.html" not in index_text or "Start Quick Test" not in index_text or "开始快速测试" not in index_text:
-        errors.append("docs/index.html missing mobile human quick-test entry")
+    if "./start.html" not in index_text or "Find My Builder Type" not in index_text or "测我的 Builder 类型" not in index_text:
+        errors.append("docs/index.html missing mobile builder quick-test entry")
     if "quick-test-qr.svg" not in index_text:
         errors.append("docs/index.html missing QR code for mobile quick-test entry")
     if "quick-test-fallback" not in index_text:
@@ -204,7 +206,7 @@ def main() -> None:
     validate_footer_css(style_text, errors)
 
     audience_pages = {
-        "docs/candidate.html": (candidate_page, "Candidate Protocol", "候选人协议"),
+        "docs/candidate.html": (candidate_page, "Generate Your Builder Profile", "生成你的 Builder 画像"),
         "docs/evaluator.html": (evaluator_page, "Evaluator Protocol", "评估者协议"),
         "docs/contributor.html": (contributor_page, "Contributor Protocol", "贡献者协议"),
     }
@@ -237,9 +239,9 @@ def main() -> None:
         errors.append("docs/start.html missing mobile human quick-test page")
     else:
         quick_start_text = quick_start.read_text(encoding="utf-8")
-        if "Mobile Quick Test" not in quick_start_text or "移动端快速测试" not in quick_start_text:
-            errors.append("docs/start.html missing bilingual quick-test identity")
-        if "does not scan local repos" not in quick_start_text or "不扫描本地 repo" not in quick_start_text:
+        if "Builder Quick Test" not in quick_start_text or "Builder 快速测试" not in quick_start_text:
+            errors.append("docs/start.html missing bilingual builder quick-test identity")
+        if "No local repo" not in quick_start_text or "不扫描本地 repo" not in quick_start_text:
             errors.append("docs/start.html missing self-report no-scan privacy wording")
         if quick_start_text.count('class="section question-block quick-step') != 10:
             errors.append("docs/start.html should render exactly 10 mobile quick-test questions")
@@ -277,8 +279,8 @@ def main() -> None:
         errors.append("docs/quick-test.js missing quick-test behavior")
     else:
         quick_start_js_text = quick_start_js.read_text(encoding="utf-8")
-        if "HIGH_CONFIDENCE_MARGIN" not in quick_start_js_text or '"*"' not in quick_start_js_text:
-            errors.append("docs/quick-test.js missing high-confidence star-fill MBTI logic")
+        if "HIGH_CONFIDENCE_MARGIN" not in quick_start_js_text or '"*"' not in quick_start_js_text or "BUILDER_TYPES" not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing builder-first quick-result logic")
         if "Claude Code" not in quick_start_js_text or "Codex" not in quick_start_js_text:
             errors.append("docs/quick-test.js missing deeper-test guidance for Claude Code / Codex")
         if "https://github.com/realRoc/git-hired" not in quick_start_js_text:
@@ -394,7 +396,7 @@ def main() -> None:
         errors.append("README.md missing work-agent compatibility or privacy-upload wording")
     if WORK_AGENT_ZH_MARKER not in readme_zh or "我们的服务器" not in readme_zh:
         errors.append("README.zh-CN.md missing work-agent compatibility or privacy-upload wording")
-    if "open-source AI-native hiring test" not in readme_en or "AI-native 招人测试" not in readme_zh:
+    if "open-source AI-native builder profile generator" not in readme_en or "开源的 AI-native builder 画像生成器" not in readme_zh:
         errors.append("README missing protocol positioning statement")
     if "Website:" not in readme_en or "https://realroc.github.io/git-hired/" not in readme_en:
         errors.append("README.md missing top website entry")
@@ -406,16 +408,16 @@ def main() -> None:
     for marker in ("candidate.html", "evaluator.html", "contributor.html", "rubric.md", "examples/"):
         if marker not in readme_zh:
             errors.append(f"README.zh-CN.md missing protocol/funnel marker: {marker}")
-    if "I Am Using This To Find Collaborators" not in readme_en or "我也在用这个项目寻找合作伙伴" not in readme_zh:
+    if "AI-Native Collaboration" not in readme_en or "AI-native 协作" not in readme_zh:
         errors.append("README missing collaborator funnel section")
     if "skill.md" not in readme_en or "https://realroc.github.io/git-hired/skill.md" not in readme_en:
         errors.append("README.md missing skill.md live link")
     if "skill.md" not in readme_zh or "https://realroc.github.io/git-hired/skill.md" not in readme_zh:
         errors.append("README.zh-CN.md missing skill.md live link")
-    if "https://realroc.github.io/git-hired/start.html" not in readme_en or "Mobile Quick Test" not in readme_en:
-        errors.append("README.md missing mobile quick-test entry")
-    if "https://realroc.github.io/git-hired/start.html" not in readme_zh or "移动端快速测试" not in readme_zh:
-        errors.append("README.zh-CN.md missing mobile quick-test entry")
+    if "https://realroc.github.io/git-hired/start.html" not in readme_en or "Builder Quick Test" not in readme_en:
+        errors.append("README.md missing builder quick-test entry")
+    if "https://realroc.github.io/git-hired/start.html" not in readme_zh or "Builder 快速测试" not in readme_zh:
+        errors.append("README.zh-CN.md missing builder quick-test entry")
     if "Paste the prompt from this link into your own Claude Code or Codex" in readme_en:
         errors.append("README.md still contains Claude Code/Codex-exclusive candidate wording")
     if "粘贴到你自己的 Claude Code 或 Codex" in readme_zh:
@@ -496,8 +498,10 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing best-fit role guidance")
             if "阵营编码" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains deprecated alignment-code language")
+            if BUILDER_ZH_MARKER not in zh_prompt_text or "builder 类型" not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing builder-profile guidance")
             if MBTI_ZH_MARKER not in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md missing MBTI work-personality guidance")
+                errors.append(f"prompts/{prompt_slug}.md missing secondary MBTI work-style guidance")
             if "例如 `INTJ`" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains INTJ example anchoring")
             if "逻辑取舍，还是更偏用户 / 人的感受与关系" in zh_prompt_text or "结构、计划、收口，还是更偏探索、试错、临场适配" in zh_prompt_text:
@@ -514,7 +518,7 @@ def main() -> None:
             if "pixel card" in zh_prompt_text or ".svg" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains legacy pixel-card or SVG language")
             if ASCII_CARD_URL_BASE not in zh_prompt_text or ASCII_CARD_ZH_MARKER not in zh_prompt_text or ".txt" not in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md missing MBTI ASCII-card guidance")
+                errors.append(f"prompts/{prompt_slug}.md missing secondary MBTI ASCII-card guidance")
             if "天赋词缀" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing talent-tag guidance")
             if "待解锁天赋" not in zh_prompt_text:
@@ -572,8 +576,10 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing best-fit role guidance")
             if "alignment code" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains deprecated alignment-code language")
+            if BUILDER_EN_MARKER not in en_prompt_text or "builder type" not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing builder-profile guidance")
             if MBTI_EN_MARKER not in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md missing MBTI work-personality guidance")
+                errors.append(f"prompts/{prompt_slug}.en.md missing secondary MBTI work-style guidance")
             if "such as `INTJ`" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains INTJ example anchoring")
             if "tradeoff logic vs people or user-attunement" in en_prompt_text or "structure and closure vs exploration and adaptation" in en_prompt_text:
@@ -590,7 +596,7 @@ def main() -> None:
             if "pixel card" in en_prompt_text or ".svg" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains legacy pixel-card or SVG language")
             if ASCII_CARD_URL_BASE not in en_prompt_text or ASCII_CARD_EN_MARKER not in en_prompt_text or ".txt" not in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md missing MBTI ASCII-card guidance")
+                errors.append(f"prompts/{prompt_slug}.en.md missing secondary MBTI ASCII-card guidance")
             if "Talent Tags" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing talent-tag guidance")
             if "Locked Skills" not in en_prompt_text:

@@ -10,18 +10,84 @@
     ["J", "P"],
   ];
   const HIGH_CONFIDENCE_MARGIN = 2;
+  const BUILDER_TYPES = [
+    {
+      key: "prototype",
+      letters: ["N", "P", "T"],
+      title: { en: "Prototype Hacker", zh: "原型黑客" },
+      mode: { en: "sketch fast, test early, learn from a working draft", zh: "快速做草稿，先试起来，用可运行版本学习" },
+      signal: { en: "You seem to turn uncertainty into experiments and prototypes.", zh: "你更像是把不确定性转成实验和原型。" },
+      risk: { en: "May need clearer closure when the first demo starts working.", zh: "当第一版 demo 跑通后，可能需要更清晰的收口。" },
+    },
+    {
+      key: "orchestrator",
+      letters: ["E", "J", "T"],
+      title: { en: "Agent Orchestrator", zh: "Agent 编排者" },
+      mode: { en: "align people and tools, split work, drive closure", zh: "对齐人和工具，拆分任务，推动收口" },
+      signal: { en: "You seem to create momentum by coordinating work into clear tracks.", zh: "你更像是通过把工作协调成清晰轨道来制造推进力。" },
+      risk: { en: "May over-structure before the evidence is stable.", zh: "在证据还不稳定时，可能会过早结构化。" },
+    },
+    {
+      key: "shaper",
+      letters: ["N", "J", "F"],
+      title: { en: "Product Shaper", zh: "产品塑形者" },
+      mode: { en: "turn fuzzy context into direction, boundaries, and product judgment", zh: "把模糊上下文压成方向、边界和产品判断" },
+      signal: { en: "You seem to connect patterns, people context, and decisions into a product direction.", zh: "你更像是把模式、人的处境和决策连成产品方向。" },
+      risk: { en: "May need more concrete evidence before locking the story.", zh: "在锁定叙事前，可能需要更多具体证据。" },
+    },
+    {
+      key: "systems",
+      letters: ["I", "S", "T", "J"],
+      title: { en: "Systems Builder", zh: "系统构建者" },
+      mode: { en: "stabilize details, standards, ownership, and long-term maintainability", zh: "稳定细节、标准、owner 和长期可维护性" },
+      signal: { en: "You seem to protect quality by making details, standards, and ownership explicit.", zh: "你更像是通过明确细节、标准和 owner 来保护质量。" },
+      risk: { en: "May need faster external feedback before polishing the system.", zh: "在打磨系统前，可能需要更快获得外部反馈。" },
+    },
+    {
+      key: "growth",
+      letters: ["E", "N", "P"],
+      title: { en: "Growth Experimenter", zh: "增长实验者" },
+      mode: { en: "read social signals, try channels, keep loops open", zh: "读取社交信号，测试渠道，保持循环开放" },
+      signal: { en: "You seem to move through people signals, options, and fast channel experiments.", zh: "你更像是通过人群信号、选项和快速渠道实验来推进。" },
+      risk: { en: "May need sharper constraints and success metrics.", zh: "可能需要更锋利的约束和成功指标。" },
+    },
+    {
+      key: "taste",
+      letters: ["N", "F", "P"],
+      title: { en: "Taste-driven Designer", zh: "品味驱动设计者" },
+      mode: { en: "notice meaning, user feeling, and possible directions", zh: "关注意义、用户感受和可能方向" },
+      signal: { en: "You seem to notice the human meaning and future shape of a work artifact.", zh: "你更像是会注意一个产物的人味、意义和未来形状。" },
+      risk: { en: "May need tighter acceptance criteria before handing work off.", zh: "在交付给别人前，可能需要更清楚的验收标准。" },
+    },
+    {
+      key: "debugging",
+      letters: ["I", "S", "T", "P"],
+      title: { en: "Debugging Detective", zh: "调试侦探" },
+      mode: { en: "inspect facts, isolate failures, keep testing until the signal is real", zh: "检查事实、隔离问题，持续测试直到信号成立" },
+      signal: { en: "You seem to trust concrete traces and direct investigation before deciding.", zh: "你更像是先相信具体痕迹和直接调查，再做判断。" },
+      risk: { en: "May need to surface the decision sooner for collaborators.", zh: "可能需要更早把决策点暴露给合作者。" },
+    },
+    {
+      key: "operator",
+      letters: ["E", "S", "J", "F"],
+      title: { en: "Operator Builder", zh: "运营型构建者" },
+      mode: { en: "turn messy coordination into reliable process and visible next steps", zh: "把混乱协作转成可靠流程和可见下一步" },
+      signal: { en: "You seem to keep work moving by protecting people, process, and closure.", zh: "你更像是通过保护人、流程和收口来保持推进。" },
+      risk: { en: "May need more room for exploration when the situation changes.", zh: "当局面变化时，可能需要给探索留更多空间。" },
+    },
+  ];
 
   const COPY = {
     en: {
-      resultTitle: "HIRED quick result",
-      resultLabel: "Your quick result ::",
+      resultTitle: "Builder quick result",
+      resultLabel: "Builder signal ::",
       confirmedTitle: "What looks clear",
-      unknownTitle: "What is still unknown",
-      noConfirmed: "No axis is strong enough yet.",
-      noUnknown: "No unknown axes in this quick run.",
-      starMeaning: "* means this part is still unclear from these 10 answers.",
-      simple: "This is only a simple 10-question self-report test.",
-      detail: "For a detailed evidence-based result, open the GitHub repo and run the deeper test through Claude Code, Codex, or a similar work agent.",
+      unknownTitle: "What needs real evidence",
+      noConfirmed: "No signal is strong enough yet.",
+      noUnknown: "No major uncertainty in this quick run.",
+      starMeaning: "* in the secondary style chip means that part is unclear from these 10 answers.",
+      simple: "This is only a simple 10-question self-report signal, not evidence from real work traces.",
+      detail: "For a detailed evidence-based builder profile, open the GitHub repo and run the deeper test through Claude Code, Codex, or a similar work agent.",
       cta: "GitHub repo",
       copyReport: "copy report",
       copied: "copied",
@@ -29,15 +95,15 @@
       back: "Back",
     },
     zh: {
-      resultTitle: "HIRED 快速结果",
-      resultLabel: "你的快速结论 ::",
+      resultTitle: "Builder 快速结果",
+      resultLabel: "Builder 信号 ::",
       confirmedTitle: "比较确定的部分",
-      unknownTitle: "仍然未知的部分",
-      noConfirmed: "目前没有足够确定的轴。",
-      noUnknown: "这次快速测试里没有未知轴。",
-      starMeaning: "* 表示这部分仅凭 10 道题还判断不稳。",
-      simple: "这只是一个 10 题简化自评测试。",
-      detail: "如果需要详细、基于真实工作证据的结果，请回到 GitHub repo，用 Claude Code、Codex 或类似工作 agent 运行深度测试。",
+      unknownTitle: "还需要真实证据的部分",
+      noConfirmed: "目前没有足够确定的信号。",
+      noUnknown: "这次快速测试里没有明显未知项。",
+      starMeaning: "secondary style chip 里的 * 表示这部分仅凭 10 道题还判断不稳。",
+      simple: "这只是一个 10 题简化自评信号，不是真实工作痕迹证据。",
+      detail: "如果需要详细、基于真实工作证据的 builder 画像，请回到 GitHub repo，用 Claude Code、Codex 或类似工作 agent 运行深度测试。",
       cta: "GitHub 仓库",
       copyReport: "复制结果",
       copied: "已复制",
@@ -160,6 +226,39 @@
     return Array.from(form.querySelectorAll('input[type="radio"]:checked'));
   }
 
+  function scoreBuilder(scores) {
+    const ranked = BUILDER_TYPES
+      .map((builder) => {
+        const rawScore = builder.letters.reduce((sum, letter) => sum + (scores[letter] || 0), 0);
+        return {
+          builder,
+          rawScore,
+          score: rawScore / builder.letters.length,
+        };
+      })
+      .sort((a, b) => b.score - a.score);
+    const best = ranked[0];
+    const second = ranked[1];
+    const margin = second ? best.score - second.score : best.score;
+    const strengthKey = margin >= 0.5 ? "clear" : margin >= 0.25 ? "emerging" : "light";
+    return {
+      ...best.builder,
+      score: best.score,
+      rawScore: best.rawScore,
+      margin,
+      strengthKey,
+    };
+  }
+
+  function strengthLabel(result, lang) {
+    const labels = {
+      clear: { en: "clear signal", zh: "信号清晰" },
+      emerging: { en: "emerging signal", zh: "信号浮现" },
+      light: { en: "light signal", zh: "轻量信号" },
+    };
+    return labels[result.builder.strengthKey][lang];
+  }
+
   function scoreMbti(form) {
     const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
     selectedOptions(form).forEach((option) => {
@@ -180,7 +279,8 @@
     return {
       scores,
       axes,
-      type: axes.map((axis) => (axis.confident ? axis.winner : "*")).join(""),
+      builder: scoreBuilder(scores),
+      mbtiType: axes.map((axis) => (axis.confident ? axis.winner : "*")).join(""),
     };
   }
 
@@ -189,23 +289,56 @@
   }
 
   function confirmedRows(result, lang) {
-    return result.axes
+    const rows = [
+      {
+        mark: "type",
+        text: result.builder.signal[lang],
+        unknown: false,
+      },
+      {
+        mark: "mode",
+        text: result.builder.mode[lang],
+        unknown: false,
+      },
+    ];
+
+    result.axes
       .filter((axis) => axis.confident)
-      .map((axis) => ({
+      .slice(0, 2)
+      .forEach((axis) => rows.push({
         mark: axis.winner,
         text: LETTER_COPY[axis.winner][lang],
         unknown: false,
       }));
+
+    return rows;
   }
 
   function unknownRows(result, lang) {
-    return result.axes
+    const rows = [
+      {
+        mark: "trace",
+        text: lang === "zh"
+          ? "这页没有检查真实交付、agent 使用记录或协作文档；深度测试才会看证据。"
+          : "This page did not inspect shipped work, agent usage, or collaboration artifacts; the deep test checks evidence.",
+        unknown: true,
+      },
+      {
+        mark: "risk",
+        text: result.builder.risk[lang],
+        unknown: true,
+      },
+    ];
+
+    result.axes
       .filter((axis) => !axis.confident)
-      .map((axis) => ({
+      .forEach((axis) => rows.push({
         mark: "*",
         text: AXIS_UNKNOWN_COPY[axisKey(axis)][lang],
         unknown: true,
       }));
+
+    return rows;
   }
 
   function buildResultText(result, lang) {
@@ -220,7 +353,8 @@
 
     return [
       text(lang, "resultTitle"),
-      text(lang, "resultLabel") + " " + result.type,
+      text(lang, "resultLabel") + " " + result.builder.title[lang],
+      (lang === "zh" ? "辅助工作风格 :: " : "Secondary work-style :: ") + result.mbtiType,
       text(lang, "starMeaning"),
       "",
       text(lang, "confirmedTitle") + ":",
@@ -236,18 +370,46 @@
     ].join("\n");
   }
 
-  function renderAxisChips(result, lang) {
+  function renderBuilderChips(result, lang) {
     const strip = makeElement("div", "rc-type-strip");
+    const chipData = [
+      {
+        axis: lang === "zh" ? "类型" : "builder",
+        letter: result.builder.title[lang],
+        name: lang === "zh" ? "快速画像" : "quick profile",
+        meta: result.builder.key,
+        state: "is-confirmed",
+      },
+      {
+        axis: lang === "zh" ? "信号" : "signal",
+        letter: strengthLabel(result, lang),
+        name: lang === "zh" ? "10 题自评" : "10-question read",
+        meta: result.builder.score.toFixed(1) + " avg",
+        state: result.builder.strengthKey === "light" ? "is-unknown" : "is-confirmed",
+      },
+      {
+        axis: lang === "zh" ? "协作" : "mode",
+        letter: lang === "zh" ? "看下方" : "see below",
+        name: lang === "zh" ? "协作模式" : "collaboration",
+        meta: "public-safe",
+        state: "is-confirmed",
+      },
+      {
+        axis: lang === "zh" ? "辅助" : "secondary",
+        letter: result.mbtiType,
+        name: lang === "zh" ? "工作风格" : "work style",
+        meta: "MBTI",
+        state: result.mbtiType.includes("*") ? "is-unknown" : "is-confirmed",
+      },
+    ];
 
-    result.axes.forEach((axis) => {
-      const key = axisKey(axis);
-      const mark = axis.confident ? axis.winner : "*";
-      const chip = makeElement("div", "rc-chip " + (axis.confident ? "is-confirmed" : "is-unknown"));
+    chipData.forEach((item) => {
+      const chip = makeElement("div", "rc-chip builder-chip " + item.state);
       chip.append(
-        makeElement("span", "rc-chip-axis", AXIS_COPY[key][lang].axis),
-        makeElement("span", "rc-chip-letter", mark),
-        makeElement("span", "rc-chip-name", axis.confident ? LETTER_NAMES[mark][lang] : LETTER_NAMES["*"][lang]),
-        makeElement("span", "rc-chip-meta", AXIS_COPY[key][lang].name)
+        makeElement("span", "rc-chip-axis", item.axis),
+        makeElement("span", "rc-chip-letter", item.letter),
+        makeElement("span", "rc-chip-name", item.name),
+        makeElement("span", "rc-chip-meta", item.meta)
       );
       strip.append(chip);
     });
@@ -259,7 +421,7 @@
     const readout = makeElement("div", "rc-readout");
     readout.append(
       makeElement("span", "rc-readout-label", text(lang, "resultLabel")),
-      makeElement("strong", "rc-result-type", result.type)
+      makeElement("strong", "rc-result-type", result.builder.title[lang])
     );
     return readout;
   }
@@ -299,7 +461,7 @@
     const confirmed = confirmedRows(result, lang);
     const unknown = unknownRows(result, lang);
     const nodes = [
-      renderAxisChips(result, lang),
+      renderBuilderChips(result, lang),
       renderReadout(result, lang),
       renderSection(text(lang, "confirmedTitle"), confirmed, text(lang, "noConfirmed"), false),
     ];

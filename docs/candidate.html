@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Candidate Protocol · git-hired</title>
-    <meta name="description" content="Run git-hired in your own work agent and get a privacy-bounded fit report.">
+    <title>Builder Profile · git-hired</title>
+    <meta name="description" content="Generate a public-safe AI-native builder profile from selected work traces.">
     <script>
       (function () {
         var key = "git-hired-lang";
@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="./style.css">
     <script src="./app.js" defer></script>
   </head>
-  <body class="lang-en" data-lang="en" data-title-en="Candidate Protocol · git-hired" data-title-zh="候选人协议 · git-hired">
+  <body class="lang-en" data-lang="en" data-title-en="Builder Profile · git-hired" data-title-zh="Builder 画像 · git-hired">
     <main class="shell">
       <div class="topbar">
         <div class="topbar-left">
@@ -54,13 +54,13 @@
           <span class="dollar">$</span>
           <span style="color:var(--ink-dim);margin-left:4px">run protocol</span>
         </div>
-        <h1 class="role-title" data-lang="en">Candidate Protocol</h1>
-        <h1 class="role-title" data-lang="zh">候选人协议</h1>
+        <h1 class="role-title" data-lang="en">Generate Your Builder Profile</h1>
+        <h1 class="role-title" data-lang="zh">生成你的 Builder 画像</h1>
         <p class="lede" data-lang="en">
-          Run <code>git-hired</code> inside your own work agent, choose your privacy scope, and get a fit report based on how you actually work.
+          Run <code>git-hired</code> inside your own work agent, choose the evidence, and get a public-safe profile of how you actually work with AI.
         </p>
         <p class="lede" data-lang="zh">
-          在你自己的工作 agent 里运行 <code>git-hired</code>，选择隐私范围，然后拿到一份基于真实工作方式的匹配报告。
+          在你自己的工作 agent 里运行 <code>git-hired</code>，选择证据范围，然后生成一份可公开分享的 AI-native 工作画像。
         </p>
 
         <section class="prompt-wrap">
@@ -91,29 +91,29 @@
       <section class="section">
         <div class="section-head">
           <span class="hash">01 /</span>
-          <h2 data-lang="en">Run It</h2>
-          <h2 data-lang="zh">如何运行</h2>
+          <h2 data-lang="en">Evidence Levels</h2>
+          <h2 data-lang="zh">证据层级</h2>
         </div>
         <div class="outputs">
           <div class="outputs-row">
+            <div class="outputs-key">0</div>
+            <div class="outputs-val" data-lang="en">Paste selected text into ChatGPT, Claude, Gemini, or another AI chat. No file access.</div>
+            <div class="outputs-val" data-lang="zh">把你选择的文本粘贴到 ChatGPT、Claude、Gemini 或其他 AI chat。不访问文件。</div>
+          </div>
+          <div class="outputs-row">
             <div class="outputs-key">1</div>
-            <div class="outputs-val" data-lang="en">Paste the command into Claude Code, Codex, Notion AI, or another work agent with memory.</div>
-            <div class="outputs-val" data-lang="zh">把命令粘贴到 Claude Code、Codex、Notion AI，或其他具备记忆能力的工作 agent。</div>
+            <div class="outputs-val" data-lang="en">Use public evidence: GitHub profile, PR, issue, README, project description, or public writing.</div>
+            <div class="outputs-val" data-lang="zh">使用公开证据：GitHub profile、PR、issue、README、项目说明或公开写作。</div>
           </div>
           <div class="outputs-row">
             <div class="outputs-key">2</div>
-            <div class="outputs-val" data-lang="en">Choose your target role, or describe your current profession if you are unsure.</div>
-            <div class="outputs-val" data-lang="zh">选择目标岗位；如果不确定，就先描述你当前的职业或身份。</div>
+            <div class="outputs-val" data-lang="en">Approve specific repos, PRs, folders, or files if you want stronger evidence.</div>
+            <div class="outputs-val" data-lang="zh">如果你想要更强证据，可以明确授权指定 repo、PR、目录或文件。</div>
           </div>
           <div class="outputs-row">
             <div class="outputs-key">3</div>
-            <div class="outputs-val" data-lang="en">Choose privacy scope: <code>history-only</code> by default, or explicitly named repos / files if you want stronger evidence.</div>
-            <div class="outputs-val" data-lang="zh">选择隐私范围：默认 <code>history-only</code>，如果你想要更强证据，可以明确点名授权 repo / 文件。</div>
-          </div>
-          <div class="outputs-row">
-            <div class="outputs-key">4</div>
-            <div class="outputs-val" data-lang="en">Keep the report for reflection, or share a public summary if you want to apply or collaborate.</div>
-            <div class="outputs-val" data-lang="zh">把报告留作复盘；如果想申请或合作，可以分享公开摘要。</div>
+            <div class="outputs-val" data-lang="en">Opt in to local agent history or workspace material only when you are comfortable with that scope.</div>
+            <div class="outputs-val" data-lang="zh">只有在你明确接受范围时，才授权本地 agent 历史或工作区材料。</div>
           </div>
         </div>
       </section>
@@ -121,28 +121,48 @@
       <section class="section">
         <div class="section-head">
           <span class="hash">02 /</span>
-          <h2 data-lang="en">Privacy Boundary</h2>
-          <h2 data-lang="zh">隐私边界</h2>
+          <h2 data-lang="en">What You Get</h2>
+          <h2 data-lang="zh">你会拿到什么</h2>
         </div>
-        <p class="mini" data-lang="en">
-          `git-hired` does not upload local repo or file data to our server. Your work agent should inspect only the projects, files, or knowledge-base material you explicitly authorize.
-        </p>
-        <p class="mini" data-lang="zh">
-          `git-hired` 不会把你的本地 repo 或文件数据上传到我们的服务器。你的工作 agent 只应访问你明确授权的项目、文件或知识库材料。
-        </p>
+        <div class="outputs">
+          <div class="outputs-row">
+            <div class="outputs-key">public</div>
+            <div class="outputs-val" data-lang="en">A shareable builder card: type, strengths, collaboration mode, best-fit roles, anonymized evidence, and risk.</div>
+            <div class="outputs-val" data-lang="zh">一张可分享 builder 卡片：类型、优势、协作模式、适合角色、脱敏证据和风险。</div>
+          </div>
+          <div class="outputs-row">
+            <div class="outputs-key">private</div>
+            <div class="outputs-val" data-lang="en">A local evidence report with details, confidence limits, weak signals, and next steps for your own review.</div>
+            <div class="outputs-val" data-lang="zh">一份本地私人证据报告：细节、置信度边界、弱信号和下一步建议。</div>
+          </div>
+        </div>
       </section>
 
       <section class="section">
         <div class="section-head">
           <span class="hash">03 /</span>
-          <h2 data-lang="en">Want To Collaborate?</h2>
-          <h2 data-lang="zh">想合作？</h2>
+          <h2 data-lang="en">Privacy Boundary</h2>
+          <h2 data-lang="zh">隐私边界</h2>
         </div>
         <p class="mini" data-lang="en">
-          If your report shows strong fit and you are interested in AI-native products, open an issue with your target role, public summary, and what you want to build next.
+          No server, no account, no upload, no tracking. Default scope can stay <code>history-only</code>. `git-hired` does not upload local repo or file data to our server. Your work agent should inspect only the projects, files, or knowledge-base material you explicitly authorize.
         </p>
         <p class="mini" data-lang="zh">
-          如果你的报告显示强匹配，并且你对 AI-native 产品感兴趣，可以开一个 issue，写上目标岗位、公开摘要和你接下来想做什么。
+          无服务器、无账号、不上传、不追踪。默认范围可以保持 <code>history-only</code>。`git-hired` 不会把你的本地 repo 或文件数据上传到我们的服务器。你的工作 agent 只应访问你明确授权的项目、文件或知识库材料。
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <span class="hash">04 /</span>
+          <h2 data-lang="en">AI-Native Collaboration</h2>
+          <h2 data-lang="zh">AI-native 协作</h2>
+        </div>
+        <p class="mini" data-lang="en">
+          If your report shows strong AI-native builder signals and you are interested in AI-native collaboration, open an issue with your target role, public-safe builder card, and what you want to build next.
+        </p>
+        <p class="mini" data-lang="zh">
+          如果你的报告显示较强的 AI-native builder 信号，并且你正在寻找 AI-native 项目协作，可以开一个 issue，写上目标岗位、可公开 builder 卡片和你接下来想做什么。
         </p>
       </section>
 
