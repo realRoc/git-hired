@@ -237,19 +237,18 @@ This policy applies to every existing role prompt and every future role prompt i
 5. If the candidate does not allow scanning repo or document sources, still give the best objective judgment you can from history-only evidence, and state the resulting confidence limits clearly.
 6. If consent is unclear, ask a short permission question before scanning any repo or document source.
 
-## README Privacy Emphasis
+## README First Screen
 
-The first visible section of `README.md` and `README.zh-CN.md` must foreground the privacy guarantee.
+The first visible section of `README.md` and `README.zh-CN.md` must establish the simple product mental model before explaining privacy or advanced agent execution.
 
-That top section must make these points explicit:
+The top section should make these points clear:
 
-1. by default the prompts stay `history-only`
-2. repo / project / document scanning requires explicit candidate permission
-3. `git-hired` does not upload candidate repo or local file data to our server
-4. the chosen work agent may inspect only the projects, files, or knowledge-base material the candidate explicitly authorizes
-5. if the chosen work agent supports direct local access, any approved scan should stay inside the candidate's own machine or connected workspace whenever possible
+1. `git-hired` answers `What kind of AI-native builder are you?`
+2. it helps people understand how they work with ambiguity, AI, people, and progress
+3. the default starting point is the simple builder test and a shareable builder card
+4. the deeper agent report is optional and runs inside the user's own work agent
 
-Do not bury this message in later sections. Keep it visible near the top so candidates do not feel tricked, monitored, or data-mined.
+Privacy must still be easy to find near the top, especially in the `Deeper agent report` or `Privacy` section, but do not make the README first screen feel like a hiring protocol, agent manual, or privacy policy before the user understands the product.
 
 ## Docs Language Behavior
 
@@ -336,7 +335,7 @@ This rule applies to `skill.md`, `docs/skill.md`, `docs/index.html`, and any fut
 
 1. `skill.md` is the canonical agent-readable entry spec for Claude Code, Codex, and similar work agents.
 2. `docs/skill.md` is the deployed public copy of that entry spec and must stay content-identical to the root `skill.md`.
-3. Shared pages should present `skill.md` as a direct `read .../skill.md` start path before role-specific pages.
+3. Shared advanced-agent pages may present `skill.md` as a direct `read .../skill.md` start path before role-specific pages. The homepage must not make `skill.md` the primary first-screen path.
 4. The first interaction in `skill.md` must:
    - introduce `git-hired` briefly
    - ask the candidate for the target role they want right now
@@ -346,7 +345,7 @@ This rule applies to `skill.md`, `docs/skill.md`, `docs/index.html`, and any fut
 8. `history-only` remains the default unless the candidate explicitly approves a narrower named data scope.
 9. The shared entry flow should remove unnecessary manual prompt assembly. The agent should read the entry spec, collect the missing context, fetch the right prompt when needed, and then start analysis.
 10. `skill.md` must be written so that a work agent can be given a one-line command such as `read https://realroc.github.io/git-hired/skill.md` and immediately enter the test flow without extra setup text from the candidate.
-11. On `docs/index.html`, include a copyable one-line starter command that minimizes pre-run friction. The default public command should be:
+11. When an advanced agent command is shown after the simple test result or on an advanced-agent page, include a copyable one-line starter command that minimizes pre-run friction. The default public command should be:
    - `read https://realroc.github.io/git-hired/skill.md`
 12. Because some work agents treat `read <url>` as a document-reading action first, the default starter command on shared pages should explicitly say:
    - execute the fetched file directly
@@ -385,41 +384,90 @@ This rule applies to `docs/index.html`, `docs/start.html`, `docs/skill.md`, and 
 
 1. Treat these pages as candidate-serving surfaces, not recruiter-operating surfaces.
 2. Use candidate-facing headings and action labels, for example `How To Start`, not recruiter phrasing such as `How To Send This`.
-3. Explain next steps from the candidate's point of view:
-   - which test to choose
-   - how privacy works
-   - what they will get after running the prompt
+3. For the public homepage and simple test flow, explain only the next action from the user's point of view: start the builder test, answer 10 questions, receive a shareable builder type card. Do not require the user to understand modes, agents, `skill.md`, privacy scopes, role prompts, or hiring protocol before starting.
 4. Avoid employer-facing copy on shared pages, such as:
    - screening instructions
    - internal hiring-process framing
    - recruiter workflow language
-5. Candidate-facing copy must describe runtime compatibility as examples, not exclusivity. Use wording such as:
+5. Advanced-agent copy must describe runtime compatibility as examples, not exclusivity. Use wording such as:
    - `Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability`
    - `Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent`
-6. Candidate-facing copy must explicitly say:
+6. Advanced-agent copy must explicitly say:
    - `git-hired` does not upload candidate repo or local file data to our server
    - the chosen work agent should inspect only the projects or files the candidate explicitly authorizes
 7. If a page includes a runtime tip, phrase it conditionally, for example:
    - `If you're using Claude Code or Codex, bypass / YOLO usually makes the run smoother.`
-8. On `docs/index.html`, frame `git-hired` as an open-source AI-native hiring protocol, not merely a prompt collection. The hero should lead with a clear manifesto:
-   - ordinary hiring over-trusts resumes, interviews, and isolated take-home tasks
-   - AI-native teams should ask whether a candidate can use agents to handle ambiguity, inspect work traces, make tradeoffs, and ship
-   - the privacy boundary is explicit: no local repo, file, or local data upload to our server
-   - the simple `read https://realroc.github.io/git-hired/skill.md` starter is visible early, with advanced wording available separately when needed
+8. On `docs/index.html`, frame `git-hired` first as a simple, shareable AI-native builder test. The first viewport must focus on:
+   - `What kind of AI-native builder are you?`
+   - how the user works with ambiguity, AI, people, and progress
+   - one `Start the test` / `开始测试` CTA to `docs/start.html`
+   Avoid first-screen audience segmentation, role-specific tests, agent commands, protocol explanation, hiring language, and privacy-scope detail.
 9. Do not keep a standalone guide page when it only repeats the homepage starter flow, privacy explanation, or role-routing explanation.
 10. Prefer one strong homepage over a homepage-plus-guide split. Fold repeated shared-entry copy into `docs/index.html`, then remove the extra page and links.
-11. On the homepage agent shared-entry block, keep one primary action only: the copyable starter command. Do not add a secondary `Open skill.md` button or other raw-spec browse action beside it.
-12. The homepage may also expose a separate human quick-test entry for mobile sharing and QR-code traffic. This action must be clearly framed as a lightweight self-test, not as a replacement for the agent deep test.
-13. On `docs/index.html`, place the QR-code quick-test fallback near the bottom of the page, after the main explanatory content. The intent is: if the page feels too long or detailed, the candidate can scan one clear bottom entry and start the quick test immediately.
-14. The homepage and README should expose exactly three audience CTAs near the top:
-   - candidates: run the test
-   - founders / hiring teams / evaluators: use the protocol
-   - contributors: add a role, improve the rubric, or improve examples
-15. Maintain dedicated audience pages:
+11. Do not place agent commands, role pages, raw prompt links, QR quick-test fallbacks, or audience protocol cards next to the homepage's primary CTA. These may exist lower on advanced pages or after the simple result card.
+12. The homepage must not do first-screen entry splitting between simple mode, deep mode, agent mode, role mode, candidate mode, evaluator mode, contributor mode, or collaborator mode.
+13. Maintain dedicated audience pages as secondary protocol surfaces:
    - `docs/candidate.html`
    - `docs/evaluator.html`
    - `docs/contributor.html`
    These pages should be concise protocol pages, not marketing landing pages.
+
+## Simple Builder Test Product Surface
+
+This rule applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, `README.md`, `README.zh-CN.md`, and any future lightweight test surface.
+
+1. The primary public product mental model is `What kind of AI-native builder are you?`
+2. The default user path is:
+   - homepage
+   - `Start the test`
+   - 10 single-choice questions
+   - one shareable builder type card
+   - copy/share result
+   - optional advanced agent prompt after the result
+3. Do not ask for a target role, desired direction, simple/deep mode, role mode, or agent mode in the lightweight test.
+4. The lightweight test should measure work style, not job category:
+   - handling ambiguity
+   - using AI
+   - pushing progress
+   - handling feedback
+   - making judgments
+   - collaborating with people
+   - getting unstuck
+   - trading speed against quality
+5. The lightweight result type system must use these six AI-native builder types:
+   - `The Pathfinder` / `寻径者`: 在混沌中率先找到方向
+   - `The Shaper` / `塑形者`: 把粗糙想法打磨成清晰形态
+   - `The Shipstarter` / `启航者`: 用第一个版本快速撬动进展
+   - `The Synthesizer` / `融通者`: 把零散信息整合成完整判断
+   - `The Debugger` / `洞察者`: 穿透表象，找到问题根源
+   - `The Catalyst` / `催化者`: 加速人、想法与任务的协同
+6. Do not use job-like result categories in the lightweight test, including:
+   - `Product type`, `PM type`, `Engineer type`, `Growth type`, `Operator type`
+   - `产品型`, `工程型`, `增长型`, `运营型`
+   - role fit as the primary lightweight result
+7. The first result card layer must only include:
+   - `You are` / `你是`
+   - one-line explanation
+   - `Your strengths` / `你的优势`
+   - `Best environment` / `你最适合的场景`
+   - `Watch out` / `需要注意`
+   - `Next step` / `下一步建议`
+8. Do not show these in the first lightweight result card layer:
+   - role fit
+   - ability score
+   - evidence strength
+   - confidence
+   - local report path
+   - runtime mode
+   - `history-only`
+   - locked skills
+   - hiring recommendation
+9. Only after the result card, show a weak advanced-agent entry:
+   - headline: `Want a deeper report?` / `想要更准的结果？`
+   - explain that the user's own AI agent can analyze selected work evidence for a more accurate builder profile
+   - show exactly these three trust points: the user chooses evidence, no local files are uploaded to our server, and the user decides what to share
+   - button: `Copy agent prompt` / `复制 Agent 指令`
+10. The simple product copy should be concise, direct, non-recruiting, non-role-based, and should not require technical architecture knowledge before the user starts.
 
 ## Protocol Positioning
 
@@ -429,8 +477,9 @@ This rule applies to `README.md`, `README.zh-CN.md`, `docs/index.html`, audience
    - `git-hired is an open-source AI-native builder profile generator. It helps people turn selected work traces into a public-safe work profile, and helps teams discover people who can actually work with AI agents.`
    - `git-hired 是一个开源的 AI-native builder 画像生成器。它帮助用户把自己选择的工作痕迹转成一份可公开分享的工作画像，也帮助团队发现真正会和 AI agent 一起工作的人。`
 2. The primary hook should be:
-   - `What kind of AI-native builder are you? Generate a public work profile from your real work traces.`
-   - `你是哪种 AI-native builder？用你的真实工作痕迹，生成一份可公开分享的工作画像。`
+   - `What kind of AI-native builder are you?`
+   - `你是哪种 AI-native builder？`
+   Work-trace and public profile language belongs to the optional deeper-agent path, not the homepage first-screen promise.
 3. Do not use MBTI in repo prompts, public copy, quick-test output, report examples, eval expectations, or generated skill content. The identity system is `AI-native builder profile`, `work profile`, `builder type`, or equivalent candidate-facing wording.
 4. The core reputation claim is not `trust the maintainer`. The public trust structure should be:
    - user-selected historical work traces
@@ -442,7 +491,7 @@ This rule applies to `README.md`, `README.zh-CN.md`, `docs/index.html`, audience
    - `gstack helps you build like a YC founder. git-hired helps you prove you work like an AI-native builder.`
    - `gstack 帮你像 YC 创始人一样工作。git-hired 帮你证明自己是 AI-native builder。`
    Use this comparison only when useful; do not depend on external institutional reputation as the reason to trust `git-hired`.
-6. The product should support three public hooks:
+6. The product should support three public hooks, but the homepage first screen should lead only with the personal sharing hook:
    - personal sharing: `What kind of AI-native builder are you?` / `你是哪种 AI-native builder？`
    - job or collaboration use: `Generate a public work profile from your real work traces.` / `用你的真实工作痕迹生成一份公开工作画像。`
    - founder or team use: `Find people who can actually work with agents.` / `找到真正会和 AI agent 一起工作的人。`
@@ -474,12 +523,12 @@ This rule applies to `README.md`, `README.zh-CN.md`, `docs/index.html`, audience
    - Candidate Protocol
    - Evaluator Protocol
    - Contributor Protocol
-15. The public funnel should support:
+15. The public funnel should support these secondary goals without adding first-screen homepage entry splitting:
    - reputation building through a sharp point of view
    - quick candidate trial through a short starter command
    - collaborator discovery through public summaries and issues
    - contributor participation through examples, rubrics, and role prompts
-16. Keep quick-start copy short and first. Longer execution-first prompt wording can exist as an advanced command, but it should not be the first thing a new visitor has to parse.
+16. Keep quick-start copy short and first. On the website homepage, the quick start is `Start the test`; agent prompt commands belong after the lightweight result or on advanced pages.
 17. Add and maintain `rubric.md` as the public evaluator standard.
 18. Add and maintain fictional, redacted examples under `examples/` so users can see what reports look like before running the test.
 19. The collaborator funnel should be explicit: strong-fit candidates interested in AI-native products can run `git-hired` and open an issue with a public summary, target role, and what they want to build next.
@@ -522,23 +571,23 @@ This rule applies to `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, 
    - no upload of local repo or file data to our server
    - only candidate-entered answers and browser-local state should be used unless a future backend is explicitly designed and documented
 13. The result screen should stay concise and readable on a phone screen.
-14. The result screen must be a designed terminal-style report, not a raw markdown or `<pre>` text dump.
+14. The result screen must be a designed, simple builder type card, not a raw markdown dump, wide terminal report, or evidence audit.
 15. Render the quick result as structured DOM modules:
-   - shell-style status row
-   - builder-type chips or work-style chips
-   - large builder-profile readout
-   - confirmed section
-   - unknown section when needed
-   - simple-test footnote
+   - `You are` / `你是`
+   - one-line type explanation
+   - strengths
+   - best environment
+   - watch out
+   - next step
    - CTA row
 16. The result screen actions should be:
-   - go to `https://github.com/realRoc/git-hired` for the deeper test
+   - copy the shareable result text
    - retake the quick test
-   - copy the report text
+   - copy the advanced agent prompt from the post-result advanced block
    Do not show a share action unless explicitly requested later.
-17. The result screen must include a clear CTA back to `https://github.com/realRoc/git-hired` and explain that candidates should run the deeper test through Claude Code, Codex, or a similar work agent for detailed evidence-based results.
+17. The result screen may include the advanced agent prompt only below the simple card. This advanced entry must be visually weaker than the result card and must not reframe the simple test as a job test or hiring screen.
 18. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
-19. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
+19. Do not show the QR quick-test entry on the homepage first path unless explicitly requested later; the homepage itself is now the single simple-test entry.
 
 ## Candidate-Serving JD Descriptions
 
