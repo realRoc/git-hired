@@ -425,8 +425,9 @@ This rule applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`,
    - copy/share result
    - optional advanced agent prompt after the result
 3. While the user is answering the 10 single-choice questions, `docs/start.html` must not render a hero section, marketing intro, or pre-test explainer above the quiz. The first interactive surface should be the progress bar and current question.
-4. Do not ask for a target role, desired direction, simple/deep mode, role mode, or agent mode in the lightweight test.
-5. The lightweight test should measure work style, not job category:
+4. The active quiz chrome should merge the topbar and progress into one compact test status bar. The result card should include a matching compact topbar inside the card for visual continuity, without adding a separate result-page toolbar above the card.
+5. Do not ask for a target role, desired direction, simple/deep mode, role mode, or agent mode in the lightweight test.
+6. The lightweight test should measure work style, not job category:
    - handling ambiguity
    - using AI
    - pushing progress
@@ -435,18 +436,19 @@ This rule applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`,
    - collaborating with people
    - getting unstuck
    - trading speed against quality
-6. The lightweight result type system must use these six AI-native builder types:
+7. The lightweight result type system must use these six AI-native builder types:
    - `The Pathfinder` / `寻径者`: 在混沌中率先找到方向
    - `The Shaper` / `塑形者`: 把粗糙想法打磨成清晰形态
    - `The Shipstarter` / `启航者`: 用第一个版本快速撬动进展
    - `The Synthesizer` / `融通者`: 把零散信息整合成完整判断
    - `The Debugger` / `洞察者`: 穿透表象，找到问题根源
    - `The Catalyst` / `催化者`: 加速人、想法与任务的协同
-7. Do not use job-like result categories in the lightweight test, including:
+8. Do not use job-like result categories in the lightweight test, including:
    - `Product type`, `PM type`, `Engineer type`, `Growth type`, `Operator type`
    - `产品型`, `工程型`, `增长型`, `运营型`
    - role fit as the primary lightweight result
-8. The first result card layer must only include:
+9. The first result card layer must only include:
+   - a compact result-card topbar that matches the active quiz chrome
    - the `git-hired` ASCII identity art as a compact brand header
    - `You are` / `你是`
    - one-line explanation
@@ -454,7 +456,7 @@ This rule applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`,
    - `Best environment` / `你最适合的场景`
    - `Watch out` / `需要注意`
    - `Next step` / `下一步建议`
-9. Do not show these in the first lightweight result card layer:
+10. Do not show these in the first lightweight result card layer:
    - role fit
    - ability score
    - evidence strength
@@ -464,7 +466,7 @@ This rule applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`,
    - `history-only`
    - locked skills
    - hiring recommendation
-10. Only after the result card, show a weak advanced-agent entry:
+11. Only after the result card, show a weak advanced-agent entry:
    - headline: `Want a deeper report?` / `想要更准的结果？`
    - explain that the user's own AI agent can analyze selected work evidence for a more accurate builder profile
    - show exactly these three trust points: the user chooses evidence, no local files are uploaded to our server, and the user decides what to share
