@@ -381,6 +381,102 @@ body.lang-zh .tagline {
   max-width: 820px;
 }
 
+.home-shell {
+  max-width: 960px;
+}
+
+.home-hero {
+  min-height: max(560px, calc(100vh - 128px));
+  display: grid;
+  align-content: center;
+}
+
+.home-command {
+  color: var(--ink-dim);
+}
+
+.home-title {
+  max-width: 820px;
+  font-family: var(--sans);
+  font-size: clamp(42px, 7vw, 76px);
+  letter-spacing: 0;
+  line-height: 0.98;
+}
+
+html[data-lang="zh"] .home-title,
+body.lang-zh .home-title {
+  font-family: var(--sans-cjk);
+  letter-spacing: 0;
+  line-height: 1.08;
+}
+
+.home-subtitle {
+  max-width: 680px;
+  margin-top: 22px;
+  font-size: clamp(17px, 2.1vw, 22px);
+  color: var(--ink-dim);
+}
+
+.hero-actions {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.big-cta {
+  min-height: 46px;
+  padding: 12px 18px;
+  font-size: 13px;
+}
+
+.flow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.flow-card {
+  min-height: 190px;
+  padding: 22px;
+  border-right: 1px solid var(--line);
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.flow-card:last-child {
+  border-right: 0;
+}
+
+.flow-step {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.flow-card h2 {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+html[data-lang="zh"] .flow-card h2,
+body.lang-zh .flow-card h2 {
+  font-family: var(--sans-cjk);
+  font-weight: 600;
+}
+
+.flow-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
 .audience-ctas {
   margin-top: 22px;
   display: flex;
@@ -777,6 +873,9 @@ body.lang-zh .footer {
   color: var(--accent);
   font-weight: 500;
 }
+.start-page .role-title::before {
+  content: none;
+}
 html[data-lang="zh"] .role-title,
 body.lang-zh .role-title {
   font-family: var(--sans-cjk);
@@ -1145,15 +1244,15 @@ body.lang-zh .choice small {
 .result-card {
   position: relative;
   display: grid;
-  gap: 22px;
+  gap: 20px;
   border: 1px solid var(--line-2);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.018), rgba(255, 255, 255, 0)),
     var(--bg-2);
   border-radius: var(--radius);
   padding: 26px 24px 24px 28px;
-  font-family: var(--mono);
-  font-size: 13px;
+  font-family: var(--sans);
+  font-size: 14px;
   line-height: 1.6;
   color: var(--ink-dim);
   overflow: hidden;
@@ -1171,6 +1270,68 @@ body.lang-zh .choice small {
   width: 2px;
   background: linear-gradient(180deg, transparent, var(--accent), transparent);
   opacity: 0.9;
+}
+
+.builder-identity {
+  display: grid;
+  gap: 10px;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed var(--line-2);
+}
+
+.builder-card-kicker {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.builder-card-type {
+  color: var(--accent);
+  font-size: clamp(32px, 7vw, 52px);
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+.builder-card-summary {
+  max-width: 620px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.builder-card-section {
+  display: grid;
+  gap: 8px;
+}
+
+.builder-card-section h3 {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+html[data-lang="zh"] .builder-card-section h3,
+body.lang-zh .builder-card-section h3 {
+  font-family: var(--sans-cjk);
+  letter-spacing: 0;
+}
+
+.builder-card-section p,
+.builder-list {
+  margin: 0;
+  color: var(--ink-dim);
+}
+
+.builder-list {
+  display: grid;
+  gap: 6px;
+}
+
+.result-card .builder-list li {
+  font-size: 14px;
 }
 
 .rc-type-strip {
@@ -1296,7 +1457,7 @@ body.lang-zh .choice small {
 .result-next {
   margin-top: 16px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
   align-items: center;
 }
@@ -1347,6 +1508,42 @@ body.lang-zh .choice small {
   margin-left: 2px;
 }
 
+.advanced-report {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px dashed var(--line-2);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.012);
+  color: var(--muted);
+}
+
+.advanced-report h2 {
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink-dim);
+}
+
+html[data-lang="zh"] .advanced-report h2,
+body.lang-zh .advanced-report h2 {
+  font-family: var(--sans-cjk);
+  font-weight: 600;
+}
+
+.advanced-report p {
+  max-width: 690px;
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.advanced-points {
+  margin-top: 12px;
+}
+
+.advanced-copy {
+  margin-top: 16px;
+}
+
 .handoff-wrap { margin-top: 20px; }
 
 @media (max-width: 620px) {
@@ -1361,6 +1558,26 @@ body.lang-zh .choice small {
     padding: 24px 0 48px;
   }
   .hero { padding: 28px 20px 24px; }
+  .home-hero {
+    min-height: calc(100vh - 92px);
+  }
+  .home-title {
+    font-size: clamp(36px, 11vw, 54px);
+  }
+  .home-subtitle {
+    font-size: 17px;
+  }
+  .flow-grid {
+    grid-template-columns: 1fr;
+  }
+  .flow-card {
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .flow-card:last-child {
+    border-bottom: 0;
+  }
   .grid.cards { grid-template-columns: 1fr; }
   .audience-grid { grid-template-columns: 1fr; }
   .card { border-right: 0 !important; }

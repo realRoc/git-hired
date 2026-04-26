@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>git-hired</title>
-    <meta name="description" content="Open-source AI-native builder profile generator with public-safe work profiles.">
+    <meta name="description" content="A simple AI-native builder test for how you work with ambiguity, AI, people, and progress.">
     <script>
       (function () {
         var key = "git-hired-lang";
@@ -33,13 +33,13 @@
     <script src="./app.js?v=2" defer></script>
   </head>
   <body class="lang-en" data-lang="en" data-title-en="git-hired" data-title-zh="git-hired">
-    <main class="shell">
+    <main class="shell home-shell">
 
       <div class="topbar">
         <div class="topbar-left">
           <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
           <div class="topbar-path">
-            <span class="here">~/git-hired</span><span class="sep"> / </span><span>main</span>
+            <span class="here">~/git-hired</span><span class="sep"> / </span><span>start</span>
           </div>
         </div>
         <div class="lang-switch" aria-label="Language switcher">
@@ -48,306 +48,54 @@
         </div>
       </div>
 
-      <section class="hero">
+      <section class="hero home-hero">
         <div class="prompt-line">
-          <span class="user">you</span><span class="at">@</span><span class="host">work-agent</span>
-          <span class="cwd"> ~/git-hired</span>
+          <span class="user">you</span><span class="at">@</span><span class="host">git-hired</span>
+          <span class="cwd"> ~/builder-test</span>
           <span class="dollar">$</span>
+          <span class="home-command">start</span>
         </div>
 
-        <pre class="ascii-banner" id="asciiBanner" aria-label="git-hired" role="img"><span class="ascii-inner"></span><span class="ascii-caret" id="asciiCaret" title="click to toggle CRT"></span></pre>
-        <h1 class="ascii-fallback" aria-hidden="true">git hired</h1>
+        <h1 class="home-title" data-lang="en">What kind of AI-native builder are you?</h1>
+        <h1 class="home-title" data-lang="zh">你是哪种 AI-native builder？</h1>
 
-        <p class="lede manifesto" data-lang="en">
-          What kind of AI-native builder are you? <code>git-hired</code> helps you turn selected work traces
-          into a public-safe work profile, so your output can be judged from evidence instead of resume claims,
-          interviews, or a self-reported label.
+        <p class="lede home-subtitle" data-lang="en">
+          Find out how you work with ambiguity, AI, people, and progress.
         </p>
-        <p class="lede manifesto" data-lang="zh">
-          你是哪种 AI-native builder？<code>git-hired</code> 帮你把自己选择的工作痕迹转成一份可公开分享的工作画像，
-          让别人看见证据，而不是只看简历声明、面试表现或自我标签。
+        <p class="lede home-subtitle" data-lang="zh">
+          看看你如何面对模糊问题、使用 AI、推动进展、与人协作。
         </p>
 
-        <p class="mini" data-lang="en">
-          No server. No account. No upload. No tracking. Runs in your own AI agent; you choose the evidence and decide what to share.
-        </p>
-        <p class="mini" data-lang="zh">
-          无服务器、无账号、不上传、不追踪。在你自己的 AI agent 里运行；你选择证据范围，也决定分享哪份报告。
-        </p>
-
-        <nav class="audience-ctas" aria-label="Audience entry points">
-          <a class="button primary" href="./candidate.html" data-lang="en">For Candidates</a>
-          <a class="button primary" href="./candidate.html" data-lang="zh">候选人入口</a>
-          <a class="button" href="./evaluator.html" data-lang="en">For Evaluators</a>
-          <a class="button" href="./evaluator.html" data-lang="zh">评估者入口</a>
-          <a class="button" href="./contributor.html" data-lang="en">For Contributors</a>
-          <a class="button" href="./contributor.html" data-lang="zh">贡献者入口</a>
-        </nav>
-
-        <section class="prompt-wrap">
-          <div class="prompt-head">
-            <strong data-lang="en">quick start</strong>
-            <strong data-lang="zh">快速开始</strong>
-            <button
-              class="button"
-              data-copy-button="true"
-              data-label-en="Copy Command"
-              data-label-zh="复制命令"
-              data-copied-en="copied ✓"
-              data-copied-zh="已复制 ✓"
-              data-failed-en="copy failed"
-              data-failed-zh="复制失败"
-              onclick="copyPrompt('starter-command', this)">Copy Command</button>
-          </div>
-          <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md</pre>
-          <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md</pre>
-        </section>
-
-        <details class="advanced-command">
-          <summary>
-            <span data-lang="en">advanced command for stricter agents</span>
-            <span data-lang="zh">给更严格 agent 用的高级命令</span>
-          </summary>
-          <pre class="prompt" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.</pre>
-          <pre class="prompt" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。</pre>
-        </details>
+        <div class="hero-actions">
+          <a class="button primary big-cta" href="./start.html" data-lang="en">Start the test</a>
+          <a class="button primary big-cta" href="./start.html" data-lang="zh">开始测试</a>
+        </div>
       </section>
 
-      <section class="section">
-        <div class="section-head">
-          <span class="hash">01 /</span>
-          <h2 data-lang="en">choose a protocol</h2>
-          <h2 data-lang="zh">选择你的入口</h2>
-        </div>
-        <div class="grid cards audience-grid">
-          <article class="card">
-            <div class="role-meta">
-              <span class="slug">candidate.html</span>
-              <span class="idx">run</span>
-            </div>
-            <h3 data-lang="en">Candidates</h3>
-            <h3 data-lang="zh">候选人</h3>
-            <p data-lang="en">Generate a builder profile in your own agent, choose evidence scope, and share only the public-safe card.</p>
-            <p data-lang="zh">在自己的 agent 里生成 builder 画像，选择证据范围，只分享可公开的卡片。</p>
-            <a class="card-foot" href="./candidate.html">
-              <span data-lang="en">run protocol</span>
-              <span data-lang="zh">运行协议</span>
-              <span class="open">./candidate</span>
-            </a>
+      <section class="section home-flow" aria-label="How the test works">
+        <div class="flow-grid">
+          <article class="flow-card">
+            <span class="flow-step">01</span>
+            <h2 data-lang="en">Answer 10 questions</h2>
+            <h2 data-lang="zh">回答 10 道题</h2>
+            <p data-lang="en">Choose the option closest to how you actually handle messy work.</p>
+            <p data-lang="zh">选择最接近你真实工作方式的选项。</p>
           </article>
-          <article class="card">
-            <div class="role-meta">
-              <span class="slug">evaluator.html</span>
-              <span class="idx">use</span>
-            </div>
-            <h3 data-lang="en">Founders / hiring teams</h3>
-            <h3 data-lang="zh">创始人 / 招聘团队</h3>
-            <p data-lang="en">Find people who can actually work with agents by reading evidence confidence, workflow maturity, and trust boundaries.</p>
-            <p data-lang="zh">通过证据置信度、AI 工作流成熟度和信任边界，找到真正会和 agent 一起工作的人。</p>
-            <a class="card-foot" href="./evaluator.html">
-              <span data-lang="en">use protocol</span>
-              <span data-lang="zh">使用协议</span>
-              <span class="open">./evaluate</span>
-            </a>
+          <article class="flow-card">
+            <span class="flow-step">02</span>
+            <h2 data-lang="en">Get your Builder type</h2>
+            <h2 data-lang="zh">得到你的 Builder 类型</h2>
+            <p data-lang="en">See the work style that shows up most clearly in your answers.</p>
+            <p data-lang="zh">看到你答案里最明显的 AI-native 工作方式。</p>
           </article>
-          <article class="card">
-            <div class="role-meta">
-              <span class="slug">contributor.html</span>
-              <span class="idx">ship</span>
-            </div>
-            <h3 data-lang="en">Contributors</h3>
-            <h3 data-lang="zh">贡献者</h3>
-            <p data-lang="en">Improve role prompts, scoring rubrics, examples, localization, and report templates.</p>
-            <p data-lang="zh">改进岗位 prompt、评分 rubric、样例、本地化和报告模板。</p>
-            <a class="card-foot" href="./contributor.html">
-              <span data-lang="en">contribute</span>
-              <span data-lang="zh">参与贡献</span>
-              <span class="open">./contribute</span>
-            </a>
+          <article class="flow-card">
+            <span class="flow-step">03</span>
+            <h2 data-lang="en">Copy your card</h2>
+            <h2 data-lang="zh">复制你的卡片</h2>
+            <p data-lang="en">Share a short card with strengths, best environment, watch-out, and next step.</p>
+            <p data-lang="zh">分享一张包含优势、适合场景、提醒和下一步的短卡片。</p>
           </article>
         </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head">
-          <span class="hash">02 /</span>
-          <h2 data-lang="en">pick a role</h2>
-          <h2 data-lang="zh">选择岗位</h2>
-        </div>
-
-        <div class="grid cards">
-        <!-- AUTO:role-cards:start -->
-        <article class="card">
-          <div class="role-meta">
-            <span class="slug">growth.html</span>
-            <span class="idx">01</span>
-          </div>
-          <h3 data-lang="en">Global Growth</h3>
-          <h3 data-lang="zh">海外增长</h3>
-          <p data-lang="en">Use this if you want to show how you turn user signals and social-native intuition into channels, experiments, retention, and ROI.</p>
-          <p data-lang="zh">如果你想展示自己如何把用户信号和社媒原生直觉转成渠道策略、实验、留存和 ROI，这个测试最适合你。</p>
-          <a class="card-foot" href="./growth.html">
-            <span data-lang="en">open test</span>
-            <span data-lang="zh">打开测试</span>
-            <span class="open">./run</span>
-          </a>
-        </article>
-
-        <article class="card">
-          <div class="role-meta">
-            <span class="slug">agent.html</span>
-            <span class="idx">02</span>
-          </div>
-          <h3 data-lang="en">Agent Engineer</h3>
-          <h3 data-lang="zh">Agent 工程师</h3>
-          <p data-lang="en">Use this if you want to show how well you direct agent work, turn ambiguity into specs, and push agents to real shipped outcomes.</p>
-          <p data-lang="zh">如果你想展示自己如何指挥 agent 干活、把模糊需求压成 spec，并把 agent 推到真正交付结果，这个测试最适合你。</p>
-          <a class="card-foot" href="./agent.html">
-            <span data-lang="en">open test</span>
-            <span data-lang="zh">打开测试</span>
-            <span class="open">./run</span>
-          </a>
-        </article>
-
-        <article class="card">
-          <div class="role-meta">
-            <span class="slug">pm.html</span>
-            <span class="idx">03</span>
-          </div>
-          <h3 data-lang="en">Product Manager</h3>
-          <h3 data-lang="zh">产品经理</h3>
-          <p data-lang="en">Use this if you want to show your AI product judgment, MVP boundary control, spec clarity, and ability to move messy work forward.</p>
-          <p data-lang="zh">如果你想展示自己的 AI 产品判断、MVP 边界感、spec 清晰度，以及推进复杂协作的能力，这个测试更适合你。</p>
-          <a class="card-foot" href="./pm.html">
-            <span data-lang="en">open test</span>
-            <span data-lang="zh">打开测试</span>
-            <span class="open">./run</span>
-          </a>
-        </article>
-
-        <article class="card">
-          <div class="role-meta">
-            <span class="slug">ops.html</span>
-            <span class="idx">04</span>
-          </div>
-          <h3 data-lang="en">Product Operations</h3>
-          <h3 data-lang="zh">产品运营</h3>
-          <p data-lang="en">Use this if you want to show your user empathy, response speed, operational reliability, and ability to turn feedback into product improvement.</p>
-          <p data-lang="zh">如果你想展示自己的用户同理心、响应速度、运营执行力，以及把反馈转成产品优化的能力，这个测试更适合你。</p>
-          <a class="card-foot" href="./ops.html">
-            <span data-lang="en">open test</span>
-            <span data-lang="zh">打开测试</span>
-            <span class="open">./run</span>
-          </a>
-        </article>
-        <!-- AUTO:role-cards:end -->
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head">
-          <span class="hash">03 /</span>
-          <h2 data-lang="en">what you get</h2>
-          <h2 data-lang="zh">你会拿到什么</h2>
-        </div>
-
-        <div class="outputs">
-          <div class="outputs-row">
-            <div class="outputs-key">level 0</div>
-            <div class="outputs-val" data-lang="en">
-              Paste selected text, a public PR, an issue, a README, or a project note into any AI chat and ask for a public-safe builder profile. No install required.
-            </div>
-            <div class="outputs-val" data-lang="zh">
-              把你选择的文本、公开 PR、issue、README 或项目说明粘进任意 AI chat，先生成可公开的 builder 画像。无需安装。
-            </div>
-          </div>
-
-          <div class="outputs-row">
-            <div class="outputs-key">runtime</div>
-            <div class="outputs-val" data-lang="en">
-              Works with Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory. On rich-text surfaces the result falls back to a compact card instead of wide terminal ASCII.
-            </div>
-            <div class="outputs-val" data-lang="zh">
-              支持 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。富文本界面下结果会自动退化成紧凑卡片，而不是宽终端 ASCII。
-            </div>
-          </div>
-
-          <div class="outputs-row">
-            <div class="outputs-key">signal</div>
-            <div class="outputs-val" data-lang="en">
-              Builder type, work-trace evidence, actual agent workflow, role-specific fit, and a public-safe card.
-            </div>
-            <div class="outputs-val" data-lang="zh">
-              Builder 类型、工作痕迹证据、真实 agent 工作流、角色匹配度，以及可公开分享的安全卡片。
-            </div>
-          </div>
-
-          <div class="outputs-row">
-            <div class="outputs-key">report</div>
-            <div class="outputs-val" data-lang="en">
-              A private evidence report plus a public-safe card with builder type, strengths, collaboration mode, best-fit roles, anonymized evidence, and risk.
-            </div>
-            <div class="outputs-val" data-lang="zh">
-              一份私人证据报告，以及一张可公开分享的卡片：builder 类型、优势、协作模式、适合角色、脱敏证据和风险。
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head">
-          <span class="hash">04 /</span>
-          <h2 data-lang="en">calibration material</h2>
-          <h2 data-lang="zh">校准材料</h2>
-        </div>
-        <div class="outputs">
-          <div class="outputs-row">
-            <div class="outputs-key">rubric</div>
-            <div class="outputs-val" data-lang="en">
-              Public evaluator standard: agency, AI fluency, product sense, debugging maturity, taste, trust, and communication. <a href="https://github.com/realRoc/git-hired/blob/main/rubric.md" target="_blank" rel="noreferrer">rubric.md</a>
-            </div>
-            <div class="outputs-val" data-lang="zh">
-              公开评估标准：主动性、AI fluency、产品感、调试成熟度、taste、信任边界和沟通。<a href="https://github.com/realRoc/git-hired/blob/main/rubric.md" target="_blank" rel="noreferrer">rubric.md</a>
-            </div>
-          </div>
-          <div class="outputs-row">
-            <div class="outputs-key">examples</div>
-            <div class="outputs-val" data-lang="en">
-              See the final builder card first, then fictional redacted reports for strong / medium / weak calibration. <a href="https://github.com/realRoc/git-hired/blob/main/examples/builder-card.md" target="_blank" rel="noreferrer">builder card</a> · <a href="https://github.com/realRoc/git-hired/tree/main/examples" target="_blank" rel="noreferrer">examples</a>
-            </div>
-            <div class="outputs-val" data-lang="zh">
-              先看最终 builder card，再看虚构、脱敏的 strong / medium / weak 校准报告。<a href="https://github.com/realRoc/git-hired/blob/main/examples/builder-card.md" target="_blank" rel="noreferrer">builder card</a> · <a href="https://github.com/realRoc/git-hired/tree/main/examples" target="_blank" rel="noreferrer">样例目录</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section quick-test-fallback">
-        <div class="section-head">
-          <span class="hash">05 /</span>
-          <h2 data-lang="en">too much?</h2>
-          <h2 data-lang="zh">信息太多？</h2>
-        </div>
-        <section class="mobile-entry">
-          <div class="mobile-entry-copy">
-            <div class="mobile-entry-kicker">mobile / qr</div>
-            <h3 data-lang="en">Scan for a 1-minute builder signal</h3>
-            <h3 data-lang="zh">扫码拿 1 分钟 builder 信号</h3>
-            <p data-lang="en">
-              If the agent path above feels too detailed, start here on your phone. The quick test gives you a lightweight self-report builder signal and a handoff path for the deeper agent protocol.
-            </p>
-            <p data-lang="zh">
-              如果上面的 agent 流程信息太多，直接从这里用手机开始。快速测试会给你一个轻量自评 builder 信号，以及后续 agent 深度测试 handoff。
-            </p>
-            <a class="button primary" href="./start.html" data-lang="en">Find My Builder Type</a>
-            <a class="button primary" href="./start.html" data-lang="zh">测我的 Builder 类型</a>
-          </div>
-          <div class="qr-card">
-            <img src="./assets/quick-test-qr.svg" alt="QR code for the git-hired mobile quick test">
-            <span data-lang="en">scan to start</span>
-            <span data-lang="zh">扫码开始</span>
-          </div>
-        </section>
       </section>
 
       <footer class="footer">
