@@ -18,6 +18,7 @@
     {
       key: "pathfinder",
       weights: { pattern: 1.4, explore: 1.1, logic: 0.7, facts: 0.5 },
+      calibration: -0.2108,
       title: { en: "The Pathfinder", zh: "寻径者" },
       summary: {
         en: "You find direction in the mess before the path is obvious.",
@@ -49,6 +50,7 @@
     {
       key: "shaper",
       weights: { pattern: 1.1, empathy: 0.9, closure: 0.8, solo: 0.6 },
+      calibration: -0.0508,
       title: { en: "The Shaper", zh: "塑形者" },
       summary: {
         en: "You turn rough ideas into clear form.",
@@ -80,6 +82,7 @@
     {
       key: "shipstarter",
       weights: { explore: 1.1, closure: 1.0, facts: 0.7, logic: 0.6 },
+      calibration: -0.1108,
       title: { en: "The Shipstarter", zh: "启航者" },
       summary: {
         en: "You create momentum with the first working version.",
@@ -111,6 +114,7 @@
     {
       key: "synthesizer",
       weights: { facts: 1.0, pattern: 1.0, solo: 0.9, logic: 0.8 },
+      calibration: 0.2742,
       title: { en: "The Synthesizer", zh: "融通者" },
       summary: {
         en: "You combine scattered signals into a complete judgment.",
@@ -142,6 +146,7 @@
     {
       key: "debugger",
       weights: { facts: 1.2, logic: 1.1, solo: 0.8, explore: 0.4 },
+      calibration: 0.0492,
       title: { en: "The Debugger", zh: "洞察者" },
       summary: {
         en: "You look past symptoms to find the root cause.",
@@ -173,6 +178,7 @@
     {
       key: "catalyst",
       weights: { collab: 1.2, empathy: 1.0, closure: 0.9, explore: 0.5 },
+      calibration: 0.0492,
       title: { en: "The Catalyst", zh: "催化者" },
       summary: {
         en: "You speed up coordination between people, ideas, and tasks.",
@@ -241,6 +247,12 @@
     return lang === "zh" ? "zh" : "en";
   }
 
+  function trackEvent(eventName, properties) {
+    const analytics = window.gitHiredAnalytics;
+    if (!analytics || typeof analytics.track !== "function") return;
+    analytics.track(eventName, properties);
+  }
+
   function text(lang, key) {
     return COPY[lang][key];
   }
@@ -275,9 +287,11 @@
         const weights = Object.entries(builder.weights);
         const totalWeight = weights.reduce((sum, [, weight]) => sum + weight, 0);
         const value = weights.reduce((sum, [signal, weight]) => sum + (scores[signal] || 0) * weight, 0);
+        // Keeps all six finite quiz outcomes realistically reachable without changing the signal weights.
+        const calibratedValue = (value / totalWeight) + (builder.calibration || 0);
         return {
           builder,
-          value: value / totalWeight,
+          value: calibratedValue,
         };
       })
       .sort((a, b) => b.value - a.value)[0].builder;
@@ -294,6 +308,15 @@
     return {
       builder: scoreBuilder(scores),
     };
+  }
+
+  function resultType(result) {
+    return result?.builder?.key || "";
+  }
+
+  function questionStep(input) {
+    const step = input.closest(".quick-step");
+    return step?.dataset.step || "";
   }
 
   function answeredCount(form) {
@@ -623,6 +646,7 @@
     let agentCopyTimer = 0;
     let lastResult = null;
     let lastResultText = "";
+    let quizStarted = false;
 
     function renderStep() {
       const lang = currentLang();
@@ -646,6 +670,7 @@
     function showResult() {
       lastResult = scoreQuickTest(form);
       const lang = currentLang();
+      const builderType = resultType(lastResult);
       lastResultText = buildResultText(lastResult, lang);
       renderResultCard(resultCard, lastResult, lang);
       document.body.classList.add("result-mode");
@@ -653,6 +678,24 @@
       setCopyLabel(copyAgentButton, ".agent-copy-label", false, "copyAgentPrompt", "promptCopied");
       if (resultShell) resultShell.classList.remove("is-hidden");
       form.classList.add("is-complete");
+      trackEvent("select_role", {
+        location: "quick_result",
+        role: "builder_type",
+        result_type: builderType,
+        question_id: "q" + steps.length,
+        selection_type: "builder_type",
+      });
+      trackEvent("complete_quiz", {
+        location: "quick_test",
+        result_type: builderType,
+        question_id: "q" + steps.length,
+        answer_count: answeredCount(form),
+      });
+      trackEvent("view_result", {
+        location: "quick_result",
+        result_type: builderType,
+        question_id: "q" + steps.length,
+      });
       window.requestAnimationFrame(() => {
         const y = resultShell ? resultShell.getBoundingClientRect().top + window.scrollY - 12 : 0;
         window.scrollTo({ top: y, behavior: "smooth" });
@@ -676,6 +719,18 @@
     form.addEventListener("change", (event) => {
       const input = event.target;
       if (!(input instanceof HTMLInputElement) || input.type !== "radio") return;
+      if (!quizStarted) {
+        quizStarted = true;
+        trackEvent("start_quiz", {
+          location: "quick_test_question",
+          question_id: input.name || "",
+          question_step: questionStep(input),
+          answer_value: input.value,
+          answer_label_en: input.dataset.labelEn || "",
+          answer_label_zh: input.dataset.labelZh || "",
+          answer_count: answeredCount(form),
+        });
+      }
       window.setTimeout(goNext, 170);
     });
 
@@ -693,6 +748,7 @@
         currentIndex = 0;
         lastResult = null;
         lastResultText = "";
+        quizStarted = false;
         form.classList.remove("is-complete");
         document.body.classList.remove("result-mode");
         if (resultShell) resultShell.classList.add("is-hidden");
@@ -712,6 +768,12 @@
       shareResultButton.addEventListener("click", () => {
         if (!lastResult) return;
         const lang = currentLang();
+        trackEvent("click_share", {
+          location: "result_card",
+          result_type: resultType(lastResult),
+          question_id: "q" + steps.length,
+          share_target: "clipboard",
+        });
         lastResultText = buildResultText(lastResult, lang);
         copyShareImage(lastResult, lang).then((mode) => {
           setCopyLabel(shareResultButton, ".share-label", true, "shareResult", mode === "image" ? "shared" : "textCopied");
