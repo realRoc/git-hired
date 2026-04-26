@@ -241,6 +241,12 @@
     return lang === "zh" ? "zh" : "en";
   }
 
+  function trackEvent(eventName, properties) {
+    const analytics = window.gitHiredAnalytics;
+    if (!analytics || typeof analytics.track !== "function") return;
+    analytics.track(eventName, properties);
+  }
+
   function text(lang, key) {
     return COPY[lang][key];
   }
@@ -294,6 +300,15 @@
     return {
       builder: scoreBuilder(scores),
     };
+  }
+
+  function resultType(result) {
+    return result?.builder?.key || "";
+  }
+
+  function questionStep(input) {
+    const step = input.closest(".quick-step");
+    return step?.dataset.step || "";
   }
 
   function answeredCount(form) {
@@ -623,6 +638,7 @@
     let agentCopyTimer = 0;
     let lastResult = null;
     let lastResultText = "";
+    let quizStarted = false;
 
     function renderStep() {
       const lang = currentLang();
@@ -646,6 +662,7 @@
     function showResult() {
       lastResult = scoreQuickTest(form);
       const lang = currentLang();
+      const builderType = resultType(lastResult);
       lastResultText = buildResultText(lastResult, lang);
       renderResultCard(resultCard, lastResult, lang);
       document.body.classList.add("result-mode");
@@ -653,6 +670,24 @@
       setCopyLabel(copyAgentButton, ".agent-copy-label", false, "copyAgentPrompt", "promptCopied");
       if (resultShell) resultShell.classList.remove("is-hidden");
       form.classList.add("is-complete");
+      trackEvent("select_role", {
+        location: "quick_result",
+        role: "builder_type",
+        result_type: builderType,
+        question_id: "q" + steps.length,
+        selection_type: "builder_type",
+      });
+      trackEvent("complete_quiz", {
+        location: "quick_test",
+        result_type: builderType,
+        question_id: "q" + steps.length,
+        answer_count: answeredCount(form),
+      });
+      trackEvent("view_result", {
+        location: "quick_result",
+        result_type: builderType,
+        question_id: "q" + steps.length,
+      });
       window.requestAnimationFrame(() => {
         const y = resultShell ? resultShell.getBoundingClientRect().top + window.scrollY - 12 : 0;
         window.scrollTo({ top: y, behavior: "smooth" });
@@ -676,6 +711,18 @@
     form.addEventListener("change", (event) => {
       const input = event.target;
       if (!(input instanceof HTMLInputElement) || input.type !== "radio") return;
+      if (!quizStarted) {
+        quizStarted = true;
+        trackEvent("start_quiz", {
+          location: "quick_test_question",
+          question_id: input.name || "",
+          question_step: questionStep(input),
+          answer_value: input.value,
+          answer_label_en: input.dataset.labelEn || "",
+          answer_label_zh: input.dataset.labelZh || "",
+          answer_count: answeredCount(form),
+        });
+      }
       window.setTimeout(goNext, 170);
     });
 
@@ -693,6 +740,7 @@
         currentIndex = 0;
         lastResult = null;
         lastResultText = "";
+        quizStarted = false;
         form.classList.remove("is-complete");
         document.body.classList.remove("result-mode");
         if (resultShell) resultShell.classList.add("is-hidden");
@@ -712,6 +760,12 @@
       shareResultButton.addEventListener("click", () => {
         if (!lastResult) return;
         const lang = currentLang();
+        trackEvent("click_share", {
+          location: "result_card",
+          result_type: resultType(lastResult),
+          question_id: "q" + steps.length,
+          share_target: "clipboard",
+        });
         lastResultText = buildResultText(lastResult, lang);
         copyShareImage(lastResult, lang).then((mode) => {
           setCopyLabel(shareResultButton, ".share-label", true, "shareResult", mode === "image" ? "shared" : "textCopied");
