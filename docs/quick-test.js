@@ -223,7 +223,7 @@
       copyAgentPrompt: "Copy agent prompt",
       promptCopied: "prompt copied",
       progress: (current, total) => String(current).padStart(2, "0") + " / " + String(total).padStart(2, "0"),
-      back: "Back",
+      back: "Previous",
     },
     zh: {
       resultTitle: "AI-native builder 卡片",
@@ -238,7 +238,7 @@
       copyAgentPrompt: "复制 Agent 指令",
       promptCopied: "指令已复制",
       progress: (current, total) => String(current).padStart(2, "0") + " / " + String(total).padStart(2, "0"),
-      back: "返回",
+      back: "上一题",
     },
   };
 
