@@ -415,6 +415,12 @@ def main() -> None:
             errors.append("docs/start.html quick result should expose the share-image action")
         if "quick-progress" not in quick_start_text or "quick-step" not in quick_start_text:
             errors.append("docs/start.html missing step-by-step mobile quick-test UI")
+        if "quick-home-link" not in quick_start_text or "Back Home" not in quick_start_text or "返回首页" not in quick_start_text:
+            errors.append("docs/start.html question nav should include a back-home action")
+        if "Previous" not in quick_start_text or "上一题" not in quick_start_text:
+            errors.append("docs/start.html question nav should label the back action as previous question")
+        if "Tap one answer to continue." in quick_start_text or "点选一个答案后自动继续。" in quick_start_text:
+            errors.append("docs/start.html question nav should not show the old auto-continue hint")
         if "Run Deep Test On GitHub" in quick_start_text:
             errors.append("docs/start.html should use the terminal-style GitHub CTA copy")
         required_result_html = [
