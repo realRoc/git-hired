@@ -142,6 +142,16 @@ Start here if you want to understand what a report looks like before running the
 - [Strong Global Growth](./examples/growth.strong.md)
 - [Redacted report template](./examples/redacted-report-template.md)
 
+## Eval Gate
+
+Before promoting changes from `dev` to `main`, run:
+
+```bash
+python3 scripts/eval_release.py
+```
+
+This gate syncs generated surfaces, checks role wiring, verifies the `skill.md` output contract, locks the public builder card format, and runs `git diff --check`.
+
 | Traditional hiring signal | `git-hired` signal |
 | --- | --- |
 | Resume claims | Work-trace evidence |
