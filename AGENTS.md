@@ -441,6 +441,11 @@ This rule applies to `README.md`, `README.zh-CN.md`, `docs/index.html`, audience
 7. Add and maintain fictional, redacted examples under `examples/` so users can see what reports look like before running the test.
 8. The collaborator funnel should be explicit: strong-fit candidates interested in AI-native products can run `git-hired` and open an issue with a public summary, target role, and what they want to build next.
 9. Do not use real personal data in examples. Examples must be fictional or clearly redacted templates.
+10. `README.md` and `README.zh-CN.md` should use the top hero/title area as a visual entry point, not a plain text dump:
+   - include one obvious website entry near the top: `https://realroc.github.io/git-hired/`
+   - avoid maintaining a generated `Live Links` / `在线链接` directory in README files
+   - use terminal-style or ASCII `git-hired` identity art when it improves scanability
+   - keep generated role lists only where they help explain what the repo includes
 
 ## Mobile Human Quick Test Entry
 
