@@ -36,12 +36,18 @@
   <body class="lang-en start-page" data-lang="en" data-title-en="AI-native Builder Test · git-hired" data-title-zh="AI-native Builder 测试 · git-hired">
         <main class="shell start-shell">
 
-      <!-- window chrome + lang switcher -->
-      <div class="topbar">
+      <!-- window chrome + progress + lang switcher -->
+      <div class="topbar quiz-topbar">
         <div class="topbar-left">
           <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
           <div class="topbar-path">
             <span class="here">~/git-hired</span><span class="sep"> / </span><span>start.html</span>
+          </div>
+        </div>
+        <div class="quick-progress" aria-live="polite">
+          <span id="quick-progress-label">01 / 10</span>
+          <div class="quick-progress-track" aria-hidden="true">
+            <span id="quick-progress-fill"></span>
           </div>
         </div>
         <div class="lang-switch" aria-label="Language switcher">
@@ -50,35 +56,7 @@
         </div>
       </div>
 
-      <section class="hero start-hero">
-        <div class="prompt-line">
-          <span class="user">you</span><span class="at">@</span><span class="host">git-hired</span>
-          <span class="cwd"> ~/git-hired/start</span>
-          <span class="dollar">$</span>
-          <span style="color:var(--ink-dim);margin-left:4px">./builder-test.sh</span>
-        </div>
-        <h1 class="role-title" data-lang="en">What kind of AI-native builder are you?</h1>
-        <h1 class="role-title" data-lang="zh">你是哪种 AI-native builder？</h1>
-        <p class="lede" data-lang="en">
-          Answer 10 quick questions about how you handle ambiguity, AI, feedback, progress, and collaboration.
-        </p>
-        <p class="lede" data-lang="zh">
-          回答 10 道简短问题，看看你如何面对模糊问题、使用 AI、处理反馈、推动进展、与人协作。
-        </p>
-        <div class="inline-links">
-          <a class="button secondary" href="./index.html" data-lang="en">Back Home</a>
-          <a class="button secondary" href="./index.html" data-lang="zh">返回首页</a>
-        </div>
-      </section>
-
       <form id="quick-test-form" class="quick-form step-flow" autocomplete="off">
-        <div class="quick-progress" aria-live="polite">
-          <span id="quick-progress-label">01 / 10</span>
-          <div class="quick-progress-track" aria-hidden="true">
-            <span id="quick-progress-fill"></span>
-          </div>
-        </div>
-
         <section class="section question-block quick-step is-active" data-step="1">
           <div class="question-head">
             <span class="question-step">01</span>
@@ -548,13 +526,31 @@
       </form>
 
       <section class="section result-shell is-hidden" id="quick-result" aria-live="polite">
+        <div class="topbar result-topbar">
+          <div class="topbar-left">
+            <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="topbar-path">
+              <span class="here">~/git-hired</span><span class="sep"> / </span><span>result.card</span>
+            </div>
+          </div>
+          <div class="builder-card-status">
+            <span class="result-dot" aria-hidden="true"></span>
+            <span data-lang="en">RESULT READY</span>
+            <span data-lang="zh">结果已生成</span>
+          </div>
+          <div class="lang-switch" aria-label="Language switcher">
+            <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+            <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+          </div>
+        </div>
+
         <div class="result-card" id="result-card"></div>
 
         <div class="result-next">
-          <button class="result-action primary" type="button" id="copy-result">
+          <button class="result-action primary" type="button" id="share-result">
             <span class="result-action-prefix" aria-hidden="true">⧉</span>
-            <span class="copy-label" data-lang="en">copy result</span>
-            <span class="copy-label" data-lang="zh">复制结果</span>
+            <span class="share-label" data-lang="en">share</span>
+            <span class="share-label" data-lang="zh">分享</span>
           </button>
           <button class="result-action ghost" type="button" id="retake-test">
             <span class="result-action-prefix" aria-hidden="true">$</span>
@@ -586,6 +582,9 @@
             <span class="agent-copy-label" data-lang="zh">复制 Agent 指令</span>
           </button>
         </section>
+
+        <a class="button secondary result-home-link" href="./index.html" data-lang="en">Back Home</a>
+        <a class="button secondary result-home-link" href="./index.html" data-lang="zh">返回首页</a>
       </section>
 
       <footer class="footer">
