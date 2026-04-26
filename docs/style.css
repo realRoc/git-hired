@@ -377,6 +377,41 @@ body.lang-zh .tagline {
 
 .hero .mini { margin-top: 20px; }
 
+.manifesto {
+  max-width: 820px;
+}
+
+.audience-ctas {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.advanced-command {
+  margin-top: 12px;
+  border: 1px dashed var(--line-2);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.012);
+  overflow: hidden;
+}
+.advanced-command summary {
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.advanced-command summary:hover { color: var(--accent); }
+.advanced-command .prompt {
+  border-top: 1px dashed var(--line-2);
+  background: var(--bg-2);
+}
+
+.audience-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 /* ——— starter prompt block ——— */
 
 .prompt-wrap {
@@ -1319,6 +1354,7 @@ body.lang-zh .choice small {
   }
   .hero { padding: 28px 20px 24px; }
   .grid.cards { grid-template-columns: 1fr; }
+  .audience-grid { grid-template-columns: 1fr; }
   .card { border-right: 0 !important; }
   .card:nth-last-child(-n+2) { border-bottom: 1px solid var(--line); }
   .card:last-child { border-bottom: 0; }
@@ -1341,6 +1377,13 @@ body.lang-zh .choice small {
   .start-page .prompt-line,
   .start-page .inline-links {
     display: none;
+  }
+  .audience-ctas {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .audience-ctas .button {
+    justify-content: center;
   }
   .start-page .role-title {
     font-size: clamp(25px, 7.4vw, 34px);

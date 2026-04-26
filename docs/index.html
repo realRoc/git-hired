@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>git-hired</title>
-    <meta name="description" content="Privacy-first MBTI work-personality tests for AI-native hiring.">
+    <meta name="description" content="Open-source AI-native hiring protocol with privacy-bounded candidate fit reports.">
     <script>
       (function () {
         var key = "git-hired-lang";
@@ -35,7 +35,6 @@
   <body class="lang-en" data-lang="en" data-title-en="git-hired" data-title-zh="git-hired">
     <main class="shell">
 
-      <!-- window chrome + lang switcher -->
       <div class="topbar">
         <div class="topbar-left">
           <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -49,7 +48,6 @@
         </div>
       </div>
 
-      <!-- hero / terminal -->
       <section class="hero">
         <div class="prompt-line">
           <span class="user">you</span><span class="at">@</span><span class="host">work-agent</span>
@@ -60,29 +58,36 @@
         <pre class="ascii-banner" id="asciiBanner" aria-label="git-hired" role="img"><span class="ascii-inner"></span><span class="ascii-caret" id="asciiCaret" title="click to toggle CRT"></span></pre>
         <h1 class="ascii-fallback" aria-hidden="true">git hired</h1>
 
-        <p class="lede" data-lang="en">
-          <code>git-hired</code> tests your MBTI work personality from how you <em>actually</em> work.
-          Let your own work agent — Claude Code, Codex, Notion AI, or any memory-enabled assistant —
-          analyze your real workflow.
+        <p class="lede manifesto" data-lang="en">
+          Hiring for AI-native teams is broken. Resumes show claims. Interviews show performance.
+          Take-home tests show isolated skill. <code>git-hired</code> asks a different question:
+          can this person use agents to understand ambiguity, inspect real work traces, make tradeoffs, and ship?
         </p>
-        <p class="lede" data-lang="zh">
-          <code>git-hired</code> 从真实工作方式出发，测试你的 MBTI 工作人格。
-          让你自己的 Claude Code、Codex、Notion AI 或任何具备记忆能力的工作 agent，
-          去分析你到底是怎么工作的。
+        <p class="lede manifesto" data-lang="zh">
+          AI-native 团队的招人方式坏掉了。简历展示的是声明，面试展示的是表演，作业题展示的是孤立技能。
+          <code>git-hired</code> 问的是另一个问题：这个人能不能用 agent 理解模糊任务、检查真实工作痕迹、做取舍，并把事情推进到交付？
         </p>
 
         <p class="mini" data-lang="en">
-          Privacy first — we never upload your local repo, files, or any local data.
+          Open-source AI-native hiring protocol. Candidates run it inside their own work agent; `git-hired` never uploads local repo, file, or local data to our server.
         </p>
         <p class="mini" data-lang="zh">
-          隐私优先 — 我们不会上传你的本地 repo、文件或任何本地数据。
+          开源 AI-native 招人协议。候选人在自己的工作 agent 里运行；`git-hired` 不会把本地 repo、文件或本地数据上传到我们的服务器。
         </p>
 
-        <!-- starter command -->
+        <nav class="audience-ctas" aria-label="Audience entry points">
+          <a class="button primary" href="./candidate.html" data-lang="en">For Candidates</a>
+          <a class="button primary" href="./candidate.html" data-lang="zh">候选人入口</a>
+          <a class="button" href="./evaluator.html" data-lang="en">For Evaluators</a>
+          <a class="button" href="./evaluator.html" data-lang="zh">评估者入口</a>
+          <a class="button" href="./contributor.html" data-lang="en">For Contributors</a>
+          <a class="button" href="./contributor.html" data-lang="zh">贡献者入口</a>
+        </nav>
+
         <section class="prompt-wrap">
           <div class="prompt-head">
-            <strong data-lang="en">one-line starter</strong>
-            <strong data-lang="zh">一行启动命令</strong>
+            <strong data-lang="en">quick start</strong>
+            <strong data-lang="zh">快速开始</strong>
             <button
               class="button"
               data-copy-button="true"
@@ -94,22 +99,78 @@
               data-failed-zh="复制失败"
               onclick="copyPrompt('starter-command', this)">Copy Command</button>
           </div>
-          <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.</pre>
-          <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。</pre>
+          <pre class="prompt" id="starter-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md</pre>
+          <pre class="prompt" id="starter-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md</pre>
         </section>
 
-        <p class="mini" data-lang="en">
-          Answer two things only — your target role, and whether this run stays <code>history-only</code>.
-        </p>
-        <p class="mini" data-lang="zh">
-          你只需要回答两件事 — 目标岗位，以及这次是否保持 <code>history-only</code>。
-        </p>
+        <details class="advanced-command">
+          <summary>
+            <span data-lang="en">advanced command for stricter agents</span>
+            <span data-lang="zh">给更严格 agent 用的高级命令</span>
+          </summary>
+          <pre class="prompt" data-lang="en">read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.</pre>
+          <pre class="prompt" data-lang="zh">read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。</pre>
+        </details>
       </section>
 
-      <!-- roles -->
       <section class="section">
         <div class="section-head">
           <span class="hash">01 /</span>
+          <h2 data-lang="en">choose a protocol</h2>
+          <h2 data-lang="zh">选择你的入口</h2>
+        </div>
+        <div class="grid cards audience-grid">
+          <article class="card">
+            <div class="role-meta">
+              <span class="slug">candidate.html</span>
+              <span class="idx">run</span>
+            </div>
+            <h3 data-lang="en">Candidates</h3>
+            <h3 data-lang="zh">候选人</h3>
+            <p data-lang="en">Run the test in your own agent, choose privacy scope, and keep or share a public fit summary.</p>
+            <p data-lang="zh">在自己的 agent 里运行测试，选择隐私范围，然后保留或分享公开摘要。</p>
+            <a class="card-foot" href="./candidate.html">
+              <span data-lang="en">run protocol</span>
+              <span data-lang="zh">运行协议</span>
+              <span class="open">./candidate</span>
+            </a>
+          </article>
+          <article class="card">
+            <div class="role-meta">
+              <span class="slug">evaluator.html</span>
+              <span class="idx">use</span>
+            </div>
+            <h3 data-lang="en">Founders / hiring teams</h3>
+            <h3 data-lang="zh">创始人 / 招聘团队</h3>
+            <p data-lang="en">Use a public protocol for evidence confidence, AI workflow maturity, ambiguity handling, and trust boundaries.</p>
+            <p data-lang="zh">用公开协议判断证据置信度、AI 工作流成熟度、模糊任务处理和信任边界。</p>
+            <a class="card-foot" href="./evaluator.html">
+              <span data-lang="en">use protocol</span>
+              <span data-lang="zh">使用协议</span>
+              <span class="open">./evaluate</span>
+            </a>
+          </article>
+          <article class="card">
+            <div class="role-meta">
+              <span class="slug">contributor.html</span>
+              <span class="idx">ship</span>
+            </div>
+            <h3 data-lang="en">Contributors</h3>
+            <h3 data-lang="zh">贡献者</h3>
+            <p data-lang="en">Improve role prompts, scoring rubrics, examples, localization, and report templates.</p>
+            <p data-lang="zh">改进岗位 prompt、评分 rubric、样例、本地化和报告模板。</p>
+            <a class="card-foot" href="./contributor.html">
+              <span data-lang="en">contribute</span>
+              <span data-lang="zh">参与贡献</span>
+              <span class="open">./contribute</span>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <span class="hash">02 /</span>
           <h2 data-lang="en">pick a role</h2>
           <h2 data-lang="zh">选择岗位</h2>
         </div>
@@ -183,10 +244,9 @@
         </div>
       </section>
 
-      <!-- what you get -->
       <section class="section">
         <div class="section-head">
-          <span class="hash">02 /</span>
+          <span class="hash">03 /</span>
           <h2 data-lang="en">what you get</h2>
           <h2 data-lang="zh">你会拿到什么</h2>
         </div>
@@ -205,39 +265,56 @@
           <div class="outputs-row">
             <div class="outputs-key">signal</div>
             <div class="outputs-val" data-lang="en">
-              A clearer view of how you <em>actually</em> use AI — not how you’d describe your workflow.
+              Work-trace evidence, actual agent workflow, role-specific fit, and MBTI work personality as a bounded work-style read.
             </div>
             <div class="outputs-val" data-lang="zh">
-              你<em>真实的</em> AI 使用方式，而不只是你会如何描述自己的工作流。
-            </div>
-          </div>
-
-          <div class="outputs-row">
-            <div class="outputs-key">snapshot</div>
-            <div class="outputs-val" data-lang="en">
-              A shareable <code>HIRED</code> card — MBTI work personality, ability score, signal board, matching ASCII badge.
-            </div>
-            <div class="outputs-val" data-lang="zh">
-              一份可传播的 <code>HIRED</code> 卡片 — MBTI 工作人格、能力值、信号板、匹配 ASCII 徽章。
+              工作痕迹证据、真实 agent 工作流、角色匹配度，以及有边界的 MBTI 工作人格判断。
             </div>
           </div>
 
           <div class="outputs-row">
             <div class="outputs-key">report</div>
             <div class="outputs-val" data-lang="en">
-              A local markdown report you keep for yourself — use it for reflection, or attach later if you decide to apply.
+              A privacy-bounded fit report with evidence confidence, strengths, risks, next steps, and a candidate-facing local markdown report.
             </div>
             <div class="outputs-val" data-lang="zh">
-              一份本地 markdown 详细报告，可自己留存、复盘，或在之后申请时附上。
+              一份带隐私边界的匹配报告：证据置信度、优势、风险、下一步，以及候选人可留存的本地 markdown 详细报告。
             </div>
           </div>
+        </div>
+      </section>
 
+      <section class="section">
+        <div class="section-head">
+          <span class="hash">04 /</span>
+          <h2 data-lang="en">calibration material</h2>
+          <h2 data-lang="zh">校准材料</h2>
+        </div>
+        <div class="outputs">
+          <div class="outputs-row">
+            <div class="outputs-key">rubric</div>
+            <div class="outputs-val" data-lang="en">
+              Public evaluator standard: agency, AI fluency, product sense, debugging maturity, taste, trust, and communication. <a href="https://github.com/realRoc/git-hired/blob/main/rubric.md" target="_blank" rel="noreferrer">rubric.md</a>
+            </div>
+            <div class="outputs-val" data-lang="zh">
+              公开评估标准：主动性、AI fluency、产品感、调试成熟度、taste、信任边界和沟通。<a href="https://github.com/realRoc/git-hired/blob/main/rubric.md" target="_blank" rel="noreferrer">rubric.md</a>
+            </div>
+          </div>
+          <div class="outputs-row">
+            <div class="outputs-key">examples</div>
+            <div class="outputs-val" data-lang="en">
+              Fictional, redacted sample reports so you can see what strong / medium / weak output looks like before running it. <a href="https://github.com/realRoc/git-hired/tree/main/examples" target="_blank" rel="noreferrer">examples</a>
+            </div>
+            <div class="outputs-val" data-lang="zh">
+              虚构、脱敏的报告样例，让你在运行前看到 strong / medium / weak 结果大概长什么样。<a href="https://github.com/realRoc/git-hired/tree/main/examples" target="_blank" rel="noreferrer">样例目录</a>
+            </div>
+          </div>
         </div>
       </section>
 
       <section class="section quick-test-fallback">
         <div class="section-head">
-          <span class="hash">03 /</span>
+          <span class="hash">05 /</span>
           <h2 data-lang="en">too much?</h2>
           <h2 data-lang="zh">信息太多？</h2>
         </div>
@@ -247,10 +324,10 @@
             <h3 data-lang="en">Scan for a 1-minute quick test</h3>
             <h3 data-lang="zh">扫码做 1 分钟快速测试</h3>
             <p data-lang="en">
-              If the agent path above feels too detailed, start here on your phone. The quick test gives you a shareable <code>HIRED</code> signal and a handoff prompt for the deeper agent test.
+              If the agent path above feels too detailed, start here on your phone. The Mobile Quick Test gives you a lightweight self-report signal and a handoff path for the deeper agent protocol.
             </p>
             <p data-lang="zh">
-              如果上面的 agent 流程信息太多，直接从这里用手机开始。快速测试会给你一张可分享的 <code>HIRED</code> 快速画像，以及后续 agent 深度测试 handoff。
+              如果上面的 agent 流程信息太多，直接从这里用手机开始。移动端快速测试会给你一个轻量自评信号，以及后续 agent 深度测试 handoff。
             </p>
             <a class="button primary" href="./start.html" data-lang="en">Start Quick Test</a>
             <a class="button primary" href="./start.html" data-lang="zh">开始快速测试</a>

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contributor Protocol · git-hired</title>
+    <meta name="description" content="Contribute roles, rubrics, examples, and report templates to git-hired.">
+    <script>
+      (function () {
+        var key = "git-hired-lang";
+        var lang = "en";
+        try {
+          var stored = window.localStorage.getItem(key);
+          if (stored === "en" || stored === "zh") {
+            lang = stored;
+          } else {
+            var candidates = Array.isArray(navigator.languages) && navigator.languages.length
+              ? navigator.languages
+              : [navigator.language || navigator.userLanguage || ""];
+            lang = candidates.some(function (value) {
+              return /^zh\b/i.test(String(value || "").trim());
+            }) ? "zh" : "en";
+          }
+        } catch (error) {
+          var fallback = navigator.language || navigator.userLanguage || "";
+          lang = /^zh\b/i.test(String(fallback || "").trim()) ? "zh" : "en";
+        }
+        document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+        document.documentElement.dataset.lang = lang;
+      }());
+    </script>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./app.js" defer></script>
+  </head>
+  <body class="lang-en" data-lang="en" data-title-en="Contributor Protocol · git-hired" data-title-zh="贡献者协议 · git-hired">
+    <main class="shell">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="topbar-path">
+            <span class="here">~/git-hired</span><span class="sep"> / </span><span>contributor</span>
+          </div>
+        </div>
+        <div class="lang-switch" aria-label="Language switcher">
+          <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+        </div>
+      </div>
+
+      <section class="hero">
+        <div class="prompt-line">
+          <span class="user">you</span><span class="at">@</span><span class="host">git-hired</span>
+          <span class="cwd"> ~/git-hired/contributor</span>
+          <span class="dollar">$</span>
+          <span style="color:var(--ink-dim);margin-left:4px">open pull-request</span>
+        </div>
+        <h1 class="role-title" data-lang="en">Contributor Protocol</h1>
+        <h1 class="role-title" data-lang="zh">贡献者协议</h1>
+        <p class="lede" data-lang="en">
+          Help turn <code>git-hired</code> from a useful prompt set into a stronger AI-native hiring protocol.
+        </p>
+        <p class="lede" data-lang="zh">
+          帮助 <code>git-hired</code> 从一组好用的 prompt，进化成更完整的 AI-native hiring protocol。
+        </p>
+        <div class="inline-links">
+          <a class="button secondary" href="./index.html" data-lang="en">Back Home</a>
+          <a class="button secondary" href="./index.html" data-lang="zh">返回首页</a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <span class="hash">01 /</span>
+          <h2 data-lang="en">Good First Challenges</h2>
+          <h2 data-lang="zh">适合开始的挑战</h2>
+        </div>
+        <div class="outputs">
+          <div class="outputs-row">
+            <div class="outputs-key">role</div>
+            <div class="outputs-val" data-lang="en">Add a new role prompt with bilingual public page and role registry entry.</div>
+            <div class="outputs-val" data-lang="zh">新增一个岗位 prompt，并补齐双语公开页面和 role registry。</div>
+          </div>
+          <div class="outputs-row">
+            <div class="outputs-key">rubric</div>
+            <div class="outputs-val" data-lang="en">Improve one scoring dimension with clearer evidence levels.</div>
+            <div class="outputs-val" data-lang="zh">改进一个评分维度，让证据层级更清晰。</div>
+          </div>
+          <div class="outputs-row">
+            <div class="outputs-key">example</div>
+            <div class="outputs-val" data-lang="en">Add a fictional strong / medium / weak sample report without real personal data.</div>
+            <div class="outputs-val" data-lang="zh">新增一个虚构的 strong / medium / weak 样例报告，不使用真实个人数据。</div>
+          </div>
+          <div class="outputs-row">
+            <div class="outputs-key">privacy</div>
+            <div class="outputs-val" data-lang="en">Design a clearer privacy boundary or redaction rule.</div>
+            <div class="outputs-val" data-lang="zh">设计更清晰的隐私边界或脱敏规则。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <span class="hash">02 /</span>
+          <h2 data-lang="en">Before You Edit</h2>
+          <h2 data-lang="zh">开始修改前</h2>
+        </div>
+        <p class="mini" data-lang="en">
+          Role pages are generated from <code>roles.json</code> and prompt sources. Keep privacy wording, bilingual alignment, and validation in sync.
+        </p>
+        <p class="mini" data-lang="zh">
+          岗位页面由 <code>roles.json</code> 和 prompt 源文件同步生成。请保持隐私文案、双语一致性和校验脚本同步。
+        </p>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-line">
+          <span data-lang="en">MIT licensed — <code>git hired</code> or <code>git rejected</code>, your call.</span>
+          <span data-lang="zh">MIT 开源 — <code>git hired</code> 还是 <code>git rejected</code>，你说了算。</span>
+        </div>
+        <div class="footer-line">
+          <span data-lang="en"><code>$ whoami</code> author: <a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>. repo: <a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>.</span>
+          <span data-lang="zh"><code>$ whoami</code> 作者：<a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>。 仓库地址：<a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>。</span>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>

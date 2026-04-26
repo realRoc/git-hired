@@ -148,7 +148,12 @@ def main() -> None:
     quick_start = repo_root / "docs" / "start.html"
     quick_start_js = repo_root / "docs" / "quick-test.js"
     quick_start_qr = repo_root / "docs" / "assets" / "quick-test-qr.svg"
+    candidate_page = repo_root / "docs" / "candidate.html"
+    evaluator_page = repo_root / "docs" / "evaluator.html"
+    contributor_page = repo_root / "docs" / "contributor.html"
     not_found_page = repo_root / "docs" / "404.html"
+    rubric_path = repo_root / "rubric.md"
+    examples_dir = repo_root / "examples"
     index_text = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
     style_text = (repo_root / "docs" / "style.css").read_text(encoding="utf-8")
     readme_en = (repo_root / "README.md").read_text(encoding="utf-8")
@@ -171,6 +176,13 @@ def main() -> None:
         errors.append("docs/index.html still contains recruiter-facing JD summary wording")
     if MBTI_EN_MARKER not in index_text or MBTI_ZH_MARKER not in index_text:
         errors.append("docs/index.html missing MBTI work-personality candidate copy")
+    if "Hiring for AI-native teams is broken" not in index_text or "AI-native 团队的招人方式坏掉了" not in index_text:
+        errors.append("docs/index.html missing AI-native hiring manifesto copy")
+    for marker in ("./candidate.html", "./evaluator.html", "./contributor.html"):
+        if marker not in index_text:
+            errors.append(f"docs/index.html missing audience CTA link: {marker}")
+    if "Public evaluator standard" not in index_text or "Fictional, redacted sample reports" not in index_text:
+        errors.append("docs/index.html missing rubric/examples calibration links")
     if READ_COMMAND_MARKER not in index_text:
         errors.append("docs/index.html missing one-line read skill command")
     if NO_SUMMARY_EN_MARKER not in index_text or IMMEDIATE_START_EN_MARKER not in index_text:
@@ -190,6 +202,36 @@ def main() -> None:
             errors.append("docs/index.html should place quick-test QR fallback after main explanatory content")
     validate_public_footer("docs/index.html", index_text, errors)
     validate_footer_css(style_text, errors)
+
+    audience_pages = {
+        "docs/candidate.html": (candidate_page, "Candidate Protocol", "候选人协议"),
+        "docs/evaluator.html": (evaluator_page, "Evaluator Protocol", "评估者协议"),
+        "docs/contributor.html": (contributor_page, "Contributor Protocol", "贡献者协议"),
+    }
+    for label, (path, marker_en, marker_zh) in audience_pages.items():
+        if not path.exists():
+            errors.append(f"{label} missing")
+            continue
+        page_text = path.read_text(encoding="utf-8")
+        validate_public_footer(label, page_text, errors)
+        if marker_en not in page_text or marker_zh not in page_text:
+            errors.append(f"{label} missing bilingual protocol identity")
+        if "git-hired-lang" not in page_text:
+            errors.append(f"{label} missing language bootstrap script")
+        if "./index.html" not in page_text:
+            errors.append(f"{label} missing back-home link")
+    if candidate_page.exists():
+        candidate_text = candidate_page.read_text(encoding="utf-8")
+        if READ_COMMAND_MARKER not in candidate_text or "history-only" not in candidate_text or "our server" not in candidate_text or "我们的服务器" not in candidate_text:
+            errors.append("docs/candidate.html missing quick-start or privacy boundary")
+    if evaluator_page.exists():
+        evaluator_text = evaluator_page.read_text(encoding="utf-8")
+        if "evidence confidence" not in evaluator_text or "rubric.md" not in evaluator_text:
+            errors.append("docs/evaluator.html missing evaluator protocol rubric linkage")
+    if contributor_page.exists():
+        contributor_text = contributor_page.read_text(encoding="utf-8")
+        if "Good First Challenges" not in contributor_text or "role prompt" not in contributor_text:
+            errors.append("docs/contributor.html missing contributor challenge guidance")
 
     if not quick_start.exists():
         errors.append("docs/start.html missing mobile human quick-test page")
@@ -313,6 +355,33 @@ def main() -> None:
     if (repo_root / "docs" / "general.html").exists():
         errors.append("docs/general.html should be removed after shared-entry simplification")
 
+    if not rubric_path.exists():
+        errors.append("rubric.md missing public evaluator standard")
+    else:
+        rubric_text = rubric_path.read_text(encoding="utf-8")
+        for marker in ("Agency", "AI Fluency", "Product Sense", "Debugging Maturity", "Trust", "Communication"):
+            if marker not in rubric_text:
+                errors.append(f"rubric.md missing rubric dimension: {marker}")
+    expected_examples = (
+        "agent-engineer.strong.md",
+        "agent-engineer.medium.md",
+        "agent-engineer.weak.md",
+        "pm.strong.md",
+        "growth.strong.md",
+        "redacted-report-template.md",
+    )
+    if not examples_dir.exists():
+        errors.append("examples/ missing sample report directory")
+    else:
+        for filename in expected_examples:
+            path = examples_dir / filename
+            if not path.exists():
+                errors.append(f"examples/ missing {filename}")
+            else:
+                example_text = path.read_text(encoding="utf-8")
+                if filename != "redacted-report-template.md" and "fictional" not in example_text.lower():
+                    errors.append(f"examples/{filename} should be clearly marked fictional")
+
     if "<!-- AUTO:live-links:start -->" not in readme_en or "<!-- AUTO:live-links:end -->" not in readme_en:
         errors.append("README.md missing AUTO live-links markers")
     if "<!-- AUTO:role-list:start -->" not in readme_en or "<!-- AUTO:role-list:end -->" not in readme_en:
@@ -325,6 +394,16 @@ def main() -> None:
         errors.append("README.md missing work-agent compatibility or privacy-upload wording")
     if WORK_AGENT_ZH_MARKER not in readme_zh or "我们的服务器" not in readme_zh:
         errors.append("README.zh-CN.md missing work-agent compatibility or privacy-upload wording")
+    if "open-source AI-native hiring test" not in readme_en or "AI-native 招人测试" not in readme_zh:
+        errors.append("README missing protocol positioning statement")
+    for marker in ("candidate.html", "evaluator.html", "contributor.html", "rubric.md", "examples/"):
+        if marker not in readme_en:
+            errors.append(f"README.md missing protocol/funnel marker: {marker}")
+    for marker in ("candidate.html", "evaluator.html", "contributor.html", "rubric.md", "examples/"):
+        if marker not in readme_zh:
+            errors.append(f"README.zh-CN.md missing protocol/funnel marker: {marker}")
+    if "I Am Using This To Find Collaborators" not in readme_en or "我也在用这个项目寻找合作伙伴" not in readme_zh:
+        errors.append("README missing collaborator funnel section")
     if "skill.md" not in readme_en or "https://realroc.github.io/git-hired/skill.md" not in readme_en:
         errors.append("README.md missing skill.md live link")
     if "skill.md" not in readme_zh or "https://realroc.github.io/git-hired/skill.md" not in readme_zh:

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Candidate Protocol · git-hired</title>
+    <meta name="description" content="Run git-hired in your own work agent and get a privacy-bounded fit report.">
+    <script>
+      (function () {
+        var key = "git-hired-lang";
+        var lang = "en";
+        try {
+          var stored = window.localStorage.getItem(key);
+          if (stored === "en" || stored === "zh") {
+            lang = stored;
+          } else {
+            var candidates = Array.isArray(navigator.languages) && navigator.languages.length
+              ? navigator.languages
+              : [navigator.language || navigator.userLanguage || ""];
+            lang = candidates.some(function (value) {
+              return /^zh\b/i.test(String(value || "").trim());
+            }) ? "zh" : "en";
+          }
+        } catch (error) {
+          var fallback = navigator.language || navigator.userLanguage || "";
+          lang = /^zh\b/i.test(String(fallback || "").trim()) ? "zh" : "en";
+        }
+        document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+        document.documentElement.dataset.lang = lang;
+      }());
+    </script>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./app.js" defer></script>
+  </head>
+  <body class="lang-en" data-lang="en" data-title-en="Candidate Protocol · git-hired" data-title-zh="候选人协议 · git-hired">
+    <main class="shell">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="topbar-path">
+            <span class="here">~/git-hired</span><span class="sep"> / </span><span>candidate</span>
+          </div>
+        </div>
+        <div class="lang-switch" aria-label="Language switcher">
+          <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+        </div>
+      </div>
+
+      <section class="hero">
+        <div class="prompt-line">
+          <span class="user">you</span><span class="at">@</span><span class="host">work-agent</span>
+          <span class="cwd"> ~/git-hired/candidate</span>
+          <span class="dollar">$</span>
+          <span style="color:var(--ink-dim);margin-left:4px">run protocol</span>
+        </div>
+        <h1 class="role-title" data-lang="en">Candidate Protocol</h1>
+        <h1 class="role-title" data-lang="zh">候选人协议</h1>
+        <p class="lede" data-lang="en">
+          Run <code>git-hired</code> inside your own work agent, choose your privacy scope, and get a fit report based on how you actually work.
+        </p>
+        <p class="lede" data-lang="zh">
+          在你自己的工作 agent 里运行 <code>git-hired</code>，选择隐私范围，然后拿到一份基于真实工作方式的匹配报告。
+        </p>
+
+        <section class="prompt-wrap">
+          <div class="prompt-head">
+            <strong data-lang="en">quick start</strong>
+            <strong data-lang="zh">快速开始</strong>
+            <button
+              class="button"
+              data-copy-button="true"
+              data-label-en="Copy Command"
+              data-label-zh="复制命令"
+              data-copied-en="copied ✓"
+              data-copied-zh="已复制 ✓"
+              data-failed-en="copy failed"
+              data-failed-zh="复制失败"
+              onclick="copyPrompt('candidate-command', this)">Copy Command</button>
+          </div>
+          <pre class="prompt" id="candidate-command-en" data-lang="en">read https://realroc.github.io/git-hired/skill.md</pre>
+          <pre class="prompt" id="candidate-command-zh" data-lang="zh">read https://realroc.github.io/git-hired/skill.md</pre>
+        </section>
+
+        <div class="inline-links">
+          <a class="button secondary" href="./index.html" data-lang="en">Back Home</a>
+          <a class="button secondary" href="./index.html" data-lang="zh">返回首页</a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <span class="hash">01 /</span>
+          <h2 data-lang="en">Run It</h2>
+          <h2 data-lang="zh">如何运行</h2>
+        </div>
+        <div class="outputs">
+          <div class="outputs-row">
+            <div class="outputs-key">1</div>
+            <div class="outputs-val" data-lang="en">Paste the command into Claude Code, Codex, Notion AI, or another work agent with memory.</div>
+            <div class="outputs-val" data-lang="zh">把命令粘贴到 Claude Code、Codex、Notion AI，或其他具备记忆能力的工作 agent。</div>
+          </div>
+          <div class="outputs-row">
+            <div class="outputs-key">2</div>
+            <div class="outputs-val" data-lang="en">Choose your target role, or describe your current profession if you are unsure.</div>
+            <div class="outputs-val" data-lang="zh">选择目标岗位；如果不确定，就先描述你当前的职业或身份。</div>
+          </div>
+          <div class="outputs-row">
+            <div class="outputs-key">3</div>
+            <div class="outputs-val" data-lang="en">Choose privacy scope: <code>history-only</code> by default, or explicitly named repos / files if you want stronger evidence.</div>
+            <div class="outputs-val" data-lang="zh">选择隐私范围：默认 <code>history-only</code>，如果你想要更强证据，可以明确点名授权 repo / 文件。</div>
+          </div>
+          <div class="outputs-row">
+            <div class="outputs-key">4</div>
+            <div class="outputs-val" data-lang="en">Keep the report for reflection, or share a public summary if you want to apply or collaborate.</div>
+            <div class="outputs-val" data-lang="zh">把报告留作复盘；如果想申请或合作，可以分享公开摘要。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <span class="hash">02 /</span>
+          <h2 data-lang="en">Privacy Boundary</h2>
+          <h2 data-lang="zh">隐私边界</h2>
+        </div>
+        <p class="mini" data-lang="en">
+          `git-hired` does not upload local repo or file data to our server. Your work agent should inspect only the projects, files, or knowledge-base material you explicitly authorize.
+        </p>
+        <p class="mini" data-lang="zh">
+          `git-hired` 不会把你的本地 repo 或文件数据上传到我们的服务器。你的工作 agent 只应访问你明确授权的项目、文件或知识库材料。
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <span class="hash">03 /</span>
+          <h2 data-lang="en">Want To Collaborate?</h2>
+          <h2 data-lang="zh">想合作？</h2>
+        </div>
+        <p class="mini" data-lang="en">
+          If your report shows strong fit and you are interested in AI-native products, open an issue with your target role, public summary, and what you want to build next.
+        </p>
+        <p class="mini" data-lang="zh">
+          如果你的报告显示强匹配，并且你对 AI-native 产品感兴趣，可以开一个 issue，写上目标岗位、公开摘要和你接下来想做什么。
+        </p>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-line">
+          <span data-lang="en">MIT licensed — <code>git hired</code> or <code>git rejected</code>, your call.</span>
+          <span data-lang="zh">MIT 开源 — <code>git hired</code> 还是 <code>git rejected</code>，你说了算。</span>
+        </div>
+        <div class="footer-line">
+          <span data-lang="en"><code>$ whoami</code> author: <a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>. repo: <a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>.</span>
+          <span data-lang="zh"><code>$ whoami</code> 作者：<a href="https://github.com/realRoc" target="_blank" rel="noreferrer">realRoc</a>。 仓库地址：<a href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">github.com/realRoc/git-hired</a>。</span>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>

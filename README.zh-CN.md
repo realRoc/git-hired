@@ -7,9 +7,39 @@ fatal: not a qualified candidate
 
 [English](./README.md)
 
-面向 AI Native 创业公司的、以 prompt 为核心的候选人匹配度测试仓库。
+`git-hired` 是一个 AI-native 招人测试：候选人用自己的 AI agent 分析自己的真实工作痕迹，然后返回一份隐私安全的能力报告。
 
-`git-hired` 现在有两个候选人入口：一个适合二维码传播的移动端人类 quick test，一个是更深入的公开 `skill.md` agent 入口。实践里更稳的 agent 方式，是直接给工作 agent 一行：`read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。` 随后 agent 会先完成岗位路由、确认隐私边界、按需抓取对应 prompt，再只基于允许的工作痕迹返回一份结构化、带隐私边界的岗位匹配报告。如果运行环境是 Notion AI 或其他富文本界面，它应自动退化成紧凑卡片，而不是硬塞终端味很重的宽 ASCII。
+AI-native 团队的招人方式坏掉了。
+
+简历展示的是声明。
+面试展示的是表演。
+作业题展示的是孤立技能。
+
+`git-hired` 问的是另一个问题：
+
+这个人能不能用 AI agent 理解模糊任务、检查真实工作痕迹、做取舍，并把事情推进到交付？
+
+## 从这里开始
+
+| 你是谁 | 下一步 |
+| --- | --- |
+| 候选人 | [运行测试](https://realroc.github.io/git-hired/candidate.html) |
+| 创始人 / 招聘团队 | [使用协议](https://realroc.github.io/git-hired/evaluator.html) |
+| 贡献者 | [改进 rubric](https://realroc.github.io/git-hired/contributor.html) |
+
+快速开始：
+
+```text
+read https://realroc.github.io/git-hired/skill.md
+```
+
+把这行粘贴到你自己的工作 agent 里，例如 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。
+
+高级命令：
+
+```text
+read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。
+```
 
 ## 隐私优先
 
@@ -24,24 +54,43 @@ fatal: not a qualified candidate
 
 - 默认模式：`history-only`
 - 可选模式：候选人主动允许扫描指定 repo / 本地目录 / 文件
-- 运行位置：候选人自己的机器
+- 运行位置：候选人自己的机器或已连接工作区
 - 本地 repo / 文件数据上传到服务端：`不会`
 
-这不是简历表演。
+## 这是一套 protocol
 
-它更关注 AI 时代真正重要的信号：
+### Candidate Protocol
 
-- 这个人怎么拆问题
-- 怎么使用 AI 工具
-- 怎么调试
-- 怎么处理模糊需求
-- 怎么看用户、指标和 tradeoff
-- 他到底像不像一家早期创业公司真正需要的人
+1. 把 quick start 命令粘贴到自己的工作 agent。
+2. 选择目标岗位；如果还不确定，就先说当前职业或身份。
+3. 选择隐私范围：`history-only`，或明确点名允许的文件 / repo。
+4. 让 agent 只检查被授权的证据。
+5. 保留生成的 fit report；如果想申请或合作，可以提交公开摘要。
+
+### Evaluator Protocol
+
+1. 先看证据置信度，再看分数。
+2. 看 AI-native 工作流成熟度。
+3. 看模糊任务处理和取舍质量。
+4. 看输出质量、推进闭环和协作风险。
+5. 决定：strong yes / trial / pass。
+
+公开评分标准见 [rubric.md](./rubric.md)。
+
+### Contributor Protocol
+
+1. 新增或改进一个角色 prompt。
+2. 改进评分 rubric。
+3. 增加本地化。
+4. 改进报告模板。
+5. 增加虚构、脱敏的校准样例。
 
 ## 在线链接
 
-启用 GitHub Pages 之后，可直接使用：
-
+- 首页：<https://realroc.github.io/git-hired/>
+- 候选人协议：<https://realroc.github.io/git-hired/candidate.html>
+- 评估者协议：<https://realroc.github.io/git-hired/evaluator.html>
+- 贡献者协议：<https://realroc.github.io/git-hired/contributor.html>
 - 移动端快速测试：<https://realroc.github.io/git-hired/start.html>
 - Agent 入口（`skill.md`）: <https://realroc.github.io/git-hired/skill.md>
 
@@ -63,58 +112,61 @@ fatal: not a qualified candidate
 - `产品运营`
 <!-- AUTO:role-list:end -->
 
-每个岗位都包含：
+同时还包含：
 
-- 一个可直接发给候选人的独立页面
-- 一份便于维护的源 prompt
-- 一套中文和英文源文件
-- 明确的隐私边界，要求 agent 输出聚合信号，而不是原始转储
+- `skill.md`：agent 可读的入口协议
+- `docs/`：公开 GitHub Pages 页面
+- `prompts/`：中英文 canonical role prompts
+- `rubric.md`：公开评估标准
+- `examples/`：虚构、脱敏的报告样例
+
+## 我也在用这个项目寻找合作伙伴
+
+我在构建 AI-native 产品，希望找到这样的人：
+
+- 真正会把 AI agent 当工作伙伴使用
+- 能拆解模糊任务
+- 不需要重管理也能推进事情
+- 对产品、用户、指标、取舍有判断
+- 尊重隐私和安全边界
+
+如果你觉得自己匹配，可以跑一遍 `git-hired`，然后开一个 issue，附上：
+
+- 目标岗位
+- 公开报告摘要
+- 你接下来想做什么
+- 你希望被尊重的隐私边界
+
+不要在公开 issue 里放 secret、私人 transcript、原始客户数据或本地文件转储。
+
+## 样例
+
+如果你想先知道报告大概长什么样，从这里看：
+
+- [强匹配 Agent 工程师](./examples/agent-engineer.strong.md)
+- [中等匹配 Agent 工程师](./examples/agent-engineer.medium.md)
+- [弱匹配 Agent 工程师](./examples/agent-engineer.weak.md)
+- [强匹配产品经理](./examples/pm.strong.md)
+- [强匹配海外增长](./examples/growth.strong.md)
+- [脱敏报告模板](./examples/redacted-report-template.md)
+
+| 传统招聘信号 | `git-hired` 信号 |
+| --- | --- |
+| 简历声明 | 工作痕迹证据 |
+| 面试回答 | agent 观察到的行为 |
+| 作业题 | 历史执行模式 |
+| 自称会用 AI | 真实 agent 工作流 |
+| 通用评分 | 角色特定 fit report |
 
 ## 为什么要做这个
 
-在 AI Native 招聘里，头衔和履历正在变成越来越弱的代理变量。
+在 AI-native 招聘里，头衔和履历正在变成越来越弱的代理变量。
 
 更关键的问题是：
 
 这个人能不能在创业公司的资源约束下，把 AI 真正组织起来，持续交付、学习和迭代？
 
-`git-hired` 就是为了让这件事变得更可观察。
-
-## 怎么使用
-
-1. 如果候选人在手机上，或你准备二维码传播，先发 <https://realroc.github.io/git-hired/start.html>，让他做 1 分钟自评 quick test
-2. quick test 会返回一张可分享的 `HIRED` 快速画像，以及一段可复制的 agent handoff prompt
-3. 如果要做更深的版本，再把一行 `read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。` 命令发给候选人
-4. 候选人把它粘贴到自己常用的工作 agent，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent
-5. 他的 agent 会先问目标岗位；如果目标还不明确，就回到候选人当前职业或身份
-6. agent 会先问清隐私边界，再决定是否允许访问任何本地 repo 或文件
-7. 如果需要，agent 会抓取对应的岗位 prompt，并在批准范围内自动分析工作痕迹，而不是继续让候选人人工答题
-8. 候选人如果决定申请，再把生成报告发回给你
-
-## 先同意，再扫描；且只在本地运行
-
-> 规则很简单：
-> 未经候选人明确允许，不扫描本地 repo 或文档；
-> 即使候选人允许，也不会有任何本地 repo 或文件数据从候选人的机器上传到我们的服务器。
-
-候选人可以主动选择：
-
-- `history-only`，走更轻量、更注重隐私的评估
-- 或允许扫描指定的本地 repo / 项目目录 / 文件，以换取更充分的评分依据
-
-如果候选人不允许扫描 repo 或文档，agent 也应该基于历史记录做尽可能客观的判断，并明确说明置信度限制。
-
-## 推荐给候选人的发送文案
-
-你可以直接发：
-
-> 把这行 `read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。` 粘贴到你自己的工作 agent 里跑一下，例如 Claude Code、Codex、Notion AI，或其他具备知识库和记忆能力的工作 agent，然后把结果发我。
-> 默认只看历史记录。如果你愿意拿到更充分的评分，也可以主动允许访问指定的本地 repo 或文件。`git-hired` 不会把你的本地 repo 或文件数据上传到我们的服务器，agent 也只应访问你明确授权的材料。
-
-如果想更有梗一点：
-
-> 跑一下这个。  
-> `git hired` 还是 `git rejected`，让你的 agent 先说。
+`git-hired` 是为了让这件事变得可观察，同时不把候选人评估变成监控。
 
 ## 隐私边界
 
@@ -141,6 +193,7 @@ fatal: not a qualified candidate
 - 去标识化例子
 - 评分
 - 匹配度判断
+- MBTI 工作人格，且只作为工作风格判断，不是人生人格诊断
 - 一份面向候选人的本地 markdown 详细报告
 
 ## 目录结构
@@ -148,8 +201,19 @@ fatal: not a qualified candidate
 ```text
 git-hired/
 ├── skill.md
+├── rubric.md
+├── examples/
+│   ├── agent-engineer.strong.md
+│   ├── agent-engineer.medium.md
+│   ├── agent-engineer.weak.md
+│   ├── pm.strong.md
+│   ├── growth.strong.md
+│   └── redacted-report-template.md
 ├── docs/
 │   ├── index.html
+│   ├── candidate.html
+│   ├── evaluator.html
+│   ├── contributor.html
 │   ├── start.html
 │   ├── quick-test.js
 │   ├── skill.md
@@ -161,18 +225,7 @@ git-hired/
 │   └── app.js
 ├── roles.json
 ├── prompts/
-│   ├── agent-engineer.en.md
-│   ├── agent-engineer.md
-│   ├── product-manager.en.md
-│   ├── product-manager.md
-│   ├── global-growth.en.md
-│   ├── global-growth.md
-│   ├── ai-product-operations.en.md
-│   └── ai-product-operations.md
 ├── .codex/skills/git-hired-jd-ops/
-│   ├── SKILL.md
-│   ├── references/
-│   └── scripts/
 ├── LICENSE
 ├── README.md
 └── README.zh-CN.md

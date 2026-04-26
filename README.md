@@ -7,9 +7,39 @@ fatal: not a qualified candidate
 
 [简体中文](./README.zh-CN.md)
 
-Prompt-first candidate fit tests for AI-native startups.
+`git-hired` is an open-source AI-native hiring test: candidates let their own AI agent analyze their real work traces and return a privacy-bounded fit report.
 
-`git-hired` has two candidate entries: a mobile human quick test for QR sharing, and the deeper public `skill.md` agent entry. In practice, the more reliable one-line agent command is: `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.` The agent should then route the right role, confirm the privacy boundary, inspect only the allowed evidence, and return a structured, privacy-bounded fit report based on how the candidate actually works. If the runtime is Notion AI or another rich-text surface, it should fall back to a compact card instead of forcing terminal-heavy ASCII.
+Hiring for AI-native teams is broken.
+
+Resumes show claims.
+Interviews show performance.
+Take-home tests show isolated skill.
+
+`git-hired` asks a different question:
+
+Can this person use AI agents to understand ambiguity, inspect real work traces, make tradeoffs, and ship?
+
+## Start Here
+
+| Audience | Next step |
+| --- | --- |
+| Candidates | [Run the test](https://realroc.github.io/git-hired/candidate.html) |
+| Founders / hiring teams | [Use the protocol](https://realroc.github.io/git-hired/evaluator.html) |
+| Contributors | [Improve the rubric](https://realroc.github.io/git-hired/contributor.html) |
+
+Quick start:
+
+```text
+read https://realroc.github.io/git-hired/skill.md
+```
+
+Paste that into your own work agent, such as Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability.
+
+Advanced command:
+
+```text
+read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.
+```
 
 ## Privacy First
 
@@ -24,24 +54,43 @@ At a glance:
 
 - default mode: `history-only`
 - optional mode: candidate-approved scanning of specific repos / local folders / files
-- analysis location: the candidate's own machine
+- analysis location: the candidate's own machine or connected workspace
 - server upload of local repo / file data: `none`
 
-This is not resume theater.
+## The Protocol
 
-It is a practical way to inspect signals that matter more in AI-native teams:
+### Candidate Protocol
 
-- how someone scopes work
-- how they use AI tools
-- how they debug
-- how they decompose ambiguity
-- how they think about users, metrics, and tradeoffs
-- whether they look like the kind of builder an early-stage startup actually needs
+1. Paste the quick start command into your own work agent.
+2. Choose a target role, or describe your current profession if you are unsure.
+3. Choose privacy scope: `history-only` or explicit named files / repos.
+4. Let the agent inspect only approved evidence.
+5. Keep the generated fit report, or send a public summary if you want to apply or collaborate.
+
+### Evaluator Protocol
+
+1. Check evidence confidence before judging the score.
+2. Check AI-native workflow maturity.
+3. Check ambiguity handling and tradeoff quality.
+4. Check output quality, follow-through, and collaboration risk.
+5. Decide: strong yes / trial / pass.
+
+See [rubric.md](./rubric.md) for the public scoring standard.
+
+### Contributor Protocol
+
+1. Add or improve a role prompt.
+2. Improve the scoring rubric.
+3. Add localization.
+4. Improve report templates.
+5. Add fictional, redacted calibration examples.
 
 ## Live Links
 
-After GitHub Pages is enabled for this repo:
-
+- Homepage: <https://realroc.github.io/git-hired/>
+- Candidate Protocol: <https://realroc.github.io/git-hired/candidate.html>
+- Evaluator Protocol: <https://realroc.github.io/git-hired/evaluator.html>
+- Contributor Protocol: <https://realroc.github.io/git-hired/contributor.html>
 - Mobile Quick Test: <https://realroc.github.io/git-hired/start.html>
 - Agent Entry (`skill.md`): <https://realroc.github.io/git-hired/skill.md>
 
@@ -54,7 +103,7 @@ After GitHub Pages is enabled for this repo:
 
 ## What This Repo Includes
 
-Four public, shareable candidate tests:
+Four public, shareable role tests:
 
 <!-- AUTO:role-list:start -->
 - `Global Growth`
@@ -63,12 +112,51 @@ Four public, shareable candidate tests:
 - `Product Operations`
 <!-- AUTO:role-list:end -->
 
-Each role includes:
+Also included:
 
-- a standalone page under `docs/`
-- a source prompt under `prompts/`
-- both Chinese and English source prompt files
-- a privacy boundary that asks the agent to output aggregate signals instead of raw dumps
+- `skill.md`: the agent-readable entry protocol
+- `docs/`: public GitHub Pages surfaces
+- `prompts/`: bilingual canonical role prompts
+- `rubric.md`: public evaluator standard
+- `examples/`: fictional, redacted sample reports
+
+## I Am Using This To Find Collaborators
+
+I am building AI-native products and looking for people who can:
+
+- use AI agents as real work partners
+- decompose ambiguous tasks
+- ship without heavy management
+- think clearly about product, users, metrics, and tradeoffs
+- respect privacy and security boundaries
+
+If this sounds like you, run `git-hired` on yourself and open an issue with:
+
+- target role
+- public report summary
+- what you want to build next
+- any privacy limits you want respected
+
+Do not include secrets, private transcripts, raw customer data, or local file dumps in public issues.
+
+## Examples
+
+Start here if you want to understand what a report looks like before running the protocol:
+
+- [Strong Agent Engineer](./examples/agent-engineer.strong.md)
+- [Medium Agent Engineer](./examples/agent-engineer.medium.md)
+- [Weak Agent Engineer](./examples/agent-engineer.weak.md)
+- [Strong Product Manager](./examples/pm.strong.md)
+- [Strong Global Growth](./examples/growth.strong.md)
+- [Redacted report template](./examples/redacted-report-template.md)
+
+| Traditional hiring signal | `git-hired` signal |
+| --- | --- |
+| Resume claims | Work-trace evidence |
+| Interview answers | Agent-observed behavior |
+| Take-home task | Historical execution pattern |
+| Self-reported AI usage | Actual agent workflow |
+| Generic score | Role-specific fit report |
 
 ## Why This Exists
 
@@ -78,43 +166,7 @@ The more useful question is:
 
 Can this person direct AI well enough to ship, learn, and iterate under startup constraints?
 
-`git-hired` is built to make that visible.
-
-## How It Works
-
-1. On mobile or through a QR code, send the candidate to <https://realroc.github.io/git-hired/start.html> for a 1-minute self-report quick test.
-2. The quick test returns a shareable `HIRED` signal and a copyable handoff prompt.
-3. For the deeper version, send the candidate the one-line command `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.`
-4. They paste it into their own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent.
-5. Their agent asks the target-role question first, or falls back to current profession / identity if the role is still unclear.
-6. The agent asks one privacy-boundary question before touching any local repo or file.
-7. The agent fetches the right role prompt when needed, analyzes allowed history or approved local work traces automatically, and returns the report without switching into manual competency Q&A.
-8. The candidate sends back the generated report if they choose to apply.
-
-## Consent-First, Local-Only
-
-> The privacy rule is simple:
-> no local repo or document scanning without explicit permission,
-> and no candidate repo or local file data uploaded from the candidate's machine to our server.
-
-Candidates can choose:
-
-- `history-only` for a lighter, privacy-first evaluation
-- or allow scanning of specific local repos / project folders / files for a stronger score
-
-If they do not allow repo or document scanning, the agent should still make the best objective judgment it can from history-only evidence and clearly state the resulting confidence limits.
-
-## Suggested Candidate Message
-
-You can send something like:
-
-> Paste `read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.` into your own work agent, such as Claude Code, Codex, Notion AI, or another memory-enabled work agent, run it, and send me the output.
-> By default it stays history-only. If you want a stronger score, you can explicitly allow access to specific repos or files. `git-hired` does not upload your local repo or file data to our server, and the agent should only inspect material you explicitly authorize.
-
-Or lean into the joke:
-
-> Run this and send me the result.  
-> `git hired` or `git rejected`, let your agent talk first.
+`git-hired` is built to make that visible without turning candidate evaluation into surveillance.
 
 ## Privacy Boundary
 
@@ -141,6 +193,7 @@ The intended output is:
 - de-identified examples
 - scoring
 - fit assessment
+- MBTI work personality as a work-style read, not a life-wide personality claim
 - a candidate-facing local markdown report
 
 ## Repo Structure
@@ -148,8 +201,19 @@ The intended output is:
 ```text
 git-hired/
 ├── skill.md
+├── rubric.md
+├── examples/
+│   ├── agent-engineer.strong.md
+│   ├── agent-engineer.medium.md
+│   ├── agent-engineer.weak.md
+│   ├── pm.strong.md
+│   ├── growth.strong.md
+│   └── redacted-report-template.md
 ├── docs/
 │   ├── index.html
+│   ├── candidate.html
+│   ├── evaluator.html
+│   ├── contributor.html
 │   ├── start.html
 │   ├── quick-test.js
 │   ├── skill.md
@@ -161,18 +225,7 @@ git-hired/
 │   └── app.js
 ├── roles.json
 ├── prompts/
-│   ├── agent-engineer.en.md
-│   ├── agent-engineer.md
-│   ├── product-manager.en.md
-│   ├── product-manager.md
-│   ├── global-growth.en.md
-│   ├── global-growth.md
-│   ├── ai-product-operations.en.md
-│   └── ai-product-operations.md
 ├── .codex/skills/git-hired-jd-ops/
-│   ├── SKILL.md
-│   ├── references/
-│   └── scripts/
 ├── LICENSE
 ├── README.md
 └── README.zh-CN.md
