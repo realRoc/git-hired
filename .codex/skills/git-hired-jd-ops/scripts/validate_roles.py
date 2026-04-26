@@ -386,12 +386,14 @@ def main() -> None:
 
     if "## Live Links" in readme_en or "AUTO:live-links" in readme_en:
         errors.append("README.md should use a top website entry instead of generated live-links")
-    if "<!-- AUTO:role-list:start -->" not in readme_en or "<!-- AUTO:role-list:end -->" not in readme_en:
-        errors.append("README.md missing AUTO role-list markers")
     if "## 在线链接" in readme_zh or "AUTO:live-links" in readme_zh:
         errors.append("README.zh-CN.md should use a top website entry instead of generated live-links")
-    if "<!-- AUTO:role-list:start -->" not in readme_zh or "<!-- AUTO:role-list:end -->" not in readme_zh:
-        errors.append("README.zh-CN.md missing AUTO role-list markers")
+    if readme_en.startswith("# git-hired") or readme_zh.startswith("# git-hired"):
+        errors.append("README files should not duplicate the ASCII identity art with a text H1")
+    if "What This Repo Includes" in readme_en or "Why This Exists" in readme_en:
+        errors.append("README.md should not keep generic inventory / why sections")
+    if "仓库包含什么" in readme_zh or "为什么要做这个" in readme_zh:
+        errors.append("README.zh-CN.md should not keep generic inventory / why sections")
     if WORK_AGENT_EN_MARKER not in readme_en or "our server" not in readme_en:
         errors.append("README.md missing work-agent compatibility or privacy-upload wording")
     if WORK_AGENT_ZH_MARKER not in readme_zh or "我们的服务器" not in readme_zh:

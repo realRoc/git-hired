@@ -1,12 +1,9 @@
-# git-hired
-
 ```text
-       _ _      _    _              _
-  __ _(_) |_   | |__ (_)_ __ ___  __| |
- / _` | | __|  | '_ \| | '__/ _ \/ _` |
-| (_| | | |_   | | | | | | |  __/ (_| |
- \__, |_|\__|  |_| |_|_|_|  \___|\__,_|
- |___/
+ ██████  ██ ████████     ██  ██ ██ ██████  ███████ ██████
+██       ██    ██        ██  ██ ██ ██   ██ ██      ██   ██
+██  ████ ██    ██        ██████ ██ ██████  █████   ██   ██
+██   ██  ██    ██        ██  ██ ██ ██  ██  ██      ██   ██
+ ██████  ██    ██        ██  ██ ██ ██   ██ ███████ ██████
 ```
 
 > Website: <https://realroc.github.io/git-hired/>
@@ -113,25 +110,6 @@ See [rubric.md](./rubric.md) for the public scoring standard.
 4. Improve report templates.
 5. Add fictional, redacted calibration examples.
 
-## What This Repo Includes
-
-Four public, shareable role tests:
-
-<!-- AUTO:role-list:start -->
-- `Global Growth`
-- `Agent Engineer`
-- `Product Manager`
-- `Product Operations`
-<!-- AUTO:role-list:end -->
-
-Also included:
-
-- `skill.md`: the agent-readable entry protocol
-- `docs/`: public GitHub Pages surfaces
-- `prompts/`: bilingual canonical role prompts
-- `rubric.md`: public evaluator standard
-- `examples/`: fictional, redacted sample reports
-
 ## AI-Native Collaboration
 
 I am building AI-native products and looking for people who can:
@@ -169,16 +147,6 @@ Start here if you want to understand what a report looks like before running the
 | Take-home task | Historical execution pattern |
 | Self-reported AI usage | Actual agent workflow |
 | Generic score | Builder profile + role-specific fit |
-
-## Why This Exists
-
-In AI-native hiring and collaboration, titles are weak proxies.
-
-The more useful question is:
-
-Can this person direct AI well enough to handle ambiguity, make tradeoffs, ship, learn, and iterate?
-
-`git-hired` is built to make that visible without turning work-profile generation into surveillance.
 
 ## Privacy Boundary
 

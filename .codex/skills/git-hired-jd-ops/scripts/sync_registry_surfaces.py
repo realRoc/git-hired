@@ -42,6 +42,13 @@ def replace_block(text: str, start_marker: str, end_marker: str, replacement: st
     return pattern.sub(replacement, text, count=1)
 
 
+def replace_block_if_present(text: str, start_marker: str, end_marker: str, replacement: str) -> str:
+    pattern = re.compile(rf"(?s)[ \t]*{re.escape(start_marker)}.*?[ \t]*{re.escape(end_marker)}")
+    if not pattern.search(text):
+        return text
+    return pattern.sub(replacement, text, count=1)
+
+
 def generate_index_cards(roles: list[dict]) -> str:
     blocks: list[str] = []
     for index, role in enumerate(roles, start=1):
@@ -107,7 +114,7 @@ def sync_index(repo_root: Path, roles: list[dict]) -> None:
 def sync_readme(repo_root: Path, roles: list[dict], filename: str, language: str) -> None:
     path = repo_root / filename
     text = path.read_text(encoding="utf-8")
-    text = replace_block(
+    text = replace_block_if_present(
         text,
         "<!-- AUTO:role-list:start -->",
         "<!-- AUTO:role-list:end -->",
