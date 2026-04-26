@@ -799,6 +799,18 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
 
 This rule applies to `skill.md`, role prompts in `prompts/`, public pages under `docs/`, README files, operation scripts, and any future branch promotion from `dev` to `main`.
 
+1. The default development branch is `dev`.
+2. Do day-to-day feature work, prompt edits, docs changes, eval updates, and generated-surface sync work on `dev` unless the user explicitly asks to work on another branch.
+3. Treat `main` as the release branch.
+4. Do not push direct feature work to `main` by default. Promote `dev` to `main` only after the release eval gate passes.
+5. Before starting repo edits, check the current branch. If the task is ordinary development and the repo is on `main`, switch to `dev` first when that branch exists.
+6. If `dev` does not exist yet, create it from the current `main`, push it, and set upstream tracking before continuing development.
+7. If the user explicitly asks for an emergency hotfix on `main`, keep the change narrow and still run the relevant evals before pushing.
+
+## Eval Gate Requirements
+
+This rule applies to `skill.md`, role prompts in `prompts/`, public pages under `docs/`, README files, operation scripts, and any future branch promotion from `dev` to `main`.
+
 1. Any change that can affect the candidate-visible test flow, `HIRED` output, builder card, privacy boundary, role routing, quick test, README starter flow, or generated public surfaces must run evals before being promoted from `dev` to `main`.
 2. The default local eval gate should be deterministic and runnable without external network calls or private candidate data.
 3. The minimum release gate is:
