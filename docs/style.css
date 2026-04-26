@@ -1607,6 +1607,20 @@ body.lang-zh .builder-card-section h3 {
   margin-left: 2px;
 }
 
+.result-share-grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.result-share-grid .result-action {
+  width: 100%;
+  min-width: 0;
+}
+.result-share-grid .result-action.wide {
+  grid-column: 1 / -1;
+}
+
 .advanced-report {
   margin-top: 18px;
   padding: 18px;
@@ -1641,6 +1655,39 @@ body.lang-zh .advanced-report h2 {
 
 .advanced-copy {
   margin-top: 16px;
+}
+
+.team-waitlist {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: var(--muted);
+}
+.team-waitlist h2 {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-dim);
+}
+html[data-lang="zh"] .team-waitlist h2,
+body.lang-zh .team-waitlist h2 {
+  font-family: var(--sans-cjk);
+  font-weight: 600;
+}
+.team-waitlist p {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.team-waitlist-link {
+  flex: 0 0 auto;
+  min-height: 38px;
+  justify-content: center;
 }
 
 .result-home-link {
@@ -1825,6 +1872,16 @@ body.lang-zh .advanced-report h2 {
     justify-content: center;
     text-align: center;
   }
+  .result-share-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .team-waitlist {
+    display: grid;
+    justify-items: stretch;
+  }
+  .team-waitlist-link {
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1832,4 +1889,7 @@ body.lang-zh .advanced-report h2 {
   .prompt { padding: 14px 14px; font-size: 12px; }
   .prompt-head { padding: 10px 12px; }
   h1 { font-size: 42px; }
+  .result-share-grid {
+    grid-template-columns: 1fr;
+  }
 }
