@@ -108,6 +108,18 @@ FORBIDDEN_PERSONALITY_MARKERS = (
     "`J/P`",
     "data-mbti",
 )
+QUICK_TEST_SIGNAL_KEYS = (
+    "facts",
+    "pattern",
+    "collab",
+    "solo",
+    "logic",
+    "empathy",
+    "closure",
+    "explore",
+)
+QUICK_TEST_MIN_BUILDER_SHARE = 0.08
+QUICK_TEST_MAX_BUILDER_SHARE = 0.30
 
 
 def extract_en_prompt_version(text: str) -> str | None:
@@ -163,6 +175,94 @@ def validate_no_personality_layer(label: str, text: str, errors: list[str]) -> N
     for marker in FORBIDDEN_PERSONALITY_MARKERS:
         if marker in text:
             errors.append(f"{label} should not contain personality-test marker: {marker}")
+
+
+def parse_quick_test_builders(js_text: str) -> list[dict[str, object]]:
+    builders: list[dict[str, object]] = []
+    builder_re = re.compile(
+        r'key:\s*"(?P<key>[^"]+)"[\s\S]*?'
+        r"weights:\s*\{(?P<weights>[^}]+)\}\s*,\s*"
+        r"calibration:\s*(?P<calibration>-?\d+(?:\.\d+)?)",
+        flags=re.S,
+    )
+    for match in builder_re.finditer(js_text):
+        weights = {
+            key: float(value)
+            for key, value in re.findall(r"(\w+):\s*(\d+(?:\.\d+)?)", match.group("weights"))
+        }
+        builders.append(
+            {
+                "key": match.group("key"),
+                "weights": weights,
+                "calibration": float(match.group("calibration")),
+            }
+        )
+    return builders
+
+
+def parse_quick_test_options(start_text: str) -> list[list[tuple[int, ...]]]:
+    questions = re.findall(r'<section class="section question-block quick-step[\s\S]*?</section>', start_text)
+    parsed_questions: list[list[tuple[int, ...]]] = []
+    for question in questions:
+        options: list[tuple[int, ...]] = []
+        for input_tag in re.findall(r"<input[^>]+>", question):
+            options.append(
+                tuple(
+                    1 if f'data-signal-{signal}="1"' in input_tag else 0
+                    for signal in QUICK_TEST_SIGNAL_KEYS
+                )
+            )
+        parsed_questions.append(options)
+    return parsed_questions
+
+
+def validate_quick_test_builder_distribution(start_text: str, js_text: str, errors: list[str]) -> None:
+    builders = parse_quick_test_builders(js_text)
+    if len(builders) != 6:
+        errors.append("docs/quick-test.js should define six calibrated builder scoring profiles")
+        return
+
+    options_by_question = parse_quick_test_options(start_text)
+    if len(options_by_question) != 10 or any(len(options) != 4 for options in options_by_question):
+        errors.append("docs/start.html should expose 10 four-option questions for builder distribution validation")
+        return
+
+    zero_state = tuple(0 for _ in QUICK_TEST_SIGNAL_KEYS)
+    state_counts: dict[tuple[int, ...], int] = {zero_state: 1}
+    for question_options in options_by_question:
+        next_counts: dict[tuple[int, ...], int] = {}
+        for state, count in state_counts.items():
+            for option in question_options:
+                next_state = tuple(value + option[index] for index, value in enumerate(state))
+                next_counts[next_state] = next_counts.get(next_state, 0) + count
+        state_counts = next_counts
+
+    builder_counts = {str(builder["key"]): 0 for builder in builders}
+    for state, count in state_counts.items():
+        scores = dict(zip(QUICK_TEST_SIGNAL_KEYS, state))
+        best_key = ""
+        best_value = float("-inf")
+        for builder in builders:
+            weights = builder["weights"]
+            assert isinstance(weights, dict)
+            total_weight = sum(float(weight) for weight in weights.values())
+            value = sum(scores[signal] * float(weight) for signal, weight in weights.items()) / total_weight
+            value += float(builder["calibration"])
+            if value > best_value:
+                best_key = str(builder["key"])
+                best_value = value
+        builder_counts[best_key] += count
+
+    total = sum(builder_counts.values())
+    shares = {key: count / total for key, count in builder_counts.items()}
+    min_key, min_share = min(shares.items(), key=lambda item: item[1])
+    max_key, max_share = max(shares.items(), key=lambda item: item[1])
+    if min_share < QUICK_TEST_MIN_BUILDER_SHARE or max_share > QUICK_TEST_MAX_BUILDER_SHARE:
+        formatted = ", ".join(f"{key}={share:.1%}" for key, share in sorted(shares.items()))
+        errors.append(
+            "docs/quick-test.js builder scoring distribution is too skewed "
+            f"(min {min_key}={min_share:.1%}, max {max_key}={max_share:.1%}; {formatted})"
+        )
 
 
 def main() -> None:
@@ -396,6 +496,8 @@ def main() -> None:
                 errors.append(f"docs/quick-test.js should not keep old role-like builder type: {marker}")
         if READ_COMMAND_MARKER not in quick_start_js_text:
             errors.append("docs/quick-test.js missing copied advanced agent prompt")
+        if "calibration" not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing builder scoring calibration")
         for marker in ("Your strengths", "Best environment", "Watch out", "Next step", "你的优势", "你最适合的场景", "需要注意", "下一步建议"):
             if marker not in quick_start_js_text:
                 errors.append(f"docs/quick-test.js missing simple result-card section: {marker}")
@@ -424,6 +526,12 @@ def main() -> None:
             errors.append("docs/quick-test.js should not route the mobile quick test by target role")
         if "navigator.share" in quick_start_js_text:
             errors.append("docs/quick-test.js should copy an image to clipboard instead of using navigator.share")
+        if quick_start.exists():
+            validate_quick_test_builder_distribution(
+                quick_start.read_text(encoding="utf-8"),
+                quick_start_js_text,
+                errors,
+            )
     if not quick_start_qr.exists():
         errors.append("docs/assets/quick-test-qr.svg missing quick-test QR asset")
 
