@@ -179,6 +179,9 @@ Do not show: role fit, ability score, evidence strength, confidence, local repor
 
 - Primary action: `Share` / `分享` — generate portrait-oriented mobile-friendly share image, write PNG to clipboard
 - Text-copy fallback only for browsers without image clipboard support
+- Result page keeps `Share` as the primary action, and also offers `Copy profile`, `Download image`, `Share on X`, and `Share on LinkedIn`.
+- Public profile URL can be static and account-free at first, using `start.html?result=<builder_type>` or an equivalent URL parameter/hash.
+- Team waitlist is a weak secondary result-page entry, not a homepage or primary result CTA.
 
 ## Protocol Positioning
 
@@ -300,7 +303,7 @@ Applies to every role prompt and the role template.
 - `main` is the release branch. Do not push feature work to `main` directly.
 - Before promoting `dev` to `main`, run: sync registry surfaces → sync skill.md → validate roles → skill-output contract evals → whitespace/diff checks
 - Contract evals protect: execution-first skill.md, consent-first default, builder card shape, no MBTI, required SIGNALS/STRENGTHS/GAPS/NEXT sections, local-only footer, rich-text fallback
-- Analytics contract evals protect the public PostHog funnel: every HTML page loads `analytics.js`, PostHog uses the production key/host with pageview and autocapture enabled and session recording disabled, and the events `$pageview`, `click_start`, `select_role`, `start_quiz`, `complete_quiz`, `view_result`, `click_share` remain wired with useful properties.
+- Analytics contract evals protect the public PostHog funnel: every HTML page loads `analytics.js`, PostHog uses the production key/host with pageview and autocapture enabled and session recording disabled, and the events `$pageview`, `click_start`, `select_role`, `start_quiz`, `complete_quiz`, `view_result`, `click_share`, `copy_profile`, `download_card`, `share_x`, `share_linkedin`, `create_public_profile`, `click_team_waitlist` remain wired with useful properties.
 - Eval fixtures must use fictional/redacted data only
 - After evals pass on `dev`, start a local docs server for human review. Do not merge to `main` until maintainer confirms.
 
