@@ -194,44 +194,44 @@ def main() -> None:
     if new_role_template.exists():
         validate_no_personality_layer(".codex/skills/git-hired-jd-ops/scripts/new_role.py", new_role_template.read_text(encoding="utf-8"), errors)
 
-    if "<!-- AUTO:role-cards:start -->" not in index_text or "<!-- AUTO:role-cards:end -->" not in index_text:
-        errors.append("docs/index.html missing AUTO role-cards markers")
     if "git-hired-lang" not in index_text:
         errors.append("docs/index.html missing language bootstrap script")
+    if "What kind of AI-native builder are you?" not in index_text or "你是哪种 AI-native builder" not in index_text:
+        errors.append("docs/index.html missing AI-native builder hook copy")
+    if "Find out how you work with ambiguity, AI, people, and progress." not in index_text:
+        errors.append("docs/index.html missing simple English subtitle")
+    if "看看你如何面对模糊问题、使用 AI、推动进展、与人协作。" not in index_text:
+        errors.append("docs/index.html missing simple Chinese subtitle")
+    if "Start the test" not in index_text or "开始测试" not in index_text or "./start.html" not in index_text:
+        errors.append("docs/index.html missing single start-test CTA")
+    for forbidden in (
+        "Simple mode",
+        "Deep mode",
+        "For Candidates",
+        "For Evaluators",
+        "For Contributors",
+        "pick a role",
+        "choose a protocol",
+        "quick-test-fallback",
+        "quick-test-qr.svg",
+        "Copy Command",
+        READ_COMMAND_MARKER,
+    ):
+        if forbidden in index_text:
+            errors.append(f"docs/index.html should not expose first-path split or advanced command: {forbidden}")
+    for marker in ("./growth.html", "./agent.html", "./pm.html", "./ops.html", "./candidate.html", "./evaluator.html", "./contributor.html"):
+        if marker in index_text:
+            errors.append(f"docs/index.html should not expose role/audience entry on the homepage: {marker}")
+    if "AUTO:role-cards" in index_text:
+        errors.append("docs/index.html should not keep generated role-card markers on the single-entry homepage")
     if "Open skill.md" in index_text or "打开 skill.md" in index_text:
-        errors.append("docs/index.html should keep copy command as the only shared-entry action")
+        errors.append("docs/index.html should not expose raw skill.md as a homepage action")
     if "./general.html" in index_text:
         errors.append("docs/index.html should not link to redundant ./general.html guide page")
     if "See whether a candidate" in index_text or "看候选人是否" in index_text:
         errors.append("docs/index.html still contains recruiter-facing JD summary wording")
     if "Builder type" not in index_text or "Builder 类型" not in index_text:
         errors.append("docs/index.html missing builder-profile candidate copy")
-    if "What kind of AI-native builder are you?" not in index_text or "你是哪种 AI-native builder" not in index_text:
-        errors.append("docs/index.html missing AI-native builder hook copy")
-    for marker in ("./candidate.html", "./evaluator.html", "./contributor.html"):
-        if marker not in index_text:
-            errors.append(f"docs/index.html missing audience CTA link: {marker}")
-    if "Public evaluator standard" not in index_text or "final builder card" not in index_text:
-        errors.append("docs/index.html missing rubric/examples calibration links")
-    if "examples/builder-card.md" not in index_text:
-        errors.append("docs/index.html missing final builder-card example link")
-    if READ_COMMAND_MARKER not in index_text:
-        errors.append("docs/index.html missing one-line read skill command")
-    if NO_SUMMARY_EN_MARKER not in index_text or IMMEDIATE_START_EN_MARKER not in index_text:
-        errors.append("docs/index.html missing execution-first starter command wording")
-    if AUTO_EVAL_EN_MARKER not in index_text or NO_INTERVIEW_EN_MARKER not in index_text:
-        errors.append("docs/index.html missing auto-analysis no-interview wording")
-    if "Copy Command" not in index_text or "复制命令" not in index_text:
-        errors.append("docs/index.html missing copyable starter command UI")
-    if "./start.html" not in index_text or "Find My Builder Type" not in index_text or "测我的 Builder 类型" not in index_text:
-        errors.append("docs/index.html missing mobile builder quick-test entry")
-    if "quick-test-qr.svg" not in index_text:
-        errors.append("docs/index.html missing QR code for mobile quick-test entry")
-    if "quick-test-fallback" not in index_text:
-        errors.append("docs/index.html missing bottom quick-test fallback section")
-    if "quick-test-fallback" in index_text and "what you get" in index_text:
-        if index_text.find("quick-test-fallback") < index_text.find("what you get"):
-            errors.append("docs/index.html should place quick-test QR fallback after main explanatory content")
     validate_public_footer("docs/index.html", index_text, errors)
     validate_footer_css(style_text, errors)
 
@@ -270,10 +270,14 @@ def main() -> None:
     else:
         quick_start_text = quick_start.read_text(encoding="utf-8")
         validate_no_personality_layer("docs/start.html", quick_start_text, errors)
-        if "Builder Quick Test" not in quick_start_text or "Builder 快速测试" not in quick_start_text:
-            errors.append("docs/start.html missing bilingual builder quick-test identity")
-        if "No local repo" not in quick_start_text or "不扫描本地 repo" not in quick_start_text:
-            errors.append("docs/start.html missing self-report no-scan privacy wording")
+        if "What kind of AI-native builder are you?" not in quick_start_text or "你是哪种 AI-native builder" not in quick_start_text:
+            errors.append("docs/start.html missing simple builder-test identity")
+        if "Answer 10 quick questions" not in quick_start_text or "回答 10 道简短问题" not in quick_start_text:
+            errors.append("docs/start.html should start directly with the 10-question test")
+        if "Builder Quick Test" in quick_start_text or "Builder 快速测试" in quick_start_text:
+            errors.append("docs/start.html should not expose quick/deep mode wording before the test")
+        if "No local repo" in quick_start_text or "不扫描本地 repo" in quick_start_text:
+            errors.append("docs/start.html should not explain privacy scope before the lightweight test")
         if quick_start_text.count('class="section question-block quick-step') != 10:
             errors.append("docs/start.html should render exactly 10 mobile quick-test questions")
         if quick_start_text.count('class="choice"') != 40:
@@ -291,16 +295,26 @@ def main() -> None:
         if "Run Deep Test On GitHub" in quick_start_text:
             errors.append("docs/start.html should use the terminal-style GitHub CTA copy")
         required_result_html = [
-            "result-head",
             "result-card",
             "result-next",
-            "copy-report",
-            "go to GitHub for deep test",
-            "去 GitHub 做深度测试",
+            "copy-result",
+            "advanced-report",
+            "copy-agent-prompt",
+            "Want a deeper report?",
+            "想要更准的结果？",
+            "You choose what evidence to provide.",
+            "No local files are uploaded to our server.",
+            "You decide what to share.",
+            "你决定给它看什么。",
+            "不上传你的本地文件到我们的服务器。",
+            "你决定分享什么。",
         ]
         for marker in required_result_html:
             if marker not in quick_start_text:
                 errors.append(f"docs/start.html missing quick-result UI marker: {marker}")
+        for forbidden in ("result-head", "copy-report", "go to GitHub for deep test", "去 GitHub 做深度测试"):
+            if forbidden in quick_start_text:
+                errors.append(f"docs/start.html should not keep old quick-result UI marker: {forbidden}")
         if "./index.html" not in quick_start_text:
             errors.append("docs/start.html missing home link")
         validate_public_footer("docs/start.html", quick_start_text, errors)
@@ -315,19 +329,56 @@ def main() -> None:
         validate_no_personality_layer("docs/quick-test.js", quick_start_js_text, errors)
         if "SIGNAL_KEYS" not in quick_start_js_text or "scoreQuickTest" not in quick_start_js_text or "BUILDER_TYPES" not in quick_start_js_text:
             errors.append("docs/quick-test.js missing builder-first quick-result logic")
-        if "Claude Code" not in quick_start_js_text or "Codex" not in quick_start_js_text:
-            errors.append("docs/quick-test.js missing deeper-test guidance for Claude Code / Codex")
-        if "https://github.com/realRoc/git-hired" not in quick_start_js_text:
-            errors.append("docs/quick-test.js missing GitHub repo CTA target")
-        if "What looks clear" not in quick_start_js_text or "比较确定的部分" not in quick_start_js_text or "simple 10-question self-report signal" not in quick_start_js_text:
-            errors.append("docs/quick-test.js missing plain-language quick-result explanation")
+        required_builder_types = (
+            "The Pathfinder",
+            "The Shaper",
+            "The Shipstarter",
+            "The Synthesizer",
+            "The Debugger",
+            "The Catalyst",
+            "寻径者",
+            "塑形者",
+            "启航者",
+            "融通者",
+            "洞察者",
+            "催化者",
+        )
+        for marker in required_builder_types:
+            if marker not in quick_start_js_text:
+                errors.append(f"docs/quick-test.js missing lightweight builder type: {marker}")
+        forbidden_builder_types = (
+            "Prototype Hacker",
+            "Agent Orchestrator",
+            "Product Shaper",
+            "Systems Builder",
+            "Growth Experimenter",
+            "Taste-driven Designer",
+            "Debugging Detective",
+            "Operator Builder",
+            "Product type",
+            "Engineer type",
+            "Growth type",
+            "Operator type",
+            "产品型",
+            "工程型",
+            "增长型",
+            "运营型",
+        )
+        for marker in forbidden_builder_types:
+            if marker in quick_start_js_text:
+                errors.append(f"docs/quick-test.js should not keep old role-like builder type: {marker}")
+        if READ_COMMAND_MARKER not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing copied advanced agent prompt")
+        for marker in ("Your strengths", "Best environment", "Watch out", "Next step", "你的优势", "你最适合的场景", "需要注意", "下一步建议"):
+            if marker not in quick_start_js_text:
+                errors.append(f"docs/quick-test.js missing simple result-card section: {marker}")
         required_result_js = [
             "renderResultCard",
-            "rc-type-strip",
-            "rc-readout",
-            "rc-section",
+            "builder-card-type",
+            "builder-card-section",
             "copyText",
-            "copy report",
+            "copy result",
+            "Copy agent prompt",
         ]
         for marker in required_result_js:
             if marker not in quick_start_js_text:
@@ -336,8 +387,8 @@ def main() -> None:
             errors.append("docs/quick-test.js should render structured result DOM instead of raw text")
         if "target role" in quick_start_js_text or "targetRole" in quick_start_js_text or "role fit" in quick_start_js_text:
             errors.append("docs/quick-test.js should not route the mobile quick test by target role")
-        if "navigator.share" in quick_start_js_text or "share-result" in quick_start_js_text or "copy-result" in quick_start_js_text:
-            errors.append("docs/quick-test.js should not keep share or legacy copy result actions")
+        if "navigator.share" in quick_start_js_text or "share-result" in quick_start_js_text:
+            errors.append("docs/quick-test.js should not keep share actions")
     if not quick_start_qr.exists():
         errors.append("docs/assets/quick-test-qr.svg missing quick-test QR asset")
 
@@ -421,8 +472,10 @@ def main() -> None:
         errors.append("README.md should use a top website entry instead of generated live-links")
     if "## 在线链接" in readme_zh or "AUTO:live-links" in readme_zh:
         errors.append("README.zh-CN.md should use a top website entry instead of generated live-links")
-    if readme_en.startswith("# git-hired") or readme_zh.startswith("# git-hired"):
-        errors.append("README files should not duplicate the ASCII identity art with a text H1")
+    if not readme_en.startswith("# git-hired") or not readme_zh.startswith("# git-hired"):
+        errors.append("README files should start with the simple git-hired H1")
+    if "██████" in readme_en or "██████" in readme_zh:
+        errors.append("README files should not start with ASCII art in the simple-test first screen")
     if "What This Repo Includes" in readme_en or "Why This Exists" in readme_en:
         errors.append("README.md should not keep generic inventory / why sections")
     if "仓库包含什么" in readme_zh or "为什么要做这个" in readme_zh:
@@ -431,8 +484,10 @@ def main() -> None:
         errors.append("README.md missing work-agent compatibility or privacy-upload wording")
     if WORK_AGENT_ZH_MARKER not in readme_zh or "我们的服务器" not in readme_zh:
         errors.append("README.zh-CN.md missing work-agent compatibility or privacy-upload wording")
-    if "open-source AI-native builder profile generator" not in readme_en or "开源的 AI-native builder 画像生成器" not in readme_zh:
-        errors.append("README missing protocol positioning statement")
+    if "What kind of AI-native builder are you?" not in readme_en or "你是哪种 AI-native builder" not in readme_zh:
+        errors.append("README missing simple builder-test hook")
+    if "ambiguity, AI, people, and progress" not in readme_en or "模糊问题、使用 AI、推动进展、与人协作" not in readme_zh:
+        errors.append("README missing simple work-style positioning statement")
     if "Website:" not in readme_en or "https://realroc.github.io/git-hired/" not in readme_en:
         errors.append("README.md missing top website entry")
     if "项目网站" not in readme_zh or "https://realroc.github.io/git-hired/" not in readme_zh:
@@ -453,18 +508,16 @@ def main() -> None:
         errors.append("README.md missing skill.md live link")
     if "skill.md" not in readme_zh or "https://realroc.github.io/git-hired/skill.md" not in readme_zh:
         errors.append("README.zh-CN.md missing skill.md live link")
-    if "https://realroc.github.io/git-hired/start.html" not in readme_en or "Builder Quick Test" not in readme_en:
-        errors.append("README.md missing builder quick-test entry")
-    if "https://realroc.github.io/git-hired/start.html" not in readme_zh or "Builder 快速测试" not in readme_zh:
-        errors.append("README.zh-CN.md missing builder quick-test entry")
+    if "https://realroc.github.io/git-hired/start.html" not in readme_en or "Simple Test" not in readme_en:
+        errors.append("README.md missing simple builder-test entry")
+    if "https://realroc.github.io/git-hired/start.html" not in readme_zh or "简单测试" not in readme_zh:
+        errors.append("README.zh-CN.md missing simple builder-test entry")
     if "Paste the prompt from this link into your own Claude Code or Codex" in readme_en:
         errors.append("README.md still contains Claude Code/Codex-exclusive candidate wording")
     if "粘贴到你自己的 Claude Code 或 Codex" in readme_zh:
         errors.append("README.zh-CN.md still contains Claude Code/Codex-exclusive candidate wording")
-    if AUTO_EVAL_EN_MARKER not in readme_en or NO_INTERVIEW_EN_MARKER not in readme_en:
-        errors.append("README.md missing auto-analysis starter wording")
-    if AUTO_EVAL_ZH_MARKER not in readme_zh or NO_INTERVIEW_ZH_MARKER not in readme_zh:
-        errors.append("README.zh-CN.md missing auto-analysis starter wording")
+    if READ_COMMAND_MARKER not in readme_en or READ_COMMAND_MARKER not in readme_zh:
+        errors.append("README missing deeper agent skill.md command")
 
     page_slugs = set()
     prompt_slugs = set()
@@ -646,8 +699,8 @@ def main() -> None:
         if "看候选人是否" in role["summary_zh"]:
             errors.append(f"roles.json summary_zh for {page_slug} should be candidate-facing, not recruiter-facing")
 
-        if f'href="./{page_slug}.html"' not in index_text:
-            errors.append(f"docs/index.html missing link to ./{page_slug}.html")
+        if f'href="./{page_slug}.html"' in index_text:
+            errors.append(f"docs/index.html should not expose role link on the single-entry homepage: ./{page_slug}.html")
 
         if page.exists():
             page_text = page.read_text(encoding="utf-8")
