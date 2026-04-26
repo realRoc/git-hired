@@ -144,6 +144,7 @@ Applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`, `docs/sty
 - 10 questions, 4 options each, single-choice only
 - Measure work style (ambiguity, AI usage, progress, feedback, judgment, collaboration, getting unstuck, speed vs quality), not job category
 - Plain concrete answer options, no clever labels or personality-test coding
+- Calibrate scoring so all six builder types are realistically reachable. Exhaustive answer-combination checks should not let any type collapse into an extreme near-zero share.
 
 ### Six builder types
 
