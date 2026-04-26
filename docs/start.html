@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Builder Quick Test · git-hired</title>
-    <meta name="description" content="Mobile-friendly git-hired quick test for an AI-native builder signal.">
+    <title>AI-native Builder Test · git-hired</title>
+    <meta name="description" content="A simple git-hired test for your AI-native builder type.">
     <script>
       (function () {
         var key = "git-hired-lang";
@@ -33,7 +33,7 @@
     <script src="./app.js" defer></script>
     <script src="./quick-test.js" defer></script>
   </head>
-  <body class="lang-en start-page" data-lang="en" data-title-en="Builder Quick Test · git-hired" data-title-zh="Builder 快速测试 · git-hired">
+  <body class="lang-en start-page" data-lang="en" data-title-en="AI-native Builder Test · git-hired" data-title-zh="AI-native Builder 测试 · git-hired">
         <main class="shell start-shell">
 
       <!-- window chrome + lang switcher -->
@@ -52,28 +52,18 @@
 
       <section class="hero start-hero">
         <div class="prompt-line">
-          <span class="user">you</span><span class="at">@</span><span class="host">work-agent</span>
+          <span class="user">you</span><span class="at">@</span><span class="host">git-hired</span>
           <span class="cwd"> ~/git-hired/start</span>
           <span class="dollar">$</span>
-          <span style="color:var(--ink-dim);margin-left:4px">./quick-test.sh</span>
-        </div>
-        <div style="margin:14px 0 6px">
-          <span class="eyebrow" data-lang="en">Builder Quick Test</span>
-          <span class="eyebrow" data-lang="zh">Builder 快速测试</span>
+          <span style="color:var(--ink-dim);margin-left:4px">./builder-test.sh</span>
         </div>
         <h1 class="role-title" data-lang="en">What kind of AI-native builder are you?</h1>
         <h1 class="role-title" data-lang="zh">你是哪种 AI-native builder？</h1>
         <p class="lede" data-lang="en">
-          Tap through 10 workplace questions, get a lightweight builder signal, then use GitHub for the deeper agent test from real work traces.
+          Answer 10 quick questions about how you handle ambiguity, AI, feedback, progress, and collaboration.
         </p>
         <p class="lede" data-lang="zh">
-          在手机上点完 10 道职场题，先拿到一个轻量 builder 信号；想要更准，再去 GitHub 用真实工作痕迹做 agent 深度测试。
-        </p>
-        <p class="mini" data-lang="en">
-          Self-report only. No local repo, project, or document scanning. No server, no account, no upload, no tracking.
-        </p>
-        <p class="mini" data-lang="zh">
-          这里只做自评 quick test，不扫描本地 repo、项目或文档；无服务器、无账号、不上传、不追踪。
+          回答 10 道简短问题，看看你如何面对模糊问题、使用 AI、处理反馈、推动进展、与人协作。
         </p>
         <div class="inline-links">
           <a class="button secondary" href="./index.html" data-lang="en">Back Home</a>
@@ -138,44 +128,44 @@
         <section class="section question-block quick-step" data-step="2">
           <div class="question-head">
             <span class="question-step">02</span>
-            <h2 data-lang="en">Your work energy usually comes from...</h2>
-            <h2 data-lang="zh">你的工作能量通常来自...</h2>
+            <h2 data-lang="en">When using AI on a messy task, you first...</h2>
+            <h2 data-lang="zh">用 AI 处理混乱任务时，你通常先...</h2>
           </div>
-          <div class="choice-grid one-up" role="radiogroup" aria-label="Work energy">
+          <div class="choice-grid one-up" role="radiogroup" aria-label="AI work style">
             <label class="choice">
-              <input type="radio" name="q2" value="collab-1" required data-label-en="Talking to users, teammates, or communities until momentum appears." data-label-zh="和用户、队友或社区互动，直到推进力出现。" data-signal-collab="1">
+              <input type="radio" name="q2" value="ai-facts" required data-label-en="Ask AI to list facts, constraints, and missing information." data-label-zh="让 AI 先列事实、约束和缺失信息。" data-signal-facts="1">
               <span>
-                <strong data-lang="en">I get unstuck by talking with people.</strong>
-                <strong data-lang="zh">我通过和人聊来推进。</strong>
-                <small data-lang="en">Users, teammates, customers, community.</small>
-                <small data-lang="zh">用户、队友、客户、社区。</small>
+                <strong data-lang="en">I ask AI to map facts and gaps first.</strong>
+                <strong data-lang="zh">我会先让 AI 梳理事实和缺口。</strong>
+                <small data-lang="en">Knowns, unknowns, constraints, examples.</small>
+                <small data-lang="zh">已知、未知、约束、案例。</small>
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q2" value="collab-2" required data-label-en="I like quick live syncs when work is stuck." data-label-zh="事情卡住时，我偏好快速现场同步。" data-signal-collab="1">
+              <input type="radio" name="q2" value="ai-pattern" required data-label-en="Ask AI for possible paths and compare the shape of each option." data-label-zh="让 AI 给出可能路径，再比较每个选项的形状。" data-signal-pattern="1">
               <span>
-                <strong data-lang="en">I prefer a quick live sync when stuck.</strong>
-                <strong data-lang="zh">卡住时我更想快速同步一下。</strong>
-                <small data-lang="en">A short conversation can create clarity.</small>
-                <small data-lang="zh">一次短对话就能产生清晰度。</small>
+                <strong data-lang="en">I ask AI to explore possible directions.</strong>
+                <strong data-lang="zh">我会让 AI 先展开可能方向。</strong>
+                <small data-lang="en">Different paths, patterns, tradeoffs.</small>
+                <small data-lang="zh">不同路径、模式、取舍。</small>
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q2" value="solo-1" required data-label-en="Thinking through notes, traces, and systems before pushing." data-label-zh="先消化笔记、痕迹和系统，再推动。" data-signal-solo="1">
+              <input type="radio" name="q2" value="ai-draft" required data-label-en="Use AI to make a first draft or small working version quickly." data-label-zh="用 AI 快速做出第一版草稿或小版本。" data-signal-explore="1">
               <span>
-                <strong data-lang="en">I get unstuck by thinking and writing first.</strong>
-                <strong data-lang="zh">我通过先想清楚、写清楚来推进。</strong>
-                <small data-lang="en">Notes, structure, traces, quiet compression.</small>
-                <small data-lang="zh">笔记、结构、痕迹、独立压缩。</small>
+                <strong data-lang="en">I use AI to make a first version fast.</strong>
+                <strong data-lang="zh">我会用 AI 先快速做出第一版。</strong>
+                <small data-lang="en">A draft can reveal what matters.</small>
+                <small data-lang="zh">草稿会暴露真正重要的问题。</small>
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q2" value="solo-2" required data-label-en="I prefer to make a draft before asking others." data-label-zh="我更喜欢先做出草稿，再找别人看。" data-signal-solo="1">
+              <input type="radio" name="q2" value="ai-critique" required data-label-en="Ask AI to critique my plan and find failure points." data-label-zh="让 AI 挑刺，找出计划里的失败点。" data-signal-logic="1">
               <span>
-                <strong data-lang="en">I prefer to make a draft before asking others.</strong>
-                <strong data-lang="zh">我会先做出草稿，再找别人看。</strong>
-                <small data-lang="en">I need private processing before discussion.</small>
-                <small data-lang="zh">我需要先自己消化，再进入讨论。</small>
+                <strong data-lang="en">I ask AI to stress-test the plan.</strong>
+                <strong data-lang="zh">我会让 AI 帮我压力测试方案。</strong>
+                <small data-lang="en">Logic gaps, risks, failure cases.</small>
+                <small data-lang="zh">逻辑漏洞、风险、失败案例。</small>
               </span>
             </label>
           </div>
@@ -322,8 +312,8 @@
         <section class="section question-block quick-step" data-step="6">
           <div class="question-head">
             <span class="question-step">06</span>
-            <h2 data-lang="en">When judging product or work quality, you notice...</h2>
-            <h2 data-lang="zh">判断产品或工作质量时，你更容易注意...</h2>
+            <h2 data-lang="en">When judging work quality, you notice...</h2>
+            <h2 data-lang="zh">判断工作质量时，你更容易注意...</h2>
           </div>
           <div class="choice-grid one-up" role="radiogroup" aria-label="Quality signal">
             <label class="choice">
@@ -558,42 +548,44 @@
       </form>
 
       <section class="section result-shell is-hidden" id="quick-result" aria-live="polite">
-        <div class="result-head">
-          <div class="result-prompt" aria-label="quick test report command">
-            <span class="result-user">you</span><span class="result-at">@</span><span class="result-host">git-hired</span>
-            <span class="result-cwd"> ~/quick</span>
-            <span class="result-dollar">$</span>
-            <span class="result-command">./quick-test --report</span>
-          </div>
-          <div class="result-status">
-            <span class="result-dot" aria-hidden="true"></span>
-            <span>exit 0</span>
-            <span class="result-sep" aria-hidden="true">|</span>
-            <span data-lang="en">10 answers · &lt; 1s</span>
-            <span data-lang="zh">10 题 · &lt; 1 秒</span>
-          </div>
-        </div>
-
         <div class="result-card" id="result-card"></div>
 
         <div class="result-next">
-          <a class="result-action primary" href="https://github.com/realRoc/git-hired" target="_blank" rel="noreferrer">
-            <span class="result-action-prefix" aria-hidden="true">$</span>
-            <span data-lang="en">go to GitHub for deep test</span>
-            <span data-lang="zh">去 GitHub 做深度测试</span>
-            <span class="result-action-arrow" aria-hidden="true">→</span>
-          </a>
+          <button class="result-action primary" type="button" id="copy-result">
+            <span class="result-action-prefix" aria-hidden="true">⧉</span>
+            <span class="copy-label" data-lang="en">copy result</span>
+            <span class="copy-label" data-lang="zh">复制结果</span>
+          </button>
           <button class="result-action ghost" type="button" id="retake-test">
             <span class="result-action-prefix" aria-hidden="true">$</span>
             <span data-lang="en">retake</span>
             <span data-lang="zh">重测</span>
           </button>
-          <button class="result-action ghost" type="button" id="copy-report">
-            <span class="result-action-prefix" aria-hidden="true">⧉</span>
-            <span class="copy-label" data-lang="en">copy report</span>
-            <span class="copy-label" data-lang="zh">复制结果</span>
-          </button>
         </div>
+
+        <section class="advanced-report" aria-label="Advanced agent report">
+          <h2 data-lang="en">Want a deeper report?</h2>
+          <h2 data-lang="zh">想要更准的结果？</h2>
+          <p data-lang="en">
+            Let your own AI agent analyze selected work evidence and generate a more accurate AI-native builder profile.
+          </p>
+          <p data-lang="zh">
+            你可以让自己的 AI agent 基于你允许的工作记录，生成更真实的 AI-native builder 画像。
+          </p>
+          <ul class="advanced-points">
+            <li data-lang="en">You choose what evidence to provide.</li>
+            <li data-lang="zh">你决定给它看什么。</li>
+            <li data-lang="en">No local files are uploaded to our server.</li>
+            <li data-lang="zh">不上传你的本地文件到我们的服务器。</li>
+            <li data-lang="en">You decide what to share.</li>
+            <li data-lang="zh">你决定分享什么。</li>
+          </ul>
+          <button class="result-action ghost advanced-copy" type="button" id="copy-agent-prompt">
+            <span class="result-action-prefix" aria-hidden="true">⧉</span>
+            <span class="agent-copy-label" data-lang="en">Copy agent prompt</span>
+            <span class="agent-copy-label" data-lang="zh">复制 Agent 指令</span>
+          </button>
+        </section>
       </section>
 
       <footer class="footer">

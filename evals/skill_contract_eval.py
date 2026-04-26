@@ -179,10 +179,15 @@ def main() -> int:
         validate_prompt_contract(f"prompts/{prompt_slug}.en.md", read(repo_root / "prompts" / f"{prompt_slug}.en.md"), golden, "en", errors)
         validate_prompt_contract(f"prompts/{prompt_slug}.md", read(repo_root / "prompts" / f"{prompt_slug}.md"), golden, "zh", errors)
 
-    for page in ("README.md", "README.zh-CN.md", "docs/index.html"):
+    for page in ("README.md", "README.zh-CN.md"):
         text = read(repo_root / page)
         assert_contains(page, text, "examples/builder-card.md", errors)
         validate_no_personality_layer(page, text, errors)
+
+    index_text = read(repo_root / "docs/index.html")
+    assert_contains("docs/index.html", index_text, "What kind of AI-native builder are you?", errors)
+    assert_contains("docs/index.html", index_text, "./start.html", errors)
+    validate_no_personality_layer("docs/index.html", index_text, errors)
 
     for page in ("docs/start.html", "docs/quick-test.js"):
         text = read(repo_root / page)

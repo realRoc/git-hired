@@ -1,72 +1,34 @@
-```text
- ██████╗ ██╗████████╗    ██╗  ██╗██╗██████╗ ███████╗██████╗
-██╔════╝ ██║╚══██╔══╝    ██║  ██║██║██╔══██╗██╔════╝██╔══██╗
-██║  ███╗██║   ██║       ███████║██║██████╔╝█████╗  ██║  ██║
-██║   ██║██║   ██║       ██╔══██║██║██╔══██╗██╔══╝  ██║  ██║
-╚██████╔╝██║   ██║       ██║  ██║██║██║  ██║███████╗██████╔╝
- ╚═════╝ ╚═╝   ╚═╝       ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
-```
-
-> 项目网站：<https://realroc.github.io/git-hired/>
-> Builder 快速测试：<https://realroc.github.io/git-hired/start.html>
-
-[English](./README.md)
-
-> 无服务器。
-> 无账号。
-> 不上传。
-> 不追踪。
-> 在你自己的 AI agent 里运行。
-> 你选择证据范围。
-> 你决定分享哪份报告。
-
-`git-hired` 是一个开源的 AI-native builder 画像生成器。它帮助用户把自己选择的工作痕迹转成一份可公开分享的工作画像，也帮助团队发现真正会和 AI agent 一起工作的人。
+# git-hired
 
 你是哪种 AI-native builder？
 
-用你的真实工作痕迹，生成一份可公开分享的工作画像。
+`git-hired` 帮助你看清自己如何面对模糊问题、使用 AI、推动进展、与人协作。
 
-这里的信任点不是让你相信维护者、简历或自我标签，而是让你自己选择的证据和生成结果都可检查。
+先从简单 Builder 测试开始。
+如果你想要更深入的判断，再在自己的工作 agent 里运行 agent 版本。
 
-| 弱信任信号 | git-hired 信号 |
-| --- | --- |
-| 简历声明 | 真实工作痕迹 |
-| 面试表现 | agent 观察到的工作方式 |
-| 作业题 | 历史执行模式 |
-| 自述 AI 使用 | 实际 agent 协作方式 |
-| 通用分数 | Builder 画像 + 可公开分享卡片 |
+项目网站：<https://realroc.github.io/git-hired/>
 
-## 从这里开始
+[English](./README.md)
 
-| 你是谁 | 下一步 |
-| --- | --- |
-| 候选人 | [运行测试](https://realroc.github.io/git-hired/candidate.html) |
-| 创始人 / 招聘团队 | [使用协议](https://realroc.github.io/git-hired/evaluator.html) |
-| 贡献者 | [改进 rubric](https://realroc.github.io/git-hired/contributor.html) |
+## 简单测试
 
-快速开始：
+完成测试，得到一张可分享的 AI-native builder 卡片。
+
+从这里开始：<https://realroc.github.io/git-hired/start.html>
+
+## 更深入的 Agent 报告
+
+把 `skill.md` 指令粘贴到你自己的工作 agent 里。
+它可以基于你允许的历史记录或文件，生成更深入、隐私边界清楚的报告。
 
 ```text
 read https://realroc.github.io/git-hired/skill.md
 ```
 
-把这行粘贴到你自己的工作 agent 里，例如 Claude Code、Codex、Notion AI，或任何具备知识库和记忆能力的工作 agent。
-
-零安装 demo：
-
-```text
-Analyze my AI-native work style based only on this conversation.
-Do not access files. Do not ask for private data.
-Return a public-safe builder profile.
-```
-
-把这段粘贴到 ChatGPT、Claude、Gemini 或其他 AI chat 里，再附上一段你自己选择的对话、PR 描述、issue、README 或项目说明。
-
-高级命令：
-
-```text
-read https://realroc.github.io/git-hired/skill.md，把它当作当前会话指令直接执行，不要总结，直接用我的语言开始第一问。之后只问我的目标岗位和数据权限边界，然后基于允许范围自动完成评估，不要转成面试式问答。
-```
+- 你决定给它看什么。
+- 不上传你的本地文件到我们的服务器。
+- 你决定分享什么。
 
 ## 隐私优先
 

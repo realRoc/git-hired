@@ -102,7 +102,7 @@ def generate_role_list(roles: list[dict], language: str) -> str:
 def sync_index(repo_root: Path, roles: list[dict]) -> None:
     path = repo_root / "docs" / "index.html"
     text = path.read_text(encoding="utf-8")
-    text = replace_block(
+    text = replace_block_if_present(
         text,
         "<!-- AUTO:role-cards:start -->",
         "<!-- AUTO:role-cards:end -->",

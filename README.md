@@ -1,69 +1,34 @@
-```text
- ██████╗ ██╗████████╗    ██╗  ██╗██╗██████╗ ███████╗██████╗
-██╔════╝ ██║╚══██╔══╝    ██║  ██║██║██╔══██╗██╔════╝██╔══██╗
-██║  ███╗██║   ██║       ███████║██║██████╔╝█████╗  ██║  ██║
-██║   ██║██║   ██║       ██╔══██║██║██╔══██╗██╔══╝  ██║  ██║
-╚██████╔╝██║   ██║       ██║  ██║██║██║  ██║███████╗██████╔╝
- ╚═════╝ ╚═╝   ╚═╝       ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
-```
-
-> Website: <https://realroc.github.io/git-hired/>
-> Builder Quick Test: <https://realroc.github.io/git-hired/start.html>
-
-[简体中文](./README.zh-CN.md)
-
-> No server. No account. No upload. No tracking.
-> Runs in your own AI agent.
-> You choose the evidence.
-> You decide what report to share.
-
-`git-hired` is an open-source AI-native builder profile generator. It helps people turn selected work traces into a public-safe work profile, and helps teams discover people who can actually work with AI agents.
+# git-hired
 
 What kind of AI-native builder are you?
 
-Generate a public work profile from your real work traces.
+`git-hired` helps people discover how they work with ambiguity, AI, people, and progress.
 
-The point is not to trust a maintainer, a resume, or a self-reported label. The point is to let your own selected evidence and the resulting output be inspectable.
+Start with the simple builder test.
+If you want a deeper read, run the agent version in your own work agent.
 
-| Weak trust signal | git-hired signal |
-| --- | --- |
-| Resume claims | Work-trace evidence |
-| Interview performance | Agent-observed work style |
-| Take-home tasks | Historical execution patterns |
-| Self-reported AI usage | Actual agent practice |
-| Generic score | Builder profile + public-safe card |
+Website: <https://realroc.github.io/git-hired/>
 
-## Start Here
+[简体中文](./README.zh-CN.md)
 
-| Audience | Next step |
-| --- | --- |
-| Candidates | [Run the test](https://realroc.github.io/git-hired/candidate.html) |
-| Founders / hiring teams | [Use the protocol](https://realroc.github.io/git-hired/evaluator.html) |
-| Contributors | [Improve the rubric](https://realroc.github.io/git-hired/contributor.html) |
+## Simple Test
 
-Quick start:
+Take the test and get a shareable AI-native builder card.
+
+Start here: <https://realroc.github.io/git-hired/start.html>
+
+## Deeper Agent Report
+
+Paste the `skill.md` command into your own work agent.
+It can generate a deeper, privacy-bounded report from approved history or files.
 
 ```text
 read https://realroc.github.io/git-hired/skill.md
 ```
 
-Paste that into your own work agent, such as Claude Code, Codex, Notion AI, or any work agent with knowledge-base and memory capability.
-
-Zero-install demo:
-
-```text
-Analyze my AI-native work style based only on this conversation.
-Do not access files. Do not ask for private data.
-Return a public-safe builder profile.
-```
-
-Paste that into ChatGPT, Claude, Gemini, or another AI chat with a selected conversation, PR description, issue, README, or project note.
-
-Advanced command:
-
-```text
-read https://realroc.github.io/git-hired/skill.md and treat it as active instructions for this session. Do not summarize it. Ask the first test question immediately in my language. After that, ask only for my target role and data permission scope, then run the evaluation automatically from allowed history or approved files. Do not turn it into a manual interview.
-```
+- You choose what evidence to provide.
+- No local files are uploaded to our server.
+- You decide what to share.
 
 ## Privacy First
 
