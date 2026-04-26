@@ -71,13 +71,15 @@ It defines:
 - `summary_en`
 - `summary_zh`
 
-Do not manually maintain homepage cards or README role lists as separate sources of truth.
+Do not manually maintain homepage cards as a separate source of truth.
+
+README role lists are optional. If a README includes a generated role-list block, it must come from `roles.json`; if the README positioning is sharper without that block, omit it rather than keeping a generic inventory section.
 
 Those are generated from `roles.json`.
 
 ## Recruitment Display Priority
 
-This rule applies to `roles.json`, generated homepage role cards, README role lists, and any future public role index.
+This rule applies to `roles.json`, generated homepage role cards, optional README role lists when present, and any future public role index.
 
 Default recruitment display order:
 
@@ -306,7 +308,7 @@ When evaluating growth candidates:
 
 ## Role Title Style
 
-This rule applies to `roles.json`, candidate-facing pages, README role lists, and prompt source files.
+This rule applies to `roles.json`, candidate-facing pages, optional README role lists when present, and prompt source files.
 
 Default title style:
 
@@ -828,7 +830,7 @@ Expected result:
 - new role entry in `roles.json`
 - new bilingual source prompts under `prompts/`
 - new role page under `docs/`
-- homepage and README role lists regenerated
+- homepage role cards regenerated, and optional README role lists regenerated only when present
 - validation passed
 
 ### B. Update an existing JD
@@ -843,7 +845,7 @@ Expected result:
 - prompt source files updated first
 - role page synced from prompts
 - if title or summary changed, `roles.json` updated too
-- homepage and README regenerated when needed
+- homepage regenerated when needed, and README regenerated only for surfaces that are still present
 - validation passed
 
 ### C. Rename a role
@@ -973,7 +975,7 @@ Every completed JD operation must leave the repo in this state:
 - every role page defaults to cached language choice first, otherwise browser language, with `en` as the fallback
 - every role page has only a home link, not cross-role links
 - every role page keeps author GitHub info and repo link
-- `docs/index.html`, `README.md`, and `README.zh-CN.md` are in sync with `roles.json`
+- `docs/index.html` is in sync with `roles.json`; README files stay in sync with `roles.json` only for role-list blocks if those blocks are present
 - `validate_roles.py` passes
 - every JD prompt has a traceable per-role version identifier, aligned across Chinese, English, and embedded prompt content
 - every candidate-facing report records the exact JD prompt version used for that run
