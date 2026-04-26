@@ -806,6 +806,30 @@ This rule applies to `skill.md`, role prompts in `prompts/`, public pages under 
 6. Eval fixtures must use fictional or redacted data only. Do not use real candidate transcripts, repo names, customer names, emails, secrets, or private file paths.
 7. A branch promotion from `dev` to `main` should be treated as blocked if evals fail, generated files are stale, or `skill.md` and `docs/skill.md` differ.
 
+## Dev Web Acceptance And Promotion
+
+This rule applies after any completed `dev` change that affects public pages under `docs/`, README starter flow, quick test behavior, role routing, `skill.md`, examples, evals, or generated public surfaces.
+
+1. After development and automated evals pass on `dev`, start a local docs deployment for human review before promoting the change.
+2. Use a local static server for `docs/`, for example:
+   - `python3 -m http.server 8000 --directory docs`
+3. If the default port is busy, use the next available local port and state the exact local URL.
+4. Open the local URL for the maintainer when the environment supports it, for example:
+   - `open http://127.0.0.1:8000/`
+5. Keep the local server running while the maintainer manually checks the page.
+6. Do not create a promotion PR, merge to the default branch, or stop the local server until the maintainer explicitly confirms that the local web check passed.
+7. After explicit human approval:
+   - stop the local deployment process
+   - push the final `dev` branch
+   - create a pull request from `dev` into the repository default branch
+   - merge the pull request into the default branch
+8. Prefer GitHub CLI when available:
+   - detect the default branch with `gh repo view --json defaultBranchRef`
+   - create the PR with `gh pr create --base <default-branch> --head dev`
+   - merge with `gh pr merge`
+9. If GitHub CLI or remote permissions are unavailable, report the exact blocker and leave `dev` pushed with the local eval results.
+10. Never bypass failed evals or missing human approval by merging directly into the default branch.
+
 ## No MBTI Or Personality-Test Layer
 
 This rule applies to every prompt, generated skill appendix, public page, quick-test surface, example report, eval, and future template.
