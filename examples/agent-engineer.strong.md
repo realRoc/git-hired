@@ -7,7 +7,6 @@ This sample is fictional and redacted. It does not describe a real person.
 - Target role: Agent Engineer
 - Evidence scope: approved recent project notes plus agent session history
 - Evidence confidence: high
-- MBTI work personality: `INTP`, medium confidence
 - Overall fit: strong yes
 
 ## Strongest Signals

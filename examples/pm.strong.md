@@ -7,7 +7,6 @@ This sample is fictional and redacted. It does not describe a real person.
 - Target role: Product Manager
 - Evidence scope: approved PRD excerpts plus session history
 - Evidence confidence: high
-- MBTI work personality: `ENTJ`, medium confidence
 - Overall fit: strong yes
 
 ## Strongest Signals

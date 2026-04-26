@@ -23,7 +23,7 @@ What kind of AI-native builder are you?
 
 Generate a public work profile from your real work traces.
 
-The point is not to trust a maintainer, a resume, or a personality test. The point is to let your own selected evidence and the resulting output be inspectable.
+The point is not to trust a maintainer, a resume, or a self-reported label. The point is to let your own selected evidence and the resulting output be inspectable.
 
 | Weak trust signal | git-hired signal |
 | --- | --- |
@@ -187,7 +187,6 @@ The intended output is:
 - de-identified examples
 - scoring
 - fit assessment
-- optional MBTI work-style signal in the detailed report only, not the public card or a life-wide personality claim
 - a candidate-facing local markdown report
 
 ## Repo Structure
