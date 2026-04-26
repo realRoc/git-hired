@@ -281,6 +281,8 @@ def main() -> None:
         quiz_topbar_index = quick_start_text.find("quiz-topbar")
         form_index = quick_start_text.find('id="quick-test-form"')
         result_index = quick_start_text.find('id="quick-result"')
+        result_topbar_index = quick_start_text.find("result-topbar")
+        result_card_index = quick_start_text.find('id="result-card"')
         progress_index = quick_start_text.find("quick-progress")
         first_step_index = quick_start_text.find("quick-step is-active")
         if min(form_index, progress_index, first_step_index) == -1:
@@ -291,6 +293,14 @@ def main() -> None:
             errors.append("docs/start.html should keep quick progress inside the quiz topbar before the question form")
         if result_index != -1 and form_index != -1 and result_index < form_index:
             errors.append("docs/start.html should render the question form before the result card")
+        if result_topbar_index == -1:
+            errors.append("docs/start.html should render the final topbar outside the result card")
+        if result_index != -1 and result_topbar_index != -1 and result_card_index != -1 and not (result_index < result_topbar_index < result_card_index):
+            errors.append("docs/start.html should place the final topbar before and outside result-card")
+        if result_topbar_index != -1 and result_card_index != -1:
+            result_topbar_text = quick_start_text[result_topbar_index:result_card_index]
+            if 'data-lang-button="en"' not in result_topbar_text or 'data-lang-button="zh"' not in result_topbar_text:
+                errors.append("docs/start.html final topbar should keep the EN/中文 language switch")
         if quick_start_text.count('class="section question-block quick-step') != 10:
             errors.append("docs/start.html should render exactly 10 mobile quick-test questions")
         if quick_start_text.count('class="choice"') != 40:
@@ -309,6 +319,9 @@ def main() -> None:
             errors.append("docs/start.html should use the terminal-style GitHub CTA copy")
         required_result_html = [
             "result-card",
+            "result-topbar",
+            "RESULT READY",
+            "结果已生成",
             "result-next",
             "share-result",
             "advanced-report",
@@ -388,9 +401,6 @@ def main() -> None:
                 errors.append(f"docs/quick-test.js missing simple result-card section: {marker}")
         required_result_js = [
             "renderResultCard",
-            "renderResultTopbar",
-            "builder-card-topbar",
-            "builder-card-status",
             "builder-card-ascii",
             "builder-card-type",
             "builder-card-section",
@@ -405,6 +415,9 @@ def main() -> None:
         for marker in required_result_js:
             if marker not in quick_start_js_text:
                 errors.append(f"docs/quick-test.js missing structured quick-result marker: {marker}")
+        for forbidden in ("renderResultTopbar", "builder-card-topbar"):
+            if forbidden in quick_start_js_text:
+                errors.append(f"docs/quick-test.js should not render the final topbar inside result-card: {forbidden}")
         if "resultCard.textContent" in quick_start_js_text:
             errors.append("docs/quick-test.js should render structured result DOM instead of raw text")
         if "target role" in quick_start_js_text or "targetRole" in quick_start_js_text or "role fit" in quick_start_js_text:

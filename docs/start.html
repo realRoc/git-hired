@@ -526,6 +526,24 @@
       </form>
 
       <section class="section result-shell is-hidden" id="quick-result" aria-live="polite">
+        <div class="topbar result-topbar">
+          <div class="topbar-left">
+            <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="topbar-path">
+              <span class="here">~/git-hired</span><span class="sep"> / </span><span>result.card</span>
+            </div>
+          </div>
+          <div class="builder-card-status">
+            <span class="result-dot" aria-hidden="true"></span>
+            <span data-lang="en">RESULT READY</span>
+            <span data-lang="zh">结果已生成</span>
+          </div>
+          <div class="lang-switch" aria-label="Language switcher">
+            <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
+            <button class="lang-button" data-lang-button="zh" onclick="setLanguage('zh')">中文</button>
+          </div>
+        </div>
+
         <div class="result-card" id="result-card"></div>
 
         <div class="result-next">

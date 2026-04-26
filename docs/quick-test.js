@@ -346,35 +346,9 @@
     ].join("\n");
   }
 
-  function renderResultTopbar(lang) {
-    const topbar = makeElement("div", "topbar builder-card-topbar");
-    const left = makeElement("div", "topbar-left");
-    const dots = makeElement("div", "dots");
-    dots.setAttribute("aria-hidden", "true");
-    dots.append(makeElement("span"), makeElement("span"), makeElement("span"));
-
-    const path = makeElement("div", "topbar-path");
-    path.append(
-      makeElement("span", "here", "~/git-hired"),
-      makeElement("span", "sep", " / "),
-      makeElement("span", "", "result.card")
-    );
-    left.append(dots, path);
-
-    const status = makeElement("div", "builder-card-status");
-    status.append(
-      makeElement("span", "result-dot"),
-      makeElement("span", "", lang === "zh" ? "结果已生成" : "RESULT READY")
-    );
-
-    topbar.append(left, status);
-    return topbar;
-  }
-
   function renderResultCard(host, result, lang) {
     if (!host || !result) return;
     const builder = result.builder;
-    const topbar = renderResultTopbar(lang);
     const ascii = makeElement("pre", "builder-card-ascii", ASCII_GIT_HIRED);
     const identity = makeElement("div", "builder-identity");
     identity.append(
@@ -390,7 +364,6 @@
     );
 
     host.replaceChildren(
-      topbar,
       ascii,
       identity,
       renderStrengths(builder, lang),

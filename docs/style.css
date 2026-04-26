@@ -1332,10 +1332,20 @@ body.lang-zh .choice small {
     0 0 18px rgba(140, 220, 140, 0.22);
 }
 
-.builder-card-topbar {
+.result-topbar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  margin-bottom: 14px;
   border: 1px solid var(--line-2);
+  border-bottom-color: var(--line);
   border-radius: calc(var(--radius) - 2px);
   background: rgba(255, 255, 255, 0.018);
+}
+
+.result-topbar .builder-card-status {
+  justify-self: end;
+  margin-right: 10px;
 }
 
 .builder-card-status {
@@ -1756,8 +1766,18 @@ body.lang-zh .advanced-report h2 {
     padding: 20px 14px 18px 18px;
     font-size: 12px;
   }
-  .builder-card-topbar {
+  .result-topbar {
+    grid-template-columns: auto minmax(0, 1fr) auto;
     padding: 8px 9px;
+  }
+  .result-topbar .topbar-left {
+    gap: 0;
+  }
+  .result-topbar .builder-card-status {
+    margin-right: 2px;
+  }
+  .result-topbar .lang-button {
+    padding: 4px 7px;
   }
   .builder-card-status {
     font-size: 10px;
