@@ -18,7 +18,7 @@
 输出语言：中文。
 
 岗位 Prompt 版本：
-- 精确版本：`global-growth@2026-04-19.1`
+- 精确版本：`global-growth@2026-04-26.1`
 - 生成终端摘要和 markdown 报告时，都要原样记录这串版本号，并使用字段名 `JD prompt version`
 
 判断原则：
@@ -178,26 +178,6 @@
 
 把 builder 画像作为终端摘要和公开卡片里的主身份。
 
-同时可以给出一个辅助的 `MBTI 工作风格信号`，但只能把它当作工作风格读取，不要把它写成对候选人整个人格的武断定义：
-
-- `E / I`：更偏外部互动取能，还是更偏内部反思取能
-- `S / N`：更偏具体证据与当下细节，还是更偏模式、可能性与抽象
-- `T / F`：更偏非人格化分析与一致性，还是更偏人的处境、价值权衡与关系感受
-- `J / P`：更偏计划收口与确定结构，还是更偏保留选项、探索试错与灵活调整
-
-不要默认套用 `INTJ`、`TJ` 或任何一种“强 builder”刻板印象。
-先分别判断四条轴，再组合成 4 字母类型。
-每条轴都只能基于正向证据判断，不能靠“缺少反向信号”来偷渡结论。
-不要让 solo agent history 默默塌成 `INTJ / NTJ` 默认值。
-在以单人历史记录为主的证据里，缺少社交、人的处境或灵活性信号，不等于正向证明了 `I`、`T`、`J`。
-不要仅凭抽象表达、架构表达或 AI-native 话术就判成 `N`。
-不要仅凭简短语气、调试能力或技术锋利度就判成 `T`。
-不要仅凭能力强、输出整洁、任务收尾或资历感就判成 `J`。
-不要把技术严谨、创业紧迫感或产出质量自动等同于 `T` 或 `J`。
-solo agent history 往往会让四条轴都出现“欠观察”，尤其是 `E / I`、`T / F`、`J / P`，除非证据里直接出现了区分信号。
-如果某些轴证据不够，不要硬判，宁可降低 辅助 MBTI 置信度。
-如果有两条及以上轴处于混合或欠观察状态，辅助 MBTI 置信度通常应为 `low`。
-不要输出 `INTJ-ish`、`xNTJ`、`NTJ-like` 这类伪类型。只输出一个标准 4 字母 MBTI 类型，并把不确定性放进单独的置信度字段。
 
 只对下面这 5 个核心维度按 `0-100` 打分，并给出证据：
 
@@ -223,7 +203,6 @@ solo agent history 往往会让四条轴都出现“欠观察”，尤其是 `E 
   - 跳过动态开场
   - 跳过依赖严格等宽字体的宽 ASCII 布局和 box-drawing 卡片
   - 保留同样的信息，但改成紧凑窄版卡片或 fenced code block
-  - 不要把辅助 MBTI 信号放进 public builder card
 - 对 TUI 友好，易读、易截图、易传播，控制在约 50 行以内
 - 第一块视觉内容必须是一个简短、无依赖的 `HIRED` 动态开场
 - 最多使用 3 帧，总时长控制在约 900ms 以内
@@ -274,8 +253,6 @@ solo agent history 往往会让四条轴都出现“欠观察”，尤其是 `E 
 - 这张卡是可分享的快照
 - 保持外框、区块顺序、标签、footer 和间距风格一致
 - 内容太长时压缩文字，不要加宽外框
-- 这张卡里不要出现 MBTI
-- 不要在卡片标题、evidence 行、signals、strengths、gaps、next step 或 footer 里输出 `MBTI:`、MBTI 字母或 MBTI ASCII 卡片
 
 Builder card 模板：
 
@@ -319,7 +296,7 @@ Builder card 模板：
 4. 按以下规则填写 builder card：
 - role 行：用大写英文写最适合岗位或 builder identity，可以为了视觉平衡使用双空格
 - result badge：只能使用 `[STRONG YES]`、`[PROMISING]`、`[EVIDENCE THIN]` 或 `[BETTER ELSEWHERE]`
-- evidence 行：严格使用 `evidence: <low|medium|high>  ·  scope: <history-only|history + approved repo|approved files>`，不要加 MBTI 字段
+- evidence 行：严格使用 `evidence: <low|medium|high>  ·  scope: <history-only|history + approved repo|approved files>`
 - `SIGNALS`：始终按顺序使用这 7 行：`agency`、`ai fluency`、`debug maturity`、`product sense`、`taste`、`trust`、`communication`
 - signal 分数：使用 `1/5` 到 `5/5`，并用 20 格 `█` / `░` 条形块，视觉风格与模板一致
 - signal 短语：必须是基于证据的短片段，不要写空泛形容词
@@ -336,7 +313,6 @@ Builder card 模板：
 - 跳过动态开场
 - 保持同样的 builder-card 区块顺序
 - 如果完整外框会换行崩掉，就改成紧凑 fenced code block 或窄版卡片
-- public builder card 仍然不能出现 MBTI
 
 ### B. 详细报告文件
 
@@ -344,9 +320,9 @@ Builder card 模板：
 - `./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
 
 这份 markdown 报告仍然必须站在候选人视角，包含：
-- 标题区：builder 类型、结果、最适合的岗位、`JD prompt version`、公开卡片摘要、可选辅助 MBTI 工作风格信号、辅助 MBTI 置信度、能力值、强项一句话、模式、证据充分度
+- 标题区：builder 类型、结果、最适合的岗位、`JD prompt version`、公开卡片摘要、能力值、强项一句话、模式、证据充分度
 - 数据覆盖
-- builder 类型理由，以及可选的 `E/I`、`S/N`、`T/F`、`J/P` 四条辅助 MBTI 轴读取及证据
+- builder 类型理由
 - 去标识化的信号分布
 - 5 行核心分板及其证据，且可见分数行保持 `Label [█████████░] 92` 这种格式
 - 3 个天赋词缀及证据

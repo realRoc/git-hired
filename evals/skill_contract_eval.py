@@ -22,19 +22,44 @@ SIGNAL_ROWS = (
 )
 CARD_SECTIONS = ("SIGNALS", "STRENGTHS", "GAPS", "NEXT")
 FORBIDDEN_OLD_TUI_MARKERS = (
-    "Keep the builder profile first. Do not print a secondary MBTI ASCII card before the identity block",
     "Then print a subtitle:",
     "Print `Core Board`",
     "Print `Talent Tags`",
     "Print `Locked Skills`",
     "If this portrait feels right",
-    "Right below the `HIRED` banner, print the matching predesigned MBTI ASCII card",
-    "终端里在 `HIRED` ASCII 头图下方要优先打印对应的 MBTI ASCII 卡片",
-    "保持 builder 画像优先。不要在身份卡之前输出辅助 MBTI ASCII 卡片",
     "然后输出副标题",
     "输出 `Core Board`",
     "输出 `天赋词缀`",
     "输出 `待解锁天赋`",
+)
+FORBIDDEN_PERSONALITY_MARKERS = (
+    "MBTI",
+    "mbti",
+    "INTJ",
+    "INTP",
+    "ENTJ",
+    "ENTP",
+    "INFJ",
+    "INFP",
+    "ENFJ",
+    "ENFP",
+    "ISTJ",
+    "ISFJ",
+    "ESTJ",
+    "ESFJ",
+    "ISTP",
+    "ISFP",
+    "ESTP",
+    "ESFP",
+    "`E / I`",
+    "`S / N`",
+    "`T / F`",
+    "`J / P`",
+    "`E/I`",
+    "`S/N`",
+    "`T/F`",
+    "`J/P`",
+    "data-mbti",
 )
 
 
@@ -79,11 +104,16 @@ def assert_order(label: str, text: str, markers: tuple[str, ...], errors: list[s
         cursor = index
 
 
+def validate_no_personality_layer(label: str, text: str, errors: list[str]) -> None:
+    for marker in FORBIDDEN_PERSONALITY_MARKERS:
+        if marker in text:
+            errors.append(f"{label} contains forbidden personality-test marker: {marker}")
+
+
 def validate_card(label: str, card: str, golden: str, errors: list[str]) -> None:
     if card.strip() != golden.strip():
         errors.append(f"{label} does not match evals/fixtures/builder-card.golden.txt")
-    if "MBTI" in card:
-        errors.append(f"{label} must not include MBTI")
+    validate_no_personality_layer(label, card, errors)
     if not card.startswith("╔") or not card.rstrip().endswith("╝"):
         errors.append(f"{label} missing outer box frame")
     assert_order(label, card, ("builder card", "evidence:", "SIGNALS", "STRENGTHS", "GAPS", "NEXT", CARD_FOOTER), errors)
@@ -93,19 +123,16 @@ def validate_card(label: str, card: str, golden: str, errors: list[str]) -> None
 
 
 def validate_prompt_contract(label: str, text: str, golden: str, language: str, errors: list[str]) -> None:
-    localized_markers = (
-        ("do not add MBTI anywhere in this card", "1/5` to `5/5")
-        if language == "en"
-        else ("这张卡里不要出现 MBTI", "1/5` 到 `5/5")
-    )
+    score_marker = "1/5` to `5/5" if language == "en" else "1/5` 到 `5/5"
     for marker in (
         "builder card",
         CARD_FOOTER,
-        *localized_markers,
+        score_marker,
         "evidence: <low|medium|high>  ·  scope:",
         "Detailed report: ./git-hired-<role>-report-YYYYMMDD-HHMMSS.md",
     ):
         assert_contains(label, text, marker, errors)
+    validate_no_personality_layer(label, text, errors)
     for marker in CARD_SECTIONS:
         assert_contains(label, text, marker, errors)
     for row in SIGNAL_ROWS:
@@ -121,13 +148,14 @@ def validate_skill_entry(repo_root: Path, errors: list[str]) -> None:
     public_skill = read(repo_root / "docs/skill.md")
     if skill != public_skill:
         errors.append("skill.md and docs/skill.md differ")
+    validate_no_personality_layer("skill.md", skill, errors)
+    validate_no_personality_layer("docs/skill.md", public_skill, errors)
     for marker in (
         "Execute, do not summarize",
         "What target role are you aiming for right now?",
         "history-only",
         "start evidence collection and analysis automatically",
         "A terminal-facing `HIRED` builder card",
-        "do not include MBTI in the public builder card",
         CARD_FOOTER,
     ):
         assert_contains("skill.md", skill, marker, errors)
@@ -154,6 +182,20 @@ def main() -> int:
     for page in ("README.md", "README.zh-CN.md", "docs/index.html"):
         text = read(repo_root / page)
         assert_contains(page, text, "examples/builder-card.md", errors)
+        validate_no_personality_layer(page, text, errors)
+
+    for page in ("docs/start.html", "docs/quick-test.js"):
+        text = read(repo_root / page)
+        validate_no_personality_layer(page, text, errors)
+        if page == "docs/start.html" and re.search(r'value="[EISNTFJP]2?"', text):
+            errors.append("docs/start.html contains legacy letter-code answer values")
+
+    new_role_template = repo_root / ".codex" / "skills" / "git-hired-jd-ops" / "scripts" / "new_role.py"
+    if new_role_template.exists():
+        validate_no_personality_layer(str(new_role_template.relative_to(repo_root)), read(new_role_template), errors)
+
+    for example in (repo_root / "examples").glob("*.md"):
+        validate_no_personality_layer(str(example.relative_to(repo_root)), read(example), errors)
 
     if errors:
         print("Skill contract eval failed:\n")

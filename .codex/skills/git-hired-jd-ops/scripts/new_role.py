@@ -69,7 +69,7 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
 输出要求：
 1. 最终输出是给候选人看的，不是给招聘方或面试官看的。
 2. 终端里的主输出要对 TUI 友好、简洁、易截图传播，并使用一个无依赖、3 帧以内、终端安全的动态 `HIRED` 开场，而不是静态稀疏字母块。
-3. 终端摘要的主目标是生成 public-safe `builder card`，不是测试 MBTI 工作人格。`HIRED` 头图之后要输出一张固定格式卡片，包含 role / builder identity、result badge、evidence + scope、`SIGNALS`、`STRENGTHS`、`GAPS`、`NEXT` 和 footer：`git-hired  ·  local-only  ·  candidate-controlled  ·  MIT`。公开卡片里不要出现 MBTI。详细报告里的核心分板仍可使用 `Label [█████████░] 92` 这类块状条格式。
+3. 终端摘要的主目标是生成 public-safe `builder card`。`HIRED` 头图之后要输出一张固定格式卡片，包含 role / builder identity、result badge、evidence + scope、`SIGNALS`、`STRENGTHS`、`GAPS`、`NEXT` 和 footer：`git-hired  ·  local-only  ·  candidate-controlled  ·  MIT`。不要生成任何人格测试类型、字母类型或心理测评层。详细报告里的核心分板仍可使用 `Label [█████████░] 92` 这类块状条格式。
 4. 打分仍然要严格，但候选人可见刻度可以比上一版更自然、更暖一点：不要刻意把强候选人的所有维度都压在 70-80 分。
 5. 对明显强的候选人，只要证据成立，就让高光维度自然进入 `90+`；但不要把这件事写成硬约束。
 6. 终端里给一个简短摘要，再在本地生成一份更完整的 `.md` 详细报告，并打印详细报告路径。
@@ -83,20 +83,18 @@ def zh_prompt(title_zh: str, prompt_version: str) -> str:
 14. 如果是 extended 模式，详细报告里要对 repo 名、文件路径、secret 等敏感信息做更严格脱敏。
 15. 避免分析师口吻的长句解释；TUI 中优先使用标签、词缀、极短短语，而不是长段论述。
 16. 核心分板控制在 4-5 个维度，不要做成 Excel 风格的 8-9 维清单。
-17. MBTI 只能作为详细 markdown 报告里的可选辅助工作风格信号，且必须基于可观察工作证据；不要把它放进 public builder card，也不要把它写成对候选人整个人生人格下定义。
-18. MBTI 轴的判定必须保持中性：不要默认套用 `INTJ`、`TJ` 或任何“强 builder”刻板印象；要先分别判断四条轴，再组合 4 字母类型；每条轴都只能基于正向证据判断，不能靠“缺少反向信号”来偷渡结论；不要把技术严谨、创业紧迫感或产出质量自动等同于 `T` 或 `J`。
-19. 不要让 solo agent history 默默塌成 `INTJ / NTJ` 默认值：缺少社交、人的处境或灵活性信号，不等于正向证明了 `I`、`T`、`J`；solo 历史往往会让四条轴都出现“欠观察”，尤其是 `E / I`、`T / F`、`J / P`；如果两条及以上轴处于混合或欠观察状态，MBTI 置信度通常应为 `low`。
-20. 不要输出 `INTJ-ish`、`xNTJ`、`NTJ-like` 这类伪类型。只输出一个标准 4 字母 MBTI 类型，并把不确定性放进单独的置信度字段。
-21. 如果运行容器不是稳定终端，而是 Notion AI、聊天气泡、移动端预览或其他富文本界面，就跳过动态开场与宽 ASCII / box-drawing 布局，按同样区块顺序改用紧凑窄版 builder card 或 fenced code block，优先保证可读性。
-22. 不要在 `HIRED` 头图下方或 public builder card 内输出 MBTI ASCII 卡片。MBTI ASCII 资产只能用于 quick test 或详细报告等明确标记为 secondary / optional 的上下文。
-23. 默认把测试时长控制在 1 分钟内。优先看最近、最有信号的材料，够用就收口，不要为了“更全”而无限扫描。
-24. 如果本地数据很多，就做快速采样而不是深度遍历；如果时间预算到了，就带着较低置信度收尾，不要继续扩展范围。
-25. 不要给终端摘要的每一行都加 `>>`、`>>>` 或类似前缀。`HIRED` 头图之外，优先使用干净的普通标签行。
-26. `下一步` 不要只写泛泛建议。要补一个 `提升预估`：
+17. 只输出 AI-native builder 画像、岗位匹配、能力信号和证据强度；不要生成任何人格类型、四字母类型、星座式标签或心理测评解释。
+18. 不要把候选人的技术严谨、创业紧迫感、沟通方式或产出质量归因到人格类型；所有判断都必须落到可观察工作行为和岗位证据上。
+19. 如果运行容器不是稳定终端，而是 Notion AI、聊天气泡、移动端预览或其他富文本界面，就跳过动态开场与宽 ASCII / box-drawing 布局，按同样区块顺序改用紧凑窄版 builder card 或 fenced code block，优先保证可读性。
+20. 不要在 `HIRED` 头图下方或 public builder card 内输出任何人格测试卡片或字母类型卡片。
+21. 默认把测试时长控制在 1 分钟内。优先看最近、最有信号的材料，够用就收口，不要为了“更全”而无限扫描。
+22. 如果本地数据很多，就做快速采样而不是深度遍历；如果时间预算到了，就带着较低置信度收尾，不要继续扩展范围。
+23. 不要给终端摘要的每一行都加 `>>`、`>>>` 或类似前缀。`HIRED` 头图之外，优先使用干净的普通标签行。
+24. `下一步` 不要只写泛泛建议。要补一个 `提升预估`：
    - 完成这一步后，最可能提升的单点核心维度
    - 该维度大概能提升多少分
    - 整体能力值大概能提升多少
-27. `提升预估` 必须写成保守估算，而不是承诺。可以使用“如果做完且做扎实”“大概率”“约”等措辞。
+25. `提升预估` 必须写成保守估算，而不是承诺。可以使用“如果做完且做扎实”“大概率”“约”等措辞。
 
 Consent & local-only notice:
 1. 默认只使用所选工作 agent 已有的会话历史，以及候选人主动粘贴或明确批准的材料。
@@ -120,7 +118,7 @@ TODO:
 - 补数据源
 - 补行为分类
 - 补评分维度
-- 补候选人视角的 TUI 输出结构，包括无依赖动态 `HIRED` 开场、无 MBTI 的 public builder card、固定 `SIGNALS / STRENGTHS / GAPS / NEXT` 区块和块状条分板格式
+- 补候选人视角的 TUI 输出结构，包括无依赖动态 `HIRED` 开场、public builder card、固定 `SIGNALS / STRENGTHS / GAPS / NEXT` 区块和块状条分板格式
 - 补详细报告 `.md` 生成路径和内容结构
 """
 
@@ -158,7 +156,7 @@ Privacy boundary:
 Output requirements:
 1. The final output is for the candidate to read, not for the interviewer or hiring team.
 2. The main terminal output should be concise, TUI-friendly, easy to share, and start with a dependency-free, terminal-safe animated `HIRED` reveal that stays within about 3 frames.
-3. The terminal summary should generate one public-safe `builder card`, not test MBTI work personality. Immediately after the `HIRED` header, output one fixed-format card with role / builder identity, result badge, evidence + scope, `SIGNALS`, `STRENGTHS`, `GAPS`, `NEXT`, and footer: `git-hired  ·  local-only  ·  candidate-controlled  ·  MIT`. Do not include MBTI in the public card. Detailed-report core board score lines may still use a block-bar format such as `Label [█████████░] 92`.
+3. The terminal summary should generate one public-safe `builder card`. Immediately after the `HIRED` header, output one fixed-format card with role / builder identity, result badge, evidence + scope, `SIGNALS`, `STRENGTHS`, `GAPS`, `NEXT`, and footer: `git-hired  ·  local-only  ·  candidate-controlled  ·  MIT`. Do not generate any personality-test type, letter-code type, or psychometric layer. Detailed-report core board score lines may still use a block-bar format such as `Label [█████████░] 92`.
 4. Keep scoring strict, but use a slightly warmer candidate-facing calibration than the last harsh-scale compression. Do not artificially trap strong candidates in the `70s` and `80s`.
 5. For clearly strong candidates, let standout dimensions rise into the `90s` whenever the evidence justifies it, but do not turn that into a hard requirement.
 6. Give a short terminal summary, then generate a fuller local `.md` report and print its path.
@@ -172,20 +170,18 @@ Output requirements:
 14. In extended mode, redact repo names, file paths, secrets, and similar identifiers more aggressively in the markdown report.
 15. Avoid analyst-style long explanations in the TUI; prefer labels, tags, and compressed fragments.
 16. Keep the visible core board to 4-5 dimensions rather than an 8-9 line spreadsheet.
-17. Treat MBTI only as an optional supporting work-style signal in the detailed markdown report, not as a public-card field or a total personality verdict.
-18. Keep MBTI inference neutral: do not default to `INTJ`, `TJ`, or any single “strong builder” stereotype; infer each axis independently before composing the 4-letter type; infer an axis only from positive evidence, not from the absence of the opposite signal; do not treat rigor, startup urgency, or output quality as automatic evidence for `T` or `J`.
-19. Do not let solo agent history silently collapse into `INTJ / NTJ` by default: absence of social, human-context, or flexibility signals is not positive evidence for `I`, `T`, or `J`; solo agent history often under-observes all four MBTI axes, especially `E / I`, `T / F`, and `J / P`; when two or more axes are under-observed or mixed, MBTI confidence should usually be `low`.
-20. Do not output pseudo-types such as `INTJ-ish`, `xNTJ`, or `NTJ-like`. Use one standard 4-letter MBTI type plus a separate confidence field.
-21. If the runtime is not a stable terminal but a Notion AI, chat-bubble, mobile-preview, or other rich-text surface, skip the animated reveal and wide ASCII / box-drawing layouts; use a compact narrow builder card or fenced code block with the same section order instead.
-22. Do not print MBTI ASCII cards immediately below the `HIRED` banner or inside the public builder card. MBTI ASCII assets may be used only in quick-test or detailed-report contexts that explicitly frame MBTI as secondary and optional.
-23. Keep the full test within about 1 minute by default. Prefer recent, high-signal material and stop once confidence is sufficient.
-24. If local data is large, sample rather than crawl. When the time budget is reached, finish with lower confidence instead of expanding the scan.
-25. Do not prefix every visible TUI line with `>>`, `>>>`, or similar markers. After the `HIRED` banner, use clean plain labels instead.
-26. `Next Step` should not stop at a vague suggestion. Include an `Expected uplift`:
+17. Output only the AI-native builder profile, role fit, ability signals, and evidence strength; do not generate personality types, four-letter types, horoscope-like labels, or psychometric explanations.
+18. Do not explain technical rigor, startup urgency, communication style, or output quality through a personality type. Ground every judgment in observable work behavior and role evidence.
+19. If the runtime is not a stable terminal but a Notion AI, chat-bubble, mobile-preview, or other rich-text surface, skip the animated reveal and wide ASCII / box-drawing layouts; use a compact narrow builder card or fenced code block with the same section order instead.
+20. Do not print any personality-test card or letter-code card immediately below the `HIRED` banner or inside the public builder card.
+21. Keep the full test within about 1 minute by default. Prefer recent, high-signal material and stop once confidence is sufficient.
+22. If local data is large, sample rather than crawl. When the time budget is reached, finish with lower confidence instead of expanding the scan.
+23. Do not prefix every visible TUI line with `>>`, `>>>`, or similar markers. After the `HIRED` banner, use clean plain labels instead.
+24. `Next Step` should not stop at a vague suggestion. Include an `Expected uplift`:
    - the single core dimension most likely to improve
    - the approximate gain for that dimension
    - the approximate gain in overall ability score
-27. The uplift must be framed as a conservative estimate, not a promise. Use language such as `likely`, `approximately`, or `if done well`.
+25. The uplift must be framed as a conservative estimate, not a promise. Use language such as `likely`, `approximately`, or `if done well`.
 
 Consent & local-only notice:
 1. Default to using the chosen work agent's existing history and any material the candidate explicitly pastes or approves.
@@ -209,7 +205,7 @@ TODO:
 - add data sources
 - add behavior labels
 - add score dimensions
-- add candidate-facing TUI output structure, including a dependency-free animated `HIRED` reveal, no-MBTI public builder card, fixed `SIGNALS / STRENGTHS / GAPS / NEXT` sections, and block-bar score rows
+- add candidate-facing TUI output structure, including a dependency-free animated `HIRED` reveal, public builder card, fixed `SIGNALS / STRENGTHS / GAPS / NEXT` sections, and block-bar score rows
 - add detailed `.md` report path and structure
 """
 

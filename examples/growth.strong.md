@@ -7,7 +7,6 @@ This sample is fictional and redacted. It does not describe a real person.
 - Target role: Global Growth
 - Evidence scope: approved growth notes, campaign retros, and session history
 - Evidence confidence: high
-- MBTI work personality: `ENFP`, low-to-medium confidence
 - Overall fit: strong yes
 
 ## Strongest Signals

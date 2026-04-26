@@ -7,7 +7,6 @@ This is a template for public issue summaries. Do not include raw transcripts, s
 - Target role:
 - Evidence scope: `history-only` / approved repo / approved documents
 - Evidence confidence: high / medium / low
-- MBTI work personality:
 - Overall fit: strong yes / trial / pass
 
 ## Strongest Signals

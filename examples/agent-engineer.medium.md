@@ -7,7 +7,6 @@ This sample is fictional and redacted. It does not describe a real person.
 - Target role: Agent Engineer
 - Evidence scope: `history-only`
 - Evidence confidence: medium
-- MBTI work personality: `*NT*`, low confidence
 - Overall fit: trial
 
 ## Strongest Signals

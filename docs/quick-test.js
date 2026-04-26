@@ -3,17 +3,12 @@
   "use strict";
 
   const REPO_URL = "https://github.com/realRoc/git-hired";
-  const AXES = [
-    ["E", "I"],
-    ["S", "N"],
-    ["T", "F"],
-    ["J", "P"],
-  ];
-  const HIGH_CONFIDENCE_MARGIN = 2;
+  const SIGNAL_KEYS = ["facts", "pattern", "collab", "solo", "logic", "empathy", "closure", "explore"];
+  const CLEAR_SIGNAL_MARGIN = 0.35;
   const BUILDER_TYPES = [
     {
       key: "prototype",
-      letters: ["N", "P", "T"],
+      weights: { pattern: 1.2, explore: 1.2, logic: 0.8, facts: 0.5 },
       title: { en: "Prototype Hacker", zh: "原型黑客" },
       mode: { en: "sketch fast, test early, learn from a working draft", zh: "快速做草稿，先试起来，用可运行版本学习" },
       signal: { en: "You seem to turn uncertainty into experiments and prototypes.", zh: "你更像是把不确定性转成实验和原型。" },
@@ -21,7 +16,7 @@
     },
     {
       key: "orchestrator",
-      letters: ["E", "J", "T"],
+      weights: { collab: 1.2, closure: 1.1, logic: 0.8, empathy: 0.6 },
       title: { en: "Agent Orchestrator", zh: "Agent 编排者" },
       mode: { en: "align people and tools, split work, drive closure", zh: "对齐人和工具，拆分任务，推动收口" },
       signal: { en: "You seem to create momentum by coordinating work into clear tracks.", zh: "你更像是通过把工作协调成清晰轨道来制造推进力。" },
@@ -29,7 +24,7 @@
     },
     {
       key: "shaper",
-      letters: ["N", "J", "F"],
+      weights: { pattern: 1.1, empathy: 1.0, closure: 0.8, collab: 0.5 },
       title: { en: "Product Shaper", zh: "产品塑形者" },
       mode: { en: "turn fuzzy context into direction, boundaries, and product judgment", zh: "把模糊上下文压成方向、边界和产品判断" },
       signal: { en: "You seem to connect patterns, people context, and decisions into a product direction.", zh: "你更像是把模式、人的处境和决策连成产品方向。" },
@@ -37,7 +32,7 @@
     },
     {
       key: "systems",
-      letters: ["I", "S", "T", "J"],
+      weights: { facts: 1.2, logic: 1.0, closure: 1.0, solo: 0.6 },
       title: { en: "Systems Builder", zh: "系统构建者" },
       mode: { en: "stabilize details, standards, ownership, and long-term maintainability", zh: "稳定细节、标准、owner 和长期可维护性" },
       signal: { en: "You seem to protect quality by making details, standards, and ownership explicit.", zh: "你更像是通过明确细节、标准和 owner 来保护质量。" },
@@ -45,7 +40,7 @@
     },
     {
       key: "growth",
-      letters: ["E", "N", "P"],
+      weights: { collab: 1.0, pattern: 1.0, explore: 1.1, empathy: 0.6 },
       title: { en: "Growth Experimenter", zh: "增长实验者" },
       mode: { en: "read social signals, try channels, keep loops open", zh: "读取社交信号，测试渠道，保持循环开放" },
       signal: { en: "You seem to move through people signals, options, and fast channel experiments.", zh: "你更像是通过人群信号、选项和快速渠道实验来推进。" },
@@ -53,7 +48,7 @@
     },
     {
       key: "taste",
-      letters: ["N", "F", "P"],
+      weights: { empathy: 1.1, pattern: 1.0, explore: 0.8, solo: 0.5 },
       title: { en: "Taste-driven Designer", zh: "品味驱动设计者" },
       mode: { en: "notice meaning, user feeling, and possible directions", zh: "关注意义、用户感受和可能方向" },
       signal: { en: "You seem to notice the human meaning and future shape of a work artifact.", zh: "你更像是会注意一个产物的人味、意义和未来形状。" },
@@ -61,7 +56,7 @@
     },
     {
       key: "debugging",
-      letters: ["I", "S", "T", "P"],
+      weights: { facts: 1.2, logic: 1.1, solo: 0.8, explore: 0.6 },
       title: { en: "Debugging Detective", zh: "调试侦探" },
       mode: { en: "inspect facts, isolate failures, keep testing until the signal is real", zh: "检查事实、隔离问题，持续测试直到信号成立" },
       signal: { en: "You seem to trust concrete traces and direct investigation before deciding.", zh: "你更像是先相信具体痕迹和直接调查，再做判断。" },
@@ -69,7 +64,7 @@
     },
     {
       key: "operator",
-      letters: ["E", "S", "J", "F"],
+      weights: { closure: 1.1, empathy: 0.9, facts: 0.8, collab: 0.8 },
       title: { en: "Operator Builder", zh: "运营型构建者" },
       mode: { en: "turn messy coordination into reliable process and visible next steps", zh: "把混乱协作转成可靠流程和可见下一步" },
       signal: { en: "You seem to keep work moving by protecting people, process, and closure.", zh: "你更像是通过保护人、流程和收口来保持推进。" },
@@ -85,7 +80,6 @@
       unknownTitle: "What needs real evidence",
       noConfirmed: "No signal is strong enough yet.",
       noUnknown: "No major uncertainty in this quick run.",
-      starMeaning: "* in the secondary style chip means that part is unclear from these 10 answers.",
       simple: "This is only a simple 10-question self-report signal, not evidence from real work traces.",
       detail: "For a detailed evidence-based builder profile, open the GitHub repo and run the deeper test through Claude Code, Codex, or a similar work agent.",
       cta: "GitHub repo",
@@ -101,7 +95,6 @@
       unknownTitle: "还需要真实证据的部分",
       noConfirmed: "目前没有足够确定的信号。",
       noUnknown: "这次快速测试里没有明显未知项。",
-      starMeaning: "secondary style chip 里的 * 表示这部分仅凭 10 道题还判断不稳。",
       simple: "这只是一个 10 题简化自评信号，不是真实工作痕迹证据。",
       detail: "如果需要详细、基于真实工作证据的 builder 画像，请回到 GitHub repo，用 Claude Code、Codex 或类似工作 agent 运行深度测试。",
       cta: "GitHub 仓库",
@@ -112,88 +105,38 @@
     },
   };
 
-  const AXIS_COPY = {
-    "E/I": {
-      en: { axis: "E/I", name: "energy" },
-      zh: { axis: "E/I", name: "能量来源" },
+  const SIGNAL_COPY = {
+    facts: {
+      title: { en: "evidence first", zh: "证据优先" },
+      text: { en: "You prefer concrete facts, examples, and shipped details before judgment.", zh: "你更倾向于先看具体事实、例子和交付细节。" },
     },
-    "S/N": {
-      en: { axis: "S/N", name: "attention" },
-      zh: { axis: "S/N", name: "注意力" },
+    pattern: {
+      title: { en: "pattern read", zh: "模式判断" },
+      text: { en: "You look for direction, leverage, and the shape behind a messy situation.", zh: "你会寻找混乱背后的方向、杠杆和结构。" },
     },
-    "T/F": {
-      en: { axis: "T/F", name: "decision" },
-      zh: { axis: "T/F", name: "决策方式" },
+    collab: {
+      title: { en: "live alignment", zh: "实时对齐" },
+      text: { en: "You create momentum through users, teammates, communities, or quick syncs.", zh: "你会通过用户、队友、社区或快速同步制造推进力。" },
     },
-    "J/P": {
-      en: { axis: "J/P", name: "rhythm" },
-      zh: { axis: "J/P", name: "推进节奏" },
+    solo: {
+      title: { en: "solo compression", zh: "独立压缩" },
+      text: { en: "You often think, write, and structure the problem before pulling others in.", zh: "你常先独立思考、书写和结构化，再把别人拉进来。" },
     },
-  };
-
-  const LETTER_NAMES = {
-    E: { en: "live sync", zh: "实时互动" },
-    I: { en: "solo first", zh: "先独立消化" },
-    S: { en: "concrete", zh: "具体事实" },
-    N: { en: "pattern", zh: "模式判断" },
-    T: { en: "logic", zh: "逻辑取舍" },
-    F: { en: "people", zh: "人的影响" },
-    J: { en: "closure", zh: "清晰收口" },
-    P: { en: "adaptive", zh: "弹性探索" },
-    "*": { en: "unknown", zh: "未知" },
-  };
-
-  const LETTER_COPY = {
-    E: {
-      en: "You seem to move work forward through live interaction with people.",
-      zh: "你更像是通过和人实时互动来推进工作。",
+    logic: {
+      title: { en: "tradeoff logic", zh: "取舍逻辑" },
+      text: { en: "You lean on standards, constraints, and explicit tradeoffs when deciding.", zh: "你决策时更依赖标准、约束和明确取舍。" },
     },
-    I: {
-      en: "You seem to move work forward by thinking, writing, and structuring first.",
-      zh: "你更像是先自己思考、书写、结构化，再推进工作。",
+    empathy: {
+      title: { en: "people context", zh: "人的处境" },
+      text: { en: "You pay attention to trust, morale, motivation, and user impact.", zh: "你会关注信任、士气、动机和用户影响。" },
     },
-    S: {
-      en: "You seem to trust concrete facts, examples, and details first.",
-      zh: "你更信具体事实、案例和细节。",
+    closure: {
+      title: { en: "closure drive", zh: "收口驱动" },
+      text: { en: "You push work toward owners, decisions, checklists, and clear next steps.", zh: "你会把工作推向负责人、决策、清单和清晰下一步。" },
     },
-    N: {
-      en: "You seem to look for patterns, direction, and future leverage first.",
-      zh: "你更先看模式、方向和未来杠杆。",
-    },
-    T: {
-      en: "You seem to decide through logic, standards, and tradeoffs.",
-      zh: "你更常用逻辑、标准和取舍来决策。",
-    },
-    F: {
-      en: "You seem to weigh people, trust, morale, and user impact heavily.",
-      zh: "你更重视人的处境、信任、士气和用户影响。",
-    },
-    J: {
-      en: "You seem to prefer clear closure, ownership, and next steps.",
-      zh: "你更偏好清晰收口、负责人和下一步。",
-    },
-    P: {
-      en: "You seem to prefer keeping options open while evidence changes.",
-      zh: "你更偏好在证据变化时保留选项、继续调整。",
-    },
-  };
-
-  const AXIS_UNKNOWN_COPY = {
-    "E/I": {
-      en: "Your answers mix live interaction and solo processing.",
-      zh: "你的答案同时出现了实时互动和独立消化。",
-    },
-    "S/N": {
-      en: "Your answers mix concrete detail and big-picture pattern reading.",
-      zh: "你的答案同时出现了具体细节和整体模式判断。",
-    },
-    "T/F": {
-      en: "Your answers mix logic-first and people-impact-first decisions.",
-      zh: "你的答案同时出现了逻辑优先和人的影响优先。",
-    },
-    "J/P": {
-      en: "Your answers mix clear closure and flexible exploration.",
-      zh: "你的答案同时出现了清晰收口和弹性探索。",
+    explore: {
+      title: { en: "adaptive loop", zh: "弹性循环" },
+      text: { en: "You keep options open and test small signals before locking the path.", zh: "你会保留选项，先测试小信号再锁定路径。" },
     },
   };
 
@@ -206,15 +149,15 @@
     return COPY[lang][key];
   }
 
-  function axisKey(axis) {
-    return axis.left + "/" + axis.right;
-  }
-
   function makeElement(tag, className, content) {
     const element = document.createElement(tag);
     if (className) element.className = className;
     if (content !== undefined) element.textContent = content;
     return element;
+  }
+
+  function signalDatasetKey(signal) {
+    return "signal" + signal.charAt(0).toUpperCase() + signal.slice(1);
   }
 
   function datasetNumber(option, key) {
@@ -229,18 +172,20 @@
   function scoreBuilder(scores) {
     const ranked = BUILDER_TYPES
       .map((builder) => {
-        const rawScore = builder.letters.reduce((sum, letter) => sum + (scores[letter] || 0), 0);
+        const weightEntries = Object.entries(builder.weights);
+        const totalWeight = weightEntries.reduce((sum, [, weight]) => sum + weight, 0);
+        const rawScore = weightEntries.reduce((sum, [signal, weight]) => sum + (scores[signal] || 0) * weight, 0);
         return {
           builder,
           rawScore,
-          score: rawScore / builder.letters.length,
+          score: rawScore / totalWeight,
         };
       })
       .sort((a, b) => b.score - a.score);
     const best = ranked[0];
     const second = ranked[1];
     const margin = second ? best.score - second.score : best.score;
-    const strengthKey = margin >= 0.5 ? "clear" : margin >= 0.25 ? "emerging" : "light";
+    const strengthKey = margin >= CLEAR_SIGNAL_MARGIN ? "clear" : margin >= CLEAR_SIGNAL_MARGIN / 2 ? "emerging" : "light";
     return {
       ...best.builder,
       score: best.score,
@@ -259,28 +204,22 @@
     return labels[result.builder.strengthKey][lang];
   }
 
-  function scoreMbti(form) {
-    const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+  function scoreQuickTest(form) {
+    const scores = Object.fromEntries(SIGNAL_KEYS.map((key) => [key, 0]));
     selectedOptions(form).forEach((option) => {
-      Object.keys(scores).forEach((letter) => {
-        scores[letter] += datasetNumber(option, "mbti" + letter);
+      SIGNAL_KEYS.forEach((signal) => {
+        scores[signal] += datasetNumber(option, signalDatasetKey(signal));
       });
     });
 
-    const axes = AXES.map(([left, right]) => {
-      const leftScore = scores[left];
-      const rightScore = scores[right];
-      const margin = Math.abs(leftScore - rightScore);
-      const winner = leftScore >= rightScore ? left : right;
-      const confident = margin >= HIGH_CONFIDENCE_MARGIN;
-      return { left, right, leftScore, rightScore, margin, winner, confident };
-    });
+    const topSignals = SIGNAL_KEYS
+      .map((key) => ({ key, score: scores[key] }))
+      .sort((a, b) => b.score - a.score);
 
     return {
       scores,
-      axes,
+      topSignals,
       builder: scoreBuilder(scores),
-      mbtiType: axes.map((axis) => (axis.confident ? axis.winner : "*")).join(""),
     };
   }
 
@@ -302,12 +241,12 @@
       },
     ];
 
-    result.axes
-      .filter((axis) => axis.confident)
+    result.topSignals
+      .filter((signal) => signal.score > 0)
       .slice(0, 2)
-      .forEach((axis) => rows.push({
-        mark: axis.winner,
-        text: LETTER_COPY[axis.winner][lang],
+      .forEach((signal) => rows.push({
+        mark: SIGNAL_COPY[signal.key].title[lang],
+        text: SIGNAL_COPY[signal.key].text[lang],
         unknown: false,
       }));
 
@@ -330,13 +269,15 @@
       },
     ];
 
-    result.axes
-      .filter((axis) => !axis.confident)
-      .forEach((axis) => rows.push({
-        mark: "*",
-        text: AXIS_UNKNOWN_COPY[axisKey(axis)][lang],
+    if (result.builder.strengthKey === "light") {
+      rows.push({
+        mark: "signal",
+        text: lang === "zh"
+          ? "几个 builder 方向分数接近，这次只能算轻量倾向。"
+          : "Several builder directions are close, so this is only a light read.",
         unknown: true,
-      }));
+      });
+    }
 
     return rows;
   }
@@ -346,7 +287,7 @@
     const unknown = unknownRows(result, lang);
     const confirmedText = confirmed.length
       ? confirmed.map((row) => "- " + row.mark + " — " + row.text).join("\n")
-      : "- * — " + text(lang, "noConfirmed");
+      : "- signal — " + text(lang, "noConfirmed");
     const unknownText = unknown.length
       ? unknown.map((row) => "- " + row.mark + " — " + row.text).join("\n")
       : "- " + text(lang, "noUnknown");
@@ -354,8 +295,7 @@
     return [
       text(lang, "resultTitle"),
       text(lang, "resultLabel") + " " + result.builder.title[lang],
-      (lang === "zh" ? "辅助工作风格 :: " : "Secondary work-style :: ") + result.mbtiType,
-      text(lang, "starMeaning"),
+      "Signal strength :: " + strengthLabel(result, lang),
       "",
       text(lang, "confirmedTitle") + ":",
       confirmedText,
@@ -394,13 +334,6 @@
         meta: "public-safe",
         state: "is-confirmed",
       },
-      {
-        axis: lang === "zh" ? "辅助" : "secondary",
-        letter: result.mbtiType,
-        name: lang === "zh" ? "工作风格" : "work style",
-        meta: "MBTI",
-        state: result.mbtiType.includes("*") ? "is-unknown" : "is-confirmed",
-      },
     ];
 
     chipData.forEach((item) => {
@@ -433,7 +366,7 @@
     const body = makeElement("div", "rc-section-body");
     const visibleRows = rows.length
       ? rows
-      : [{ mark: "*", text: fallback, unknown: true }];
+      : [{ mark: "signal", text: fallback, unknown: true }];
     visibleRows.forEach((row) => {
       const item = makeElement("div", "rc-row" + (row.unknown ? " is-unknown" : ""));
       item.append(
@@ -555,7 +488,7 @@
     }
 
     function showResult() {
-      lastResult = scoreMbti(form);
+      lastResult = scoreQuickTest(form);
       const lang = currentLang();
       lastResultText = buildResultText(lastResult, lang);
       renderResultCard(resultCard, lastResult, lang);

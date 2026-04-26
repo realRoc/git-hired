@@ -15,15 +15,10 @@ BLOCK_BAR_MARKER = "[█████████░] 92"
 OLD_BAR_MARKER = "[#######---]"
 BUILDER_EN_MARKER = "AI-native builder profile"
 BUILDER_ZH_MARKER = "AI-native builder 画像"
-MBTI_EN_MARKER = "secondary `MBTI work-style signal`"
-MBTI_ZH_MARKER = "辅助的 `MBTI 工作风格信号`"
 TIME_BUDGET_EN_MARKER = "within about 1 minute"
 TIME_BUDGET_ZH_MARKER = "1 分钟内"
 UPLIFT_EN_MARKER = "Expected uplift"
 UPLIFT_ZH_MARKER = "提升预估"
-ASCII_CARD_EN_MARKER = "ASCII card"
-ASCII_CARD_ZH_MARKER = "ASCII 卡片"
-ASCII_CARD_URL_BASE = "https://realroc.github.io/git-hired/assets/mbti/"
 BUILDER_CARD_MARKER = "builder card"
 BUILDER_CARD_FOOTER = "git-hired  ·  local-only  ·  candidate-controlled  ·  MIT"
 BUILDER_CARD_SIGNALS = (
@@ -35,8 +30,6 @@ BUILDER_CARD_SIGNALS = (
     "trust",
     "communication",
 )
-BUILDER_CARD_NO_MBTI_EN = "do not add MBTI anywhere in this card"
-BUILDER_CARD_NO_MBTI_ZH = "这张卡里不要出现 MBTI"
 WORK_AGENT_EN_MARKER = "work agent"
 WORK_AGENT_ZH_MARKER = "工作 agent"
 READ_COMMAND_MARKER = "read https://realroc.github.io/git-hired/skill.md"
@@ -76,18 +69,6 @@ FOOTER_FORBIDDEN_MARKERS = (
     "源 prompt",
     "built by",
 )
-MBTI_ANTI_ANCHOR_EN_MARKER = "Do not default to `INTJ`, `TJ`, or any single"
-MBTI_ANTI_ANCHOR_ZH_MARKER = "不要默认套用 `INTJ`、`TJ`"
-MBTI_NEUTRAL_TF_EN_MARKER = "impersonal analysis and consistency vs human-context and value-weighting"
-MBTI_NEUTRAL_TF_ZH_MARKER = "非人格化分析与一致性"
-MBTI_POSITIVE_EVIDENCE_EN_MARKER = "Infer each axis only from positive evidence"
-MBTI_POSITIVE_EVIDENCE_ZH_MARKER = "每条轴都只能基于正向证据判断"
-MBTI_SOLO_HISTORY_EN_MARKER = "Solo agent history often under-observes all four MBTI axes"
-MBTI_SOLO_HISTORY_ZH_MARKER = "solo agent history 往往会让四条轴都出现“欠观察”"
-MBTI_NO_ITJ_EN_MARKER = "not positive evidence for `I`, `T`, or `J`"
-MBTI_NO_ITJ_ZH_MARKER = "不等于正向证明了 `I`、`T`、`J`"
-MBTI_NO_PSEUDO_EN_MARKER = "Do not output pseudo-types such as `INTJ-ish`, `xNTJ`, or `NTJ-like`"
-MBTI_NO_PSEUDO_ZH_MARKER = "不要输出 `INTJ-ish`、`xNTJ`、`NTJ-like`"
 RUNTIME_AWARE_EN_MARKER = "rich-text / chat / mobile-preview surface such as Notion AI"
 RUNTIME_AWARE_ZH_MARKER = "Notion AI、聊天气泡、移动端预览这类富文本界面"
 RUNTIME_FALLBACK_EN_MARKER = "skip wide ASCII layouts and box-drawing cards"
@@ -98,11 +79,34 @@ STRONG_SCORE_EN_MARKER = "70+ is already clearly strong here"
 STRONG_SCORE_ZH_MARKER = "70+ 在这套体系里已经是明显强"
 STANDOUT_DIMENSION_EN_MARKER = "should usually cross `90+`"
 STANDOUT_DIMENSION_ZH_MARKER = "通常应该出现 `90+`"
-MBTI_TYPES = (
-    "intj", "intp", "entj", "entp",
-    "infj", "infp", "enfj", "enfp",
-    "istj", "isfj", "estj", "esfj",
-    "istp", "isfp", "estp", "esfp",
+FORBIDDEN_PERSONALITY_MARKERS = (
+    "MBTI",
+    "mbti",
+    "INTJ",
+    "INTP",
+    "ENTJ",
+    "ENTP",
+    "INFJ",
+    "INFP",
+    "ENFJ",
+    "ENFP",
+    "ISTJ",
+    "ISFJ",
+    "ESTJ",
+    "ESFJ",
+    "ISTP",
+    "ISFP",
+    "ESTP",
+    "ESFP",
+    "`E / I`",
+    "`S / N`",
+    "`T / F`",
+    "`J / P`",
+    "`E/I`",
+    "`S/N`",
+    "`T/F`",
+    "`J/P`",
+    "data-mbti",
 )
 
 
@@ -155,6 +159,12 @@ def validate_footer_css(style_text: str, errors: list[str]) -> None:
         errors.append("docs/style.css .footer-line should center each footer line")
 
 
+def validate_no_personality_layer(label: str, text: str, errors: list[str]) -> None:
+    for marker in FORBIDDEN_PERSONALITY_MARKERS:
+        if marker in text:
+            errors.append(f"{label} should not contain personality-test marker: {marker}")
+
+
 def main() -> None:
     repo_root = find_repo_root(Path.cwd())
     roles = json.loads((repo_root / "roles.json").read_text(encoding="utf-8"))
@@ -173,11 +183,16 @@ def main() -> None:
     style_text = (repo_root / "docs" / "style.css").read_text(encoding="utf-8")
     readme_en = (repo_root / "README.md").read_text(encoding="utf-8")
     readme_zh = (repo_root / "README.zh-CN.md").read_text(encoding="utf-8")
-    mbti_asset_dir = repo_root / "docs" / "assets" / "mbti"
 
     errors: list[str] = []
     warnings: list[str] = []
     skill_source_text = skill_source.read_text(encoding="utf-8") if skill_source.exists() else ""
+    validate_no_personality_layer("README.md", readme_en, errors)
+    validate_no_personality_layer("README.zh-CN.md", readme_zh, errors)
+    validate_no_personality_layer("docs/index.html", index_text, errors)
+    new_role_template = repo_root / ".codex" / "skills" / "git-hired-jd-ops" / "scripts" / "new_role.py"
+    if new_role_template.exists():
+        validate_no_personality_layer(".codex/skills/git-hired-jd-ops/scripts/new_role.py", new_role_template.read_text(encoding="utf-8"), errors)
 
     if "<!-- AUTO:role-cards:start -->" not in index_text or "<!-- AUTO:role-cards:end -->" not in index_text:
         errors.append("docs/index.html missing AUTO role-cards markers")
@@ -254,6 +269,7 @@ def main() -> None:
         errors.append("docs/start.html missing mobile human quick-test page")
     else:
         quick_start_text = quick_start.read_text(encoding="utf-8")
+        validate_no_personality_layer("docs/start.html", quick_start_text, errors)
         if "Builder Quick Test" not in quick_start_text or "Builder 快速测试" not in quick_start_text:
             errors.append("docs/start.html missing bilingual builder quick-test identity")
         if "No local repo" not in quick_start_text or "不扫描本地 repo" not in quick_start_text:
@@ -266,6 +282,8 @@ def main() -> None:
             errors.append("docs/start.html should not ask for the candidate's target role/direction")
         if "<textarea" in quick_start_text or "evidenceNote" in quick_start_text:
             errors.append("docs/start.html quick test should be single-choice only with no free-form fields")
+        if re.search(r'value="[EISNTFJP]2?"', quick_start_text):
+            errors.append("docs/start.html should not keep legacy letter-code answer values")
         if "share-result" in quick_start_text or ">Share<" in quick_start_text:
             errors.append("docs/start.html quick result should not keep share actions")
         if "quick-progress" not in quick_start_text or "quick-step" not in quick_start_text:
@@ -294,13 +312,14 @@ def main() -> None:
         errors.append("docs/quick-test.js missing quick-test behavior")
     else:
         quick_start_js_text = quick_start_js.read_text(encoding="utf-8")
-        if "HIGH_CONFIDENCE_MARGIN" not in quick_start_js_text or '"*"' not in quick_start_js_text or "BUILDER_TYPES" not in quick_start_js_text:
+        validate_no_personality_layer("docs/quick-test.js", quick_start_js_text, errors)
+        if "SIGNAL_KEYS" not in quick_start_js_text or "scoreQuickTest" not in quick_start_js_text or "BUILDER_TYPES" not in quick_start_js_text:
             errors.append("docs/quick-test.js missing builder-first quick-result logic")
         if "Claude Code" not in quick_start_js_text or "Codex" not in quick_start_js_text:
             errors.append("docs/quick-test.js missing deeper-test guidance for Claude Code / Codex")
         if "https://github.com/realRoc/git-hired" not in quick_start_js_text:
             errors.append("docs/quick-test.js missing GitHub repo CTA target")
-        if "What looks clear" not in quick_start_js_text or "比较确定的部分" not in quick_start_js_text or "starMeaning" not in quick_start_js_text:
+        if "What looks clear" not in quick_start_js_text or "比较确定的部分" not in quick_start_js_text or "simple 10-question self-report signal" not in quick_start_js_text:
             errors.append("docs/quick-test.js missing plain-language quick-result explanation")
         required_result_js = [
             "renderResultCard",
@@ -328,6 +347,8 @@ def main() -> None:
         errors.append("docs/skill.md missing deployed entry spec")
     if skill_source.exists() and skill_public.exists():
         skill_public_text = skill_public.read_text(encoding="utf-8")
+        validate_no_personality_layer("skill.md", skill_source_text, errors)
+        validate_no_personality_layer("docs/skill.md", skill_public_text, errors)
         if skill_source_text != skill_public_text:
             errors.append("skill.md and docs/skill.md must stay content-identical")
         if READ_COMMAND_MARKER not in skill_source_text:
@@ -342,12 +363,12 @@ def main() -> None:
             errors.append("skill.md missing privacy-boundary wording")
         if BUILDER_CARD_MARKER not in skill_source_text or BUILDER_CARD_FOOTER not in skill_source_text:
             errors.append("skill.md missing public builder-card output shape")
-        if "do not include MBTI in the public builder card" not in skill_source_text:
-            errors.append("skill.md missing no-MBTI public-card rule")
+        if "Do not replace `history-only` with a self-report questionnaire" not in skill_source_text:
+            errors.append("skill.md missing no-self-report replacement rule")
         if "start evidence collection and analysis automatically" not in skill_source_text or "Do not replace `history-only` with a self-report questionnaire" not in skill_source_text:
             errors.append("skill.md missing auto-analysis no-interview rule")
-        if "INTJ / NTJ" not in skill_source_text or "Notion-like surface" not in skill_source_text:
-            errors.append("skill.md missing runtime-aware or MBTI de-bias fallback guidance")
+        if "Notion-like surface" not in skill_source_text:
+            errors.append("skill.md missing runtime-aware fallback guidance")
         if "Agent Engineer" not in skill_source_text or "Product Manager" not in skill_source_text or "Global Growth" not in skill_source_text or "Product Operations" not in skill_source_text:
             errors.append("skill.md missing supported role registry")
         if "wuyupeng@floatmiracle.com" not in skill_source_text:
@@ -360,18 +381,6 @@ def main() -> None:
             errors.append("skill.md should not route public agents through role-page prompt blocks")
         if "role pages are intentionally compact" not in skill_source_text:
             errors.append("skill.md missing compact-role-page public fetch guidance")
-
-    if not mbti_asset_dir.exists():
-        errors.append("docs/assets/mbti missing MBTI ASCII-card asset directory")
-    else:
-        manifest = mbti_asset_dir / "manifest.json"
-        if not manifest.exists():
-            errors.append("docs/assets/mbti/manifest.json missing")
-        for mbti_type in MBTI_TYPES:
-            if not (mbti_asset_dir / f"{mbti_type}.txt").exists():
-                errors.append(f"docs/assets/mbti missing {mbti_type}.txt")
-        if list(mbti_asset_dir.glob("*.svg")):
-            errors.append("docs/assets/mbti should not contain legacy SVG files")
 
     if (repo_root / "docs" / "general.html").exists():
         errors.append("docs/general.html should be removed after shared-entry simplification")
@@ -401,13 +410,12 @@ def main() -> None:
                 errors.append(f"examples/ missing {filename}")
             else:
                 example_text = path.read_text(encoding="utf-8")
+                validate_no_personality_layer(f"examples/{filename}", example_text, errors)
                 if filename != "redacted-report-template.md" and "fictional" not in example_text.lower():
                     errors.append(f"examples/{filename} should be clearly marked fictional")
                 if filename == "builder-card.md":
                     if BUILDER_CARD_FOOTER not in example_text or "SIGNALS" not in example_text or "STRENGTHS" not in example_text or "GAPS" not in example_text:
                         errors.append("examples/builder-card.md missing canonical builder-card sections")
-                    if "MBTI" in example_text:
-                        errors.append("examples/builder-card.md should not include MBTI in the public card example")
 
     if "## Live Links" in readme_en or "AUTO:live-links" in readme_en:
         errors.append("README.md should use a top website entry instead of generated live-links")
@@ -493,6 +501,7 @@ def main() -> None:
         en_prompt_version = None
         if zh_prompt.exists():
             zh_prompt_text = zh_prompt.read_text(encoding="utf-8")
+            validate_no_personality_layer(f"prompts/{prompt_slug}.md", zh_prompt_text, errors)
             if "history-only" not in zh_prompt_text or "上传到我们的服务器" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing consent-first local-only notice")
             if MIN_PERMISSION_ZH_MARKER not in zh_prompt_text or PROMPT_AUTO_ZH_MARKER not in zh_prompt_text:
@@ -505,7 +514,7 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing 1-minute runtime-budget guidance")
             if "把下面整段完整粘贴到 Claude Code 或 Codex 中执行：" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains Claude Code/Codex-exclusive intro wording")
-            if ">> MBTI 工作人格 <<" in zh_prompt_text or ">> 如果这份画像像你" in zh_prompt_text:
+            if ">> 如果这份画像像你" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains noisy double-angle TUI markers")
             if "详细报告" not in zh_prompt_text or "HIRED" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing candidate-facing TUI/report output requirements")
@@ -531,25 +540,10 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md still contains deprecated alignment-code language")
             if BUILDER_ZH_MARKER not in zh_prompt_text or "builder 类型" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing builder-profile guidance")
-            if MBTI_ZH_MARKER not in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md missing secondary MBTI work-style guidance")
-            if "例如 `INTJ`" in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md still contains INTJ example anchoring")
-            if "逻辑取舍，还是更偏用户 / 人的感受与关系" in zh_prompt_text or "结构、计划、收口，还是更偏探索、试错、临场适配" in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md still contains biased legacy MBTI axis wording")
-            if (
-                MBTI_ANTI_ANCHOR_ZH_MARKER not in zh_prompt_text
-                or MBTI_NEUTRAL_TF_ZH_MARKER not in zh_prompt_text
-                or MBTI_POSITIVE_EVIDENCE_ZH_MARKER not in zh_prompt_text
-                or MBTI_SOLO_HISTORY_ZH_MARKER not in zh_prompt_text
-                or MBTI_NO_ITJ_ZH_MARKER not in zh_prompt_text
-                or MBTI_NO_PSEUDO_ZH_MARKER not in zh_prompt_text
-            ):
-                errors.append(f"prompts/{prompt_slug}.md missing MBTI de-bias guidance")
             if "pixel card" in zh_prompt_text or ".svg" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains legacy pixel-card or SVG language")
-            if BUILDER_CARD_MARKER not in zh_prompt_text or BUILDER_CARD_FOOTER not in zh_prompt_text or BUILDER_CARD_NO_MBTI_ZH not in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md missing canonical no-MBTI builder-card guidance")
+            if BUILDER_CARD_MARKER not in zh_prompt_text or BUILDER_CARD_FOOTER not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing canonical builder-card guidance")
             for marker in (*BUILDER_CARD_SIGNALS, "STRENGTHS", "GAPS", "NEXT"):
                 if marker not in zh_prompt_text:
                     errors.append(f"prompts/{prompt_slug}.md missing builder-card marker: {marker}")
@@ -562,7 +556,7 @@ def main() -> None:
             if "岗位 Prompt 版本" not in zh_prompt_text or "JD prompt version" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing prompt-version guidance")
             if "Signal Board" in zh_prompt_text or "你已经很亮眼的地方" in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md still contains pre-MBTI output sections")
+                errors.append(f"prompts/{prompt_slug}.md still contains legacy output sections")
             if "## G. 面试建议" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains interviewer-facing interview section")
             zh_prompt_version = extract_zh_prompt_version(zh_prompt_text)
@@ -574,6 +568,7 @@ def main() -> None:
                 errors.append(f"skill.md missing bundled Chinese prompt version {zh_prompt_version}")
         if en_prompt.exists():
             en_prompt_text = en_prompt.read_text(encoding="utf-8")
+            validate_no_personality_layer(f"prompts/{prompt_slug}.en.md", en_prompt_text, errors)
             if "history-only" not in en_prompt_text or "our server" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing consent-first local-only notice")
             if MIN_PERMISSION_EN_MARKER not in en_prompt_text or PROMPT_AUTO_EN_MARKER not in en_prompt_text:
@@ -586,7 +581,7 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing 1-minute runtime-budget guidance")
             if "Paste the full prompt below into Claude Code or Codex and run it:" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains Claude Code/Codex-exclusive intro wording")
-            if ">> MBTI work personality <<" in en_prompt_text or ">> If this portrait feels right" in en_prompt_text:
+            if ">> If this portrait feels right" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains noisy double-angle TUI markers")
             if "Detailed report" not in en_prompt_text or "HIRED" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing candidate-facing TUI/report output requirements")
@@ -612,25 +607,10 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains deprecated alignment-code language")
             if BUILDER_EN_MARKER not in en_prompt_text or "builder type" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing builder-profile guidance")
-            if MBTI_EN_MARKER not in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md missing secondary MBTI work-style guidance")
-            if "such as `INTJ`" in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md still contains INTJ example anchoring")
-            if "tradeoff logic vs people or user-attunement" in en_prompt_text or "structure and closure vs exploration and adaptation" in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md still contains biased legacy MBTI axis wording")
-            if (
-                MBTI_ANTI_ANCHOR_EN_MARKER not in en_prompt_text
-                or MBTI_NEUTRAL_TF_EN_MARKER not in en_prompt_text
-                or MBTI_POSITIVE_EVIDENCE_EN_MARKER not in en_prompt_text
-                or MBTI_SOLO_HISTORY_EN_MARKER not in en_prompt_text
-                or MBTI_NO_ITJ_EN_MARKER not in en_prompt_text
-                or MBTI_NO_PSEUDO_EN_MARKER not in en_prompt_text
-            ):
-                errors.append(f"prompts/{prompt_slug}.en.md missing MBTI de-bias guidance")
             if "pixel card" in en_prompt_text or ".svg" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains legacy pixel-card or SVG language")
-            if BUILDER_CARD_MARKER not in en_prompt_text or BUILDER_CARD_FOOTER not in en_prompt_text or BUILDER_CARD_NO_MBTI_EN not in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md missing canonical no-MBTI builder-card guidance")
+            if BUILDER_CARD_MARKER not in en_prompt_text or BUILDER_CARD_FOOTER not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing canonical builder-card guidance")
             for marker in (*BUILDER_CARD_SIGNALS, "STRENGTHS", "GAPS", "NEXT"):
                 if marker not in en_prompt_text:
                     errors.append(f"prompts/{prompt_slug}.en.md missing builder-card marker: {marker}")
@@ -643,7 +623,7 @@ def main() -> None:
             if "JD prompt version" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing prompt-version guidance")
             if "Signal Board" in en_prompt_text or "What already stands out" in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md still contains pre-MBTI output sections")
+                errors.append(f"prompts/{prompt_slug}.en.md still contains legacy output sections")
             if "Interview Follow-ups" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains interviewer-facing interview section")
             en_prompt_version = extract_en_prompt_version(en_prompt_text)

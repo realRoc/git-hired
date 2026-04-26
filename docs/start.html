@@ -97,7 +97,7 @@
           </div>
           <div class="choice-grid one-up" role="radiogroup" aria-label="Messy project start">
             <label class="choice">
-              <input type="radio" name="q1" value="S" required data-label-en="Collect facts, constraints, examples, and current blockers." data-label-zh="先收集事实、约束、案例和当前卡点。" data-mbti-s="1">
+              <input type="radio" name="q1" value="facts-1" required data-label-en="Collect facts, constraints, examples, and current blockers." data-label-zh="先收集事实、约束、案例和当前卡点。" data-signal-facts="1">
               <span>
                 <strong data-lang="en">I list the known facts and blockers first.</strong>
                 <strong data-lang="zh">我会先列出现有事实和卡点。</strong>
@@ -106,7 +106,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q1" value="S2" required data-label-en="Ask for concrete examples before discussing direction." data-label-zh="讨论方向前，先要具体例子。" data-mbti-s="1">
+              <input type="radio" name="q1" value="facts-2" required data-label-en="Ask for concrete examples before discussing direction." data-label-zh="讨论方向前，先要具体例子。" data-signal-facts="1">
               <span>
                 <strong data-lang="en">I ask for concrete examples before judging.</strong>
                 <strong data-lang="zh">我会先要具体例子，再做判断。</strong>
@@ -115,7 +115,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q1" value="N" required data-label-en="Find the pattern, root shape, and possible leverage point." data-label-zh="先找模式、根本结构和可能的杠杆点。" data-mbti-n="1">
+              <input type="radio" name="q1" value="pattern-1" required data-label-en="Find the pattern, root shape, and possible leverage point." data-label-zh="先找模式、根本结构和可能的杠杆点。" data-signal-pattern="1">
               <span>
                 <strong data-lang="en">I first look for the pattern behind the mess.</strong>
                 <strong data-lang="zh">我会先找混乱背后的模式。</strong>
@@ -124,7 +124,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q1" value="N2" required data-label-en="Sketch the possible direction and leverage point first." data-label-zh="先画出可能方向和杠杆点。" data-mbti-n="1">
+              <input type="radio" name="q1" value="pattern-2" required data-label-en="Sketch the possible direction and leverage point first." data-label-zh="先画出可能方向和杠杆点。" data-signal-pattern="1">
               <span>
                 <strong data-lang="en">I sketch the possible direction first.</strong>
                 <strong data-lang="zh">我会先判断可能的方向。</strong>
@@ -143,7 +143,7 @@
           </div>
           <div class="choice-grid one-up" role="radiogroup" aria-label="Work energy">
             <label class="choice">
-              <input type="radio" name="q2" value="E" required data-label-en="Talking to users, teammates, or communities until momentum appears." data-label-zh="和用户、队友或社区互动，直到推进力出现。" data-mbti-e="1">
+              <input type="radio" name="q2" value="collab-1" required data-label-en="Talking to users, teammates, or communities until momentum appears." data-label-zh="和用户、队友或社区互动，直到推进力出现。" data-signal-collab="1">
               <span>
                 <strong data-lang="en">I get unstuck by talking with people.</strong>
                 <strong data-lang="zh">我通过和人聊来推进。</strong>
@@ -152,7 +152,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q2" value="E2" required data-label-en="I like quick live syncs when work is stuck." data-label-zh="事情卡住时，我偏好快速现场同步。" data-mbti-e="1">
+              <input type="radio" name="q2" value="collab-2" required data-label-en="I like quick live syncs when work is stuck." data-label-zh="事情卡住时，我偏好快速现场同步。" data-signal-collab="1">
               <span>
                 <strong data-lang="en">I prefer a quick live sync when stuck.</strong>
                 <strong data-lang="zh">卡住时我更想快速同步一下。</strong>
@@ -161,7 +161,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q2" value="I" required data-label-en="Thinking through notes, traces, and systems before pushing." data-label-zh="先消化笔记、痕迹和系统，再推动。" data-mbti-i="1">
+              <input type="radio" name="q2" value="solo-1" required data-label-en="Thinking through notes, traces, and systems before pushing." data-label-zh="先消化笔记、痕迹和系统，再推动。" data-signal-solo="1">
               <span>
                 <strong data-lang="en">I get unstuck by thinking and writing first.</strong>
                 <strong data-lang="zh">我通过先想清楚、写清楚来推进。</strong>
@@ -170,7 +170,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q2" value="I2" required data-label-en="I prefer to make a draft before asking others." data-label-zh="我更喜欢先做出草稿，再找别人看。" data-mbti-i="1">
+              <input type="radio" name="q2" value="solo-2" required data-label-en="I prefer to make a draft before asking others." data-label-zh="我更喜欢先做出草稿，再找别人看。" data-signal-solo="1">
               <span>
                 <strong data-lang="en">I prefer to make a draft before asking others.</strong>
                 <strong data-lang="zh">我会先做出草稿，再找别人看。</strong>
@@ -189,7 +189,7 @@
           </div>
           <div class="choice-grid one-up" role="radiogroup" aria-label="Team disagreement">
             <label class="choice">
-              <input type="radio" name="q3" value="T" required data-label-en="Principles, tradeoffs, constraints, and consistency." data-label-zh="原则、取舍、约束和一致性。" data-mbti-t="1">
+              <input type="radio" name="q3" value="logic-1" required data-label-en="Principles, tradeoffs, constraints, and consistency." data-label-zh="原则、取舍、约束和一致性。" data-signal-logic="1">
               <span>
                 <strong data-lang="en">I compare options by rules and tradeoffs.</strong>
                 <strong data-lang="zh">我会用规则和取舍来比较选项。</strong>
@@ -198,7 +198,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q3" value="T2" required data-label-en="I point out the logic gap directly." data-label-zh="我会直接指出逻辑问题。" data-mbti-t="1">
+              <input type="radio" name="q3" value="logic-2" required data-label-en="I point out the logic gap directly." data-label-zh="我会直接指出逻辑问题。" data-signal-logic="1">
               <span>
                 <strong data-lang="en">I directly point out the logic gap.</strong>
                 <strong data-lang="zh">我会直接指出逻辑漏洞。</strong>
@@ -207,7 +207,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q3" value="F" required data-label-en="People context, trust, motivation, and impact on users." data-label-zh="人的处境、信任、动机和对用户的影响。" data-mbti-f="1">
+              <input type="radio" name="q3" value="empathy-1" required data-label-en="People context, trust, motivation, and impact on users." data-label-zh="人的处境、信任、动机和对用户的影响。" data-signal-empathy="1">
               <span>
                 <strong data-lang="en">I first check what people are worried about.</strong>
                 <strong data-lang="zh">我会先看大家真正担心什么。</strong>
@@ -216,7 +216,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q3" value="F2" required data-label-en="I try to keep the decision acceptable to the people involved." data-label-zh="我会让决策对相关的人可接受。" data-mbti-f="1">
+              <input type="radio" name="q3" value="empathy-2" required data-label-en="I try to keep the decision acceptable to the people involved." data-label-zh="我会让决策对相关的人可接受。" data-signal-empathy="1">
               <span>
                 <strong data-lang="en">I try to make the decision acceptable to people.</strong>
                 <strong data-lang="zh">我会让决策对人更可接受。</strong>
@@ -235,7 +235,7 @@
           </div>
           <div class="choice-grid one-up" role="radiogroup" aria-label="Deadline rhythm">
             <label class="choice">
-              <input type="radio" name="q4" value="J" required data-label-en="Set milestones, owners, and a clear closure path." data-label-zh="设里程碑、owner 和清晰收口路径。" data-mbti-j="1">
+              <input type="radio" name="q4" value="closure-1" required data-label-en="Set milestones, owners, and a clear closure path." data-label-zh="设里程碑、owner 和清晰收口路径。" data-signal-closure="1">
               <span>
                 <strong data-lang="en">I make a plan with clear next steps.</strong>
                 <strong data-lang="zh">我会做一个有明确下一步的计划。</strong>
@@ -244,7 +244,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q4" value="J2" required data-label-en="I split work into owners and checklists." data-label-zh="我会把事情拆成 owner 和清单。" data-mbti-j="1">
+              <input type="radio" name="q4" value="closure-2" required data-label-en="I split work into owners and checklists." data-label-zh="我会把事情拆成 owner 和清单。" data-signal-closure="1">
               <span>
                 <strong data-lang="en">I split the work into owners and checklists.</strong>
                 <strong data-lang="zh">我会拆出负责人和清单。</strong>
@@ -253,7 +253,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q4" value="P" required data-label-en="Keep the path flexible and adjust as new evidence arrives." data-label-zh="保留路径弹性，随着新证据调整。" data-mbti-p="1">
+              <input type="radio" name="q4" value="explore-1" required data-label-en="Keep the path flexible and adjust as new evidence arrives." data-label-zh="保留路径弹性，随着新证据调整。" data-signal-explore="1">
               <span>
                 <strong data-lang="en">I keep the plan flexible while learning.</strong>
                 <strong data-lang="zh">我会边学边调整计划。</strong>
@@ -262,7 +262,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q4" value="P2" required data-label-en="I test one small thing first, then decide." data-label-zh="我会先测试一个小点，再决定。" data-mbti-p="1">
+              <input type="radio" name="q4" value="explore-2" required data-label-en="I test one small thing first, then decide." data-label-zh="我会先测试一个小点，再决定。" data-signal-explore="1">
               <span>
                 <strong data-lang="en">I test a small thing before locking the plan.</strong>
                 <strong data-lang="zh">我会先做小测试，再锁计划。</strong>
@@ -281,7 +281,7 @@
           </div>
           <div class="choice-grid one-up" role="radiogroup" aria-label="Collaboration style">
             <label class="choice">
-              <input type="radio" name="q5" value="E" required data-label-en="Pull people into sync quickly and resolve things live." data-label-zh="快速把人拉到一起，当场对齐和解决。" data-mbti-e="1">
+              <input type="radio" name="q5" value="collab-1" required data-label-en="Pull people into sync quickly and resolve things live." data-label-zh="快速把人拉到一起，当场对齐和解决。" data-signal-collab="1">
               <span>
                 <strong data-lang="en">I like resolving unclear things in a live discussion.</strong>
                 <strong data-lang="zh">我喜欢当面或实时把事情聊清楚。</strong>
@@ -290,7 +290,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q5" value="E2" required data-label-en="I bring the right people together early." data-label-zh="我会早点把相关的人拉到一起。" data-mbti-e="1">
+              <input type="radio" name="q5" value="collab-2" required data-label-en="I bring the right people together early." data-label-zh="我会早点把相关的人拉到一起。" data-signal-collab="1">
               <span>
                 <strong data-lang="en">I bring the right people together early.</strong>
                 <strong data-lang="zh">我会早点把相关的人拉到一起。</strong>
@@ -299,7 +299,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q5" value="I" required data-label-en="Write the issue clearly first, then bring people in." data-label-zh="先把问题写清楚，再把人拉进来。" data-mbti-i="1">
+              <input type="radio" name="q5" value="solo-1" required data-label-en="Write the issue clearly first, then bring people in." data-label-zh="先把问题写清楚，再把人拉进来。" data-signal-solo="1">
               <span>
                 <strong data-lang="en">I write the issue clearly before discussing it.</strong>
                 <strong data-lang="zh">我会先把问题写清楚，再讨论。</strong>
@@ -308,7 +308,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q5" value="I2" required data-label-en="I prefer async comments when the issue is complex." data-label-zh="问题复杂时，我更偏好异步评论。" data-mbti-i="1">
+              <input type="radio" name="q5" value="solo-2" required data-label-en="I prefer async comments when the issue is complex." data-label-zh="问题复杂时，我更偏好异步评论。" data-signal-solo="1">
               <span>
                 <strong data-lang="en">I prefer async comments for complex topics.</strong>
                 <strong data-lang="zh">复杂问题我更偏好异步评论。</strong>
@@ -327,7 +327,7 @@
           </div>
           <div class="choice-grid one-up" role="radiogroup" aria-label="Quality signal">
             <label class="choice">
-              <input type="radio" name="q6" value="S" required data-label-en="Specific defects, edge cases, wording, data, and shipped details." data-label-zh="具体缺陷、边界情况、措辞、数据和交付细节。" data-mbti-s="1">
+              <input type="radio" name="q6" value="facts-1" required data-label-en="Specific defects, edge cases, wording, data, and shipped details." data-label-zh="具体缺陷、边界情况、措辞、数据和交付细节。" data-signal-facts="1">
               <span>
                 <strong data-lang="en">I notice concrete defects and edge cases.</strong>
                 <strong data-lang="zh">我会注意具体缺陷和边界情况。</strong>
@@ -336,7 +336,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q6" value="S2" required data-label-en="I judge by whether the details actually work." data-label-zh="我会看细节是否真的跑得通。" data-mbti-s="1">
+              <input type="radio" name="q6" value="facts-2" required data-label-en="I judge by whether the details actually work." data-label-zh="我会看细节是否真的跑得通。" data-signal-facts="1">
               <span>
                 <strong data-lang="en">I judge by whether the details actually work.</strong>
                 <strong data-lang="zh">我会看细节是否真的跑得通。</strong>
@@ -345,7 +345,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q6" value="N" required data-label-en="Whether the concept, direction, and system will scale." data-label-zh="概念、方向和系统是否能延展。" data-mbti-n="1">
+              <input type="radio" name="q6" value="pattern-1" required data-label-en="Whether the concept, direction, and system will scale." data-label-zh="概念、方向和系统是否能延展。" data-signal-pattern="1">
               <span>
                 <strong data-lang="en">I notice whether the idea can scale.</strong>
                 <strong data-lang="zh">我会注意这个想法能不能延展。</strong>
@@ -354,7 +354,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q6" value="N2" required data-label-en="I judge by whether the direction still makes sense later." data-label-zh="我会看这个方向以后是否仍然成立。" data-mbti-n="1">
+              <input type="radio" name="q6" value="pattern-2" required data-label-en="I judge by whether the direction still makes sense later." data-label-zh="我会看这个方向以后是否仍然成立。" data-signal-pattern="1">
               <span>
                 <strong data-lang="en">I judge by whether the direction still makes sense later.</strong>
                 <strong data-lang="zh">我会看这个方向以后是否还成立。</strong>
@@ -373,7 +373,7 @@
           </div>
           <div class="choice-grid one-up" role="radiogroup" aria-label="Feedback style">
             <label class="choice">
-              <input type="radio" name="q7" value="T" required data-label-en="What is wrong, why it breaks, and how to fix it." data-label-zh="哪里不对、为什么会坏、怎么修。" data-mbti-t="1">
+              <input type="radio" name="q7" value="logic-1" required data-label-en="What is wrong, why it breaks, and how to fix it." data-label-zh="哪里不对、为什么会坏、怎么修。" data-signal-logic="1">
               <span>
                 <strong data-lang="en">I say what is wrong and how to fix it.</strong>
                 <strong data-lang="zh">我会直接说哪里错了、怎么修。</strong>
@@ -382,7 +382,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q7" value="T2" required data-label-en="I focus on standards and whether the output meets them." data-label-zh="我会看标准，以及产出是否达标。" data-mbti-t="1">
+              <input type="radio" name="q7" value="logic-2" required data-label-en="I focus on standards and whether the output meets them." data-label-zh="我会看标准，以及产出是否达标。" data-signal-logic="1">
               <span>
                 <strong data-lang="en">I focus on the standard the work should meet.</strong>
                 <strong data-lang="zh">我会关注工作应该达到什么标准。</strong>
@@ -391,7 +391,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q7" value="F" required data-label-en="What the person is trying to do, then how to improve it." data-label-zh="先理解对方想完成什么，再说怎么变好。" data-mbti-f="1">
+              <input type="radio" name="q7" value="empathy-1" required data-label-en="What the person is trying to do, then how to improve it." data-label-zh="先理解对方想完成什么，再说怎么变好。" data-signal-empathy="1">
               <span>
                 <strong data-lang="en">I first acknowledge what they were trying to do.</strong>
                 <strong data-lang="zh">我会先认可对方想完成什么。</strong>
@@ -400,7 +400,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q7" value="F2" required data-label-en="I phrase feedback so the person can actually accept it." data-label-zh="我会把反馈说到对方能接住。" data-mbti-f="1">
+              <input type="radio" name="q7" value="empathy-2" required data-label-en="I phrase feedback so the person can actually accept it." data-label-zh="我会把反馈说到对方能接住。" data-signal-empathy="1">
               <span>
                 <strong data-lang="en">I make feedback easier to accept.</strong>
                 <strong data-lang="zh">我会让反馈更容易被接住。</strong>
@@ -419,7 +419,7 @@
           </div>
           <div class="choice-grid one-up" role="radiogroup" aria-label="Changing evidence">
             <label class="choice">
-              <input type="radio" name="q8" value="J" required data-label-en="Re-plan quickly, reset the decision, and protect closure." data-label-zh="快速重排计划、重设决策，并保护收口。" data-mbti-j="1">
+              <input type="radio" name="q8" value="closure-1" required data-label-en="Re-plan quickly, reset the decision, and protect closure." data-label-zh="快速重排计划、重设决策，并保护收口。" data-signal-closure="1">
               <span>
                 <strong data-lang="en">I update the plan and keep the project closing.</strong>
                 <strong data-lang="zh">我会更新计划，并继续推动收口。</strong>
@@ -428,7 +428,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q8" value="J2" required data-label-en="I decide what changes and what stays fixed." data-label-zh="我会决定哪些变、哪些不变。" data-mbti-j="1">
+              <input type="radio" name="q8" value="closure-2" required data-label-en="I decide what changes and what stays fixed." data-label-zh="我会决定哪些变、哪些不变。" data-signal-closure="1">
               <span>
                 <strong data-lang="en">I decide what changes and what stays fixed.</strong>
                 <strong data-lang="zh">我会决定哪些变、哪些不变。</strong>
@@ -437,7 +437,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q8" value="P" required data-label-en="Explore the new option and keep testing before locking." data-label-zh="探索新选项，继续测试后再锁定。" data-mbti-p="1">
+              <input type="radio" name="q8" value="explore-1" required data-label-en="Explore the new option and keep testing before locking." data-label-zh="探索新选项，继续测试后再锁定。" data-signal-explore="1">
               <span>
                 <strong data-lang="en">I explore the new option before deciding.</strong>
                 <strong data-lang="zh">我会先探索新选项，再决定。</strong>
@@ -446,7 +446,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q8" value="P2" required data-label-en="I keep testing until the signal is strong enough." data-label-zh="我会继续测试，直到信号足够强。" data-mbti-p="1">
+              <input type="radio" name="q8" value="explore-2" required data-label-en="I keep testing until the signal is strong enough." data-label-zh="我会继续测试，直到信号足够强。" data-signal-explore="1">
               <span>
                 <strong data-lang="en">I keep testing until the signal is strong enough.</strong>
                 <strong data-lang="zh">我会继续测试，直到信号足够强。</strong>
@@ -465,7 +465,7 @@
           </div>
           <div class="choice-grid one-up" role="radiogroup" aria-label="Pressure style">
             <label class="choice">
-              <input type="radio" name="q9" value="T" required data-label-en="Blunt about priorities, constraints, and what must be cut." data-label-zh="直接讲优先级、约束和必须砍掉什么。" data-mbti-t="1">
+              <input type="radio" name="q9" value="logic-1" required data-label-en="Blunt about priorities, constraints, and what must be cut." data-label-zh="直接讲优先级、约束和必须砍掉什么。" data-signal-logic="1">
               <span>
                 <strong data-lang="en">I become more direct about priorities.</strong>
                 <strong data-lang="zh">我会更直接地讲优先级。</strong>
@@ -474,7 +474,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q9" value="T2" required data-label-en="I protect the work by cutting low-value tasks." data-label-zh="我会通过砍低价值任务保护交付。" data-mbti-t="1">
+              <input type="radio" name="q9" value="logic-2" required data-label-en="I protect the work by cutting low-value tasks." data-label-zh="我会通过砍低价值任务保护交付。" data-signal-logic="1">
               <span>
                 <strong data-lang="en">I cut low-value work to protect delivery.</strong>
                 <strong data-lang="zh">我会砍低价值任务来保护交付。</strong>
@@ -483,7 +483,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q9" value="F" required data-label-en="Careful about morale, trust, and who will absorb the cost." data-label-zh="更在意士气、信任，以及谁在承担成本。" data-mbti-f="1">
+              <input type="radio" name="q9" value="empathy-1" required data-label-en="Careful about morale, trust, and who will absorb the cost." data-label-zh="更在意士气、信任，以及谁在承担成本。" data-signal-empathy="1">
               <span>
                 <strong data-lang="en">I pay more attention to morale and trust.</strong>
                 <strong data-lang="zh">我会更关注士气和信任。</strong>
@@ -492,7 +492,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q9" value="F2" required data-label-en="I watch who is carrying the hidden cost." data-label-zh="我会留意谁在承担隐藏成本。" data-mbti-f="1">
+              <input type="radio" name="q9" value="empathy-2" required data-label-en="I watch who is carrying the hidden cost." data-label-zh="我会留意谁在承担隐藏成本。" data-signal-empathy="1">
               <span>
                 <strong data-lang="en">I watch who is carrying the hidden cost.</strong>
                 <strong data-lang="zh">我会留意谁在承担隐藏成本。</strong>
@@ -511,7 +511,7 @@
           </div>
           <div class="choice-grid one-up" role="radiogroup" aria-label="Finished work">
             <label class="choice">
-              <input type="radio" name="q10" value="J" required data-label-en="A clean artifact: decision, owner, status, and next step are clear." data-label-zh="一个干净产物：决策、owner、状态和下一步都清楚。" data-mbti-j="1">
+              <input type="radio" name="q10" value="closure-1" required data-label-en="A clean artifact: decision, owner, status, and next step are clear." data-label-zh="一个干净产物：决策、owner、状态和下一步都清楚。" data-signal-closure="1">
               <span>
                 <strong data-lang="en">A clear decision and next step.</strong>
                 <strong data-lang="zh">一个清楚的决策和下一步。</strong>
@@ -520,7 +520,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q10" value="J2" required data-label-en="A finished checklist with status and owners." data-label-zh="一个有状态和负责人的完成清单。" data-mbti-j="1">
+              <input type="radio" name="q10" value="closure-2" required data-label-en="A finished checklist with status and owners." data-label-zh="一个有状态和负责人的完成清单。" data-signal-closure="1">
               <span>
                 <strong data-lang="en">A finished checklist with owners.</strong>
                 <strong data-lang="zh">一个有负责人的完成清单。</strong>
@@ -529,7 +529,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q10" value="P" required data-label-en="A live loop: options, experiments, and follow-up signals stay visible." data-label-zh="一个活循环：选项、实验和后续信号都还可见。" data-mbti-p="1">
+              <input type="radio" name="q10" value="explore-1" required data-label-en="A live loop: options, experiments, and follow-up signals stay visible." data-label-zh="一个活循环：选项、实验和后续信号都还可见。" data-signal-explore="1">
               <span>
                 <strong data-lang="en">A live loop with follow-up signals.</strong>
                 <strong data-lang="zh">一个带后续信号的活循环。</strong>
@@ -538,7 +538,7 @@
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="q10" value="P2" required data-label-en="A useful draft that can still evolve." data-label-zh="一个有用但仍可演进的草稿。" data-mbti-p="1">
+              <input type="radio" name="q10" value="explore-2" required data-label-en="A useful draft that can still evolve." data-label-zh="一个有用但仍可演进的草稿。" data-signal-explore="1">
               <span>
                 <strong data-lang="en">A useful draft that can still evolve.</strong>
                 <strong data-lang="zh">一个有用但仍可演进的草稿。</strong>
