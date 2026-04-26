@@ -25,6 +25,12 @@ REQUIRED_FUNNEL_EVENTS = (
     "complete_quiz",
     "view_result",
     "click_share",
+    "copy_profile",
+    "download_card",
+    "share_x",
+    "share_linkedin",
+    "create_public_profile",
+    "click_team_waitlist",
 )
 
 
@@ -80,6 +86,16 @@ def validate_html_pages(repo_root: Path, errors: list[str]) -> None:
         errors,
     )
     assert_contains("docs/start.html", start_text, 'id="share-result"', errors)
+    for marker in (
+        'id="copy-profile"',
+        'id="download-card"',
+        'id="share-x"',
+        'id="share-linkedin"',
+        'id="create-public-profile"',
+        'id="team-waitlist-link"',
+        "Join the team waitlist",
+    ):
+        assert_contains("docs/start.html", start_text, marker, errors)
 
 
 def validate_posthog_config(analytics_text: str, errors: list[str]) -> None:
@@ -123,7 +139,19 @@ def validate_manual_events(analytics_text: str, quick_test_text: str, errors: li
     for event in ("click_start", "select_role"):
         assert_contains("docs/analytics.js", analytics_text, f'track("{event}"', errors)
 
-    for event in ("select_role", "start_quiz", "complete_quiz", "view_result", "click_share"):
+    for event in (
+        "select_role",
+        "start_quiz",
+        "complete_quiz",
+        "view_result",
+        "click_share",
+        "copy_profile",
+        "download_card",
+        "share_x",
+        "share_linkedin",
+        "create_public_profile",
+        "click_team_waitlist",
+    ):
         assert_contains("docs/quick-test.js", quick_test_text, f'trackEvent("{event}"', errors)
 
     for marker in (
@@ -154,6 +182,17 @@ def validate_manual_events(analytics_text: str, quick_test_text: str, errors: li
         'location: "result_card"',
         "result_type: resultType(lastResult)",
         'share_target: "clipboard"',
+        "profile_url:",
+        'content_type: "text"',
+        'file_format: "png"',
+        'waitlist_target: "github_issue"',
+        'location: "result_page_secondary"',
+        "publicProfileUrl(",
+        "resultFromLocation()",
+        "downloadShareImage(",
+        "socialShareText(",
+        "https://twitter.com/intent/tweet",
+        "https://www.linkedin.com/sharing/share-offsite/",
     ):
         assert_contains("docs/quick-test.js", quick_test_text, marker, errors)
 
@@ -164,6 +203,15 @@ def validate_manual_events(analytics_text: str, quick_test_text: str, errors: li
         errors,
     )
     assert_contains("docs/quick-test.js", quick_test_text, 'document.getElementById("share-result")', errors)
+    for marker in (
+        'document.getElementById("copy-profile")',
+        'document.getElementById("download-card")',
+        'document.getElementById("share-x")',
+        'document.getElementById("share-linkedin")',
+        'document.getElementById("create-public-profile")',
+        'document.getElementById("team-waitlist-link")',
+    ):
+        assert_contains("docs/quick-test.js", quick_test_text, marker, errors)
 
 
 def main() -> int:
