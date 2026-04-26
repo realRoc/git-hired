@@ -1,9 +1,16 @@
 # git-hired
 
-```bash
-$ git hired
-fatal: not a qualified candidate
+```text
+       _ _      _    _              _
+  __ _(_) |_   | |__ (_)_ __ ___  __| |
+ / _` | | __|  | '_ \| | '__/ _ \/ _` |
+| (_| | | |_   | | | | | | |  __/ (_| |
+ \__, |_|\__|  |_| |_|_|_|  \___|\__,_|
+ |___/
 ```
+
+> Website: <https://realroc.github.io/git-hired/>
+> Mobile Quick Test: <https://realroc.github.io/git-hired/start.html>
 
 [简体中文](./README.zh-CN.md)
 
@@ -18,6 +25,14 @@ Take-home tests show isolated skill.
 `git-hired` asks a different question:
 
 Can this person use AI agents to understand ambiguity, inspect real work traces, make tradeoffs, and ship?
+
+| Old hiring signal | git-hired signal |
+| --- | --- |
+| Resume claims | Work-trace evidence |
+| Interview performance | Agent-observed workflow |
+| Take-home tasks | Historical execution pattern |
+| Self-reported AI usage | Actual agent practice |
+| Generic score | Role-specific fit report |
 
 ## Start Here
 
@@ -84,22 +99,6 @@ See [rubric.md](./rubric.md) for the public scoring standard.
 3. Add localization.
 4. Improve report templates.
 5. Add fictional, redacted calibration examples.
-
-## Live Links
-
-- Homepage: <https://realroc.github.io/git-hired/>
-- Candidate Protocol: <https://realroc.github.io/git-hired/candidate.html>
-- Evaluator Protocol: <https://realroc.github.io/git-hired/evaluator.html>
-- Contributor Protocol: <https://realroc.github.io/git-hired/contributor.html>
-- Mobile Quick Test: <https://realroc.github.io/git-hired/start.html>
-- Agent Entry (`skill.md`): <https://realroc.github.io/git-hired/skill.md>
-
-<!-- AUTO:live-links:start -->
-- Global Growth: <https://realroc.github.io/git-hired/growth.html>
-- Agent Engineer: <https://realroc.github.io/git-hired/agent.html>
-- Product Manager: <https://realroc.github.io/git-hired/pm.html>
-- Product Operations: <https://realroc.github.io/git-hired/ops.html>
-<!-- AUTO:live-links:end -->
 
 ## What This Repo Includes
 

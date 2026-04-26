@@ -382,12 +382,12 @@ def main() -> None:
                 if filename != "redacted-report-template.md" and "fictional" not in example_text.lower():
                     errors.append(f"examples/{filename} should be clearly marked fictional")
 
-    if "<!-- AUTO:live-links:start -->" not in readme_en or "<!-- AUTO:live-links:end -->" not in readme_en:
-        errors.append("README.md missing AUTO live-links markers")
+    if "## Live Links" in readme_en or "AUTO:live-links" in readme_en:
+        errors.append("README.md should use a top website entry instead of generated live-links")
     if "<!-- AUTO:role-list:start -->" not in readme_en or "<!-- AUTO:role-list:end -->" not in readme_en:
         errors.append("README.md missing AUTO role-list markers")
-    if "<!-- AUTO:live-links:start -->" not in readme_zh or "<!-- AUTO:live-links:end -->" not in readme_zh:
-        errors.append("README.zh-CN.md missing AUTO live-links markers")
+    if "## 在线链接" in readme_zh or "AUTO:live-links" in readme_zh:
+        errors.append("README.zh-CN.md should use a top website entry instead of generated live-links")
     if "<!-- AUTO:role-list:start -->" not in readme_zh or "<!-- AUTO:role-list:end -->" not in readme_zh:
         errors.append("README.zh-CN.md missing AUTO role-list markers")
     if WORK_AGENT_EN_MARKER not in readme_en or "our server" not in readme_en:
@@ -396,6 +396,10 @@ def main() -> None:
         errors.append("README.zh-CN.md missing work-agent compatibility or privacy-upload wording")
     if "open-source AI-native hiring test" not in readme_en or "AI-native 招人测试" not in readme_zh:
         errors.append("README missing protocol positioning statement")
+    if "Website:" not in readme_en or "https://realroc.github.io/git-hired/" not in readme_en:
+        errors.append("README.md missing top website entry")
+    if "项目网站" not in readme_zh or "https://realroc.github.io/git-hired/" not in readme_zh:
+        errors.append("README.zh-CN.md missing top website entry")
     for marker in ("candidate.html", "evaluator.html", "contributor.html", "rubric.md", "examples/"):
         if marker not in readme_en:
             errors.append(f"README.md missing protocol/funnel marker: {marker}")
@@ -409,9 +413,9 @@ def main() -> None:
     if "skill.md" not in readme_zh or "https://realroc.github.io/git-hired/skill.md" not in readme_zh:
         errors.append("README.zh-CN.md missing skill.md live link")
     if "https://realroc.github.io/git-hired/start.html" not in readme_en or "Mobile Quick Test" not in readme_en:
-        errors.append("README.md missing mobile quick-test live link")
+        errors.append("README.md missing mobile quick-test entry")
     if "https://realroc.github.io/git-hired/start.html" not in readme_zh or "移动端快速测试" not in readme_zh:
-        errors.append("README.zh-CN.md missing mobile quick-test live link")
+        errors.append("README.zh-CN.md missing mobile quick-test entry")
     if "Paste the prompt from this link into your own Claude Code or Codex" in readme_en:
         errors.append("README.md still contains Claude Code/Codex-exclusive candidate wording")
     if "粘贴到你自己的 Claude Code 或 Codex" in readme_zh:

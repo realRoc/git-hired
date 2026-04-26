@@ -8,9 +8,6 @@ import re
 from pathlib import Path
 
 
-BASE_URL = "https://realroc.github.io/git-hired"
-
-
 def find_repo_root(start: Path) -> Path:
     for candidate in [start, *start.parents]:
         if (candidate / "README.md").exists() and (candidate / "roles.json").exists():
@@ -86,15 +83,6 @@ def generate_index_cards(roles: list[dict]) -> str:
     )
 
 
-def generate_live_links(roles: list[dict], language: str) -> str:
-    lines = ["<!-- AUTO:live-links:start -->"]
-    for role in roles:
-        title = role["title_en"] if language == "en" else role["title_zh"]
-        lines.append(f"- {title}: <{BASE_URL}/{role['page_slug']}.html>")
-    lines.append("<!-- AUTO:live-links:end -->")
-    return "\n".join(lines)
-
-
 def generate_role_list(roles: list[dict], language: str) -> str:
     lines = ["<!-- AUTO:role-list:start -->"]
     key = "title_en" if language == "en" else "title_zh"
@@ -119,12 +107,6 @@ def sync_index(repo_root: Path, roles: list[dict]) -> None:
 def sync_readme(repo_root: Path, roles: list[dict], filename: str, language: str) -> None:
     path = repo_root / filename
     text = path.read_text(encoding="utf-8")
-    text = replace_block(
-        text,
-        "<!-- AUTO:live-links:start -->",
-        "<!-- AUTO:live-links:end -->",
-        generate_live_links(roles, language),
-    )
     text = replace_block(
         text,
         "<!-- AUTO:role-list:start -->",
