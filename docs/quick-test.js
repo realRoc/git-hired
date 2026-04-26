@@ -18,6 +18,7 @@
     {
       key: "pathfinder",
       weights: { pattern: 1.4, explore: 1.1, logic: 0.7, facts: 0.5 },
+      calibration: -0.2108,
       title: { en: "The Pathfinder", zh: "寻径者" },
       summary: {
         en: "You find direction in the mess before the path is obvious.",
@@ -49,6 +50,7 @@
     {
       key: "shaper",
       weights: { pattern: 1.1, empathy: 0.9, closure: 0.8, solo: 0.6 },
+      calibration: -0.0508,
       title: { en: "The Shaper", zh: "塑形者" },
       summary: {
         en: "You turn rough ideas into clear form.",
@@ -80,6 +82,7 @@
     {
       key: "shipstarter",
       weights: { explore: 1.1, closure: 1.0, facts: 0.7, logic: 0.6 },
+      calibration: -0.1108,
       title: { en: "The Shipstarter", zh: "启航者" },
       summary: {
         en: "You create momentum with the first working version.",
@@ -111,6 +114,7 @@
     {
       key: "synthesizer",
       weights: { facts: 1.0, pattern: 1.0, solo: 0.9, logic: 0.8 },
+      calibration: 0.2742,
       title: { en: "The Synthesizer", zh: "融通者" },
       summary: {
         en: "You combine scattered signals into a complete judgment.",
@@ -142,6 +146,7 @@
     {
       key: "debugger",
       weights: { facts: 1.2, logic: 1.1, solo: 0.8, explore: 0.4 },
+      calibration: 0.0492,
       title: { en: "The Debugger", zh: "洞察者" },
       summary: {
         en: "You look past symptoms to find the root cause.",
@@ -173,6 +178,7 @@
     {
       key: "catalyst",
       weights: { collab: 1.2, empathy: 1.0, closure: 0.9, explore: 0.5 },
+      calibration: 0.0492,
       title: { en: "The Catalyst", zh: "催化者" },
       summary: {
         en: "You speed up coordination between people, ideas, and tasks.",
@@ -281,9 +287,11 @@
         const weights = Object.entries(builder.weights);
         const totalWeight = weights.reduce((sum, [, weight]) => sum + weight, 0);
         const value = weights.reduce((sum, [signal, weight]) => sum + (scores[signal] || 0) * weight, 0);
+        // Keeps all six finite quiz outcomes realistically reachable without changing the signal weights.
+        const calibratedValue = (value / totalWeight) + (builder.calibration || 0);
         return {
           builder,
-          value: value / totalWeight,
+          value: calibratedValue,
         };
       })
       .sort((a, b) => b.value - a.value)[0].builder;
