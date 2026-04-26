@@ -288,8 +288,8 @@ def main() -> None:
             errors.append("docs/start.html quick test should be single-choice only with no free-form fields")
         if re.search(r'value="[EISNTFJP]2?"', quick_start_text):
             errors.append("docs/start.html should not keep legacy letter-code answer values")
-        if "share-result" in quick_start_text or ">Share<" in quick_start_text:
-            errors.append("docs/start.html quick result should not keep share actions")
+        if "share-result" not in quick_start_text or "分享" not in quick_start_text:
+            errors.append("docs/start.html quick result should expose the share-image action")
         if "quick-progress" not in quick_start_text or "quick-step" not in quick_start_text:
             errors.append("docs/start.html missing step-by-step mobile quick-test UI")
         if "Run Deep Test On GitHub" in quick_start_text:
@@ -297,9 +297,10 @@ def main() -> None:
         required_result_html = [
             "result-card",
             "result-next",
-            "copy-result",
+            "share-result",
             "advanced-report",
             "copy-agent-prompt",
+            "result-home-link",
             "Want a deeper report?",
             "想要更准的结果？",
             "You choose what evidence to provide.",
@@ -312,7 +313,7 @@ def main() -> None:
         for marker in required_result_html:
             if marker not in quick_start_text:
                 errors.append(f"docs/start.html missing quick-result UI marker: {marker}")
-        for forbidden in ("result-head", "copy-report", "go to GitHub for deep test", "去 GitHub 做深度测试"):
+        for forbidden in ("result-head", "copy-result", "copy-report", "go to GitHub for deep test", "去 GitHub 做深度测试"):
             if forbidden in quick_start_text:
                 errors.append(f"docs/start.html should not keep old quick-result UI marker: {forbidden}")
         if "./index.html" not in quick_start_text:
@@ -374,10 +375,14 @@ def main() -> None:
                 errors.append(f"docs/quick-test.js missing simple result-card section: {marker}")
         required_result_js = [
             "renderResultCard",
+            "builder-card-ascii",
             "builder-card-type",
             "builder-card-section",
+            "renderShareImage",
+            "copyShareImage",
+            "ClipboardItem",
             "copyText",
-            "copy result",
+            "share",
             "Copy agent prompt",
         ]
         for marker in required_result_js:
@@ -387,8 +392,8 @@ def main() -> None:
             errors.append("docs/quick-test.js should render structured result DOM instead of raw text")
         if "target role" in quick_start_js_text or "targetRole" in quick_start_js_text or "role fit" in quick_start_js_text:
             errors.append("docs/quick-test.js should not route the mobile quick test by target role")
-        if "navigator.share" in quick_start_js_text or "share-result" in quick_start_js_text:
-            errors.append("docs/quick-test.js should not keep share actions")
+        if "navigator.share" in quick_start_js_text:
+            errors.append("docs/quick-test.js should copy an image to clipboard instead of using navigator.share")
     if not quick_start_qr.exists():
         errors.append("docs/assets/quick-test-qr.svg missing quick-test QR asset")
 

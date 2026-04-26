@@ -1,10 +1,18 @@
-/* global window, document, MutationObserver, navigator, HTMLInputElement */
+/* global window, document, MutationObserver, navigator, HTMLInputElement, ClipboardItem */
 (function () {
   "use strict";
 
   const AGENT_PROMPT = "read https://realroc.github.io/git-hired/skill.md";
   const RESULT_URL = "https://realroc.github.io/git-hired/start.html";
   const SIGNAL_KEYS = ["facts", "pattern", "collab", "solo", "logic", "empathy", "closure", "explore"];
+  const ASCII_GIT_HIRED = [
+    "  ██████╗ ██╗████████╗       ██╗  ██╗██╗██████╗ ███████╗██████╗ ",
+    "  ██╔════╝ ██║╚══██╔══╝       ██║  ██║██║██╔══██╗██╔════╝██╔══██╗",
+    "  ██║  ███╗██║   ██║          ███████║██║██████╔╝█████╗  ██║  ██║",
+    "  ██║   ██║██║   ██║          ██╔══██║██║██╔══██╗██╔══╝  ██║  ██║",
+    "  ╚██████╔╝██║   ██║          ██║  ██║██║██║  ██║███████╗██████╔╝",
+    "   ╚═════╝ ╚═╝   ╚═╝          ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝ ",
+  ].join("\n");
 
   const BUILDER_TYPES = [
     {
@@ -203,8 +211,9 @@
       environmentTitle: "Best environment",
       watchTitle: "Watch out",
       nextTitle: "Next step",
-      copyResult: "copy result",
-      copied: "copied",
+      shareResult: "share",
+      shared: "image copied",
+      textCopied: "text copied",
       copyAgentPrompt: "Copy agent prompt",
       promptCopied: "prompt copied",
       progress: (current, total) => String(current).padStart(2, "0") + " / " + String(total).padStart(2, "0"),
@@ -217,8 +226,9 @@
       environmentTitle: "你最适合的场景",
       watchTitle: "需要注意",
       nextTitle: "下一步建议",
-      copyResult: "复制结果",
-      copied: "已复制",
+      shareResult: "分享",
+      shared: "图片已复制",
+      textCopied: "文字已复制",
       copyAgentPrompt: "复制 Agent 指令",
       promptCopied: "指令已复制",
       progress: (current, total) => String(current).padStart(2, "0") + " / " + String(total).padStart(2, "0"),
@@ -339,6 +349,7 @@
   function renderResultCard(host, result, lang) {
     if (!host || !result) return;
     const builder = result.builder;
+    const ascii = makeElement("pre", "builder-card-ascii", ASCII_GIT_HIRED);
     const identity = makeElement("div", "builder-identity");
     identity.append(
       makeElement("span", "builder-card-kicker", text(lang, "resultTitle")),
@@ -353,6 +364,7 @@
     );
 
     host.replaceChildren(
+      ascii,
       identity,
       renderStrengths(builder, lang),
       renderTextSection(text(lang, "environmentTitle"), localized(builder.environment, lang)),
@@ -391,6 +403,169 @@
     return fallbackCopyText(value);
   }
 
+  function roundedRect(ctx, x, y, width, height, radius) {
+    const r = Math.min(radius, width / 2, height / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + width, y, x + width, y + height, r);
+    ctx.arcTo(x + width, y + height, x, y + height, r);
+    ctx.arcTo(x, y + height, x, y, r);
+    ctx.arcTo(x, y, x + width, y, r);
+    ctx.closePath();
+  }
+
+  function wrapText(ctx, value, maxWidth) {
+    const raw = String(value || "").trim();
+    if (!raw) return [];
+    const chunks = /[\u3400-\u9fff]/.test(raw)
+      ? Array.from(raw)
+      : raw.split(/(\s+)/).filter(Boolean);
+    const lines = [];
+    let line = "";
+    chunks.forEach((chunk) => {
+      const next = line + chunk;
+      if (line && ctx.measureText(next).width > maxWidth) {
+        lines.push(line.trim());
+        line = chunk.trimStart();
+      } else {
+        line = next;
+      }
+    });
+    if (line.trim()) lines.push(line.trim());
+    return lines;
+  }
+
+  function drawWrappedText(ctx, value, x, y, maxWidth, lineHeight, maxLines) {
+    const lines = wrapText(ctx, value, maxWidth);
+    const visible = typeof maxLines === "number" ? lines.slice(0, maxLines) : lines;
+    visible.forEach((line, index) => {
+      ctx.fillText(line, x, y + index * lineHeight);
+    });
+    return y + visible.length * lineHeight;
+  }
+
+  function drawShareSection(ctx, title, body, x, y, maxWidth) {
+    ctx.font = "600 26px JetBrains Mono, Menlo, Consolas, monospace";
+    ctx.fillStyle = "#8ee88f";
+    ctx.fillText(title.toUpperCase(), x, y);
+    ctx.font = "400 31px Inter, MiSans, -apple-system, BlinkMacSystemFont, sans-serif";
+    ctx.fillStyle = "#dce3dc";
+    return drawWrappedText(ctx, body, x, y + 42, maxWidth, 40, 3) + 24;
+  }
+
+  function canvasToBlob(canvas) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          resolve(blob);
+        } else {
+          reject(new Error("Failed to render share image."));
+        }
+      }, "image/png");
+    });
+  }
+
+  function renderShareImage(result, lang) {
+    const builder = result.builder;
+    const canvas = document.createElement("canvas");
+    canvas.width = 1080;
+    canvas.height = 1600;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return Promise.reject(new Error("Canvas is unavailable."));
+
+    ctx.fillStyle = "#080a09";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "rgba(142, 232, 143, 0.08)";
+    ctx.lineWidth = 1;
+    for (let x = 0; x <= canvas.width; x += 72) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
+    for (let y = 0; y <= canvas.height; y += 72) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+      ctx.stroke();
+    }
+
+    const cardX = 56;
+    const cardY = 56;
+    const cardWidth = canvas.width - cardX * 2;
+    const cardHeight = canvas.height - cardY * 2;
+    roundedRect(ctx, cardX, cardY, cardWidth, cardHeight, 28);
+    ctx.fillStyle = "#111512";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(142, 232, 143, 0.42)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    const x = cardX + 52;
+    const maxWidth = cardWidth - 104;
+    let y = cardY + 78;
+
+    ctx.font = "500 21px JetBrains Mono, Menlo, Consolas, monospace";
+    ctx.fillStyle = "#8ee88f";
+    ASCII_GIT_HIRED.split("\n").forEach((line) => {
+      ctx.fillText(line, x - 16, y);
+      y += 25;
+    });
+    y += 38;
+
+    ctx.font = "500 26px JetBrains Mono, Menlo, Consolas, monospace";
+    ctx.fillStyle = "#7a847c";
+    ctx.fillText("AI-native builder card", x, y);
+    y += 74;
+
+    ctx.font = lang === "zh"
+      ? "700 68px MiSans, PingFang SC, Microsoft YaHei, sans-serif"
+      : "700 66px Inter, -apple-system, BlinkMacSystemFont, sans-serif";
+    ctx.fillStyle = "#8ee88f";
+    y = drawWrappedText(
+      ctx,
+      lang === "zh"
+        ? text(lang, "youAre") + localized(builder.title, lang)
+        : text(lang, "youAre") + " " + localized(builder.title, lang),
+      x,
+      y,
+      maxWidth,
+      76,
+      2
+    ) + 18;
+
+    ctx.font = "400 36px Inter, MiSans, -apple-system, BlinkMacSystemFont, sans-serif";
+    ctx.fillStyle = "#edf4ed";
+    y = drawWrappedText(ctx, localized(builder.summary, lang), x, y, maxWidth, 48, 2) + 40;
+
+    y = drawShareSection(ctx, text(lang, "strengthsTitle"), localized(builder.strengths, lang).join("  /  "), x, y, maxWidth);
+    y = drawShareSection(ctx, text(lang, "environmentTitle"), localized(builder.environment, lang), x, y, maxWidth);
+    y = drawShareSection(ctx, text(lang, "watchTitle"), localized(builder.watch, lang), x, y, maxWidth);
+    y = drawShareSection(ctx, text(lang, "nextTitle"), localized(builder.next, lang), x, y, maxWidth);
+
+    ctx.strokeStyle = "rgba(142, 232, 143, 0.24)";
+    ctx.beginPath();
+    ctx.moveTo(x, canvas.height - 154);
+    ctx.lineTo(x + maxWidth, canvas.height - 154);
+    ctx.stroke();
+    ctx.font = "500 24px JetBrains Mono, Menlo, Consolas, monospace";
+    ctx.fillStyle = "#7a847c";
+    ctx.fillText("git-hired · local-first · share what you want", x, canvas.height - 104);
+    ctx.fillStyle = "#8ee88f";
+    ctx.fillText(RESULT_URL, x, canvas.height - 66);
+
+    return canvasToBlob(canvas);
+  }
+
+  function copyShareImage(result, lang) {
+    if (navigator.clipboard && typeof navigator.clipboard.write === "function" && typeof ClipboardItem !== "undefined") {
+      return navigator.clipboard.write([
+        new ClipboardItem({ "image/png": renderShareImage(result, lang) }),
+      ]).then(() => "image").catch(() => copyText(buildResultText(result, lang)).then(() => "text"));
+    }
+    return copyText(buildResultText(result, lang)).then(() => "text");
+  }
+
   function setCopyLabel(button, selector, copied, idleKey, copiedKey) {
     if (!button) return;
     button.dataset.copyState = copied ? "copied" : "idle";
@@ -407,7 +582,7 @@
     const progressFill = document.getElementById("quick-progress-fill");
     const resultShell = document.getElementById("quick-result");
     const resultCard = document.getElementById("result-card");
-    const copyResultButton = document.getElementById("copy-result");
+    const shareResultButton = document.getElementById("share-result");
     const copyAgentButton = document.getElementById("copy-agent-prompt");
     const backButtons = [
       document.getElementById("quick-back"),
@@ -449,7 +624,8 @@
       const lang = currentLang();
       lastResultText = buildResultText(lastResult, lang);
       renderResultCard(resultCard, lastResult, lang);
-      setCopyLabel(copyResultButton, ".copy-label", false, "copyResult", "copied");
+      document.body.classList.add("result-mode");
+      setCopyLabel(shareResultButton, ".share-label", false, "shareResult", "shared");
       setCopyLabel(copyAgentButton, ".agent-copy-label", false, "copyAgentPrompt", "promptCopied");
       if (resultShell) resultShell.classList.remove("is-hidden");
       form.classList.add("is-complete");
@@ -494,10 +670,11 @@
         lastResult = null;
         lastResultText = "";
         form.classList.remove("is-complete");
+        document.body.classList.remove("result-mode");
         if (resultShell) resultShell.classList.add("is-hidden");
         window.clearTimeout(copyTimer);
         window.clearTimeout(agentCopyTimer);
-        setCopyLabel(copyResultButton, ".copy-label", false, "copyResult", "copied");
+        setCopyLabel(shareResultButton, ".share-label", false, "shareResult", "shared");
         setCopyLabel(copyAgentButton, ".agent-copy-label", false, "copyAgentPrompt", "promptCopied");
         renderStep();
         window.requestAnimationFrame(() => {
@@ -507,14 +684,15 @@
       });
     });
 
-    if (copyResultButton) {
-      copyResultButton.addEventListener("click", () => {
+    if (shareResultButton) {
+      shareResultButton.addEventListener("click", () => {
         if (!lastResult) return;
-        lastResultText = buildResultText(lastResult, currentLang());
-        copyText(lastResultText).then(() => {
-          setCopyLabel(copyResultButton, ".copy-label", true, "copyResult", "copied");
+        const lang = currentLang();
+        lastResultText = buildResultText(lastResult, lang);
+        copyShareImage(lastResult, lang).then((mode) => {
+          setCopyLabel(shareResultButton, ".share-label", true, "shareResult", mode === "image" ? "shared" : "textCopied");
           window.clearTimeout(copyTimer);
-          copyTimer = window.setTimeout(() => setCopyLabel(copyResultButton, ".copy-label", false, "copyResult", "copied"), 1400);
+          copyTimer = window.setTimeout(() => setCopyLabel(shareResultButton, ".share-label", false, "shareResult", "shared"), 1600);
         });
       });
     }
@@ -535,7 +713,7 @@
         const lang = currentLang();
         lastResultText = buildResultText(lastResult, lang);
         renderResultCard(resultCard, lastResult, lang);
-        setCopyLabel(copyResultButton, ".copy-label", copyResultButton?.dataset.copyState === "copied", "copyResult", "copied");
+        setCopyLabel(shareResultButton, ".share-label", shareResultButton?.dataset.copyState === "copied", "shareResult", "shared");
         setCopyLabel(copyAgentButton, ".agent-copy-label", copyAgentButton?.dataset.copyState === "copied", "copyAgentPrompt", "promptCopied");
       }
     }).observe(document.documentElement, {
