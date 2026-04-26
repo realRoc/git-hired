@@ -486,7 +486,10 @@ This rule applies to `README.md`, `README.zh-CN.md`, `docs/index.html`, audience
    - include one obvious website entry near the top: `https://realroc.github.io/git-hired/`
    - avoid maintaining a generated `Live Links` / `在线链接` directory in README files
    - use terminal-style or ASCII `git-hired` identity art when it improves scanability
+   - if the README starts with ASCII identity art, do not also keep a redundant text H1 such as `# git-hired`; the art is the title
+   - use the same blocky, dimensional `GIT HIRED` visual style as the homepage identity art instead of small plain figlet text
    - keep generated role lists only where they help explain what the repo includes
+   - do not keep generic sections named `What This Repo Includes` / `仓库包含什么` or `Why This Exists` / `为什么要做这个` when their content is already covered by sharper positioning, examples, protocol, privacy, and repo structure sections
 
 ## Mobile Human Quick Test Entry
 
