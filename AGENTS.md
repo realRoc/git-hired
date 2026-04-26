@@ -446,6 +446,7 @@ This rule applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`,
    - `产品型`, `工程型`, `增长型`, `运营型`
    - role fit as the primary lightweight result
 7. The first result card layer must only include:
+   - the `git-hired` ASCII identity art as a compact brand header
    - `You are` / `你是`
    - one-line explanation
    - `Your strengths` / `你的优势`
@@ -467,7 +468,11 @@ This rule applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`,
    - explain that the user's own AI agent can analyze selected work evidence for a more accurate builder profile
    - show exactly these three trust points: the user chooses evidence, no local files are uploaded to our server, and the user decides what to share
    - button: `Copy agent prompt` / `复制 Agent 指令`
-10. The simple product copy should be concise, direct, non-recruiting, non-role-based, and should not require technical architecture knowledge before the user starts.
+10. On the completed-result state, remove the pre-result hero/tool area from the visible flow. The builder card should be visually first, and the `cd ..` / return-home action should move to the bottom of the result page.
+11. The primary result action should be `Share` / `分享`, not text-copy. It should generate a polished mobile-friendly share image from the builder card and write the PNG to the clipboard when the browser supports image clipboard writes.
+12. The share image should be portrait-oriented, suitable for phone sharing, and include the `git-hired` ASCII identity art plus the candidate's builder type and core card sections.
+13. Keep a graceful text-copy fallback only for browsers that do not support clipboard image writes.
+14. The simple product copy should be concise, direct, non-recruiting, non-role-based, and should not require technical architecture knowledge before the user starts.
 
 ## Protocol Positioning
 
@@ -573,6 +578,7 @@ This rule applies to `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, 
 13. The result screen should stay concise and readable on a phone screen.
 14. The result screen must be a designed, simple builder type card, not a raw markdown dump, wide terminal report, or evidence audit.
 15. Render the quick result as structured DOM modules:
+   - compact `git-hired` ASCII identity art
    - `You are` / `你是`
    - one-line type explanation
    - strengths
@@ -581,10 +587,10 @@ This rule applies to `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, 
    - next step
    - CTA row
 16. The result screen actions should be:
-   - copy the shareable result text
+   - share the result as an image copied to clipboard
    - retake the quick test
    - copy the advanced agent prompt from the post-result advanced block
-   Do not show a share action unless explicitly requested later.
+   Use text-copy fallback only when image clipboard support is unavailable.
 17. The result screen may include the advanced agent prompt only below the simple card. This advanced entry must be visually weaker than the result card and must not reframe the simple test as a job test or hiring screen.
 18. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
 19. Do not show the QR quick-test entry on the homepage first path unless explicitly requested later; the homepage itself is now the single simple-test entry.
