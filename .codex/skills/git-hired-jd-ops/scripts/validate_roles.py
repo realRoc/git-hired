@@ -270,14 +270,22 @@ def main() -> None:
     else:
         quick_start_text = quick_start.read_text(encoding="utf-8")
         validate_no_personality_layer("docs/start.html", quick_start_text, errors)
-        if "What kind of AI-native builder are you?" not in quick_start_text or "你是哪种 AI-native builder" not in quick_start_text:
-            errors.append("docs/start.html missing simple builder-test identity")
-        if "Answer 10 quick questions" not in quick_start_text or "回答 10 道简短问题" not in quick_start_text:
-            errors.append("docs/start.html should start directly with the 10-question test")
+        if "start-hero" in quick_start_text or "class=\"hero" in quick_start_text:
+            errors.append("docs/start.html should not render a hero section above the single-choice test")
+        if "Answer 10 quick questions" in quick_start_text or "回答 10 道简短问题" in quick_start_text:
+            errors.append("docs/start.html should not show a pre-test hero explainer before the questions")
         if "Builder Quick Test" in quick_start_text or "Builder 快速测试" in quick_start_text:
             errors.append("docs/start.html should not expose quick/deep mode wording before the test")
         if "No local repo" in quick_start_text or "不扫描本地 repo" in quick_start_text:
             errors.append("docs/start.html should not explain privacy scope before the lightweight test")
+        form_index = quick_start_text.find('id="quick-test-form"')
+        result_index = quick_start_text.find('id="quick-result"')
+        progress_index = quick_start_text.find("quick-progress")
+        first_step_index = quick_start_text.find("quick-step is-active")
+        if min(form_index, progress_index, first_step_index) == -1:
+            errors.append("docs/start.html should start the test with the form progress and first question")
+        if result_index != -1 and form_index != -1 and result_index < form_index:
+            errors.append("docs/start.html should render the question form before the result card")
         if quick_start_text.count('class="section question-block quick-step') != 10:
             errors.append("docs/start.html should render exactly 10 mobile quick-test questions")
         if quick_start_text.count('class="choice"') != 40:
