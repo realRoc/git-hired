@@ -795,6 +795,30 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
 6. When prompts mention data sources, they should frame them as bounded, recent, or small-scope sources unless the candidate explicitly asks for a deeper pass.
 7. `new_role.py`, public prompts, and validation rules must all carry this time-budget constraint so future JD edits inherit it automatically.
 
+## Eval And Release Gates
+
+This rule applies to `skill.md`, role prompts in `prompts/`, public pages under `docs/`, README files, operation scripts, and any future branch promotion from `dev` to `main`.
+
+1. Any change that can affect the candidate-visible test flow, `HIRED` output, builder card, privacy boundary, role routing, quick test, README starter flow, or generated public surfaces must run evals before being promoted from `dev` to `main`.
+2. The default local eval gate should be deterministic and runnable without external network calls or private candidate data.
+3. The minimum release gate is:
+   - sync registry-driven surfaces
+   - sync `skill.md` and `docs/skill.md`
+   - run role validation
+   - run skill-output contract evals
+   - run whitespace / diff checks
+4. Skill-output contract evals should protect the visible behavior users care about, especially:
+   - execution-first `skill.md` behavior
+   - consent-first and `history-only` default
+   - public builder card shape
+   - no MBTI inside the public builder card
+   - required `SIGNALS / STRENGTHS / GAPS / NEXT` sections
+   - local-only / candidate-controlled footer
+   - graceful rich-text / Notion fallback
+5. Add or update an eval fixture whenever a prompt/output bug is found or a reusable output rule changes.
+6. Eval fixtures must use fictional or redacted data only. Do not use real candidate transcripts, repo names, customer names, emails, secrets, or private file paths.
+7. A branch promotion from `dev` to `main` should be treated as blocked if evals fail, generated files are stale, or `skill.md` and `docs/skill.md` differ.
+
 ## MBTI ASCII Card Assets
 
 This rule applies whenever adding or editing any role prompt in `prompts/`, the universal-entry prompt, the role template in `new_role.py`, or any asset under `docs/assets/mbti/`.
