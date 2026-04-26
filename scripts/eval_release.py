@@ -60,6 +60,7 @@ def main() -> int:
     checks = (
         ["python3", ".codex/skills/git-hired-jd-ops/scripts/validate_roles.py"],
         ["python3", "evals/skill_contract_eval.py"],
+        ["python3", "evals/analytics_contract_eval.py"],
         ["git", "diff", "--check"],
     )
     for command in checks:
