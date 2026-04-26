@@ -1226,6 +1226,12 @@ body.lang-zh .choice small {
   gap: 10px;
   min-height: 42px;
 }
+.quick-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 .quick-nav .mini { margin: 0; text-align: right; }
 .quick-nav .mini::before { content: none; }
 .quick-nav .button.secondary::before {
@@ -1749,6 +1755,9 @@ body.lang-zh .advanced-report h2 {
   .choice small { font-size: 12px; }
   .quick-nav {
     grid-template-columns: 1fr;
+  }
+  .quick-nav-actions {
+    align-items: stretch;
   }
   .quick-nav .button { justify-self: start; }
   .quick-nav .mini { text-align: left; }
