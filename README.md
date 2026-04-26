@@ -134,6 +134,7 @@ Do not include secrets, private transcripts, raw customer data, or local file du
 
 Start here if you want to understand what a report looks like before running the protocol:
 
+- [Final builder card](./examples/builder-card.md)
 - [Strong Agent Engineer](./examples/agent-engineer.strong.md)
 - [Medium Agent Engineer](./examples/agent-engineer.medium.md)
 - [Weak Agent Engineer](./examples/agent-engineer.weak.md)
@@ -176,7 +177,7 @@ The intended output is:
 - de-identified examples
 - scoring
 - fit assessment
-- optional MBTI work-style signal, not a life-wide personality claim
+- optional MBTI work-style signal in the detailed report only, not the public card or a life-wide personality claim
 - a candidate-facing local markdown report
 
 ## Repo Structure

@@ -24,6 +24,19 @@ UPLIFT_ZH_MARKER = "提升预估"
 ASCII_CARD_EN_MARKER = "ASCII card"
 ASCII_CARD_ZH_MARKER = "ASCII 卡片"
 ASCII_CARD_URL_BASE = "https://realroc.github.io/git-hired/assets/mbti/"
+BUILDER_CARD_MARKER = "builder card"
+BUILDER_CARD_FOOTER = "git-hired  ·  local-only  ·  candidate-controlled  ·  MIT"
+BUILDER_CARD_SIGNALS = (
+    "agency",
+    "ai fluency",
+    "debug maturity",
+    "product sense",
+    "taste",
+    "trust",
+    "communication",
+)
+BUILDER_CARD_NO_MBTI_EN = "do not add MBTI anywhere in this card"
+BUILDER_CARD_NO_MBTI_ZH = "这张卡里不要出现 MBTI"
 WORK_AGENT_EN_MARKER = "work agent"
 WORK_AGENT_ZH_MARKER = "工作 agent"
 READ_COMMAND_MARKER = "read https://realroc.github.io/git-hired/skill.md"
@@ -183,8 +196,10 @@ def main() -> None:
     for marker in ("./candidate.html", "./evaluator.html", "./contributor.html"):
         if marker not in index_text:
             errors.append(f"docs/index.html missing audience CTA link: {marker}")
-    if "Public evaluator standard" not in index_text or "Fictional, redacted sample reports" not in index_text:
+    if "Public evaluator standard" not in index_text or "final builder card" not in index_text:
         errors.append("docs/index.html missing rubric/examples calibration links")
+    if "examples/builder-card.md" not in index_text:
+        errors.append("docs/index.html missing final builder-card example link")
     if READ_COMMAND_MARKER not in index_text:
         errors.append("docs/index.html missing one-line read skill command")
     if NO_SUMMARY_EN_MARKER not in index_text or IMMEDIATE_START_EN_MARKER not in index_text:
@@ -325,6 +340,10 @@ def main() -> None:
             errors.append("skill.md missing current profession / identity fallback question")
         if "history-only" not in skill_source_text or "our server" not in skill_source_text:
             errors.append("skill.md missing privacy-boundary wording")
+        if BUILDER_CARD_MARKER not in skill_source_text or BUILDER_CARD_FOOTER not in skill_source_text:
+            errors.append("skill.md missing public builder-card output shape")
+        if "do not include MBTI in the public builder card" not in skill_source_text:
+            errors.append("skill.md missing no-MBTI public-card rule")
         if "start evidence collection and analysis automatically" not in skill_source_text or "Do not replace `history-only` with a self-report questionnaire" not in skill_source_text:
             errors.append("skill.md missing auto-analysis no-interview rule")
         if "INTJ / NTJ" not in skill_source_text or "Notion-like surface" not in skill_source_text:
@@ -365,6 +384,7 @@ def main() -> None:
             if marker not in rubric_text:
                 errors.append(f"rubric.md missing rubric dimension: {marker}")
     expected_examples = (
+        "builder-card.md",
         "agent-engineer.strong.md",
         "agent-engineer.medium.md",
         "agent-engineer.weak.md",
@@ -383,6 +403,11 @@ def main() -> None:
                 example_text = path.read_text(encoding="utf-8")
                 if filename != "redacted-report-template.md" and "fictional" not in example_text.lower():
                     errors.append(f"examples/{filename} should be clearly marked fictional")
+                if filename == "builder-card.md":
+                    if BUILDER_CARD_FOOTER not in example_text or "SIGNALS" not in example_text or "STRENGTHS" not in example_text or "GAPS" not in example_text:
+                        errors.append("examples/builder-card.md missing canonical builder-card sections")
+                    if "MBTI" in example_text:
+                        errors.append("examples/builder-card.md should not include MBTI in the public card example")
 
     if "## Live Links" in readme_en or "AUTO:live-links" in readme_en:
         errors.append("README.md should use a top website entry instead of generated live-links")
@@ -410,6 +435,10 @@ def main() -> None:
     for marker in ("candidate.html", "evaluator.html", "contributor.html", "rubric.md", "examples/"):
         if marker not in readme_zh:
             errors.append(f"README.zh-CN.md missing protocol/funnel marker: {marker}")
+    if "examples/builder-card.md" not in readme_en:
+        errors.append("README.md missing final builder-card example link")
+    if "examples/builder-card.md" not in readme_zh:
+        errors.append("README.zh-CN.md missing final builder-card example link")
     if "AI-Native Collaboration" not in readme_en or "AI-native 协作" not in readme_zh:
         errors.append("README missing collaborator funnel section")
     if "skill.md" not in readme_en or "https://realroc.github.io/git-hired/skill.md" not in readme_en:
@@ -519,11 +548,14 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.md missing MBTI de-bias guidance")
             if "pixel card" in zh_prompt_text or ".svg" in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md still contains legacy pixel-card or SVG language")
-            if ASCII_CARD_URL_BASE not in zh_prompt_text or ASCII_CARD_ZH_MARKER not in zh_prompt_text or ".txt" not in zh_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.md missing secondary MBTI ASCII-card guidance")
-            if "天赋词缀" not in zh_prompt_text:
+            if BUILDER_CARD_MARKER not in zh_prompt_text or BUILDER_CARD_FOOTER not in zh_prompt_text or BUILDER_CARD_NO_MBTI_ZH not in zh_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.md missing canonical no-MBTI builder-card guidance")
+            for marker in (*BUILDER_CARD_SIGNALS, "STRENGTHS", "GAPS", "NEXT"):
+                if marker not in zh_prompt_text:
+                    errors.append(f"prompts/{prompt_slug}.md missing builder-card marker: {marker}")
+            if "天赋词缀" not in zh_prompt_text and "talent tags" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing talent-tag guidance")
-            if "待解锁天赋" not in zh_prompt_text:
+            if "待解锁天赋" not in zh_prompt_text and "locked skills" not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing locked-skill guidance")
             if UPLIFT_ZH_MARKER not in zh_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.md missing next-step uplift guidance")
@@ -597,11 +629,14 @@ def main() -> None:
                 errors.append(f"prompts/{prompt_slug}.en.md missing MBTI de-bias guidance")
             if "pixel card" in en_prompt_text or ".svg" in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md still contains legacy pixel-card or SVG language")
-            if ASCII_CARD_URL_BASE not in en_prompt_text or ASCII_CARD_EN_MARKER not in en_prompt_text or ".txt" not in en_prompt_text:
-                errors.append(f"prompts/{prompt_slug}.en.md missing secondary MBTI ASCII-card guidance")
-            if "Talent Tags" not in en_prompt_text:
+            if BUILDER_CARD_MARKER not in en_prompt_text or BUILDER_CARD_FOOTER not in en_prompt_text or BUILDER_CARD_NO_MBTI_EN not in en_prompt_text:
+                errors.append(f"prompts/{prompt_slug}.en.md missing canonical no-MBTI builder-card guidance")
+            for marker in (*BUILDER_CARD_SIGNALS, "STRENGTHS", "GAPS", "NEXT"):
+                if marker not in en_prompt_text:
+                    errors.append(f"prompts/{prompt_slug}.en.md missing builder-card marker: {marker}")
+            if "Talent Tags" not in en_prompt_text and "talent tags" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing talent-tag guidance")
-            if "Locked Skills" not in en_prompt_text:
+            if "Locked Skills" not in en_prompt_text and "locked skills" not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing locked-skill guidance")
             if UPLIFT_EN_MARKER not in en_prompt_text:
                 errors.append(f"prompts/{prompt_slug}.en.md missing next-step uplift guidance")

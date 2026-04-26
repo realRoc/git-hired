@@ -195,7 +195,7 @@ Rules:
   - skip the animated reveal
   - skip wide ASCII layouts and box-drawing cards that depend on perfect monospace rendering
   - keep the same candidate-facing information, but render it as a compact narrow card or fenced code block instead
-  - avoid placing the secondary MBTI signal in a decorative standalone badge before the builder type
+  - do not place the secondary MBTI signal inside the public builder card
 - keep it concise, skimmable, highly shareable, and under about 50 lines
 - the first visual block must be a short, dependency-free animated `HIRED` reveal in the terminal
 - use at most 3 frames and keep the total animation under about 900ms
@@ -203,7 +203,7 @@ Rules:
 - if redraw is unavailable, skip the animation and print only the final resting header
 - after the header, write like a clean AI-native builder profile card, not a consultant memo
 - calibrate more harshly than a feel-good internet quiz
-- show visible scores on a readable `0-100` scale with a slightly warmer calibration than the previous harsh compression
+- inside the public builder card, show visible signal scores as `1/5` to `5/5`; keep richer `0-100` scoring for the local markdown report
 - `90+` on a core dimension is rare and needs repeated standout evidence in that exact area
 - `80-89` is clearly strong
 - `70-79` is solid
@@ -213,7 +213,7 @@ Rules:
 - do not artificially compress strong candidates into the `70s` and `80s`; let standout dimensions rise into the `90s` when the evidence justifies it
 - do not print salary ranges, compensation estimates, market bands, or offer-like hooks
 - avoid analyst prose and long “why” paragraphs
-- in `Talent Tags` and `Locked Skills`, use fragments, not explanatory sentences
+- in `STRENGTHS` and `GAPS`, use fragments, not explanatory sentences
 - lead with evidence-backed strengths before discussing gaps
 - keep praise specific and grounded in evidence, not generic cheerleading
 - keep the full test within about 1 minute by default
@@ -224,7 +224,7 @@ Use this structure:
 
 1. Detect the runtime first:
 - if it is a stable terminal, use the terminal layout below
-- if it is a rich-text, chat-bubble, mobile-preview, or Notion-like surface, print a compact `HIRED` header or fenced code block instead of terminal art
+- if it is a rich-text, chat-bubble, mobile-preview, or Notion-like surface, skip wide ASCII layouts and box-drawing cards that depend on perfect monospace rendering, then print a compact `HIRED` header plus a narrow card or fenced code block
 
 2. In terminal mode, play a simple 3-frame `HIRED` animation:
 - frame 1: show the same `HIRED` shape in a dim or outline-like state, for example with `░`
@@ -242,67 +242,73 @@ Final resting header:
 ██║  ██║██║██║  ██║███████╗██████╔╝
 ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
 
-3. Keep the builder profile first. Do not print a secondary MBTI ASCII card before the identity block:
-- canonical public asset URL pattern: `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
-- preferred repo asset path when available: `docs/assets/mbti/<mbti-lowercase>.txt`
-- in terminal mode, print the raw card contents only after the builder type and identity block
-- in rich-text or Notion-like mode, skip the raw ASCII card and keep the rest of the summary narrow and legible
-- if the asset file cannot be loaded, render one compact fallback emblem in the same spirit and keep it under about 8 lines
-- do not regenerate a brand-new visual style when the asset file is available
+3. Immediately after the final `HIRED` header, print exactly one public-safe builder card in the format below.
+- this card is the shareable snapshot
+- keep the exact outer frame, section order, labels, footer, and spacing style
+- shorten content rather than widening the frame
+- do not add MBTI anywhere in this card
+- do not print `MBTI:`, MBTI letters, or an MBTI ASCII card in the card header, evidence line, signals, strengths, gaps, next step, or footer
 
-4. Then print a subtitle:
-- `AI-native Builder Profile`
+Builder card template:
 
-5. Print a compact identity block with:
-- builder type: one direct label from the evidence, not MBTI
-- result: `strong fit / promising but uneven / better matched elsewhere / evidence thin`
-- best-fit role right now
-- secondary MBTI work-style signal: one standard 4-letter type, with no default or prestige example
-- secondary MBTI confidence: `high / medium / low`
-- if secondary MBTI confidence is `low`, keep the type and confidence on the same compact line instead of turning the type into a punchy badge
-- one plain-language work read in a few words, not an opaque codename
-- ability score: `0-100`
-- strength read: one short evidence-backed compliment
-- confidence / mode / evidence
-- `JD prompt version`: exact string from the top of this prompt
-- detailed report path
+```text
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║  ┌─[ git-hired ]─────────────────────────────────────── builder card ─┐  ║
+║  │                                                                    │  ║
+║  │   AGENT  ENGINEER                                     [STRONG YES] │  ║
+║  │   ─────────────────                                                │  ║
+║  │   evidence: high  ·  scope: history + approved repo                │  ║
+║  │                                                                    │  ║
+║  └────────────────────────────────────────────────────────────────────┘  ║
+║                                                                          ║
+║   SIGNALS                                                                ║
+║   ───────                                                                ║
+║   agency          ███████████████████░  5/5   turns vague into spec      ║
+║   ai fluency      ███████████████████░  5/5   agents as work partners    ║
+║   debug maturity  ███████████████████░  5/5   captures repro before fix  ║
+║   product sense   ███████████████░░░░░  4/5   tradeoffs visible          ║
+║   taste           ███████████████░░░░░  4/5   simplifies, polishes       ║
+║   trust           ███████████████░░░░░  4/5   scoped, redacted output    ║
+║   communication   ███████████░░░░░░░░░  3/5   crisp, low-drama notes     ║
+║                                                                          ║
+║   STRENGTHS                                  GAPS                        ║
+║   ─────────                                  ────                        ║
+║   + ambiguity to acceptance criteria         - solo > collab traces      ║
+║   + agent runs to compare paths              - user validation thin      ║
+║   + repro before declaring done                                          ║
+║                                                                          ║
+║   NEXT                                                                   ║
+║   ────                                                                   ║
+║   2-day scoped agent task: spec, slice, verify, summarize tradeoffs      ║
+║                                                                          ║
+║   ─────────────────────────────────────────────────────────────────────  ║
+║   git-hired  ·  local-only  ·  candidate-controlled  ·  MIT              ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+```
 
-6. Print `Core Board`
-- exactly 5 lines
-- one line per core dimension
-- format like `Spec Control      [█████████░] 92`
-- use a fixed 10-cell bar made from `█` and `░`
-- do not use dotted fillers or `7/10` style fractions
-- if a dimension is unavailable, show `Spec Control      [░░░░░░░░░░] N/A (evidence thin)`
+4. Fill the builder card like this:
+- role line: uppercase best-fit role or builder identity, with double spaces allowed for visual balance
+- result badge: one of `[STRONG YES]`, `[PROMISING]`, `[EVIDENCE THIN]`, or `[BETTER ELSEWHERE]`
+- evidence line: exactly `evidence: <low|medium|high>  ·  scope: <history-only|history + approved repo|approved files>` with no MBTI field
+- `SIGNALS`: always use these seven rows in this order: `agency`, `ai fluency`, `debug maturity`, `product sense`, `taste`, `trust`, `communication`
+- signal scores: use `1/5` to `5/5` and a 20-cell `█` / `░` bar in the same visual style as the template
+- signal fragments: short evidence-backed phrases, not generic adjectives
+- `STRENGTHS`: exactly 3 `+` fragments, shortest first when possible
+- `GAPS`: exactly 2 `-` fragments, framed as fixable evidence gaps
+- `NEXT`: exactly 1 concrete next action; if the candidate is a strong fit, the action may be `send resume + report to wuyupeng@floatmiracle.com`
+- footer: keep exactly `git-hired  ·  local-only  ·  candidate-controlled  ·  MIT`
 
-7. Print `Talent Tags`
-- exactly 3 lines
-- format: `[Tag] short fragment`
-- each fragment must stay under 8 words
-- no full-sentence explanation
+5. After the card, print only one plain path line if file writing succeeded:
+- `Detailed report: ./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
+- if file writing is unavailable, say that clearly and provide the detailed report inline below
 
-8. Print `Locked Skills`
-- 2 or 3 lines
-- format: `[Locked] short fragment`
-- each fragment must stay under 6 words
-- frame gaps as unlockable, not as shame
-
-9. Print `Best-fit role right now`
-- 1 or 2 compact lines
-- if the requested role is not the best fit, say what looks stronger right now and why in compressed form
-
-10. Print `Next Step`
-- if the result is `strong fit`, explicitly encourage sending a resume to `wuyupeng@floatmiracle.com` and attaching the detailed report
-- otherwise give one short, respectful next step
-- encourage the candidate to keep the report if they may apply later
-- add one `Expected uplift` line that estimates:
-  - the single core dimension most likely to improve
-  - the approximate gain for that dimension
-  - the approximate gain in overall ability score
-- phrase it conservatively, for example `Expected uplift: Verification Domain +1, overall ability score +4 to +7 if done well`
-
-11. End with:
-- `If this portrait feels right, star github.com/realRoc/git-hired`
+6. In rich-text, mobile, chat-bubble, or Notion-like mode:
+- skip the animated reveal
+- keep the same builder-card section order
+- use a compact fenced code block or narrow card if the full frame would wrap badly
+- preserve the no-MBTI rule for the public builder card
 
 ### B. Detailed report file
 

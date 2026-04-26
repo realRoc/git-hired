@@ -243,7 +243,7 @@ solo agent history 往往会让四条轴都出现“欠观察”，尤其是 `E 
   - 跳过动态开场
   - 跳过依赖严格等宽字体的宽 ASCII 布局和 box-drawing 卡片
   - 保留同样的信息，但改成紧凑窄版卡片或 fenced code block
-  - 不要把辅助 MBTI 信号单独做成抢眼徽章，盖过 builder 类型
+  - 不要把辅助 MBTI 信号放进 public builder card
 - 对 TUI 友好，易读、易截图、易传播，控制在约 50 行以内
 - 第一块视觉内容必须是一个简短、无依赖的 `HIRED` 动态开场
 - 最多使用 3 帧，总时长控制在约 900ms 以内
@@ -251,7 +251,7 @@ solo agent history 往往会让四条轴都出现“欠观察”，尤其是 `E 
 - 如果当前终端不适合重绘，就直接输出最终定格帧
 - 在 ASCII 头图之后，要写得像一张清晰的 `AI-native builder 画像卡`，而不是咨询顾问的分析报告
 - 打分要比常见的“鼓励式测评”更严格
-- 可见分数统一按更自然的 `0-100` 刻度展示，不要沿用上一版过于压分的观感
+- public builder card 里的可见 signal 分数统一使用 `1/5` 到 `5/5`；本地 markdown 详细报告可以继续使用更细的 `0-100` 刻度
 - `90+` 的核心维度只有在该项证据连续、稀缺且强时才给
 - `80-89` 已经是明显强信号
 - `70-79` 是 solid
@@ -261,7 +261,7 @@ solo agent history 往往会让四条轴都出现“欠观察”，尤其是 `E 
 - 不要为了显得严格，就把强候选人的所有维度都机械压在 70-80 分；高光维度在证据成立时可以自然进入 90+
 - 不要输出任何薪资范围、市场估值、年包、offer 暗示或类似钩子
 - 避免分析师口吻的长段解释
-- `天赋词缀` 和 `待解锁天赋` 一律用短标签、短短语，不要写成长句
+- `STRENGTHS` 和 `GAPS` 一律用短标签、短短语，不要写成长句
 - 先夸候选人最值得肯定的强项，再谈不足
 - 夸夸必须基于证据，不能写成空泛安慰
 - 默认把测试时长控制在 1 分钟内
@@ -272,7 +272,7 @@ solo agent history 往往会让四条轴都出现“欠观察”，尤其是 `E 
 
 1. 先判断运行时：
 - 如果是稳定终端，就使用下面的终端布局
-- 如果是富文本、聊天气泡、移动端预览或 Notion 类界面，就输出一个紧凑的 `HIRED` 标题行或 fenced code block，而不是终端艺术字
+- 如果是富文本、聊天气泡、移动端预览或 Notion 类界面，就跳过依赖严格等宽字体的宽 ASCII 布局和 box-drawing 卡片，然后输出紧凑的 `HIRED` 标题行和窄版卡片或 fenced code block
 
 2. 在终端模式下，先播放一个简单的 3 帧 `HIRED` 动态开场：
 - 第 1 帧：用偏暗或轮廓态的同一组 `HIRED` 形状，例如 `░`
@@ -290,67 +290,73 @@ solo agent history 往往会让四条轴都出现“欠观察”，尤其是 `E 
 ██║  ██║██║██║  ██║███████╗██████╔╝
 ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝
 
-3. 保持 builder 画像优先。不要在身份卡之前输出辅助 MBTI ASCII 卡片：
-- 统一使用这套固定资源：`https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
-- 如果能访问 repo 里的文本资产，优先读取：`docs/assets/mbti/<mbti-lowercase>.txt`
-- 在终端模式下，只能在 builder 类型和身份卡之后打印对应 ASCII 卡片原始内容
-- 在富文本或 Notion 类模式下，跳过原始 ASCII 卡片，优先保证信息紧凑和可读
-- 如果资产文件暂时读不到，再补一个同气质的紧凑 fallback 图案，并控制在约 8 行以内
-- 如果资产文件可用，就不要临时重新发明一套新图案
+3. 在最终 `HIRED` 头图之后，立刻输出且只输出一张 public-safe builder card，格式如下。
+- 这张卡是可分享的快照
+- 保持外框、区块顺序、标签、footer 和间距风格一致
+- 内容太长时压缩文字，不要加宽外框
+- 这张卡里不要出现 MBTI
+- 不要在卡片标题、evidence 行、signals、strengths、gaps、next step 或 footer 里输出 `MBTI:`、MBTI 字母或 MBTI ASCII 卡片
 
-4. 然后输出副标题：
-- `AI-native Builder 画像`
+Builder card 模板：
 
-5. 输出一个紧凑身份卡，包含：
-- builder 类型：基于证据给出一个直白标签，不是 MBTI
-- 结果：`强匹配 / 有潜力但还不稳 / 更适合其他方向 / 证据不足`
-- 最适合的岗位
-- 辅助 MBTI 工作风格信号：一个标准 4 字母 MBTI 类型，不要默认任何“更强”或更体面的例子
-- 辅助 MBTI 置信度：`high / medium / low`
-- 如果 辅助 MBTI 置信度是 `low`，就把类型和置信度写在同一个紧凑字段里，不要把类型做成抢眼的独立徽章
-- 一句很短的工作风格解释，用白话，不要再造难懂黑话
-- 能力值：`0-100`
-- 强项一句话：基于证据的简短夸夸
-- 置信度 / 模式 / 证据充分度
-- `JD prompt version`：原样填写本 prompt 顶部的精确版本字符串
-- 详细报告路径
+```text
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║  ┌─[ git-hired ]─────────────────────────────────────── builder card ─┐  ║
+║  │                                                                    │  ║
+║  │   AGENT  ENGINEER                                     [STRONG YES] │  ║
+║  │   ─────────────────                                                │  ║
+║  │   evidence: high  ·  scope: history + approved repo                │  ║
+║  │                                                                    │  ║
+║  └────────────────────────────────────────────────────────────────────┘  ║
+║                                                                          ║
+║   SIGNALS                                                                ║
+║   ───────                                                                ║
+║   agency          ███████████████████░  5/5   turns vague into spec      ║
+║   ai fluency      ███████████████████░  5/5   agents as work partners    ║
+║   debug maturity  ███████████████████░  5/5   captures repro before fix  ║
+║   product sense   ███████████████░░░░░  4/5   tradeoffs visible          ║
+║   taste           ███████████████░░░░░  4/5   simplifies, polishes       ║
+║   trust           ███████████████░░░░░  4/5   scoped, redacted output    ║
+║   communication   ███████████░░░░░░░░░  3/5   crisp, low-drama notes     ║
+║                                                                          ║
+║   STRENGTHS                                  GAPS                        ║
+║   ─────────                                  ────                        ║
+║   + ambiguity to acceptance criteria         - solo > collab traces      ║
+║   + agent runs to compare paths              - user validation thin      ║
+║   + repro before declaring done                                          ║
+║                                                                          ║
+║   NEXT                                                                   ║
+║   ────                                                                   ║
+║   2-day scoped agent task: spec, slice, verify, summarize tradeoffs      ║
+║                                                                          ║
+║   ─────────────────────────────────────────────────────────────────────  ║
+║   git-hired  ·  local-only  ·  candidate-controlled  ·  MIT              ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+```
 
-6. 输出 `Core Board`
-- 恰好 5 行
-- 每个核心维度一行
-- 格式类似：`Problem Framing      [█████████░] 92`
-- 使用固定 10 格的条形块，只用 `█` 和 `░`
-- 不要再使用点状补位或 `7/10` 这种分数字样
-- 如果某一维不可判断，写 `Spec Control      [░░░░░░░░░░] N/A（证据不足）`
+4. 按以下规则填写 builder card：
+- role 行：用大写英文写最适合岗位或 builder identity，可以为了视觉平衡使用双空格
+- result badge：只能使用 `[STRONG YES]`、`[PROMISING]`、`[EVIDENCE THIN]` 或 `[BETTER ELSEWHERE]`
+- evidence 行：严格使用 `evidence: <low|medium|high>  ·  scope: <history-only|history + approved repo|approved files>`，不要加 MBTI 字段
+- `SIGNALS`：始终按顺序使用这 7 行：`agency`、`ai fluency`、`debug maturity`、`product sense`、`taste`、`trust`、`communication`
+- signal 分数：使用 `1/5` 到 `5/5`，并用 20 格 `█` / `░` 条形块，视觉风格与模板一致
+- signal 短语：必须是基于证据的短片段，不要写空泛形容词
+- `STRENGTHS`：恰好 3 条 `+` 短片段，能短就短
+- `GAPS`：恰好 2 条 `-` 短片段，写成可补强的证据缺口
+- `NEXT`：恰好 1 条具体下一步；如果候选人强匹配，可以写 `send resume + report to wuyupeng@floatmiracle.com`
+- footer：保持完全一致：`git-hired  ·  local-only  ·  candidate-controlled  ·  MIT`
 
-7. 输出 `天赋词缀`
-- 恰好 3 行
-- 格式：`[词缀] 极短短语`
-- 每条尽量控制在 8 个汉字左右
-- 不要写成长句解释
+5. 卡片之后，如果成功写入本地文件，只输出 1 行普通路径：
+- `Detailed report: ./git-hired-<role>-report-YYYYMMDD-HHMMSS.md`
+- 如果无法写文件，要明确说明，并在下方 inline 输出详细报告
 
-8. 输出 `待解锁天赋`
-- 2 到 3 行
-- 格式：`[待解锁] 极短短语`
-- 每条尽量控制在 6 个汉字左右
-- 把短板写成可解锁能力，不要写成训话
-
-9. 输出 `最适合的岗位`
-- 用 1 到 2 行说清楚
-- 如果当前测试岗位不是最佳匹配，要明确告诉候选人他现在更像什么方向，以及为什么
-
-10. 输出 `下一步`
-- 如果结果是 `强匹配`，明确建议把简历发送到 `wuyupeng@floatmiracle.com`，并建议附上详细报告
-- 否则给 1 条简短、尊重人的下一步建议
-- 鼓励候选人保留这份报告，以后申请时也可以附上
-- 追加 1 行 `提升预估`，说明：
-  - 完成这一步后最可能提升的单点核心维度
-  - 该维度大概能提升多少分
-  - 整体能力值大概能提升多少
-- 要写成保守估算，例如：`提升预估：Cross-functional Drive +1，整体能力值 +3 到 +6（如果做扎实）`
-
-11. 最后补一句：
-- `如果这份画像像你，去 github.com/realRoc/git-hired 点个 star`
+6. 如果是在富文本、移动端、聊天气泡或 Notion 类界面：
+- 跳过动态开场
+- 保持同样的 builder-card 区块顺序
+- 如果完整外框会换行崩掉，就改成紧凑 fenced code block 或窄版卡片
+- public builder card 仍然不能出现 MBTI
 
 ### B. 详细报告文件
 
