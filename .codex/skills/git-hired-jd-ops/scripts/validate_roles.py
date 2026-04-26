@@ -278,12 +278,17 @@ def main() -> None:
             errors.append("docs/start.html should not expose quick/deep mode wording before the test")
         if "No local repo" in quick_start_text or "不扫描本地 repo" in quick_start_text:
             errors.append("docs/start.html should not explain privacy scope before the lightweight test")
+        quiz_topbar_index = quick_start_text.find("quiz-topbar")
         form_index = quick_start_text.find('id="quick-test-form"')
         result_index = quick_start_text.find('id="quick-result"')
         progress_index = quick_start_text.find("quick-progress")
         first_step_index = quick_start_text.find("quick-step is-active")
         if min(form_index, progress_index, first_step_index) == -1:
             errors.append("docs/start.html should start the test with the form progress and first question")
+        if quiz_topbar_index == -1:
+            errors.append("docs/start.html should combine the quiz topbar and progress into one status bar")
+        if quiz_topbar_index != -1 and progress_index != -1 and form_index != -1 and not (quiz_topbar_index < progress_index < form_index):
+            errors.append("docs/start.html should keep quick progress inside the quiz topbar before the question form")
         if result_index != -1 and form_index != -1 and result_index < form_index:
             errors.append("docs/start.html should render the question form before the result card")
         if quick_start_text.count('class="section question-block quick-step') != 10:
@@ -383,6 +388,9 @@ def main() -> None:
                 errors.append(f"docs/quick-test.js missing simple result-card section: {marker}")
         required_result_js = [
             "renderResultCard",
+            "renderResultTopbar",
+            "builder-card-topbar",
+            "builder-card-status",
             "builder-card-ascii",
             "builder-card-type",
             "builder-card-section",
@@ -391,6 +399,7 @@ def main() -> None:
             "ClipboardItem",
             "copyText",
             "share",
+            "result.card",
             "Copy agent prompt",
         ]
         for marker in required_result_js:

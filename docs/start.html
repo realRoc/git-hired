@@ -36,12 +36,18 @@
   <body class="lang-en start-page" data-lang="en" data-title-en="AI-native Builder Test · git-hired" data-title-zh="AI-native Builder 测试 · git-hired">
         <main class="shell start-shell">
 
-      <!-- window chrome + lang switcher -->
-      <div class="topbar">
+      <!-- window chrome + progress + lang switcher -->
+      <div class="topbar quiz-topbar">
         <div class="topbar-left">
           <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
           <div class="topbar-path">
             <span class="here">~/git-hired</span><span class="sep"> / </span><span>start.html</span>
+          </div>
+        </div>
+        <div class="quick-progress" aria-live="polite">
+          <span id="quick-progress-label">01 / 10</span>
+          <div class="quick-progress-track" aria-hidden="true">
+            <span id="quick-progress-fill"></span>
           </div>
         </div>
         <div class="lang-switch" aria-label="Language switcher">
@@ -51,13 +57,6 @@
       </div>
 
       <form id="quick-test-form" class="quick-form step-flow" autocomplete="off">
-        <div class="quick-progress" aria-live="polite">
-          <span id="quick-progress-label">01 / 10</span>
-          <div class="quick-progress-track" aria-hidden="true">
-            <span id="quick-progress-fill"></span>
-          </div>
-        </div>
-
         <section class="section question-block quick-step is-active" data-step="1">
           <div class="question-head">
             <span class="question-step">01</span>

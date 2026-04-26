@@ -346,9 +346,35 @@
     ].join("\n");
   }
 
+  function renderResultTopbar(lang) {
+    const topbar = makeElement("div", "topbar builder-card-topbar");
+    const left = makeElement("div", "topbar-left");
+    const dots = makeElement("div", "dots");
+    dots.setAttribute("aria-hidden", "true");
+    dots.append(makeElement("span"), makeElement("span"), makeElement("span"));
+
+    const path = makeElement("div", "topbar-path");
+    path.append(
+      makeElement("span", "here", "~/git-hired"),
+      makeElement("span", "sep", " / "),
+      makeElement("span", "", "result.card")
+    );
+    left.append(dots, path);
+
+    const status = makeElement("div", "builder-card-status");
+    status.append(
+      makeElement("span", "result-dot"),
+      makeElement("span", "", lang === "zh" ? "结果已生成" : "RESULT READY")
+    );
+
+    topbar.append(left, status);
+    return topbar;
+  }
+
   function renderResultCard(host, result, lang) {
     if (!host || !result) return;
     const builder = result.builder;
+    const topbar = renderResultTopbar(lang);
     const ascii = makeElement("pre", "builder-card-ascii", ASCII_GIT_HIRED);
     const identity = makeElement("div", "builder-identity");
     identity.append(
@@ -364,6 +390,7 @@
     );
 
     host.replaceChildren(
+      topbar,
       ascii,
       identity,
       renderStrengths(builder, lang),
@@ -503,7 +530,31 @@
 
     const x = cardX + 52;
     const maxWidth = cardWidth - 104;
-    let y = cardY + 78;
+    const topbarX = cardX + 32;
+    const topbarY = cardY + 32;
+    const topbarWidth = cardWidth - 64;
+    const topbarHeight = 58;
+
+    roundedRect(ctx, topbarX, topbarY, topbarWidth, topbarHeight, 12);
+    ctx.fillStyle = "rgba(255, 255, 255, 0.018)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(126, 142, 126, 0.42)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    [0, 1, 2].forEach((index) => {
+      ctx.beginPath();
+      ctx.arc(topbarX + 26 + index * 20, topbarY + 29, 6, 0, Math.PI * 2);
+      ctx.fillStyle = "#313a34";
+      ctx.fill();
+    });
+    ctx.font = "500 19px JetBrains Mono, Menlo, Consolas, monospace";
+    ctx.fillStyle = "#7a847c";
+    ctx.fillText("~/git-hired / result.card", topbarX + 96, topbarY + 36);
+    ctx.fillStyle = "#8ee88f";
+    ctx.fillText(lang === "zh" ? "结果已生成" : "RESULT READY", topbarX + topbarWidth - 172, topbarY + 36);
+
+    let y = topbarY + 110;
 
     ctx.font = "500 21px JetBrains Mono, Menlo, Consolas, monospace";
     ctx.fillStyle = "#8ee88f";
