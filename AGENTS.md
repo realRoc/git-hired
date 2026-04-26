@@ -431,7 +431,7 @@ This rule applies to `README.md`, `README.zh-CN.md`, `docs/index.html`, audience
 2. The primary hook should be:
    - `What kind of AI-native builder are you? Generate a public work profile from your real work traces.`
    - `你是哪种 AI-native builder？用你的真实工作痕迹，生成一份可公开分享的工作画像。`
-3. Do not make MBTI the main hook, brand center, or visible product promise. MBTI may remain as a supporting work-style signal, but the primary identity system should be `AI-native builder profile`, `work profile`, `builder type`, or equivalent candidate-facing wording.
+3. Do not use MBTI in repo prompts, public copy, quick-test output, report examples, eval expectations, or generated skill content. The identity system is `AI-native builder profile`, `work profile`, `builder type`, or equivalent candidate-facing wording.
 4. The core reputation claim is not `trust the maintainer`. The public trust structure should be:
    - user-selected historical work traces
    - verifiable, inspectable output
@@ -508,39 +508,37 @@ This rule applies to `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, 
 4. All quick-test questions must be single-choice questions. Do not use textarea, multi-select, free-form evidence fields, or manual role-target fields in the mobile quick test.
 5. Do not ask the candidate which role or direction they most want to test. The mobile quick test should focus on workplace behavior, team collaboration, decision-making, execution, communication, and other broad work-style dimensions.
 6. Each quick-test question should have exactly 4 answer options.
-7. Answer option copy must be plain and concrete. Avoid clever labels, abstract jargon, or hidden MBTI-coded wording that normal candidates cannot understand.
+7. Answer option copy must be plain and concrete. Avoid clever labels, abstract jargon, or hidden personality-test-coded wording that normal candidates cannot understand.
 8. The mobile quick test should use exactly 10 simplified questions to estimate a lightweight `AI-native builder` work-style signal.
-9. The quick result should be builder-profile-first. MBTI letters may appear only as an optional secondary work-style read, never as the main result or share headline.
-10. If MBTI letters are shown, output only high-confidence letters. If an axis is not confident enough, fill that position with `*`, for example `E*TJ` or `**FP`, and explain that `*` means the axis is unclear from the quick answers.
-11. The quick result must explain the output in plain language:
+9. The quick result should be builder-profile-only. Do not output MBTI letters, MBTI axes, personality-test labels, or `*` placeholders.
+10. The quick result must explain the output in plain language:
    - the inferred builder type or work-style direction
    - what looks clear
    - what remains uncertain
    - why the result is only a lightweight self-report signal
-12. The quick test must not imply it has the same evidence quality as the agent deep test. It should clearly label itself as a simple self-report / quick-signal result.
-13. The quick test must preserve the same privacy posture:
+11. The quick test must not imply it has the same evidence quality as the agent deep test. It should clearly label itself as a simple self-report / quick-signal result.
+12. The quick test must preserve the same privacy posture:
    - no local repo, project, or document scanning
    - no upload of local repo or file data to our server
    - only candidate-entered answers and browser-local state should be used unless a future backend is explicitly designed and documented
-14. The result screen should stay concise and readable on a phone screen.
-15. The result screen must be a designed terminal-style report, not a raw markdown or `<pre>` text dump.
-16. Render the quick result as structured DOM modules:
+13. The result screen should stay concise and readable on a phone screen.
+14. The result screen must be a designed terminal-style report, not a raw markdown or `<pre>` text dump.
+15. Render the quick result as structured DOM modules:
    - shell-style status row
    - builder-type chips or work-style chips
-   - optional secondary MBTI axis chips when useful
    - large builder-profile readout
    - confirmed section
    - unknown section when needed
    - simple-test footnote
    - CTA row
-17. The result screen actions should be:
+16. The result screen actions should be:
    - go to `https://github.com/realRoc/git-hired` for the deeper test
    - retake the quick test
    - copy the report text
    Do not show a share action unless explicitly requested later.
-18. The result screen must include a clear CTA back to `https://github.com/realRoc/git-hired` and explain that candidates should run the deeper test through Claude Code, Codex, or a similar work agent for detailed evidence-based results.
-19. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
-20. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
+17. The result screen must include a clear CTA back to `https://github.com/realRoc/git-hired` and explain that candidates should run the deeper test through Claude Code, Codex, or a similar work agent for detailed evidence-based results.
+18. Public pages may show a QR code or QR-friendly URL for the human quick test, but avoid third-party tracking URLs or analytics by default.
+19. When shown on the homepage, the QR quick-test entry should behave like a bottom fallback entry, not an interruption inside the first decision flow.
 
 ## Candidate-Serving JD Descriptions
 
@@ -645,7 +643,7 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 ╚══════════════════════════════════════════════════════════════════════════╝
 ```
 
-5. The builder card must not include MBTI. Do not print `MBTI:` or MBTI letters in the card header, evidence line, signals, strengths, gaps, next step, or footer.
+5. The builder card and detailed report must not include MBTI. Do not print `MBTI:`, MBTI letters, MBTI axes, or MBTI ASCII art anywhere in deep-test output.
 6. The `SIGNALS` rows should use the shared dimensions `agency`, `ai fluency`, `debug maturity`, `product sense`, `taste`, `trust`, and `communication`, scored on a `1/5` to `5/5` scale with block bars.
 7. The card should remain TUI-friendly, skimmable, and easy to share. Keep it concise enough to read comfortably in a terminal.
 8. Detailed evidence belongs in a local markdown report, not in the terminal summary.
@@ -713,7 +711,7 @@ This rule applies to every role prompt in `prompts/`, every embedded prompt in `
 This rule applies whenever adding or editing any role prompt in `prompts/`, the universal-entry prompt, or the role template in `new_role.py`.
 
 1. Do not let Step 5 drift into analyst prose or a diagnostic essay.
-2. The visible goal of the test should be framed as generating an `AI-native builder profile`, not testing MBTI.
+2. The visible goal of the test should be framed as generating an `AI-native builder profile`, not testing MBTI or any personality-test type.
 3. The primary visible type should be a direct builder/work profile label, such as:
    - `Prototype Hacker`
    - `Agent Orchestrator`
@@ -723,61 +721,38 @@ This rule applies whenever adding or editing any role prompt in `prompts/`, the 
    - `Taste-driven Designer`
    - `Debugging Detective`
    - `Operator Builder`
-4. MBTI may be included as a bounded supporting work-style signal in the detailed markdown report when evidence justifies it, but it must not lead the report, hero copy, page title, public builder card, or share card.
-5. If MBTI is included outside the public builder card, use standard MBTI letters directly:
-   - `E / I`
-   - `S / N`
-   - `T / F`
-   - `J / P`
-6. MBTI here is a work-style read from observable evidence, not a life-wide personality claim. Keep that boundary explicit in prompts and reports.
-7. Infer each MBTI axis conservatively and neutrally from work evidence:
-   - `E / I`: external interaction energy vs internal reflection energy
-   - `S / N`: concrete evidence focus vs pattern / possibility focus
-   - `T / F`: impersonal analysis and consistency vs human-context and value-weighting
-   - `J / P`: planned closure and decided structure vs adaptive optionality and open exploration
-8. Do not default to `INTJ`, `TJ`, or any single “strong builder” stereotype.
-9. Infer each axis independently before combining the final 4-letter type.
-10. Do not treat technical rigor, startup urgency, product quality, or verbal sharpness as automatic evidence for `T` or `J`.
-11. When most evidence comes from solo agent history, do not treat the absence of social, human-context, or flexibility signals as positive evidence for `I`, `T`, or `J`.
-12. Solo agent history often under-observes all four MBTI axes, especially `E / I`, `T / F`, and `J / P`, unless the evidence directly shows the distinction.
-13. If one or more axes are weakly evidenced, lower confidence rather than forcing certainty.
-14. Infer an axis only from positive evidence, not from the mere absence of the opposite signal.
-15. Do not infer `N` from abstraction-heavy, architecture-heavy, or AI-native language alone.
-16. Do not infer `T` from terse wording, debugging skill, or technical sharpness alone.
-17. Do not infer `J` from competence, clean output, task completion, or seniority alone.
-18. When two or more axes are under-observed or mixed, MBTI confidence should usually be `low`, and the visible type label should be visually de-emphasized rather than treated as a punchline or badge.
-19. Do not output hedged pseudo-types such as `INTJ-ish`, `xNTJ`, `NTJ-like`, or similar variants. Use one standard 4-letter MBTI type plus a separate confidence field.
-20. Replace long “why this works” explanation blocks with exactly 3 `Talent Tags`.
-21. Talent tags must be noun-phrase style, not mini paragraphs:
+4. Do not include MBTI, MBTI axes, MBTI letters, pseudo-types, or personality-test labels in prompts, generated skill content, quick-test output, examples, public cards, or detailed reports.
+5. Replace long “why this works” explanation blocks with exactly 3 `Talent Tags`.
+6. Talent tags must be noun-phrase style, not mini paragraphs:
    - short
    - label-first
    - highly compressible
    - screenshot-friendly
-22. Replace ordinary weakness/improvement sections with 2-3 `Locked Skills`, `Version Bottlenecks`, or `Not-Yet-Awakened` abilities.
-23. Those “gap” sections must still be respectful and useful to the candidate. Game framing should remove HR stiffness, not empathy.
-24. The visible TUI score board should be compressed to 4-5 core dimensions for each role, not 8-9 spreadsheet lines.
-25. Step 4 may still use evidence-rich analysis internally, but the candidate-facing surface must present only the compressed core board.
-26. When creating or revising a role, the 4-5 core dimensions should be custom to that role rather than generic boilerplate.
-27. Avoid generic AI flourish such as:
+7. Replace ordinary weakness/improvement sections with 2-3 `Locked Skills`, `Version Bottlenecks`, or `Not-Yet-Awakened` abilities.
+8. Those “gap” sections must still be respectful and useful to the candidate. Game framing should remove HR stiffness, not empathy.
+9. The visible TUI score board should be compressed to 4-5 core dimensions for each role, not 8-9 spreadsheet lines.
+10. Step 4 may still use evidence-rich analysis internally, but the candidate-facing surface must present only the compressed core board.
+11. When creating or revising a role, the 4-5 core dimensions should be custom to that role rather than generic boilerplate.
+12. Avoid generic AI flourish such as:
    - “you are not just X, you are Y”
    - long motivational framing
    - over-explaining obvious strengths in full sentences
-28. Prefer direct definitions such as:
+13. Prefer direct definitions such as:
    - AI-native builder profile
    - builder type
    - work profile
    - talent tags
    - locked skills
    - best-fit role
-29. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
-30. Use a clearer bar-first format such as `[█████████░] 92` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
-31. Do not decorate every visible line with repeated prefixes such as `>>`.
-32. In the terminal summary, reserve strong decoration for the `HIRED` banner and canonical builder-card frame. After that, prefer only the card labels:
+14. In the visible `Core Board`, do not use dotted label rows like `Spec Control ........ 7/10 [#######---]`.
+15. Use a clearer bar-first format such as `[█████████░] 92` or another equivalent block-bar rendering that keeps the numeric score obvious at a glance.
+16. Do not decorate every visible line with repeated prefixes such as `>>`.
+17. In the terminal summary, reserve strong decoration for the `HIRED` banner and canonical builder-card frame. After that, prefer only the card labels:
    - `SIGNALS`
    - `STRENGTHS`
    - `GAPS`
    - `NEXT`
-33. Avoid visual noise that makes the report feel like raw debug output. The TUI should read like a clean card, not a terminal log dump.
+18. Avoid visual noise that makes the report feel like raw debug output. The TUI should read like a clean card, not a terminal log dump.
 
 ## Runtime Budget
 
@@ -823,7 +798,7 @@ This rule applies to `skill.md`, role prompts in `prompts/`, public pages under 
    - execution-first `skill.md` behavior
    - consent-first and `history-only` default
    - public builder card shape
-   - no MBTI inside the public builder card
+   - no MBTI or personality-test labels anywhere in prompt-driven output
    - required `SIGNALS / STRENGTHS / GAPS / NEXT` sections
    - local-only / candidate-controlled footer
    - graceful rich-text / Notion fallback
@@ -831,24 +806,15 @@ This rule applies to `skill.md`, role prompts in `prompts/`, public pages under 
 6. Eval fixtures must use fictional or redacted data only. Do not use real candidate transcripts, repo names, customer names, emails, secrets, or private file paths.
 7. A branch promotion from `dev` to `main` should be treated as blocked if evals fail, generated files are stale, or `skill.md` and `docs/skill.md` differ.
 
-## MBTI ASCII Card Assets
+## No MBTI Or Personality-Test Layer
 
-This rule applies whenever adding or editing any role prompt in `prompts/`, the universal-entry prompt, the role template in `new_role.py`, or any asset under `docs/assets/mbti/`.
+This rule applies to every prompt, generated skill appendix, public page, quick-test surface, example report, eval, and future template.
 
-1. The canonical MBTI ASCII deck lives under `docs/assets/mbti/`.
-2. Maintain one predesigned ASCII card per MBTI type:
-   - `intj.txt`, `intp.txt`, `entj.txt`, `entp.txt`
-   - `infj.txt`, `infp.txt`, `enfj.txt`, `enfp.txt`
-   - `istj.txt`, `isfj.txt`, `estj.txt`, `esfj.txt`
-   - `istp.txt`, `isfp.txt`, `estp.txt`, `esfp.txt`
-3. Keep `docs/assets/mbti/manifest.json` aligned with the actual asset files.
-4. Candidate-facing prompts should reference the public asset URL pattern:
-   - `https://realroc.github.io/git-hired/assets/mbti/<mbti-lowercase>.txt`
-5. Do not place MBTI ASCII cards inside the public `HIRED` builder card or immediately below the `HIRED` header in deep-test TUI output.
-6. MBTI ASCII cards may be used only in quick-test or detailed-report contexts where MBTI is explicitly framed as secondary and optional.
-7. Prefer the repo text asset itself over a generated substitute. Only fall back to a compact emblem when the asset file cannot be loaded.
-8. Do not use SVG, raster images, or inline-image assumptions for the MBTI deck. This repo’s MBTI visuals are terminal-first text assets.
-9. Do not generate a fresh one-off visual style during the test. Reuse the predesigned ASCII deck so the result is consistent and recognizable across candidates.
+1. Do not use MBTI as a product feature, hook, fallback signal, report field, eval expectation, hidden scoring axis, or asset system.
+2. Remove MBTI wording rather than adding negative prompt clauses such as `do not output MBTI`.
+3. Do not keep MBTI ASCII cards, MBTI asset directories, MBTI manifest files, MBTI data attributes, MBTI examples, or MBTI axis labels.
+4. If a work-style distinction is useful, express it as builder behavior using concrete evidence language, such as `collaboration mode`, `decision style`, `execution loop`, `trust boundary`, or `signal strength`.
+5. Evals should fail on new MBTI occurrences outside this `AGENTS.md` historical policy section, so regressions are caught before `dev` is promoted to `main`.
 
 ## Per-JD Prompt Versioning
 
