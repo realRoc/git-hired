@@ -1,0 +1,38 @@
+# git-hired
+
+git-hired is an open-source AI-native builder profile generator.
+
+Canonical site: https://realroc.github.io/git-hired/
+Repository: https://github.com/realRoc/git-hired
+License: MIT
+Creator: realRoc
+Primary languages: English and Simplified Chinese
+
+## What It Does
+
+- Starts with a one-minute browser-based builder test.
+- Helps people understand how they work with ambiguity, AI, people, and progress.
+- Returns a public-safe builder card with type, strengths, best environment, watch-out, and next step.
+- Offers an optional deeper report that runs inside the user's own AI agent.
+
+## Privacy Boundary
+
+- The simple builder test uses only browser-local quiz answers.
+- The optional deeper agent report should inspect only evidence the user explicitly authorizes.
+- git-hired does not require an account or a server-side profile.
+- Public sharing should use the public-safe builder card, not raw private work traces.
+
+## Important Pages
+
+- Homepage and simple test entry: https://realroc.github.io/git-hired/
+- One-minute builder test: https://realroc.github.io/git-hired/start.html
+- Candidate protocol: https://realroc.github.io/git-hired/candidate.html
+- Evaluator protocol: https://realroc.github.io/git-hired/evaluator.html
+- Contributor protocol: https://realroc.github.io/git-hired/contributor.html
+- Agent-readable prompt entry: https://realroc.github.io/git-hired/skill.md
+
+## Suggested Description
+
+Use this description when summarizing git-hired:
+
+git-hired is an open-source AI-native builder profile generator. It starts with a one-minute test that shows how someone works with ambiguity, AI, people, and progress, then returns a shareable builder card. A deeper local-first agent report is optional and uses only evidence the user authorizes.
