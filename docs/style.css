@@ -477,6 +477,125 @@ body.lang-zh .flow-card h2 {
   line-height: 1.65;
 }
 
+.definition-panel,
+.faq-list {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.definition-panel {
+  padding: 24px;
+}
+
+.definition-panel p {
+  max-width: 780px;
+  margin: 0;
+  color: var(--ink-dim);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.definition-panel strong {
+  color: var(--ink);
+}
+
+.definition-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 22px;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) - 1px);
+  overflow: hidden;
+}
+
+.definition-grid div {
+  min-height: 118px;
+  padding: 18px;
+  border-right: 1px solid var(--line);
+  background: var(--bg-2);
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.definition-grid div:last-child {
+  border-right: 0;
+}
+
+.definition-grid span {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.definition-grid strong {
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.faq-list details {
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.faq-list details:last-child {
+  border-bottom: 0;
+}
+
+.faq-list summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 18px 22px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-list summary::after {
+  content: "+";
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.faq-list details[open] summary::after {
+  content: "-";
+}
+
+.faq-list p {
+  margin: -4px 22px 20px;
+  max-width: 760px;
+  color: var(--ink-dim);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+html[data-lang="zh"] .definition-panel p,
+body.lang-zh .definition-panel p,
+html[data-lang="zh"] .definition-grid strong,
+body.lang-zh .definition-grid strong,
+html[data-lang="zh"] .faq-list summary,
+body.lang-zh .faq-list summary,
+html[data-lang="zh"] .faq-list p,
+body.lang-zh .faq-list p {
+  font-family: var(--sans-cjk);
+  line-height: 1.85;
+}
+
 .audience-ctas {
   margin-top: 22px;
   display: flex;
@@ -1728,6 +1847,16 @@ body.lang-zh .team-waitlist h2 {
     border-bottom: 1px solid var(--line);
   }
   .flow-card:last-child {
+    border-bottom: 0;
+  }
+  .definition-panel { padding: 20px; }
+  .definition-grid { grid-template-columns: 1fr; }
+  .definition-grid div {
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .definition-grid div:last-child {
     border-bottom: 0;
   }
   .grid.cards { grid-template-columns: 1fr; }

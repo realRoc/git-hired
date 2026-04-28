@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://realroc.github.io/git-hired/sitemap.xml
