@@ -279,7 +279,7 @@ Applies to every role prompt and the role template.
 - Bar-first format: `[█████████░] 92` — no dotted label rows
 - Prefer labels, tags, fragments over paragraphs. Reserve strong decoration for HIRED banner and card frame only.
 - No MBTI, personality-test labels, or opaque archetype codes anywhere
-- Builder type labels: `Prototype Hacker`, `Agent Orchestrator`, `Product Shaper`, `Systems Builder`, `Growth Experimenter`, `Taste-driven Designer`, `Debugging Detective`, `Operator Builder`
+- Reputation mode labels: `Builder`, `Seller`
 - Talent tags: 3 noun-phrase style, short, label-first, screenshot-friendly
 - Gaps framed as `Locked Skills` / `Not-Yet-Awakened` — respectful game framing, not HR stiffness
 
