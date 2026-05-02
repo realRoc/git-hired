@@ -95,7 +95,7 @@ The first visible section of `README.md` and `README.zh-CN.md` must establish th
 1. `git-hired` is a Big-Tech-leveling-inspired market assessment for AI-native Builders and Sellers
 2. It answers `Know your AI-native market value — and how to raise it.`
 3. It helps people understand their market level, missing signals, and next step to become more valuable
-4. Default path: Choose Track → Assess Level → Market Read → Upgrade Plan → Challenge
+4. Default path: Choose Track → Assess Level → Market Read → Upgrade Plan
 5. The deeper agent report is optional and runs inside the user's own work agent
 
 ## Docs Language Behavior
@@ -138,11 +138,13 @@ Applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`, `docs/sty
 - `git-hired = a market-level assessment for AI-native Builders and Sellers`
 - Primary user-facing hook: `Know your AI-native market value — and how to raise it.`
 - Do not use `reputation layer` as homepage first-screen primary copy; it is long-term positioning, not the immediate user benefit.
-- User path: Choose Track → Assess Level → Market Read → Upgrade Plan → Challenge.
+- User path: Choose Track → Assess Level → Market Read → Upgrade Plan.
 - Builder and Seller are user-selected ability tracks, not persona results.
 - Builder track: turns ambiguity into useful artifacts with AI. `Builders make things real.`
 - Seller track: turns ideas into attention, trust, adoption, and revenue with AI. `Sellers make people care.`
 - Long-term vision: Git Hired can become a reputation / hiring signal layer for AI-native workers.
+- Homepage should not include a `define` concept-explainer section. Keep the first page direct: user benefit, track CTAs, path, and concise FAQ/trust.
+- Do not make `Challenge` a homepage product concept. If used, keep it result-page-only as a concrete recommended next step for raising missing signals.
 
 ### Assessment rules
 
@@ -200,16 +202,17 @@ Applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`, `docs/sty
   - `Missing Signals`
   - `Next Level`
   - `Upgrade Plan`
-  - `Recommended Challenge`
+  - `Recommended Next Step`
   - `Shareable Card`
 
 Do not show: old six archetypes, MBTI-like labels, `You are a Builder/Seller` as the result, exact salary/offer promises, company-level equivalence, local report path, runtime mode, history-only, locked skills, hiring recommendation.
 
 ### After the result card
 
-- Challenge is the next step after assessment, not homepage primary proof/upload flow.
-- Builder challenge: build one useful AI workflow, prototype, automation, tool, or artifact in 48 hours and share a public link if desired.
-- Seller challenge: launch one idea publicly in 48 hours and try to get replies, signups, leads, candidates, users, or feedback.
+- `Recommended Next Step` is the next step after assessment, not homepage primary proof/upload flow.
+- If the next step uses challenge-like mechanics, explain it plainly as a lightweight public signal sprint rather than as a separate product concept.
+- Builder next step: build one useful AI workflow, prototype, automation, tool, or artifact in 48 hours and share a public link if desired.
+- Seller next step: launch one idea publicly in 48 hours and try to get replies, signups, leads, candidates, users, or feedback.
 - Trust copy: `No private work required. Use public links only. You control what you share.`
 - Optional advanced-agent entry can remain secondary
 - Button: `Copy agent prompt` / `复制 Agent 指令`
