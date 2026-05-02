@@ -100,6 +100,16 @@
     return path.split("/").filter(Boolean).pop() || "";
   }
 
+  function searchParamFromHref(href, key) {
+    try {
+      var anchor = document.createElement("a");
+      anchor.href = href;
+      return new URL(anchor.href).searchParams.get(key) || null;
+    } catch (error) {
+      return null;
+    }
+  }
+
   function roleFromHref(href) {
     return ROLE_BY_PAGE[basenameFromHref(href)] || null;
   }
@@ -114,6 +124,7 @@
     track("click_start", {
       location: "home_hero",
       target_path: basenameFromHref(link.href) || "start.html",
+      track: searchParamFromHref(link.href, "track"),
     });
   }
 
@@ -145,7 +156,7 @@
       var target = event.target;
       if (!target || typeof target.closest !== "function") return;
 
-      var startLink = target.closest(".home-shell .big-cta[href$='start.html']");
+      var startLink = target.closest(".home-shell .big-cta[href*='start.html']");
       if (startLink) {
         trackStartClick(startLink);
         return;

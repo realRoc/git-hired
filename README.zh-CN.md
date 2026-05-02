@@ -1,32 +1,92 @@
 # git-hired
 
-在 AI-native 职场里，你更像 Builder 还是 Seller？
+了解你的 AI-native 市场价值，以及下一步怎么提高。
 
-`git-hired` 是 AI-native worker 的开源 reputation layer。
-它帮助你证明自己在 AI 时代如何创造价值：通过构建产品、系统、工作流和自动化，或通过表达、叙事、分发、招聘和传播来销售价值。
-
-先从简单 Builder / Seller 测试开始。
-然后把结果接到 challenge、proof 和 reputation signal。
+`git-hired` 是面向 AI-native Builders 和 Sellers 的、受大厂职级逻辑启发的市场等级评估。
+它帮助 AI-native worker 理解自己的市场等级、缺失信号，以及下一步如何变得更有价值。
 
 项目网站：<https://realroc.github.io/git-hired/>
 
 [English](./README.md)
 
-## 简单测试
+## 从这里开始
 
-完成测试，得到一个清晰模式：`Builder` 或 `Seller`。
+先选择能力赛道，再评估当前 GH Level：
 
-从这里开始：<https://realroc.github.io/git-hired/start.html>
+- Builder 赛道：用 AI 把模糊问题变成可用成果。
+- Seller 赛道：用 AI 把想法变成关注、信任、采用和收入。
+
+评估入口：
+
+- Builder：<https://realroc.github.io/git-hired/start.html?track=builder>
+- Seller：<https://realroc.github.io/git-hired/start.html?track=seller>
 
 ## 产品路径
 
 ```text
-Test -> Mode -> Challenge -> Proof -> Reputation
+Choose Track -> Assess Level -> Market Read -> Upgrade Plan -> Challenge
 ```
 
-- Builder：通过 build challenge 证明价值，例如原型、系统、工作流或自动化。
-- Seller：通过 sell challenge 证明价值，例如叙事、分发循环、outbound 序列、招聘故事或发布实验。
-- Hiring signal：证明产物、谁使用或回应了它、发生了什么变化，以及你学到了什么。
+轻量浏览器评估会输出：
+
+- `GH-L3` 到 `GH-L7` 的等级
+- 这个 level 代表什么能力
+- market read 和机会区间
+- missing signals
+- next level 差距
+- upgrade plan
+- recommended challenge
+- 可分享 market level 卡片
+
+## GH Levels
+
+GH Level 体系受大厂职级逻辑启发，但不声称等同于任何具体公司的职级。
+
+- `GH-L3 — Entry`：能在明确任务下完成工作。
+- `GH-L4 — Independent`：能独立完成完整任务或项目。
+- `GH-L5 — Senior`：能处理复杂问题，并产生可验证用户、业务或市场影响。
+- `GH-L6 — Staff`：能跨团队、跨系统、跨渠道放大影响。
+- `GH-L7 — Principal`：能定义方向，创造市场级影响，并影响组织或类别。
+
+## Tracks
+
+Builder 不是人格标签。
+它是让事情变成真实成果的能力赛道：
+
+- prototyping
+- AI workflow building
+- automation
+- product building
+- systems thinking
+- technical 或 no-code execution
+- research-to-artifact
+- shipping useful output
+
+Seller 也不是传统销售员标签。
+它是让别人理解、相信、采用和传播想法的能力赛道：
+
+- storytelling
+- positioning
+- distribution
+- sales
+- recruiting
+- marketing
+- community
+- fundraising narrative
+- momentum creation
+- trust building
+
+## Challenges
+
+Challenge 放在评估之后。
+它帮助用户补强下一阶段市场信号，而不是一上来要求上传私人作品。
+
+- Builder challenge：48 小时内构建一个有用的 AI workflow、原型、自动化、工具或成果。
+- Seller challenge：48 小时内公开发布一个想法，尝试获得真实回复、注册、线索、候选人、用户或反馈。
+- 信任边界：不需要私人作品，只使用公开链接，你决定分享什么。
+
+长期看，`git-hired` 可以成为 AI-native worker 的 reputation / hiring signal layer。
+但 MVP 先从 market level、missing signals 和 next challenge 开始，因为这能在要求 proof 前先给用户价值。
 
 ## 更深入的 Agent 报告
 
@@ -44,7 +104,7 @@ read https://realroc.github.io/git-hired/skill.md
 ## 隐私优先
 
 > `git-hired` 采用先授权、后扫描，且只在本地运行的方式。
-> 无服务器、无账号、不上传、不追踪。
+> 无服务器、无账号、不上传私人证据。
 > 默认模式是 `history-only`。
 > 除非候选人明确允许，否则不会扫描对方的本地 repo、项目目录或文档文件。
 > `git-hired` 不会把候选人的本地 repo 或文件数据上传到我们的服务器。
@@ -57,35 +117,15 @@ read https://realroc.github.io/git-hired/skill.md
 - 可选模式：候选人主动允许扫描指定 repo / 本地目录 / 文件
 - 运行位置：候选人自己的机器或已连接工作区
 - 本地 repo / 文件数据上传到服务端：`不会`
-- 默认分享对象：可公开分享的 reputation 卡片，不是私人详细报告
+- 默认分享对象：公开安全卡片，不是私人详细报告
 
-## 这是一套 protocol
+## Protocol Pages
 
-### Candidate Protocol
-
-1. 选择证据层级：粘贴指定文本、公开 GitHub 材料、指定 repo / 文件，或明确授权本地 agent 历史。
-2. 选择目标岗位；如果还不确定，就先说当前职业或身份。
-3. 选择隐私范围：`history-only`，或明确点名允许的文件 / repo。
-4. 让 agent 只检查被授权的证据。
-5. 私人详细报告留给自己；如果想申请或合作，可以分享可公开的 reputation 卡片和 challenge proof。
-
-### Evaluator Protocol
-
-1. 先看证据置信度，再看分数。
-2. 看 AI-native 工作流成熟度。
-3. 看模糊任务处理和取舍质量。
-4. 看输出质量、推进闭环和协作风险。
-5. 决定：strong yes / trial / pass。
-
-公开评分标准见 [rubric.md](./rubric.md)。
-
-### Contributor Protocol
-
-1. 新增或改进一个角色 prompt。
-2. 改进评分 rubric。
-3. 增加本地化。
-4. 改进报告模板。
-5. 增加虚构、脱敏的校准样例。
+- [Candidate protocol](./docs/candidate.html)
+- [Evaluator protocol](./docs/evaluator.html)
+- [Contributor protocol](./docs/contributor.html)
+- [Scoring rubric](./rubric.md)
+- [Examples](./examples/)
 
 ## AI-native 协作
 
@@ -95,12 +135,13 @@ read https://realroc.github.io/git-hired/skill.md
 - 能拆解模糊任务
 - 不需要重管理也能推进事情
 - 对产品、用户、指标、取舍有判断
+- 能创造关注、信任、分发和采用
 - 尊重隐私和安全边界
 
-如果你的报告或 challenge proof 显示出较强的 AI-native worker 信号，并且你也在寻找 AI-native 项目的合作机会，可以开一个 issue，附上：
+如果你的评估、报告或 challenge evidence 显示出较强的 AI-native worker 信号，并且你也在寻找 AI-native 项目的合作机会，可以开一个 issue，附上：
 
-- 目标岗位
-- 可公开分享的 reputation 卡片或公开报告摘要
+- 目标 track 或岗位
+- 公开安全的 market level 卡片或公开报告摘要
 - 你接下来想 build 或 sell 什么
 - 你希望被尊重的隐私边界
 
@@ -108,7 +149,7 @@ read https://realroc.github.io/git-hired/skill.md
 
 ## 样例
 
-如果你想先知道报告大概长什么样，从这里看：
+如果你想先知道更深入报告大概长什么样，从这里看：
 
 - [最终 Builder 卡片](./examples/builder-card.md)
 - [强匹配 Agent 工程师](./examples/agent-engineer.strong.md)
@@ -128,43 +169,6 @@ python3 scripts/eval_release.py
 
 这个 gate 会同步生成页面，检查岗位 wiring，验证 `skill.md` 输出契约，锁住公开 card 格式，并运行 `git diff --check`。
 
-| 传统招聘信号 | `git-hired` 信号 |
-| --- | --- |
-| 简历声明 | 工作痕迹证据 |
-| 面试回答 | agent 观察到的行为 |
-| 作业题 | 历史执行模式 |
-| 自称会用 AI | 真实 agent 工作流 |
-| 通用评分 | Builder / Seller 模式 + challenge proof + 角色匹配判断 |
-
-## 隐私边界
-
-仓库里的 prompt 默认都遵循这些原则：
-
-- 本地优先
-- 证据优先
-- 只输出聚合结果
-- 支持脱敏
-
-它们会显式要求 agent 不要输出：
-
-- secret
-- token
-- 邮箱地址
-- 客户名称
-- 原始 transcript
-- 大段代码
-- CSV 中的用户级记录
-
-预期输出是：
-
-- 可公开分享的 reputation 卡片
-- 私人证据报告
-- 行为分布
-- 去标识化例子
-- 评分
-- 匹配度判断
-- 一份面向候选人的本地 markdown 详细报告
-
 ## 目录结构
 
 ```text
@@ -172,26 +176,13 @@ git-hired/
 ├── skill.md
 ├── rubric.md
 ├── examples/
-│   ├── agent-engineer.strong.md
-│   ├── agent-engineer.medium.md
-│   ├── agent-engineer.weak.md
-│   ├── pm.strong.md
-│   ├── growth.strong.md
-│   └── redacted-report-template.md
 ├── docs/
 │   ├── index.html
-│   ├── candidate.html
-│   ├── evaluator.html
-│   ├── contributor.html
 │   ├── start.html
 │   ├── quick-test.js
-│   ├── skill.md
-│   ├── agent.html
-│   ├── pm.html
-│   ├── growth.html
-│   ├── ops.html
-│   ├── style.css
-│   └── app.js
+│   ├── candidate.html
+│   ├── evaluator.html
+│   └── contributor.html
 ├── roles.json
 ├── prompts/
 ├── .codex/skills/git-hired-jd-ops/

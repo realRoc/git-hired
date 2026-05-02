@@ -78,7 +78,8 @@ def validate_html_pages(repo_root: Path, errors: list[str]) -> None:
 
     index_text = read(repo_root / "docs" / "index.html")
     start_text = read(repo_root / "docs" / "start.html")
-    assert_contains("docs/index.html", index_text, 'class="button primary big-cta" href="./start.html"', errors)
+    assert_contains("docs/index.html", index_text, 'class="button primary big-cta" href="./start.html?track=builder"', errors)
+    assert_contains("docs/index.html", index_text, 'class="button secondary big-cta" href="./start.html?track=seller"', errors)
     assert_order(
         "docs/start.html",
         start_text,
@@ -155,7 +156,7 @@ def validate_manual_events(analytics_text: str, quick_test_text: str, errors: li
         assert_contains("docs/quick-test.js", quick_test_text, f'trackEvent("{event}"', errors)
 
     for marker in (
-        '.home-shell .big-cta[href$=\'start.html\']',
+        '.home-shell .big-cta[href*=\'start.html\']',
         'location: "home_hero"',
         "target_path:",
         "ROLE_BY_PAGE",
@@ -175,10 +176,10 @@ def validate_manual_events(analytics_text: str, quick_test_text: str, errors: li
         "answer_label_zh:",
         "answer_count:",
         'location: "quick_test"',
-        "result_type: modeType",
+        "result_type: levelType",
         'location: "quick_result"',
-        'role: "reputation_mode"',
-        'selection_type: "builder_seller_mode"',
+        'role: lastResult.track.key',
+        'selection_type: "assessment_track"',
         'location: "result_card"',
         "result_type: resultType(lastResult)",
         'share_target: "clipboard"',

@@ -3,7 +3,7 @@
   "use strict";
 
   const AGENT_PROMPT = "read https://realroc.github.io/git-hired/skill.md";
-  const SIGNAL_KEYS = ["build", "sell"];
+  const TRACK_KEYS = ["builder", "seller"];
   const ASCII_GIT_HIRED = [
     "  ██████╗ ██╗████████╗       ██╗  ██╗██╗██████╗ ███████╗██████╗ ",
     "  ██╔════╝ ██║╚══██╔══╝       ██║  ██║██║██╔══██╗██╔════╝██╔══██╗",
@@ -13,671 +13,571 @@
     "   ╚═════╝ ╚═╝   ╚═╝          ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═════╝ ",
   ].join("\n");
 
-  const MODE_RESULTS = [
+  const MATURITY_OPTIONS = [
     {
-      key: "builder",
-      title: { en: "Builder", zh: "Builder / 构建者" },
-      summary: {
-        en: "You create value by turning ideas into products, systems, prototypes, workflows, or automation.",
-        zh: "你更擅长通过产品、系统、原型、工作流或自动化把想法变成价值。",
-      },
-      strengths: {
-        en: [
-          "Turns ambiguity into something people can try, use, or improve.",
-          "Uses AI as leverage for prototypes, systems, and repeatable workflows.",
-        ],
-        zh: [
-          "能把模糊想法变成别人可以试用、使用或继续改进的东西。",
-          "会把 AI 当作原型、系统和可重复工作流的杠杆。",
-        ],
-      },
-      edge: {
-        en: "Build proof: a shipped demo, working automation, useful internal tool, or clear system artifact.",
-        zh: "构建证明：上线 demo、可运行自动化、有用内部工具，或清晰的系统产物。",
-      },
-      watch: {
-        en: "A strong build can still be invisible if you do not explain who it helps and why it matters.",
-        zh: "再强的构建，如果没有说明帮助了谁、为什么重要，也可能变得不可见。",
-      },
-      proof: {
-        en: "Pick one painful workflow and ship a tiny AI-assisted version that saves time or improves quality.",
-        zh: "选一个高痛点工作流，交付一个 AI 辅助的小版本，证明它节省时间或提升质量。",
-      },
-      challenge: {
-        en: "Build challenge: ship a one-week prototype, automation, or workflow with a before/after proof note.",
-        zh: "Build challenge：用一周交付一个原型、自动化或工作流，并写清楚前后对比证据。",
+      value: "not-yet",
+      score: 0,
+      label: { en: "Not yet", zh: "还没有" },
+      detail: {
+        en: "No real evidence yet for this signal.",
+        zh: "这个信号还没有真实证据。",
       },
     },
     {
-      key: "seller",
-      title: { en: "Seller", zh: "Seller / 销售者" },
-      summary: {
-        en: "You create value by making ideas travel through expression, narrative, distribution, sales, recruiting, or community.",
-        zh: "你更擅长通过表达、叙事、分发、销售、招聘或传播让想法流动起来。",
+      value: "tried-guided",
+      score: 1,
+      label: { en: "Tried once / with guidance", zh: "试过一次 / 需要指导" },
+      detail: {
+        en: "You tried it, but the problem or standard was mostly defined by someone else.",
+        zh: "你试过，但问题定义或验收标准主要来自别人。",
       },
-      strengths: {
-        en: [
-          "Turns raw value into language that people understand, trust, and act on.",
-          "Uses AI to sharpen messages, find channels, and create distribution loops.",
-        ],
-        zh: [
-          "能把原始价值转成别人听得懂、愿意信、会行动的语言。",
-          "会用 AI 打磨信息、寻找渠道，并建立分发循环。",
-        ],
+    },
+    {
+      value: "done-independently",
+      score: 2,
+      label: { en: "Done independently", zh: "能独立完成" },
+      detail: {
+        en: "You can do this without heavy management.",
+        zh: "你不需要重管理也能完成。",
       },
-      edge: {
-        en: "Sell proof: a campaign, outbound sequence, hiring narrative, launch thread, or conversion signal.",
-        zh: "销售证明：一次 campaign、outbound 序列、招聘叙事、发布内容，或转化信号。",
+    },
+    {
+      value: "repeated-evidence",
+      score: 3,
+      label: { en: "Done repeatedly with evidence", zh: "反复做过，并有证据" },
+      detail: {
+        en: "You have repeatable examples, public artifacts, or clear work traces.",
+        zh: "你有可重复案例、公开产物或清晰工作痕迹。",
       },
-      watch: {
-        en: "A strong story needs a real artifact, offer, or audience signal behind it.",
-        zh: "再强的叙事，也需要真实产物、明确 offer 或受众反馈作为支撑。",
-      },
-      proof: {
-        en: "Pick one real offer and run a small distribution loop: message, audience, channel, response, learning.",
-        zh: "选一个真实 offer，跑一个小分发循环：信息、受众、渠道、反馈、学习。",
-      },
-      challenge: {
-        en: "Sell challenge: run a one-week narrative or outbound experiment with response and learning evidence.",
-        zh: "Sell challenge：用一周做一次叙事或 outbound 实验，并保留反馈和学习证据。",
+    },
+    {
+      value: "adoption-impact",
+      score: 4,
+      label: { en: "Done with real adoption / measurable impact", zh: "产生真实采用 / 可衡量影响" },
+      detail: {
+        en: "Other people used, responded, adopted, or benefited from the work.",
+        zh: "已经有人使用、回应、采用，或从中受益。",
       },
     },
   ];
 
-  const QUESTION_STEPS = [
-    {
-      label: "01",
-      title: {
-        en: "When a messy opportunity appears, you first want to...",
-        zh: "看到一个混乱机会时，你第一反应更想...",
+  const TRACKS = {
+    builder: {
+      key: "builder",
+      title: { en: "Builder", zh: "Builder" },
+      label: { en: "Builder Track", zh: "Builder 赛道" },
+      definition: {
+        en: "Builders make things real: they turn ambiguity into useful artifacts with AI.",
+        zh: "Builders make things real：他们用 AI 把模糊问题变成可用成果。",
       },
-      aria: "Messy opportunity",
-      options: [
+      challengeName: { en: "Build challenge", zh: "Build challenge" },
+      questions: [
         {
-          value: "build-prototype",
-          signal: "build",
-          label: {
-            en: "Build a quick prototype so people can react to something real.",
-            zh: "先做一个快速原型，让大家对真实东西有反馈。",
-          },
-          detail: {
-            en: "A working version reveals the real constraints.",
-            zh: "可运行版本会暴露真实约束。",
+          key: "ai-task-execution",
+          signal: { en: "AI task execution", zh: "AI 任务执行" },
+          title: {
+            en: "Have you used AI to complete a clearly defined work task?",
+            zh: "你是否用 AI 完成过一个被清楚定义的工作任务？",
           },
         },
         {
-          value: "sell-message",
-          signal: "sell",
-          label: {
-            en: "Write the pitch and test whether anyone cares.",
-            zh: "先写出 pitch，测试有没有人在乎。",
-          },
-          detail: {
-            en: "Demand and language decide whether the work matters.",
-            zh: "需求和语言决定这件事是否重要。",
+          key: "workflow-building",
+          signal: { en: "Workflow building", zh: "工作流构建" },
+          title: {
+            en: "Have you built an AI workflow that you or others use repeatedly?",
+            zh: "你是否搭建过自己或别人会反复使用的 AI workflow？",
           },
         },
         {
-          value: "build-system",
-          signal: "build",
-          label: {
-            en: "Map the workflow and find what can be automated.",
-            zh: "梳理工作流，找出可以自动化的部分。",
-          },
-          detail: {
-            en: "The leverage is usually inside the system.",
-            zh: "杠杆通常藏在系统里。",
+          key: "prototyping",
+          signal: { en: "Prototyping", zh: "原型能力" },
+          title: {
+            en: "Have you turned a vague idea into a working prototype?",
+            zh: "你是否把一个模糊想法变成过可运行原型？",
           },
         },
         {
-          value: "sell-audience",
-          signal: "sell",
-          label: {
-            en: "Find the audience and the channel first.",
-            zh: "先找受众和渠道。",
+          key: "end-to-end-shipping",
+          signal: { en: "End-to-end shipping", zh: "端到端交付" },
+          title: {
+            en: "Have you shipped a product, tool, automation, demo, or research artifact end-to-end?",
+            zh: "你是否端到端交付过产品、工具、自动化、demo 或研究产物？",
           },
-          detail: {
-            en: "The right market can shape the whole answer.",
-            zh: "正确市场会反过来塑造答案。",
+        },
+        {
+          key: "user-feedback",
+          signal: { en: "User feedback", zh: "用户反馈" },
+          title: {
+            en: "Have real users used or tested something you built?",
+            zh: "是否有真实用户使用或测试过你构建的东西？",
+          },
+        },
+        {
+          key: "tradeoff-explanation",
+          signal: { en: "Product and technical judgment", zh: "产品与技术判断" },
+          title: {
+            en: "Can you clearly explain the problem, users, solution, tradeoffs, and implementation?",
+            zh: "你是否能清楚解释问题、用户、方案、取舍和实现？",
+          },
+        },
+        {
+          key: "public-evidence",
+          signal: { en: "Public evidence", zh: "公开证据" },
+          title: {
+            en: "Do you have public evidence such as demo, repo, screenshots, write-up, users, or case study?",
+            zh: "你是否有 demo、repo、截图、复盘、用户或 case study 等公开证据？",
+          },
+        },
+        {
+          key: "workflow-impact",
+          signal: { en: "Team or business impact", zh: "团队或业务影响" },
+          title: {
+            en: "Has something you built improved a team, workflow, business metric, or market outcome?",
+            zh: "你构建的东西是否改进过团队、工作流、业务指标或市场结果？",
+          },
+        },
+        {
+          key: "systems-used-by-others",
+          signal: { en: "Systems used by others", zh: "多人使用的系统" },
+          title: {
+            en: "Have you guided others or designed systems used by multiple people?",
+            zh: "你是否指导过别人构建，或设计过多人使用的系统？",
+          },
+        },
+        {
+          key: "market-adoption",
+          signal: { en: "Market adoption", zh: "市场采用" },
+          title: {
+            en: "Have you built something that created adoption beyond your immediate circle?",
+            zh: "你是否构建过超出身边小圈子的采用或影响？",
+          },
+        },
+      ],
+      levels: [
+        {
+          key: "gh-l3",
+          code: "GH-L3",
+          min: 0,
+          stage: { en: "Entry", zh: "Entry" },
+          title: { en: "AI Task Executor", zh: "AI 任务执行者" },
+          means: {
+            en: "You can use AI to complete clearly defined tasks such as code, analysis, content, simple workflows, or simple automation.",
+            zh: "你能用 AI 完成明确任务，例如代码、分析、内容、简单 workflow 或简单自动化。",
+          },
+          market: {
+            en: ["Learning / assistant-level opportunities", "AI task support", "Intern or apprentice builder work"],
+            zh: ["学习型 / 助理级机会", "AI 任务支持", "实习或学徒型 builder 工作"],
+          },
+          missing: {
+            en: ["Independent problem definition", "Reusable workflow evidence", "Public artifact or user feedback"],
+            zh: ["独立定义问题的证据", "可复用 workflow 证据", "公开产物或用户反馈"],
+          },
+          upgrade: {
+            en: ["Pick one repeated task and automate a small part of it.", "Document the input, workflow, output, and failure cases.", "Ask one real user or teammate to test it."],
+            zh: ["选择一个重复任务，自动化其中一小段。", "记录输入、流程、输出和失败场景。", "找一个真实用户或队友测试。"],
+          },
+          challenge: {
+            en: "Build one tiny AI workflow that turns a manual task into a repeatable output. Share a screenshot or short write-up.",
+            zh: "构建一个小型 AI workflow，把一个手工任务变成可重复产出。分享截图或简短复盘。",
+          },
+          nextGap: {
+            en: "show you can independently build a repeatable workflow.",
+            zh: "证明你能独立搭建可重复 workflow。",
+          },
+        },
+        {
+          key: "gh-l4",
+          code: "GH-L4",
+          min: 9,
+          stage: { en: "Independent", zh: "Independent" },
+          title: { en: "Independent Workflow Builder", zh: "独立工作流构建者" },
+          means: {
+            en: "You can independently build reusable workflows, automations, or prototypes and explain the problem, solution, and tradeoffs.",
+            zh: "你能独立搭建可复用 workflow、自动化或原型，并解释问题、方案和取舍。",
+          },
+          market: {
+            en: ["Entry-level AI operator", "Automation assistant", "Junior product builder", "Founder's office assistant"],
+            zh: ["入门 AI operator", "自动化助理", "初级产品构建者", "创始人办公室助理"],
+          },
+          missing: {
+            en: ["Shipped artifacts with real users", "Public demo, repo, or case study", "Evidence that the output changed a workflow or user behavior"],
+            zh: ["有真实用户的已交付产物", "公开 demo、repo 或 case study", "产出改变工作流或用户行为的证据"],
+          },
+          upgrade: {
+            en: ["Turn one workflow into a usable demo, not just a private script.", "Write the problem, user, solution, tradeoffs, and result in public.", "Collect feedback from at least three real users."],
+            zh: ["把一个 workflow 做成可用 demo，而不是私人脚本。", "公开写清问题、用户、方案、取舍和结果。", "收集至少 3 个真实用户反馈。"],
+          },
+          challenge: {
+            en: "Build one useful AI workflow, prototype, automation, tool, or artifact in 48 hours. Share it publicly and collect real feedback.",
+            zh: "48 小时内构建一个有用的 AI workflow、原型、自动化、工具或成果。公开分享并收集真实反馈。",
+          },
+          nextGap: {
+            en: "show shipped user value, not only workflow competence.",
+            zh: "证明已交付的用户价值，而不只是 workflow 能力。",
+          },
+        },
+        {
+          key: "gh-l5",
+          code: "GH-L5",
+          min: 18,
+          stage: { en: "Senior", zh: "Senior" },
+          title: { en: "Senior Product Shipper", zh: "高级产品交付者" },
+          means: {
+            en: "You can start from ambiguity and ship a product, system, tool, or artifact with real user, business, or market value.",
+            zh: "你能从模糊问题出发，独立 ship 有真实用户、业务或市场价值的产品、系统、工具或成果。",
+          },
+          market: {
+            en: ["Junior-to-mid full-time roles", "AI workflow roles", "Product or growth operator", "Strong early-career candidate"],
+            zh: ["初中级全职岗位", "AI workflow 相关岗位", "产品或增长 operator", "较强早期候选人"],
+          },
+          missing: {
+            en: ["Team-level or cross-functional impact", "Systems used by multiple people", "Repeatable method that helps others build"],
+            zh: ["团队级或跨职能影响", "多人使用的系统", "能帮助别人构建的可重复方法"],
+          },
+          upgrade: {
+            en: ["Move from single artifact to system: docs, handoff, reliability, and iteration loop.", "Show how the work changed a team metric, user behavior, or business process.", "Teach one person or team to reuse your method."],
+            zh: ["从单个产物升级成系统：文档、交接、可靠性和迭代闭环。", "展示它如何改变团队指标、用户行为或业务流程。", "教一个人或团队复用你的方法。"],
+          },
+          challenge: {
+            en: "Upgrade one shipped artifact into a reusable system with docs, user feedback, and a clear before/after impact note.",
+            zh: "把一个已交付产物升级成可复用系统，补齐文档、用户反馈和清晰前后对比影响。",
+          },
+          nextGap: {
+            en: "show leverage across people, systems, or teams.",
+            zh: "证明跨人、系统或团队的杠杆影响。",
+          },
+        },
+        {
+          key: "gh-l6",
+          code: "GH-L6",
+          min: 28,
+          stage: { en: "Staff", zh: "Staff" },
+          title: { en: "Staff Systems Builder", zh: "Staff 级系统构建者" },
+          means: {
+            en: "You can design complex systems, guide others, and improve team efficiency, product direction, or business process across modules or teams.",
+            zh: "你能设计复杂系统，带动多人协作，并跨模块或团队提升效率、产品方向或业务流程。",
+          },
+          market: {
+            en: ["Strong full-time candidate", "Senior operator", "Founding team contributor", "Team-level impact role"],
+            zh: ["强全职候选人", "高级 operator", "创始团队贡献者", "团队级影响岗位"],
+          },
+          missing: {
+            en: ["Category or market-level adoption", "Direction-setting evidence", "Sustained high-leverage outcomes beyond one organization"],
+            zh: ["类别或市场级采用", "定义方向的证据", "超越单一组织的持续高杠杆成果"],
+          },
+          upgrade: {
+            en: ["Publish the system logic so others outside your team can learn from it.", "Connect the system to market, community, or category adoption.", "Show sustained impact across multiple cycles."],
+            zh: ["公开系统逻辑，让团队外的人也能学习。", "把系统连接到市场、社区或类别采用。", "展示多个周期的持续影响。"],
+          },
+          challenge: {
+            en: "Turn one internal system into a public playbook or template and prove that people outside your team can use it.",
+            zh: "把一个内部系统转成公开 playbook 或模板，并证明团队外的人也能使用。",
+          },
+          nextGap: {
+            en: "show market-level direction and adoption.",
+            zh: "证明市场级方向定义和采用。",
+          },
+        },
+        {
+          key: "gh-l7",
+          code: "GH-L7",
+          min: 36,
+          stage: { en: "Principal", zh: "Principal" },
+          title: { en: "Principal Market Builder", zh: "Principal 级市场构建者" },
+          means: {
+            en: "You can define new directions and repeatedly build products, platforms, infrastructure, or categories that the market adopts.",
+            zh: "你能定义新方向，并持续构建被市场采用的产品、平台、基础设施或类别。",
+          },
+          market: {
+            en: ["Founder-like hire", "Principal operator", "Category builder", "High-value market-level contributor"],
+            zh: ["创始人型人才", "Principal operator", "类别构建者", "高价值市场级贡献者"],
+          },
+          missing: {
+            en: ["Keep evidence current", "Clarify what category you are shaping", "Make your market-level proof easy to inspect"],
+            zh: ["持续更新证据", "讲清你正在塑造的类别", "让市场级 proof 更容易被检查"],
+          },
+          upgrade: {
+            en: ["Maintain a public evidence trail of adoption and direction-setting work.", "Show how your work changes what others build or buy.", "Use challenges to make the next category signal inspectable."],
+            zh: ["维护一条公开的采用和方向定义证据链。", "展示你的工作如何改变别人构建或购买的东西。", "用 challenge 让下一轮信号可检查。"],
+          },
+          challenge: {
+            en: "Publish one category-level thesis with a working artifact and adoption evidence from people outside your immediate circle.",
+            zh: "发布一个类别级 thesis，配套可用产物和来自身边小圈子之外的采用证据。",
+          },
+          nextGap: {
+            en: "keep market-level evidence fresh and inspectable.",
+            zh: "持续保持市场级证据新鲜且可检查。",
           },
         },
       ],
     },
-    {
-      label: "02",
-      title: {
-        en: "Your favorite AI leverage is...",
-        zh: "你最喜欢的 AI 杠杆是...",
+    seller: {
+      key: "seller",
+      title: { en: "Seller", zh: "Seller" },
+      label: { en: "Seller Track", zh: "Seller 赛道" },
+      definition: {
+        en: "Sellers make people care: they turn ideas into attention, trust, adoption, and revenue with AI.",
+        zh: "Sellers make people care：他们用 AI 把想法变成关注、信任、采用和收入。",
       },
-      aria: "AI leverage",
-      options: [
+      challengeName: { en: "Sell challenge", zh: "Sell challenge" },
+      questions: [
         {
-          value: "build-code",
-          signal: "build",
-          label: {
-            en: "Using agents to create tools, code, workflows, or repeatable systems.",
-            zh: "用 agent 创建工具、代码、工作流或可重复系统。",
-          },
-          detail: {
-            en: "AI helps you turn effort into infrastructure.",
-            zh: "AI 帮你把努力沉淀成基础设施。",
+          key: "ai-communication",
+          signal: { en: "AI-assisted communication", zh: "AI 辅助沟通" },
+          title: {
+            en: "Have you used AI to improve communication, writing, pitch, or content?",
+            zh: "你是否用 AI 改善过沟通、写作、pitch 或内容？",
           },
         },
         {
-          value: "sell-copy",
-          signal: "sell",
-          label: {
-            en: "Using AI to sharpen copy, positioning, and outbound messages.",
-            zh: "用 AI 打磨文案、定位和 outbound 信息。",
-          },
-          detail: {
-            en: "AI helps you make ideas travel faster.",
-            zh: "AI 帮你让想法传播得更快。",
+          key: "audience-message",
+          signal: { en: "Audience and message", zh: "受众与信息" },
+          title: {
+            en: "Have you clearly defined a target audience and message for an idea?",
+            zh: "你是否为一个想法清楚定义过目标受众和信息？",
           },
         },
         {
-          value: "build-debug",
-          signal: "build",
-          label: {
-            en: "Using AI to debug, refactor, and make a system more reliable.",
-            zh: "用 AI debug、重构，并让系统更可靠。",
-          },
-          detail: {
-            en: "Quality compounds when the system improves.",
-            zh: "系统变好后，质量会复利。",
+          key: "real-responses",
+          signal: { en: "Real response", zh: "真实回应" },
+          title: {
+            en: "Have you published content, pitch, outreach, or campaign that generated real responses?",
+            zh: "你是否发布过内容、pitch、outreach 或 campaign，并获得真实回应？",
           },
         },
         {
-          value: "sell-research",
-          signal: "sell",
-          label: {
-            en: "Using AI to research people, markets, objections, and hooks.",
-            zh: "用 AI 研究人群、市场、异议和 hook。",
+          key: "opportunity-creation",
+          signal: { en: "Opportunity creation", zh: "机会创造" },
+          title: {
+            en: "Have you created attention, signups, leads, sales, candidates, users, or partnerships?",
+            zh: "你是否创造过关注、注册、线索、销售机会、候选人、用户或合作？",
           },
-          detail: {
-            en: "Understanding people makes distribution sharper.",
-            zh: "理解人会让分发更锋利。",
+        },
+        {
+          key: "repeatable-distribution",
+          signal: { en: "Repeatable distribution", zh: "可重复分发" },
+          title: {
+            en: "Have you repeated a distribution motion successfully across multiple attempts?",
+            zh: "你是否多次重复过一个有效的分发动作？",
+          },
+        },
+        {
+          key: "public-traction",
+          signal: { en: "Public traction evidence", zh: "公开 traction 证据" },
+          title: {
+            en: "Do you have public evidence such as posts, replies, traffic, waitlist, leads, conversions, or revenue?",
+            zh: "你是否有帖子、回复、流量、waitlist、线索、转化或收入等公开证据？",
+          },
+        },
+        {
+          key: "momentum-creation",
+          signal: { en: "Momentum creation", zh: "势能创造" },
+          title: {
+            en: "Have you helped recruit, sell, fundraise, market, or create momentum for a project?",
+            zh: "你是否帮助一个项目招聘、销售、融资、营销或创造势能？",
+          },
+        },
+        {
+          key: "narrative-shift",
+          signal: { en: "Narrative shift", zh: "叙事改变" },
+          title: {
+            en: "Have you changed how others understand or talk about a product, idea, or market?",
+            zh: "你是否改变过别人理解或谈论某个产品、想法或市场的方式？",
+          },
+        },
+        {
+          key: "multi-channel",
+          signal: { en: "Multi-channel operation", zh: "多渠道运营" },
+          title: {
+            en: "Have you led a multi-channel growth, sales, recruiting, or community effort?",
+            zh: "你是否主导过多渠道增长、销售、招聘或社区动作？",
+          },
+        },
+        {
+          key: "market-shaping",
+          signal: { en: "Market shaping", zh: "市场塑造" },
+          title: {
+            en: "Have you shaped market perception or category narrative?",
+            zh: "你是否塑造过市场认知或类别叙事？",
+          },
+        },
+      ],
+      levels: [
+        {
+          key: "gh-l3",
+          code: "GH-L3",
+          min: 0,
+          stage: { en: "Entry", zh: "Entry" },
+          title: { en: "AI-assisted Communicator", zh: "AI 辅助沟通者" },
+          means: {
+            en: "You can use AI to improve expression, content, pitch, communication, and basic distribution tasks.",
+            zh: "你能用 AI 改善表达、内容、pitch、沟通和基础传播任务。",
+          },
+          market: {
+            en: ["Learning / assistant-level opportunities", "Content or communication support", "Intern or apprentice seller work"],
+            zh: ["学习型 / 助理级机会", "内容或沟通支持", "实习或学徒型 seller 工作"],
+          },
+          missing: {
+            en: ["Clear target audience", "Real replies or response evidence", "Public distribution proof"],
+            zh: ["清晰目标受众", "真实回复或回应证据", "公开分发 proof"],
+          },
+          upgrade: {
+            en: ["Pick one idea and define audience, promise, channel, and ask.", "Publish or send one small message to real people.", "Record who responded and what you learned."],
+            zh: ["选择一个想法，定义受众、承诺、渠道和行动请求。", "向真实的人发布或发送一条小信息。", "记录谁回应了以及你学到什么。"],
+          },
+          challenge: {
+            en: "Use AI to write one sharp pitch for a real idea, send or publish it, and record the first response signal.",
+            zh: "用 AI 为一个真实想法写出清晰 pitch，发送或发布，并记录第一个回应信号。",
+          },
+          nextGap: {
+            en: "show you can independently build a narrative for a defined audience.",
+            zh: "证明你能为明确受众独立构建叙事。",
+          },
+        },
+        {
+          key: "gh-l4",
+          code: "GH-L4",
+          min: 9,
+          stage: { en: "Independent", zh: "Independent" },
+          title: { en: "Independent Narrative Builder", zh: "独立叙事构建者" },
+          means: {
+            en: "You can independently define audience, message, and positioning, then get real response from the market.",
+            zh: "你能独立定义受众、信息和定位，并获得真实市场回应。",
+          },
+          market: {
+            en: ["Entry-level AI operator", "Marketing or founder's office intern", "Community or recruiting assistant", "Junior growth contributor"],
+            zh: ["入门 AI operator", "市场或创始人办公室实习", "社区或招聘助理", "初级增长贡献者"],
+          },
+          missing: {
+            en: ["Repeatable distribution motion", "Measurable response such as leads, signups, candidates, or revenue", "Public traction evidence"],
+            zh: ["可重复分发动作", "线索、注册、候选人或收入等可衡量回应", "公开 traction 证据"],
+          },
+          upgrade: {
+            en: ["Run the same motion across several attempts, not one post.", "Track replies, signups, leads, conversions, or qualified conversations.", "Save public evidence so the market can inspect the signal."],
+            zh: ["不要只做一条内容，重复运行同一个动作。", "记录回复、注册、线索、转化或有效对话。", "保存公开证据，让市场能检查信号。"],
+          },
+          challenge: {
+            en: "Launch one idea publicly in 48 hours with a post, pitch, landing page, outreach sequence, or campaign. Try to get real replies, signups, leads, candidates, users, or feedback.",
+            zh: "48 小时内公开发布一个想法：帖子、pitch、落地页、outreach 序列或 campaign。尝试获得真实回复、注册、线索、候选人、用户或反馈。",
+          },
+          nextGap: {
+            en: "show repeatable distribution and measurable response.",
+            zh: "证明可重复分发和可衡量回应。",
+          },
+        },
+        {
+          key: "gh-l5",
+          code: "GH-L5",
+          min: 18,
+          stage: { en: "Senior", zh: "Senior" },
+          title: { en: "Senior Distribution Operator", zh: "高级分发操盘手" },
+          means: {
+            en: "You can repeatedly create reach, leads, users, candidates, sales opportunities, or growth outcomes and use AI to increase distribution efficiency.",
+            zh: "你能稳定制造触达、线索、用户、候选人、销售机会或增长结果，并用 AI 提升分发效率。",
+          },
+          market: {
+            en: ["Junior-to-mid full-time roles", "AI growth or distribution roles", "Recruiting or sales operator", "Strong early-career candidate"],
+            zh: ["初中级全职岗位", "AI 增长或分发岗位", "招聘或销售 operator", "较强早期候选人"],
+          },
+          missing: {
+            en: ["Cross-channel or team-level demand creation", "Clear business, recruiting, or revenue outcomes", "Influence over positioning or strategy"],
+            zh: ["跨渠道或团队级需求创造", "明确业务、招聘或收入结果", "对定位或策略的影响"],
+          },
+          upgrade: {
+            en: ["Connect content, outbound, community, and conversion into one operating loop.", "Show the business result, not only activity metrics.", "Document the narrative and channel logic so others can run it."],
+            zh: ["把内容、outbound、社区和转化连成一个运营闭环。", "展示业务结果，而不只是活动指标。", "记录叙事和渠道逻辑，让别人也能执行。"],
+          },
+          challenge: {
+            en: "Run a two-channel distribution sprint for one real offer and publish the response metrics, learnings, and next iteration.",
+            zh: "为一个真实 offer 跑一次双渠道分发冲刺，公开回应指标、学习和下一轮迭代。",
+          },
+          nextGap: {
+            en: "show cross-channel demand creation with business impact.",
+            zh: "证明跨渠道需求创造和业务影响。",
+          },
+        },
+        {
+          key: "gh-l6",
+          code: "GH-L6",
+          min: 28,
+          stage: { en: "Staff", zh: "Staff" },
+          title: { en: "Staff Demand Creator", zh: "Staff 级需求创造者" },
+          means: {
+            en: "You can create demand across channels and teams, shaping positioning, narrative, strategy, and business or hiring outcomes.",
+            zh: "你能跨渠道、跨团队创造需求，影响定位、叙事、策略，以及业务或招聘结果。",
+          },
+          market: {
+            en: ["Strong full-time candidate", "Senior operator", "Founding team contributor", "Team-level growth, sales, or recruiting role"],
+            zh: ["强全职候选人", "高级 operator", "创始团队贡献者", "团队级增长、销售或招聘岗位"],
+          },
+          missing: {
+            en: ["Category-level narrative", "Trust network beyond one team", "Market perception change or sustained distribution power"],
+            zh: ["类别级叙事", "超越单团队的信任网络", "市场认知改变或持续分发能力"],
+          },
+          upgrade: {
+            en: ["Move from campaign results to category thesis.", "Build trust channels that compound across customers, talent, capital, or community.", "Show how your narrative changes what others believe or repeat."],
+            zh: ["从 campaign 结果升级到类别 thesis。", "构建能在客户、人才、资本或社区里复利的信任渠道。", "展示你的叙事如何改变别人相信或复述的内容。"],
+          },
+          challenge: {
+            en: "Publish a category narrative, test it across two trusted channels, and document how people repeat, challenge, or adopt it.",
+            zh: "发布一个类别叙事，在两个可信渠道测试，并记录人们如何复述、质疑或采用它。",
+          },
+          nextGap: {
+            en: "show market perception change, not only demand generation.",
+            zh: "证明市场认知改变，而不只是需求生成。",
+          },
+        },
+        {
+          key: "gh-l7",
+          code: "GH-L7",
+          min: 36,
+          stage: { en: "Principal", zh: "Principal" },
+          title: { en: "Principal Market Shaper", zh: "Principal 级市场塑造者" },
+          means: {
+            en: "You can change market perception or category direction through narrative, trust, relationships, sales, and distribution power.",
+            zh: "你能通过叙事、信任、关系网络、销售和分发能力改变市场认知或类别方向。",
+          },
+          market: {
+            en: ["Founder-like hire", "Principal operator", "Category builder", "High-value market-level contributor"],
+            zh: ["创始人型人才", "Principal operator", "类别构建者", "高价值市场级贡献者"],
+          },
+          missing: {
+            en: ["Keep evidence current", "Clarify what market belief changed", "Make trust and adoption evidence inspectable"],
+            zh: ["持续更新证据", "讲清哪种市场信念发生变化", "让信任和采用证据可检查"],
+          },
+          upgrade: {
+            en: ["Maintain a public trail of category narrative, trust signals, and adoption.", "Show who repeated, funded, hired, bought, or built because of the direction.", "Use challenges to make the next market signal visible."],
+            zh: ["维护类别叙事、信任信号和采用的公开证据链。", "展示谁因为这个方向复述、投资、招聘、购买或构建。", "用 challenge 让下一轮市场信号更可见。"],
+          },
+          challenge: {
+            en: "Launch one market thesis with distribution proof: who repeated it, who acted on it, and what changed.",
+            zh: "发布一个市场 thesis，并附上分发 proof：谁复述了、谁采取行动了、发生了什么变化。",
+          },
+          nextGap: {
+            en: "keep market-level evidence fresh and inspectable.",
+            zh: "持续保持市场级证据新鲜且可检查。",
           },
         },
       ],
     },
-    {
-      label: "03",
-      title: {
-        en: "To prove value, you would rather show...",
-        zh: "为了证明价值，你更想展示...",
-      },
-      aria: "Proof preference",
-      options: [
-        {
-          value: "build-demo",
-          signal: "build",
-          label: {
-            en: "A live demo that solves a real workflow.",
-            zh: "一个解决真实工作流的 live demo。",
-          },
-          detail: {
-            en: "Use is the cleanest proof.",
-            zh: "可用性是最直接的证明。",
-          },
-        },
-        {
-          value: "sell-conversion",
-          signal: "sell",
-          label: {
-            en: "A response, signup, reply, intro, or conversion signal.",
-            zh: "回复、注册、转介绍、引荐或转化信号。",
-          },
-          detail: {
-            en: "Action from real people is proof.",
-            zh: "真实人的行动就是证明。",
-          },
-        },
-        {
-          value: "build-before-after",
-          signal: "build",
-          label: {
-            en: "A before/after artifact showing time saved or quality improved.",
-            zh: "一个前后对比产物，说明省了时间或提升了质量。",
-          },
-          detail: {
-            en: "The result is visible in the process.",
-            zh: "结果体现在流程变化里。",
-          },
-        },
-        {
-          value: "sell-story",
-          signal: "sell",
-          label: {
-            en: "A narrative that makes the value obvious to the right people.",
-            zh: "一个让目标人群立刻理解价值的叙事。",
-          },
-          detail: {
-            en: "Clarity can unlock demand.",
-            zh: "清晰表达能解锁需求。",
-          },
-        },
-      ],
-    },
-    {
-      label: "04",
-      title: {
-        en: "When a team is stuck, you are more likely to...",
-        zh: "团队卡住时，你更可能...",
-      },
-      aria: "Unblocking work",
-      options: [
-        {
-          value: "build-tool",
-          signal: "build",
-          label: {
-            en: "Make a small tool or process that removes the bottleneck.",
-            zh: "做一个小工具或流程，把瓶颈移走。",
-          },
-          detail: {
-            en: "Fix the system so the work moves.",
-            zh: "修系统，让事情动起来。",
-          },
-        },
-        {
-          value: "sell-align",
-          signal: "sell",
-          label: {
-            en: "Reframe the goal so people understand why to act now.",
-            zh: "重新表达目标，让大家知道为什么现在要行动。",
-          },
-          detail: {
-            en: "Momentum often starts with belief and clarity.",
-            zh: "推进力常从信念和清晰开始。",
-          },
-        },
-        {
-          value: "build-spec",
-          signal: "build",
-          label: {
-            en: "Write the spec and turn it into a working checklist.",
-            zh: "写出 spec，并把它变成可执行清单。",
-          },
-          detail: {
-            en: "Structure makes execution possible.",
-            zh: "结构让执行成为可能。",
-          },
-        },
-        {
-          value: "sell-room",
-          signal: "sell",
-          label: {
-            en: "Get the right people into the right conversation.",
-            zh: "把对的人拉进对的对话里。",
-          },
-          detail: {
-            en: "The bottleneck may be trust, not tasks.",
-            zh: "瓶颈可能是信任，不是任务。",
-          },
-        },
-      ],
-    },
-    {
-      label: "05",
-      title: {
-        en: "The work artifact you naturally leave behind is...",
-        zh: "你最自然留下的工作产物是...",
-      },
-      aria: "Work artifact",
-      options: [
-        {
-          value: "build-repo",
-          signal: "build",
-          label: {
-            en: "A repo, prototype, automation, dashboard, or operating system.",
-            zh: "repo、原型、自动化、dashboard 或操作系统。",
-          },
-          detail: {
-            en: "The artifact can keep working after you leave.",
-            zh: "你离开后，产物还能继续工作。",
-          },
-        },
-        {
-          value: "sell-playbook",
-          signal: "sell",
-          label: {
-            en: "A launch plan, sales script, hiring story, or distribution playbook.",
-            zh: "发布计划、销售话术、招聘故事或分发 playbook。",
-          },
-          detail: {
-            en: "The message can keep spreading after you leave.",
-            zh: "你离开后，信息还能继续传播。",
-          },
-        },
-        {
-          value: "build-workflow",
-          signal: "build",
-          label: {
-            en: "A cleaner workflow others can reuse.",
-            zh: "一个别人可以复用的更干净工作流。",
-          },
-          detail: {
-            en: "Reusable systems create durable leverage.",
-            zh: "可复用系统创造长期杠杆。",
-          },
-        },
-        {
-          value: "sell-market-map",
-          signal: "sell",
-          label: {
-            en: "A market map, audience list, or relationship path.",
-            zh: "市场地图、受众列表或关系路径。",
-          },
-          detail: {
-            en: "Knowing who matters changes the next move.",
-            zh: "知道谁重要，会改变下一步。",
-          },
-        },
-      ],
-    },
-    {
-      label: "06",
-      title: {
-        en: "If you had one week to create signal, you would...",
-        zh: "如果只有一周创造信号，你会...",
-      },
-      aria: "One week signal",
-      options: [
-        {
-          value: "build-week-demo",
-          signal: "build",
-          label: {
-            en: "Ship a tiny product or automation and document the result.",
-            zh: "交付一个小产品或自动化，并记录结果。",
-          },
-          detail: {
-            en: "A shipped artifact makes the signal concrete.",
-            zh: "交付物让信号变具体。",
-          },
-        },
-        {
-          value: "sell-week-outbound",
-          signal: "sell",
-          label: {
-            en: "Run a small outbound or content experiment and measure response.",
-            zh: "跑一个小 outbound 或内容实验，并衡量反馈。",
-          },
-          detail: {
-            en: "The market answers faster than planning.",
-            zh: "市场反馈比规划更快。",
-          },
-        },
-        {
-          value: "build-week-agent",
-          signal: "build",
-          label: {
-            en: "Build an agent workflow that saves one repeated task.",
-            zh: "做一个 agent 工作流，节省一个重复任务。",
-          },
-          detail: {
-            en: "Small automation can prove large leverage.",
-            zh: "小自动化可以证明大杠杆。",
-          },
-        },
-        {
-          value: "sell-week-recruit",
-          signal: "sell",
-          label: {
-            en: "Create a recruiting or partnership narrative and test it with real people.",
-            zh: "做一个招聘或合作叙事，并找真实的人测试。",
-          },
-          detail: {
-            en: "Conviction grows through live response.",
-            zh: "信念来自真实反馈。",
-          },
-        },
-      ],
-    },
-    {
-      label: "07",
-      title: {
-        en: "Your default way to improve weak work is...",
-        zh: "面对不够强的工作，你默认会...",
-      },
-      aria: "Improving weak work",
-      options: [
-        {
-          value: "build-fix",
-          signal: "build",
-          label: {
-            en: "Fix the flow, remove friction, and make the output more reliable.",
-            zh: "修流程、减少摩擦，并让产出更可靠。",
-          },
-          detail: {
-            en: "Better systems make better work repeatable.",
-            zh: "更好的系统让好工作可重复。",
-          },
-        },
-        {
-          value: "sell-clarify",
-          signal: "sell",
-          label: {
-            en: "Clarify the promise, audience, proof, and call to action.",
-            zh: "讲清承诺、受众、证据和行动指令。",
-          },
-          detail: {
-            en: "Better framing makes value easier to see.",
-            zh: "更好的框架让价值更容易被看见。",
-          },
-        },
-        {
-          value: "build-test",
-          signal: "build",
-          label: {
-            en: "Add tests, constraints, or instrumentation.",
-            zh: "加测试、约束或观测指标。",
-          },
-          detail: {
-            en: "Reliability is a reputation signal.",
-            zh: "可靠性本身就是 reputation 信号。",
-          },
-        },
-        {
-          value: "sell-objection",
-          signal: "sell",
-          label: {
-            en: "Find the objection and rewrite around it.",
-            zh: "找到异议，并围绕它重写表达。",
-          },
-          detail: {
-            en: "Trust grows when doubts are answered.",
-            zh: "回应疑虑会增加信任。",
-          },
-        },
-      ],
-    },
-    {
-      label: "08",
-      title: {
-        en: "You feel most useful when...",
-        zh: "你什么时候最觉得自己有用？",
-      },
-      aria: "Usefulness",
-      options: [
-        {
-          value: "build-working",
-          signal: "build",
-          label: {
-            en: "Something broken starts working because of what you made.",
-            zh: "某个坏掉的东西，因为你做的产物开始运转。",
-          },
-          detail: {
-            en: "The proof is in the working system.",
-            zh: "证明在可运转系统里。",
-          },
-        },
-        {
-          value: "sell-moving",
-          signal: "sell",
-          label: {
-            en: "People move because your words made the value click.",
-            zh: "因为你的表达让价值被理解，人们开始行动。",
-          },
-          detail: {
-            en: "The proof is in changed behavior.",
-            zh: "证明在行为变化里。",
-          },
-        },
-        {
-          value: "build-repeatable",
-          signal: "build",
-          label: {
-            en: "A team can repeat a better process without you pushing it.",
-            zh: "团队不用你推，也能重复一个更好的流程。",
-          },
-          detail: {
-            en: "Systems scale beyond personal effort.",
-            zh: "系统能超越个人努力。",
-          },
-        },
-        {
-          value: "sell-connection",
-          signal: "sell",
-          label: {
-            en: "The right person, customer, candidate, or partner says yes.",
-            zh: "正确的用户、候选人、客户或伙伴说 yes。",
-          },
-          detail: {
-            en: "Distribution turns potential into opportunity.",
-            zh: "分发把潜力变成机会。",
-          },
-        },
-      ],
-    },
-    {
-      label: "09",
-      title: {
-        en: "When you explain your work, you lead with...",
-        zh: "解释自己的工作时，你通常先讲...",
-      },
-      aria: "Explaining work",
-      options: [
-        {
-          value: "build-how",
-          signal: "build",
-          label: {
-            en: "What it does, how it works, and what changed.",
-            zh: "它做什么、怎么运转、改变了什么。",
-          },
-          detail: {
-            en: "Mechanism and result come first.",
-            zh: "机制和结果优先。",
-          },
-        },
-        {
-          value: "sell-why",
-          signal: "sell",
-          label: {
-            en: "Who it is for, why now, and why they should care.",
-            zh: "它给谁、为什么现在重要、为什么对方该在乎。",
-          },
-          detail: {
-            en: "Audience and urgency come first.",
-            zh: "受众和紧迫性优先。",
-          },
-        },
-        {
-          value: "build-constraint",
-          signal: "build",
-          label: {
-            en: "The constraints, tradeoffs, and implementation choices.",
-            zh: "约束、取舍和实现选择。",
-          },
-          detail: {
-            en: "Good work survives technical reality.",
-            zh: "好工作要穿过技术现实。",
-          },
-        },
-        {
-          value: "sell-proof",
-          signal: "sell",
-          label: {
-            en: "The proof, social signal, and next ask.",
-            zh: "证据、社会信号和下一步请求。",
-          },
-          detail: {
-            en: "Good work needs a path to adoption.",
-            zh: "好工作需要通向采用的路径。",
-          },
-        },
-      ],
-    },
-    {
-      label: "10",
-      title: {
-        en: "The challenge you would choose right now is...",
-        zh: "现在让你选一个 challenge，你会选...",
-      },
-      aria: "Challenge choice",
-      options: [
-        {
-          value: "build-agent",
-          signal: "build",
-          label: {
-            en: "Build an AI workflow that makes one real task faster or better.",
-            zh: "构建一个 AI 工作流，让一个真实任务更快或更好。",
-          },
-          detail: {
-            en: "A useful artifact can become reputation.",
-            zh: "有用产物可以变成 reputation。",
-          },
-        },
-        {
-          value: "sell-launch",
-          signal: "sell",
-          label: {
-            en: "Launch a narrative and get real people to respond.",
-            zh: "发布一个叙事，并让真实的人产生反馈。",
-          },
-          detail: {
-            en: "A real response can become reputation.",
-            zh: "真实反馈可以变成 reputation。",
-          },
-        },
-        {
-          value: "build-internal-tool",
-          signal: "build",
-          label: {
-            en: "Turn a manual process into a small internal tool.",
-            zh: "把一个手工流程变成小型内部工具。",
-          },
-          detail: {
-            en: "Operational leverage is visible proof.",
-            zh: "运营杠杆是可见证明。",
-          },
-        },
-        {
-          value: "sell-outbound",
-          signal: "sell",
-          label: {
-            en: "Run an outbound sequence for a product, hire, or partnership.",
-            zh: "为产品、招聘或合作跑一个 outbound 序列。",
-          },
-          detail: {
-            en: "Movement from others is visible proof.",
-            zh: "他人的行动是可见证明。",
-          },
-        },
-      ],
-    },
-  ];
+  };
 
   const COPY = {
     en: {
-      resultTitle: "AI-native reputation card",
-      modeLabel: "Your mode:",
-      strengthsTitle: "Your strengths",
-      edgeTitle: "Your edge",
-      watchTitle: "Watch out",
-      proofTitle: "Next proof",
-      challengeTitle: "Challenge to prove it",
-      hiringSignalTitle: "Hiring signal",
-      hiringSignalBody: "This is a quick self-report. Reputation starts when you attach challenge proof: the artifact, the audience, the result, and what changed.",
+      resultTitle: "AI-native market level card",
+      yourLevelTitle: "Your Level",
+      meansTitle: "What this level means",
+      marketReadTitle: "Market Read",
+      missingSignalsTitle: "Missing Signals",
+      nextLevelTitle: "Next Level",
+      upgradePlanTitle: "Upgrade Plan",
+      recommendedChallengeTitle: "Recommended Challenge",
+      trustTitle: "Trust Boundary",
+      trackLabel: "Track",
+      scoreLabel: "Signal score",
+      levelNote: "Inspired by Big Tech leveling. Not equivalent to any specific company level.",
+      noNextLevel: "You are already at the highest GH level in this lightweight assessment. Keep market evidence current and inspectable.",
+      trustPoints: ["No private work required.", "Use public links only.", "You control what you share."],
       shareResult: "share",
       shared: "image copied",
       textCopied: "text copied",
@@ -693,15 +593,20 @@
       back: "Previous",
     },
     zh: {
-      resultTitle: "AI-native reputation 卡片",
-      modeLabel: "你的模式：",
-      strengthsTitle: "你的优势",
-      edgeTitle: "你的优势场",
-      watchTitle: "需要注意",
-      proofTitle: "下一步证明",
-      challengeTitle: "用挑战证明它",
-      hiringSignalTitle: "招聘信号",
-      hiringSignalBody: "这是一个快速自测。真正的 reputation 从 challenge proof 开始：产物、受众、结果，以及发生了什么变化。",
+      resultTitle: "AI-native market level 卡片",
+      yourLevelTitle: "Your Level",
+      meansTitle: "What this level means",
+      marketReadTitle: "Market Read",
+      missingSignalsTitle: "Missing Signals",
+      nextLevelTitle: "Next Level",
+      upgradePlanTitle: "Upgrade Plan",
+      recommendedChallengeTitle: "Recommended Challenge",
+      trustTitle: "Trust Boundary",
+      trackLabel: "赛道",
+      scoreLabel: "信号得分",
+      levelNote: "受大厂职级逻辑启发，但不等同于任何具体公司的职级。",
+      noNextLevel: "你已经处在这个轻量评估的最高 GH Level。下一步是持续保持市场证据新鲜且可检查。",
+      trustPoints: ["不需要私人作品。", "只使用公开链接。", "你决定分享什么。"],
       shareResult: "分享",
       shared: "图片已复制",
       textCopied: "文字已复制",
@@ -734,7 +639,15 @@
   }
 
   function localized(value, lang) {
+    if (!value) return "";
+    if (typeof value === "string") return value;
     return value[lang] || value.en || "";
+  }
+
+  function localizedList(value, lang) {
+    if (!value) return [];
+    if (Array.isArray(value)) return value;
+    return value[lang] || value.en || [];
   }
 
   function makeElement(tag, className, content) {
@@ -750,37 +663,98 @@
     return node;
   }
 
+  function normalizeTrackKey(value) {
+    const key = String(value || "").toLowerCase().trim();
+    if (key === "build") return "builder";
+    if (key === "sell") return "seller";
+    return TRACK_KEYS.includes(key) ? key : "builder";
+  }
+
+  function normalizeLevelKey(value) {
+    const key = String(value || "").toLowerCase().trim().replace("_", "-");
+    if (/^l[3-7]$/.test(key)) return "gh-" + key;
+    if (/^gh-l[3-7]$/.test(key)) return key;
+    return "";
+  }
+
+  function selectedTrackKey() {
+    try {
+      const url = new URL(window.location.href);
+      const hashTrack = url.hash.startsWith("#track=")
+        ? decodeURIComponent(url.hash.slice("#track=".length))
+        : "";
+      return normalizeTrackKey(url.searchParams.get("track") || hashTrack || "builder");
+    } catch (error) {
+      return "builder";
+    }
+  }
+
+  function selectedTrack() {
+    return TRACKS[selectedTrackKey()] || TRACKS.builder;
+  }
+
+  function levelForScore(track, score) {
+    const levels = track.levels.slice().sort((a, b) => a.min - b.min);
+    return levels.reduce((current, level) => score >= level.min ? level : current, levels[0]);
+  }
+
+  function nextLevel(track, level) {
+    const index = track.levels.findIndex((item) => item.key === level.key);
+    return index >= 0 && index < track.levels.length - 1 ? track.levels[index + 1] : null;
+  }
+
+  function levelByKey(track, key) {
+    return track.levels.find((level) => level.key === key) || null;
+  }
+
+  function levelDisplay(result, lang) {
+    return [
+      result.level.code,
+      localized(result.track.title, lang),
+      "—",
+      localized(result.level.title, lang),
+    ].join(" ");
+  }
+
+  function resultType(result) {
+    return result ? result.track.key + "-" + result.level.key : "";
+  }
+
   function renderQuestionSteps(form) {
     const nav = form.querySelector(".quick-nav");
+    const track = selectedTrack();
     if (!nav) return;
 
     form.querySelectorAll(".quick-step").forEach((step) => step.remove());
 
-    QUESTION_STEPS.forEach((question, index) => {
+    track.questions.forEach((question, index) => {
       const section = makeElement("section", "section question-block quick-step" + (index === 0 ? " is-active" : ""));
       section.dataset.step = String(index + 1);
 
       const head = makeElement("div", "question-head");
       head.append(
-        makeElement("span", "question-step", question.label),
+        makeElement("span", "question-step", String(index + 1).padStart(2, "0")),
         localizedNode("h2", "en", question.title.en),
         localizedNode("h2", "zh", question.title.zh)
       );
 
       const choices = makeElement("div", "choice-grid one-up");
       choices.setAttribute("role", "radiogroup");
-      choices.setAttribute("aria-label", question.aria);
+      choices.setAttribute("aria-label", localized(question.signal, "en"));
 
-      question.options.forEach((option) => {
+      MATURITY_OPTIONS.forEach((option) => {
         const label = makeElement("label", "choice");
         const input = document.createElement("input");
         input.type = "radio";
         input.name = "q" + (index + 1);
-        input.value = option.value;
+        input.value = question.key + ":" + option.value;
         input.required = true;
+        input.dataset.score = String(option.score);
+        input.dataset.track = track.key;
+        input.dataset.signalEn = question.signal.en;
+        input.dataset.signalZh = question.signal.zh;
         input.dataset.labelEn = option.label.en;
         input.dataset.labelZh = option.label.zh;
-        input.dataset[signalDatasetKey(option.signal)] = "1";
 
         const copy = document.createElement("span");
         copy.append(
@@ -794,96 +768,93 @@
         choices.append(label);
       });
 
-      section.append(head, choices);
+      section.append(head);
+      if (index === 0) {
+        const intro = makeElement("p", "track-note");
+        intro.append(
+          localizedNode("span", "en", localized(track.definition, "en")),
+          localizedNode("span", "zh", localized(track.definition, "zh"))
+        );
+        section.append(intro);
+      }
+      section.append(choices);
       form.insertBefore(section, nav);
     });
-  }
-
-  function signalDatasetKey(signal) {
-    return "signal" + signal.charAt(0).toUpperCase() + signal.slice(1);
-  }
-
-  function datasetNumber(option, key) {
-    const value = option.dataset[key];
-    return value ? Number(value) || 0 : 0;
   }
 
   function selectedOptions(form) {
     return Array.from(form.querySelectorAll('input[type="radio"]:checked'));
   }
 
-  function scoreMode(scores) {
-    return scores.sell > scores.build
-      ? MODE_RESULTS.find((mode) => mode.key === "seller")
-      : MODE_RESULTS.find((mode) => mode.key === "builder");
-  }
-
   function scoreQuickTest(form) {
-    const scores = Object.fromEntries(SIGNAL_KEYS.map((key) => [key, 0]));
-    selectedOptions(form).forEach((option) => {
-      SIGNAL_KEYS.forEach((signal) => {
-        scores[signal] += datasetNumber(option, signalDatasetKey(signal));
-      });
-    });
-
+    const track = selectedTrack();
+    const answers = selectedOptions(form);
+    const score = answers.reduce((sum, option) => sum + (Number(option.dataset.score) || 0), 0);
+    const level = levelForScore(track, score);
     return {
-      mode: scoreMode(scores),
-      scores,
+      track,
+      score,
+      level,
+      nextLevel: nextLevel(track, level),
+      answers,
     };
   }
 
-  function resultType(result) {
-    return result?.mode?.key || "";
-  }
-
-  function resultByKey(key) {
-    const normalized = key === "build" ? "builder" : key === "sell" ? "seller" : key;
-    const mode = MODE_RESULTS.find((item) => item.key === normalized);
-    return mode ? { mode } : null;
-  }
-
   function resultFromLocation() {
-    let key = "";
     try {
       const url = new URL(window.location.href);
-      key = url.searchParams.get("result") || "";
-      if (!key && url.hash.startsWith("#result=")) {
-        key = decodeURIComponent(url.hash.slice("#result=".length));
+      const legacyResult = url.searchParams.get("result") || "";
+      const trackKey = normalizeTrackKey(url.searchParams.get("track") || legacyResult || "builder");
+      const track = TRACKS[trackKey] || TRACKS.builder;
+      let levelKey = normalizeLevelKey(url.searchParams.get("level") || "");
+      if (!levelKey && legacyResult && TRACK_KEYS.includes(normalizeTrackKey(legacyResult))) {
+        levelKey = "gh-l4";
       }
+      if (!levelKey) return null;
+      const level = levelByKey(track, levelKey);
+      if (!level) return null;
+      return {
+        track,
+        score: null,
+        level,
+        nextLevel: nextLevel(track, level),
+        answers: [],
+      };
     } catch (error) {
-      key = "";
+      return null;
     }
-    return resultByKey(key);
   }
 
   function publicProfileUrl(result) {
-    const key = resultType(result);
     const url = new URL(window.location.href);
-    url.search = key ? "?result=" + encodeURIComponent(key) : "";
+    url.search = "?track=" + encodeURIComponent(result.track.key) + "&level=" + encodeURIComponent(result.level.key);
     url.hash = "";
     return url.toString();
   }
 
   function challengeIssueUrl(result, lang) {
-    const mode = result?.mode;
-    const modeKey = resultType(result) || "builder";
-    const title = "Challenge proof: " + localized(mode?.title || MODE_RESULTS[0].title, "en");
+    const title = "Challenge: " + levelDisplay(result, "en");
+    const next = result.nextLevel;
     const body = [
-      "Mode: " + localized(mode?.title || MODE_RESULTS[0].title, lang),
+      "Track: " + localized(result.track.title, lang),
+      "Current level: " + levelDisplay(result, lang),
+      "Next level: " + (next ? next.code + " " + localized(next.title, lang) : text(lang, "noNextLevel")),
       "",
-      lang === "zh" ? "Challenge 目标：" : "Challenge goal:",
-      localized(mode?.challenge || MODE_RESULTS[0].challenge, lang),
+      lang === "zh" ? "Recommended challenge:" : "Recommended challenge:",
+      localized(result.level.challenge, lang),
       "",
-      lang === "zh" ? "我要证明：" : "I want to prove:",
+      lang === "zh" ? "Public link only:" : "Public link only:",
       "",
-      lang === "zh" ? "产物 / 内容链接：" : "Artifact / content link:",
+      lang === "zh" ? "Observed signal:" : "Observed signal:",
       "",
-      lang === "zh" ? "结果信号：" : "Result signal:",
+      lang === "zh" ? "What changed:" : "What changed:",
       "",
-      lang === "zh" ? "我希望团队如何解读这个 proof：" : "How I want teams to read this proof:",
+      lang === "zh" ? "No private work required. I control what I share." : "No private work required. I control what I share.",
     ].join("\n");
     return "https://github.com/realRoc/git-hired/issues/new?labels=challenge," +
-      encodeURIComponent(modeKey) +
+      encodeURIComponent(result.track.key) +
+      "," +
+      encodeURIComponent(result.level.key) +
       "&title=" + encodeURIComponent(title) +
       "&body=" + encodeURIComponent(body);
   }
@@ -897,11 +868,11 @@
     return selectedOptions(form).length;
   }
 
-  function renderStrengths(mode, lang) {
+  function renderListSection(title, items) {
     const section = makeElement("section", "builder-card-section");
-    section.append(makeElement("h3", "", text(lang, "strengthsTitle")));
+    section.append(makeElement("h3", "", title));
     const list = makeElement("ul", "builder-list");
-    localized(mode.strengths, lang).forEach((item) => {
+    items.forEach((item) => {
       list.append(makeElement("li", "", item));
     });
     section.append(list);
@@ -917,31 +888,45 @@
     return section;
   }
 
+  function nextLevelCopy(result, lang) {
+    if (!result.nextLevel) return text(lang, "noNextLevel");
+    return [
+      result.nextLevel.code,
+      localized(result.track.title, lang),
+      "—",
+      localized(result.nextLevel.title, lang) + ":",
+      localized(result.level.nextGap, lang),
+    ].join(" ");
+  }
+
   function buildResultText(result, lang) {
-    const mode = result.mode;
-    const strengths = localized(mode.strengths, lang).map((item) => "- " + item).join("\n");
     return [
       "git-hired",
-      text(lang, "modeLabel") + " " + localized(mode.title, lang),
-      localized(mode.summary, lang),
+      text(lang, "resultTitle"),
+      text(lang, "yourLevelTitle") + ": " + levelDisplay(result, lang),
+      text(lang, "scoreLabel") + ": " + (result.score === null ? "public profile" : result.score + " / 40"),
+      text(lang, "levelNote"),
       "",
-      text(lang, "strengthsTitle") + ":",
-      strengths,
+      text(lang, "meansTitle") + ":",
+      localized(result.level.means, lang),
       "",
-      text(lang, "edgeTitle") + ":",
-      localized(mode.edge, lang),
+      text(lang, "marketReadTitle") + ":",
+      localizedList(result.level.market, lang).map((item) => "- " + item).join("\n"),
       "",
-      text(lang, "watchTitle") + ":",
-      localized(mode.watch, lang),
+      text(lang, "missingSignalsTitle") + ":",
+      localizedList(result.level.missing, lang).map((item) => "- " + item).join("\n"),
       "",
-      text(lang, "proofTitle") + ":",
-      localized(mode.proof, lang),
+      text(lang, "nextLevelTitle") + ":",
+      nextLevelCopy(result, lang),
       "",
-      text(lang, "challengeTitle") + ":",
-      localized(mode.challenge, lang),
+      text(lang, "upgradePlanTitle") + ":",
+      localizedList(result.level.upgrade, lang).map((item) => "- " + item).join("\n"),
       "",
-      text(lang, "hiringSignalTitle") + ":",
-      text(lang, "hiringSignalBody"),
+      text(lang, "recommendedChallengeTitle") + ":",
+      localized(result.level.challenge, lang),
+      "",
+      text(lang, "trustTitle") + ":",
+      COPY[lang].trustPoints.map((item) => "- " + item).join("\n"),
       "",
       publicProfileUrl(result),
     ].join("\n");
@@ -949,39 +934,42 @@
 
   function renderResultCard(host, result, lang) {
     if (!host || !result) return;
-    const mode = result.mode;
     const ascii = makeElement("pre", "builder-card-ascii", ASCII_GIT_HIRED);
     const identity = makeElement("div", "builder-identity");
+    const score = result.score === null ? "" : " · " + text(lang, "scoreLabel") + " " + result.score + " / 40";
     identity.append(
       makeElement("span", "builder-card-kicker", text(lang, "resultTitle")),
-      makeElement(
-        "strong",
-        "builder-card-type",
-        text(lang, "modeLabel") + " " + localized(mode.title, lang)
-      ),
-      makeElement("p", "builder-card-summary", localized(mode.summary, lang))
+      makeElement("strong", "builder-card-type", levelDisplay(result, lang)),
+      makeElement("p", "builder-card-summary", localized(result.level.means, lang)),
+      makeElement("p", "level-readout", text(lang, "trackLabel") + ": " + localized(result.track.label, lang) + score),
+      makeElement("p", "level-note", text(lang, "levelNote"))
     );
 
     host.replaceChildren(
       ascii,
       identity,
-      renderStrengths(mode, lang),
-      renderTextSection(text(lang, "edgeTitle"), localized(mode.edge, lang)),
-      renderTextSection(text(lang, "watchTitle"), localized(mode.watch, lang)),
-      renderTextSection(text(lang, "proofTitle"), localized(mode.proof, lang)),
-      renderTextSection(text(lang, "challengeTitle"), localized(mode.challenge, lang)),
-      renderTextSection(text(lang, "hiringSignalTitle"), text(lang, "hiringSignalBody"))
+      renderTextSection(text(lang, "yourLevelTitle"), levelDisplay(result, lang)),
+      renderTextSection(text(lang, "meansTitle"), localized(result.level.means, lang)),
+      renderListSection(text(lang, "marketReadTitle"), localizedList(result.level.market, lang)),
+      renderListSection(text(lang, "missingSignalsTitle"), localizedList(result.level.missing, lang)),
+      renderTextSection(text(lang, "nextLevelTitle"), nextLevelCopy(result, lang)),
+      renderListSection(text(lang, "upgradePlanTitle"), localizedList(result.level.upgrade, lang)),
+      renderTextSection(text(lang, "recommendedChallengeTitle"), localized(result.level.challenge, lang)),
+      renderListSection(text(lang, "trustTitle"), COPY[lang].trustPoints)
     );
   }
 
   function renderChallengeEntry(result, lang) {
     if (!result) return;
-    const mode = result.mode;
     const title = document.getElementById("mode-challenge-title");
     const body = document.getElementById("mode-challenge-body");
     const link = document.getElementById("mode-challenge-link");
-    if (title) title.textContent = localized(mode.title, lang) + " challenge";
-    if (body) body.textContent = localized(mode.challenge, lang);
+    const next = result.nextLevel;
+    if (title) {
+      title.textContent = localized(result.track.challengeName, lang) + ": " +
+        result.level.code + (next ? " -> " + next.code : "");
+    }
+    if (body) body.textContent = localized(result.level.challenge, lang);
     if (link) link.href = challengeIssueUrl(result, lang);
   }
 
@@ -1057,7 +1045,7 @@
   }
 
   function drawShareSection(ctx, title, body, x, y, maxWidth) {
-    ctx.font = "600 26px JetBrains Mono, Menlo, Consolas, monospace";
+    ctx.font = "600 25px JetBrains Mono, Menlo, Consolas, monospace";
     ctx.fillStyle = "#8ee88f";
     ctx.fillText(title.toUpperCase(), x, y);
     ctx.font = "400 31px Inter, MiSans, -apple-system, BlinkMacSystemFont, sans-serif";
@@ -1078,7 +1066,6 @@
   }
 
   function renderShareImage(result, lang) {
-    const mode = result.mode;
     const canvas = document.createElement("canvas");
     canvas.width = 1080;
     canvas.height = 1600;
@@ -1135,47 +1122,36 @@
     });
     ctx.font = "500 19px JetBrains Mono, Menlo, Consolas, monospace";
     ctx.fillStyle = "#7a847c";
-    ctx.fillText("~/git-hired / reputation.card", topbarX + 96, topbarY + 36);
+    ctx.fillText("~/git-hired / market-level.card", topbarX + 96, topbarY + 36);
     ctx.fillStyle = "#8ee88f";
     ctx.fillText(lang === "zh" ? "结果已生成" : "RESULT READY", topbarX + topbarWidth - 172, topbarY + 36);
 
-    let y = topbarY + 110;
+    let y = topbarY + 124;
 
-    ctx.font = "500 21px JetBrains Mono, Menlo, Consolas, monospace";
+    ctx.font = "500 27px JetBrains Mono, Menlo, Consolas, monospace";
     ctx.fillStyle = "#8ee88f";
-    ASCII_GIT_HIRED.split("\n").forEach((line) => {
-      ctx.fillText(line, x - 16, y);
-      y += 25;
-    });
-    y += 38;
+    ctx.fillText("git-hired", x, y);
+    y += 54;
 
     ctx.font = "500 26px JetBrains Mono, Menlo, Consolas, monospace";
     ctx.fillStyle = "#7a847c";
-    ctx.fillText("AI-native reputation card", x, y);
-    y += 74;
+    ctx.fillText(text(lang, "resultTitle"), x, y);
+    y += 70;
 
     ctx.font = lang === "zh"
-      ? "700 68px MiSans, PingFang SC, Microsoft YaHei, sans-serif"
-      : "700 66px Inter, -apple-system, BlinkMacSystemFont, sans-serif";
+      ? "700 66px MiSans, PingFang SC, Microsoft YaHei, sans-serif"
+      : "700 64px Inter, -apple-system, BlinkMacSystemFont, sans-serif";
     ctx.fillStyle = "#8ee88f";
-    y = drawWrappedText(
-      ctx,
-      text(lang, "modeLabel") + " " + localized(mode.title, lang),
-      x,
-      y,
-      maxWidth,
-      76,
-      2
-    ) + 18;
+    y = drawWrappedText(ctx, levelDisplay(result, lang), x, y, maxWidth, 74, 3) + 24;
 
-    ctx.font = "400 36px Inter, MiSans, -apple-system, BlinkMacSystemFont, sans-serif";
+    ctx.font = "400 34px Inter, MiSans, -apple-system, BlinkMacSystemFont, sans-serif";
     ctx.fillStyle = "#edf4ed";
-    y = drawWrappedText(ctx, localized(mode.summary, lang), x, y, maxWidth, 48, 3) + 40;
+    y = drawWrappedText(ctx, localized(result.level.means, lang), x, y, maxWidth, 46, 3) + 40;
 
-    y = drawShareSection(ctx, text(lang, "strengthsTitle"), localized(mode.strengths, lang).join("  /  "), x, y, maxWidth);
-    y = drawShareSection(ctx, text(lang, "edgeTitle"), localized(mode.edge, lang), x, y, maxWidth);
-    y = drawShareSection(ctx, text(lang, "proofTitle"), localized(mode.proof, lang), x, y, maxWidth);
-    y = drawShareSection(ctx, text(lang, "hiringSignalTitle"), text(lang, "hiringSignalBody"), x, y, maxWidth);
+    y = drawShareSection(ctx, text(lang, "marketReadTitle"), localizedList(result.level.market, lang).slice(0, 3).join("  /  "), x, y, maxWidth);
+    y = drawShareSection(ctx, text(lang, "missingSignalsTitle"), localizedList(result.level.missing, lang).slice(0, 3).join("  /  "), x, y, maxWidth);
+    y = drawShareSection(ctx, text(lang, "nextLevelTitle"), nextLevelCopy(result, lang), x, y, maxWidth);
+    y = drawShareSection(ctx, text(lang, "recommendedChallengeTitle"), localized(result.level.challenge, lang), x, y, maxWidth);
 
     ctx.strokeStyle = "rgba(142, 232, 143, 0.24)";
     ctx.beginPath();
@@ -1184,9 +1160,9 @@
     ctx.stroke();
     ctx.font = "500 24px JetBrains Mono, Menlo, Consolas, monospace";
     ctx.fillStyle = "#7a847c";
-    ctx.fillText("git-hired · challenge proof · reputation signal", x, canvas.height - 104);
+    ctx.fillText("git-hired · market level · missing signals · next challenge", x, canvas.height - 104);
     ctx.fillStyle = "#8ee88f";
-    ctx.fillText(publicProfileUrl(result), x, canvas.height - 66);
+    drawWrappedText(ctx, publicProfileUrl(result), x, canvas.height - 66, maxWidth, 28, 1);
 
     return canvasToBlob(canvas);
   }
@@ -1220,10 +1196,10 @@
   }
 
   function socialShareText(result, lang) {
-    const title = localized(result.mode.title, lang);
+    const title = levelDisplay(result, lang);
     return lang === "zh"
-      ? "我的 git-hired AI-native reputation mode 是 " + title + "。"
-      : "My git-hired AI-native reputation mode is " + title + ".";
+      ? "我的 git-hired AI-native market level 是 " + title + "。"
+      : "My git-hired AI-native market level is " + title + ".";
   }
 
   function openShareUrl(url) {
@@ -1239,10 +1215,17 @@
     });
   }
 
+  function updateTrackChrome(track) {
+    const path = document.querySelector(".quiz-topbar .topbar-path span:last-child");
+    if (path) path.textContent = track.key + "-assessment";
+  }
+
   function init() {
     const form = document.getElementById("quick-test-form");
     if (!form) return;
 
+    const track = selectedTrack();
+    updateTrackChrome(track);
     renderQuestionSteps(form);
 
     const steps = Array.from(document.querySelectorAll(".quick-step"));
@@ -1313,7 +1296,7 @@
     function showResult(result, source) {
       lastResult = result || scoreQuickTest(form);
       const lang = currentLang();
-      const modeType = resultType(lastResult);
+      const levelType = resultType(lastResult);
       lastResultText = buildResultText(lastResult, lang);
       renderResultCard(resultCard, lastResult, lang);
       renderChallengeEntry(lastResult, lang);
@@ -1324,21 +1307,28 @@
       if (source !== "public_profile") {
         trackEvent("select_role", {
           location: "quick_result",
-          role: "reputation_mode",
-          result_type: modeType,
+          role: lastResult.track.key,
+          result_type: levelType,
+          track: lastResult.track.key,
+          level: lastResult.level.code,
           question_id: "q" + steps.length,
-          selection_type: "builder_seller_mode",
+          selection_type: "assessment_track",
         });
         trackEvent("complete_quiz", {
           location: "quick_test",
-          result_type: modeType,
+          result_type: levelType,
+          track: lastResult.track.key,
+          level: lastResult.level.code,
+          score: lastResult.score,
           question_id: "q" + steps.length,
           answer_count: answeredCount(form),
         });
       }
       trackEvent("view_result", {
         location: source === "public_profile" ? "public_profile" : "quick_result",
-        result_type: modeType,
+        result_type: levelType,
+        track: lastResult.track.key,
+        level: lastResult.level.code,
         question_id: "q" + steps.length,
         profile_url: publicProfileUrl(lastResult),
       });
@@ -1369,6 +1359,8 @@
         quizStarted = true;
         trackEvent("start_quiz", {
           location: "quick_test_question",
+          role: track.key,
+          track: track.key,
           question_id: input.name || "",
           question_step: questionStep(input),
           answer_value: input.value,
@@ -1399,9 +1391,7 @@
         document.body.classList.remove("result-mode");
         if (resultShell) resultShell.classList.add("is-hidden");
         resetResultActionLabels();
-        if (window.location.search || window.location.hash.startsWith("#result=")) {
-          window.history.replaceState(null, "", window.location.pathname);
-        }
+        window.history.replaceState(null, "", window.location.pathname + "?track=" + encodeURIComponent(track.key));
         renderStep();
         window.requestAnimationFrame(() => {
           const y = form.getBoundingClientRect().top + window.scrollY - 12;
@@ -1417,6 +1407,8 @@
         trackEvent("click_share", {
           location: "result_card",
           result_type: resultType(lastResult),
+          track: lastResult.track.key,
+          level: lastResult.level.code,
           question_id: "q" + steps.length,
           share_target: "clipboard",
           profile_url: publicProfileUrl(lastResult),
@@ -1438,6 +1430,8 @@
         trackEvent("copy_profile", {
           location: "result_card",
           result_type: resultType(lastResult),
+          track: lastResult.track.key,
+          level: lastResult.level.code,
           question_id: "q" + steps.length,
           profile_url: publicProfileUrl(lastResult),
           content_type: "text",
@@ -1457,6 +1451,8 @@
         trackEvent("download_card", {
           location: "result_card",
           result_type: resultType(lastResult),
+          track: lastResult.track.key,
+          level: lastResult.level.code,
           question_id: "q" + steps.length,
           file_format: "png",
           profile_url: publicProfileUrl(lastResult),
@@ -1477,6 +1473,8 @@
         trackEvent("share_x", {
           location: "result_card",
           result_type: resultType(lastResult),
+          track: lastResult.track.key,
+          level: lastResult.level.code,
           question_id: "q" + steps.length,
           profile_url: profileUrl,
         });
@@ -1491,6 +1489,8 @@
         trackEvent("share_linkedin", {
           location: "result_card",
           result_type: resultType(lastResult),
+          track: lastResult.track.key,
+          level: lastResult.level.code,
           question_id: "q" + steps.length,
           profile_url: profileUrl,
         });
@@ -1505,6 +1505,8 @@
         trackEvent("create_public_profile", {
           location: "result_card",
           result_type: resultType(lastResult),
+          track: lastResult.track.key,
+          level: lastResult.level.code,
           question_id: "q" + steps.length,
           profile_url: profileUrl,
         });
@@ -1520,7 +1522,9 @@
       teamWaitlistLink.addEventListener("click", () => {
         trackEvent("click_team_waitlist", {
           location: "result_page_secondary",
-          result_type: resultType(lastResult),
+          result_type: lastResult ? resultType(lastResult) : "",
+          track: lastResult ? lastResult.track.key : track.key,
+          level: lastResult ? lastResult.level.code : "",
           question_id: "q" + steps.length,
           waitlist_target: "github_issue",
           profile_url: lastResult ? publicProfileUrl(lastResult) : "",
