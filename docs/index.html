@@ -3,22 +3,22 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>git-hired · AI-native Market Level Assessment</title>
-    <meta name="description" content="Know your AI-native market value and how to raise it. Choose Builder or Seller track, assess your GH level, missing signals, market read, and next step.">
+    <title>git-hired · AI-native Resume Profile Generator</title>
+    <meta name="description" content="Turn your AI-native work into a LinkedIn-ready resume profile. Generate headline, About, skills, work evidence, and resume bullets from your projects and outcomes.">
     <meta name="author" content="realRoc">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <link rel="canonical" href="https://realroc.github.io/git-hired/">
     <link rel="alternate" type="text/plain" href="https://realroc.github.io/git-hired/llms.txt" title="git-hired LLM summary">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="git-hired">
-    <meta property="og:title" content="git-hired · AI-native Market Level Assessment">
-    <meta property="og:description" content="Find your AI-native market level, missing signals, and next step to become more valuable.">
+    <meta property="og:title" content="git-hired · AI-native Resume Profile Generator">
+    <meta property="og:description" content="Turn your AI-native work into a LinkedIn-ready resume profile.">
     <meta property="og:url" content="https://realroc.github.io/git-hired/">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="zh_CN">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="git-hired · AI-native Market Level Assessment">
-    <meta name="twitter:description" content="Know your AI-native market value and how to raise it.">
+    <meta name="twitter:title" content="git-hired · AI-native Resume Profile Generator">
+    <meta name="twitter:description" content="Generate a LinkedIn-ready AI-native resume profile from your work evidence.">
     <meta name="theme-color" content="#0b0d0c">
     <script>
       (function () {
@@ -53,7 +53,7 @@
             "@id": "https://realroc.github.io/git-hired/#website",
             "name": "git-hired",
             "url": "https://realroc.github.io/git-hired/",
-            "description": "git-hired helps AI-native workers understand their market level, missing signals, and next step to become more valuable.",
+            "description": "git-hired turns AI-native work into a LinkedIn-ready resume profile.",
             "inLanguage": ["en", "zh-CN"],
             "publisher": {
               "@id": "https://realroc.github.io/git-hired/#creator"
@@ -78,14 +78,15 @@
             "creator": {
               "@id": "https://realroc.github.io/git-hired/#creator"
             },
-            "description": "A Big-Tech-leveling-inspired market assessment for AI-native Builders and Sellers.",
+            "description": "A browser-local AI-native resume and LinkedIn profile generator.",
             "featureList": [
-              "Builder and Seller track selection",
-              "GH-L3 to GH-L7 market level assessment",
-              "Market read and opportunity band",
-              "Missing signals and upgrade plan",
-              "Recommended next step",
-              "Shareable market level card"
+              "Builder and Seller resume tracks",
+              "LinkedIn headline generation",
+              "About section generation",
+              "AI-native value proposition",
+              "Core skills and work evidence",
+              "Resume bullets",
+              "Markdown export"
             ],
             "offers": {
               "@type": "Offer",
@@ -102,15 +103,15 @@
                 "name": "What is git-hired?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "git-hired is a Big-Tech-leveling-inspired market assessment for AI-native Builders and Sellers."
+                  "text": "git-hired is an AI-native resume and profile generator. It turns projects, workflows, launches, automation, and agent work into LinkedIn-ready profile copy."
                 }
               },
               {
                 "@type": "Question",
-                "name": "What does the assessment measure?",
+                "name": "Are Builder and Seller results?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "It measures evidence, maturity, scope, autonomy, and impact. It is not a personality test."
+                  "text": "No. Builder and Seller are resume tracks that help shape the profile. The output is editable resume and LinkedIn copy."
                 }
               },
               {
@@ -118,15 +119,15 @@
                 "name": "Does git-hired upload local files?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "The browser assessment does not scan or upload local files. Any next-step evidence should use public links only, and users control what they share."
+                  "text": "The browser generator does not scan or upload local files. Users paste only what they choose to include."
                 }
               },
               {
                 "@type": "Question",
-                "name": "What result do I get?",
+                "name": "What output do I get?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "You get a GH level, market read, missing signals, next level, upgrade plan, recommended next step, and shareable card."
+                  "text": "You get a LinkedIn headline, About section, AI-native value proposition, core skills, selected work evidence, resume bullets, suggested roles, and missing proof."
                 }
               }
             ]
@@ -138,14 +139,14 @@
     <script src="./analytics.js" defer></script>
     <script src="./app.js?v=2" defer></script>
   </head>
-  <body class="lang-en" data-lang="en" data-title-en="git-hired · AI-native Market Level Assessment" data-title-zh="git-hired · AI-native market level assessment">
+  <body class="lang-en" data-lang="en" data-title-en="git-hired · AI-native Resume Profile Generator" data-title-zh="git-hired · AI-native resume profile generator">
     <main class="shell home-shell">
 
       <div class="topbar">
         <div class="topbar-left">
           <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
           <div class="topbar-path">
-            <span class="here">~/git-hired</span><span class="sep"> / </span><span>market-level</span>
+            <span class="here">~/git-hired</span><span class="sep"> / </span><span>profile-generator</span>
           </div>
         </div>
         <div class="lang-switch" aria-label="Language switcher">
@@ -157,58 +158,65 @@
       <section class="hero home-hero">
         <div class="prompt-line">
           <span class="user">you</span><span class="at">@</span><span class="host">git-hired</span>
-          <span class="cwd"> ~/market</span>
+          <span class="cwd"> ~/profile</span>
           <span class="dollar">$</span>
-          <span class="home-command">assess</span>
+          <span class="home-command">generate</span>
         </div>
 
-        <h1 class="home-title" data-lang="en">Know your AI-native market value — and how to raise it.</h1>
-        <h1 class="home-title" data-lang="zh">了解你的 AI-native 市场价值，以及下一步怎么提高。</h1>
+        <h1 class="home-title" data-lang="en">Turn your AI-native work into a LinkedIn-ready profile.</h1>
+        <h1 class="home-title" data-lang="zh">把你的 AI-native 工作经历生成 LinkedIn 可用的简历画像。</h1>
 
         <p class="lede home-subtitle" data-lang="en">
-          Choose your track — Builder or Seller — and see how your current skills map to real-world opportunities, missing signals, and next steps.
+          Paste your projects, workflows, launches, tools, links, and outcomes. Git Hired turns them into a company-readable resume profile you can edit, copy, and export.
         </p>
         <p class="lede home-subtitle" data-lang="zh">
-          选择 Builder 或 Seller 赛道，评估当前技能对应的市场机会、缺失信号和下一步提升路径。
+          粘贴你的项目、工作流、发布、工具、链接和结果。Git Hired 会把它们整理成公司看得懂、LinkedIn 能直接用的简历画像。
         </p>
 
         <div class="hero-actions">
-          <a class="button primary big-cta" href="./start.html?track=builder" data-lang="en">Assess Builder Level</a>
-          <a class="button primary big-cta" href="./start.html?track=builder" data-lang="zh">评估 Builder Level</a>
-          <a class="button secondary big-cta" href="./start.html?track=seller" data-lang="en">Assess Seller Level</a>
-          <a class="button secondary big-cta" href="./start.html?track=seller" data-lang="zh">评估 Seller Level</a>
+          <a class="button primary big-cta" href="./start.html?track=builder" data-lang="en">Generate Builder Profile</a>
+          <a class="button primary big-cta" href="./start.html?track=builder" data-lang="zh">生成 Builder Profile</a>
+          <a class="button secondary big-cta" href="./start.html?track=seller" data-lang="en">Generate Seller Profile</a>
+          <a class="button secondary big-cta" href="./start.html?track=seller" data-lang="zh">生成 Seller Profile</a>
         </div>
       </section>
 
       <section class="section home-flow" aria-label="How Git Hired works">
-        <div class="flow-grid">
+        <div class="flow-grid five-up">
           <article class="flow-card">
             <span class="flow-step">01</span>
             <h2 data-lang="en">Choose Track</h2>
             <h2 data-lang="zh">选择赛道</h2>
-            <p data-lang="en">Pick Builder if you turn ambiguity into artifacts. Pick Seller if you turn ideas into adoption.</p>
-            <p data-lang="zh">把模糊问题变成可用成果，选 Builder。把想法变成关注、信任和采用，选 Seller。</p>
+            <p data-lang="en">Builder for artifacts and systems. Seller for distribution, trust, and adoption.</p>
+            <p data-lang="zh">Builder 侧重产物和系统。Seller 侧重分发、信任和采用。</p>
           </article>
           <article class="flow-card">
             <span class="flow-step">02</span>
-            <h2 data-lang="en">Assess Level</h2>
-            <h2 data-lang="zh">评估等级</h2>
-            <p data-lang="en">Answer 10 evidence-based questions mapped to GH-L3 through GH-L7.</p>
-            <p data-lang="zh">回答 10 道基于证据的问题，映射到 GH-L3 到 GH-L7。</p>
+            <h2 data-lang="en">Add Work Evidence</h2>
+            <h2 data-lang="zh">补充工作证据</h2>
+            <p data-lang="en">Paste projects, links, outcomes, agent workflows, posts, launches, or case notes.</p>
+            <p data-lang="zh">粘贴项目、链接、结果、agent 工作流、内容、发布或案例记录。</p>
           </article>
           <article class="flow-card">
             <span class="flow-step">03</span>
-            <h2 data-lang="en">Market Read</h2>
-            <h2 data-lang="zh">市场解读</h2>
-            <p data-lang="en">See the opportunity band your current signals may support.</p>
-            <p data-lang="zh">理解你当前信号大概能支撑的机会区间。</p>
+            <h2 data-lang="en">Generate Profile</h2>
+            <h2 data-lang="zh">生成 Profile</h2>
+            <p data-lang="en">Get headline, About, skills, work evidence, resume bullets, and suggested roles.</p>
+            <p data-lang="zh">生成 headline、About、技能、工作证据、简历 bullets 和推荐方向。</p>
           </article>
           <article class="flow-card">
             <span class="flow-step">04</span>
-            <h2 data-lang="en">Upgrade Plan</h2>
-            <h2 data-lang="zh">提升路径</h2>
-            <p data-lang="en">Find what evidence is missing and what to improve next.</p>
-            <p data-lang="zh">看到缺少什么证据，以及下一步该怎么补强。</p>
+            <h2 data-lang="en">Edit</h2>
+            <h2 data-lang="zh">编辑</h2>
+            <p data-lang="en">Use the output as a draft. Tighten claims, remove private details, and add numbers.</p>
+            <p data-lang="zh">把输出当草稿。收紧表达，删除私人细节，补充数字结果。</p>
+          </article>
+          <article class="flow-card">
+            <span class="flow-step">05</span>
+            <h2 data-lang="en">Export</h2>
+            <h2 data-lang="zh">导出</h2>
+            <p data-lang="en">Copy LinkedIn About, resume bullets, full profile, or download Markdown.</p>
+            <p data-lang="zh">复制 LinkedIn About、简历 bullets、完整 profile，或下载 Markdown。</p>
           </article>
         </div>
       </section>
@@ -225,32 +233,32 @@
               <span data-lang="en">What is git-hired?</span>
               <span data-lang="zh">git-hired 是什么？</span>
             </summary>
-            <p data-lang="en">git-hired helps AI-native workers understand their market level, missing signals, and next step to become more valuable.</p>
-            <p data-lang="zh">git-hired 帮助 AI-native worker 理解自己的市场等级、缺失信号，以及下一步如何变得更有价值。</p>
+            <p data-lang="en">git-hired is an AI-native resume/profile generator. It turns your work evidence into LinkedIn-ready and resume-ready copy.</p>
+            <p data-lang="zh">git-hired 是 AI-native resume/profile generator。它把你的工作证据整理成 LinkedIn 和简历可用的文案。</p>
           </details>
           <details>
             <summary>
               <span data-lang="en">Is Builder or Seller my result?</span>
-              <span data-lang="zh">Builder / Seller 是测试结果吗？</span>
+              <span data-lang="zh">Builder / Seller 是结果吗？</span>
             </summary>
-            <p data-lang="en">No. Builder and Seller are tracks you choose before assessment. The result is a GH level inside that track.</p>
-            <p data-lang="zh">不是。Builder 和 Seller 是你先选择的能力赛道。真正的结果是该赛道下的 GH Level。</p>
+            <p data-lang="en">No. Builder and Seller are profile tracks. They help the generator decide what evidence to emphasize.</p>
+            <p data-lang="zh">不是。Builder 和 Seller 是 profile track，帮助生成器判断应该突出哪类证据。</p>
           </details>
           <details>
             <summary>
-              <span data-lang="en">Does this equal a Big Tech level?</span>
-              <span data-lang="zh">这等同于某个大厂职级吗？</span>
+              <span data-lang="en">Do I need to upload private files?</span>
+              <span data-lang="zh">我需要上传私人文件吗？</span>
             </summary>
-            <p data-lang="en">No. The GH levels are inspired by Big Tech leveling logic: scope, autonomy, complexity, impact, evidence, and market value.</p>
-            <p data-lang="zh">不等同。GH Level 只借鉴大厂职级的判断逻辑：scope、自主性、复杂度、影响力、证据和市场价值。</p>
+            <p data-lang="en">No. The MVP is browser-local. Paste only what you want to include, and prefer public links when possible.</p>
+            <p data-lang="zh">不需要。当前 MVP 是浏览器本地生成。只粘贴你想包含的信息，尽量使用公开链接。</p>
           </details>
           <details>
             <summary>
-              <span data-lang="en">Will I need to upload private work?</span>
-              <span data-lang="zh">我需要上传私人作品吗？</span>
+              <span data-lang="en">Can I edit the generated profile?</span>
+              <span data-lang="zh">生成结果可以改吗？</span>
             </summary>
-            <p data-lang="en">No. Start with the browser assessment. Any next-step evidence should use public links only, and you control what you share.</p>
-            <p data-lang="zh">不需要。先完成浏览器评估。后续 next-step evidence 优先使用公开链接，分享什么由你决定。</p>
+            <p data-lang="en">Yes. Treat it as a strong first draft. You can copy specific sections or download the Markdown profile.</p>
+            <p data-lang="zh">可以。把它当作一版质量较高的草稿。你可以复制单个 section，也可以下载 Markdown profile。</p>
           </details>
         </div>
       </section>

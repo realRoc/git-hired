@@ -1,9 +1,9 @@
 # git-hired
 
-了解你的 AI-native 市场价值，以及下一步怎么提高。
+把你的 AI-native 工作经历生成 LinkedIn 可用的简历画像。
 
-`git-hired` 是面向 AI-native Builders 和 Sellers 的、受大厂职级逻辑启发的市场等级评估。
-它帮助 AI-native worker 理解自己的市场等级、缺失信号，以及下一步如何变得更有价值。
+`git-hired` 是 AI-native resume / profile generator。
+它帮助你把项目、工作流、发布、自动化、内容、销售、招聘和 agent 工作整理成公司看得懂的 resume profile。
 
 项目网站：<https://realroc.github.io/git-hired/>
 
@@ -11,12 +11,12 @@
 
 ## 从这里开始
 
-先选择能力赛道，再评估当前 GH Level：
+选择 track，粘贴工作证据，然后生成 profile：
 
-- Builder 赛道：用 AI 把模糊问题变成可用成果。
-- Seller 赛道：用 AI 把想法变成关注、信任、采用和收入。
+- Builder profile：适合突出产物、系统、工作流、自动化、原型、工具和已交付输出。
+- Seller profile：适合突出叙事、定位、分发、销售、招聘、发布、信任和采用。
 
-评估入口：
+生成器入口：
 
 - Builder：<https://realroc.github.io/git-hired/start.html?track=builder>
 - Seller：<https://realroc.github.io/git-hired/start.html?track=seller>
@@ -24,34 +24,25 @@
 ## 产品路径
 
 ```text
-Choose Track -> Assess Level -> Market Read -> Upgrade Plan
+Choose Track -> Add Work Evidence -> Generate Profile -> Edit -> Export
 ```
 
-轻量浏览器评估会输出：
+浏览器本地生成器会输出：
 
-- `GH-L3` 到 `GH-L7` 的等级
-- 这个 level 代表什么能力
-- market read 和机会区间
-- missing signals
-- next level 差距
-- upgrade plan
-- recommended next step
-- 可分享 market level 卡片
-
-## GH Levels
-
-GH Level 体系受大厂职级逻辑启发，但不声称等同于任何具体公司的职级。
-
-- `GH-L3 — Entry`：能在明确任务下完成工作。
-- `GH-L4 — Independent`：能独立完成完整任务或项目。
-- `GH-L5 — Senior`：能处理复杂问题，并产生可验证用户、业务或市场影响。
-- `GH-L6 — Staff`：能跨团队、跨系统、跨渠道放大影响。
-- `GH-L7 — Principal`：能定义方向，创造市场级影响，并影响组织或类别。
+- LinkedIn headline
+- About section
+- AI-native value proposition
+- core skills
+- selected work evidence
+- resume bullets
+- suggested roles
+- missing proof
+- next edit
+- Markdown export
 
 ## Tracks
 
-Builder 不是人格标签。
-它是让事情变成真实成果的能力赛道：
+Builder 是让事情变成真实成果的 resume/profile track：
 
 - prototyping
 - AI workflow building
@@ -62,8 +53,7 @@ Builder 不是人格标签。
 - research-to-artifact
 - shipping useful output
 
-Seller 也不是传统销售员标签。
-它是让别人理解、相信、采用和传播想法的能力赛道：
+Seller 是让别人理解、相信、采用和传播想法的 resume/profile track：
 
 - storytelling
 - positioning
@@ -72,26 +62,24 @@ Seller 也不是传统销售员标签。
 - recruiting
 - marketing
 - community
-- fundraising narrative
-- momentum creation
+- launches and outbound
 - trust building
 
-## Recommended Next Step
+## 信任边界
 
-Next step 放在评估之后。
-它是补强缺失市场信号的具体建议，不是首页产品概念，也不是上传流程。
+MVP 不要求私人上传。
 
-- Builder next step：48 小时内构建一个有用的 AI workflow、原型、自动化、工具或成果。
-- Seller next step：48 小时内公开发布一个想法，尝试获得真实回复、注册、线索、候选人、用户或反馈。
-- 信任边界：不需要私人作品，只使用公开链接，你决定分享什么。
+- 只粘贴你想包含的信息。
+- 公开链接就够用。
+- 浏览器本地文本输入就够用。
+- 你控制复制、编辑、导出和分享的内容。
 
-长期看，`git-hired` 可以成为 AI-native worker 的 reputation / hiring signal layer。
-但 MVP 先从 market level、missing signals 和 next step 开始，因为这能在要求 proof 前先给用户价值。
+长期看，`git-hired` 可以成为 AI-native worker 的 hiring signal layer。
+但 MVP 先从有用的 resume/profile 草稿开始，因为这能在要求更深 proof 前先给用户价值。
 
 ## 更深入的 Agent 报告
 
-把 `skill.md` 指令粘贴到你自己的工作 agent 里。
-它可以基于你允许的历史记录或文件，生成更深入、隐私边界清楚的报告。
+如果你想基于允许的历史记录或文件生成更深入、隐私边界清楚的报告，可以把 `skill.md` 指令粘贴到你自己的工作 agent 里。
 
 ```text
 read https://realroc.github.io/git-hired/skill.md
@@ -104,20 +92,12 @@ read https://realroc.github.io/git-hired/skill.md
 ## 隐私优先
 
 > `git-hired` 采用先授权、后扫描，且只在本地运行的方式。
-> 无服务器、无账号、不上传私人证据。
+> 不把本地 repo 或文件数据上传到服务器。
 > 默认模式是 `history-only`。
 > 除非候选人明确允许，否则不会扫描对方的本地 repo、项目目录或文档文件。
 > `git-hired` 不会把候选人的本地 repo 或文件数据上传到我们的服务器。
-> 候选人所选的工作 agent 只应访问他明确授权的项目、文件或知识库材料。
-> 如果所选工作 agent 支持直接访问本地文件，任何批准的扫描也应尽量只停留在候选人自己的机器或已连接工作区里完成。
-
-一眼看懂：
-
-- 默认模式：`history-only`
-- 可选模式：候选人主动允许扫描指定 repo / 本地目录 / 文件
-- 运行位置：候选人自己的机器或已连接工作区
-- 本地 repo / 文件数据上传到服务端：`不会`
-- 默认分享对象：公开安全卡片，不是私人详细报告
+> 候选人所选的 work agent 只应访问他明确授权的项目、文件或知识库材料。
+> 如果所选 work agent 支持直接访问本地文件，任何批准的扫描也应尽量只停留在候选人自己的机器或已连接工作区里完成。
 
 ## Protocol Pages
 
@@ -138,10 +118,10 @@ read https://realroc.github.io/git-hired/skill.md
 - 能创造关注、信任、分发和采用
 - 尊重隐私和安全边界
 
-如果你的评估、报告或公开 next-step evidence 显示出较强的 AI-native worker 信号，并且你也在寻找 AI-native 项目的合作机会，可以开一个 issue，附上：
+如果你的 profile、报告或公开证据显示出较强的 AI-native worker 信号，并且你也在寻找 AI-native 项目的合作机会，可以开一个 issue，附上：
 
 - 目标 track 或岗位
-- 公开安全的 market level 卡片或公开报告摘要
+- 公开安全的 profile 或报告摘要
 - 你接下来想 build 或 sell 什么
 - 你希望被尊重的隐私边界
 
