@@ -92,10 +92,10 @@ This merges the consent-first scan policy with history-only analysis rules. Appl
 
 The first visible section of `README.md` and `README.zh-CN.md` must establish the product mental model before explaining privacy or agent execution:
 
-1. `git-hired` is a Big-Tech-leveling-inspired market assessment for AI-native Builders and Sellers
-2. It answers `Know your AI-native market value — and how to raise it.`
-3. It helps people understand their market level, missing signals, and next step to become more valuable
-4. Default path: Choose Track → Assess Level → Market Read → Upgrade Plan
+1. `git-hired` is an AI-native resume / profile generator
+2. It answers `Turn your AI-native work into a LinkedIn-ready profile.`
+3. It helps people translate projects, workflows, launches, automation, content, sales, and agent work into a company-readable resume profile
+4. Default path: Choose Track → Add Work Evidence → Generate Profile → Edit → Export
 5. The deeper agent report is optional and runs inside the user's own work agent
 
 ## Docs Language Behavior
@@ -129,101 +129,69 @@ Applies to `skill.md`, `docs/skill.md`, `docs/index.html`.
 - Default starter command: `read https://realroc.github.io/git-hired/skill.md`
 - Homepage must not make `skill.md` the primary first-screen path.
 
-## Market Level Assessment
+## AI-Native Profile Generator
 
 Applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, READMEs.
 
 ### Product model
 
-- `git-hired = a market-level assessment for AI-native Builders and Sellers`
-- Primary user-facing hook: `Know your AI-native market value — and how to raise it.`
-- Do not use `reputation layer` as homepage first-screen primary copy; it is long-term positioning, not the immediate user benefit.
-- User path: Choose Track → Assess Level → Market Read → Upgrade Plan.
-- Builder and Seller are user-selected ability tracks, not persona results.
-- Builder track: turns ambiguity into useful artifacts with AI. `Builders make things real.`
-- Seller track: turns ideas into attention, trust, adoption, and revenue with AI. `Sellers make people care.`
-- Long-term vision: Git Hired can become a reputation / hiring signal layer for AI-native workers.
-- Homepage should not include a `define` concept-explainer section. Keep the first page direct: user benefit, track CTAs, path, and concise FAQ/trust.
-- Do not make `Challenge` a homepage product concept. If used, keep it result-page-only as a concrete recommended next step for raising missing signals.
+- `git-hired = an AI-native resume / profile generator`
+- Primary user-facing hook: `Turn your AI-native work into a LinkedIn-ready profile.`
+- Do not make market level, value pricing, personality result, proof upload, card sharing, or reputation layer the homepage primary concept.
+- User path: Choose Track → Add Work Evidence → Generate Profile → Edit → Export.
+- Builder and Seller are user-selected resume tracks, not persona results.
+- Builder track focuses on artifacts: products, prototypes, workflows, automation, systems, tools, demos, research-to-artifact, and agent-built output.
+- Seller track focuses on market motion: storytelling, positioning, distribution, sales, recruiting, community, launches, outbound, and adoption.
+- Long-term vision: Git Hired can become a hiring signal layer for AI-native workers, but the MVP starts with generating useful profile/resume copy.
+- Homepage should stay direct: generate a resume/profile, choose track, paste or describe work, export LinkedIn-ready copy.
 
-### Assessment rules
+### Generator rules
 
-- No hero section or pre-test explainer above the quiz — first surface is progress bar and current question
-- Compact merged topbar + progress as one test status bar
-- User chooses `Builder` or `Seller` before the assessment, usually from homepage CTAs.
-- Each track has its own 10-question assessment.
-- Questions measure evidence, maturity, scope, autonomy, and impact, not personality or preference.
-- Each question uses maturity options such as `Not yet`, `Tried once / with guidance`, `Done independently`, `Done repeatedly with evidence`, `Done with real adoption / measurable impact`.
-- Do not keep the old six archetypes or any MBTI-style expression.
-- Scoring returns a GH level for the selected track.
+- The primary experience is a static browser-local generator, not a test.
+- No backend is required.
+- The user can generate from lightweight input: current role, target role, work evidence, tools/agents used, outcomes, links, and style preference.
+- Inputs can be plain text and public links. Do not require private uploads.
+- Output must be editable/copyable profile text, not a result card.
+- Keep Builder/Seller as track context for wording and section prioritization.
+- Do not output old six archetypes, MBTI-style expressions, `You are a Builder/Seller`, or GH level as the main result.
+- If a market-level hint remains, keep it secondary and conservative, never as the core value.
 
 ### Tracks
 
-- `Builder`: turns ambiguity into useful artifacts with AI. It includes prototyping, AI workflow building, automation, product building, systems thinking, technical execution, no-code execution, research-to-artifact, and shipping useful output. Builder does not mean only coding.
-- `Seller`: turns ideas into attention, trust, adoption, and revenue with AI. It includes storytelling, positioning, distribution, sales, recruiting, marketing, community, fundraising narrative, momentum creation, and trust building. Seller does not mean traditional salesperson.
+- `Builder`: resume/profile track for people who create value by building useful artifacts with AI.
+- `Seller`: resume/profile track for people who create value by making ideas understood, trusted, adopted, distributed, sold, recruited for, or funded with AI.
 
-### GH levels
+### Generated profile output
 
-- Leveling is inspired by Big Tech leveling, but never claim equivalence to any company level.
-- Do not say a user equals Google L5, Meta E5, or any specific company ladder.
-- Use GH levels:
-  - `GH-L3 — Entry`
-  - `GH-L4 — Independent`
-  - `GH-L5 — Senior`
-  - `GH-L6 — Staff`
-  - `GH-L7 — Principal`
-- Evaluate scope, autonomy, complexity, impact, evidence, and market value.
+The generator should output a complete LinkedIn-ready profile with:
 
-### Builder level titles
+- `LinkedIn Headline`
+- `About`
+- `AI-Native Value Proposition`
+- `Core Skills`
+- `Selected Work Evidence`
+- `Resume Bullets`
+- `Suggested Roles`
+- `Missing Proof`
+- `Next Edit`
 
-- `GH-L3 Builder — AI Task Executor`
-- `GH-L4 Builder — Independent Workflow Builder`
-- `GH-L5 Builder — Senior Product Shipper`
-- `GH-L6 Builder — Staff Systems Builder`
-- `GH-L7 Builder — Principal Market Builder`
+The output should include copy/export actions:
 
-### Seller level titles
+- `Copy Full Profile`
+- `Copy LinkedIn About`
+- `Copy Resume Bullets`
+- `Download Markdown`
+- Optional: `Copy Agent Prompt`
 
-- `GH-L3 Seller — AI-assisted Communicator`
-- `GH-L4 Seller — Independent Narrative Builder`
-- `GH-L5 Seller — Senior Distribution Operator`
-- `GH-L6 Seller — Staff Demand Creator`
-- `GH-L7 Seller — Principal Market Shaper`
+Do not show: old six archetypes, MBTI-like labels, profile cards as the primary output, exact salary/offer promises, company-level equivalence, local report path, runtime mode, history-only, locked skills, hiring recommendation.
 
-### Result page
+### Trust and evidence
 
-- Compact result-card topbar matching quiz chrome
-- `git-hired` ASCII identity art as compact brand header
-- Result headline must be a track level, e.g. `GH-L4 Builder — Independent Workflow Builder`, not `You are a Builder`.
-- Required sections:
-  - `Your Level`
-  - `What this level means`
-  - `Market Read`
-  - `Missing Signals`
-  - `Next Level`
-  - `Upgrade Plan`
-  - `Recommended Next Step`
-  - `Shareable Card`
-
-Do not show: old six archetypes, MBTI-like labels, `You are a Builder/Seller` as the result, exact salary/offer promises, company-level equivalence, local report path, runtime mode, history-only, locked skills, hiring recommendation.
-
-### After the result card
-
-- `Recommended Next Step` is the next step after assessment, not homepage primary proof/upload flow.
-- If the next step uses challenge-like mechanics, explain it plainly as a lightweight public signal sprint rather than as a separate product concept.
-- Builder next step: build one useful AI workflow, prototype, automation, tool, or artifact in 48 hours and share a public link if desired.
-- Seller next step: launch one idea publicly in 48 hours and try to get replies, signups, leads, candidates, users, or feedback.
-- Trust copy: `No private work required. Use public links only. You control what you share.`
-- Optional advanced-agent entry can remain secondary
-- Button: `Copy agent prompt` / `复制 Agent 指令`
-
-### Share
-
-- Primary action: `Share` / `分享` — generate portrait-oriented mobile-friendly share image, write PNG to clipboard
-- Text-copy fallback only for browsers without image clipboard support
-- Result page keeps `Share` as the primary action, and also offers `Copy profile`, `Download image`, `Share on X`, and `Share on LinkedIn`.
-- Public profile URL can be static and account-free at first, using parameters such as `start.html?track=<builder|seller>&level=<gh-lx>` or an equivalent URL parameter/hash.
-- Team waitlist is a weak secondary result-page entry, not a homepage or primary result CTA.
+- No private work required.
+- Public links are enough.
+- Browser-local text input is enough for the MVP.
+- User controls what they share.
+- Future deeper-agent analysis can remain secondary and must use only evidence the user authorizes.
 
 ## Protocol Positioning
 
