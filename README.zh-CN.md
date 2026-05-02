@@ -24,7 +24,7 @@
 ## 产品路径
 
 ```text
-Choose Track -> Assess Level -> Market Read -> Upgrade Plan -> Challenge
+Choose Track -> Assess Level -> Market Read -> Upgrade Plan
 ```
 
 轻量浏览器评估会输出：
@@ -35,7 +35,7 @@ Choose Track -> Assess Level -> Market Read -> Upgrade Plan -> Challenge
 - missing signals
 - next level 差距
 - upgrade plan
-- recommended challenge
+- recommended next step
 - 可分享 market level 卡片
 
 ## GH Levels
@@ -76,17 +76,17 @@ Seller 也不是传统销售员标签。
 - momentum creation
 - trust building
 
-## Challenges
+## Recommended Next Step
 
-Challenge 放在评估之后。
-它帮助用户补强下一阶段市场信号，而不是一上来要求上传私人作品。
+Next step 放在评估之后。
+它是补强缺失市场信号的具体建议，不是首页产品概念，也不是上传流程。
 
-- Builder challenge：48 小时内构建一个有用的 AI workflow、原型、自动化、工具或成果。
-- Seller challenge：48 小时内公开发布一个想法，尝试获得真实回复、注册、线索、候选人、用户或反馈。
+- Builder next step：48 小时内构建一个有用的 AI workflow、原型、自动化、工具或成果。
+- Seller next step：48 小时内公开发布一个想法，尝试获得真实回复、注册、线索、候选人、用户或反馈。
 - 信任边界：不需要私人作品，只使用公开链接，你决定分享什么。
 
 长期看，`git-hired` 可以成为 AI-native worker 的 reputation / hiring signal layer。
-但 MVP 先从 market level、missing signals 和 next challenge 开始，因为这能在要求 proof 前先给用户价值。
+但 MVP 先从 market level、missing signals 和 next step 开始，因为这能在要求 proof 前先给用户价值。
 
 ## 更深入的 Agent 报告
 
@@ -138,7 +138,7 @@ read https://realroc.github.io/git-hired/skill.md
 - 能创造关注、信任、分发和采用
 - 尊重隐私和安全边界
 
-如果你的评估、报告或 challenge evidence 显示出较强的 AI-native worker 信号，并且你也在寻找 AI-native 项目的合作机会，可以开一个 issue，附上：
+如果你的评估、报告或公开 next-step evidence 显示出较强的 AI-native worker 信号，并且你也在寻找 AI-native 项目的合作机会，可以开一个 issue，附上：
 
 - 目标 track 或岗位
 - 公开安全的 market level 卡片或公开报告摘要
