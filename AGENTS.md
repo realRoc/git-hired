@@ -92,10 +92,11 @@ This merges the consent-first scan policy with history-only analysis rules. Appl
 
 The first visible section of `README.md` and `README.zh-CN.md` must establish the product mental model before explaining privacy or agent execution:
 
-1. `git-hired` answers `What kind of AI-native builder are you?`
-2. It helps people understand how they work with ambiguity, AI, people, and progress
-3. Default starting point is the simple builder test and a shareable builder card
-4. The deeper agent report is optional and runs inside the user's own work agent
+1. `git-hired` is the reputation layer for AI-native workers
+2. It answers `Are you a Builder or a Seller in the AI-native workplace?`
+3. It helps people prove how they create value in the AI era, inspired by `Learn to sell, learn to build`
+4. Default path: simple test → Builder/Seller mode → challenge → proof → reputation
+5. The deeper agent report is optional and runs inside the user's own work agent
 
 ## Docs Language Behavior
 
@@ -128,50 +129,52 @@ Applies to `skill.md`, `docs/skill.md`, `docs/index.html`.
 - Default starter command: `read https://realroc.github.io/git-hired/skill.md`
 - Homepage must not make `skill.md` the primary first-screen path.
 
-## Simple Builder Test
+## Simple Builder/Seller Test
 
 Applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, READMEs.
 
 ### Product model
 
-- Primary hook: `What kind of AI-native builder are you?`
-- User path: homepage → Start the test → 10 single-choice questions → shareable builder type card → optional advanced agent prompt
+- `git-hired = AI-native workers' reputation layer`
+- Primary hook: `Are you a Builder or a Seller in the AI-native workplace?`
+- User path: Test → Mode → Challenge → Proof → Reputation
+- The quick test is the entry point, not the final product.
+- Builder proves value through build challenges: products, systems, prototypes, workflows, automations.
+- Seller proves value through sell challenges: expression, narrative, distribution, sales, recruiting, propagation.
 
 ### Quiz rules
 
 - No hero section or pre-test explainer above the quiz — first surface is progress bar and current question
 - Compact merged topbar + progress as one test status bar
 - 10 questions, 4 options each, single-choice only
-- Measure work style (ambiguity, AI usage, progress, feedback, judgment, collaboration, getting unstuck, speed vs quality), not job category
+- Measure whether the candidate more naturally creates value by building or selling
 - Plain concrete answer options, no clever labels or personality-test coding
-- Calibrate scoring so all six builder types are realistically reachable. Exhaustive answer-combination checks should not let any type collapse into an extreme near-zero share.
+- Do not keep the old six archetypes or any MBTI-style expression.
+- Scoring returns exactly one primary mode: `Builder` or `Seller`.
 
-### Six builder types
+### Two reputation modes
 
-- `The Pathfinder` / `寻径者`: 在混沌中率先找到方向
-- `The Shaper` / `塑形者`: 把粗糙想法打磨成清晰形态
-- `The Shipstarter` / `启航者`: 用第一个版本快速撬动进展
-- `The Synthesizer` / `融通者`: 把零散信息整合成完整判断
-- `The Debugger` / `洞察者`: 穿透表象，找到问题根源
-- `The Catalyst` / `催化者`: 加速人、想法与任务的协同
-
-Do not use job-like result categories (Product type, Engineer type, etc.).
+- `Builder` / `构建者`: creates value by building products, systems, prototypes, workflows, and automations.
+- `Seller` / `销售者`: creates value by expression, narrative, distribution, sales, recruiting, and propagation.
+- Do not use job-like result categories (Product type, Engineer type, etc.) as the primary result.
 
 ### Result card — first layer only
 
 - Compact result-card topbar matching quiz chrome
 - `git-hired` ASCII identity art as compact brand header
-- `You are` / `你是` + one-line explanation
+- `Your mode` / `你的模式` + `Builder` or `Seller` + one-line explanation
 - `Your strengths` / `你的优势`
-- `Best environment` / `你最适合的场景`
+- `Your edge` / `你的优势场`
 - `Watch out` / `需要注意`
-- `Next step` / `下一步建议`
+- `Next proof` / `下一步证明`
 
-Do not show: role fit, ability score, evidence strength, confidence, local report path, runtime mode, history-only, locked skills, hiring recommendation.
+Do not show: old six archetypes, role fit, ability score, evidence strength, confidence, local report path, runtime mode, history-only, locked skills, hiring recommendation.
 
 ### After the result card
 
-- Weak advanced-agent entry: `Want a deeper report?` / `想要更准的结果？`
+- Challenge entry: Builder gets a build challenge; Seller gets a sell challenge
+- Hiring signal entry: explain that challenge proof can become a reputation signal for teams
+- Optional advanced-agent entry can remain secondary
 - Three trust points: user chooses evidence, no local files uploaded, user decides what to share
 - Button: `Copy agent prompt` / `复制 Agent 指令`
 
@@ -180,7 +183,7 @@ Do not show: role fit, ability score, evidence strength, confidence, local repor
 - Primary action: `Share` / `分享` — generate portrait-oriented mobile-friendly share image, write PNG to clipboard
 - Text-copy fallback only for browsers without image clipboard support
 - Result page keeps `Share` as the primary action, and also offers `Copy profile`, `Download image`, `Share on X`, and `Share on LinkedIn`.
-- Public profile URL can be static and account-free at first, using `start.html?result=<builder_type>` or an equivalent URL parameter/hash.
+- Public profile URL can be static and account-free at first, using `start.html?result=<builder|seller>` or an equivalent URL parameter/hash.
 - Team waitlist is a weak secondary result-page entry, not a homepage or primary result CTA.
 
 ## Protocol Positioning
@@ -189,9 +192,10 @@ Applies to READMEs, `docs/index.html`, audience pages, `rubric.md`, `examples/`.
 
 ### Public positioning
 
-- `git-hired is an open-source AI-native builder profile generator.`
-- Primary hook: `What kind of AI-native builder are you?`
-- Work-trace and public profile language belongs to the optional deeper-agent path, not homepage first screen
+- `git-hired is an open-source reputation layer for AI-native workers.`
+- Primary hook: `Are you a Builder or a Seller in the AI-native workplace?`
+- Homepage must make clear that the quick test leads into challenge proof and future reputation, not a standalone personality-test ending.
+- Work-trace and public profile language belongs to the optional deeper-agent path or challenge/proof path, not homepage first screen overload.
 
 ### Trust structure
 
@@ -200,9 +204,9 @@ Applies to READMEs, `docs/index.html`, audience pages, `rubric.md`, `examples/`.
 
 ### Three public hooks (homepage leads with #1 only)
 
-1. Personal sharing: `What kind of AI-native builder are you?`
-2. Job/collaboration: `Generate a public work profile from your real work traces.`
-3. Founder/team: `Find people who can actually work with agents.`
+1. Personal sharing: `Are you a Builder or a Seller in the AI-native workplace?`
+2. Job/collaboration: `Turn real challenge proof into a hiring signal.`
+3. Founder/team: `Find AI-native workers who can build or sell with agents.`
 
 ### Evidence ladder
 
@@ -214,7 +218,7 @@ Applies to READMEs, `docs/index.html`, audience pages, `rubric.md`, `examples/`.
 ### Reports
 
 - Private report: detailed evidence, reasoning, specific work traces, candidate-only next steps
-- Public card: builder type, strengths, collaboration mode, best-fit roles, anonymized evidence
+- Public card: Builder/Seller mode, strengths, collaboration mode, best-fit challenges, anonymized evidence
 - Default share object is the public-safe card
 
 ### Audience pages
