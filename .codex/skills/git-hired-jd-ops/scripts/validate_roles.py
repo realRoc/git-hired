@@ -259,8 +259,10 @@ def main() -> None:
         errors.append("docs/index.html should not link to redundant ./general.html guide page")
     if "See whether a candidate" in index_text or "看候选人是否" in index_text:
         errors.append("docs/index.html still contains recruiter-facing JD summary wording")
-    if "Choose Track" not in index_text or "Assess Level" not in index_text or "Market Read" not in index_text or "Upgrade Plan" not in index_text or "Challenge" not in index_text:
+    if "Choose Track" not in index_text or "Assess Level" not in index_text or "Market Read" not in index_text or "Upgrade Plan" not in index_text:
         errors.append("docs/index.html missing market-level product path")
+    if "<span class=\"hash\">define</span>" in index_text or "challenge-preview" in index_text:
+        errors.append("docs/index.html should not include define or homepage challenge sections")
     if "Builder and Seller are tracks" not in index_text and "Builder 和 Seller 是你先选择的能力赛道" not in index_text:
         errors.append("docs/index.html should explain Builder/Seller as tracks, not result personas")
     validate_public_footer("docs/index.html", index_text, errors)
@@ -293,8 +295,8 @@ def main() -> None:
             errors.append("docs/evaluator.html missing evaluator protocol rubric linkage")
     if contributor_page.exists():
         contributor_text = contributor_page.read_text(encoding="utf-8")
-        if "Good First Challenges" not in contributor_text or "role prompt" not in contributor_text:
-            errors.append("docs/contributor.html missing contributor challenge guidance")
+        if "Good First Improvements" not in contributor_text or "role prompt" not in contributor_text:
+            errors.append("docs/contributor.html missing contributor improvement guidance")
 
     if not quick_start.exists():
         errors.append("docs/start.html missing mobile human quick-test page")
@@ -420,7 +422,7 @@ def main() -> None:
             errors.append("docs/quick-test.js missing copied advanced agent prompt")
         if '"builder", "seller"' not in quick_start_js_text:
             errors.append("docs/quick-test.js missing builder/seller track keys")
-        for marker in ("Your Level", "What this level means", "Market Read", "Missing Signals", "Next Level", "Upgrade Plan", "Recommended Challenge"):
+        for marker in ("Your Level", "What this level means", "Market Read", "Missing Signals", "Next Level", "Upgrade Plan", "Recommended Next Step"):
             if marker not in quick_start_js_text:
                 errors.append(f"docs/quick-test.js missing market-level result-card section: {marker}")
         required_result_js = [
@@ -548,7 +550,7 @@ def main() -> None:
         errors.append("README missing market value hook")
     if "Big-Tech-leveling-inspired market assessment" not in readme_en or "受大厂职级逻辑启发的市场等级评估" not in readme_zh:
         errors.append("README missing market-level positioning statement")
-    if "Choose Track -> Assess Level -> Market Read -> Upgrade Plan -> Challenge" not in readme_en or "Choose Track -> Assess Level -> Market Read -> Upgrade Plan -> Challenge" not in readme_zh:
+    if "Choose Track -> Assess Level -> Market Read -> Upgrade Plan" not in readme_en or "Choose Track -> Assess Level -> Market Read -> Upgrade Plan" not in readme_zh:
         errors.append("README missing market-level product path")
     if "Website:" not in readme_en or "https://realroc.github.io/git-hired/" not in readme_en:
         errors.append("README.md missing top website entry")

@@ -70,7 +70,7 @@
         en: "Builders make things real: they turn ambiguity into useful artifacts with AI.",
         zh: "Builders make things real：他们用 AI 把模糊问题变成可用成果。",
       },
-      challengeName: { en: "Build challenge", zh: "Build challenge" },
+      challengeName: { en: "Build next step", zh: "Build next step" },
       questions: [
         {
           key: "ai-task-execution",
@@ -297,8 +297,8 @@
             zh: ["持续更新证据", "讲清你正在塑造的类别", "让市场级 proof 更容易被检查"],
           },
           upgrade: {
-            en: ["Maintain a public evidence trail of adoption and direction-setting work.", "Show how your work changes what others build or buy.", "Use challenges to make the next category signal inspectable."],
-            zh: ["维护一条公开的采用和方向定义证据链。", "展示你的工作如何改变别人构建或购买的东西。", "用 challenge 让下一轮信号可检查。"],
+            en: ["Maintain a public evidence trail of adoption and direction-setting work.", "Show how your work changes what others build or buy.", "Make the next category signal inspectable."],
+            zh: ["维护一条公开的采用和方向定义证据链。", "展示你的工作如何改变别人构建或购买的东西。", "让下一轮信号可检查。"],
           },
           challenge: {
             en: "Publish one category-level thesis with a working artifact and adoption evidence from people outside your immediate circle.",
@@ -319,7 +319,7 @@
         en: "Sellers make people care: they turn ideas into attention, trust, adoption, and revenue with AI.",
         zh: "Sellers make people care：他们用 AI 把想法变成关注、信任、采用和收入。",
       },
-      challengeName: { en: "Sell challenge", zh: "Sell challenge" },
+      challengeName: { en: "Sell next step", zh: "Sell next step" },
       questions: [
         {
           key: "ai-communication",
@@ -519,7 +519,7 @@
             zh: ["从 campaign 结果升级到类别 thesis。", "构建能在客户、人才、资本或社区里复利的信任渠道。", "展示你的叙事如何改变别人相信或复述的内容。"],
           },
           challenge: {
-            en: "Publish a category narrative, test it across two trusted channels, and document how people repeat, challenge, or adopt it.",
+            en: "Publish a category narrative, test it across two trusted channels, and document how people repeat, question, or adopt it.",
             zh: "发布一个类别叙事，在两个可信渠道测试，并记录人们如何复述、质疑或采用它。",
           },
           nextGap: {
@@ -546,8 +546,8 @@
             zh: ["持续更新证据", "讲清哪种市场信念发生变化", "让信任和采用证据可检查"],
           },
           upgrade: {
-            en: ["Maintain a public trail of category narrative, trust signals, and adoption.", "Show who repeated, funded, hired, bought, or built because of the direction.", "Use challenges to make the next market signal visible."],
-            zh: ["维护类别叙事、信任信号和采用的公开证据链。", "展示谁因为这个方向复述、投资、招聘、购买或构建。", "用 challenge 让下一轮市场信号更可见。"],
+            en: ["Maintain a public trail of category narrative, trust signals, and adoption.", "Show who repeated, funded, hired, bought, or built because of the direction.", "Make the next market signal visible."],
+            zh: ["维护类别叙事、信任信号和采用的公开证据链。", "展示谁因为这个方向复述、投资、招聘、购买或构建。", "让下一轮市场信号更可见。"],
           },
           challenge: {
             en: "Launch one market thesis with distribution proof: who repeated it, who acted on it, and what changed.",
@@ -571,7 +571,7 @@
       missingSignalsTitle: "Missing Signals",
       nextLevelTitle: "Next Level",
       upgradePlanTitle: "Upgrade Plan",
-      recommendedChallengeTitle: "Recommended Challenge",
+      recommendedChallengeTitle: "Recommended Next Step",
       trustTitle: "Trust Boundary",
       trackLabel: "Track",
       scoreLabel: "Signal score",
@@ -600,7 +600,7 @@
       missingSignalsTitle: "Missing Signals",
       nextLevelTitle: "Next Level",
       upgradePlanTitle: "Upgrade Plan",
-      recommendedChallengeTitle: "Recommended Challenge",
+      recommendedChallengeTitle: "Recommended Next Step",
       trustTitle: "Trust Boundary",
       trackLabel: "赛道",
       scoreLabel: "信号得分",
@@ -833,14 +833,14 @@
   }
 
   function challengeIssueUrl(result, lang) {
-    const title = "Challenge: " + levelDisplay(result, "en");
+    const title = "Next step: " + levelDisplay(result, "en");
     const next = result.nextLevel;
     const body = [
       "Track: " + localized(result.track.title, lang),
       "Current level: " + levelDisplay(result, lang),
       "Next level: " + (next ? next.code + " " + localized(next.title, lang) : text(lang, "noNextLevel")),
       "",
-      lang === "zh" ? "Recommended challenge:" : "Recommended challenge:",
+      lang === "zh" ? "Recommended next step:" : "Recommended next step:",
       localized(result.level.challenge, lang),
       "",
       lang === "zh" ? "Public link only:" : "Public link only:",
@@ -851,7 +851,7 @@
       "",
       lang === "zh" ? "No private work required. I control what I share." : "No private work required. I control what I share.",
     ].join("\n");
-    return "https://github.com/realRoc/git-hired/issues/new?labels=challenge," +
+    return "https://github.com/realRoc/git-hired/issues/new?labels=next-step," +
       encodeURIComponent(result.track.key) +
       "," +
       encodeURIComponent(result.level.key) +
@@ -966,7 +966,7 @@
     const link = document.getElementById("mode-challenge-link");
     const next = result.nextLevel;
     if (title) {
-      title.textContent = localized(result.track.challengeName, lang) + ": " +
+      title.textContent = localized(result.track.title, lang) + " next step: " +
         result.level.code + (next ? " -> " + next.code : "");
     }
     if (body) body.textContent = localized(result.level.challenge, lang);
@@ -1160,7 +1160,7 @@
     ctx.stroke();
     ctx.font = "500 24px JetBrains Mono, Menlo, Consolas, monospace";
     ctx.fillStyle = "#7a847c";
-    ctx.fillText("git-hired · market level · missing signals · next challenge", x, canvas.height - 104);
+    ctx.fillText("git-hired · market level · missing signals · next step", x, canvas.height - 104);
     ctx.fillStyle = "#8ee88f";
     drawWrappedText(ctx, publicProfileUrl(result), x, canvas.height - 66, maxWidth, 28, 1);
 

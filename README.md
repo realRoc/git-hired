@@ -24,7 +24,7 @@ Assessment entry:
 ## Product Path
 
 ```text
-Choose Track -> Assess Level -> Market Read -> Upgrade Plan -> Challenge
+Choose Track -> Assess Level -> Market Read -> Upgrade Plan
 ```
 
 The lightweight browser assessment returns:
@@ -35,7 +35,7 @@ The lightweight browser assessment returns:
 - missing signals
 - next level gap
 - upgrade plan
-- recommended challenge
+- recommended next step
 - shareable market level card
 
 ## GH Levels
@@ -76,17 +76,17 @@ It is a capability track for people who make people care:
 - momentum creation
 - trust building
 
-## Challenges
+## Recommended Next Step
 
-Challenges come after the assessment.
-They help users raise their next market signal without asking for private uploads first.
+The next step comes after the assessment.
+It is a concrete suggestion for raising the missing market signal, not a homepage product concept or upload flow.
 
-- Builder challenge: build one useful AI workflow, prototype, automation, tool, or artifact in 48 hours.
-- Seller challenge: launch one idea publicly in 48 hours and try to get real replies, signups, leads, candidates, users, or feedback.
+- Builder next step: build one useful AI workflow, prototype, automation, tool, or artifact in 48 hours.
+- Seller next step: launch one idea publicly in 48 hours and try to get real replies, signups, leads, candidates, users, or feedback.
 - Trust boundary: no private work required, use public links only, you control what you share.
 
 Long-term, `git-hired` can become a reputation / hiring signal layer for AI-native workers.
-The MVP starts with market level, missing signals, and the next challenge because that gives users value before asking for proof.
+The MVP starts with market level, missing signals, and the next step because that gives users value before asking for proof.
 
 ## Deeper Agent Report
 
@@ -138,7 +138,7 @@ I am building AI-native products and looking for people who can:
 - create attention, trust, distribution, and adoption
 - respect privacy and security boundaries
 
-If your assessment, report, or challenge evidence shows strong AI-native worker signals and you are interested in collaboration, open an issue with:
+If your assessment, report, or public next-step evidence shows strong AI-native worker signals and you are interested in collaboration, open an issue with:
 
 - target track or role
 - public-safe market level card or public report summary
