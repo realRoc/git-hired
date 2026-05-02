@@ -1,11 +1,12 @@
 # git-hired
 
-What kind of AI-native builder are you?
+Are you a Builder or a Seller in the AI-native workplace?
 
-`git-hired` helps people discover how they work with ambiguity, AI, people, and progress.
+`git-hired` is an open-source reputation layer for AI-native workers.
+It helps people prove how they create value in the AI era: by building products, systems, workflows, and automation, or by selling through expression, narrative, distribution, recruiting, and propagation.
 
-Start with the simple builder test.
-If you want a deeper read, run the agent version in your own work agent.
+Start with the simple Builder/Seller test.
+Then use the result as a path into a challenge, proof, and reputation signal.
 
 Website: <https://realroc.github.io/git-hired/>
 
@@ -13,9 +14,19 @@ Website: <https://realroc.github.io/git-hired/>
 
 ## Simple Test
 
-Take the test and get a shareable AI-native builder card.
+Take the test and get one clear mode: `Builder` or `Seller`.
 
 Start here: <https://realroc.github.io/git-hired/start.html>
+
+## Product Path
+
+```text
+Test -> Mode -> Challenge -> Proof -> Reputation
+```
+
+- Builder: prove value with a build challenge such as a prototype, system, workflow, or automation.
+- Seller: prove value with a sell challenge such as a narrative, distribution loop, outbound sequence, recruiting story, or launch.
+- Hiring signal: the proof artifact, who used or answered it, what changed, and what you learned.
 
 ## Deeper Agent Report
 
@@ -46,7 +57,7 @@ At a glance:
 - optional mode: candidate-approved scanning of specific repos / local folders / files
 - analysis location: the candidate's own machine or connected workspace
 - server upload of local repo / file data: `none`
-- default share object: public-safe builder card, not the private report
+- default share object: public-safe reputation card, not the private report
 
 ## The Protocol
 
@@ -56,7 +67,7 @@ At a glance:
 2. Choose a target role, or describe your current profession if you are unsure.
 3. Choose privacy scope: `history-only` or explicit named files / repos.
 4. Let the agent inspect only approved evidence.
-5. Keep the private report for yourself, or share the public-safe builder card if you want to apply or collaborate.
+5. Keep the private report for yourself, or share the public-safe reputation card and challenge proof if you want to apply or collaborate.
 
 ### Evaluator Protocol
 
@@ -86,11 +97,11 @@ I am building AI-native products and looking for people who can:
 - think clearly about product, users, metrics, and tradeoffs
 - respect privacy and security boundaries
 
-If your report shows strong AI-native builder signals and you are interested in AI-native collaboration, open an issue with:
+If your report or challenge proof shows strong AI-native worker signals and you are interested in AI-native collaboration, open an issue with:
 
 - target role
-- public-safe builder card or public report summary
-- what you want to build next
+- public-safe reputation card or public report summary
+- what you want to build or sell next
 - any privacy limits you want respected
 
 Do not include secrets, private transcripts, raw customer data, or local file dumps in public issues.
@@ -115,7 +126,7 @@ Before promoting changes from `dev` to `main`, run:
 python3 scripts/eval_release.py
 ```
 
-This gate syncs generated surfaces, checks role wiring, verifies the `skill.md` output contract, locks the public builder card format, and runs `git diff --check`.
+This gate syncs generated surfaces, checks role wiring, verifies the `skill.md` output contract, locks the public card format, and runs `git diff --check`.
 
 | Traditional hiring signal | `git-hired` signal |
 | --- | --- |
@@ -123,7 +134,7 @@ This gate syncs generated surfaces, checks role wiring, verifies the `skill.md` 
 | Interview answers | Agent-observed behavior |
 | Take-home task | Historical execution pattern |
 | Self-reported AI usage | Actual agent workflow |
-| Generic score | Builder profile + role-specific fit |
+| Generic score | Builder/Seller mode + challenge proof + role-specific fit |
 
 ## Privacy Boundary
 
@@ -146,7 +157,7 @@ They explicitly ask the agent to avoid printing:
 
 The intended output is:
 
-- a public-safe builder card
+- a public-safe reputation card
 - a private evidence report
 - distributions
 - de-identified examples

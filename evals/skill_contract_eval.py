@@ -185,7 +185,7 @@ def main() -> int:
         validate_no_personality_layer(page, text, errors)
 
     index_text = read(repo_root / "docs/index.html")
-    assert_contains("docs/index.html", index_text, "What kind of AI-native builder are you?", errors)
+    assert_contains("docs/index.html", index_text, "Are you a Builder or a Seller in the AI-native workplace?", errors)
     assert_contains("docs/index.html", index_text, "./start.html", errors)
     validate_no_personality_layer("docs/index.html", index_text, errors)
 

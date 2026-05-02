@@ -1,11 +1,12 @@
 # git-hired
 
-你是哪种 AI-native builder？
+在 AI-native 职场里，你更像 Builder 还是 Seller？
 
-`git-hired` 帮助你看清自己如何面对模糊问题、使用 AI、推动进展、与人协作。
+`git-hired` 是 AI-native worker 的开源 reputation layer。
+它帮助你证明自己在 AI 时代如何创造价值：通过构建产品、系统、工作流和自动化，或通过表达、叙事、分发、招聘和传播来销售价值。
 
-先从简单 Builder 测试开始。
-如果你想要更深入的判断，再在自己的工作 agent 里运行 agent 版本。
+先从简单 Builder / Seller 测试开始。
+然后把结果接到 challenge、proof 和 reputation signal。
 
 项目网站：<https://realroc.github.io/git-hired/>
 
@@ -13,9 +14,19 @@
 
 ## 简单测试
 
-完成测试，得到一张可分享的 AI-native builder 卡片。
+完成测试，得到一个清晰模式：`Builder` 或 `Seller`。
 
 从这里开始：<https://realroc.github.io/git-hired/start.html>
+
+## 产品路径
+
+```text
+Test -> Mode -> Challenge -> Proof -> Reputation
+```
+
+- Builder：通过 build challenge 证明价值，例如原型、系统、工作流或自动化。
+- Seller：通过 sell challenge 证明价值，例如叙事、分发循环、outbound 序列、招聘故事或发布实验。
+- Hiring signal：证明产物、谁使用或回应了它、发生了什么变化，以及你学到了什么。
 
 ## 更深入的 Agent 报告
 
@@ -46,7 +57,7 @@ read https://realroc.github.io/git-hired/skill.md
 - 可选模式：候选人主动允许扫描指定 repo / 本地目录 / 文件
 - 运行位置：候选人自己的机器或已连接工作区
 - 本地 repo / 文件数据上传到服务端：`不会`
-- 默认分享对象：可公开分享的 builder 卡片，不是私人详细报告
+- 默认分享对象：可公开分享的 reputation 卡片，不是私人详细报告
 
 ## 这是一套 protocol
 
@@ -56,7 +67,7 @@ read https://realroc.github.io/git-hired/skill.md
 2. 选择目标岗位；如果还不确定，就先说当前职业或身份。
 3. 选择隐私范围：`history-only`，或明确点名允许的文件 / repo。
 4. 让 agent 只检查被授权的证据。
-5. 私人详细报告留给自己；如果想申请或合作，可以分享可公开的 builder 卡片。
+5. 私人详细报告留给自己；如果想申请或合作，可以分享可公开的 reputation 卡片和 challenge proof。
 
 ### Evaluator Protocol
 
@@ -86,11 +97,11 @@ read https://realroc.github.io/git-hired/skill.md
 - 对产品、用户、指标、取舍有判断
 - 尊重隐私和安全边界
 
-如果你的报告显示出较强的 AI-native builder 信号，并且你也在寻找 AI-native 项目的合作机会，可以开一个 issue，附上：
+如果你的报告或 challenge proof 显示出较强的 AI-native worker 信号，并且你也在寻找 AI-native 项目的合作机会，可以开一个 issue，附上：
 
 - 目标岗位
-- 可公开分享的 builder 卡片或公开报告摘要
-- 你接下来想做什么
+- 可公开分享的 reputation 卡片或公开报告摘要
+- 你接下来想 build 或 sell 什么
 - 你希望被尊重的隐私边界
 
 不要在公开 issue 里放 secret、私人 transcript、原始客户数据或本地文件转储。
@@ -115,7 +126,7 @@ read https://realroc.github.io/git-hired/skill.md
 python3 scripts/eval_release.py
 ```
 
-这个 gate 会同步生成页面，检查岗位 wiring，验证 `skill.md` 输出契约，锁住公开 builder card 格式，并运行 `git diff --check`。
+这个 gate 会同步生成页面，检查岗位 wiring，验证 `skill.md` 输出契约，锁住公开 card 格式，并运行 `git diff --check`。
 
 | 传统招聘信号 | `git-hired` 信号 |
 | --- | --- |
@@ -123,7 +134,7 @@ python3 scripts/eval_release.py
 | 面试回答 | agent 观察到的行为 |
 | 作业题 | 历史执行模式 |
 | 自称会用 AI | 真实 agent 工作流 |
-| 通用评分 | Builder 画像 + 角色匹配判断 |
+| 通用评分 | Builder / Seller 模式 + challenge proof + 角色匹配判断 |
 
 ## 隐私边界
 
@@ -146,7 +157,7 @@ python3 scripts/eval_release.py
 
 预期输出是：
 
-- 可公开分享的 builder 卡片
+- 可公开分享的 reputation 卡片
 - 私人证据报告
 - 行为分布
 - 去标识化例子
