@@ -1,9 +1,9 @@
 # git-hired
 
-Know your AI-native market value — and how to raise it.
+Turn your AI-native work into a LinkedIn-ready profile.
 
-`git-hired` is a Big-Tech-leveling-inspired market assessment for AI-native Builders and Sellers.
-It helps AI-native workers understand their market level, missing signals, and next step to become more valuable.
+`git-hired` is an AI-native resume / profile generator.
+It helps people translate projects, workflows, launches, automation, content, sales, recruiting, and agent work into a company-readable resume profile.
 
 Website: <https://realroc.github.io/git-hired/>
 
@@ -11,12 +11,12 @@ Website: <https://realroc.github.io/git-hired/>
 
 ## Start Here
 
-Choose a track, then assess your current GH level:
+Choose a track, paste your work evidence, then generate a profile:
 
-- Builder track: turns ambiguity into useful artifacts with AI.
-- Seller track: turns ideas into attention, trust, adoption, and revenue with AI.
+- Builder profile: for artifacts, systems, workflows, automation, prototypes, tools, and shipped output.
+- Seller profile: for narrative, positioning, distribution, sales, recruiting, launches, trust, and adoption.
 
-Assessment entry:
+Generator entry:
 
 - Builder: <https://realroc.github.io/git-hired/start.html?track=builder>
 - Seller: <https://realroc.github.io/git-hired/start.html?track=seller>
@@ -24,34 +24,25 @@ Assessment entry:
 ## Product Path
 
 ```text
-Choose Track -> Assess Level -> Market Read -> Upgrade Plan
+Choose Track -> Add Work Evidence -> Generate Profile -> Edit -> Export
 ```
 
-The lightweight browser assessment returns:
+The browser-local generator returns:
 
-- `GH-L3` to `GH-L7` level
-- what the level means
-- market read and opportunity band
-- missing signals
-- next level gap
-- upgrade plan
-- recommended next step
-- shareable market level card
-
-## GH Levels
-
-The GH level system is inspired by Big Tech leveling logic, but it does not claim equivalence to any specific company level.
-
-- `GH-L3 — Entry`: can complete work under clear tasks.
-- `GH-L4 — Independent`: can complete full tasks or projects independently.
-- `GH-L5 — Senior`: can handle complex problems and create verifiable user, business, or market impact.
-- `GH-L6 — Staff`: can amplify impact across teams, systems, or channels.
-- `GH-L7 — Principal`: can define direction, create market-level impact, and influence an organization or category.
+- LinkedIn headline
+- About section
+- AI-native value proposition
+- core skills
+- selected work evidence
+- resume bullets
+- suggested roles
+- missing proof
+- next edit
+- Markdown export
 
 ## Tracks
 
-Builder is not a personality label.
-It is a capability track for people who make things real:
+Builder is a resume/profile track for people who make things real with AI:
 
 - prototyping
 - AI workflow building
@@ -62,8 +53,7 @@ It is a capability track for people who make things real:
 - research-to-artifact
 - shipping useful output
 
-Seller is not a traditional sales label.
-It is a capability track for people who make people care:
+Seller is a resume/profile track for people who make people care with AI:
 
 - storytelling
 - positioning
@@ -72,26 +62,24 @@ It is a capability track for people who make people care:
 - recruiting
 - marketing
 - community
-- fundraising narrative
-- momentum creation
+- launches and outbound
 - trust building
 
-## Recommended Next Step
+## Trust Boundary
 
-The next step comes after the assessment.
-It is a concrete suggestion for raising the missing market signal, not a homepage product concept or upload flow.
+The MVP does not require private uploads.
 
-- Builder next step: build one useful AI workflow, prototype, automation, tool, or artifact in 48 hours.
-- Seller next step: launch one idea publicly in 48 hours and try to get real replies, signups, leads, candidates, users, or feedback.
-- Trust boundary: no private work required, use public links only, you control what you share.
+- Paste only what you want to include.
+- Public links are enough.
+- Browser-local text input is enough.
+- You control what you copy, edit, export, and share.
 
-Long-term, `git-hired` can become a reputation / hiring signal layer for AI-native workers.
-The MVP starts with market level, missing signals, and the next step because that gives users value before asking for proof.
+Long-term, `git-hired` can become a hiring signal layer for AI-native workers.
+The MVP starts with a useful resume/profile draft because that gives users value before asking for deeper proof.
 
 ## Deeper Agent Report
 
-Paste the `skill.md` command into your own work agent.
-It can generate a deeper, privacy-bounded report from approved history or files.
+Paste the `skill.md` command into your own work agent when you want a deeper, privacy-bounded report from approved history or files.
 
 ```text
 read https://realroc.github.io/git-hired/skill.md
@@ -104,20 +92,12 @@ read https://realroc.github.io/git-hired/skill.md
 ## Privacy First
 
 > `git-hired` is consent-first and local-only.
-> No server, no account, no upload, no tracking for private evidence.
+> No server upload for local repo or file data.
 > By default, every role prompt stays `history-only`.
 > It should not scan a candidate's local repo, project folder, or document files unless the candidate explicitly allows it.
 > `git-hired` never uploads candidate repo or local file data to our server.
 > The chosen work agent should only inspect projects, files, or knowledge-base material the candidate explicitly authorizes.
 > If the chosen work agent supports direct local access, any approved scan should stay inside the candidate's own machine or connected workspace whenever possible.
-
-At a glance:
-
-- default mode: `history-only`
-- optional mode: candidate-approved scanning of specific repos / local folders / files
-- analysis location: the candidate's own machine or connected workspace
-- server upload of local repo / file data: `none`
-- default share object: public-safe card, not the private report
 
 ## Protocol Pages
 
@@ -138,10 +118,10 @@ I am building AI-native products and looking for people who can:
 - create attention, trust, distribution, and adoption
 - respect privacy and security boundaries
 
-If your assessment, report, or public next-step evidence shows strong AI-native worker signals and you are interested in collaboration, open an issue with:
+If your profile, report, or public evidence shows strong AI-native worker signals and you are interested in collaboration, open an issue with:
 
 - target track or role
-- public-safe market level card or public report summary
+- public-safe profile or report summary
 - what you want to build or sell next
 - any privacy limits you want respected
 
@@ -149,7 +129,7 @@ Do not include secrets, private transcripts, raw customer data, or local file du
 
 ## Examples
 
-Start here if you want to understand what a report looks like before running the deeper protocol:
+Start here if you want to understand what a deeper report looks like:
 
 - [Final builder card](./examples/builder-card.md)
 - [Strong Agent Engineer](./examples/agent-engineer.strong.md)

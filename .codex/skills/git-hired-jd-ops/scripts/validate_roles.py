@@ -166,32 +166,51 @@ def validate_no_personality_layer(label: str, text: str, errors: list[str]) -> N
             errors.append(f"{label} should not contain personality-test marker: {marker}")
 
 
-def validate_market_level_questions(js_text: str, errors: list[str]) -> None:
-    if "const TRACKS" not in js_text or "const MATURITY_OPTIONS" not in js_text:
-        errors.append("docs/quick-test.js missing track-based market level question source")
+def validate_profile_generator_logic(js_text: str, errors: list[str]) -> None:
+    if "const TRACKS" not in js_text or "function generateProfile" not in js_text:
+        errors.append("docs/quick-test.js missing track-based profile generator logic")
         return
 
-    for marker in (
-        "Have you used AI to complete a clearly defined work task?",
-        "Have you used AI to improve communication, writing, pitch, or content?",
+    required_markers = (
+        "LinkedIn Headline",
+        "About",
+        "AI-Native Value Proposition",
+        "Core Skills",
+        "Selected Work Evidence",
+        "Resume Bullets",
+        "Suggested Roles",
+        "Missing Proof",
+        "Next Edit",
+        "Download Markdown",
+        "Copy LinkedIn About",
+        "Copy full profile",
+        "builder-profile",
+        "seller-profile",
+        "AI-native builder",
+        "AI-native seller",
+        "generateProfile",
+        "profileMarkdown",
+        "downloadText",
+    )
+    for marker in required_markers:
+        if marker not in js_text:
+            errors.append(f"docs/quick-test.js missing profile generator marker: {marker}")
+
+    forbidden_markers = (
+        "MATURITY_OPTIONS",
+        "scoreQuickTest",
         "GH-L3",
         "GH-L4",
         "GH-L5",
-        "GH-L6",
-        "GH-L7",
-        "AI Task Executor",
-        "Independent Workflow Builder",
-        "Senior Product Shipper",
-        "AI-assisted Communicator",
-        "Independent Narrative Builder",
-        "Senior Distribution Operator",
-    ):
-        if marker not in js_text:
-            errors.append(f"docs/quick-test.js missing market level marker: {marker}")
-    builder_questions = len(re.findall(r'key:\s*"[^"]+",\n\s+signal:\s*\{ en: "[^"]+", zh: "[^"]+" \},\n\s+title:\s*\{', js_text.split("seller:", 1)[0]))
-    seller_questions = len(re.findall(r'key:\s*"[^"]+",\n\s+signal:\s*\{ en: "[^"]+", zh: "[^"]+" \},\n\s+title:\s*\{', js_text.split("seller:", 1)[1] if "seller:" in js_text else ""))
-    if builder_questions < 10 or seller_questions < 10:
-        errors.append("docs/quick-test.js should define 10 Builder questions and 10 Seller questions")
+        "Pathfinder",
+        "Shaper",
+        "Shipstarter",
+        "Synthesizer",
+        "Catalyst",
+    )
+    for marker in forbidden_markers:
+        if marker in js_text:
+            errors.append(f"docs/quick-test.js should not keep old assessment/persona marker: {marker}")
 
 
 def main() -> None:
@@ -225,12 +244,12 @@ def main() -> None:
 
     if "git-hired-lang" not in index_text:
         errors.append("docs/index.html missing language bootstrap script")
-    if "Know your AI-native market value" not in index_text or "了解你的 AI-native 市场价值" not in index_text:
-        errors.append("docs/index.html missing market value first-screen hook copy")
-    if "Choose your track — Builder or Seller" not in index_text:
-        errors.append("docs/index.html missing market assessment subtitle")
-    if "Assess Builder Level" not in index_text or "Assess Seller Level" not in index_text:
-        errors.append("docs/index.html missing Builder/Seller level CTAs")
+    if "Turn your AI-native work into a LinkedIn-ready profile" not in index_text or "把你的 AI-native 工作经历生成 LinkedIn 可用的简历画像" not in index_text:
+        errors.append("docs/index.html missing profile-generator first-screen hook copy")
+    if "projects, workflows, launches, tools, links, and outcomes" not in index_text:
+        errors.append("docs/index.html missing work-evidence subtitle")
+    if "Generate Builder Profile" not in index_text or "Generate Seller Profile" not in index_text:
+        errors.append("docs/index.html missing Builder/Seller profile CTAs")
     if "./start.html?track=builder" not in index_text or "./start.html?track=seller" not in index_text:
         errors.append("docs/index.html missing track-specific assessment links")
     for forbidden in (
@@ -259,17 +278,18 @@ def main() -> None:
         errors.append("docs/index.html should not link to redundant ./general.html guide page")
     if "See whether a candidate" in index_text or "看候选人是否" in index_text:
         errors.append("docs/index.html still contains recruiter-facing JD summary wording")
-    if "Choose Track" not in index_text or "Assess Level" not in index_text or "Market Read" not in index_text or "Upgrade Plan" not in index_text:
-        errors.append("docs/index.html missing market-level product path")
+    for marker in ("Choose Track", "Add Work Evidence", "Generate Profile", "Edit", "Export"):
+        if marker not in index_text:
+            errors.append(f"docs/index.html missing profile-generator product path marker: {marker}")
     if "<span class=\"hash\">define</span>" in index_text or "challenge-preview" in index_text:
         errors.append("docs/index.html should not include define or homepage challenge sections")
-    if "Builder and Seller are tracks" not in index_text and "Builder 和 Seller 是你先选择的能力赛道" not in index_text:
-        errors.append("docs/index.html should explain Builder/Seller as tracks, not result personas")
+    if "Builder and Seller are profile tracks" not in index_text and "Builder 和 Seller 是 profile track" not in index_text:
+        errors.append("docs/index.html should explain Builder/Seller as profile tracks, not result personas")
     validate_public_footer("docs/index.html", index_text, errors)
     validate_footer_css(style_text, errors)
 
     audience_pages = {
-        "docs/candidate.html": (candidate_page, "Raise Your Market Signals", "提高你的市场信号"),
+        "docs/candidate.html": (candidate_page, "Generate Your AI-Native Profile", "生成你的 AI-native Profile"),
         "docs/evaluator.html": (evaluator_page, "Evaluator Protocol", "评估者协议"),
         "docs/contributor.html": (contributor_page, "Contributor Protocol", "贡献者协议"),
     }
@@ -299,32 +319,30 @@ def main() -> None:
             errors.append("docs/contributor.html missing contributor improvement guidance")
 
     if not quick_start.exists():
-        errors.append("docs/start.html missing mobile human quick-test page")
+        errors.append("docs/start.html missing browser-local profile generator page")
     else:
         quick_start_text = quick_start.read_text(encoding="utf-8")
         validate_no_personality_layer("docs/start.html", quick_start_text, errors)
         if "start-hero" in quick_start_text or "class=\"hero" in quick_start_text:
-            errors.append("docs/start.html should not render a hero section above the single-choice test")
+            errors.append("docs/start.html should not render a marketing hero above the generator form")
         if "Answer 10 quick questions" in quick_start_text or "回答 10 道简短问题" in quick_start_text:
-            errors.append("docs/start.html should not show a pre-test hero explainer before the questions")
+            errors.append("docs/start.html should not keep old quick-test explainer copy")
         if "Builder Quick Test" in quick_start_text or "Builder 快速测试" in quick_start_text:
-            errors.append("docs/start.html should not expose quick/deep mode wording before the test")
-        if "No local repo" in quick_start_text or "不扫描本地 repo" in quick_start_text:
-            errors.append("docs/start.html should not explain privacy scope before the lightweight test")
+            errors.append("docs/start.html should not expose old quick-test wording")
         quiz_topbar_index = quick_start_text.find("quiz-topbar")
-        form_index = quick_start_text.find('id="quick-test-form"')
-        result_index = quick_start_text.find('id="quick-result"')
+        form_index = quick_start_text.find('id="profile-generator-form"')
+        result_index = quick_start_text.find('id="profile-result"')
         result_topbar_index = quick_start_text.find("result-topbar")
         result_card_index = quick_start_text.find('id="result-card"')
         progress_index = quick_start_text.find("quick-progress")
         if form_index == -1 or progress_index == -1:
-            errors.append("docs/start.html should start the test with the form and progress")
+            errors.append("docs/start.html should start the generator with the form and progress/status")
         if quiz_topbar_index == -1:
-            errors.append("docs/start.html should combine the quiz topbar and progress into one status bar")
+            errors.append("docs/start.html should combine the generator topbar and progress into one status bar")
         if quiz_topbar_index != -1 and progress_index != -1 and form_index != -1 and not (quiz_topbar_index < progress_index < form_index):
-            errors.append("docs/start.html should keep quick progress inside the quiz topbar before the question form")
+            errors.append("docs/start.html should keep progress inside the topbar before the generator form")
         if result_index != -1 and form_index != -1 and result_index < form_index:
-            errors.append("docs/start.html should render the question form before the result card")
+            errors.append("docs/start.html should render the input form before the profile result")
         if result_topbar_index == -1:
             errors.append("docs/start.html should render the final topbar outside the result card")
         if result_index != -1 and result_topbar_index != -1 and result_card_index != -1 and not (result_index < result_topbar_index < result_card_index):
@@ -333,46 +351,54 @@ def main() -> None:
             result_topbar_text = quick_start_text[result_topbar_index:result_card_index]
             if 'data-lang-button="en"' not in result_topbar_text or 'data-lang-button="zh"' not in result_topbar_text:
                 errors.append("docs/start.html final topbar should keep the EN/中文 language switch")
-        if "Questions are rendered from TRACKS in quick-test.js." not in quick_start_text:
-            errors.append("docs/start.html should delegate quick-test questions to quick-test.js")
-        if 'name="target"' in quick_start_text or "Target Direction" in quick_start_text or "目标方向" in quick_start_text:
-            errors.append("docs/start.html should not ask for the candidate's target role/direction")
-        if "<textarea" in quick_start_text or "evidenceNote" in quick_start_text:
-            errors.append("docs/start.html quick test should be single-choice only with no free-form fields")
+        for marker in (
+            "profile-name",
+            "current-role",
+            "target-role",
+            "tools",
+            "work-evidence",
+            "outcomes",
+            "profile-tone",
+            "output-language",
+            "generate-profile",
+        ):
+            if marker not in quick_start_text:
+                errors.append(f"docs/start.html missing profile-generator input marker: {marker}")
         if re.search(r'value="[EISNTFJP]2?"', quick_start_text):
             errors.append("docs/start.html should not keep legacy letter-code answer values")
-        if "share-result" not in quick_start_text or "分享" not in quick_start_text:
-            errors.append("docs/start.html quick result should expose the share-image action")
+        if "share-result" not in quick_start_text or "Copy full profile" not in quick_start_text:
+            errors.append("docs/start.html profile result should expose copy-full-profile action")
         if "quick-progress" not in quick_start_text or "quick-nav" not in quick_start_text:
-            errors.append("docs/start.html missing step-by-step mobile quick-test shell")
+            errors.append("docs/start.html missing mobile-friendly generator shell")
         if "quick-home-link" not in quick_start_text or "Back Home" not in quick_start_text or "返回首页" not in quick_start_text:
-            errors.append("docs/start.html question nav should include a back-home action")
-        if "Previous" not in quick_start_text or "上一题" not in quick_start_text:
-            errors.append("docs/start.html question nav should label the back action as previous question")
+            errors.append("docs/start.html generator nav should include a back-home action")
         if "Tap one answer to continue." in quick_start_text or "点选一个答案后自动继续。" in quick_start_text:
-            errors.append("docs/start.html question nav should not show the old auto-continue hint")
+            errors.append("docs/start.html should not show the old auto-continue hint")
         if "Run Deep Test On GitHub" in quick_start_text:
             errors.append("docs/start.html should use the terminal-style GitHub CTA copy")
         required_result_html = [
             "result-card",
             "result-topbar",
-            "RESULT READY",
-            "结果已生成",
+            "PROFILE READY",
+            "PROFILE 已生成",
             "result-next",
             "share-result",
-            "challenge-entry",
-            "mode-challenge-link",
+            "copy-profile",
+            "download-card",
+            "share-x",
+            "share-linkedin",
+            "create-public-profile",
             "hiring-signal",
             "advanced-report",
             "copy-agent-prompt",
             "result-home-link",
-            "Want stronger market evidence?",
-            "想要更强的市场证据？",
+            "LinkedIn About",
+            "Copy resume bullets",
+            "Download Markdown",
+            "Browser-local draft",
+            "浏览器本地草稿",
             "No private work required.",
-            "Use public links only.",
             "You decide what to share.",
-            "不需要私人作品。",
-            "只使用公开链接。",
             "你决定分享什么。",
         ]
         for marker in required_result_html:
@@ -389,16 +415,16 @@ def main() -> None:
     else:
         validate_public_footer("docs/404.html", not_found_page.read_text(encoding="utf-8"), errors)
     if not quick_start_js.exists():
-        errors.append("docs/quick-test.js missing quick-test behavior")
+        errors.append("docs/quick-test.js missing profile-generator behavior")
     else:
         quick_start_js_text = quick_start_js.read_text(encoding="utf-8")
         validate_no_personality_layer("docs/quick-test.js", quick_start_js_text, errors)
-        if "TRACKS" not in quick_start_js_text or "MATURITY_OPTIONS" not in quick_start_js_text or "scoreQuickTest" not in quick_start_js_text:
-            errors.append("docs/quick-test.js missing track-based market level logic")
-        required_tracks = ("Builder Track", "Seller Track", "Builder 赛道", "Seller 赛道")
+        if "TRACKS" not in quick_start_js_text or "generateProfile" not in quick_start_js_text or "profileMarkdown" not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing track-based profile generator logic")
+        required_tracks = ("Builder profile", "Seller profile", "Builder profile：", "Seller profile：")
         for marker in required_tracks:
             if marker not in quick_start_js_text:
-                errors.append(f"docs/quick-test.js missing market assessment track: {marker}")
+                errors.append(f"docs/quick-test.js missing profile track: {marker}")
         forbidden_builder_types = (
             "Prototype Hacker",
             "Agent Orchestrator",
@@ -420,37 +446,35 @@ def main() -> None:
                 errors.append(f"docs/quick-test.js should not keep old role-like builder type: {marker}")
         if READ_COMMAND_MARKER not in quick_start_js_text:
             errors.append("docs/quick-test.js missing copied advanced agent prompt")
-        if '"builder", "seller"' not in quick_start_js_text:
+        if 'builder:' not in quick_start_js_text or 'seller:' not in quick_start_js_text:
             errors.append("docs/quick-test.js missing builder/seller track keys")
-        for marker in ("Your Level", "What this level means", "Market Read", "Missing Signals", "Next Level", "Upgrade Plan", "Recommended Next Step"):
+        for marker in ("LinkedIn Headline", "About", "AI-Native Value Proposition", "Core Skills", "Selected Work Evidence", "Resume Bullets", "Suggested Roles", "Missing Proof", "Next Edit"):
             if marker not in quick_start_js_text:
-                errors.append(f"docs/quick-test.js missing market-level result-card section: {marker}")
+                errors.append(f"docs/quick-test.js missing profile result section: {marker}")
         required_result_js = [
-            "renderResultCard",
-            "builder-card-ascii",
-            "builder-card-type",
+            "renderProfile",
+            "profileMarkdown",
+            "profile-section",
+            "profile-headline",
             "builder-card-section",
-            "renderShareImage",
-            "copyShareImage",
-            "ClipboardItem",
             "copyText",
-            "share",
-            "market-level.card",
+            "downloadText",
+            "profile_result",
             "Copy agent prompt",
         ]
         for marker in required_result_js:
             if marker not in quick_start_js_text:
-                errors.append(f"docs/quick-test.js missing structured quick-result marker: {marker}")
+                errors.append(f"docs/quick-test.js missing structured profile-result marker: {marker}")
         for forbidden in ("renderResultTopbar", "builder-card-topbar"):
             if forbidden in quick_start_js_text:
                 errors.append(f"docs/quick-test.js should not render the final topbar inside result-card: {forbidden}")
         if "resultCard.textContent" in quick_start_js_text:
             errors.append("docs/quick-test.js should render structured result DOM instead of raw text")
-        if "target role" in quick_start_js_text or "targetRole" in quick_start_js_text or "role fit" in quick_start_js_text:
-            errors.append("docs/quick-test.js should not route the mobile quick test by target role")
+        if "Your Level" in quick_start_js_text or "Market Read" in quick_start_js_text:
+            errors.append("docs/quick-test.js should not keep the market-level assessment result model")
         if "navigator.share" in quick_start_js_text:
-            errors.append("docs/quick-test.js should copy an image to clipboard instead of using navigator.share")
-        validate_market_level_questions(quick_start_js_text, errors)
+            errors.append("docs/quick-test.js should use explicit copy/download actions instead of navigator.share")
+        validate_profile_generator_logic(quick_start_js_text, errors)
     if not quick_start_qr.exists():
         errors.append("docs/assets/quick-test-qr.svg missing quick-test QR asset")
 
@@ -546,12 +570,12 @@ def main() -> None:
         errors.append("README.md missing work-agent compatibility or privacy-upload wording")
     if WORK_AGENT_ZH_MARKER not in readme_zh or "我们的服务器" not in readme_zh:
         errors.append("README.zh-CN.md missing work-agent compatibility or privacy-upload wording")
-    if "Know your AI-native market value" not in readme_en or "了解你的 AI-native 市场价值" not in readme_zh:
-        errors.append("README missing market value hook")
-    if "Big-Tech-leveling-inspired market assessment" not in readme_en or "受大厂职级逻辑启发的市场等级评估" not in readme_zh:
-        errors.append("README missing market-level positioning statement")
-    if "Choose Track -> Assess Level -> Market Read -> Upgrade Plan" not in readme_en or "Choose Track -> Assess Level -> Market Read -> Upgrade Plan" not in readme_zh:
-        errors.append("README missing market-level product path")
+    if "Turn your AI-native work into a LinkedIn-ready profile" not in readme_en or "把你的 AI-native 工作经历生成 LinkedIn 可用的简历画像" not in readme_zh:
+        errors.append("README missing profile-generator hook")
+    if "AI-native resume / profile generator" not in readme_en or "AI-native resume / profile generator" not in readme_zh:
+        errors.append("README missing profile-generator positioning statement")
+    if "Choose Track -> Add Work Evidence -> Generate Profile -> Edit -> Export" not in readme_en or "Choose Track -> Add Work Evidence -> Generate Profile -> Edit -> Export" not in readme_zh:
+        errors.append("README missing profile-generator product path")
     if "Website:" not in readme_en or "https://realroc.github.io/git-hired/" not in readme_en:
         errors.append("README.md missing top website entry")
     if "项目网站" not in readme_zh or "https://realroc.github.io/git-hired/" not in readme_zh:
@@ -573,9 +597,9 @@ def main() -> None:
     if "skill.md" not in readme_zh or "https://realroc.github.io/git-hired/skill.md" not in readme_zh:
         errors.append("README.zh-CN.md missing skill.md live link")
     if "https://realroc.github.io/git-hired/start.html?track=builder" not in readme_en or "https://realroc.github.io/git-hired/start.html?track=seller" not in readme_en:
-        errors.append("README.md missing track assessment entries")
+        errors.append("README.md missing track profile-generator entries")
     if "https://realroc.github.io/git-hired/start.html?track=builder" not in readme_zh or "https://realroc.github.io/git-hired/start.html?track=seller" not in readme_zh:
-        errors.append("README.zh-CN.md missing track assessment entries")
+        errors.append("README.zh-CN.md missing track profile-generator entries")
     if "Paste the prompt from this link into your own Claude Code or Codex" in readme_en:
         errors.append("README.md still contains Claude Code/Codex-exclusive candidate wording")
     if "粘贴到你自己的 Claude Code 或 Codex" in readme_zh:

@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI-native Market Level Assessment · git-hired</title>
-    <meta name="description" content="Choose Builder or Seller track, assess your GH market level, missing signals, market read, upgrade plan, and recommended next step.">
+    <title>AI-native Resume Profile Generator · git-hired</title>
+    <meta name="description" content="Generate a LinkedIn-ready AI-native resume profile from your projects, workflows, launches, agent work, tools, links, and outcomes.">
     <script>
       (function () {
         var key = "git-hired-lang";
@@ -34,19 +34,18 @@
     <script src="./app.js" defer></script>
     <script src="./quick-test.js" defer></script>
   </head>
-  <body class="lang-en start-page" data-lang="en" data-title-en="AI-native Market Level Assessment · git-hired" data-title-zh="AI-native market level assessment · git-hired">
-        <main class="shell start-shell">
+  <body class="lang-en start-page" data-lang="en" data-title-en="AI-native Resume Profile Generator · git-hired" data-title-zh="AI-native resume profile generator · git-hired">
+    <main class="shell start-shell">
 
-      <!-- window chrome + progress + lang switcher -->
       <div class="topbar quiz-topbar">
         <div class="topbar-left">
           <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
           <div class="topbar-path">
-            <span class="here">~/git-hired</span><span class="sep"> / </span><span>start.html</span>
+            <span class="here">~/git-hired</span><span class="sep"> / </span><span id="profile-track-path">profile-generator</span>
           </div>
         </div>
-        <div class="quick-progress" aria-live="polite">
-          <span id="quick-progress-label">01 / 10</span>
+        <div class="quick-progress profile-status" aria-live="polite">
+          <span id="quick-progress-label">profile draft</span>
           <div class="quick-progress-track" aria-hidden="true">
             <span id="quick-progress-fill"></span>
           </div>
@@ -57,31 +56,101 @@
         </div>
       </div>
 
-      <form id="quick-test-form" class="quick-form step-flow" autocomplete="off">
-        <!-- Questions are rendered from TRACKS in quick-test.js. -->
-
-        <div class="quick-nav">
-          <div class="quick-nav-actions">
-            <button class="button secondary quick-prev-button" type="button" id="quick-back" data-lang="en">Previous</button>
-            <button class="button secondary quick-prev-button" type="button" id="quick-back-zh" data-lang="zh">上一题</button>
-            <a class="button secondary quick-home-link" href="./index.html" data-lang="en">Back Home</a>
-            <a class="button secondary quick-home-link" href="./index.html" data-lang="zh">返回首页</a>
+      <form id="profile-generator-form" class="quick-form profile-form" autocomplete="off">
+        <section class="section question-block profile-generator-panel">
+          <div class="question-head">
+            <span class="question-step">01</span>
+            <h2 data-lang="en">Add the work evidence you want translated into a resume profile.</h2>
+            <h2 data-lang="zh">添加你想转成简历画像的工作证据。</h2>
           </div>
-        </div>
+
+          <p class="track-note" id="track-note">
+            <span data-lang="en">No private work required. Public links and short notes are enough.</span>
+            <span data-lang="zh">不需要私人作品。公开链接和简短记录就够了。</span>
+          </p>
+
+          <div class="profile-grid">
+            <label class="profile-field">
+              <span data-lang="en">Name or profile label</span>
+              <span data-lang="zh">姓名或 profile 标识</span>
+              <input id="profile-name" name="profileName" type="text" placeholder="Alex Chen">
+            </label>
+
+            <label class="profile-field">
+              <span data-lang="en">Current role</span>
+              <span data-lang="zh">当前身份 / 岗位</span>
+              <input id="current-role" name="currentRole" type="text" placeholder="AI product builder / growth operator">
+            </label>
+
+            <label class="profile-field">
+              <span data-lang="en">Target role or opportunity</span>
+              <span data-lang="zh">目标岗位 / 机会</span>
+              <input id="target-role" name="targetRole" type="text" placeholder="Founder's office, AI PM, growth, agent ops">
+            </label>
+
+            <label class="profile-field">
+              <span data-lang="en">Tools, agents, and stack</span>
+              <span data-lang="zh">工具、agent 和技术栈</span>
+              <input id="tools" name="tools" type="text" placeholder="ChatGPT, Codex, Claude, Zapier, Airtable, Python, Framer">
+            </label>
+          </div>
+
+          <label class="profile-field profile-field-wide">
+            <span data-lang="en">Work evidence</span>
+            <span data-lang="zh">工作证据</span>
+            <textarea id="work-evidence" name="workEvidence" rows="8" placeholder="Paste 3-6 bullet points. Example: Built an AI workflow that turned weekly CRM cleanup from 4 hours into 30 minutes. Shipped a demo. Got 5 teammates using it."></textarea>
+          </label>
+
+          <label class="profile-field profile-field-wide">
+            <span data-lang="en">Outcomes, numbers, or proof links</span>
+            <span data-lang="zh">结果、数字或公开链接</span>
+            <textarea id="outcomes" name="outcomes" rows="4" placeholder="Time saved, users, replies, signups, revenue, screenshots, GitHub, posts, landing pages, case studies."></textarea>
+          </label>
+
+          <div class="profile-grid">
+            <label class="profile-field">
+              <span data-lang="en">Tone</span>
+              <span data-lang="zh">语气</span>
+              <select id="profile-tone" name="profileTone">
+                <option value="sharp">Sharp and concise</option>
+                <option value="operator">Operator / founder-style</option>
+                <option value="formal">Formal resume</option>
+              </select>
+            </label>
+
+            <label class="profile-field">
+              <span data-lang="en">Output language</span>
+              <span data-lang="zh">输出语言</span>
+              <select id="output-language" name="outputLanguage">
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="quick-nav profile-nav">
+            <div class="quick-nav-actions">
+              <button class="button primary" type="submit" id="generate-profile" data-lang="en">Generate profile</button>
+              <button class="button primary" type="submit" id="generate-profile-zh" data-lang="zh">生成 profile</button>
+              <a class="button secondary quick-home-link" href="./index.html" data-lang="en">Back Home</a>
+              <a class="button secondary quick-home-link" href="./index.html" data-lang="zh">返回首页</a>
+            </div>
+          </div>
+        </section>
       </form>
 
-      <section class="section result-shell is-hidden" id="quick-result" aria-live="polite">
+      <section class="section result-shell is-hidden" id="profile-result" aria-live="polite">
         <div class="topbar result-topbar">
           <div class="topbar-left">
             <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
             <div class="topbar-path">
-              <span class="here">~/git-hired</span><span class="sep"> / </span><span>market-level.card</span>
+              <span class="here">~/git-hired</span><span class="sep"> / </span><span>linkedin-profile.md</span>
             </div>
           </div>
           <div class="builder-card-status">
             <span class="result-dot" aria-hidden="true"></span>
-            <span data-lang="en">RESULT READY</span>
-            <span data-lang="zh">结果已生成</span>
+            <span data-lang="en">PROFILE READY</span>
+            <span data-lang="zh">PROFILE 已生成</span>
           </div>
           <div class="lang-switch" aria-label="Language switcher">
             <button class="lang-button" data-lang-button="en" onclick="setLanguage('en')">EN</button>
@@ -89,92 +158,74 @@
           </div>
         </div>
 
-        <div class="result-card" id="result-card"></div>
+        <div class="result-card profile-output" id="result-card"></div>
 
         <div class="result-next">
           <button class="result-action primary" type="button" id="share-result">
             <span class="result-action-prefix" aria-hidden="true">⧉</span>
-            <span class="share-label" data-lang="en">share</span>
-            <span class="share-label" data-lang="zh">分享</span>
+            <span class="share-label" data-lang="en">Copy full profile</span>
+            <span class="share-label" data-lang="zh">复制完整 profile</span>
           </button>
           <button class="result-action ghost" type="button" id="retake-test">
             <span class="result-action-prefix" aria-hidden="true">$</span>
-            <span data-lang="en">retake</span>
-            <span data-lang="zh">重测</span>
+            <span data-lang="en">edit input</span>
+            <span data-lang="zh">返回编辑</span>
           </button>
         </div>
 
-        <div class="result-share-grid" aria-label="Profile sharing actions">
+        <div class="result-share-grid" aria-label="Profile export actions">
           <button class="result-action ghost" type="button" id="copy-profile">
             <span class="result-action-prefix" aria-hidden="true">⧉</span>
-            <span class="copy-profile-label" data-lang="en">Copy profile</span>
-            <span class="copy-profile-label" data-lang="zh">复制 profile</span>
+            <span class="copy-profile-label" data-lang="en">Copy LinkedIn About</span>
+            <span class="copy-profile-label" data-lang="zh">复制 LinkedIn About</span>
           </button>
           <button class="result-action ghost" type="button" id="download-card">
             <span class="result-action-prefix" aria-hidden="true">↓</span>
-            <span class="download-card-label" data-lang="en">Download image</span>
-            <span class="download-card-label" data-lang="zh">下载图片</span>
+            <span class="download-card-label" data-lang="en">Download Markdown</span>
+            <span class="download-card-label" data-lang="zh">下载 Markdown</span>
           </button>
           <button class="result-action ghost" type="button" id="share-x">
-            <span class="result-action-prefix" aria-hidden="true">X</span>
-            <span data-lang="en">Share on X</span>
-            <span data-lang="zh">分享到 X</span>
+            <span class="result-action-prefix" aria-hidden="true">#</span>
+            <span data-lang="en">Copy headline</span>
+            <span data-lang="zh">复制 headline</span>
           </button>
           <button class="result-action ghost" type="button" id="share-linkedin">
-            <span class="result-action-prefix" aria-hidden="true">in</span>
-            <span data-lang="en">Share on LinkedIn</span>
-            <span data-lang="zh">分享到 LinkedIn</span>
+            <span class="result-action-prefix" aria-hidden="true">•</span>
+            <span data-lang="en">Copy resume bullets</span>
+            <span data-lang="zh">复制简历 bullets</span>
           </button>
           <button class="result-action ghost wide" type="button" id="create-public-profile">
             <span class="result-action-prefix" aria-hidden="true">↗</span>
-            <span class="public-profile-label" data-lang="en">Copy public URL</span>
-            <span class="public-profile-label" data-lang="zh">复制公开链接</span>
+            <span class="public-profile-label" data-lang="en">Copy profile URL</span>
+            <span class="public-profile-label" data-lang="zh">复制 profile URL</span>
           </button>
         </div>
 
-        <section class="challenge-entry" aria-label="Recommended next step">
-          <div>
-            <span class="challenge-tag">recommended next step</span>
-            <h2 id="mode-challenge-title">Builder next step</h2>
-            <p id="mode-challenge-body">Build one useful public signal in 48 hours.</p>
-          </div>
-          <a
-            class="button secondary challenge-link"
-            id="mode-challenge-link"
-            href="https://github.com/realRoc/git-hired/issues/new?labels=next-step"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span data-lang="en">Open next-step brief</span>
-            <span data-lang="zh">打开 next-step brief</span>
-          </a>
-        </section>
-
-        <section class="hiring-signal" aria-label="Hiring signal">
-          <h2 data-lang="en">Hiring signal, without private upload</h2>
-          <h2 data-lang="zh">招聘信号，不从私人上传开始</h2>
+        <section class="hiring-signal" aria-label="Trust boundary">
+          <h2 data-lang="en">Browser-local draft</h2>
+          <h2 data-lang="zh">浏览器本地草稿</h2>
           <p data-lang="en">
-            The assessment gives you a market read first. The recommended next step helps you create stronger public signals: what you made or moved, who used or answered it, and what changed.
+            No private work is required. This generator uses only what you type or paste here. Edit claims before publishing, and remove anything you do not want to share.
           </p>
           <p data-lang="zh">
-            评估先给你市场解读。推荐 next step 帮你创造更强公开信号：你构建或推动了什么，谁使用或回应了它，以及发生了什么变化。
+            不需要私人作品。生成器只使用你在这里输入或粘贴的内容。发布前请自行编辑表达，并删除不想分享的信息。
           </p>
         </section>
 
         <section class="advanced-report" aria-label="Advanced agent report">
-          <h2 data-lang="en">Want stronger market evidence?</h2>
-          <h2 data-lang="zh">想要更强的市场证据？</h2>
+          <h2 data-lang="en">Want a deeper evidence report later?</h2>
+          <h2 data-lang="zh">之后想生成更深入的证据报告？</h2>
           <p data-lang="en">
-            Let your own AI agent analyze selected work evidence later. The first step here does not require private work.
+            Use your own AI agent when you want a detailed, consent-based report from selected work history.
           </p>
           <p data-lang="zh">
-            后续你可以让自己的 AI agent 分析你选择的工作证据。这里的第一步不需要私人作品。
+            如果你想基于指定工作历史生成更深入报告，可以之后在自己的 AI agent 里运行。
           </p>
           <ul class="advanced-points">
-            <li data-lang="en">No private work required.</li>
-            <li data-lang="zh">不需要私人作品。</li>
-            <li data-lang="en">Use public links only.</li>
-            <li data-lang="zh">只使用公开链接。</li>
+            <li data-lang="en">You choose what evidence to provide.</li>
+            <li data-lang="zh">你决定给它看什么。</li>
+            <li data-lang="en">No local files are uploaded to our server.</li>
+            <li data-lang="zh">不上传你的本地文件到我们的服务器。</li>
             <li data-lang="en">You decide what to share.</li>
             <li data-lang="zh">你决定分享什么。</li>
           </ul>
@@ -183,24 +234,10 @@
             <span class="agent-copy-label" data-lang="en">Copy agent prompt</span>
             <span class="agent-copy-label" data-lang="zh">复制 Agent 指令</span>
           </button>
-        </section>
-
-        <section class="team-waitlist" aria-label="Team waitlist">
-          <div>
-            <h2 data-lang="en">Hiring AI-native workers?</h2>
-            <h2 data-lang="zh">你在寻找 AI-native worker 吗？</h2>
-            <p data-lang="en">Tell us what GH level and public signals you want to discover.</p>
-            <p data-lang="zh">告诉我们你想发现哪类 GH Level 和公开信号。</p>
-          </div>
-          <a
-            class="button secondary team-waitlist-link"
-            id="team-waitlist-link"
-            href="https://github.com/realRoc/git-hired/issues/new?title=Team%20waitlist%3A%20looking%20for%20AI-native%20workers&body=What%20kind%20of%20Builder%20or%20Seller%20proof%20are%20you%20looking%20for%3F%0A%0ATeam%20context%3A%0A%0ABest%20way%20to%20contact%20you%3A"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a class="result-action ghost advanced-copy" id="team-waitlist-link" href="https://github.com/realRoc/git-hired/issues" target="_blank" rel="noreferrer">
+            <span class="result-action-prefix" aria-hidden="true">↗</span>
             <span data-lang="en">Join the team waitlist</span>
-            <span data-lang="zh">加入团队 waitlist</span>
+            <span data-lang="zh">加入团队候选列表</span>
           </a>
         </section>
 
