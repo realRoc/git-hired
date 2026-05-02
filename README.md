@@ -1,32 +1,92 @@
 # git-hired
 
-Are you a Builder or a Seller in the AI-native workplace?
+Know your AI-native market value — and how to raise it.
 
-`git-hired` is an open-source reputation layer for AI-native workers.
-It helps people prove how they create value in the AI era: by building products, systems, workflows, and automation, or by selling through expression, narrative, distribution, recruiting, and propagation.
-
-Start with the simple Builder/Seller test.
-Then use the result as a path into a challenge, proof, and reputation signal.
+`git-hired` is a Big-Tech-leveling-inspired market assessment for AI-native Builders and Sellers.
+It helps AI-native workers understand their market level, missing signals, and next step to become more valuable.
 
 Website: <https://realroc.github.io/git-hired/>
 
 [简体中文](./README.zh-CN.md)
 
-## Simple Test
+## Start Here
 
-Take the test and get one clear mode: `Builder` or `Seller`.
+Choose a track, then assess your current GH level:
 
-Start here: <https://realroc.github.io/git-hired/start.html>
+- Builder track: turns ambiguity into useful artifacts with AI.
+- Seller track: turns ideas into attention, trust, adoption, and revenue with AI.
+
+Assessment entry:
+
+- Builder: <https://realroc.github.io/git-hired/start.html?track=builder>
+- Seller: <https://realroc.github.io/git-hired/start.html?track=seller>
 
 ## Product Path
 
 ```text
-Test -> Mode -> Challenge -> Proof -> Reputation
+Choose Track -> Assess Level -> Market Read -> Upgrade Plan -> Challenge
 ```
 
-- Builder: prove value with a build challenge such as a prototype, system, workflow, or automation.
-- Seller: prove value with a sell challenge such as a narrative, distribution loop, outbound sequence, recruiting story, or launch.
-- Hiring signal: the proof artifact, who used or answered it, what changed, and what you learned.
+The lightweight browser assessment returns:
+
+- `GH-L3` to `GH-L7` level
+- what the level means
+- market read and opportunity band
+- missing signals
+- next level gap
+- upgrade plan
+- recommended challenge
+- shareable market level card
+
+## GH Levels
+
+The GH level system is inspired by Big Tech leveling logic, but it does not claim equivalence to any specific company level.
+
+- `GH-L3 — Entry`: can complete work under clear tasks.
+- `GH-L4 — Independent`: can complete full tasks or projects independently.
+- `GH-L5 — Senior`: can handle complex problems and create verifiable user, business, or market impact.
+- `GH-L6 — Staff`: can amplify impact across teams, systems, or channels.
+- `GH-L7 — Principal`: can define direction, create market-level impact, and influence an organization or category.
+
+## Tracks
+
+Builder is not a personality label.
+It is a capability track for people who make things real:
+
+- prototyping
+- AI workflow building
+- automation
+- product building
+- systems thinking
+- technical or no-code execution
+- research-to-artifact
+- shipping useful output
+
+Seller is not a traditional sales label.
+It is a capability track for people who make people care:
+
+- storytelling
+- positioning
+- distribution
+- sales
+- recruiting
+- marketing
+- community
+- fundraising narrative
+- momentum creation
+- trust building
+
+## Challenges
+
+Challenges come after the assessment.
+They help users raise their next market signal without asking for private uploads first.
+
+- Builder challenge: build one useful AI workflow, prototype, automation, tool, or artifact in 48 hours.
+- Seller challenge: launch one idea publicly in 48 hours and try to get real replies, signups, leads, candidates, users, or feedback.
+- Trust boundary: no private work required, use public links only, you control what you share.
+
+Long-term, `git-hired` can become a reputation / hiring signal layer for AI-native workers.
+The MVP starts with market level, missing signals, and the next challenge because that gives users value before asking for proof.
 
 ## Deeper Agent Report
 
@@ -44,7 +104,7 @@ read https://realroc.github.io/git-hired/skill.md
 ## Privacy First
 
 > `git-hired` is consent-first and local-only.
-> No server, no account, no upload, no tracking.
+> No server, no account, no upload, no tracking for private evidence.
 > By default, every role prompt stays `history-only`.
 > It should not scan a candidate's local repo, project folder, or document files unless the candidate explicitly allows it.
 > `git-hired` never uploads candidate repo or local file data to our server.
@@ -57,35 +117,15 @@ At a glance:
 - optional mode: candidate-approved scanning of specific repos / local folders / files
 - analysis location: the candidate's own machine or connected workspace
 - server upload of local repo / file data: `none`
-- default share object: public-safe reputation card, not the private report
+- default share object: public-safe card, not the private report
 
-## The Protocol
+## Protocol Pages
 
-### Candidate Protocol
-
-1. Choose evidence level: paste selected text, public GitHub material, selected repos / files, or local agent history with explicit opt-in.
-2. Choose a target role, or describe your current profession if you are unsure.
-3. Choose privacy scope: `history-only` or explicit named files / repos.
-4. Let the agent inspect only approved evidence.
-5. Keep the private report for yourself, or share the public-safe reputation card and challenge proof if you want to apply or collaborate.
-
-### Evaluator Protocol
-
-1. Check evidence confidence before judging the score.
-2. Check AI-native workflow maturity.
-3. Check ambiguity handling and tradeoff quality.
-4. Check output quality, follow-through, and collaboration risk.
-5. Decide: strong yes / trial / pass.
-
-See [rubric.md](./rubric.md) for the public scoring standard.
-
-### Contributor Protocol
-
-1. Add or improve a role prompt.
-2. Improve the scoring rubric.
-3. Add localization.
-4. Improve report templates.
-5. Add fictional, redacted calibration examples.
+- [Candidate protocol](./docs/candidate.html)
+- [Evaluator protocol](./docs/evaluator.html)
+- [Contributor protocol](./docs/contributor.html)
+- [Scoring rubric](./rubric.md)
+- [Examples](./examples/)
 
 ## AI-Native Collaboration
 
@@ -95,12 +135,13 @@ I am building AI-native products and looking for people who can:
 - decompose ambiguous tasks
 - ship without heavy management
 - think clearly about product, users, metrics, and tradeoffs
+- create attention, trust, distribution, and adoption
 - respect privacy and security boundaries
 
-If your report or challenge proof shows strong AI-native worker signals and you are interested in AI-native collaboration, open an issue with:
+If your assessment, report, or challenge evidence shows strong AI-native worker signals and you are interested in collaboration, open an issue with:
 
-- target role
-- public-safe reputation card or public report summary
+- target track or role
+- public-safe market level card or public report summary
 - what you want to build or sell next
 - any privacy limits you want respected
 
@@ -108,7 +149,7 @@ Do not include secrets, private transcripts, raw customer data, or local file du
 
 ## Examples
 
-Start here if you want to understand what a report looks like before running the protocol:
+Start here if you want to understand what a report looks like before running the deeper protocol:
 
 - [Final builder card](./examples/builder-card.md)
 - [Strong Agent Engineer](./examples/agent-engineer.strong.md)
@@ -128,43 +169,6 @@ python3 scripts/eval_release.py
 
 This gate syncs generated surfaces, checks role wiring, verifies the `skill.md` output contract, locks the public card format, and runs `git diff --check`.
 
-| Traditional hiring signal | `git-hired` signal |
-| --- | --- |
-| Resume claims | Work-trace evidence |
-| Interview answers | Agent-observed behavior |
-| Take-home task | Historical execution pattern |
-| Self-reported AI usage | Actual agent workflow |
-| Generic score | Builder/Seller mode + challenge proof + role-specific fit |
-
-## Privacy Boundary
-
-All prompts in this repo are designed to be:
-
-- local-first
-- evidence-first
-- aggregate-output only
-- redaction-friendly
-
-They explicitly ask the agent to avoid printing:
-
-- secrets
-- tokens
-- email addresses
-- customer names
-- raw transcript dumps
-- large blocks of code
-- user-level CSV rows
-
-The intended output is:
-
-- a public-safe reputation card
-- a private evidence report
-- distributions
-- de-identified examples
-- scoring
-- fit assessment
-- a candidate-facing local markdown report
-
 ## Repo Structure
 
 ```text
@@ -172,26 +176,13 @@ git-hired/
 ├── skill.md
 ├── rubric.md
 ├── examples/
-│   ├── agent-engineer.strong.md
-│   ├── agent-engineer.medium.md
-│   ├── agent-engineer.weak.md
-│   ├── pm.strong.md
-│   ├── growth.strong.md
-│   └── redacted-report-template.md
 ├── docs/
 │   ├── index.html
-│   ├── candidate.html
-│   ├── evaluator.html
-│   ├── contributor.html
 │   ├── start.html
 │   ├── quick-test.js
-│   ├── skill.md
-│   ├── agent.html
-│   ├── pm.html
-│   ├── growth.html
-│   ├── ops.html
-│   ├── style.css
-│   └── app.js
+│   ├── candidate.html
+│   ├── evaluator.html
+│   └── contributor.html
 ├── roles.json
 ├── prompts/
 ├── .codex/skills/git-hired-jd-ops/

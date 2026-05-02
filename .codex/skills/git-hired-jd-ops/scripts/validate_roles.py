@@ -166,20 +166,32 @@ def validate_no_personality_layer(label: str, text: str, errors: list[str]) -> N
             errors.append(f"{label} should not contain personality-test marker: {marker}")
 
 
-def validate_quick_test_mode_questions(js_text: str, errors: list[str]) -> None:
-    if "const QUESTION_STEPS" not in js_text:
-        errors.append("docs/quick-test.js missing Builder/Seller question source")
+def validate_market_level_questions(js_text: str, errors: list[str]) -> None:
+    if "const TRACKS" not in js_text or "const MATURITY_OPTIONS" not in js_text:
+        errors.append("docs/quick-test.js missing track-based market level question source")
         return
 
-    question_count = len(re.findall(r'aria:\s*"', js_text))
-    build_options = len(re.findall(r'signal:\s*"build"', js_text))
-    sell_options = len(re.findall(r'signal:\s*"sell"', js_text))
-    if question_count != 10:
-        errors.append("docs/quick-test.js should define exactly 10 Builder/Seller quick-test questions")
-    if build_options + sell_options != 40:
-        errors.append("docs/quick-test.js should define exactly 4 Builder/Seller options per question")
-    if build_options == 0 or sell_options == 0:
-        errors.append("docs/quick-test.js should make both Builder and Seller results reachable")
+    for marker in (
+        "Have you used AI to complete a clearly defined work task?",
+        "Have you used AI to improve communication, writing, pitch, or content?",
+        "GH-L3",
+        "GH-L4",
+        "GH-L5",
+        "GH-L6",
+        "GH-L7",
+        "AI Task Executor",
+        "Independent Workflow Builder",
+        "Senior Product Shipper",
+        "AI-assisted Communicator",
+        "Independent Narrative Builder",
+        "Senior Distribution Operator",
+    ):
+        if marker not in js_text:
+            errors.append(f"docs/quick-test.js missing market level marker: {marker}")
+    builder_questions = len(re.findall(r'key:\s*"[^"]+",\n\s+signal:\s*\{ en: "[^"]+", zh: "[^"]+" \},\n\s+title:\s*\{', js_text.split("seller:", 1)[0]))
+    seller_questions = len(re.findall(r'key:\s*"[^"]+",\n\s+signal:\s*\{ en: "[^"]+", zh: "[^"]+" \},\n\s+title:\s*\{', js_text.split("seller:", 1)[1] if "seller:" in js_text else ""))
+    if builder_questions < 10 or seller_questions < 10:
+        errors.append("docs/quick-test.js should define 10 Builder questions and 10 Seller questions")
 
 
 def main() -> None:
@@ -213,14 +225,14 @@ def main() -> None:
 
     if "git-hired-lang" not in index_text:
         errors.append("docs/index.html missing language bootstrap script")
-    if "Are you a Builder or a Seller in the AI-native workplace?" not in index_text or "在 AI-native 职场里，你更像 Builder 还是 Seller？" not in index_text:
-        errors.append("docs/index.html missing Builder/Seller reputation hook copy")
-    if "build the thing, sell the thing, then turn proof into reputation" not in index_text:
-        errors.append("docs/index.html missing simple English subtitle")
-    if "构建、销售，再把真实 proof 变成 reputation" not in index_text:
-        errors.append("docs/index.html missing simple Chinese subtitle")
-    if "Start the test" not in index_text or "开始测试" not in index_text or "./start.html" not in index_text:
-        errors.append("docs/index.html missing single start-test CTA")
+    if "Know your AI-native market value" not in index_text or "了解你的 AI-native 市场价值" not in index_text:
+        errors.append("docs/index.html missing market value first-screen hook copy")
+    if "Choose your track — Builder or Seller" not in index_text:
+        errors.append("docs/index.html missing market assessment subtitle")
+    if "Assess Builder Level" not in index_text or "Assess Seller Level" not in index_text:
+        errors.append("docs/index.html missing Builder/Seller level CTAs")
+    if "./start.html?track=builder" not in index_text or "./start.html?track=seller" not in index_text:
+        errors.append("docs/index.html missing track-specific assessment links")
     for forbidden in (
         "Simple mode",
         "Deep mode",
@@ -247,13 +259,15 @@ def main() -> None:
         errors.append("docs/index.html should not link to redundant ./general.html guide page")
     if "See whether a candidate" in index_text or "看候选人是否" in index_text:
         errors.append("docs/index.html still contains recruiter-facing JD summary wording")
-    if "Builder or Seller mode" not in index_text or "Builder / Seller 模式" not in index_text:
-        errors.append("docs/index.html missing Builder/Seller mode candidate copy")
+    if "Choose Track" not in index_text or "Assess Level" not in index_text or "Market Read" not in index_text or "Upgrade Plan" not in index_text or "Challenge" not in index_text:
+        errors.append("docs/index.html missing market-level product path")
+    if "Builder and Seller are tracks" not in index_text and "Builder 和 Seller 是你先选择的能力赛道" not in index_text:
+        errors.append("docs/index.html should explain Builder/Seller as tracks, not result personas")
     validate_public_footer("docs/index.html", index_text, errors)
     validate_footer_css(style_text, errors)
 
     audience_pages = {
-        "docs/candidate.html": (candidate_page, "Generate Your Reputation Proof", "生成你的 Reputation Proof"),
+        "docs/candidate.html": (candidate_page, "Raise Your Market Signals", "提高你的市场信号"),
         "docs/evaluator.html": (evaluator_page, "Evaluator Protocol", "评估者协议"),
         "docs/contributor.html": (contributor_page, "Contributor Protocol", "贡献者协议"),
     }
@@ -317,7 +331,7 @@ def main() -> None:
             result_topbar_text = quick_start_text[result_topbar_index:result_card_index]
             if 'data-lang-button="en"' not in result_topbar_text or 'data-lang-button="zh"' not in result_topbar_text:
                 errors.append("docs/start.html final topbar should keep the EN/中文 language switch")
-        if "Questions are rendered from QUESTION_STEPS in quick-test.js." not in quick_start_text:
+        if "Questions are rendered from TRACKS in quick-test.js." not in quick_start_text:
             errors.append("docs/start.html should delegate quick-test questions to quick-test.js")
         if 'name="target"' in quick_start_text or "Target Direction" in quick_start_text or "目标方向" in quick_start_text:
             errors.append("docs/start.html should not ask for the candidate's target role/direction")
@@ -350,13 +364,13 @@ def main() -> None:
             "advanced-report",
             "copy-agent-prompt",
             "result-home-link",
-            "Want stronger proof?",
-            "想要更强的证明？",
-            "You choose what evidence to provide.",
-            "No local files are uploaded to our server.",
+            "Want stronger market evidence?",
+            "想要更强的市场证据？",
+            "No private work required.",
+            "Use public links only.",
             "You decide what to share.",
-            "你决定给它看什么。",
-            "不上传你的本地文件到我们的服务器。",
+            "不需要私人作品。",
+            "只使用公开链接。",
             "你决定分享什么。",
         ]
         for marker in required_result_html:
@@ -377,39 +391,15 @@ def main() -> None:
     else:
         quick_start_js_text = quick_start_js.read_text(encoding="utf-8")
         validate_no_personality_layer("docs/quick-test.js", quick_start_js_text, errors)
-        if "SIGNAL_KEYS" not in quick_start_js_text or "scoreQuickTest" not in quick_start_js_text or "MODE_RESULTS" not in quick_start_js_text:
-            errors.append("docs/quick-test.js missing Builder/Seller quick-result logic")
-        required_modes = (
-            "Builder",
-            "Seller",
-            "构建者",
-            "销售者",
-        )
-        for marker in required_modes:
+        if "TRACKS" not in quick_start_js_text or "MATURITY_OPTIONS" not in quick_start_js_text or "scoreQuickTest" not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing track-based market level logic")
+        required_tracks = ("Builder Track", "Seller Track", "Builder 赛道", "Seller 赛道")
+        for marker in required_tracks:
             if marker not in quick_start_js_text:
-                errors.append(f"docs/quick-test.js missing lightweight reputation mode: {marker}")
-        forbidden_lightweight_types = (
-            "The Pathfinder",
-            "The Shaper",
-            "The Shipstarter",
-            "The Synthesizer",
-            "The Debugger",
-            "The Catalyst",
-            "寻径者",
-            "塑形者",
-            "启航者",
-            "融通者",
-            "洞察者",
-            "催化者",
-        )
-        for marker in forbidden_lightweight_types:
-            if marker in quick_start_js_text:
-                errors.append(f"docs/quick-test.js should not keep old lightweight builder type: {marker}")
+                errors.append(f"docs/quick-test.js missing market assessment track: {marker}")
         forbidden_builder_types = (
             "Prototype Hacker",
             "Agent Orchestrator",
-            "Product Shaper",
-            "Systems Builder",
             "Growth Experimenter",
             "Taste-driven Designer",
             "Debugging Detective",
@@ -428,11 +418,11 @@ def main() -> None:
                 errors.append(f"docs/quick-test.js should not keep old role-like builder type: {marker}")
         if READ_COMMAND_MARKER not in quick_start_js_text:
             errors.append("docs/quick-test.js missing copied advanced agent prompt")
-        if '"build", "sell"' not in quick_start_js_text:
-            errors.append("docs/quick-test.js missing build/sell signal keys")
-        for marker in ("Your strengths", "Your edge", "Watch out", "Next proof", "你的优势", "你的优势场", "需要注意", "下一步证明"):
+        if '"builder", "seller"' not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing builder/seller track keys")
+        for marker in ("Your Level", "What this level means", "Market Read", "Missing Signals", "Next Level", "Upgrade Plan", "Recommended Challenge"):
             if marker not in quick_start_js_text:
-                errors.append(f"docs/quick-test.js missing simple result-card section: {marker}")
+                errors.append(f"docs/quick-test.js missing market-level result-card section: {marker}")
         required_result_js = [
             "renderResultCard",
             "builder-card-ascii",
@@ -443,7 +433,7 @@ def main() -> None:
             "ClipboardItem",
             "copyText",
             "share",
-            "reputation.card",
+            "market-level.card",
             "Copy agent prompt",
         ]
         for marker in required_result_js:
@@ -458,7 +448,7 @@ def main() -> None:
             errors.append("docs/quick-test.js should not route the mobile quick test by target role")
         if "navigator.share" in quick_start_js_text:
             errors.append("docs/quick-test.js should copy an image to clipboard instead of using navigator.share")
-        validate_quick_test_mode_questions(quick_start_js_text, errors)
+        validate_market_level_questions(quick_start_js_text, errors)
     if not quick_start_qr.exists():
         errors.append("docs/assets/quick-test-qr.svg missing quick-test QR asset")
 
@@ -554,10 +544,12 @@ def main() -> None:
         errors.append("README.md missing work-agent compatibility or privacy-upload wording")
     if WORK_AGENT_ZH_MARKER not in readme_zh or "我们的服务器" not in readme_zh:
         errors.append("README.zh-CN.md missing work-agent compatibility or privacy-upload wording")
-    if "Are you a Builder or a Seller in the AI-native workplace?" not in readme_en or "在 AI-native 职场里，你更像 Builder 还是 Seller" not in readme_zh:
-        errors.append("README missing simple Builder/Seller test hook")
-    if "reputation layer for AI-native workers" not in readme_en or "AI-native worker 的开源 reputation layer" not in readme_zh:
-        errors.append("README missing reputation-layer positioning statement")
+    if "Know your AI-native market value" not in readme_en or "了解你的 AI-native 市场价值" not in readme_zh:
+        errors.append("README missing market value hook")
+    if "Big-Tech-leveling-inspired market assessment" not in readme_en or "受大厂职级逻辑启发的市场等级评估" not in readme_zh:
+        errors.append("README missing market-level positioning statement")
+    if "Choose Track -> Assess Level -> Market Read -> Upgrade Plan -> Challenge" not in readme_en or "Choose Track -> Assess Level -> Market Read -> Upgrade Plan -> Challenge" not in readme_zh:
+        errors.append("README missing market-level product path")
     if "Website:" not in readme_en or "https://realroc.github.io/git-hired/" not in readme_en:
         errors.append("README.md missing top website entry")
     if "项目网站" not in readme_zh or "https://realroc.github.io/git-hired/" not in readme_zh:
@@ -578,10 +570,10 @@ def main() -> None:
         errors.append("README.md missing skill.md live link")
     if "skill.md" not in readme_zh or "https://realroc.github.io/git-hired/skill.md" not in readme_zh:
         errors.append("README.zh-CN.md missing skill.md live link")
-    if "https://realroc.github.io/git-hired/start.html" not in readme_en or "Simple Test" not in readme_en:
-        errors.append("README.md missing simple builder-test entry")
-    if "https://realroc.github.io/git-hired/start.html" not in readme_zh or "简单测试" not in readme_zh:
-        errors.append("README.zh-CN.md missing simple builder-test entry")
+    if "https://realroc.github.io/git-hired/start.html?track=builder" not in readme_en or "https://realroc.github.io/git-hired/start.html?track=seller" not in readme_en:
+        errors.append("README.md missing track assessment entries")
+    if "https://realroc.github.io/git-hired/start.html?track=builder" not in readme_zh or "https://realroc.github.io/git-hired/start.html?track=seller" not in readme_zh:
+        errors.append("README.zh-CN.md missing track assessment entries")
     if "Paste the prompt from this link into your own Claude Code or Codex" in readme_en:
         errors.append("README.md still contains Claude Code/Codex-exclusive candidate wording")
     if "粘贴到你自己的 Claude Code 或 Codex" in readme_zh:

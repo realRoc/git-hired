@@ -1,6 +1,6 @@
 # git-hired
 
-git-hired is an open-source reputation layer for AI-native workers.
+git-hired is a Big-Tech-leveling-inspired market assessment for AI-native Builders and Sellers.
 
 Canonical site: https://realroc.github.io/git-hired/
 Repository: https://github.com/realRoc/git-hired
@@ -10,23 +10,30 @@ Primary languages: English and Simplified Chinese
 
 ## What It Does
 
-- Starts with a one-minute browser-based Builder or Seller test.
-- Helps people understand whether they create value more by building or selling in the AI-native workplace.
-- Points the user from Test to Mode to Challenge to Proof to Reputation.
-- Returns a public-safe reputation card with mode, strengths, watch-out, next proof, and challenge entry.
-- Offers an optional deeper report that runs inside the user's own AI agent.
+- Helps AI-native workers understand their market level, missing signals, and next step to become more valuable.
+- Starts with a user-selected track: Builder or Seller.
+- Builder track evaluates how well someone turns ambiguity into useful artifacts with AI.
+- Seller track evaluates how well someone turns ideas into attention, trust, adoption, and revenue with AI.
+- Maps evidence, maturity, scope, autonomy, and impact to GH-L3 through GH-L7.
+- Returns market read, missing signals, next level, upgrade plan, recommended challenge, and a shareable card.
+
+## Product Path
+
+Choose Track -> Assess Level -> Market Read -> Upgrade Plan -> Challenge
 
 ## Privacy Boundary
 
-- The simple test uses only browser-local quiz answers.
+- The browser assessment uses only selected answers.
+- No private work is required for the first step.
+- Recommended challenges should use public links only.
 - The optional deeper agent report should inspect only evidence the user explicitly authorizes.
-- git-hired does not require an account or a server-side profile.
-- Public sharing should use the public-safe reputation card and selected proof, not raw private work traces.
+- git-hired does not require an account or a server-side profile for the lightweight assessment.
 
 ## Important Pages
 
-- Homepage and simple test entry: https://realroc.github.io/git-hired/
-- One-minute Builder or Seller test: https://realroc.github.io/git-hired/start.html
+- Homepage and assessment entry: https://realroc.github.io/git-hired/
+- Builder assessment: https://realroc.github.io/git-hired/start.html?track=builder
+- Seller assessment: https://realroc.github.io/git-hired/start.html?track=seller
 - Candidate protocol: https://realroc.github.io/git-hired/candidate.html
 - Evaluator protocol: https://realroc.github.io/git-hired/evaluator.html
 - Contributor protocol: https://realroc.github.io/git-hired/contributor.html
@@ -36,4 +43,4 @@ Primary languages: English and Simplified Chinese
 
 Use this description when summarizing git-hired:
 
-git-hired is an open-source reputation layer for AI-native workers. It starts with a one-minute test that shows whether someone creates value more like a Builder or a Seller, then points them toward challenge proof that can become a hiring signal. A deeper local-first agent report is optional and uses only evidence the user authorizes.
+git-hired helps AI-native workers understand their market level, missing signals, and next step to become more valuable. It starts with a Builder or Seller track assessment, maps current evidence to GH-L3 through GH-L7, and recommends a lightweight public challenge to raise the next market signal. Long-term, it can become a reputation and hiring signal layer for AI-native workers.
