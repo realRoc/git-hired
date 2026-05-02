@@ -92,10 +92,10 @@ This merges the consent-first scan policy with history-only analysis rules. Appl
 
 The first visible section of `README.md` and `README.zh-CN.md` must establish the product mental model before explaining privacy or agent execution:
 
-1. `git-hired` is the reputation layer for AI-native workers
-2. It answers `Are you a Builder or a Seller in the AI-native workplace?`
-3. It helps people prove how they create value in the AI era, inspired by `Learn to sell, learn to build`
-4. Default path: simple test → Builder/Seller mode → challenge → proof → reputation
+1. `git-hired` is a Big-Tech-leveling-inspired market assessment for AI-native Builders and Sellers
+2. It answers `Know your AI-native market value — and how to raise it.`
+3. It helps people understand their market level, missing signals, and next step to become more valuable
+4. Default path: Choose Track → Assess Level → Market Read → Upgrade Plan → Challenge
 5. The deeper agent report is optional and runs inside the user's own work agent
 
 ## Docs Language Behavior
@@ -129,53 +129,89 @@ Applies to `skill.md`, `docs/skill.md`, `docs/index.html`.
 - Default starter command: `read https://realroc.github.io/git-hired/skill.md`
 - Homepage must not make `skill.md` the primary first-screen path.
 
-## Simple Builder/Seller Test
+## Market Level Assessment
 
 Applies to `docs/index.html`, `docs/start.html`, `docs/quick-test.js`, `docs/style.css`, READMEs.
 
 ### Product model
 
-- `git-hired = AI-native workers' reputation layer`
-- Primary hook: `Are you a Builder or a Seller in the AI-native workplace?`
-- User path: Test → Mode → Challenge → Proof → Reputation
-- The quick test is the entry point, not the final product.
-- Builder proves value through build challenges: products, systems, prototypes, workflows, automations.
-- Seller proves value through sell challenges: expression, narrative, distribution, sales, recruiting, propagation.
+- `git-hired = a market-level assessment for AI-native Builders and Sellers`
+- Primary user-facing hook: `Know your AI-native market value — and how to raise it.`
+- Do not use `reputation layer` as homepage first-screen primary copy; it is long-term positioning, not the immediate user benefit.
+- User path: Choose Track → Assess Level → Market Read → Upgrade Plan → Challenge.
+- Builder and Seller are user-selected ability tracks, not persona results.
+- Builder track: turns ambiguity into useful artifacts with AI. `Builders make things real.`
+- Seller track: turns ideas into attention, trust, adoption, and revenue with AI. `Sellers make people care.`
+- Long-term vision: Git Hired can become a reputation / hiring signal layer for AI-native workers.
 
-### Quiz rules
+### Assessment rules
 
 - No hero section or pre-test explainer above the quiz — first surface is progress bar and current question
 - Compact merged topbar + progress as one test status bar
-- 10 questions, 4 options each, single-choice only
-- Measure whether the candidate more naturally creates value by building or selling
-- Plain concrete answer options, no clever labels or personality-test coding
+- User chooses `Builder` or `Seller` before the assessment, usually from homepage CTAs.
+- Each track has its own 10-question assessment.
+- Questions measure evidence, maturity, scope, autonomy, and impact, not personality or preference.
+- Each question uses maturity options such as `Not yet`, `Tried once / with guidance`, `Done independently`, `Done repeatedly with evidence`, `Done with real adoption / measurable impact`.
 - Do not keep the old six archetypes or any MBTI-style expression.
-- Scoring returns exactly one primary mode: `Builder` or `Seller`.
+- Scoring returns a GH level for the selected track.
 
-### Two reputation modes
+### Tracks
 
-- `Builder` / `构建者`: creates value by building products, systems, prototypes, workflows, and automations.
-- `Seller` / `销售者`: creates value by expression, narrative, distribution, sales, recruiting, and propagation.
-- Do not use job-like result categories (Product type, Engineer type, etc.) as the primary result.
+- `Builder`: turns ambiguity into useful artifacts with AI. It includes prototyping, AI workflow building, automation, product building, systems thinking, technical execution, no-code execution, research-to-artifact, and shipping useful output. Builder does not mean only coding.
+- `Seller`: turns ideas into attention, trust, adoption, and revenue with AI. It includes storytelling, positioning, distribution, sales, recruiting, marketing, community, fundraising narrative, momentum creation, and trust building. Seller does not mean traditional salesperson.
 
-### Result card — first layer only
+### GH levels
+
+- Leveling is inspired by Big Tech leveling, but never claim equivalence to any company level.
+- Do not say a user equals Google L5, Meta E5, or any specific company ladder.
+- Use GH levels:
+  - `GH-L3 — Entry`
+  - `GH-L4 — Independent`
+  - `GH-L5 — Senior`
+  - `GH-L6 — Staff`
+  - `GH-L7 — Principal`
+- Evaluate scope, autonomy, complexity, impact, evidence, and market value.
+
+### Builder level titles
+
+- `GH-L3 Builder — AI Task Executor`
+- `GH-L4 Builder — Independent Workflow Builder`
+- `GH-L5 Builder — Senior Product Shipper`
+- `GH-L6 Builder — Staff Systems Builder`
+- `GH-L7 Builder — Principal Market Builder`
+
+### Seller level titles
+
+- `GH-L3 Seller — AI-assisted Communicator`
+- `GH-L4 Seller — Independent Narrative Builder`
+- `GH-L5 Seller — Senior Distribution Operator`
+- `GH-L6 Seller — Staff Demand Creator`
+- `GH-L7 Seller — Principal Market Shaper`
+
+### Result page
 
 - Compact result-card topbar matching quiz chrome
 - `git-hired` ASCII identity art as compact brand header
-- `Your mode` / `你的模式` + `Builder` or `Seller` + one-line explanation
-- `Your strengths` / `你的优势`
-- `Your edge` / `你的优势场`
-- `Watch out` / `需要注意`
-- `Next proof` / `下一步证明`
+- Result headline must be a track level, e.g. `GH-L4 Builder — Independent Workflow Builder`, not `You are a Builder`.
+- Required sections:
+  - `Your Level`
+  - `What this level means`
+  - `Market Read`
+  - `Missing Signals`
+  - `Next Level`
+  - `Upgrade Plan`
+  - `Recommended Challenge`
+  - `Shareable Card`
 
-Do not show: old six archetypes, role fit, ability score, evidence strength, confidence, local report path, runtime mode, history-only, locked skills, hiring recommendation.
+Do not show: old six archetypes, MBTI-like labels, `You are a Builder/Seller` as the result, exact salary/offer promises, company-level equivalence, local report path, runtime mode, history-only, locked skills, hiring recommendation.
 
 ### After the result card
 
-- Challenge entry: Builder gets a build challenge; Seller gets a sell challenge
-- Hiring signal entry: explain that challenge proof can become a reputation signal for teams
+- Challenge is the next step after assessment, not homepage primary proof/upload flow.
+- Builder challenge: build one useful AI workflow, prototype, automation, tool, or artifact in 48 hours and share a public link if desired.
+- Seller challenge: launch one idea publicly in 48 hours and try to get replies, signups, leads, candidates, users, or feedback.
+- Trust copy: `No private work required. Use public links only. You control what you share.`
 - Optional advanced-agent entry can remain secondary
-- Three trust points: user chooses evidence, no local files uploaded, user decides what to share
 - Button: `Copy agent prompt` / `复制 Agent 指令`
 
 ### Share
@@ -183,7 +219,7 @@ Do not show: old six archetypes, role fit, ability score, evidence strength, con
 - Primary action: `Share` / `分享` — generate portrait-oriented mobile-friendly share image, write PNG to clipboard
 - Text-copy fallback only for browsers without image clipboard support
 - Result page keeps `Share` as the primary action, and also offers `Copy profile`, `Download image`, `Share on X`, and `Share on LinkedIn`.
-- Public profile URL can be static and account-free at first, using `start.html?result=<builder|seller>` or an equivalent URL parameter/hash.
+- Public profile URL can be static and account-free at first, using parameters such as `start.html?track=<builder|seller>&level=<gh-lx>` or an equivalent URL parameter/hash.
 - Team waitlist is a weak secondary result-page entry, not a homepage or primary result CTA.
 
 ## Protocol Positioning
@@ -192,9 +228,10 @@ Applies to READMEs, `docs/index.html`, audience pages, `rubric.md`, `examples/`.
 
 ### Public positioning
 
-- `git-hired is an open-source reputation layer for AI-native workers.`
-- Primary hook: `Are you a Builder or a Seller in the AI-native workplace?`
-- Homepage must make clear that the quick test leads into challenge proof and future reputation, not a standalone personality-test ending.
+- `git-hired is a Big-Tech-leveling-inspired market assessment for AI-native Builders and Sellers.`
+- Primary hook: `Know your AI-native market value — and how to raise it.`
+- Homepage first screen must focus on direct user benefit: market level, market value, missing signals, and next step.
+- Long-term reputation / hiring signal language can appear below the fold or in supporting copy, not as the first-screen headline.
 - Work-trace and public profile language belongs to the optional deeper-agent path or challenge/proof path, not homepage first screen overload.
 
 ### Trust structure
@@ -204,9 +241,9 @@ Applies to READMEs, `docs/index.html`, audience pages, `rubric.md`, `examples/`.
 
 ### Three public hooks (homepage leads with #1 only)
 
-1. Personal sharing: `Are you a Builder or a Seller in the AI-native workplace?`
-2. Job/collaboration: `Turn real challenge proof into a hiring signal.`
-3. Founder/team: `Find AI-native workers who can build or sell with agents.`
+1. Personal progress: `Know your AI-native market value — and how to raise it.`
+2. Job/collaboration: `Understand your opportunity band, missing signals, and next upgrade path.`
+3. Founder/team: `Find AI-native workers with credible level, scope, autonomy, impact, and evidence.`
 
 ### Evidence ladder
 
@@ -218,7 +255,7 @@ Applies to READMEs, `docs/index.html`, audience pages, `rubric.md`, `examples/`.
 ### Reports
 
 - Private report: detailed evidence, reasoning, specific work traces, candidate-only next steps
-- Public card: Builder/Seller mode, strengths, collaboration mode, best-fit challenges, anonymized evidence
+- Public card: selected track, GH level, market read, missing signals, next level, recommended challenge, anonymized evidence
 - Default share object is the public-safe card
 
 ### Audience pages
@@ -231,8 +268,8 @@ Applies to `docs/start.html`, `docs/quick-test.js`, `docs/style.css`.
 
 - Extremely mobile-friendly: narrow screens, no desktop-only agent runtime, ~1 minute, shareable result
 - Step-by-step flow, one question visible, thumb-friendly single-tap
-- Result is builder-profile-only, rendered as structured DOM (not raw markdown)
-- Clearly label as simple self-report / quick-signal (not same evidence quality as agent deep test)
+- Result is track-level assessment output, rendered as structured DOM (not raw markdown)
+- Clearly label as a lightweight market-level assessment based on self-reported evidence maturity, not the same evidence quality as agent deep test
 - Same privacy posture: no local scanning, no upload, browser-local state only
 - QR code entry allowed but not on homepage first path
 
