@@ -108,18 +108,7 @@ FORBIDDEN_PERSONALITY_MARKERS = (
     "`J/P`",
     "data-mbti",
 )
-QUICK_TEST_SIGNAL_KEYS = (
-    "facts",
-    "pattern",
-    "collab",
-    "solo",
-    "logic",
-    "empathy",
-    "closure",
-    "explore",
-)
-QUICK_TEST_MIN_BUILDER_SHARE = 0.08
-QUICK_TEST_MAX_BUILDER_SHARE = 0.30
+QUICK_TEST_SIGNAL_KEYS = ("build", "sell")
 
 
 def extract_en_prompt_version(text: str) -> str | None:
@@ -177,92 +166,20 @@ def validate_no_personality_layer(label: str, text: str, errors: list[str]) -> N
             errors.append(f"{label} should not contain personality-test marker: {marker}")
 
 
-def parse_quick_test_builders(js_text: str) -> list[dict[str, object]]:
-    builders: list[dict[str, object]] = []
-    builder_re = re.compile(
-        r'key:\s*"(?P<key>[^"]+)"[\s\S]*?'
-        r"weights:\s*\{(?P<weights>[^}]+)\}\s*,\s*"
-        r"calibration:\s*(?P<calibration>-?\d+(?:\.\d+)?)",
-        flags=re.S,
-    )
-    for match in builder_re.finditer(js_text):
-        weights = {
-            key: float(value)
-            for key, value in re.findall(r"(\w+):\s*(\d+(?:\.\d+)?)", match.group("weights"))
-        }
-        builders.append(
-            {
-                "key": match.group("key"),
-                "weights": weights,
-                "calibration": float(match.group("calibration")),
-            }
-        )
-    return builders
-
-
-def parse_quick_test_options(start_text: str) -> list[list[tuple[int, ...]]]:
-    questions = re.findall(r'<section class="section question-block quick-step[\s\S]*?</section>', start_text)
-    parsed_questions: list[list[tuple[int, ...]]] = []
-    for question in questions:
-        options: list[tuple[int, ...]] = []
-        for input_tag in re.findall(r"<input[^>]+>", question):
-            options.append(
-                tuple(
-                    1 if f'data-signal-{signal}="1"' in input_tag else 0
-                    for signal in QUICK_TEST_SIGNAL_KEYS
-                )
-            )
-        parsed_questions.append(options)
-    return parsed_questions
-
-
-def validate_quick_test_builder_distribution(start_text: str, js_text: str, errors: list[str]) -> None:
-    builders = parse_quick_test_builders(js_text)
-    if len(builders) != 6:
-        errors.append("docs/quick-test.js should define six calibrated builder scoring profiles")
+def validate_quick_test_mode_questions(js_text: str, errors: list[str]) -> None:
+    if "const QUESTION_STEPS" not in js_text:
+        errors.append("docs/quick-test.js missing Builder/Seller question source")
         return
 
-    options_by_question = parse_quick_test_options(start_text)
-    if len(options_by_question) != 10 or any(len(options) != 4 for options in options_by_question):
-        errors.append("docs/start.html should expose 10 four-option questions for builder distribution validation")
-        return
-
-    zero_state = tuple(0 for _ in QUICK_TEST_SIGNAL_KEYS)
-    state_counts: dict[tuple[int, ...], int] = {zero_state: 1}
-    for question_options in options_by_question:
-        next_counts: dict[tuple[int, ...], int] = {}
-        for state, count in state_counts.items():
-            for option in question_options:
-                next_state = tuple(value + option[index] for index, value in enumerate(state))
-                next_counts[next_state] = next_counts.get(next_state, 0) + count
-        state_counts = next_counts
-
-    builder_counts = {str(builder["key"]): 0 for builder in builders}
-    for state, count in state_counts.items():
-        scores = dict(zip(QUICK_TEST_SIGNAL_KEYS, state))
-        best_key = ""
-        best_value = float("-inf")
-        for builder in builders:
-            weights = builder["weights"]
-            assert isinstance(weights, dict)
-            total_weight = sum(float(weight) for weight in weights.values())
-            value = sum(scores[signal] * float(weight) for signal, weight in weights.items()) / total_weight
-            value += float(builder["calibration"])
-            if value > best_value:
-                best_key = str(builder["key"])
-                best_value = value
-        builder_counts[best_key] += count
-
-    total = sum(builder_counts.values())
-    shares = {key: count / total for key, count in builder_counts.items()}
-    min_key, min_share = min(shares.items(), key=lambda item: item[1])
-    max_key, max_share = max(shares.items(), key=lambda item: item[1])
-    if min_share < QUICK_TEST_MIN_BUILDER_SHARE or max_share > QUICK_TEST_MAX_BUILDER_SHARE:
-        formatted = ", ".join(f"{key}={share:.1%}" for key, share in sorted(shares.items()))
-        errors.append(
-            "docs/quick-test.js builder scoring distribution is too skewed "
-            f"(min {min_key}={min_share:.1%}, max {max_key}={max_share:.1%}; {formatted})"
-        )
+    question_count = len(re.findall(r'aria:\s*"', js_text))
+    build_options = len(re.findall(r'signal:\s*"build"', js_text))
+    sell_options = len(re.findall(r'signal:\s*"sell"', js_text))
+    if question_count != 10:
+        errors.append("docs/quick-test.js should define exactly 10 Builder/Seller quick-test questions")
+    if build_options + sell_options != 40:
+        errors.append("docs/quick-test.js should define exactly 4 Builder/Seller options per question")
+    if build_options == 0 or sell_options == 0:
+        errors.append("docs/quick-test.js should make both Builder and Seller results reachable")
 
 
 def main() -> None:
@@ -296,11 +213,11 @@ def main() -> None:
 
     if "git-hired-lang" not in index_text:
         errors.append("docs/index.html missing language bootstrap script")
-    if "What kind of AI-native builder are you?" not in index_text or "你是哪种 AI-native builder" not in index_text:
-        errors.append("docs/index.html missing AI-native builder hook copy")
-    if "Find out how you work with ambiguity, AI, people, and progress." not in index_text:
+    if "Are you a Builder or a Seller in the AI-native workplace?" not in index_text or "在 AI-native 职场里，你更像 Builder 还是 Seller？" not in index_text:
+        errors.append("docs/index.html missing Builder/Seller reputation hook copy")
+    if "build the thing, sell the thing, then turn proof into reputation" not in index_text:
         errors.append("docs/index.html missing simple English subtitle")
-    if "看看你如何面对模糊问题、使用 AI、推动进展、与人协作。" not in index_text:
+    if "构建、销售，再把真实 proof 变成 reputation" not in index_text:
         errors.append("docs/index.html missing simple Chinese subtitle")
     if "Start the test" not in index_text or "开始测试" not in index_text or "./start.html" not in index_text:
         errors.append("docs/index.html missing single start-test CTA")
@@ -330,13 +247,13 @@ def main() -> None:
         errors.append("docs/index.html should not link to redundant ./general.html guide page")
     if "See whether a candidate" in index_text or "看候选人是否" in index_text:
         errors.append("docs/index.html still contains recruiter-facing JD summary wording")
-    if "Builder type" not in index_text or "Builder 类型" not in index_text:
-        errors.append("docs/index.html missing builder-profile candidate copy")
+    if "Builder or Seller mode" not in index_text or "Builder / Seller 模式" not in index_text:
+        errors.append("docs/index.html missing Builder/Seller mode candidate copy")
     validate_public_footer("docs/index.html", index_text, errors)
     validate_footer_css(style_text, errors)
 
     audience_pages = {
-        "docs/candidate.html": (candidate_page, "Generate Your Builder Profile", "生成你的 Builder 画像"),
+        "docs/candidate.html": (candidate_page, "Generate Your Reputation Proof", "生成你的 Reputation Proof"),
         "docs/evaluator.html": (evaluator_page, "Evaluator Protocol", "评估者协议"),
         "docs/contributor.html": (contributor_page, "Contributor Protocol", "贡献者协议"),
     }
@@ -384,9 +301,8 @@ def main() -> None:
         result_topbar_index = quick_start_text.find("result-topbar")
         result_card_index = quick_start_text.find('id="result-card"')
         progress_index = quick_start_text.find("quick-progress")
-        first_step_index = quick_start_text.find("quick-step is-active")
-        if min(form_index, progress_index, first_step_index) == -1:
-            errors.append("docs/start.html should start the test with the form progress and first question")
+        if form_index == -1 or progress_index == -1:
+            errors.append("docs/start.html should start the test with the form and progress")
         if quiz_topbar_index == -1:
             errors.append("docs/start.html should combine the quiz topbar and progress into one status bar")
         if quiz_topbar_index != -1 and progress_index != -1 and form_index != -1 and not (quiz_topbar_index < progress_index < form_index):
@@ -401,10 +317,8 @@ def main() -> None:
             result_topbar_text = quick_start_text[result_topbar_index:result_card_index]
             if 'data-lang-button="en"' not in result_topbar_text or 'data-lang-button="zh"' not in result_topbar_text:
                 errors.append("docs/start.html final topbar should keep the EN/中文 language switch")
-        if quick_start_text.count('class="section question-block quick-step') != 10:
-            errors.append("docs/start.html should render exactly 10 mobile quick-test questions")
-        if quick_start_text.count('class="choice"') != 40:
-            errors.append("docs/start.html should render exactly 4 single-choice options per quick-test question")
+        if "Questions are rendered from QUESTION_STEPS in quick-test.js." not in quick_start_text:
+            errors.append("docs/start.html should delegate quick-test questions to quick-test.js")
         if 'name="target"' in quick_start_text or "Target Direction" in quick_start_text or "目标方向" in quick_start_text:
             errors.append("docs/start.html should not ask for the candidate's target role/direction")
         if "<textarea" in quick_start_text or "evidenceNote" in quick_start_text:
@@ -413,8 +327,8 @@ def main() -> None:
             errors.append("docs/start.html should not keep legacy letter-code answer values")
         if "share-result" not in quick_start_text or "分享" not in quick_start_text:
             errors.append("docs/start.html quick result should expose the share-image action")
-        if "quick-progress" not in quick_start_text or "quick-step" not in quick_start_text:
-            errors.append("docs/start.html missing step-by-step mobile quick-test UI")
+        if "quick-progress" not in quick_start_text or "quick-nav" not in quick_start_text:
+            errors.append("docs/start.html missing step-by-step mobile quick-test shell")
         if "quick-home-link" not in quick_start_text or "Back Home" not in quick_start_text or "返回首页" not in quick_start_text:
             errors.append("docs/start.html question nav should include a back-home action")
         if "Previous" not in quick_start_text or "上一题" not in quick_start_text:
@@ -430,11 +344,14 @@ def main() -> None:
             "结果已生成",
             "result-next",
             "share-result",
+            "challenge-entry",
+            "mode-challenge-link",
+            "hiring-signal",
             "advanced-report",
             "copy-agent-prompt",
             "result-home-link",
-            "Want a deeper report?",
-            "想要更准的结果？",
+            "Want stronger proof?",
+            "想要更强的证明？",
             "You choose what evidence to provide.",
             "No local files are uploaded to our server.",
             "You decide what to share.",
@@ -460,9 +377,18 @@ def main() -> None:
     else:
         quick_start_js_text = quick_start_js.read_text(encoding="utf-8")
         validate_no_personality_layer("docs/quick-test.js", quick_start_js_text, errors)
-        if "SIGNAL_KEYS" not in quick_start_js_text or "scoreQuickTest" not in quick_start_js_text or "BUILDER_TYPES" not in quick_start_js_text:
-            errors.append("docs/quick-test.js missing builder-first quick-result logic")
-        required_builder_types = (
+        if "SIGNAL_KEYS" not in quick_start_js_text or "scoreQuickTest" not in quick_start_js_text or "MODE_RESULTS" not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing Builder/Seller quick-result logic")
+        required_modes = (
+            "Builder",
+            "Seller",
+            "构建者",
+            "销售者",
+        )
+        for marker in required_modes:
+            if marker not in quick_start_js_text:
+                errors.append(f"docs/quick-test.js missing lightweight reputation mode: {marker}")
+        forbidden_lightweight_types = (
             "The Pathfinder",
             "The Shaper",
             "The Shipstarter",
@@ -476,9 +402,9 @@ def main() -> None:
             "洞察者",
             "催化者",
         )
-        for marker in required_builder_types:
-            if marker not in quick_start_js_text:
-                errors.append(f"docs/quick-test.js missing lightweight builder type: {marker}")
+        for marker in forbidden_lightweight_types:
+            if marker in quick_start_js_text:
+                errors.append(f"docs/quick-test.js should not keep old lightweight builder type: {marker}")
         forbidden_builder_types = (
             "Prototype Hacker",
             "Agent Orchestrator",
@@ -502,9 +428,9 @@ def main() -> None:
                 errors.append(f"docs/quick-test.js should not keep old role-like builder type: {marker}")
         if READ_COMMAND_MARKER not in quick_start_js_text:
             errors.append("docs/quick-test.js missing copied advanced agent prompt")
-        if "calibration" not in quick_start_js_text:
-            errors.append("docs/quick-test.js missing builder scoring calibration")
-        for marker in ("Your strengths", "Best environment", "Watch out", "Next step", "你的优势", "你最适合的场景", "需要注意", "下一步建议"):
+        if '"build", "sell"' not in quick_start_js_text:
+            errors.append("docs/quick-test.js missing build/sell signal keys")
+        for marker in ("Your strengths", "Your edge", "Watch out", "Next proof", "你的优势", "你的优势场", "需要注意", "下一步证明"):
             if marker not in quick_start_js_text:
                 errors.append(f"docs/quick-test.js missing simple result-card section: {marker}")
         required_result_js = [
@@ -517,7 +443,7 @@ def main() -> None:
             "ClipboardItem",
             "copyText",
             "share",
-            "result.card",
+            "reputation.card",
             "Copy agent prompt",
         ]
         for marker in required_result_js:
@@ -532,12 +458,7 @@ def main() -> None:
             errors.append("docs/quick-test.js should not route the mobile quick test by target role")
         if "navigator.share" in quick_start_js_text:
             errors.append("docs/quick-test.js should copy an image to clipboard instead of using navigator.share")
-        if quick_start.exists():
-            validate_quick_test_builder_distribution(
-                quick_start.read_text(encoding="utf-8"),
-                quick_start_js_text,
-                errors,
-            )
+        validate_quick_test_mode_questions(quick_start_js_text, errors)
     if not quick_start_qr.exists():
         errors.append("docs/assets/quick-test-qr.svg missing quick-test QR asset")
 
@@ -633,10 +554,10 @@ def main() -> None:
         errors.append("README.md missing work-agent compatibility or privacy-upload wording")
     if WORK_AGENT_ZH_MARKER not in readme_zh or "我们的服务器" not in readme_zh:
         errors.append("README.zh-CN.md missing work-agent compatibility or privacy-upload wording")
-    if "What kind of AI-native builder are you?" not in readme_en or "你是哪种 AI-native builder" not in readme_zh:
-        errors.append("README missing simple builder-test hook")
-    if "ambiguity, AI, people, and progress" not in readme_en or "模糊问题、使用 AI、推动进展、与人协作" not in readme_zh:
-        errors.append("README missing simple work-style positioning statement")
+    if "Are you a Builder or a Seller in the AI-native workplace?" not in readme_en or "在 AI-native 职场里，你更像 Builder 还是 Seller" not in readme_zh:
+        errors.append("README missing simple Builder/Seller test hook")
+    if "reputation layer for AI-native workers" not in readme_en or "AI-native worker 的开源 reputation layer" not in readme_zh:
+        errors.append("README missing reputation-layer positioning statement")
     if "Website:" not in readme_en or "https://realroc.github.io/git-hired/" not in readme_en:
         errors.append("README.md missing top website entry")
     if "项目网站" not in readme_zh or "https://realroc.github.io/git-hired/" not in readme_zh:

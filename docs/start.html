@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI-native Builder Test · git-hired</title>
-    <meta name="description" content="A simple git-hired test for your AI-native builder type.">
+    <title>Builder or Seller Test · git-hired</title>
+    <meta name="description" content="A simple git-hired test for whether you create value more like a Builder or a Seller in the AI-native workplace.">
     <script>
       (function () {
         var key = "git-hired-lang";
@@ -34,7 +34,7 @@
     <script src="./app.js" defer></script>
     <script src="./quick-test.js" defer></script>
   </head>
-  <body class="lang-en start-page" data-lang="en" data-title-en="AI-native Builder Test · git-hired" data-title-zh="AI-native Builder 测试 · git-hired">
+  <body class="lang-en start-page" data-lang="en" data-title-en="Builder or Seller Test · git-hired" data-title-zh="Builder / Seller 测试 · git-hired">
         <main class="shell start-shell">
 
       <!-- window chrome + progress + lang switcher -->
@@ -58,465 +58,7 @@
       </div>
 
       <form id="quick-test-form" class="quick-form step-flow" autocomplete="off">
-        <section class="section question-block quick-step is-active" data-step="1">
-          <div class="question-head">
-            <span class="question-step">01</span>
-            <h2 data-lang="en">When a project starts messy, you first...</h2>
-            <h2 data-lang="zh">项目一开始很乱时，你通常先...</h2>
-          </div>
-          <div class="choice-grid one-up" role="radiogroup" aria-label="Messy project start">
-            <label class="choice">
-              <input type="radio" name="q1" value="facts-1" required data-label-en="Collect facts, constraints, examples, and current blockers." data-label-zh="先收集事实、约束、案例和当前卡点。" data-signal-facts="1">
-              <span>
-                <strong data-lang="en">I list the known facts and blockers first.</strong>
-                <strong data-lang="zh">我会先列出现有事实和卡点。</strong>
-                <small data-lang="en">Examples, constraints, data, current state.</small>
-                <small data-lang="zh">案例、约束、数据、当前状态。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q1" value="facts-2" required data-label-en="Ask for concrete examples before discussing direction." data-label-zh="讨论方向前，先要具体例子。" data-signal-facts="1">
-              <span>
-                <strong data-lang="en">I ask for concrete examples before judging.</strong>
-                <strong data-lang="zh">我会先要具体例子，再做判断。</strong>
-                <small data-lang="en">Real cases matter more than abstract claims.</small>
-                <small data-lang="zh">真实案例比抽象判断更重要。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q1" value="pattern-1" required data-label-en="Find the pattern, root shape, and possible leverage point." data-label-zh="先找模式、根本结构和可能的杠杆点。" data-signal-pattern="1">
-              <span>
-                <strong data-lang="en">I first look for the pattern behind the mess.</strong>
-                <strong data-lang="zh">我会先找混乱背后的模式。</strong>
-                <small data-lang="en">Why this is happening, not only what happened.</small>
-                <small data-lang="zh">先看为什么会这样，而不只是发生了什么。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q1" value="pattern-2" required data-label-en="Sketch the possible direction and leverage point first." data-label-zh="先画出可能方向和杠杆点。" data-signal-pattern="1">
-              <span>
-                <strong data-lang="en">I sketch the possible direction first.</strong>
-                <strong data-lang="zh">我会先判断可能的方向。</strong>
-                <small data-lang="en">Future path, leverage, second-order effects.</small>
-                <small data-lang="zh">未来路径、杠杆、二阶影响。</small>
-              </span>
-            </label>
-          </div>
-        </section>
-
-        <section class="section question-block quick-step" data-step="2">
-          <div class="question-head">
-            <span class="question-step">02</span>
-            <h2 data-lang="en">When using AI on a messy task, you first...</h2>
-            <h2 data-lang="zh">用 AI 处理混乱任务时，你通常先...</h2>
-          </div>
-          <div class="choice-grid one-up" role="radiogroup" aria-label="AI work style">
-            <label class="choice">
-              <input type="radio" name="q2" value="ai-facts" required data-label-en="Ask AI to list facts, constraints, and missing information." data-label-zh="让 AI 先列事实、约束和缺失信息。" data-signal-facts="1">
-              <span>
-                <strong data-lang="en">I ask AI to map facts and gaps first.</strong>
-                <strong data-lang="zh">我会先让 AI 梳理事实和缺口。</strong>
-                <small data-lang="en">Knowns, unknowns, constraints, examples.</small>
-                <small data-lang="zh">已知、未知、约束、案例。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q2" value="ai-pattern" required data-label-en="Ask AI for possible paths and compare the shape of each option." data-label-zh="让 AI 给出可能路径，再比较每个选项的形状。" data-signal-pattern="1">
-              <span>
-                <strong data-lang="en">I ask AI to explore possible directions.</strong>
-                <strong data-lang="zh">我会让 AI 先展开可能方向。</strong>
-                <small data-lang="en">Different paths, patterns, tradeoffs.</small>
-                <small data-lang="zh">不同路径、模式、取舍。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q2" value="ai-draft" required data-label-en="Use AI to make a first draft or small working version quickly." data-label-zh="用 AI 快速做出第一版草稿或小版本。" data-signal-explore="1">
-              <span>
-                <strong data-lang="en">I use AI to make a first version fast.</strong>
-                <strong data-lang="zh">我会用 AI 先快速做出第一版。</strong>
-                <small data-lang="en">A draft can reveal what matters.</small>
-                <small data-lang="zh">草稿会暴露真正重要的问题。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q2" value="ai-critique" required data-label-en="Ask AI to critique my plan and find failure points." data-label-zh="让 AI 挑刺，找出计划里的失败点。" data-signal-logic="1">
-              <span>
-                <strong data-lang="en">I ask AI to stress-test the plan.</strong>
-                <strong data-lang="zh">我会让 AI 帮我压力测试方案。</strong>
-                <small data-lang="en">Logic gaps, risks, failure cases.</small>
-                <small data-lang="zh">逻辑漏洞、风险、失败案例。</small>
-              </span>
-            </label>
-          </div>
-        </section>
-
-        <section class="section question-block quick-step" data-step="3">
-          <div class="question-head">
-            <span class="question-step">03</span>
-            <h2 data-lang="en">When the team disagrees, you lean on...</h2>
-            <h2 data-lang="zh">团队意见不一致时，你更依赖...</h2>
-          </div>
-          <div class="choice-grid one-up" role="radiogroup" aria-label="Team disagreement">
-            <label class="choice">
-              <input type="radio" name="q3" value="logic-1" required data-label-en="Principles, tradeoffs, constraints, and consistency." data-label-zh="原则、取舍、约束和一致性。" data-signal-logic="1">
-              <span>
-                <strong data-lang="en">I compare options by rules and tradeoffs.</strong>
-                <strong data-lang="zh">我会用规则和取舍来比较选项。</strong>
-                <small data-lang="en">What is consistent, cheaper, safer, clearer?</small>
-                <small data-lang="zh">哪个更一致、更低成本、更安全、更清楚？</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q3" value="logic-2" required data-label-en="I point out the logic gap directly." data-label-zh="我会直接指出逻辑问题。" data-signal-logic="1">
-              <span>
-                <strong data-lang="en">I directly point out the logic gap.</strong>
-                <strong data-lang="zh">我会直接指出逻辑漏洞。</strong>
-                <small data-lang="en">If the reasoning breaks, I say it clearly.</small>
-                <small data-lang="zh">推理不成立时，我会把它说清楚。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q3" value="empathy-1" required data-label-en="People context, trust, motivation, and impact on users." data-label-zh="人的处境、信任、动机和对用户的影响。" data-signal-empathy="1">
-              <span>
-                <strong data-lang="en">I first check what people are worried about.</strong>
-                <strong data-lang="zh">我会先看大家真正担心什么。</strong>
-                <small data-lang="en">Trust, motivation, user impact, team cost.</small>
-                <small data-lang="zh">信任、动机、用户影响、团队成本。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q3" value="empathy-2" required data-label-en="I try to keep the decision acceptable to the people involved." data-label-zh="我会让决策对相关的人可接受。" data-signal-empathy="1">
-              <span>
-                <strong data-lang="en">I try to make the decision acceptable to people.</strong>
-                <strong data-lang="zh">我会让决策对人更可接受。</strong>
-                <small data-lang="en">A good decision still needs people to carry it.</small>
-                <small data-lang="zh">好的决策也需要有人愿意承担。</small>
-              </span>
-            </label>
-          </div>
-        </section>
-
-        <section class="section question-block quick-step" data-step="4">
-          <div class="question-head">
-            <span class="question-step">04</span>
-            <h2 data-lang="en">For a deadline, your default move is...</h2>
-            <h2 data-lang="zh">面对截止时间，你默认会...</h2>
-          </div>
-          <div class="choice-grid one-up" role="radiogroup" aria-label="Deadline rhythm">
-            <label class="choice">
-              <input type="radio" name="q4" value="closure-1" required data-label-en="Set milestones, owners, and a clear closure path." data-label-zh="设里程碑、owner 和清晰收口路径。" data-signal-closure="1">
-              <span>
-                <strong data-lang="en">I make a plan with clear next steps.</strong>
-                <strong data-lang="zh">我会做一个有明确下一步的计划。</strong>
-                <small data-lang="en">Milestones, owners, due dates.</small>
-                <small data-lang="zh">里程碑、owner、截止时间。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q4" value="closure-2" required data-label-en="I split work into owners and checklists." data-label-zh="我会把事情拆成 owner 和清单。" data-signal-closure="1">
-              <span>
-                <strong data-lang="en">I split the work into owners and checklists.</strong>
-                <strong data-lang="zh">我会拆出负责人和清单。</strong>
-                <small data-lang="en">The team should know what is done next.</small>
-                <small data-lang="zh">团队要知道接下来做什么。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q4" value="explore-1" required data-label-en="Keep the path flexible and adjust as new evidence arrives." data-label-zh="保留路径弹性，随着新证据调整。" data-signal-explore="1">
-              <span>
-                <strong data-lang="en">I keep the plan flexible while learning.</strong>
-                <strong data-lang="zh">我会边学边调整计划。</strong>
-                <small data-lang="en">The first plan should not lock everything.</small>
-                <small data-lang="zh">第一版计划不应该锁死所有事。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q4" value="explore-2" required data-label-en="I test one small thing first, then decide." data-label-zh="我会先测试一个小点，再决定。" data-signal-explore="1">
-              <span>
-                <strong data-lang="en">I test a small thing before locking the plan.</strong>
-                <strong data-lang="zh">我会先做小测试，再锁计划。</strong>
-                <small data-lang="en">A quick trial can save wasted planning.</small>
-                <small data-lang="zh">快速试一下可以避免白做计划。</small>
-              </span>
-            </label>
-          </div>
-        </section>
-
-        <section class="section question-block quick-step" data-step="5">
-          <div class="question-head">
-            <span class="question-step">05</span>
-            <h2 data-lang="en">In collaboration, you are more likely to...</h2>
-            <h2 data-lang="zh">在协作中，你更可能...</h2>
-          </div>
-          <div class="choice-grid one-up" role="radiogroup" aria-label="Collaboration style">
-            <label class="choice">
-              <input type="radio" name="q5" value="collab-1" required data-label-en="Pull people into sync quickly and resolve things live." data-label-zh="快速把人拉到一起，当场对齐和解决。" data-signal-collab="1">
-              <span>
-                <strong data-lang="en">I like resolving unclear things in a live discussion.</strong>
-                <strong data-lang="zh">我喜欢当面或实时把事情聊清楚。</strong>
-                <small data-lang="en">A quick sync often beats a long thread.</small>
-                <small data-lang="zh">快速同步往往胜过长线程。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q5" value="collab-2" required data-label-en="I bring the right people together early." data-label-zh="我会早点把相关的人拉到一起。" data-signal-collab="1">
-              <span>
-                <strong data-lang="en">I bring the right people together early.</strong>
-                <strong data-lang="zh">我会早点把相关的人拉到一起。</strong>
-                <small data-lang="en">Alignment happens through interaction.</small>
-                <small data-lang="zh">对齐来自互动。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q5" value="solo-1" required data-label-en="Write the issue clearly first, then bring people in." data-label-zh="先把问题写清楚，再把人拉进来。" data-signal-solo="1">
-              <span>
-                <strong data-lang="en">I write the issue clearly before discussing it.</strong>
-                <strong data-lang="zh">我会先把问题写清楚，再讨论。</strong>
-                <small data-lang="en">A clear doc makes discussion better.</small>
-                <small data-lang="zh">清楚的文档会让讨论更有效。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q5" value="solo-2" required data-label-en="I prefer async comments when the issue is complex." data-label-zh="问题复杂时，我更偏好异步评论。" data-signal-solo="1">
-              <span>
-                <strong data-lang="en">I prefer async comments for complex topics.</strong>
-                <strong data-lang="zh">复杂问题我更偏好异步评论。</strong>
-                <small data-lang="en">People need time to think before reacting.</small>
-                <small data-lang="zh">大家需要时间想清楚再回应。</small>
-              </span>
-            </label>
-          </div>
-        </section>
-
-        <section class="section question-block quick-step" data-step="6">
-          <div class="question-head">
-            <span class="question-step">06</span>
-            <h2 data-lang="en">When judging work quality, you notice...</h2>
-            <h2 data-lang="zh">判断工作质量时，你更容易注意...</h2>
-          </div>
-          <div class="choice-grid one-up" role="radiogroup" aria-label="Quality signal">
-            <label class="choice">
-              <input type="radio" name="q6" value="facts-1" required data-label-en="Specific defects, edge cases, wording, data, and shipped details." data-label-zh="具体缺陷、边界情况、措辞、数据和交付细节。" data-signal-facts="1">
-              <span>
-                <strong data-lang="en">I notice concrete defects and edge cases.</strong>
-                <strong data-lang="zh">我会注意具体缺陷和边界情况。</strong>
-                <small data-lang="en">Wording, data, bugs, real examples.</small>
-                <small data-lang="zh">措辞、数据、bug、真实例子。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q6" value="facts-2" required data-label-en="I judge by whether the details actually work." data-label-zh="我会看细节是否真的跑得通。" data-signal-facts="1">
-              <span>
-                <strong data-lang="en">I judge by whether the details actually work.</strong>
-                <strong data-lang="zh">我会看细节是否真的跑得通。</strong>
-                <small data-lang="en">The final experience lives in the details.</small>
-                <small data-lang="zh">最终体验藏在细节里。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q6" value="pattern-1" required data-label-en="Whether the concept, direction, and system will scale." data-label-zh="概念、方向和系统是否能延展。" data-signal-pattern="1">
-              <span>
-                <strong data-lang="en">I notice whether the idea can scale.</strong>
-                <strong data-lang="zh">我会注意这个想法能不能延展。</strong>
-                <small data-lang="en">Concept, direction, system, future use.</small>
-                <small data-lang="zh">概念、方向、系统、未来使用。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q6" value="pattern-2" required data-label-en="I judge by whether the direction still makes sense later." data-label-zh="我会看这个方向以后是否仍然成立。" data-signal-pattern="1">
-              <span>
-                <strong data-lang="en">I judge by whether the direction still makes sense later.</strong>
-                <strong data-lang="zh">我会看这个方向以后是否还成立。</strong>
-                <small data-lang="en">A good answer should survive the next stage.</small>
-                <small data-lang="zh">好答案要能撑住下一阶段。</small>
-              </span>
-            </label>
-          </div>
-        </section>
-
-        <section class="section question-block quick-step" data-step="7">
-          <div class="question-head">
-            <span class="question-step">07</span>
-            <h2 data-lang="en">When giving feedback, you usually start with...</h2>
-            <h2 data-lang="zh">给反馈时，你通常先从...</h2>
-          </div>
-          <div class="choice-grid one-up" role="radiogroup" aria-label="Feedback style">
-            <label class="choice">
-              <input type="radio" name="q7" value="logic-1" required data-label-en="What is wrong, why it breaks, and how to fix it." data-label-zh="哪里不对、为什么会坏、怎么修。" data-signal-logic="1">
-              <span>
-                <strong data-lang="en">I say what is wrong and how to fix it.</strong>
-                <strong data-lang="zh">我会直接说哪里错了、怎么修。</strong>
-                <small data-lang="en">Clear problem, clear fix.</small>
-                <small data-lang="zh">问题清楚，修法清楚。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q7" value="logic-2" required data-label-en="I focus on standards and whether the output meets them." data-label-zh="我会看标准，以及产出是否达标。" data-signal-logic="1">
-              <span>
-                <strong data-lang="en">I focus on the standard the work should meet.</strong>
-                <strong data-lang="zh">我会关注工作应该达到什么标准。</strong>
-                <small data-lang="en">Feedback should make quality measurable.</small>
-                <small data-lang="zh">反馈应该让质量可判断。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q7" value="empathy-1" required data-label-en="What the person is trying to do, then how to improve it." data-label-zh="先理解对方想完成什么，再说怎么变好。" data-signal-empathy="1">
-              <span>
-                <strong data-lang="en">I first acknowledge what they were trying to do.</strong>
-                <strong data-lang="zh">我会先认可对方想完成什么。</strong>
-                <small data-lang="en">Then I explain how to improve it.</small>
-                <small data-lang="zh">然后再说如何改进。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q7" value="empathy-2" required data-label-en="I phrase feedback so the person can actually accept it." data-label-zh="我会把反馈说到对方能接住。" data-signal-empathy="1">
-              <span>
-                <strong data-lang="en">I make feedback easier to accept.</strong>
-                <strong data-lang="zh">我会让反馈更容易被接住。</strong>
-                <small data-lang="en">Useful feedback needs trust.</small>
-                <small data-lang="zh">有用的反馈需要信任。</small>
-              </span>
-            </label>
-          </div>
-        </section>
-
-        <section class="section question-block quick-step" data-step="8">
-          <div class="question-head">
-            <span class="question-step">08</span>
-            <h2 data-lang="en">When evidence changes mid-way, you...</h2>
-            <h2 data-lang="zh">中途证据变化时，你会...</h2>
-          </div>
-          <div class="choice-grid one-up" role="radiogroup" aria-label="Changing evidence">
-            <label class="choice">
-              <input type="radio" name="q8" value="closure-1" required data-label-en="Re-plan quickly, reset the decision, and protect closure." data-label-zh="快速重排计划、重设决策，并保护收口。" data-signal-closure="1">
-              <span>
-                <strong data-lang="en">I update the plan and keep the project closing.</strong>
-                <strong data-lang="zh">我会更新计划，并继续推动收口。</strong>
-                <small data-lang="en">Change should not make the team drift.</small>
-                <small data-lang="zh">变化不应该让团队漂掉。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q8" value="closure-2" required data-label-en="I decide what changes and what stays fixed." data-label-zh="我会决定哪些变、哪些不变。" data-signal-closure="1">
-              <span>
-                <strong data-lang="en">I decide what changes and what stays fixed.</strong>
-                <strong data-lang="zh">我会决定哪些变、哪些不变。</strong>
-                <small data-lang="en">The team needs a new stable point.</small>
-                <small data-lang="zh">团队需要新的稳定点。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q8" value="explore-1" required data-label-en="Explore the new option and keep testing before locking." data-label-zh="探索新选项，继续测试后再锁定。" data-signal-explore="1">
-              <span>
-                <strong data-lang="en">I explore the new option before deciding.</strong>
-                <strong data-lang="zh">我会先探索新选项，再决定。</strong>
-                <small data-lang="en">New evidence may reveal a better path.</small>
-                <small data-lang="zh">新证据可能带来更好的路径。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q8" value="explore-2" required data-label-en="I keep testing until the signal is strong enough." data-label-zh="我会继续测试，直到信号足够强。" data-signal-explore="1">
-              <span>
-                <strong data-lang="en">I keep testing until the signal is strong enough.</strong>
-                <strong data-lang="zh">我会继续测试，直到信号足够强。</strong>
-                <small data-lang="en">Locking too early can waste the opportunity.</small>
-                <small data-lang="zh">太早锁定可能浪费机会。</small>
-              </span>
-            </label>
-          </div>
-        </section>
-
-        <section class="section question-block quick-step" data-step="9">
-          <div class="question-head">
-            <span class="question-step">09</span>
-            <h2 data-lang="en">Under pressure, you become more...</h2>
-            <h2 data-lang="zh">压力变大时，你会更...</h2>
-          </div>
-          <div class="choice-grid one-up" role="radiogroup" aria-label="Pressure style">
-            <label class="choice">
-              <input type="radio" name="q9" value="logic-1" required data-label-en="Blunt about priorities, constraints, and what must be cut." data-label-zh="直接讲优先级、约束和必须砍掉什么。" data-signal-logic="1">
-              <span>
-                <strong data-lang="en">I become more direct about priorities.</strong>
-                <strong data-lang="zh">我会更直接地讲优先级。</strong>
-                <small data-lang="en">What matters, what does not, what gets cut.</small>
-                <small data-lang="zh">什么重要、什么不重要、什么要砍。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q9" value="logic-2" required data-label-en="I protect the work by cutting low-value tasks." data-label-zh="我会通过砍低价值任务保护交付。" data-signal-logic="1">
-              <span>
-                <strong data-lang="en">I cut low-value work to protect delivery.</strong>
-                <strong data-lang="zh">我会砍低价值任务来保护交付。</strong>
-                <small data-lang="en">Pressure requires sharper tradeoffs.</small>
-                <small data-lang="zh">压力下需要更锋利的取舍。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q9" value="empathy-1" required data-label-en="Careful about morale, trust, and who will absorb the cost." data-label-zh="更在意士气、信任，以及谁在承担成本。" data-signal-empathy="1">
-              <span>
-                <strong data-lang="en">I pay more attention to morale and trust.</strong>
-                <strong data-lang="zh">我会更关注士气和信任。</strong>
-                <small data-lang="en">People still need to carry the work.</small>
-                <small data-lang="zh">事情还是要靠人扛下去。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q9" value="empathy-2" required data-label-en="I watch who is carrying the hidden cost." data-label-zh="我会留意谁在承担隐藏成本。" data-signal-empathy="1">
-              <span>
-                <strong data-lang="en">I watch who is carrying the hidden cost.</strong>
-                <strong data-lang="zh">我会留意谁在承担隐藏成本。</strong>
-                <small data-lang="en">Pressure can silently burn people out.</small>
-                <small data-lang="zh">压力会悄悄消耗人。</small>
-              </span>
-            </label>
-          </div>
-        </section>
-
-        <section class="section question-block quick-step" data-step="10">
-          <div class="question-head">
-            <span class="question-step">10</span>
-            <h2 data-lang="en">Your finished work usually looks like...</h2>
-            <h2 data-lang="zh">你完成后的工作通常更像...</h2>
-          </div>
-          <div class="choice-grid one-up" role="radiogroup" aria-label="Finished work">
-            <label class="choice">
-              <input type="radio" name="q10" value="closure-1" required data-label-en="A clean artifact: decision, owner, status, and next step are clear." data-label-zh="一个干净产物：决策、owner、状态和下一步都清楚。" data-signal-closure="1">
-              <span>
-                <strong data-lang="en">A clear decision and next step.</strong>
-                <strong data-lang="zh">一个清楚的决策和下一步。</strong>
-                <small data-lang="en">People know what is decided and who owns it.</small>
-                <small data-lang="zh">大家知道定了什么、谁负责。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q10" value="closure-2" required data-label-en="A finished checklist with status and owners." data-label-zh="一个有状态和负责人的完成清单。" data-signal-closure="1">
-              <span>
-                <strong data-lang="en">A finished checklist with owners.</strong>
-                <strong data-lang="zh">一个有负责人的完成清单。</strong>
-                <small data-lang="en">The work feels closed and trackable.</small>
-                <small data-lang="zh">工作是收口的、可追踪的。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q10" value="explore-1" required data-label-en="A live loop: options, experiments, and follow-up signals stay visible." data-label-zh="一个活循环：选项、实验和后续信号都还可见。" data-signal-explore="1">
-              <span>
-                <strong data-lang="en">A live loop with follow-up signals.</strong>
-                <strong data-lang="zh">一个带后续信号的活循环。</strong>
-                <small data-lang="en">People know what can still change.</small>
-                <small data-lang="zh">大家知道什么仍可变化。</small>
-              </span>
-            </label>
-            <label class="choice">
-              <input type="radio" name="q10" value="explore-2" required data-label-en="A useful draft that can still evolve." data-label-zh="一个有用但仍可演进的草稿。" data-signal-explore="1">
-              <span>
-                <strong data-lang="en">A useful draft that can still evolve.</strong>
-                <strong data-lang="zh">一个有用但仍可演进的草稿。</strong>
-                <small data-lang="en">The next version may teach us more.</small>
-                <small data-lang="zh">下一版可能会带来更多信息。</small>
-              </span>
-            </label>
-          </div>
-        </section>
+        <!-- Questions are rendered from QUESTION_STEPS in quick-test.js. -->
 
         <div class="quick-nav">
           <div class="quick-nav-actions">
@@ -533,7 +75,7 @@
           <div class="topbar-left">
             <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
             <div class="topbar-path">
-              <span class="here">~/git-hired</span><span class="sep"> / </span><span>result.card</span>
+              <span class="here">~/git-hired</span><span class="sep"> / </span><span>reputation.card</span>
             </div>
           </div>
           <div class="builder-card-status">
@@ -590,14 +132,43 @@
           </button>
         </div>
 
-        <section class="advanced-report" aria-label="Advanced agent report">
-          <h2 data-lang="en">Want a deeper report?</h2>
-          <h2 data-lang="zh">想要更准的结果？</h2>
+        <section class="challenge-entry" aria-label="Mode challenge">
+          <div>
+            <span class="challenge-tag">challenge</span>
+            <h2 id="mode-challenge-title">Builder challenge</h2>
+            <p id="mode-challenge-body">Ship a one-week proof artifact.</p>
+          </div>
+          <a
+            class="button secondary challenge-link"
+            id="mode-challenge-link"
+            href="https://github.com/realRoc/git-hired/issues/new?labels=challenge"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span data-lang="en">Open challenge brief</span>
+            <span data-lang="zh">打开 challenge brief</span>
+          </a>
+        </section>
+
+        <section class="hiring-signal" aria-label="Hiring signal">
+          <h2 data-lang="en">From mode to reputation</h2>
+          <h2 data-lang="zh">从模式到 reputation</h2>
           <p data-lang="en">
-            Let your own AI agent analyze selected work evidence and generate a more accurate AI-native builder profile.
+            The test only names your default value-creation mode. Challenge proof is the hiring signal: what you made or moved, who used or answered it, and what changed.
           </p>
           <p data-lang="zh">
-            你可以让自己的 AI agent 基于你允许的工作记录，生成更真实的 AI-native builder 画像。
+            测试只帮你命名默认的价值创造模式。真正的招聘信号来自 challenge proof：你构建或推动了什么，谁使用或回应了它，以及发生了什么变化。
+          </p>
+        </section>
+
+        <section class="advanced-report" aria-label="Advanced agent report">
+          <h2 data-lang="en">Want stronger proof?</h2>
+          <h2 data-lang="zh">想要更强的证明？</h2>
+          <p data-lang="en">
+            Let your own AI agent analyze selected work evidence and turn your mode into a more concrete reputation signal.
+          </p>
+          <p data-lang="zh">
+            你可以让自己的 AI agent 基于你允许的工作记录，把模式转成更具体的 reputation signal。
           </p>
           <ul class="advanced-points">
             <li data-lang="en">You choose what evidence to provide.</li>
@@ -616,15 +187,15 @@
 
         <section class="team-waitlist" aria-label="Team waitlist">
           <div>
-            <h2 data-lang="en">Building a team?</h2>
-            <h2 data-lang="zh">你在组建团队吗？</h2>
-            <p data-lang="en">Tell us what kind of AI-native builder you want to meet.</p>
-            <p data-lang="zh">告诉我们你想找到哪类 AI-native builder。</p>
+            <h2 data-lang="en">Hiring AI-native workers?</h2>
+            <h2 data-lang="zh">你在寻找 AI-native worker 吗？</h2>
+            <p data-lang="en">Tell us what kind of Builder or Seller proof you want to see.</p>
+            <p data-lang="zh">告诉我们你想看到哪类 Builder / Seller proof。</p>
           </div>
           <a
             class="button secondary team-waitlist-link"
             id="team-waitlist-link"
-            href="https://github.com/realRoc/git-hired/issues/new?title=Team%20waitlist%3A%20looking%20for%20AI-native%20builders&body=What%20kind%20of%20builder%20are%20you%20looking%20for%3F%0A%0ATeam%20context%3A%0A%0ABest%20way%20to%20contact%20you%3A"
+            href="https://github.com/realRoc/git-hired/issues/new?title=Team%20waitlist%3A%20looking%20for%20AI-native%20workers&body=What%20kind%20of%20Builder%20or%20Seller%20proof%20are%20you%20looking%20for%3F%0A%0ATeam%20context%3A%0A%0ABest%20way%20to%20contact%20you%3A"
             target="_blank"
             rel="noreferrer"
           >

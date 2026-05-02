@@ -432,7 +432,7 @@ body.lang-zh .home-title {
 
 .flow-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -535,6 +535,53 @@ body.lang-zh .flow-card h2 {
 .definition-grid strong {
   font-size: 15px;
   line-height: 1.35;
+}
+
+.challenge-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.challenge-card {
+  min-height: 190px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.challenge-tag {
+  width: fit-content;
+  padding: 3px 8px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.challenge-card h3 {
+  font-family: var(--mono);
+  font-size: 21px;
+  font-weight: 500;
+}
+
+html[data-lang="zh"] .challenge-card h3,
+body.lang-zh .challenge-card h3 {
+  font-family: var(--sans-cjk);
+  font-weight: 600;
+}
+
+.challenge-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
 }
 
 .faq-list details {
@@ -1740,6 +1787,8 @@ body.lang-zh .builder-card-section h3 {
   grid-column: 1 / -1;
 }
 
+.challenge-entry,
+.hiring-signal,
 .advanced-report {
   margin-top: 18px;
   padding: 18px;
@@ -1749,6 +1798,15 @@ body.lang-zh .builder-card-section h3 {
   color: var(--muted);
 }
 
+.challenge-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.challenge-entry h2,
+.hiring-signal h2,
 .advanced-report h2 {
   font-family: var(--mono);
   font-size: 18px;
@@ -1756,16 +1814,28 @@ body.lang-zh .builder-card-section h3 {
   color: var(--ink-dim);
 }
 
+html[data-lang="zh"] .challenge-entry h2,
+body.lang-zh .challenge-entry h2,
+html[data-lang="zh"] .hiring-signal h2,
+body.lang-zh .hiring-signal h2,
 html[data-lang="zh"] .advanced-report h2,
 body.lang-zh .advanced-report h2 {
   font-family: var(--sans-cjk);
   font-weight: 600;
 }
 
+.challenge-entry p,
+.hiring-signal p,
 .advanced-report p {
   max-width: 690px;
   margin: 10px 0 0;
   color: var(--muted);
+}
+
+.challenge-link {
+  flex: 0 0 auto;
+  min-height: 38px;
+  justify-content: center;
 }
 
 .advanced-points {
@@ -1851,6 +1921,7 @@ body.lang-zh .team-waitlist h2 {
   }
   .definition-panel { padding: 20px; }
   .definition-grid { grid-template-columns: 1fr; }
+  .challenge-grid { grid-template-columns: 1fr; }
   .definition-grid div {
     min-height: 0;
     border-right: 0;
@@ -2003,6 +2074,13 @@ body.lang-zh .team-waitlist h2 {
   }
   .result-share-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .challenge-entry {
+    display: grid;
+    justify-items: stretch;
+  }
+  .challenge-link {
+    width: 100%;
   }
   .team-waitlist {
     display: grid;
