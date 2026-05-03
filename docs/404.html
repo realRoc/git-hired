@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>fatal: not a qualified candidate — git-hired</title>
+    <title>404 — git-hired</title>
     <meta name="description" content="404 — this page isn't in the repo.">
     <link rel="stylesheet" href="./style.css">
     <script src="./analytics.js" defer></script>
@@ -122,21 +122,8 @@
         gap: 12px;
       }
 
-      /* the dino / mascot — pure ASCII, subtle */
-      .err-dino {
-        float: right;
-        margin: -6px 0 6px 20px;
-        font-family: var(--mono);
-        font-size: 10.5px;
-        line-height: 1.1;
-        color: var(--muted);
-        white-space: pre;
-        opacity: 0.7;
-      }
-
       @media (max-width: 560px) {
         .err-body { padding: 24px 18px 22px; }
-        .err-dino { display: none; }
       }
     </style>
   </head>
@@ -152,23 +139,14 @@
         </div>
 
         <div class="err-body">
-          <div class="err-dino" aria-hidden="true">  .---.
- /     \
- \.@-@./
- /`\_/`\
-//  _  \\
-| \     )|_
-/`\_`&gt;  &lt;_/ \
-\__/'---'\__/</div>
-
           <div class="err-prompt">
             <span class="user">you</span><span class="at">@</span><span class="host">work-agent</span>
             <span class="dollar">$</span>
             <span class="cmd">git checkout <span id="errPath">/missing/page</span></span>
           </div>
 
-          <p class="err-fatal">not a qualified candidate</p>
-          <p class="err-hint">this route doesn't exist in the repo — but <em>you</em> still might.</p>
+          <p class="err-fatal">route not found</p>
+          <p class="err-hint">this page no longer exists. Start from <em>the profile generator</em>.</p>
 
           <div class="err-diag">
             <span class="label">ref:</span> <span class="val" id="errFullPath">—</span><br>
@@ -178,10 +156,8 @@
 
           <div class="err-actions">
             <a class="button primary" href="./">./home</a>
-            <a class="button" href="./agent.html">./agent</a>
-            <a class="button" href="./pm.html">./pm</a>
-            <a class="button" href="./growth.html">./growth</a>
-            <a class="button" href="./ops.html">./ops</a>
+            <a class="button" href="./start.html?track=builder">./builder-profile</a>
+            <a class="button" href="./start.html?track=seller">./seller-profile</a>
           </div>
 
           <footer class="footer err-foot">

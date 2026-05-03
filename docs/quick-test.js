@@ -2,8 +2,6 @@
 (function () {
   "use strict";
 
-  const AGENT_PROMPT = "read https://realroc.github.io/git-hired/skill.md";
-
   const TRACKS = {
     builder: {
       key: "builder",
@@ -13,7 +11,7 @@
         en: "Builder profile: emphasize artifacts, systems, workflows, automation, tools, prototypes, and shipped output.",
         zh: "Builder profile：突出产物、系统、工作流、自动化、工具、原型和已交付成果。",
       },
-      headlineRole: {
+      headlineIdentity: {
         en: "AI-native builder",
         zh: "AI-native Builder",
       },
@@ -25,7 +23,7 @@
         en: ["AI workflow design", "prototyping", "automation", "product judgment", "systems thinking", "shipping useful artifacts"],
         zh: ["AI workflow 设计", "原型构建", "自动化", "产品判断", "系统思维", "交付可用成果"],
       },
-      suggestedRoles: {
+      suggestedDirections: {
         en: ["AI Product Builder", "Automation Operator", "Agent Workflow Builder", "Founder's Office Builder", "Product Operations"],
         zh: ["AI Product Builder", "Automation Operator", "Agent Workflow Builder", "创始人办公室 Builder", "产品运营"],
       },
@@ -42,7 +40,7 @@
         en: "Seller profile: emphasize narrative, positioning, distribution, sales, recruiting, launches, trust, and adoption.",
         zh: "Seller profile：突出叙事、定位、分发、销售、招聘、发布、信任和采用。",
       },
-      headlineRole: {
+      headlineIdentity: {
         en: "AI-native seller",
         zh: "AI-native Seller",
       },
@@ -54,7 +52,7 @@
         en: ["positioning", "storytelling", "distribution", "outbound", "community", "sales and recruiting momentum"],
         zh: ["定位", "叙事", "分发", "outbound", "社区", "销售与招聘势能"],
       },
-      suggestedRoles: {
+      suggestedDirections: {
         en: ["AI Growth Operator", "Founder’s Office GTM", "AI Sales / Recruiting Operator", "Community Builder", "Product Marketing"],
         zh: ["AI Growth Operator", "创始人办公室 GTM", "AI 销售 / 招聘 Operator", "社区 Builder", "产品市场"],
       },
@@ -76,7 +74,7 @@
       skillsTitle: "Core Skills",
       evidenceTitle: "Selected Work Evidence",
       bulletsTitle: "Resume Bullets",
-      rolesTitle: "Suggested Roles",
+      directionsTitle: "Suggested Directions",
       missingTitle: "Missing Proof",
       editTitle: "Next Edit",
       fullProfile: "Copy full profile",
@@ -91,11 +89,9 @@
       bulletsCopied: "bullets copied",
       copyPublicProfile: "Copy profile URL",
       publicProfileCopied: "profile URL copied",
-      copyAgentPrompt: "Copy agent prompt",
-      promptCopied: "prompt copied",
       fallbackName: "AI-native worker",
-      fallbackRole: "AI-native operator",
-      fallbackTarget: "AI-native role",
+      fallbackIdentity: "AI-native operator",
+      fallbackTarget: "AI-native direction",
       noEvidence: "Add 3-6 specific work examples to make this profile stronger.",
       noOutcome: "Add numbers, links, users, replies, revenue, time saved, or screenshots to make claims easier to trust.",
       editAdvice: "Tighten any claim that sounds too broad. Add one metric, one public link, and one concrete before/after result.",
@@ -110,7 +106,7 @@
       skillsTitle: "Core Skills",
       evidenceTitle: "Selected Work Evidence",
       bulletsTitle: "Resume Bullets",
-      rolesTitle: "Suggested Roles",
+      directionsTitle: "推荐方向",
       missingTitle: "Missing Proof",
       editTitle: "Next Edit",
       fullProfile: "复制完整 profile",
@@ -125,11 +121,9 @@
       bulletsCopied: "bullets 已复制",
       copyPublicProfile: "复制 profile URL",
       publicProfileCopied: "profile URL 已复制",
-      copyAgentPrompt: "复制 Agent 指令",
-      promptCopied: "指令已复制",
       fallbackName: "AI-native worker",
-      fallbackRole: "AI-native operator",
-      fallbackTarget: "AI-native 岗位",
+      fallbackIdentity: "AI-native operator",
+      fallbackTarget: "AI-native 方向",
       noEvidence: "补充 3-6 条具体工作案例，会让这份 profile 更强。",
       noOutcome: "补充数字、链接、用户、回复、收入、节省时间或截图，会让这些 claim 更可信。",
       editAdvice: "收紧任何听起来太泛的表达。至少补充一个指标、一个公开链接、一个具体 before/after 结果。",
@@ -220,8 +214,8 @@
       track,
       lang,
       name: readField("profile-name"),
-      currentRole: readField("current-role"),
-      targetRole: readField("target-role"),
+      currentIdentity: readField("current-identity"),
+      targetDirection: readField("target-direction"),
       tools: splitTools(readField("tools")),
       evidence: splitLines(readField("work-evidence")),
       outcomes: splitLines(readField("outcomes")),
@@ -242,21 +236,21 @@
   function makeHeadline(input) {
     const lang = input.lang;
     const track = input.track;
-    const role = input.currentRole || text(lang, "fallbackRole");
-    const target = input.targetRole || text(lang, "fallbackTarget");
+    const identity = input.currentIdentity || text(lang, "fallbackIdentity");
+    const target = input.targetDirection || text(lang, "fallbackTarget");
     const tools = input.tools.slice(0, 3).join(", ");
     if (lang === "zh") {
-      return `${role}｜${localized(track.headlineRole, lang)}｜${localized(track.valueVerb, lang)}${tools ? "｜" + tools : ""}｜目标："${target}"`;
+      return `${identity}｜${localized(track.headlineIdentity, lang)}｜${localized(track.valueVerb, lang)}${tools ? "｜" + tools : ""}｜目标："${target}"`;
     }
-    return `${role} | ${localized(track.headlineRole, lang)} | ${localized(track.valueVerb, lang)}${tools ? " | " + tools : ""} | Target: ${target}`;
+    return `${identity} | ${localized(track.headlineIdentity, lang)} | ${localized(track.valueVerb, lang)}${tools ? " | " + tools : ""} | Target: ${target}`;
   }
 
   function makeAbout(input) {
     const lang = input.lang;
     const track = input.track;
     const name = input.name || text(lang, "fallbackName");
-    const role = input.currentRole || text(lang, "fallbackRole");
-    const target = input.targetRole || text(lang, "fallbackTarget");
+    const identity = input.currentIdentity || text(lang, "fallbackIdentity");
+    const target = input.targetDirection || text(lang, "fallbackTarget");
     const evidence = input.evidence.slice(0, 3);
     const outcomes = input.outcomes.slice(0, 3);
     const tools = input.tools.slice(0, 5);
@@ -266,7 +260,7 @@
       const outcomeText = outcomes.length ? `可验证结果包括：${outcomes.join("；")}。` : text(lang, "noOutcome");
       const toolText = tools.length ? `常用工具和 agent 工作流包括：${tools.join("、")}。` : "我会用 AI agent 把问题拆解、执行、复盘并沉淀成可复用输出。";
       return [
-        `${name} 是一名 ${role}，核心价值是${localized(track.valueVerb, lang)}。目前目标方向是 ${target}。`,
+        `${name} 是一名 ${identity}，核心价值是${localized(track.valueVerb, lang)}。目前目标方向是 ${target}。`,
         `${evidenceText} ${outcomeText} ${toolText}`,
       ];
     }
@@ -275,7 +269,7 @@
     const outcomeText = outcomes.length ? `Observable outcomes include: ${outcomes.join("; ")}.` : text(lang, "noOutcome");
     const toolText = tools.length ? `Common tools and agent workflows include ${tools.join(", ")}.` : "I use AI agents to break down ambiguous work, execute, review, and turn output into reusable systems.";
     return [
-      `${name} is a ${role} whose core value is the ability to ${localized(track.valueVerb, lang)}. Current target direction: ${target}.`,
+      `${name} is a ${identity} whose core value is the ability to ${localized(track.valueVerb, lang)}. Current target direction: ${target}.`,
       `${evidenceText} ${outcomeText} ${toolText}`,
     ];
   }
@@ -347,7 +341,7 @@
       skills: makeSkills(input),
       evidence: makeEvidence(input),
       bullets: makeBullets(input),
-      roles: localizedList(input.track.suggestedRoles, input.lang),
+      directions: localizedList(input.track.suggestedDirections, input.lang),
       missing: makeMissingProof(input),
       nextEdit: text(input.lang, "editAdvice"),
     };
@@ -390,7 +384,7 @@
       renderSection(text(lang, "skillsTitle"), profile.skills),
       renderSection(text(lang, "evidenceTitle"), profile.evidence),
       renderSection(text(lang, "bulletsTitle"), profile.bullets),
-      renderSection(text(lang, "rolesTitle"), profile.roles),
+      renderSection(text(lang, "directionsTitle"), profile.directions),
       renderSection(text(lang, "missingTitle"), profile.missing),
       renderSection(text(lang, "editTitle"), profile.nextEdit)
     );
@@ -419,8 +413,8 @@
       "## " + text(lang, "bulletsTitle"),
       profile.bullets.map((item) => "- " + item).join("\n"),
       "",
-      "## " + text(lang, "rolesTitle"),
-      profile.roles.map((item) => "- " + item).join("\n"),
+      "## " + text(lang, "directionsTitle"),
+      profile.directions.map((item) => "- " + item).join("\n"),
       "",
       "## " + text(lang, "missingTitle"),
       profile.missing.map((item) => "- " + item).join("\n"),
@@ -542,8 +536,6 @@
     const headlineButton = document.getElementById("share-x");
     const bulletsButton = document.getElementById("share-linkedin");
     const profileUrlButton = document.getElementById("create-public-profile");
-    const copyAgentButton = document.getElementById("copy-agent-prompt");
-    const waitlistLink = document.getElementById("team-waitlist-link");
     const editButton = document.getElementById("retake-test");
 
     let lastProfile = null;
@@ -562,7 +554,6 @@
       setCopyLabel(copyProfileButton, ".copy-profile-label", false, "copyAbout", "aboutCopied");
       setCopyLabel(downloadButton, ".download-card-label", false, "downloadMarkdown", "markdownDownloaded");
       setCopyLabel(profileUrlButton, ".public-profile-label", false, "copyPublicProfile", "publicProfileCopied");
-      setCopyLabel(copyAgentButton, ".agent-copy-label", false, "copyAgentPrompt", "promptCopied");
       setButtonText(headlineButton, false, { en: COPY.en.copyHeadline, zh: COPY.zh.copyHeadline }, { en: COPY.en.headlineCopied, zh: COPY.zh.headlineCopied });
       setButtonText(bulletsButton, false, { en: COPY.en.copyBullets, zh: COPY.zh.copyBullets }, { en: COPY.en.bulletsCopied, zh: COPY.zh.bulletsCopied });
     }
@@ -581,21 +572,21 @@
       if (resultShell) resultShell.classList.remove("is-hidden");
       updateStatusLabel(true);
       resetLabels();
-      trackEvent("select_role", {
+      trackEvent("select_track", {
         location: "profile_generator",
-        role: track.key,
+        track: track.key,
         result_type: "profile",
         selection_type: "profile_track",
       });
       trackEvent("complete_quiz", {
         location: "profile_generator",
-        role: track.key,
+        track: track.key,
         result_type: "profile",
         answer_count: 1,
       });
       trackEvent("view_result", {
         location: "profile_result",
-        role: track.key,
+        track: track.key,
         result_type: "profile",
         profile_url: publicProfileUrl(track),
       });
@@ -612,7 +603,7 @@
       profileStarted = true;
       trackEvent("start_quiz", {
         location: "profile_generator_field",
-        role: track.key,
+        track: track.key,
         question_id: target.name || target.id || "",
         answer_count: 1,
       });
@@ -642,7 +633,7 @@
         if (!lastProfile) return;
         trackEvent("click_share", {
           location: "profile_result",
-          role: track.key,
+          track: track.key,
           result_type: "profile",
           share_target: "clipboard",
         });
@@ -658,7 +649,7 @@
         if (!lastProfile) return;
         trackEvent("copy_profile", {
           location: "profile_result",
-          role: track.key,
+          track: track.key,
           result_type: "profile",
           content_type: "linkedin_about",
         });
@@ -674,7 +665,7 @@
         if (!lastProfile) return;
         trackEvent("download_card", {
           location: "profile_result",
-          role: track.key,
+          track: track.key,
           result_type: "profile",
           file_format: "md",
         });
@@ -689,7 +680,7 @@
         if (!lastProfile) return;
         trackEvent("share_x", {
           location: "profile_result",
-          role: track.key,
+          track: track.key,
           result_type: "profile",
           share_target: "headline_copy",
         });
@@ -705,7 +696,7 @@
         if (!lastProfile) return;
         trackEvent("share_linkedin", {
           location: "profile_result",
-          role: track.key,
+          track: track.key,
           result_type: "profile",
           share_target: "resume_bullets_copy",
         });
@@ -720,33 +711,13 @@
       profileUrlButton.addEventListener("click", () => {
         trackEvent("create_public_profile", {
           location: "profile_result",
-          role: track.key,
+          track: track.key,
           result_type: "profile",
           profile_url: publicProfileUrl(track),
         });
         copyText(publicProfileUrl(track)).then(() => {
           setCopyLabel(profileUrlButton, ".public-profile-label", true, "copyPublicProfile", "publicProfileCopied");
           flash(profileUrlButton, () => setCopyLabel(profileUrlButton, ".public-profile-label", false, "copyPublicProfile", "publicProfileCopied"));
-        });
-      });
-    }
-
-    if (copyAgentButton) {
-      copyAgentButton.addEventListener("click", () => {
-        copyText(AGENT_PROMPT).then(() => {
-          setCopyLabel(copyAgentButton, ".agent-copy-label", true, "copyAgentPrompt", "promptCopied");
-          flash(copyAgentButton, () => setCopyLabel(copyAgentButton, ".agent-copy-label", false, "copyAgentPrompt", "promptCopied"));
-        });
-      });
-    }
-
-    if (waitlistLink) {
-      waitlistLink.addEventListener("click", () => {
-        trackEvent("click_team_waitlist", {
-          location: "profile_result_secondary",
-          role: track.key,
-          result_type: "profile",
-          waitlist_target: "github_issue",
         });
       });
     }

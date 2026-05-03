@@ -35,7 +35,7 @@ The browser-local generator returns:
 - core skills
 - selected work evidence
 - resume bullets
-- suggested roles
+- suggested directions
 - missing proof
 - next edit
 - Markdown export
@@ -77,35 +77,12 @@ The MVP does not require private uploads.
 Long-term, `git-hired` can become a hiring signal layer for AI-native workers.
 The MVP starts with a useful resume/profile draft because that gives users value before asking for deeper proof.
 
-## Deeper Agent Report
-
-Paste the `skill.md` command into your own work agent when you want a deeper, privacy-bounded report from approved history or files.
-
-```text
-read https://realroc.github.io/git-hired/skill.md
-```
-
-- You choose what evidence to provide.
-- No local files are uploaded to our server.
-- You decide what to share.
-
 ## Privacy First
 
-> `git-hired` is consent-first and local-only.
-> No server upload for local repo or file data.
-> By default, every role prompt stays `history-only`.
-> It should not scan a candidate's local repo, project folder, or document files unless the candidate explicitly allows it.
-> `git-hired` never uploads candidate repo or local file data to our server.
-> The chosen work agent should only inspect projects, files, or knowledge-base material the candidate explicitly authorizes.
-> If the chosen work agent supports direct local access, any approved scan should stay inside the candidate's own machine or connected workspace whenever possible.
-
-## Protocol Pages
-
-- [Candidate protocol](./docs/candidate.html)
-- [Evaluator protocol](./docs/evaluator.html)
-- [Contributor protocol](./docs/contributor.html)
-- [Scoring rubric](./rubric.md)
-- [Examples](./examples/)
+> The browser generator uses only what you type or paste into the page.
+> No account, backend, private upload, local repo scan, or document scan is required.
+> Public links are enough.
+> You control what you copy, edit, export, and share.
 
 ## AI-Native Collaboration
 
@@ -118,26 +95,14 @@ I am building AI-native products and looking for people who can:
 - create attention, trust, distribution, and adoption
 - respect privacy and security boundaries
 
-If your profile, report, or public evidence shows strong AI-native worker signals and you are interested in collaboration, open an issue with:
+If your generated profile or public evidence shows strong AI-native worker signals and you are interested in collaboration, open an issue with:
 
-- target track or role
-- public-safe profile or report summary
+- target track or direction
+- public-safe profile summary
 - what you want to build or sell next
 - any privacy limits you want respected
 
 Do not include secrets, private transcripts, raw customer data, or local file dumps in public issues.
-
-## Examples
-
-Start here if you want to understand what a deeper report looks like:
-
-- [Final builder card](./examples/builder-card.md)
-- [Strong Agent Engineer](./examples/agent-engineer.strong.md)
-- [Medium Agent Engineer](./examples/agent-engineer.medium.md)
-- [Weak Agent Engineer](./examples/agent-engineer.weak.md)
-- [Strong Product Manager](./examples/pm.strong.md)
-- [Strong Global Growth](./examples/growth.strong.md)
-- [Redacted report template](./examples/redacted-report-template.md)
 
 ## Eval Gate
 
@@ -147,25 +112,20 @@ Before promoting changes from `dev` to `main`, run:
 python3 scripts/eval_release.py
 ```
 
-This gate syncs generated surfaces, checks role wiring, verifies the `skill.md` output contract, locks the public card format, and runs `git diff --check`.
+This gate checks the static generator, analytics contract, and whitespace-safe diffs.
 
 ## Repo Structure
 
 ```text
 git-hired/
-├── skill.md
-├── rubric.md
-├── examples/
 ├── docs/
 │   ├── index.html
 │   ├── start.html
 │   ├── quick-test.js
-│   ├── candidate.html
-│   ├── evaluator.html
-│   └── contributor.html
-├── roles.json
-├── prompts/
-├── .codex/skills/git-hired-jd-ops/
+│   ├── analytics.js
+│   └── style.css
+├── evals/
+├── scripts/
 ├── LICENSE
 ├── README.md
 └── README.zh-CN.md

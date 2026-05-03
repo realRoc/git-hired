@@ -35,7 +35,7 @@ Choose Track -> Add Work Evidence -> Generate Profile -> Edit -> Export
 - core skills
 - selected work evidence
 - resume bullets
-- suggested roles
+- suggested directions
 - missing proof
 - next edit
 - Markdown export
@@ -77,35 +77,12 @@ MVP 不要求私人上传。
 长期看，`git-hired` 可以成为 AI-native worker 的 hiring signal layer。
 但 MVP 先从有用的 resume/profile 草稿开始，因为这能在要求更深 proof 前先给用户价值。
 
-## 更深入的 Agent 报告
-
-如果你想基于允许的历史记录或文件生成更深入、隐私边界清楚的报告，可以把 `skill.md` 指令粘贴到你自己的工作 agent 里。
-
-```text
-read https://realroc.github.io/git-hired/skill.md
-```
-
-- 你决定给它看什么。
-- 不上传你的本地文件到我们的服务器。
-- 你决定分享什么。
-
 ## 隐私优先
 
-> `git-hired` 采用先授权、后扫描，且只在本地运行的方式。
-> 不把本地 repo 或文件数据上传到服务器。
-> 默认模式是 `history-only`。
-> 除非候选人明确允许，否则不会扫描对方的本地 repo、项目目录或文档文件。
-> `git-hired` 不会把候选人的本地 repo 或文件数据上传到我们的服务器。
-> 候选人所选的 work agent 只应访问他明确授权的项目、文件或知识库材料。
-> 如果所选 work agent 支持直接访问本地文件，任何批准的扫描也应尽量只停留在候选人自己的机器或已连接工作区里完成。
-
-## Protocol Pages
-
-- [Candidate protocol](./docs/candidate.html)
-- [Evaluator protocol](./docs/evaluator.html)
-- [Contributor protocol](./docs/contributor.html)
-- [Scoring rubric](./rubric.md)
-- [Examples](./examples/)
+> 浏览器生成器只使用你在页面里输入或粘贴的内容。
+> 不需要账号、后端、私人上传、本地 repo 扫描或文档扫描。
+> 公开链接就够用。
+> 你控制复制、编辑、导出和分享的内容。
 
 ## AI-native 协作
 
@@ -118,26 +95,14 @@ read https://realroc.github.io/git-hired/skill.md
 - 能创造关注、信任、分发和采用
 - 尊重隐私和安全边界
 
-如果你的 profile、报告或公开证据显示出较强的 AI-native worker 信号，并且你也在寻找 AI-native 项目的合作机会，可以开一个 issue，附上：
+如果你的生成 profile 或公开证据显示出较强的 AI-native worker 信号，并且你也在寻找 AI-native 项目的合作机会，可以开一个 issue，附上：
 
-- 目标 track 或岗位
-- 公开安全的 profile 或报告摘要
+- 目标 track 或方向
+- 公开安全的 profile 摘要
 - 你接下来想 build 或 sell 什么
 - 你希望被尊重的隐私边界
 
 不要在公开 issue 里放 secret、私人 transcript、原始客户数据或本地文件转储。
-
-## 样例
-
-如果你想先知道更深入报告大概长什么样，从这里看：
-
-- [最终 Builder 卡片](./examples/builder-card.md)
-- [强匹配 Agent 工程师](./examples/agent-engineer.strong.md)
-- [中等匹配 Agent 工程师](./examples/agent-engineer.medium.md)
-- [弱匹配 Agent 工程师](./examples/agent-engineer.weak.md)
-- [强匹配产品经理](./examples/pm.strong.md)
-- [强匹配海外增长](./examples/growth.strong.md)
-- [脱敏报告模板](./examples/redacted-report-template.md)
 
 ## Eval Gate
 
@@ -147,25 +112,20 @@ read https://realroc.github.io/git-hired/skill.md
 python3 scripts/eval_release.py
 ```
 
-这个 gate 会同步生成页面，检查岗位 wiring，验证 `skill.md` 输出契约，锁住公开 card 格式，并运行 `git diff --check`。
+这个 gate 会检查静态生成器、analytics 契约和 whitespace-safe diff。
 
 ## 目录结构
 
 ```text
 git-hired/
-├── skill.md
-├── rubric.md
-├── examples/
 ├── docs/
 │   ├── index.html
 │   ├── start.html
 │   ├── quick-test.js
-│   ├── candidate.html
-│   ├── evaluator.html
-│   └── contributor.html
-├── roles.json
-├── prompts/
-├── .codex/skills/git-hired-jd-ops/
+│   ├── analytics.js
+│   └── style.css
+├── evals/
+├── scripts/
 ├── LICENSE
 ├── README.md
 └── README.zh-CN.md
