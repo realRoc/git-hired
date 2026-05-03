@@ -103,8 +103,6 @@ body.lang-zh .lede {
   font-family: var(--sans-cjk);
   line-height: 1.75;
 }
-html[data-lang="zh"] .card p,
-body.lang-zh .card p,
 html[data-lang="zh"] .outputs li,
 body.lang-zh .outputs li {
   font-family: var(--sans-cjk);
@@ -488,111 +486,11 @@ body.lang-zh .flow-card h2 {
   line-height: 1.65;
 }
 
-.definition-panel,
 .faq-list {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--panel);
   overflow: hidden;
-}
-
-.definition-panel {
-  padding: 24px;
-}
-
-.definition-panel p {
-  max-width: 780px;
-  margin: 0;
-  color: var(--ink-dim);
-  font-size: 16px;
-  line-height: 1.75;
-}
-
-.definition-panel strong {
-  color: var(--ink);
-}
-
-.definition-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: 22px;
-  border: 1px solid var(--line);
-  border-radius: calc(var(--radius) - 1px);
-  overflow: hidden;
-}
-
-.definition-grid div {
-  min-height: 118px;
-  padding: 18px;
-  border-right: 1px solid var(--line);
-  background: var(--bg-2);
-  display: grid;
-  align-content: start;
-  gap: 8px;
-}
-
-.definition-grid div:last-child {
-  border-right: 0;
-}
-
-.definition-grid span {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--accent);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.definition-grid strong {
-  font-size: 15px;
-  line-height: 1.35;
-}
-
-.challenge-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.challenge-card {
-  min-height: 190px;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--panel);
-  display: grid;
-  align-content: start;
-  gap: 12px;
-}
-
-.challenge-tag {
-  width: fit-content;
-  padding: 3px 8px;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  color: var(--accent);
-  font-family: var(--mono);
-  font-size: 11px;
-  line-height: 1.35;
-  text-transform: uppercase;
-}
-
-.challenge-card h3 {
-  font-family: var(--mono);
-  font-size: 21px;
-  font-weight: 500;
-}
-
-html[data-lang="zh"] .challenge-card h3,
-body.lang-zh .challenge-card h3 {
-  font-family: var(--sans-cjk);
-  font-weight: 600;
-}
-
-.challenge-card p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.65;
 }
 
 .faq-list details {
@@ -642,10 +540,6 @@ body.lang-zh .challenge-card h3 {
   line-height: 1.75;
 }
 
-html[data-lang="zh"] .definition-panel p,
-body.lang-zh .definition-panel p,
-html[data-lang="zh"] .definition-grid strong,
-body.lang-zh .definition-grid strong,
 html[data-lang="zh"] .faq-list summary,
 body.lang-zh .faq-list summary,
 html[data-lang="zh"] .faq-list p,
@@ -653,67 +547,6 @@ body.lang-zh .faq-list p {
   font-family: var(--sans-cjk);
   line-height: 1.85;
 }
-
-.audience-ctas {
-  margin-top: 22px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.advanced-command {
-  margin-top: 12px;
-  border: 1px dashed var(--line-2);
-  border-radius: var(--radius);
-  background: rgba(255,255,255,0.012);
-  overflow: hidden;
-}
-.advanced-command summary {
-  padding: 10px 14px;
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--muted);
-  cursor: pointer;
-}
-.advanced-command summary:hover { color: var(--accent); }
-.advanced-command .prompt {
-  border-top: 1px dashed var(--line-2);
-  background: var(--bg-2);
-}
-
-.audience-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-/* ——— starter prompt block ——— */
-
-.prompt-wrap {
-  margin-top: 28px;
-  border: 1px solid var(--line-2);
-  border-radius: var(--radius);
-  background: var(--bg-2);
-  overflow: hidden;
-}
-
-.prompt-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 14px;
-  background: var(--panel-2);
-  border-bottom: 1px solid var(--line);
-  color: var(--ink-dim);
-}
-
-.prompt-head strong {
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--muted);
-  letter-spacing: 0.02em;
-}
-.prompt-head strong::before { content: "▸ "; color: var(--muted-2); }
 
 .prompt {
   margin: 0;
@@ -725,14 +558,6 @@ body.lang-zh .faq-list p {
   color: var(--ink-dim);
   font-family: var(--mono);
   overflow-x: auto;
-}
-
-.hero-post {
-  margin-top: 18px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  align-items: center;
 }
 
 /* ——— buttons ——— */
@@ -769,64 +594,6 @@ body.lang-zh .faq-list p {
 }
 .button.ghost { color: var(--muted); }
 
-/* ——— mobile quick-test entry ——— */
-
-.mobile-entry {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 132px;
-  gap: 18px;
-  align-items: center;
-  margin-top: 18px;
-  padding: 16px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background:
-    linear-gradient(180deg, rgba(140, 220, 140, 0.06), transparent 62%),
-    var(--panel);
-}
-
-.mobile-entry-kicker,
-.qr-card {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.mobile-entry-kicker {
-  margin-bottom: 8px;
-  color: var(--accent);
-}
-
-.mobile-entry h2,
-.mobile-entry h3 {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: 22px;
-  font-weight: 500;
-}
-
-.mobile-entry p {
-  margin: 10px 0 14px;
-  max-width: 700px;
-  color: var(--ink-dim);
-}
-
-.qr-card {
-  display: grid;
-  gap: 8px;
-  justify-items: center;
-  text-align: center;
-}
-
-.qr-card img {
-  width: 120px;
-  height: 120px;
-  padding: 8px;
-  border: 1px solid var(--line-2);
-  border-radius: calc(var(--radius) - 2px);
-  background: #f8fff9;
-}
-
 /* ——— section wrappers ——— */
 
 .section {
@@ -854,85 +621,6 @@ body.lang-zh .faq-list p {
   color: var(--ink);
   letter-spacing: 0;
 }
-
-/* ——— role cards grid ——— */
-
-.grid.cards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--panel);
-}
-
-.card {
-  padding: 22px 22px 22px;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  position: relative;
-  transition: background .15s;
-}
-.card:nth-child(2n) { border-right: 0; }
-.card:nth-last-child(-n+2) { border-bottom: 0; }
-.card:hover { background: var(--panel-2); }
-
-.card .role-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.02em;
-}
-.card .role-meta .slug { color: var(--accent); }
-.card .role-meta .slug::before { content: "./"; color: var(--muted-2); }
-.card .role-meta .idx { color: var(--muted-2); }
-
-.card h3 {
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 0;
-  margin-top: 2px;
-}
-
-.card p {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.6;
-  margin: 0;
-  flex: 1;
-}
-
-.card .card-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
-  padding-top: 14px;
-  border-top: 1px dashed var(--line);
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--muted);
-}
-.card .card-foot .open {
-  color: var(--accent);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.card .card-foot .open::after {
-  content: "→";
-  transition: transform .15s;
-}
-.card:hover .card-foot .open::after { transform: translateX(3px); }
 
 /* ——— what you get ——— */
 
@@ -1024,70 +712,6 @@ html[data-lang="zh"] .footer,
 body.lang-zh .footer {
   font-family: var(--sans-cjk);
   line-height: 1.85;
-}
-
-/* ——— scrollbar (subtle) ——— */
-
-.prompt::-webkit-scrollbar { height: 6px; }
-.prompt::-webkit-scrollbar-thumb {
-  background: var(--line-2);
-  border-radius: 3px;
-}
-
-/* ——— role page header ——— */
-
-.role-title {
-  font-family: var(--mono);
-  font-size: clamp(32px, 4.6vw, 48px);
-  font-weight: 600;
-  letter-spacing: 0;
-  color: var(--ink);
-  margin: 4px 0 8px;
-  line-height: 1.08;
-}
-.role-title::before {
-  content: "# ";
-  color: var(--accent);
-  font-weight: 500;
-}
-.start-page .role-title::before {
-  content: none;
-}
-html[data-lang="zh"] .role-title,
-body.lang-zh .role-title {
-  font-family: var(--sans-cjk);
-  letter-spacing: 0;
-  font-weight: 700;
-}
-
-.eyebrow {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  display: inline-block;
-  padding: 3px 9px;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  background: var(--panel-2);
-}
-.eyebrow::before { content: "● "; color: var(--accent); margin-right: 1px; }
-
-.hero-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.inline-links {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 22px;
 }
 
 .button.secondary {
@@ -1897,9 +1521,7 @@ body.lang-zh .builder-card-section h3 {
   grid-column: 1 / -1;
 }
 
-.challenge-entry,
-.hiring-signal,
-.advanced-report {
+.hiring-signal {
   margin-top: 18px;
   padding: 18px;
   border: 1px dashed var(--line-2);
@@ -1908,85 +1530,23 @@ body.lang-zh .builder-card-section h3 {
   color: var(--muted);
 }
 
-.challenge-entry {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.challenge-entry h2,
-.hiring-signal h2,
-.advanced-report h2 {
+.hiring-signal h2 {
   font-family: var(--mono);
   font-size: 18px;
   font-weight: 500;
   color: var(--ink-dim);
 }
 
-html[data-lang="zh"] .challenge-entry h2,
-body.lang-zh .challenge-entry h2,
 html[data-lang="zh"] .hiring-signal h2,
-body.lang-zh .hiring-signal h2,
-html[data-lang="zh"] .advanced-report h2,
-body.lang-zh .advanced-report h2 {
+body.lang-zh .hiring-signal h2 {
   font-family: var(--sans-cjk);
   font-weight: 600;
 }
 
-.challenge-entry p,
-.hiring-signal p,
-.advanced-report p {
+.hiring-signal p {
   max-width: 690px;
   margin: 10px 0 0;
   color: var(--muted);
-}
-
-.challenge-link {
-  flex: 0 0 auto;
-  min-height: 38px;
-  justify-content: center;
-}
-
-.advanced-points {
-  margin-top: 12px;
-}
-
-.advanced-copy {
-  margin-top: 16px;
-}
-
-.team-waitlist {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px dashed var(--line-2);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  color: var(--muted);
-}
-.team-waitlist h2 {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--ink-dim);
-}
-html[data-lang="zh"] .team-waitlist h2,
-body.lang-zh .team-waitlist h2 {
-  font-family: var(--sans-cjk);
-  font-weight: 600;
-}
-.team-waitlist p {
-  margin: 6px 0 0;
-  font-size: 12px;
-  line-height: 1.5;
-}
-.team-waitlist-link {
-  flex: 0 0 auto;
-  min-height: 38px;
-  justify-content: center;
 }
 
 .result-home-link {
@@ -2045,29 +1605,12 @@ body.lang-zh .team-waitlist h2 {
   .flow-card:last-child {
     border-bottom: 0;
   }
-  .definition-panel { padding: 20px; }
-  .definition-grid { grid-template-columns: 1fr; }
-  .challenge-grid { grid-template-columns: 1fr; }
-  .definition-grid div {
-    min-height: 0;
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .definition-grid div:last-child {
-    border-bottom: 0;
-  }
-  .grid.cards { grid-template-columns: 1fr; }
   .audience-grid { grid-template-columns: 1fr; }
-  .card { border-right: 0 !important; }
-  .card:nth-last-child(-n+2) { border-bottom: 1px solid var(--line); }
-  .card:last-child { border-bottom: 0; }
   .outputs-row { grid-template-columns: 1fr; }
   .outputs-key { border-right: 0; border-bottom: 1px solid var(--line); padding: 12px 18px; }
   .outputs-val { padding: 16px 18px; }
   .topbar { flex-wrap: wrap; }
   .topbar-path { display: none; }
-  .mobile-entry { grid-template-columns: 1fr; }
-  .qr-card { justify-items: start; text-align: left; }
   body { background-size: 48px 48px; }
   .start-page .shell {
     width: min(100vw - 14px, 720px);
@@ -2093,20 +1636,8 @@ body.lang-zh .team-waitlist h2 {
   .start-page .hero {
     padding: 14px 14px 12px;
   }
-  .start-page .prompt-line,
-  .start-page .inline-links {
+  .start-page .prompt-line {
     display: none;
-  }
-  .audience-ctas {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-  .audience-ctas .button {
-    justify-content: center;
-  }
-  .start-page .role-title {
-    font-size: clamp(25px, 7.4vw, 34px);
-    margin-bottom: 6px;
   }
   .start-page .lede { font-size: 14px; }
   .start-page .hero .mini { font-size: 12px; line-height: 1.55; }
@@ -2204,26 +1735,11 @@ body.lang-zh .team-waitlist h2 {
   .result-share-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .challenge-entry {
-    display: grid;
-    justify-items: stretch;
-  }
-  .challenge-link {
-    width: 100%;
-  }
-  .team-waitlist {
-    display: grid;
-    justify-items: stretch;
-  }
-  .team-waitlist-link {
-    width: 100%;
-  }
 }
 
 @media (max-width: 480px) {
   .hero { padding: 22px 16px 20px; }
   .prompt { padding: 14px 14px; font-size: 12px; }
-  .prompt-head { padding: 10px 12px; }
   h1 { font-size: 42px; }
   .home-title {
     font-size: 34px;

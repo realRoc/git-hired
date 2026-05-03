@@ -47,12 +47,6 @@ function updateLanguageButtons(lang) {
   });
 }
 
-function updateCopyButtons(lang) {
-  document.querySelectorAll("[data-copy-button]").forEach((button) => {
-    button.innerText = lang === "zh" ? button.dataset.labelZh : button.dataset.labelEn;
-  });
-}
-
 function setLanguage(lang) {
   const next = applyDocumentLanguage(lang);
 
@@ -73,33 +67,9 @@ function setLanguage(lang) {
   }
 
   updateLanguageButtons(next);
-  updateCopyButtons(next);
-}
-
-function copyPrompt(promptBase, button) {
-  const lang = document.body?.dataset.lang || document.documentElement.dataset.lang || DEFAULT_LANG;
-  const prompt = document.getElementById(`${promptBase}-${lang}`);
-  if (!prompt) return;
-
-  navigator.clipboard.writeText(prompt.innerText).then(() => {
-    const copied = lang === "zh" ? button.dataset.copiedZh : button.dataset.copiedEn;
-    const label = lang === "zh" ? button.dataset.labelZh : button.dataset.labelEn;
-    button.innerText = copied;
-    setTimeout(() => {
-      button.innerText = label;
-    }, 1800);
-  }).catch(() => {
-    const failed = lang === "zh" ? button.dataset.failedZh : button.dataset.failedEn;
-    const label = lang === "zh" ? button.dataset.labelZh : button.dataset.labelEn;
-    button.innerText = failed;
-    setTimeout(() => {
-      button.innerText = label;
-    }, 1800);
-  });
 }
 
 window.setLanguage = setLanguage;
-window.copyPrompt = copyPrompt;
 
 /* ——— ASCII banner — ANSI Shadow "GIT-HIRED" + live typing ——— */
 

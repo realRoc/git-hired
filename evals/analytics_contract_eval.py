@@ -12,7 +12,7 @@ POSTHOG_PROJECT_KEY = "phc_JQHakHYG7KOiZUXCqdojoXuAll5QW8DwkdJzk0Qzg0e"
 POSTHOG_API_HOST = "https://us.i.posthog.com"
 REQUIRED_COMMON_PROPERTIES = (
     "location:",
-    "role:",
+    "track:",
     "result_type:",
     "question_id:",
     "page_path:",
@@ -20,7 +20,7 @@ REQUIRED_COMMON_PROPERTIES = (
 REQUIRED_FUNNEL_EVENTS = (
     "$pageview",
     "click_start",
-    "select_role",
+    "select_track",
     "start_quiz",
     "complete_quiz",
     "view_result",
@@ -30,13 +30,12 @@ REQUIRED_FUNNEL_EVENTS = (
     "share_x",
     "share_linkedin",
     "create_public_profile",
-    "click_team_waitlist",
 )
 
 
 def find_repo_root(start: Path) -> Path:
     for candidate in [start, *start.parents]:
-        if (candidate / "README.md").exists() and (candidate / "roles.json").exists():
+        if (candidate / "README.md").exists() and (candidate / "docs" / "index.html").exists():
             return candidate
     raise SystemExit("Could not locate git-hired repo root.")
 
@@ -93,8 +92,6 @@ def validate_html_pages(repo_root: Path, errors: list[str]) -> None:
         'id="share-x"',
         'id="share-linkedin"',
         'id="create-public-profile"',
-        'id="team-waitlist-link"',
-        "Join the team waitlist",
     ):
         assert_contains("docs/start.html", start_text, marker, errors)
 
@@ -137,11 +134,11 @@ def validate_common_properties(analytics_text: str, errors: list[str]) -> None:
 
 
 def validate_manual_events(analytics_text: str, quick_test_text: str, errors: list[str]) -> None:
-    for event in ("click_start", "select_role"):
+    for event in ("click_start",):
         assert_contains("docs/analytics.js", analytics_text, f'track("{event}"', errors)
 
     for event in (
-        "select_role",
+        "select_track",
         "start_quiz",
         "complete_quiz",
         "view_result",
@@ -151,7 +148,6 @@ def validate_manual_events(analytics_text: str, quick_test_text: str, errors: li
         "share_x",
         "share_linkedin",
         "create_public_profile",
-        "click_team_waitlist",
     ):
         assert_contains("docs/quick-test.js", quick_test_text, f'trackEvent("{event}"', errors)
 
@@ -159,11 +155,6 @@ def validate_manual_events(analytics_text: str, quick_test_text: str, errors: li
         '.home-shell .big-cta[href*=\'start.html\']',
         'location: "home_hero"',
         "target_path:",
-        "ROLE_BY_PAGE",
-        "ROLE_BY_PROMPT_BASE",
-        'location: "role_link"',
-        'location: "role_command_copy"',
-        'selection_type: "role"',
     ):
         assert_contains("docs/analytics.js", analytics_text, marker, errors)
 
@@ -174,14 +165,12 @@ def validate_manual_events(analytics_text: str, quick_test_text: str, errors: li
         'location: "profile_generator"',
         'result_type: "profile"',
         'location: "profile_result"',
-        'role: track.key',
+        'track: track.key',
         'selection_type: "profile_track"',
         'share_target: "clipboard"',
         "profile_url:",
         'content_type: "linkedin_about"',
         'file_format: "md"',
-        'waitlist_target: "github_issue"',
-        'location: "profile_result_secondary"',
         "publicProfileUrl(",
         "profileMarkdown(",
         "downloadText(",
@@ -202,7 +191,6 @@ def validate_manual_events(analytics_text: str, quick_test_text: str, errors: li
         'document.getElementById("share-x")',
         'document.getElementById("share-linkedin")',
         'document.getElementById("create-public-profile")',
-        'document.getElementById("team-waitlist-link")',
     ):
         assert_contains("docs/quick-test.js", quick_test_text, marker, errors)
 

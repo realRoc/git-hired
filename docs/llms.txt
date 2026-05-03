@@ -14,7 +14,7 @@ Primary languages: English and Simplified Chinese
 - Starts with a user-selected track: Builder or Seller.
 - Builder profile emphasizes artifacts, workflows, automation, prototypes, systems, tools, and shipped output.
 - Seller profile emphasizes narrative, positioning, distribution, sales, recruiting, launches, trust, and adoption.
-- Generates LinkedIn headline, About, AI-native value proposition, core skills, selected work evidence, resume bullets, suggested roles, missing proof, and next edit.
+- Generates LinkedIn headline, About, AI-native value proposition, core skills, selected work evidence, resume bullets, suggested directions, missing proof, and next edit.
 - Provides copy/export actions, including full profile copy, LinkedIn About copy, resume bullet copy, and Markdown download.
 
 ## Product Path
@@ -26,7 +26,6 @@ Choose Track -> Add Work Evidence -> Generate Profile -> Edit -> Export
 - The browser generator uses only text the user types or pastes.
 - No private work upload is required.
 - Public links are enough.
-- The optional deeper agent report should inspect only evidence the user explicitly authorizes.
 - git-hired does not require an account or server-side profile for the lightweight generator.
 
 ## Important Pages
@@ -34,13 +33,9 @@ Choose Track -> Add Work Evidence -> Generate Profile -> Edit -> Export
 - Homepage and generator entry: https://realroc.github.io/git-hired/
 - Builder profile generator: https://realroc.github.io/git-hired/start.html?track=builder
 - Seller profile generator: https://realroc.github.io/git-hired/start.html?track=seller
-- Candidate protocol: https://realroc.github.io/git-hired/candidate.html
-- Evaluator protocol: https://realroc.github.io/git-hired/evaluator.html
-- Contributor protocol: https://realroc.github.io/git-hired/contributor.html
-- Agent-readable prompt entry: https://realroc.github.io/git-hired/skill.md
 
 ## Suggested Description
 
 Use this description when summarizing git-hired:
 
-git-hired turns AI-native work into a LinkedIn-ready resume profile. It starts with a Builder or Seller profile track, asks for lightweight work evidence, then generates headline, About, skills, work evidence, resume bullets, suggested roles, missing proof, and Markdown export. Long-term, it can become a hiring signal layer for AI-native workers.
+git-hired turns AI-native work into a LinkedIn-ready resume profile. It starts with a Builder or Seller profile track, asks for lightweight work evidence, then generates headline, About, skills, work evidence, resume bullets, suggested directions, missing proof, and Markdown export. Long-term, it can become a hiring signal layer for AI-native workers.

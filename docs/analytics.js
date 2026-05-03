@@ -5,20 +5,6 @@
   var POSTHOG_API_KEY = "phc_JQHakHYG7KOiZUXCqdojoXuAll5QW8DwkdJzk0Qzg0e";
   var POSTHOG_API_HOST = "https://us.i.posthog.com";
 
-  var ROLE_BY_PAGE = {
-    "growth.html": "Global Growth",
-    "agent.html": "Agent Engineer",
-    "pm.html": "Product Manager",
-    "ops.html": "Product Operations",
-  };
-
-  var ROLE_BY_PROMPT_BASE = {
-    "prompt-growth": "Global Growth",
-    "prompt-engineer": "Agent Engineer",
-    "prompt-pm": "Product Manager",
-    "prompt-ops": "Product Operations",
-  };
-
   function initPostHog() {
     /* eslint-disable */
     !function (t, e) {
@@ -77,7 +63,7 @@
   function eventProperties(properties) {
     return Object.assign({
       location: "page",
-      role: null,
+      track: null,
       result_type: null,
       question_id: null,
       page_path: currentPagePath(),
@@ -110,44 +96,11 @@
     }
   }
 
-  function roleFromHref(href) {
-    return ROLE_BY_PAGE[basenameFromHref(href)] || null;
-  }
-
-  function promptBaseFromButton(button) {
-    var onclick = button?.getAttribute("onclick") || "";
-    var match = onclick.match(/copyPrompt\(['"]([^'"]+)['"]/);
-    return match ? match[1] : "";
-  }
-
   function trackStartClick(link) {
     track("click_start", {
       location: "home_hero",
       target_path: basenameFromHref(link.href) || "start.html",
       track: searchParamFromHref(link.href, "track"),
-    });
-  }
-
-  function trackRoleLink(link) {
-    var role = roleFromHref(link.href);
-    if (!role) return;
-    track("select_role", {
-      location: "role_link",
-      role: role,
-      selection_type: "role",
-      target_path: basenameFromHref(link.href),
-    });
-  }
-
-  function trackRoleCommand(button) {
-    var promptBase = promptBaseFromButton(button);
-    var role = ROLE_BY_PROMPT_BASE[promptBase];
-    if (!role) return;
-    track("select_role", {
-      location: "role_command_copy",
-      role: role,
-      selection_type: "role",
-      prompt_base: promptBase,
     });
   }
 
@@ -162,14 +115,6 @@
         return;
       }
 
-      var copyButton = target.closest("button[onclick*='copyPrompt(']");
-      if (copyButton) {
-        trackRoleCommand(copyButton);
-        return;
-      }
-
-      var link = target.closest("a[href]");
-      if (link) trackRoleLink(link);
     }, true);
   }
 
