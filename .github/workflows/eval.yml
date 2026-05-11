@@ -1,0 +1,125 @@
+name: site-ci
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    paths:
+      - "docs/**"
+      - ".github/workflows/eval.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - ".github/workflows/eval.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static-site:
+    name: Static site checks
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Validate published docs bundle
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urlparse
+
+          docs = Path("docs")
+          required = [
+              docs / "index.html",
+              docs / "githire.css",
+              docs / "githire-scroll.js",
+              docs / "README.md",
+          ]
+
+          missing = [str(path) for path in required if not path.is_file()]
+          if missing:
+              raise SystemExit("Missing required published files:\n- " + "\n- ".join(missing))
+
+          html = (docs / "index.html").read_text(encoding="utf-8")
+          required_snippets = [
+              'href="githire.css"',
+              'src="githire-scroll.js"',
+              'id="workflow"',
+              'id="rituals"',
+              'id="skills"',
+          ]
+          missing_snippets = [snippet for snippet in required_snippets if snippet not in html]
+          if missing_snippets:
+              raise SystemExit("Missing expected HTML snippets:\n- " + "\n- ".join(missing_snippets))
+
+          removed_fragments = [
+              'class="scroll-cue"',
+              'class="foot-slogan"',
+              'class="foot-mark"',
+              'class="foot-en"',
+          ]
+          leaked_fragments = [fragment for fragment in removed_fragments if fragment in html]
+          if leaked_fragments:
+              raise SystemExit("Removed layout fragments are still present:\n- " + "\n- ".join(leaked_fragments))
+
+          class AssetParser(HTMLParser):
+              def __init__(self) -> None:
+                  super().__init__()
+                  self.refs: list[str] = []
+
+              def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+                  data = dict(attrs)
+                  for key in ("href", "src"):
+                      value = data.get(key)
+                      if value:
+                          self.refs.append(value)
+
+          parser = AssetParser()
+          parser.feed(html)
+
+          missing_refs: list[str] = []
+          for ref in parser.refs:
+              parsed = urlparse(ref)
+              if parsed.scheme or parsed.netloc or ref.startswith(("mailto:", "#")):
+                  continue
+              local_path = docs / parsed.path.lstrip("/")
+              if not local_path.exists():
+                  missing_refs.append(ref)
+
+          if missing_refs:
+              raise SystemExit("HTML references missing local files:\n- " + "\n- ".join(missing_refs))
+
+          print("Published docs bundle is self-consistent.")
+          PY
+
+      - name: Smoke test static serving
+        run: |
+          python3 -m http.server 8000 --directory docs >/tmp/githire-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+
+          for attempt in {1..20}; do
+            if curl -fsS http://127.0.0.1:8000/ >/dev/null; then
+              break
+            fi
+            sleep 0.25
+          done
+
+          curl -fsS http://127.0.0.1:8000/ >/dev/null
+          curl -fsS http://127.0.0.1:8000/githire.css >/dev/null
+          curl -fsS http://127.0.0.1:8000/githire-scroll.js >/dev/null
+
+      - name: Check whitespace
+        run: git diff --check

@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>GitHire — AI-native 入职旅程</title>
+<meta name="description" content="GitHire — 一段以滚动驱动、可视化呈现的 AI-native 入职学习旅程。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="githire.css" />
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="top">
+  <div class="wrap nav-row">
+    <a class="brand" href="#top">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span><b>GitHire</b></span>
+    </a>
+
+    <div class="nav-actions">
+      <a class="nav-pill nav-pill--dark" href="mailto:yupeng.wu1224@gmail.com?subject=Let%27s%20talk%20%C2%B7%20GitHire">
+        <span>Let's talk</span>
+      </a>
+      <button class="nav-pill nav-pill--light" type="button" id="menuBtn" aria-expanded="false" aria-controls="menuPanel">
+        <span class="lbl-open">Menu</span>
+        <span class="lbl-close">Close</span>
+      </button>
+    </div>
+
+    <div class="menu-panel" id="menuPanel" aria-hidden="true">
+      <a class="menu-item is-current" href="#top">
+        <span>HOME</span>
+        <span class="dot" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  (function(){
+    var btn = document.getElementById('menuBtn');
+    var panel = document.getElementById('menuPanel');
+    if(!btn || !panel) return;
+    function close(){ btn.setAttribute('aria-expanded','false'); panel.setAttribute('aria-hidden','true'); document.body.classList.remove('menu-open'); }
+    function open(){ btn.setAttribute('aria-expanded','true'); panel.setAttribute('aria-hidden','false'); document.body.classList.add('menu-open'); }
+    btn.addEventListener('click', function(){
+      if(btn.getAttribute('aria-expanded') === 'true') close(); else open();
+    });
+    panel.addEventListener('click', function(e){
+      var a = e.target.closest('a');
+      if(a) close();
+    });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+  })();
+</script>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="hero" id="top" data-screen-label="01 Hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <div class="wrap hero-inner">
+    <div class="eyebrow reveal" style="display:none"></div>
+
+    <h1 class="display">
+      <span class="l">以 <span class="it">AI-native</span> 的方式</span>
+      <span class="l">加入团队<span class="accent">.</span></span>
+    </h1>
+
+    <p class="hero-sub reveal">
+      GitHire 是为 AI-native 团队打造的入职与训练入口。我们把 Claude Code、Codex、GitHub 的协作流程，与日常沉淀下来的工作习惯，串成一段可以滚动、可以练习、也可以反复回看的学习旅程。
+      <span class="en">A guided learning entrance into how teams build with AI — calm, visual, scrollable.</span>
+    </p>
+
+    <div class="hero-meta reveal">
+      <div class="cell"><span class="k">EST. TIME</span><span class="v">~ 30 分钟</span></div>
+    </div>
+
+    <!-- floating workflow ornament -->
+    <svg class="hero-ornament" viewBox="0 0 460 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="230" cy="190" r="180" fill="none" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="2 6"/>
+      <circle cx="230" cy="190" r="120" fill="none" stroke="currentColor" stroke-opacity=".15" stroke-dasharray="2 6"/>
+
+      <path class="flow" d="M70 90 Q 150 50 230 80 T 390 130" stroke="currentColor" stroke-width="1" stroke-opacity=".55"/>
+      <path class="flow" d="M70 90 Q 90 180 140 230" stroke="currentColor" stroke-width="1" stroke-opacity=".4"/>
+      <path class="flow" d="M390 130 Q 380 220 320 270" stroke="currentColor" stroke-width="1" stroke-opacity=".4"/>
+      <path class="flow" d="M140 230 Q 230 280 320 270" stroke="currentColor" stroke-width="1" stroke-opacity=".55" stroke-dasharray="2 4"/>
+      <path class="flow" d="M140 230 Q 180 320 230 340" stroke="currentColor" stroke-width="1" stroke-opacity=".4"/>
+      <path class="flow" d="M320 270 Q 280 320 230 340" stroke="currentColor" stroke-width="1" stroke-opacity=".4"/>
+
+      <g>
+        <circle class="node" cx="70" cy="90" r="5" fill="currentColor"/>
+        <circle class="node delay-1" cx="230" cy="80" r="5" fill="currentColor"/>
+        <circle class="node delay-2" cx="390" cy="130" r="5" fill="currentColor"/>
+        <circle class="node delay-3" cx="140" cy="230" r="5" fill="currentColor"/>
+        <circle class="node delay-1" cx="320" cy="270" r="5" fill="currentColor"/>
+        <circle class="node delay-2" cx="230" cy="340" r="5" fill="currentColor"/>
+      </g>
+
+      <circle cx="230" cy="80" r="11" fill="none" stroke="var(--accent)" stroke-width="1"/>
+      <circle cx="320" cy="270" r="11" fill="none" stroke="var(--accent)" stroke-width="1"/>
+
+      <g font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" fill-opacity=".7">
+        <text x="82" y="84">issue</text>
+        <text x="244" y="74">claude-code</text>
+        <text x="404" y="126">codex</text>
+        <text x="152" y="224">sandbox</text>
+        <text x="332" y="264">architect</text>
+        <text x="244" y="338">production</text>
+      </g>
+    </svg>
+
+  </div>
+</header>
+
+<!-- ============================================================
+     WORKFLOW intro
+     ============================================================ -->
+<section class="chapter" id="workflow-intro" data-screen-label="02 Workflow Intro">
+  <div class="wrap">
+    <div class="chapter-head reveal-stagger">
+      <div class="section-tag">
+        <span class="num">§ 01</span>
+        <span class="bar" aria-hidden="true"></span>
+        <span>HOW WE WORK TOGETHER</span>
+      </div>
+      <div>
+        <h2 class="section-title">从 Issue 到上线，<br/><span class="it">我们是怎么一起工作的</span><span class="accent">.</span></h2>
+        <p class="section-lede">
+          一份想法是如何走进生产环境的。这条路径不是规则，而是一条被反复验证、可以打断、可以回退的默认线。继续向下滚动，看着它一步一步亮起来。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WORKFLOW — pinned 6-step pipeline
+     ============================================================ -->
+<section class="pinned workflow-stage" id="workflow" data-screen-label="03 Workflow Stage" style="height: 600vh">
+  <div class="pin-stage">
+    <div class="pin-grid" aria-hidden="true"></div>
+
+    <div class="wrap">
+      <div class="workflow-frame">
+
+        <div class="wf-header">
+          <h3 class="title">Issue · Sandbox · AI · 架构师 · 上线 ——<br/><span class="it">交付一次完整的改动。</span></h3>
+          <div class="meta">SCROLL · 06 STEPS · 一步一步亮起</div>
+        </div>
+
+        <div class="wf-diagram" role="list">
+          <div class="wf-line" aria-hidden="true"><div class="fill"></div></div>
+
+          <div class="wf-node is-active" role="listitem">
+            <div class="marker">01</div>
+            <div class="lab">ISSUE</div>
+            <div class="zh">提出 Issue</div>
+          </div>
+          <div class="wf-node" role="listitem">
+            <div class="marker">02</div>
+            <div class="lab">SANDBOX</div>
+            <div class="zh">沙盒环境</div>
+          </div>
+          <div class="wf-node" role="listitem">
+            <div class="marker">03</div>
+            <div class="lab">EXECUTE · PR</div>
+            <div class="zh">执行任务 · 发起 PR</div>
+          </div>
+          <div class="wf-node" role="listitem">
+            <div class="marker">04</div>
+            <div class="lab">AI REVIEW</div>
+            <div class="zh">由另一位 AI 审核</div>
+          </div>
+          <div class="wf-node" role="listitem">
+            <div class="marker">05</div>
+            <div class="lab">ARCHITECT</div>
+            <div class="zh">架构师评审</div>
+          </div>
+          <div class="wf-node" role="listitem">
+            <div class="marker">06</div>
+            <div class="lab">PROD</div>
+            <div class="zh">上线生产</div>
+          </div>
+        </div>
+
+        <div class="wf-detail">
+          <div class="wf-info">
+
+            <div class="panel is-active" data-file="issue/421" data-badge="WRITING">
+              <span class="step-num">STEP 01 ／ 06</span>
+              <h4>从一个 Issue 开始<span class="en">ISSUE · 提出问题</span></h4>
+              <p>一切从一个 Issue 开始。先用一两句话把"为谁解决什么"写清楚——能讲明白的需求，才值得进入下一步。Issue 是这次工作的起点，也会是它最后的归处。</p>
+            </div>
+
+            <div class="panel" data-file="sandbox/dev-env" data-badge="DEV ENV">
+              <span class="step-num">STEP 02 ／ 06</span>
+              <h4>进入开发沙盒<span class="en">SANDBOX · 持续的开发环境</span></h4>
+              <p>沙盒就是我们的开发环境，长期运行、随时可用。它不是一次性的临时容器——它保留依赖、缓存与既有数据，让 AI 能在真实的上下文里工作，而不是从零开始。</p>
+            </div>
+
+            <div class="panel" data-file="agents/claude · codex" data-badge="EXECUTE">
+              <span class="step-num">STEP 03 ／ 06</span>
+              <h4>执行任务 · 发起 PR<span class="en">EXECUTE · Claude Code 或 Codex</span></h4>
+              <p>把 Issue 交给 Claude Code 或 Codex，由它在沙盒里完成具体的实现：写代码、跑测试、迭代修复。完成之后，它会把分支 push 到远程并发起一份 PR——这次工作的交付，到这里才算落地。</p>
+            </div>
+
+            <div class="panel" data-file="review/ai-second" data-badge="AI REVIEW">
+              <span class="step-num">STEP 04 ／ 06</span>
+              <h4>由另一位 AI 审核 PR<span class="en">AI REVIEW · 双 AI 互审</span></h4>
+              <p>这一步交给另一位 Claude Code 或 Codex 来做。它读完整份 PR，结合 CI 与静态检查的结果，给出可执行的修改意见——双 AI 互审，让显性问题在这里就被拦下来，再进入人类的视野。</p>
+            </div>
+
+            <div class="panel is-key" data-file="review/architect" data-badge="HUMAN · KEY STEP">
+              <span class="step-num">STEP 05 ／ 06 · 关键一步</span>
+              <h4>人类架构师评审<span class="en">ARCHITECT REVIEW · 专家把关</span></h4>
+              <p>这一步是整条流程的核心。由人类专家架构师来判断这次改动是否符合系统的方向、是否引入隐性债务、是否值得上线。AI 提供线索，决定权始终落在人身上——架构师的签字，是这次改动真正的通行证。</p>
+            </div>
+
+            <div class="panel" data-file="deploy/prod" data-badge="LIVE">
+              <span class="step-num">STEP 06 ／ 06</span>
+              <h4>合并并上线<span class="en">PRODUCTION · 正式发布</span></h4>
+              <p>架构师签字之后，PR 合入主干、部署到生产环境。这一次的决定与产物——可复用的 Skill、Checklist、评审记录——都会回写到 Issue 上，留给下一次接手的人。</p>
+            </div>
+
+          </div>
+
+          <div class="wf-card">
+            <div class="wf-card-inner">
+              <div class="wf-card-bar">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <div class="name">issue/421</div>
+                <div class="badge">WRITING</div>
+              </div>
+              <div class="wf-card-body">
+
+                <pre class="wf-card-scene is-active"><span class="head">issue · #421</span><span class="kw">title:</span> <span class="str">"PromptCard 复制按钮替换为可命名卡片"</span>
+<span class="kw">for:</span>      <span class="str">"刚加入团队的工程师"</span>
+<span class="kw">solving:</span>  <span class="str">"按 / 调用 prompt 时找不到来源"</span>
+<span class="cmt"># 一句话能讲清楚 — 才进入下一步</span></pre>
+
+                <pre class="wf-card-scene"><span class="head">sandbox · 持续开发环境</span><span class="pr">$</span> githire dev attach issue/421
+<span class="dim">→ 复用既有的 dev 环境</span>
+<span class="dim">→ 拉取最近一次绿色构建</span>
+<span class="dim">→ 依赖、缓存、测试数据都在</span>
+<span class="ok">✓ ready · 4.1s</span>
+<span class="cmt"># 沙盒持续运行，不会被自动关闭</span></pre>
+
+                <pre class="wf-card-scene"><span class="head">execute · claude-code</span><span class="pr">›</span> 阅读 issue/421 · 实现需求
+<span class="dim">→ docs/index.md · CopyButton.tsx · PromptCard.tsx</span>
+<span class="ok">✓ 沙盒里跑通 · 28+ ／ 12-</span>
+<span class="pr">$</span> git push origin issue/421 &amp;&amp; gh pr create
+<span class="ok">✓ pr · #1287 已发起</span>
+<span class="cmt"># 实现 + 提 PR · 都在这一步完成</span></pre>
+
+                <pre class="wf-card-scene"><span class="head">ai review · 另一位 codex</span><span class="pr">›</span> 读完整份 PR · 给出建议
+<span class="dim">↳ CI · lint · type-check 全绿</span>
+<span class="dim">↳ AI Code Review · 6 条建议</span>
+<span class="warn">! </span>PromptCardCopy 与 CopyButton 命名重复
+<span class="ok">✓ </span>显性问题已拦下 · 等待架构师评审</pre>
+
+                <pre class="wf-card-scene"><span class="head">architect review · 关键一步</span><span class="kw">reviewer:</span> <span class="str">"@yui · 架构师"</span>
+<span class="kw">scope:</span>    <span class="str">"系统方向 · 边界 · 隐性债务"</span>
+<span class="kw">verdict:</span>  <span class="str">"approved · 1 nit"</span>
+<span class="kw">why:</span>      <span class="str">"与现有命名一致 · 不引入新的耦合"</span>
+<span class="cmt"># 这一步的签字，是真正的通行证</span></pre>
+
+                <pre class="wf-card-scene"><span class="head">deploy · production</span><span class="ok">✓ 合并主干 · ✓ 上线生产 · ✓ 写回 Issue</span>
+<span class="dim">→ skills/review.md · v3 +1</span>
+<span class="dim">→ checklists/first-pr.md · 引用 +1</span>
+<span class="cmt"># 留下可被下一次工作复用的痕迹</span></pre>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     RITUALS — small habits that make collaboration work
+     ============================================================ -->
+<section class="rituals-wrap" id="rituals" data-screen-label="04 Rituals">
+  <div class="wrap">
+    <div class="chapter-head reveal-stagger" style="margin-bottom: 36px">
+      <div class="section-tag">
+        <span class="num">§ 02</span>
+        <span class="bar" aria-hidden="true"></span>
+        <span>RITUALS</span>
+      </div>
+      <div>
+        <h2 class="section-title" style="font-size: clamp(28px, 3.6vw, 44px); margin-bottom: 12px;">流水线之外，<br/><span class="it">那些让协作成立的</span>小习惯<span class="accent">.</span></h2>
+        <p class="section-lede">流程负责"做什么"，习惯负责"在什么节奏里做"。下面这四件事，是我们用来让 AI-native 协作真正运转起来的最小集。</p>
+      </div>
+    </div>
+
+    <div class="rituals reveal">
+      <article class="ritual">
+        <span class="num">RITUAL · 01</span>
+        <h3>一日的形状<span class="en">THE SHAPE OF A DAY</span></h3>
+        <p>每天早晨花一分钟，写下今天最重要的那个 Issue。它不是任务清单，而是这一天的锚点——所有的对话、改动、PR，都围绕它发生。</p>
+        <ul class="bullets">
+          <li><span class="k">MORNING</span><span>写下 #today —— 当日最重要的 Issue</span></li>
+          <li><span class="k">DURING</span><span>所有改动都挂在这条 Issue 下面</span></li>
+          <li><span class="k">EVENING</span><span>用一句话回写今天的进展或决定</span></li>
+        </ul>
+      </article>
+
+      <article class="ritual">
+        <span class="num">RITUAL · 02</span>
+        <h3>架构师与开发者<span class="en">ARCHITECT &amp; DEVELOPERS</span></h3>
+        <p>架构师拥有方向上的最终决策权；开发者围绕 Issue 进行开发，通过 Issue 与 PR 与架构师对话。评审与决策落在 GitHub 上，飞书留给当下需要立刻对齐的事。</p>
+        <ul class="bullets">
+          <li><span class="k">ARCHITECT</span><span>方向与边界的最终决策权</span></li>
+          <li><span class="k">DEVELOPER</span><span>围绕 Issue 开发 · 在 PR 中对话</span></li>
+          <li><span class="k">CHANNEL</span><span>评审在 GitHub · 即时同步在飞书</span></li>
+        </ul>
+      </article>
+
+      <article class="ritual">
+        <span class="num">RITUAL · 03</span>
+        <h3>Issue 与 PR 的追踪<span class="en">EVERY ISSUE IS TRACKED</span></h3>
+        <p>每一个 Issue 都有一条对应的 PR 来追踪它的执行过程，PR 上的评论会被完整保留下来——下一个接手的人，可以从 Issue 一路读到当时是怎么决定的。</p>
+        <ul class="bullets">
+          <li><span class="k">LINK</span><span>每个 Issue 对应一条 PR · 一一映射</span></li>
+          <li><span class="k">KEEP</span><span>PR 评论作为决策记录长期保留</span></li>
+          <li><span class="k">READ</span><span>新成员从 Issue → PR 还原历史</span></li>
+        </ul>
+      </article>
+
+      <article class="ritual">
+        <span class="num">RITUAL · 04</span>
+        <h3>从 Prompt 到 Skill<span class="en">FROM PROMPT TO SKILL</span></h3>
+        <p>一份 Prompt 被反复用过、值得保留下来，就会被沉淀成一个 Skill——带名字、带说明、可被引用。Skill 是团队真正在沉淀的工件。</p>
+        <ul class="bullets">
+          <li><span class="k">SKILL</span><span>review · sandbox · rollback · architect-brief</span></li>
+          <li><span class="k">CHECK</span><span>first-pr · oncall-handover · post-incident</span></li>
+          <li><span class="k">USAGE</span><span>在 Claude Code 或 Codex 中通过 /use 调用</span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SKILLS — coda
+     ============================================================ -->
+<section class="prompt-after" id="skills" data-screen-label="05 Skills">
+  <div class="wrap">
+    <div class="prompt-after-head reveal-stagger">
+      <div class="section-tag">
+        <span class="num">§ 03</span>
+        <span class="bar" aria-hidden="true"></span>
+        <span>SKILLS · 第一周</span>
+      </div>
+      <div>
+        <h2 class="pa-title">把这条路径<br/><span class="it">变成可以引用的工件</span><span class="accent">.</span></h2>
+        <p class="lede">每一次走完这条流程，就留下一个可复用的 Skill 与一份 Checklist——下一位新成员，将不再从零开始。</p>
+      </div>
+    </div>
+
+    <div class="prompt-grid reveal">
+      <div class="prompt-card">
+        <div class="prompt-head">
+          <div class="l">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <span>skills/architect-review.md  ·  v3</span>
+          </div>
+          <button class="prompt-copy" type="button">COPY</button>
+        </div>
+        <div class="prompt-body"><span class="cmt"># Skill — Architect Review Brief</span>
+<span class="kw">name</span>:     <span class="str">"architect-review"</span>
+<span class="kw">role</span>:     <span class="str">"为架构师准备一份评审简报"</span>
+<span class="kw">summarize</span>:
+  - 这次改动解决的根因是什么
+  - 与系统现有方向是否一致 · 是否引入新耦合
+  - 风险点 · 回滚成本 · 监控信号
+  - 命名与注释是否站得住脚
+<span class="kw">output</span>:   <span class="str">"≤ 8 行 · 让架构师在两分钟内能下判断"</span></div>
+      </div>
+
+      <div class="checklist">
+        <h5>第一周 Checklist<span class="en">FIRST WEEK · 7 ITEMS</span></h5>
+        <ul class="check-list">
+          <li class="done"><span class="box"></span><span class="t">完成账号、SSH、本地接入沙盒环境</span><span class="meta">DAY 1</span></li>
+          <li class="done"><span class="box"></span><span class="t">阅读《How we work together》主流程</span><span class="meta">DAY 1</span></li>
+          <li><span class="box"></span><span class="t">用 Claude Code 在沙盒里完成一次小改动</span><span class="meta">DAY 2</span></li>
+          <li><span class="box"></span><span class="t">由 Codex 接手 · 提交第一份 PR</span><span class="meta">DAY 3</span></li>
+          <li><span class="box"></span><span class="t">在 Issue 上写下你的"接手记录"</span><span class="meta">DAY 4</span></li>
+          <li><span class="box"></span><span class="t">参加一次架构师评审 · 旁听并提问</span><span class="meta">DAY 5</span></li>
+          <li><span class="box"></span><span class="t">提交第一份面向生产的 PR</span><span class="meta">DAY 5</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FINAL CTA
+     ============================================================ -->
+<section class="cta" data-screen-label="06 CTA">
+  <div class="wrap">
+    <div class="cta-eye reveal">END OF ONBOARDING · 入职完成</div>
+    <h2 class="cta-title reveal">你已经准备好<br/>以 <span class="it">AI-native</span> 的方式工作。</h2>
+    <p class="cta-en reveal">You are ready to build with AI — calmly, deliberately, alongside the team.</p>
+
+    <div class="cta-tick reveal">
+      <span><span class="d"></span> 主流程已对齐</span>
+      <span><span class="d"></span> 4 条习惯已内化</span>
+      <span><span class="d"></span> 沙盒环境已就绪</span>
+      <span><span class="d"></span> 第一份 PR 等你提交</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+
+    <div class="foot-colophon">
+      <div class="cf-cell">
+        <span class="k">AUTHOR</span>
+        <a class="v" href="https://github.com/realRoc" target="_blank" rel="noopener">
+          <span>realRoc</span>
+          <svg class="ext" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3.5 2.5h6v6M9.5 2.5L3 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </a>
+      </div>
+      <div class="cf-cell">
+        <span class="k">REPOSITORY</span>
+        <a class="v" href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">
+          <span>github.com/realRoc/git-hired</span>
+          <svg class="ext" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3.5 2.5h6v6M9.5 2.5L3 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </a>
+      </div>
+      <div class="cf-cell">
+        <span class="k">LICENSE</span>
+        <span class="v"><span class="dot" aria-hidden="true"></span>MIT · Open Source</span>
+      </div>
+    </div>
+
+    <div class="foot-bot">
+      <span>© 2026 realRoc · v2.0.1 · Last updated May 10, 2026</span>
+      <a class="foot-top" href="#top">
+        <span>返回顶部</span>
+        <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 10V2M2.5 5.5L6 2l3.5 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+  </div>
+</footer>
+
+<script src="githire-scroll.js"></script>
+</body>
+</html>
