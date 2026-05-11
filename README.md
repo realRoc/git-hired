@@ -5,6 +5,7 @@ A scroll-based onboarding entrance for AI-native teams.
 ## Files
 
 - `index.html` — page markup (Hero · Workflow · Rituals · Skills · CTA · Footer)
+- `news.html` — placeholder News route with expandable index lanes
 - `githire.css` — full stylesheet (design tokens, layout, scroll-pinned scenes)
 - `githire-scroll.js` — scroll-driven choreography (workflow timeline, rituals, journey scenes)
 
@@ -26,6 +27,7 @@ CSS custom properties live at the top of `githire.css` under `:root` — paper /
 ## Notes for re-implementation
 
 - Fixed top nav with `Let's talk` (mailto) + `Menu` (dropdown → Home / back to top).
+- Menu links are real route / anchor links, with Home section indexes and a News route entry.
 - Each major section (`#workflow`, `#rituals`, `#skills`) is a scroll-pinned stage; the `.pin-stage` wrapper sits inside a tall `.pin-track` so the inner scene plays as the user scrolls. Logic in `githire-scroll.js`.
 - Workflow has 6 steps: Issue → Sandbox → Execute & PR → AI review → Architect review → Ship.
 - Footer uses a `$ whoami` terminal block with author + repo + license.

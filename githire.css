@@ -120,11 +120,11 @@ nav.top{
 .menu-panel{
   position: absolute;
   top: calc(100% + 6px); right: 0;
-  width: 260px;
+  width: min(320px, calc(100vw - 40px));
   background: var(--paper);
   border: 1px solid var(--line-strong);
   border-radius: 6px;
-  padding: 6px;
+  padding: 8px;
   box-shadow: 0 24px 48px -22px color-mix(in oklab, var(--ink) 22%, transparent);
   opacity: 0; transform: translateY(-4px); pointer-events: none;
   transition: opacity .2s var(--ease), transform .2s var(--ease);
@@ -133,9 +133,24 @@ nav.top{
 .menu-panel[aria-hidden="false"]{
   opacity: 1; transform: none; pointer-events: auto;
 }
+.menu-group + .menu-group{
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+.menu-label{
+  padding: 7px 12px 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
 .menu-item{
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 14px;
+  gap: 18px;
+  padding: 11px 12px;
   font-family: var(--sans);
   font-size: 14px;
   font-weight: 500;
@@ -145,6 +160,15 @@ nav.top{
   transition: background .15s var(--ease);
 }
 .menu-item:hover{ background: color-mix(in oklab, var(--ink) 5%, transparent); }
+.menu-item span:last-child:not(.dot){
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
 .menu-item .dot{
   width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
 }
@@ -332,14 +356,6 @@ h1.display .accent{ color: var(--accent-ink); }
   to{ stroke-dashoffset: -640; }
 }
 
-.scroll-cue{
-  position: absolute; left: 0; bottom: 32px;
-  display: flex; align-items: center; gap: 12px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--ink-3);
-}
-@media (max-width: 760px){ .scroll-cue{ position: static; margin-top: 56px; } }
-
 /* ───────── RITUALS — How we work together ───────── */
 .rituals-wrap{
   padding: clamp(40px, 6vw, 80px) 0 clamp(72px, 10vw, 140px);
@@ -400,13 +416,6 @@ h1.display .accent{ color: var(--accent-ink); }
   color: var(--ink-4); text-transform: uppercase;
   min-width: 60px;
 }
-.scroll-cue .line{ width: 60px; height: 1px; background: var(--ink-4); position: relative; overflow: hidden; }
-.scroll-cue .line::after{
-  content:""; position:absolute; left:-30%; top:0; width:30%; height:100%;
-  background: var(--ink); animation: trail 2.6s ease-in-out infinite;
-}
-@keyframes trail{ 0%{left:-30%;} 60%{left:100%;} 100%{left:100%;} }
-
 /* ───────── intro / chapter card ───────── */
 .chapter{
   padding: clamp(80px, 11vw, 160px) 0 clamp(24px, 4vw, 60px);
@@ -1089,62 +1098,12 @@ footer{
   color: var(--ink-3);
   font-size: 13px;
 }
-.foot-mark{
-  display: flex; align-items: center; gap: 10px;
-  margin-bottom: 36px;
-}
-.foot-mark .brand-dot{
-  width: 22px; height: 22px; border-radius: 50%;
-  background:
-    radial-gradient(circle at 32% 32%, var(--paper) 0 22%, transparent 23%),
-    var(--ink);
-  box-shadow: none;
-}
-.foot-mark .brand-name{
-  font-family: 'Newsreader', serif;
-  font-style: italic;
-  font-size: 28px;
-  font-weight: 500;
-  letter-spacing: -.025em;
-  color: var(--ink);
-  line-height: 1;
-}
-.foot-mark .v-pill{
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .04em;
-  color: var(--ink-3);
-  border: 1px solid var(--line);
-  padding: 2px 6px; border-radius: 3px;
-}
 .ft-mono{
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: .14em;
   color: var(--ink-4);
 }
-.foot-slogan{
-  font-family: var(--serif);
-  font-weight: 300;
-  font-size: clamp(40px, 6vw, 84px);
-  line-height: 1.04;
-  letter-spacing: -.02em;
-  color: var(--ink);
-  margin: 0 0 18px;
-  max-width: 18ch;
-}
-.foot-slogan .it{ font-style: italic; color: var(--ink-2); }
-.foot-slogan .accent{ color: var(--accent); }
-.foot-en{
-  font-family: 'Newsreader', serif;
-  font-style: italic;
-  font-size: clamp(16px, 1.6vw, 20px);
-  font-weight: 300;
-  color: var(--ink-3);
-  margin: 0 0 64px;
-  max-width: 56ch;
-}
-.foot-en .accent-en{ color: var(--accent); }
 
 .foot-colophon{
   display: grid;
@@ -1211,24 +1170,72 @@ footer{
   flex-wrap: wrap; gap: 12px;
   font-family: var(--mono); font-size: 11px; color: var(--ink-4); letter-spacing: .08em;
 }
-.foot-top{
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 14px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--ink-3);
-  text-decoration: none;
-  letter-spacing: .14em;
+/* ───────── NEWS ───────── */
+.news-page{
+  min-height: 100vh;
+  padding-top: 84px;
+  background:
+    radial-gradient(circle at 16% 20%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 28%),
+    var(--paper);
+}
+.news-hero{
+  min-height: calc(100vh - 84px);
+  display: grid;
+  align-items: center;
+  padding: 80px 0;
+}
+.news-kicker{
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  color: var(--muted);
   text-transform: uppercase;
-  transition: color .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease);
 }
-.foot-top svg{ width: 11px; height: 11px; transition: transform .25s var(--ease); }
-.foot-top:hover{
+.news-title{
+  max-width: 920px;
+  margin: 18px 0 20px;
+  font-family: var(--serif);
+  font-size: clamp(54px, 11vw, 140px);
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: -.05em;
+}
+.news-lede{
+  max-width: 680px;
+  color: var(--muted);
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.75;
+}
+.news-index{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 44px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+.news-index a{
+  display: grid;
+  gap: 10px;
+  min-height: 150px;
+  padding: 22px;
+  background: color-mix(in oklab, var(--paper) 92%, white);
+  text-decoration: none;
+}
+.news-index span{
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.news-index strong{
   color: var(--ink);
-  border-color: color-mix(in oklab, var(--ink) 30%, transparent);
-  background: color-mix(in oklab, var(--ink) 3%, transparent);
+  font-size: 20px;
+  font-weight: 500;
 }
-.foot-top:hover svg{ transform: translateY(-2px); }
+@media (max-width: 760px){
+  .news-index{ grid-template-columns: 1fr; }
+}
 
 /* ───────── reveal-on-enter ───────── */
 .reveal{ opacity: 0; transform: translateY(14px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
