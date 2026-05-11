@@ -33,6 +33,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: Reject committed PostHog tokens
+        run: |
+          matches="$(git grep -Il -E 'phc_[A-Za-z0-9_]+' -- . || true)"
+          if [ -n "$matches" ]; then
+            echo "PostHog project tokens must not be committed. Matching files:"
+            printf '%s\n' "$matches"
+            exit 1
+          fi
+
       - name: Validate published docs bundle
         run: |
           python3 - <<'PY'
