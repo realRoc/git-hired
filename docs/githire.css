@@ -20,6 +20,14 @@
   --max:        1280px;
   --gutter:     clamp(20px, 4vw, 56px);
   --rhythm:     clamp(80px, 12vw, 160px);
+
+  --stage-opacity: 1;
+  --hero-wash: 0.2;
+  --definition-opacity: 1;
+  --definition-y: 0px;
+  --closer-overlay: 0.25;
+  --closer-beam-opacity: 0.42;
+  --closer-beam-y: -28px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -62,6 +70,8 @@ button { font: inherit; }
   z-index: 0;
   pointer-events: none;
   display: block;
+  opacity: var(--stage-opacity);
+  transition: opacity 80ms linear;
 }
 
 main, .topnav, .site-foot { position: relative; z-index: 1; }
@@ -220,13 +230,35 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
 /* ── ACT 1 · Hero ────────────────────────────────────────────── */
 
 .scene-intro{
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding-top: calc(var(--rhythm) + 24px);
+  overflow: hidden;
+}
+.scene-intro::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: clamp(180px, 26vh, 320px);
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(246, 241, 232, 0) 0%,
+      rgba(246, 241, 232, 0.52) 46%,
+      var(--paper) 100%
+    );
+  opacity: var(--hero-wash);
+  z-index: 0;
 }
 .hero-content{
+  position: relative;
+  z-index: 1;
   max-width: var(--max);
   margin: 0 auto;
   text-align: center;
@@ -261,6 +293,7 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
 .scroll-hint{
   position: absolute;
   bottom: 36px; left: 0; right: 0;
+  z-index: 1;
   text-align: center;
   font-family: var(--font-serif);
   font-style: italic;
@@ -273,6 +306,29 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
 
 /* ── ACT 2 · Definition ──────────────────────────────────────── */
 
+.scene-definition{
+  position: relative;
+  margin-top: -1px;
+  background:
+    linear-gradient(to bottom, var(--paper) 0%, rgba(246,241,232,0.96) 28%, rgba(246,241,232,0) 70%);
+}
+.scene-definition::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: clamp(96px, 14vw, 180px);
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--paper), rgba(246,241,232,0));
+}
+.scene-definition .wrap{
+  position: relative;
+  z-index: 1;
+  opacity: var(--definition-opacity);
+  transform: translateY(var(--definition-y));
+  transition: opacity 80ms linear, transform 80ms linear;
+}
 .scene-definition .definition-line{
   font-family: var(--font-serif);
   font-size: clamp(30px, 4.4vw, 56px);
@@ -767,6 +823,36 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
 
 /* ── ACT 5 · FAQ ─────────────────────────────────────────────── */
 
+.scene-faq{
+  position: relative;
+  z-index: 1;
+  padding-bottom: calc(var(--rhythm) + clamp(48px, 8vw, 120px));
+  overflow: hidden;
+  background: var(--paper);
+}
+.scene-faq .wrap{
+  position: relative;
+  z-index: 2;
+}
+.scene-faq::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: clamp(180px, 24vw, 320px);
+  pointer-events: none;
+  z-index: 1;
+  opacity: var(--closer-overlay);
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(246,241,232,0) 0%,
+      rgba(246,241,232,0.72) 16%,
+      rgba(65,61,55,0.55) 58%,
+      #0F0F10 100%
+    );
+}
 .faq-list{
   border-top: 1px solid var(--line);
 }
@@ -855,12 +941,41 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
 }
 
 .scene-closer{
+  position: relative;
+  overflow: hidden;
   text-align: center;
+  padding-top: calc(var(--rhythm) + clamp(44px, 6vw, 96px));
   padding-bottom: calc(var(--rhythm) + 32px);
+  margin-top: -1px;
 }
 .scene-closer.is-dark{
   background: #0F0F10;
   color: #F4EFE5;
+}
+.scene-closer::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: clamp(180px, 24vw, 360px);
+  pointer-events: none;
+  opacity: var(--closer-beam-opacity);
+  background:
+    linear-gradient(to bottom, rgba(244,239,229,0.12) 0%, rgba(15,15,16,0.2) 36%, rgba(15,15,16,0) 100%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(244,239,229,0.08) 0 2px,
+      transparent 2px 28px,
+      rgba(217,119,87,0.2) 28px 30px,
+      transparent 30px 64px
+    );
+  transform: translateY(var(--closer-beam-y));
+  transition: opacity 80ms linear, transform 80ms linear;
+}
+.scene-closer .wrap{
+  position: relative;
+  z-index: 1;
 }
 .scene-closer.is-dark .meta{ color: rgba(244,239,229,0.55); }
 .scene-closer.is-dark .closer-line{ color: #F4EFE5; }

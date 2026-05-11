@@ -89,13 +89,32 @@ if (stage) {
 })();
 (() => {
   const hero = document.querySelector('.scene-intro');
+  const closer = document.querySelector('.scene-closer');
   if (!hero) return;
+  const root = document.documentElement;
+  const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+  const smoothstep = (edge0, edge1, value) => {
+    const t = clamp((value - edge0) / Math.max(0.001, edge1 - edge0));
+    return t * t * (3 - 2 * t);
+  };
   let raf = 0;
   const update = () => {
     raf = 0;
     const h = hero.offsetHeight || window.innerHeight;
-    const t = Math.min(1, Math.max(0, window.scrollY / (h * 0.85)));
+    const t = clamp(window.scrollY / (h * 0.85));
+    const stageFade = smoothstep(0.48, 0.96, t);
     hero.style.setProperty('--hero-exit', t.toFixed(3));
+    root.style.setProperty('--stage-opacity', (1 - stageFade).toFixed(3));
+    root.style.setProperty('--hero-wash', (0.2 + stageFade * 0.8).toFixed(3));
+    root.style.setProperty('--definition-opacity', (0.72 + stageFade * 0.28).toFixed(3));
+    root.style.setProperty('--definition-y', `${((1 - stageFade) * 18).toFixed(2)}px`);
+    if (closer) {
+      const r = closer.getBoundingClientRect();
+      const closerT = smoothstep(0, window.innerHeight * 0.82, window.innerHeight - r.top);
+      root.style.setProperty('--closer-overlay', (0.25 + closerT * 0.75).toFixed(3));
+      root.style.setProperty('--closer-beam-opacity', (0.42 + closerT * 0.58).toFixed(3));
+      root.style.setProperty('--closer-beam-y', `${((1 - closerT) * -28).toFixed(2)}px`);
+    }
     if (stage && stage.scenes) {
       const intro = stage.scenes.find && stage.scenes.find((s) => s.name === 'intro');
       const sceneObj = intro && intro.scene;
