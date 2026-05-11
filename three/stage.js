@@ -1,11 +1,7 @@
-// GitHire v5 · Three stage. Owns the renderer, camera, scene tree, post-FX
-// composer, and a per-section activation tracker so scenes can fade in/out.
+// GitHire v5 · Three stage. Owns the renderer, camera, scene tree,
+// and a lightweight per-section activation tracker.
 
 import * as THREE from 'three';
-import { EffectComposer }    from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass }        from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass }   from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { ShaderPass }        from 'three/addons/postprocessing/ShaderPass.js';
 
 // Brand palette — keep in sync with githire.css.
 export const PAL = {
@@ -18,35 +14,6 @@ export const PAL = {
   lilac:  new THREE.Color('#B7B1D9'),
 };
 
-// ── A tiny film-grain pass (paper texture feel) ────────────────
-const GrainShader = {
-  uniforms: {
-    tDiffuse: { value: null },
-    uTime:    { value: 0 },
-    uAmount:  { value: 0.07 },
-  },
-  vertexShader: /* glsl */`
-    varying vec2 vUv;
-    void main(){
-      vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `,
-  fragmentShader: /* glsl */`
-    uniform sampler2D tDiffuse;
-    uniform float uTime;
-    uniform float uAmount;
-    varying vec2 vUv;
-    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
-    void main(){
-      vec4 col = texture2D(tDiffuse, vUv);
-      float n = hash(vUv * vec2(1920.0, 1080.0) + uTime * 23.7);
-      col.rgb += (n - 0.5) * uAmount;
-      gl_FragColor = col;
-    }
-  `,
-};
-
 export class Stage {
   constructor(canvas){
     this.canvas = canvas;
@@ -54,11 +21,11 @@ export class Stage {
       canvas,
       antialias: false,
       alpha: false,
-      preserveDrawingBuffer: true,
       powerPreference: 'high-performance',
     });
-    // Clamp DPR — bloom + grain at native DPR is the main cost.
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    this.dprCap = isCoarsePointer ? 1 : 1.25;
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.dprCap));
     this.renderer.setClearColor(PAL.paper, 1);
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
 
@@ -72,38 +39,29 @@ export class Stage {
     this.world = new THREE.Group();
     this.scene.add(this.world);
 
-    // ── Composer ────────────────────────────────────────────
-    this.composer = new EffectComposer(this.renderer);
-    this.composer.addPass(new RenderPass(this.scene, this.camera));
-
-    this.bloom = new UnrealBloomPass(
-      new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2),
-      0.42,   // strength — keep the scanner warm without washing out paper
-      0.52,   // radius
-      0.92,   // threshold — prevent the light paper background from blooming
-    );
-    this.composer.addPass(this.bloom);
-
-    this.grain = new ShaderPass(GrainShader);
-    this.grain.uniforms.uAmount.value = 0.05;
-    this.composer.addPass(this.grain);
-    // No FXAA — composer is already a downsample chain; bloom hides aliasing.
-
     this.scenes = []; // [{ name, el, scene, activation, progress }]
     this.clock  = new THREE.Clock();
     this.mouse  = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
+    this._scrollDirty = true;
+    this._needsRender = true;
+    this._hasAnimatedScene = true;
+    this._lastRenderMs = 0;
 
     this._onResize();
     window.addEventListener('resize', () => this._onResize(), { passive: true });
+    window.addEventListener('scroll', () => {
+      this._scrollDirty = true;
+      this._needsRender = true;
+    }, { passive: true });
     window.addEventListener('pointermove', (e) => {
       this.mouse.tx = e.clientX / window.innerWidth;
       this.mouse.ty = e.clientY / window.innerHeight;
+      this._needsRender = true;
     }, { passive: true });
 
-    // Pause when canvas is off-screen (covered by Lenis at top? no — full-page bg)
-    // so we instead pause when the tab is hidden.
     document.addEventListener('visibilitychange', () => {
       this._paused = document.hidden;
+      if (!this._paused) this._needsRender = true;
     });
   }
 
@@ -121,11 +79,13 @@ export class Stage {
     const W = window.innerWidth;
     const H = window.innerHeight;
     this.W = W; this.H = H;
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.dprCap));
     this.renderer.setSize(W, H, false);
-    this.composer.setSize(W, H);
     this.camera.aspect = W / H;
     this.camera.updateProjectionMatrix();
     this.scenes.forEach((s) => s.scene && s.scene.onResize && s.scene.onResize(W, H));
+    this._scrollDirty = true;
+    this._needsRender = true;
   }
 
   _updateActivations(){
@@ -143,24 +103,30 @@ export class Stage {
 
   _frame(time){
     if (this._paused) return;
+    const now = typeof time === 'number' ? time : performance.now();
+    const shouldAnimate = this._hasAnimatedScene;
+    const minFrameMs = shouldAnimate ? 1000 / 30 : 1000 / 12;
+    if (!this._scrollDirty && !this._needsRender && !shouldAnimate) return;
+    if (now - this._lastRenderMs < minFrameMs) return;
+    this._lastRenderMs = now;
+
     const dt = Math.min(0.05, this.clock.getDelta());
     const t  = this.clock.elapsedTime;
 
     this.mouse.x += (this.mouse.tx - this.mouse.x) * 0.08;
     this.mouse.y += (this.mouse.ty - this.mouse.y) * 0.08;
 
-    this._updateActivations();
+    if (this._scrollDirty) {
+      this._updateActivations();
+      this._scrollDirty = false;
+    }
 
-    // Intro acts as a persistent background: render with min activation 0.65
-    // so dust motes never disappear while scrolling later sections.
-    const intro = this.scenes.find((s) => s.name === 'intro');
-    const introAct = intro ? Math.max(intro.activation, 0.65) : 0;
-    const introProg = intro ? (intro.activation > 0.01 ? intro.progress : 1) : 0;
-
+    let hasAnimatedScene = false;
     this.scenes.forEach((s) => {
       if (!s.scene) return;
-      const act  = s.name === 'intro' ? introAct  : s.activation;
-      const prog = s.name === 'intro' ? introProg : s.progress;
+      const act = s.activation;
+      const prog = s.progress;
+      if (act > 0.01) hasAnimatedScene = true;
       s.scene.update({
         time: t, dt,
         mouseX: this.mouse.x, mouseY: this.mouse.y,
@@ -171,7 +137,8 @@ export class Stage {
       });
     });
 
-    this.grain.uniforms.uTime.value = t;
-    this.composer.render();
+    this._hasAnimatedScene = hasAnimatedScene;
+    this._needsRender = false;
+    this.renderer.render(this.scene, this.camera);
   }
 }
