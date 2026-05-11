@@ -1,33 +1,31 @@
 # GitHire — Frontend Source
 
-A scroll-based onboarding entrance for AI-native teams.
+A static scrollytelling site for GitHire, built around an AI-native onboarding and hiring workflow.
 
 ## Files
 
-- `index.html` — page markup (Hero · Workflow · Rituals · Skills · CTA · Footer)
-- `news.html` — placeholder News route with expandable index lanes
-- `githire.css` — full stylesheet (design tokens, layout, scroll-pinned scenes)
-- `githire-scroll.js` — scroll-driven choreography (workflow timeline, rituals, journey scenes)
+- `index.html` — main page markup, SEO schema, workflow panels, rituals, FAQ, and CTA.
+- `news.html` — lightweight News route using the same visual system.
+- `githire.css` — design tokens, layout, responsive rules, route styles, and animation states.
+- `githire-scroll.js` — navigation menu, Lenis smooth scroll, GSAP ScrollTrigger bridge, DOM reveals, and Three.js stage wiring.
+- `three/stage.js` — shared Three.js renderer, camera, activation tracking, bloom, and grain.
+- `three/scenes/intro.js` — procedural barcode, dust, scanner, and accent intro scene.
+- `docs/` — published static bundle mirrored from the root files for GitHub Pages.
 
 ## Running
 
-Open `index.html` directly in a browser, or serve the folder with any static host:
+Serve the folder with any static host so the ES modules and import map load correctly:
 
 ```bash
 python3 -m http.server 8000
-# then visit http://localhost:8000
 ```
 
-No build step. No package install. The page loads Google Fonts (Newsreader, IBM Plex Sans, IBM Plex Mono, JetBrains Mono) over the network.
+Then visit `http://localhost:8000`.
 
-## Design tokens
+No build step or package install is required. Runtime libraries load from CDNs: Google Fonts, Three.js, GSAP, and Lenis.
 
-CSS custom properties live at the top of `githire.css` under `:root` — paper / ink / accent colors, type stacks, easing, shared spacing. Edit there to retheme.
+## Notes
 
-## Notes for re-implementation
-
-- Fixed top nav with `Let's talk` (mailto) + `Menu` (dropdown → Home / back to top).
-- Menu links are real route / anchor links, with Home section indexes and a News route entry.
-- Each major section (`#workflow`, `#rituals`, `#skills`) is a scroll-pinned stage; the `.pin-stage` wrapper sits inside a tall `.pin-track` so the inner scene plays as the user scrolls. Logic in `githire-scroll.js`.
-- Workflow has 6 steps: Issue → Sandbox → Execute & PR → AI review → Architect review → Ship.
-- Footer uses a `$ whoami` terminal block with author + repo + license.
+- The page keeps all core content in semantic HTML and JSON-LD so it remains readable without JavaScript.
+- WebGL, smooth scrolling, and reveal effects automatically fall back for reduced-motion users or browsers without WebGL.
+- `docs/` should stay in sync with the root files when publishing changes.

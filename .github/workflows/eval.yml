@@ -55,6 +55,8 @@ jobs:
               docs / "news.html",
               docs / "githire.css",
               docs / "githire-scroll.js",
+              docs / "three" / "stage.js",
+              docs / "three" / "scenes" / "intro.js",
               docs / "README.md",
           ]
 
@@ -66,9 +68,10 @@ jobs:
           required_snippets = [
               'href="githire.css"',
               'src="githire-scroll.js"',
+              '<canvas id="stage"',
               'id="workflow"',
               'id="rituals"',
-              'id="skills"',
+              'id="faq"',
           ]
           missing_snippets = [snippet for snippet in required_snippets if snippet not in html]
           if missing_snippets:
@@ -131,6 +134,8 @@ jobs:
           curl -fsS http://127.0.0.1:8000/news.html >/dev/null
           curl -fsS http://127.0.0.1:8000/githire.css >/dev/null
           curl -fsS http://127.0.0.1:8000/githire-scroll.js >/dev/null
+          curl -fsS http://127.0.0.1:8000/three/stage.js >/dev/null
+          curl -fsS http://127.0.0.1:8000/three/scenes/intro.js >/dev/null
 
       - name: Check whitespace
         run: git diff --check
