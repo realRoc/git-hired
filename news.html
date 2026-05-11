@@ -1,156 +1,122 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GitHire — News</title>
-<meta name="description" content="GitHire News — AI 工具更新、内部实践和协作提示的未来入口。" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="githire.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#F6F1E8" />
+
+  <title>GitHire · News</title>
+  <meta name="description" content="GitHire News 收集 AI 工具更新、团队实践和围绕 GitHub Issue 的 AI-native 协作提示。" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Serif+SC:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="githire.css" />
 </head>
+
 <body class="news-page">
+  <a class="skip" href="#main">跳到主要内容</a>
 
-<div class="progress" id="progress"></div>
-
-<nav class="top">
-  <div class="wrap nav-row">
-    <a class="brand" href="index.html#top">
-      <span class="brand-dot" aria-hidden="true"></span>
-      <span><b>GitHire</b></span>
+  <header class="topnav">
+    <a class="brand" href="index.html#top" aria-label="GitHire">
+      <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true">
+        <g stroke="#181818" stroke-width="1.4" stroke-linecap="round" fill="none">
+          <line x1="6"  y1="14" x2="6"  y2="22"/>
+          <line x1="9"  y1="11" x2="9"  y2="22"/>
+          <line x1="12" y1="9"  x2="12" y2="22"/>
+          <line x1="15" y1="12" x2="15" y2="22"/>
+          <line x1="21" y1="13" x2="21" y2="22"/>
+          <line x1="24" y1="10" x2="24" y2="22"/>
+          <line x1="27" y1="12" x2="27" y2="22"/>
+          <line x1="30" y1="14" x2="30" y2="22"/>
+        </g>
+        <line x1="18" y1="7" x2="18" y2="22" stroke="#D97757" stroke-width="1.6" stroke-linecap="round"/>
+        <g fill="#181818">
+          <rect x="6" y="25" width="1.4" height="5"/>
+          <rect x="9" y="25" width="0.8" height="5"/>
+          <rect x="11.5" y="25" width="2" height="5"/>
+          <rect x="15" y="25" width="0.8" height="5"/>
+          <rect x="17" y="25" width="1.6" height="5"/>
+          <rect x="20" y="25" width="0.8" height="5"/>
+          <rect x="22" y="25" width="2" height="5"/>
+          <rect x="25.5" y="25" width="1" height="5"/>
+          <rect x="27.5" y="25" width="1.8" height="5"/>
+        </g>
+      </svg>
+      <span class="brand-name">GitHire</span>
     </a>
 
-    <div class="nav-actions">
-      <a class="nav-pill nav-pill--dark" href="mailto:yupeng.wu1224@gmail.com?subject=Let%27s%20talk%20%C2%B7%20GitHire">
-        <span>Let's talk</span>
-      </a>
-      <button class="nav-pill nav-pill--light" type="button" id="menuBtn" aria-expanded="false" aria-controls="menuPanel">
-        <span class="lbl-open">Menu</span>
-        <span class="lbl-close">Close</span>
-      </button>
-    </div>
-
-    <div class="menu-panel" id="menuPanel" aria-hidden="true">
-      <div class="menu-group">
-        <div class="menu-label">Home</div>
-        <a class="menu-item" href="index.html#top">
-          <span>Overview</span>
-          <span>Home</span>
-        </a>
-        <a class="menu-item" href="index.html#workflow-intro">
-          <span>How we work</span>
-          <span>§ 01</span>
-        </a>
-        <a class="menu-item" href="index.html#workflow">
-          <span>Workflow stage</span>
-          <span>06 steps</span>
-        </a>
-        <a class="menu-item" href="index.html#rituals">
-          <span>Rituals</span>
-          <span>§ 02</span>
-        </a>
-        <a class="menu-item" href="index.html#skills">
-          <span>Skills</span>
-          <span>§ 03</span>
-        </a>
+    <nav class="topnav-actions" aria-label="主导航">
+      <a class="btn-primary" href="index.html#closer">Let's talk</a>
+      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu">Menu</button>
+      <div class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <a href="index.html#top" role="menuitem">Intro</a>
+        <a href="index.html#definition" role="menuitem">Definition</a>
+        <a href="index.html#workflow" role="menuitem">Workflow</a>
+        <a href="index.html#rituals" role="menuitem">Rituals</a>
+        <a href="index.html#faq" role="menuitem">FAQ</a>
+        <a href="news.html" role="menuitem" aria-current="page">News</a>
       </div>
-      <div class="menu-group">
-        <div class="menu-label">News</div>
-        <a class="menu-item is-current" href="#top">
-          <span>News overview</span>
-          <span class="dot" aria-hidden="true"></span>
-        </a>
-        <a class="menu-item" href="#tool-updates">
-          <span>Tool updates</span>
-          <span>Index</span>
-        </a>
-        <a class="menu-item" href="#team-practice">
-          <span>Team practice</span>
-          <span>Index</span>
-        </a>
-        <a class="menu-item" href="#field-notes">
-          <span>Field notes</span>
-          <span>Index</span>
-        </a>
+    </nav>
+  </header>
+
+  <main id="main" class="news-main">
+    <section class="scene-section news-hero">
+      <div class="wrap">
+        <p class="meta">News · updates · practice notes</p>
+        <h1 class="news-title">Team signal,<br/><em>collected.</em></h1>
+        <p class="news-lede">
+          这里会收集 AI 工具更新、Claude Code 与 Codex 工作流变化，以及团队内部沉淀出的协作提示。当前先保留信息架构，后续按主题扩展索引。
+        </p>
+
+        <div class="news-grid" aria-label="GitHire News topics">
+          <a class="news-card" href="#tool-updates" id="tool-updates">
+            <span>01</span>
+            <h2>Tool updates</h2>
+            <p>Anthropic、Claude Code、Codex 和 GitHub 工作流的关键变化。</p>
+          </a>
+          <a class="news-card" href="#team-practice" id="team-practice">
+            <span>02</span>
+            <h2>Team practice</h2>
+            <p>Issue、PR、AI Review 与架构师评审在日常协作里的实际用法。</p>
+          </a>
+          <a class="news-card" href="#field-notes" id="field-notes">
+            <span>03</span>
+            <h2>Field notes</h2>
+            <p>从真实改动里沉淀出来的短提示、Checklist 和可复用 Skill。</p>
+          </a>
+        </div>
       </div>
-    </div>
-  </div>
-</nav>
+    </section>
+  </main>
 
-<script>
-  (function(){
-    var btn = document.getElementById('menuBtn');
-    var panel = document.getElementById('menuPanel');
-    if(!btn || !panel) return;
-    function close(){ btn.setAttribute('aria-expanded','false'); panel.setAttribute('aria-hidden','true'); document.body.classList.remove('menu-open'); }
-    function open(){ btn.setAttribute('aria-expanded','true'); panel.setAttribute('aria-hidden','false'); document.body.classList.add('menu-open'); }
-    btn.addEventListener('click', function(){
-      if(btn.getAttribute('aria-expanded') === 'true') close(); else open();
-    });
-    panel.addEventListener('click', function(e){
-      var a = e.target.closest('a');
-      if(a) close();
-    });
-    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
-  })();
-</script>
-
-<main id="top">
-  <section class="news-hero">
+  <footer class="site-foot">
     <div class="wrap">
-      <div class="news-kicker">News · Updates · Practice notes</div>
-      <h1 class="news-title">Team signal, collected.</h1>
-      <p class="news-lede">
-        这里会收集 AI 工具更新、Claude Code 与 Codex 工作流变化，以及团队内部沉淀出的协作提示。当前先保留结构，后续按主题继续扩展索引。
-      </p>
-
-      <div class="news-index">
-        <a id="tool-updates" href="#tool-updates">
-          <span>01 · Tool updates</span>
-          <strong>Anthropic, Claude Code, Codex</strong>
-        </a>
-        <a id="team-practice" href="#team-practice">
-          <span>02 · Team practice</span>
-          <strong>Workflow changes and review habits</strong>
-        </a>
-        <a id="field-notes" href="#field-notes">
-          <span>03 · Field notes</span>
-          <strong>Short internal tips from real work</strong>
-        </a>
-      </div>
+      <p>© <span id="year">2026</span> GitHire · AI-native onboarding</p>
+      <p class="repo"><a href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">github.com/realRoc/git-hired</a></p>
+      <p class="lang"><a href="index.html">中文</a> · <a href="#">English (soon)</a></p>
     </div>
-  </section>
-</main>
+  </footer>
 
-<footer>
-  <div class="wrap">
-    <div class="foot-colophon">
-      <div class="cf-cell">
-        <span class="k">AUTHOR</span>
-        <a class="v" href="https://github.com/realRoc" target="_blank" rel="noopener">
-          <span>realRoc</span>
-          <svg class="ext" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3.5 2.5h6v6M9.5 2.5L3 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        </a>
-      </div>
-      <div class="cf-cell">
-        <span class="k">REPOSITORY</span>
-        <a class="v" href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">
-          <span>github.com/realRoc/git-hired</span>
-          <svg class="ext" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3.5 2.5h6v6M9.5 2.5L3 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        </a>
-      </div>
-      <div class="cf-cell">
-        <span class="k">LICENSE</span>
-        <span class="v"><span class="dot" aria-hidden="true"></span>MIT · Open Source</span>
-      </div>
-    </div>
-
-    <div class="foot-bot">
-      <span>© 2026 realRoc · v2.0.1 · Last updated May 10, 2026</span>
-    </div>
-  </div>
-</footer>
-
+  <script>
+    (function(){
+      var btn = document.getElementById('navMenuBtn');
+      var menu = document.getElementById('navMenu');
+      if(!btn || !menu) return;
+      function setOpen(open){
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+        menu.classList.toggle('is-open', open);
+      }
+      btn.addEventListener('click', function(){ setOpen(btn.getAttribute('aria-expanded') !== 'true'); });
+      menu.addEventListener('click', function(event){ if(event.target.closest('a')) setOpen(false); });
+      document.addEventListener('click', function(event){
+        if(menu.contains(event.target) || btn.contains(event.target)) return;
+        setOpen(false);
+      });
+      document.addEventListener('keydown', function(event){ if(event.key === 'Escape') setOpen(false); });
+    })();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>

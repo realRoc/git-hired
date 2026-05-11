@@ -1,196 +1,189 @@
-/* ============================================================
-   GitHire — scrollytelling controller
-   Vanilla JS. Drives:
-     - scroll progress bar
-     - hero parallax / fade
-     - pinned Journey stage (6 modules cross-fade)
-     - pinned Workflow stage (6 steps light up sequentially)
-     - reveal-on-enter
-     - nav highlight
-   ============================================================ */
+// GitHire v5 · entry. Wires Lenis smooth scroll + GSAP ScrollTrigger
+// to the Three.js stage. Scenes mount themselves via Stage.register().
+
+import { Stage } from './three/stage.js';
+import { IntroScene } from './three/scenes/intro.js';
+
+// ── Smooth scroll (Lenis) ──────────────────────────────────────
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ── Navigation menu ────────────────────────────────────────────
 (() => {
-  const $  = (s, p=document) => p.querySelector(s);
-  const $$ = (s, p=document) => Array.from(p.querySelectorAll(s));
-  const clamp = (v, a=0, b=1) => Math.max(a, Math.min(b, v));
-  const lerp = (a, b, t) => a + (b - a) * t;
+  const btn = document.getElementById('navMenuBtn');
+  const menu = document.getElementById('navMenu');
+  if (!btn || !menu) return;
 
-  // ─── scroll progress bar ───────────────────────────
-  const bar = $('#progress');
-  function updateProgress(){
-    const h = document.documentElement;
-    const total = h.scrollHeight - h.clientHeight;
-    const p = total > 0 ? (h.scrollTop / total) * 100 : 0;
-    bar.style.width = p + '%';
+  const setOpen = (open) => {
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+    menu.classList.toggle('is-open', open);
+  };
+
+  btn.addEventListener('click', () => {
+    setOpen(btn.getAttribute('aria-expanded') !== 'true');
+  });
+  menu.addEventListener('click', (event) => {
+    if (event.target.closest('a')) setOpen(false);
+  });
+  document.addEventListener('click', (event) => {
+    if (menu.contains(event.target) || btn.contains(event.target)) return;
+    setOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setOpen(false);
+  });
+})();
+
+let lenis = null;
+if (!reduced && window.Lenis) {
+  lenis = new window.Lenis({
+    duration: 1.05,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+  });
+}
+
+// ── GSAP ScrollTrigger ─────────────────────────────────────────
+if (window.gsap && window.ScrollTrigger) {
+  window.gsap.registerPlugin(window.ScrollTrigger);
+  if (lenis) {
+    lenis.on('scroll', window.ScrollTrigger.update);
+    window.gsap.ticker.add((time) => lenis.raf(time * 1000));
+    window.gsap.ticker.lagSmoothing(0);
   }
-
-  // ─── hero scroll motion ────────────────────────────
-  const hero = $('.hero');
-  const heroLines = $$('.hero h1.display .l');
-  function updateHero(){
-    if (!hero) return;
-    const r = hero.getBoundingClientRect();
-    const vh = window.innerHeight;
-    // 0 at start, 1 when hero fully scrolled past
-    const t = clamp(-r.top / Math.max(1, r.height), 0, 1);
-    hero.style.setProperty('--hero-t', t.toFixed(3));
-    heroLines.forEach((el, i) => {
-      el.style.transform = `translate3d(0, ${t * (-30 - i*8)}px, 0)`;
-      el.style.opacity = (1 - t * 0.85).toFixed(3);
-    });
-    const grid = $('.hero-grid');
-    if (grid) grid.style.opacity = (1 - t).toFixed(3);
-    const orn = $('.hero-ornament');
-    if (orn) orn.style.transform = `translateY(calc(-50% + ${t * 60}px)) scale(${1 - t * 0.06})`;
+}
+if (lenis && !(window.gsap && window.ScrollTrigger)) {
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
   }
+  requestAnimationFrame(raf);
+}
 
-  // ─── pinned stage helper ───────────────────────────
-  // returns 0..1 progress through the pinned scroll region
-  function pinProgress(section){
-    const r = section.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const total = section.offsetHeight - vh; // sticky duration
-    if (total <= 0) return 0;
-    return clamp(-r.top / total, 0, 1);
-  }
+// ── Three stage ────────────────────────────────────────────────
+const canvas = document.getElementById('stage');
+let stage = null;
 
-  // ─── JOURNEY ──────────────────────────────────────
-  const journey = $('.journey-stage');
-  const jSlides = journey ? $$('.j-slide', journey) : [];
-  const jScenes = journey ? $$('.j-scene', journey) : [];
-  const jRailSegs = journey ? $$('.j-rail .seg', journey) : [];
-  const jStripBars = journey ? $$('.j-strip .b', journey) : [];
-  const jBig = journey ? $('.j-counter .big', journey) : null;
-  const jTotal = journey ? $('.j-counter .total', journey) : null;
-  const jPath = journey ? $('.j-canvas-bar .path', journey) : null;
-  const jMeta = journey ? $('.j-canvas-bar .meta', journey) : null;
-  const jSteps = jSlides.length;
+try {
+  stage = new Stage(canvas);
+} catch (err) {
+  console.warn('[v5] WebGL stage failed to init — falling back.', err);
+  document.body.classList.add('no-webgl');
+}
 
-  function updateJourney(){
-    if (!journey || jSteps === 0) return;
-    if (window.innerWidth <= 760){
-      // mobile: everything visible
-      jSlides.forEach(s => s.classList.add('is-active'));
-      jScenes.forEach(s => s.classList.add('is-active'));
-      return;
+if (stage) {
+  // Register scenes against their DOM sections. Each <section data-scene="...">
+  // becomes a tracked activation source. P1 ships intro only; remaining acts
+  // render as plain DOM until their scenes are added.
+  const sections = document.querySelectorAll('[data-scene]');
+  sections.forEach((el) => {
+    const name = el.dataset.scene;
+    if (name === 'intro') {
+      stage.register(name, el, new IntroScene(stage));
+    } else {
+      // Pure DOM section — still track its bounds so the intro starfield
+      // can soften out / etc. Scene is null.
+      stage.register(name, el, null);
     }
-    const t = pinProgress(journey);
-    // map 0..1 to phase index. We use jSteps phases each occupying 1/jSteps of progress.
-    // But we want first phase fully visible at t=0 and last at t=1, so:
-    const phaseSpan = 1 / jSteps;
-    let idx = Math.floor(t / phaseSpan);
-    if (idx >= jSteps) idx = jSteps - 1;
-    // soft snapping happens naturally via CSS transitions
-
-    jSlides.forEach((el, i) => {
-      el.classList.toggle('is-active', i === idx);
-      el.classList.toggle('is-prev', i < idx);
-    });
-    jScenes.forEach((el, i) => el.classList.toggle('is-active', i === idx));
-    jRailSegs.forEach((el, i) => {
-      el.classList.toggle('is-active', i === idx);
-      el.classList.toggle('is-done', i < idx);
-    });
-    jStripBars.forEach((el, i) => {
-      el.classList.toggle('is-active', i === idx);
-      el.classList.toggle('is-done', i < idx);
-    });
-    if (jBig) jBig.textContent = String(idx + 1).padStart(2, '0');
-    if (jTotal) jTotal.textContent = `／ ${String(jSteps).padStart(2, '0')}`;
-    const slide = jSlides[idx];
-    if (slide && jPath) jPath.textContent = slide.dataset.path || '~/githire/onboarding';
-    if (slide && jMeta) jMeta.textContent = slide.dataset.meta || '';
-  }
-
-  // ─── WORKFLOW ─────────────────────────────────────
-  const workflow = $('.workflow-stage');
-  const wfNodes = workflow ? $$('.wf-node', workflow) : [];
-  const wfPanels = workflow ? $$('.wf-info .panel', workflow) : [];
-  const wfScenes = workflow ? $$('.wf-card-scene', workflow) : [];
-  const wfFill = workflow ? $('.wf-line .fill', workflow) : null;
-  const wfBarName = workflow ? $('.wf-card-bar .name', workflow) : null;
-  const wfBarBadge = workflow ? $('.wf-card-bar .badge', workflow) : null;
-  const wfSteps = wfNodes.length;
-
-  function updateWorkflow(){
-    if (!workflow || wfSteps === 0) return;
-    if (window.innerWidth <= 760){
-      wfPanels.forEach(p => p.classList.add('is-active'));
-      wfNodes.forEach(n => n.classList.add('is-done'));
-      if (wfFill) wfFill.style.width = '100%';
-      return;
-    }
-    const t = pinProgress(workflow);
-    const phaseSpan = 1 / wfSteps;
-    let idx = Math.floor(t / phaseSpan);
-    if (idx >= wfSteps) idx = wfSteps - 1;
-    // sub-progress within current phase
-    const sub = clamp((t - idx * phaseSpan) / phaseSpan, 0, 1);
-
-    wfNodes.forEach((el, i) => {
-      el.classList.toggle('is-active', i === idx);
-      el.classList.toggle('is-done', i < idx);
-    });
-    wfPanels.forEach((el, i) => el.classList.toggle('is-active', i === idx));
-    wfScenes.forEach((el, i) => el.classList.toggle('is-active', i === idx));
-
-    // line fill grows as user scrolls; reaches 100% at the end
-    if (wfFill){
-      // the line spans nodes 1..N; convert (idx + sub) of N steps -> percent
-      const fillPct = clamp((idx + sub) / (wfSteps - 1), 0, 1) * 100;
-      wfFill.style.width = fillPct + '%';
-    }
-    const panel = wfPanels[idx];
-    if (panel){
-      if (wfBarName) wfBarName.textContent = panel.dataset.file || 'sandbox/';
-      if (wfBarBadge) wfBarBadge.textContent = panel.dataset.badge || '';
-    }
-  }
-
-  // ─── nav highlight ────────────────────────────────
-  const navLinks = $$('nav.top .nav-links a');
-  const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-  function updateNav(){
-    if (!sections.length) return;
-    const y = window.scrollY + 120;
-    let active = -1;
-    sections.forEach((s, i) => { if (s.offsetTop <= y) active = i; });
-    navLinks.forEach((a, i) => a.classList.toggle('is-active', i === active));
-  }
-
-  // ─── reveal on enter ──────────────────────────────
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
-  $$('.reveal, .reveal-stagger').forEach(el => io.observe(el));
-
-  // ─── prompt copy ──────────────────────────────────
-  $$('.prompt-copy').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const body = btn.closest('.prompt-card').querySelector('.prompt-body');
-      try { navigator.clipboard.writeText(body.innerText.trim()); } catch(e){}
-      const o = btn.textContent;
-      btn.textContent = "COPIED ✓";
-      setTimeout(() => btn.textContent = o, 1400);
-    });
   });
 
-  // ─── master scroll loop (rAF-throttled) ──────────
-  let ticking = false;
-  function onScroll(){
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      updateProgress();
-      updateHero();
-      updateJourney();
-      updateWorkflow();
-      updateNav();
-      ticking = false;
+  stage.start();
+}
+
+// ── Closer dark · reveal on enter ─────────────────────────────
+(() => {
+  const closer = document.querySelector('.scene-closer');
+  if (!closer) return;
+  if (reduced) { closer.classList.add('is-revealed'); return; }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.intersectionRatio >= 0.3) closer.classList.add('is-revealed');
+      else if (entry.intersectionRatio < 0.05) closer.classList.remove('is-revealed');
     });
-  }
+  }, { threshold: [0, 0.05, 0.3] });
+  io.observe(closer);
+})();
+(() => {
+  const ov = document.querySelector('.wf-overview');
+  if (!ov) return;
+  if (reduced) { ov.classList.add('is-revealed'); return; }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.intersectionRatio >= 0.3) ov.classList.add('is-revealed');
+      else if (entry.intersectionRatio < 0.05) ov.classList.remove('is-revealed');
+    });
+  }, { threshold: [0, 0.05, 0.3] });
+  io.observe(ov);
+})();
+(() => {
+  const hero = document.querySelector('.scene-intro');
+  if (!hero) return;
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    const h = hero.offsetHeight || window.innerHeight;
+    const t = Math.min(1, Math.max(0, window.scrollY / (h * 0.85)));
+    hero.style.setProperty('--hero-exit', t.toFixed(3));
+    if (stage && stage.scenes) {
+      const intro = stage.scenes.find && stage.scenes.find((s) => s.name === 'intro');
+      const sceneObj = intro && intro.scene;
+      if (sceneObj) sceneObj._heroExit = t;
+    }
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
-  onScroll();
+  update();
+})();
+(() => {
+  const panels = document.querySelectorAll('.wf-panel');
+  if (!panels.length) return;
+  if (reduced) {
+    panels.forEach((p) => p.classList.add('is-visible'));
+    return;
+  }
+  // Prep stroke draw-on for every outlined SVG shape
+  panels.forEach((panel) => {
+    panel.querySelectorAll('.wf-fig svg [fill="none"]').forEach((el, i) => {
+      if (typeof el.getTotalLength !== 'function') return;
+      let len; try { len = el.getTotalLength(); } catch (e) { return; }
+      if (!len) return;
+      el.dataset.drawLen = len;
+      el.style.strokeDasharray = len;
+      el.style.strokeDashoffset = len;
+      el.style.transition = `stroke-dashoffset 1400ms cubic-bezier(.2,.7,.2,1) ${200 + i * 140}ms`;
+    });
+  });
+  const setVis = (panel, on) => {
+    panel.classList.toggle('is-visible', on);
+    panel.querySelectorAll('.wf-fig svg [fill="none"]').forEach((el) => {
+      if (!el.dataset.drawLen) return;
+      el.style.strokeDashoffset = on ? '0' : el.dataset.drawLen;
+    });
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.intersectionRatio >= 0.35) setVis(entry.target, true);
+      else if (entry.intersectionRatio < 0.05) setVis(entry.target, false);
+    });
+  }, { threshold: [0, 0.05, 0.35] });
+  panels.forEach((p) => io.observe(p));
+})();
+(() => {
+  const cards = document.querySelectorAll('[data-reveal]');
+  if (!cards.length) return;
+  if (reduced) {
+    cards.forEach((c) => c.classList.add('is-revealed'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const siblings = [...el.parentElement.querySelectorAll('[data-reveal]')];
+      const i = siblings.indexOf(el);
+      setTimeout(() => el.classList.add('is-revealed'), i * 180);
+      io.unobserve(el);
+    });
+  }, { threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
+  cards.forEach((c) => io.observe(c));
 })();

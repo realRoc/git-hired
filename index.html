@@ -1,484 +1,513 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GitHire — AI-native 入职旅程</title>
-<meta name="description" content="GitHire — 一段以滚动驱动、可视化呈现的 AI-native 入职学习旅程。" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="githire.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#F6F1E8" />
+
+  <title>GitHire · AI-native 入职与招聘工作流</title>
+  <meta name="description" content="GitHire 是一套围绕 GitHub Issue 展开的 AI-native 入职与招聘工作流，让候选人和新人在两周内交付真实生产 PR。" />
+  <link rel="canonical" href="https://realroc.github.io/git-hired/" />
+
+  <link rel="alternate" hreflang="zh-CN" href="https://realroc.github.io/git-hired/" />
+  <link rel="alternate" hreflang="en"    href="https://realroc.github.io/git-hired/en/" />
+  <link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="GitHire · AI-native 入职与招聘工作流" />
+  <meta property="og:description" content="把 onboarding 当作产品来做：Issue → Sandbox → PR → AI Review → Architect → Production，两周交付真实生产 PR。" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:image" content="https://realroc.github.io/git-hired/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Brand fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Serif+SC:wght@400;500;600&display=swap" />
+
+  <link rel="stylesheet" href="githire.css" />
+
+  <!-- ── SEO / GEO · structured data ─────────────────────────── -->
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "GitHire",
+    "url": "https://realroc.github.io/git-hired/",
+    "logo": "https://realroc.github.io/git-hired/logo.svg",
+    "description": "AI-native 入职与招聘工作流，让候选人和新人在两周内交付真实生产 PR。",
+    "sameAs": []
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "GitHire",
+    "url": "https://realroc.github.io/git-hired/",
+    "inLanguage": ["zh-CN", "en"],
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://realroc.github.io/git-hired/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "GitHire",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "GitHire 是一套围绕 GitHub Issue 展开的 AI-native 入职与招聘工作流。",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "GitHire 工作流：从 Issue 到 Production",
+    "description": "GitHire 的标准工作流分为六个步骤，串起候选人或新人从需求到上线的完整路径。",
+    "totalTime": "P14D",
+    "step": [
+      { "@type": "HowToStep", "position": 1, "name": "Issue",     "text": "用一两句话把『为谁解决什么』写清楚——能讲明白的需求，才值得进入下一步。" },
+      { "@type": "HowToStep", "position": 2, "name": "Sandbox",   "text": "在隔离环境里让 AI agent 探明白代码上下文与边界条件，所有探索默认不进主分支。" },
+      { "@type": "HowToStep", "position": 3, "name": "Execute · PR", "text": "人类与 AI 结对写出第一版 PR，提交可运行的最小变更。" },
+      { "@type": "HowToStep", "position": 4, "name": "AI Review", "text": "多 agent 评审：风格、安全、性能、测试覆盖率，输出结构化报告。" },
+      { "@type": "HowToStep", "position": 5, "name": "Architect", "text": "资深工程师做最终 review，决定 merge、改写或重做。" },
+      { "@type": "HowToStep", "position": 6, "name": "Production","text": "合并入主分支，按灰度发布，自动观测指标与回滚条件。" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "进度落后的团队是否需要再加人？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不一定。新加的人需要时间学习上下文，沟通成本也会随人数二次方增长，因此短期内整体进度往往更慢——这就是 Brooks's Law。GitHire 的做法是把 Issue 上下文、Sandbox 探索、AI Review 报告全部沉淀为可读资产，让新人入场成本可控；只有当任务本身可拆分、上下文已结构化时，加人才有意义。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "『人月』是个伪命题吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "至少是一个粗暴的近似。软件工作不是体力劳动，人和月不可线性互换：复杂任务的依赖链限制了并行度，沟通成本随人数二次方增长，新成员的学习成本要从老成员的时间里扣。GitHire 不使用『人月』做估算，而是把工作拆为 Issue → PR 的可观测单元，用历史吞吐数据滚动预测。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "原型是否一定要被丢掉？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Brooks 的建议是 Plan to throw one away; you will, anyhow——第一版的真正价值在于澄清问题。GitHire 把这条建议显式化：Sandbox 阶段产生的代码默认不进主分支，存在的目的是验证方向、暴露未知，而非交付。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Conceptual integrity 怎么在 AI 协作下保持？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "通过显式的架构 owner。AI agent 可以生成 PR，但 Architect 这一步由人类负责。所有 PR 必须能被一位 architect 用一句话讲清楚动机和取舍——做不到的 PR 不 merge。这条约束让概念一致性不被并发的 agent 数量稀释。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "为什么文档永远写不完？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "因为写完即过时。GitHire 的策略是少写『文档』、多留『证据』：Issue 描述、PR diff、AI Review 报告、生产日志本身就是可追溯的文档链，自动按时间序拼成项目史，新人读这条链就能复现一次完整的决策过程。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Deadline 为什么总是骗人的？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "因为估算是在信息最少的时候做的，承诺是在压力最大的时候许的。GitHire 用滚动 forecast 替代固定 deadline：每个 PR merge 之后基于真实吞吐重新预测，可观测的数据替代主观承诺，越接近交付，预测越收敛。"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- ── Three.js (importmap, ESM) ───────────────────────────── -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three":          "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/":  "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
+
 <body>
+  <a class="skip" href="#main">跳到主要内容</a>
 
-<div class="progress" id="progress"></div>
+  <!-- Persistent 3D stage — sits behind every section. -->
+  <canvas id="stage" aria-hidden="true"></canvas>
 
-<nav class="top">
-  <div class="wrap nav-row">
-    <a class="brand" href="#top">
-      <span class="brand-dot" aria-hidden="true"></span>
-      <span><b>GitHire</b></span>
+  <header class="topnav">
+    <a class="brand" href="#top" aria-label="GitHire">
+      <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true">
+        <g stroke="#181818" stroke-width="1.4" stroke-linecap="round" fill="none">
+          <line x1="6"  y1="14" x2="6"  y2="22"/>
+          <line x1="9"  y1="11" x2="9"  y2="22"/>
+          <line x1="12" y1="9"  x2="12" y2="22"/>
+          <line x1="15" y1="12" x2="15" y2="22"/>
+          <line x1="21" y1="13" x2="21" y2="22"/>
+          <line x1="24" y1="10" x2="24" y2="22"/>
+          <line x1="27" y1="12" x2="27" y2="22"/>
+          <line x1="30" y1="14" x2="30" y2="22"/>
+        </g>
+        <line x1="18" y1="7" x2="18" y2="22" stroke="#D97757" stroke-width="1.6" stroke-linecap="round"/>
+        <g fill="#181818">
+          <rect x="6" y="25" width="1.4" height="5"/>
+          <rect x="9" y="25" width="0.8" height="5"/>
+          <rect x="11.5" y="25" width="2" height="5"/>
+          <rect x="15" y="25" width="0.8" height="5"/>
+          <rect x="17" y="25" width="1.6" height="5"/>
+          <rect x="20" y="25" width="0.8" height="5"/>
+          <rect x="22" y="25" width="2" height="5"/>
+          <rect x="25.5" y="25" width="1" height="5"/>
+          <rect x="27.5" y="25" width="1.8" height="5"/>
+        </g>
+      </svg>
+      <span class="brand-name">GitHire</span>
     </a>
 
-    <div class="nav-actions">
-      <a class="nav-pill nav-pill--dark" href="mailto:yupeng.wu1224@gmail.com?subject=Let%27s%20talk%20%C2%B7%20GitHire">
-        <span>Let's talk</span>
-      </a>
-      <button class="nav-pill nav-pill--light" type="button" id="menuBtn" aria-expanded="false" aria-controls="menuPanel">
-        <span class="lbl-open">Menu</span>
-        <span class="lbl-close">Close</span>
-      </button>
-    </div>
-
-    <div class="menu-panel" id="menuPanel" aria-hidden="true">
-      <div class="menu-group">
-        <div class="menu-label">Home</div>
-        <a class="menu-item is-current" href="#top">
-          <span>Overview</span>
-          <span class="dot" aria-hidden="true"></span>
-        </a>
-        <a class="menu-item" href="#workflow-intro">
-          <span>How we work</span>
-          <span>§ 01</span>
-        </a>
-        <a class="menu-item" href="#workflow">
-          <span>Workflow stage</span>
-          <span>06 steps</span>
-        </a>
-        <a class="menu-item" href="#rituals">
-          <span>Rituals</span>
-          <span>§ 02</span>
-        </a>
-        <a class="menu-item" href="#skills">
-          <span>Skills</span>
-          <span>§ 03</span>
-        </a>
+    <nav class="topnav-actions" aria-label="主导航">
+      <a class="btn-primary" href="#closer">Let's talk</a>
+      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu">Menu</button>
+      <div class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <a href="#top" role="menuitem">Intro</a>
+        <a href="#definition" role="menuitem">Definition</a>
+        <a href="#workflow" role="menuitem">Workflow</a>
+        <a href="#rituals" role="menuitem">Rituals</a>
+        <a href="#faq" role="menuitem">FAQ</a>
+        <a href="news.html" role="menuitem">News</a>
       </div>
-      <div class="menu-group">
-        <div class="menu-label">Pages</div>
-        <a class="menu-item" href="news.html">
-          <span>News</span>
-          <span>soon</span>
-        </a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ── ACT 1 · Hero ──────────────────────────────────────── -->
+    <section class="scene-section scene-intro" id="top" data-scene="intro" data-screen-label="01 Intro">
+      <div class="hero-content">
+        <p class="meta">AI-native onboarding · 入职手册</p>
+        <h1 class="hero-title">
+          <span class="hl-1"><em>以</em> AI-native <em>的方式</em></span>
+          <span class="hl-2"><em>加入团队</em><span class="period">.</span></span>
+        </h1>
+        <p class="hero-lede">把 onboarding 当作产品来做。两周交付真实生产 PR，而不是 demo。</p>
       </div>
-    </div>
-  </div>
-</nav>
+      <div class="scroll-hint" aria-hidden="true">Scroll <span>↓</span></div>
+    </section>
 
-<script>
-  (function(){
-    var btn = document.getElementById('menuBtn');
-    var panel = document.getElementById('menuPanel');
-    if(!btn || !panel) return;
-    function close(){ btn.setAttribute('aria-expanded','false'); panel.setAttribute('aria-hidden','true'); document.body.classList.remove('menu-open'); }
-    function open(){ btn.setAttribute('aria-expanded','true'); panel.setAttribute('aria-hidden','false'); document.body.classList.add('menu-open'); }
-    btn.addEventListener('click', function(){
-      if(btn.getAttribute('aria-expanded') === 'true') close(); else open();
-    });
-    panel.addEventListener('click', function(e){
-      var a = e.target.closest('a');
-      if(a) close();
-    });
-    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
-  })();
-</script>
-
-<!-- ============================================================
-     HERO
-     ============================================================ -->
-<header class="hero" id="top" data-screen-label="01 Hero">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="hero-grid" aria-hidden="true"></div>
-
-  <div class="wrap hero-inner">
-    <div class="eyebrow reveal" style="display:none"></div>
-
-    <h1 class="display">
-      <span class="l">以 <span class="it">AI-native</span> 的方式</span>
-      <span class="l">加入团队<span class="accent">.</span></span>
-    </h1>
-
-    <p class="hero-sub reveal">
-      GitHire 是为 AI-native 团队打造的入职与训练入口。我们把 Claude Code、Codex、GitHub 的协作流程，与日常沉淀下来的工作习惯，串成一段可以滚动、可以练习、也可以反复回看的学习旅程。
-      <span class="en">A guided learning entrance into how teams build with AI — calm, visual, scrollable.</span>
-    </p>
-
-    <div class="hero-meta reveal">
-      <div class="cell"><span class="k">EST. TIME</span><span class="v">~ 30 分钟</span></div>
-    </div>
-
-    <!-- floating workflow ornament -->
-    <svg class="hero-ornament" viewBox="0 0 460 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="230" cy="190" r="180" fill="none" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="2 6"/>
-      <circle cx="230" cy="190" r="120" fill="none" stroke="currentColor" stroke-opacity=".15" stroke-dasharray="2 6"/>
-
-      <path class="flow" d="M70 90 Q 150 50 230 80 T 390 130" stroke="currentColor" stroke-width="1" stroke-opacity=".55"/>
-      <path class="flow" d="M70 90 Q 90 180 140 230" stroke="currentColor" stroke-width="1" stroke-opacity=".4"/>
-      <path class="flow" d="M390 130 Q 380 220 320 270" stroke="currentColor" stroke-width="1" stroke-opacity=".4"/>
-      <path class="flow" d="M140 230 Q 230 280 320 270" stroke="currentColor" stroke-width="1" stroke-opacity=".55" stroke-dasharray="2 4"/>
-      <path class="flow" d="M140 230 Q 180 320 230 340" stroke="currentColor" stroke-width="1" stroke-opacity=".4"/>
-      <path class="flow" d="M320 270 Q 280 320 230 340" stroke="currentColor" stroke-width="1" stroke-opacity=".4"/>
-
-      <g>
-        <circle class="node" cx="70" cy="90" r="5" fill="currentColor"/>
-        <circle class="node delay-1" cx="230" cy="80" r="5" fill="currentColor"/>
-        <circle class="node delay-2" cx="390" cy="130" r="5" fill="currentColor"/>
-        <circle class="node delay-3" cx="140" cy="230" r="5" fill="currentColor"/>
-        <circle class="node delay-1" cx="320" cy="270" r="5" fill="currentColor"/>
-        <circle class="node delay-2" cx="230" cy="340" r="5" fill="currentColor"/>
-      </g>
-
-      <circle cx="230" cy="80" r="11" fill="none" stroke="var(--accent)" stroke-width="1"/>
-      <circle cx="320" cy="270" r="11" fill="none" stroke="var(--accent)" stroke-width="1"/>
-
-      <g font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" fill-opacity=".7">
-        <text x="82" y="84">issue</text>
-        <text x="244" y="74">claude-code</text>
-        <text x="404" y="126">codex</text>
-        <text x="152" y="224">sandbox</text>
-        <text x="332" y="264">architect</text>
-        <text x="244" y="338">production</text>
-      </g>
-    </svg>
-
-  </div>
-</header>
-
-<!-- ============================================================
-     WORKFLOW intro
-     ============================================================ -->
-<section class="chapter" id="workflow-intro" data-screen-label="02 Workflow Intro">
-  <div class="wrap">
-    <div class="chapter-head reveal-stagger">
-      <div class="section-tag">
-        <span class="num">§ 01</span>
-        <span class="bar" aria-hidden="true"></span>
-        <span>HOW WE WORK TOGETHER</span>
-      </div>
-      <div>
-        <h2 class="section-title">从 Issue 到上线，<br/><span class="it">我们是怎么一起工作的</span><span class="accent">.</span></h2>
-        <p class="section-lede">
-          一份想法是如何走进生产环境的。这条路径不是规则，而是一条被反复验证、可以打断、可以回退的默认线。继续向下滚动，看着它一步一步亮起来。
+    <!-- ── ACT 2 · Definition ────────────────────────────────── -->
+    <section class="scene-section scene-definition" id="definition" data-scene="definition" data-screen-label="02 Definition">
+      <div class="wrap">
+        <p class="meta">What is GitHire · 一句话</p>
+        <p class="definition-line">
+          <strong>GitHire</strong> 是一套 <em>AI-native 入职与招聘工作流</em>，让候选人和新人
+          <strong>在两周内交付真实生产 PR</strong>。
         </p>
+
+        <dl class="pillars">
+          <div class="pillar">
+            <dt><span class="num">01</span> Issue-first</dt>
+            <dd>所有任务从一个能讲明白的 Issue 起步，需求即文档。</dd>
+          </div>
+          <div class="pillar">
+            <dt><span class="num">02</span> AI co-pilot</dt>
+            <dd>Sandbox 探索、PR 编写、Review 全程由 AI agent 辅助，人类 own merge。</dd>
+          </div>
+          <div class="pillar">
+            <dt><span class="num">03</span> Production-bound</dt>
+            <dd>终点是合并进主分支的 PR，不是 demo、不是练习题。</dd>
+          </div>
+        </dl>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ============================================================
-     WORKFLOW — pinned 6-step pipeline
-     ============================================================ -->
-<section class="pinned workflow-stage" id="workflow" data-screen-label="03 Workflow Stage" style="height: 600vh">
-  <div class="pin-stage">
-    <div class="pin-grid" aria-hidden="true"></div>
+    <!-- ── ACT 3 · Workflow (full-screen panels) ─────────────── -->
+    <section class="wf-stage" id="workflow" data-scene="workflow" data-screen-label="03 Workflow">
+      <article class="wf-panel" data-step="01">
+        <div class="wf-grid">
+          <div class="wf-fig" aria-hidden="true">
+            <svg viewBox="0 0 400 400">
+              <rect x="60" y="60" width="280" height="280" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="60" y1="200" x2="340" y2="200" stroke="currentColor" stroke-width="1" stroke-dasharray="4 6"/>
+              <text x="200" y="216" text-anchor="middle" font-family="Spectral" font-style="italic" font-size="22" fill="currentColor" opacity="0.5">为谁解决什么</text>
+            </svg>
+          </div>
+          <div class="wf-text">
+            <p class="wf-counter"><span>STEP 01</span> ／ 06</p>
+            <h3>从一个<br/><em>Issue</em> 开始<span class="period">.</span></h3>
+            <p class="wf-body">用一两句话把『为谁解决什么』写清楚——能讲明白的需求，才值得进入下一步。Issue 是这次工作的起点，也会是它的归档。</p>
+            <p class="wf-en">ISSUE · Frame the problem.</p>
+          </div>
+        </div>
+      </article>
 
+      <article class="wf-panel" data-step="02">
+        <div class="wf-grid reverse">
+          <div class="wf-fig" aria-hidden="true">
+            <svg viewBox="0 0 400 400">
+              <rect x="40"  y="40"  width="320" height="320" fill="none" stroke="currentColor" stroke-width="1" opacity="0.35"/>
+              <rect x="90"  y="90"  width="220" height="220" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+              <rect x="140" y="140" width="120" height="120" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="200" cy="200" r="6" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="wf-text">
+            <p class="wf-counter"><span>STEP 02</span> ／ 06</p>
+            <h3>进入开发<br/><em>沙盒</em><span class="period">.</span></h3>
+            <p class="wf-body">沙盒是长期运行的开发环境，保留依赖、缓存与既有数据，让 AI 能在真实的上下文里工作，而不是一次性容器。</p>
+            <p class="wf-en">SANDBOX · A persistent dev environment.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="wf-panel" data-step="03">
+        <div class="wf-grid">
+          <div class="wf-fig" aria-hidden="true">
+            <svg viewBox="0 0 400 400">
+              <line x1="80"  y1="320" x2="320" y2="80" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="80"  cy="320" r="8" fill="currentColor"/>
+              <circle cx="320" cy="80"  r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="320" y="60" text-anchor="middle" font-family="Spectral" font-style="italic" font-size="18" fill="currentColor" opacity="0.6">PR</text>
+              <text x="80"  y="345" text-anchor="middle" font-family="Spectral" font-style="italic" font-size="18" fill="currentColor" opacity="0.6">issue</text>
+            </svg>
+          </div>
+          <div class="wf-text">
+            <p class="wf-counter"><span>STEP 03</span> ／ 06</p>
+            <h3>执行任务<br/>发起 <em>PR</em><span class="period">.</span></h3>
+            <p class="wf-body">把 Issue 交给 Claude Code 或 Codex，由它在沙盒里完成实现：写代码、跑测试、迭代修复，最终发起一份 PR。</p>
+            <p class="wf-en">EXECUTE · Claude Code or Codex.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="wf-panel" data-step="04">
+        <div class="wf-grid reverse">
+          <div class="wf-fig" aria-hidden="true">
+            <svg viewBox="0 0 400 400">
+              <circle cx="155" cy="200" r="100" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="245" cy="200" r="100" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <text x="110" y="206" text-anchor="middle" font-family="Spectral" font-style="italic" font-size="17" fill="currentColor">Claude</text>
+              <text x="110" y="226" text-anchor="middle" font-family="Spectral" font-style="italic" font-size="17" fill="currentColor">Code</text>
+              <text x="290" y="216" text-anchor="middle" font-family="Spectral" font-style="italic" font-size="17" fill="currentColor">Codex</text>
+            </svg>
+          </div>
+          <div class="wf-text">
+            <p class="wf-counter"><span>STEP 04</span> ／ 06</p>
+            <h3>另一位 <em>AI</em><br/>审核 PR<span class="period">.</span></h3>
+            <p class="wf-body">这一步交给另一位 Claude Code 或 Codex。它读完整份 PR，结合 CI 与静态检查，给出可执行的修改意见——双 AI 互审。</p>
+            <p class="wf-en">AI REVIEW · Two agents, one PR.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="wf-panel is-key" data-step="05">
+        <div class="wf-grid">
+          <div class="wf-fig" aria-hidden="true">
+            <svg viewBox="0 0 400 400">
+              <polygon points="200,60 350,330 50,330" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              <!-- human silhouette: head + shoulders -->
+              <circle cx="200" cy="218" r="14" fill="currentColor"/>
+              <path d="M 172 280 Q 172 248 200 248 Q 228 248 228 280 L 228 295 L 172 295 Z" fill="currentColor"/>
+              <text x="200" y="370" text-anchor="middle" font-family="Spectral" font-style="italic" font-size="16" fill="currentColor" opacity="0.7">human · key step</text>
+            </svg>
+          </div>
+          <div class="wf-text">
+            <p class="wf-counter"><span>STEP 05</span> ／ 06 <em>· 关键一步</em></p>
+            <h3>人类<br/><em>架构师</em> 评审<span class="period">.</span></h3>
+            <p class="wf-body">整条流程的核心。由人类架构师判断这次改动是否符合系统方向、是否引入隐性债务、是否值得上线。AI 提供线索，决定权在人。</p>
+            <p class="wf-en">ARCHITECT · Where humans decide.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="wf-panel" data-step="06">
+        <div class="wf-grid reverse">
+          <div class="wf-fig" aria-hidden="true">
+            <svg viewBox="0 0 400 400">
+              <circle cx="200" cy="200" r="120" fill="currentColor"/>
+              <circle cx="200" cy="200" r="156" fill="none" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+              <circle cx="200" cy="200" r="190" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+            </svg>
+          </div>
+          <div class="wf-text">
+            <p class="wf-counter"><span>STEP 06</span> ／ 06</p>
+            <h3>合并<br/>并 <em>上线</em><span class="period">.</span></h3>
+            <p class="wf-body">架构师签字之后，PR 合入主干、部署到生产。可复用的 Skill、Checklist、评审记录回写到 Issue，留作下一次的起点。</p>
+            <p class="wf-en">PRODUCTION · Ship it.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="wf-overview">
+        <div class="wf-overview-inner">
+          <p class="meta">Overall flow · 一次走完</p>
+          <h2 class="wf-overview-title">Issue · Sandbox · AI · 架构师 · 上线<br/><em>—— 交付一次完整的改动<span class="period">.</span></em></h2>
+          <ol class="wf-flow" aria-label="完整工作流概览">
+            <li><svg viewBox="0 0 60 60"><rect x="10" y="10" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>01 Issue</span></li>
+            <li><svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/><rect x="18" y="18" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>02 Sandbox</span></li>
+            <li><svg viewBox="0 0 60 60"><line x1="12" y1="48" x2="48" y2="12" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="48" r="3" fill="currentColor"/><circle cx="48" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>03 PR</span></li>
+            <li><svg viewBox="0 0 60 60"><circle cx="22" cy="30" r="16" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="38" cy="30" r="16" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>04 AI Review</span></li>
+            <li class="is-key"><svg viewBox="0 0 60 60"><polygon points="30,8 54,52 6,52" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="30" cy="38" r="3" fill="currentColor"/></svg><span>05 Architect</span></li>
+            <li><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="18" fill="currentColor"/></svg><span>06 Production</span></li>
+          </ol>
+          <p class="wf-overview-foot">六步串成一条流水线 · 从需求到上线 · 每一次都把决定与产物回写到 Issue</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- ── ACT 4 · Rituals ───────────────────────────────────── -->
+    <section class="scene-section scene-rituals" id="rituals" data-scene="rituals" data-screen-label="04 Rituals">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="meta">— RITUALS</p>
+          <h2>流水线之外，<br/><em>那些让协作成立的小习惯</em><span class="period">.</span></h2>
+          <p class="section-lede">流程负责"做什么"，习惯负责"在什么节奏里做"。下面这四件事，是我们用来让 AI-native 协作真正运转起来的最小集。</p>
+        </header>
+
+        <ul class="rituals-cards" aria-label="四个让协作成立的小习惯">
+          <li class="ritual-card" data-reveal>
+            <div class="ritual-inner">
+              <p class="ritual-num">RITUAL · 01</p>
+              <h3>一日的形状</h3>
+              <p class="ritual-en">THE SHAPE OF A DAY</p>
+              <p class="ritual-body">每天早晨花一分钟，写下今天最重要的那个 Issue。它不是任务清单，而是这一天的锚点——所有的对话、改动、PR，都围绕它发生。</p>
+              <dl class="ritual-dl">
+                <dt>MORNING</dt><dd>写下 #today —— 当日最重要的 Issue</dd>
+                <dt>DURING</dt><dd>所有改动都挂在这条 Issue 下面</dd>
+                <dt>EVENING</dt><dd>用一句话回写今天的进展或决定</dd>
+              </dl>
+            </div>
+          </li>
+          <li class="ritual-card" data-reveal>
+            <div class="ritual-inner">
+              <p class="ritual-num">RITUAL · 02</p>
+              <h3>架构师与开发者</h3>
+              <p class="ritual-en">ARCHITECT &amp; DEVELOPERS</p>
+              <p class="ritual-body">架构师拥有方向上的最终决策权；开发者围绕 Issue 进行开发，通过 Issue 与 PR 与架构师对话。评审与决策落在 GitHub 上，飞书留给当下需要立刻对齐的事。</p>
+              <dl class="ritual-dl">
+                <dt>ARCHITECT</dt><dd>方向与边界的最终决策权</dd>
+                <dt>DEVELOPER</dt><dd>围绕 Issue 开发 · 在 PR 中对话</dd>
+                <dt>CHANNEL</dt><dd>评审在 GitHub · 即时同步在飞书</dd>
+              </dl>
+            </div>
+          </li>
+          <li class="ritual-card" data-reveal>
+            <div class="ritual-inner">
+              <p class="ritual-num">RITUAL · 03</p>
+              <h3>Issue 与 PR 的追踪</h3>
+              <p class="ritual-en">EVERY ISSUE IS TRACKED</p>
+              <p class="ritual-body">每一个 Issue 都有一条对应的 PR 来追踪它的执行过程，PR 上的评论会被完整保留下来——下一个接手的人，可以从 Issue 一路读到当时是怎么决定的。</p>
+              <dl class="ritual-dl">
+                <dt>LINK</dt><dd>每个 Issue 对应一条 PR · 一一映射</dd>
+                <dt>KEEP</dt><dd>PR 评论作为决策记录长期保留</dd>
+                <dt>READ</dt><dd>新成员从 Issue → PR 还原历史</dd>
+              </dl>
+            </div>
+          </li>
+          <li class="ritual-card" data-reveal>
+            <div class="ritual-inner">
+              <p class="ritual-num">RITUAL · 04</p>
+              <h3>从 Prompt 到 Skill</h3>
+              <p class="ritual-en">FROM PROMPT TO SKILL</p>
+              <p class="ritual-body">一份 Prompt 被反复用过、值得保留下来，就会被沉淀成一个 Skill——带名字、带说明、可被引用。Skill 是团队真正在沉淀的工件。</p>
+              <dl class="ritual-dl">
+                <dt>SKILL</dt><dd>review · sandbox · rollback · architect-brief</dd>
+                <dt>CHECK</dt><dd>first-pr · oncall-handover · post-incident</dd>
+                <dt>USAGE</dt><dd>在 Claude Code 或 Codex 中通过 /use 调用</dd>
+              </dl>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── ACT 5 · FAQ ───────────────────────────────────────── -->
+    <section class="scene-section scene-faq" id="faq" data-scene="faq" data-screen-label="05 FAQ">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="meta">FAQ · 关于人月神话与 AI 协作</p>
+          <h2>软件工程的老问题，AI 没让它们消失——只是换了形状。</h2>
+        </header>
+
+        <div class="faq-list">
+          <details>
+            <summary>进度落后的团队是否需要再加人？</summary>
+            <p>不一定。新加的人需要时间学习上下文，沟通成本也会随人数二次方增长，因此短期内整体进度往往更慢——这就是 Brooks's Law。GitHire 的做法是把 Issue 上下文、Sandbox 探索、AI Review 报告全部沉淀为可读资产，让新人入场成本可控；只有当任务本身可拆分、上下文已结构化时，加人才有意义。</p>
+          </details>
+          <details>
+            <summary>『人月』是个伪命题吗？</summary>
+            <p>至少是一个粗暴的近似。软件工作不是体力劳动，人和月不可线性互换：复杂任务的依赖链限制了并行度，沟通成本随人数二次方增长，新成员的学习成本要从老成员的时间里扣。GitHire 不使用『人月』做估算，而是把工作拆为 Issue → PR 的可观测单元，用历史吞吐数据滚动预测。</p>
+          </details>
+          <details>
+            <summary>原型是否一定要被丢掉？</summary>
+            <p>Brooks 的建议是 <em>Plan to throw one away; you will, anyhow</em>——第一版的真正价值在于澄清问题。GitHire 把这条建议显式化：Sandbox 阶段产生的代码默认不进主分支，存在的目的是验证方向、暴露未知，而非交付。</p>
+          </details>
+          <details>
+            <summary>Conceptual integrity 怎么在 AI 协作下保持？</summary>
+            <p>通过显式的架构 owner。AI agent 可以生成 PR，但 Architect 这一步由人类负责。所有 PR 必须能被一位 architect 用一句话讲清楚动机和取舍——做不到的 PR 不 merge。这条约束让概念一致性不被并发的 agent 数量稀释。</p>
+          </details>
+          <details>
+            <summary>为什么文档永远写不完？</summary>
+            <p>因为写完即过时。GitHire 的策略是少写『文档』、多留『证据』：Issue 描述、PR diff、AI Review 报告、生产日志本身就是可追溯的文档链，自动按时间序拼成项目史，新人读这条链就能复现一次完整的决策过程。</p>
+          </details>
+          <details>
+            <summary>Deadline 为什么总是骗人的？</summary>
+            <p>因为估算是在信息最少的时候做的，承诺是在压力最大的时候许的。GitHire 用滚动 forecast 替代固定 deadline：每个 PR merge 之后基于真实吞吐重新预测，可观测的数据替代主观承诺，越接近交付，预测越收敛。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ACT 6 · Closer / CTA ──────────────────────────────── -->
+    <section class="scene-section scene-closer is-dark" id="closer" data-scene="closer" data-screen-label="06 Closer">
+      <div class="wrap">
+        <p class="meta">End of onboarding · 入职完成</p>
+        <h2 class="closer-line">你已经准备好<br/>以 <em>AI-native</em> 的方式工作<span class="period">.</span></h2>
+        <p class="closer-en">You are ready to build with AI — calmly, deliberately, alongside the team.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
     <div class="wrap">
-      <div class="workflow-frame">
-
-        <div class="wf-header">
-          <h3 class="title">Issue · Sandbox · AI · 架构师 · 上线 ——<br/><span class="it">交付一次完整的改动。</span></h3>
-          <div class="meta">SCROLL · 06 STEPS · 一步一步亮起</div>
-        </div>
-
-        <div class="wf-diagram" role="list">
-          <div class="wf-line" aria-hidden="true"><div class="fill"></div></div>
-
-          <div class="wf-node is-active" role="listitem">
-            <div class="marker">01</div>
-            <div class="lab">ISSUE</div>
-            <div class="zh">提出 Issue</div>
-          </div>
-          <div class="wf-node" role="listitem">
-            <div class="marker">02</div>
-            <div class="lab">SANDBOX</div>
-            <div class="zh">沙盒环境</div>
-          </div>
-          <div class="wf-node" role="listitem">
-            <div class="marker">03</div>
-            <div class="lab">EXECUTE · PR</div>
-            <div class="zh">执行任务 · 发起 PR</div>
-          </div>
-          <div class="wf-node" role="listitem">
-            <div class="marker">04</div>
-            <div class="lab">AI REVIEW</div>
-            <div class="zh">由另一位 AI 审核</div>
-          </div>
-          <div class="wf-node" role="listitem">
-            <div class="marker">05</div>
-            <div class="lab">ARCHITECT</div>
-            <div class="zh">架构师评审</div>
-          </div>
-          <div class="wf-node" role="listitem">
-            <div class="marker">06</div>
-            <div class="lab">PROD</div>
-            <div class="zh">上线生产</div>
-          </div>
-        </div>
-
-        <div class="wf-detail">
-          <div class="wf-info">
-
-            <div class="panel is-active" data-file="issue/421" data-badge="WRITING">
-              <span class="step-num">STEP 01 ／ 06</span>
-              <h4>从一个 Issue 开始<span class="en">ISSUE · 提出问题</span></h4>
-              <p>一切从一个 Issue 开始。先用一两句话把"为谁解决什么"写清楚——能讲明白的需求，才值得进入下一步。Issue 是这次工作的起点，也会是它最后的归处。</p>
-            </div>
-
-            <div class="panel" data-file="sandbox/dev-env" data-badge="DEV ENV">
-              <span class="step-num">STEP 02 ／ 06</span>
-              <h4>进入开发沙盒<span class="en">SANDBOX · 持续的开发环境</span></h4>
-              <p>沙盒就是我们的开发环境，长期运行、随时可用。它不是一次性的临时容器——它保留依赖、缓存与既有数据，让 AI 能在真实的上下文里工作，而不是从零开始。</p>
-            </div>
-
-            <div class="panel" data-file="agents/claude · codex" data-badge="EXECUTE">
-              <span class="step-num">STEP 03 ／ 06</span>
-              <h4>执行任务 · 发起 PR<span class="en">EXECUTE · Claude Code 或 Codex</span></h4>
-              <p>把 Issue 交给 Claude Code 或 Codex，由它在沙盒里完成具体的实现：写代码、跑测试、迭代修复。完成之后，它会把分支 push 到远程并发起一份 PR——这次工作的交付，到这里才算落地。</p>
-            </div>
-
-            <div class="panel" data-file="review/ai-second" data-badge="AI REVIEW">
-              <span class="step-num">STEP 04 ／ 06</span>
-              <h4>由另一位 AI 审核 PR<span class="en">AI REVIEW · 双 AI 互审</span></h4>
-              <p>这一步交给另一位 Claude Code 或 Codex 来做。它读完整份 PR，结合 CI 与静态检查的结果，给出可执行的修改意见——双 AI 互审，让显性问题在这里就被拦下来，再进入人类的视野。</p>
-            </div>
-
-            <div class="panel is-key" data-file="review/architect" data-badge="HUMAN · KEY STEP">
-              <span class="step-num">STEP 05 ／ 06 · 关键一步</span>
-              <h4>人类架构师评审<span class="en">ARCHITECT REVIEW · 专家把关</span></h4>
-              <p>这一步是整条流程的核心。由人类专家架构师来判断这次改动是否符合系统的方向、是否引入隐性债务、是否值得上线。AI 提供线索，决定权始终落在人身上——架构师的签字，是这次改动真正的通行证。</p>
-            </div>
-
-            <div class="panel" data-file="deploy/prod" data-badge="LIVE">
-              <span class="step-num">STEP 06 ／ 06</span>
-              <h4>合并并上线<span class="en">PRODUCTION · 正式发布</span></h4>
-              <p>架构师签字之后，PR 合入主干、部署到生产环境。这一次的决定与产物——可复用的 Skill、Checklist、评审记录——都会回写到 Issue 上，留给下一次接手的人。</p>
-            </div>
-
-          </div>
-
-          <div class="wf-card">
-            <div class="wf-card-inner">
-              <div class="wf-card-bar">
-                <div class="dots"><span></span><span></span><span></span></div>
-                <div class="name">issue/421</div>
-                <div class="badge">WRITING</div>
-              </div>
-              <div class="wf-card-body">
-
-                <pre class="wf-card-scene is-active"><span class="head">issue · #421</span><span class="kw">title:</span> <span class="str">"PromptCard 复制按钮替换为可命名卡片"</span>
-<span class="kw">for:</span>      <span class="str">"刚加入团队的工程师"</span>
-<span class="kw">solving:</span>  <span class="str">"按 / 调用 prompt 时找不到来源"</span>
-<span class="cmt"># 一句话能讲清楚 — 才进入下一步</span></pre>
-
-                <pre class="wf-card-scene"><span class="head">sandbox · 持续开发环境</span><span class="pr">$</span> githire dev attach issue/421
-<span class="dim">→ 复用既有的 dev 环境</span>
-<span class="dim">→ 拉取最近一次绿色构建</span>
-<span class="dim">→ 依赖、缓存、测试数据都在</span>
-<span class="ok">✓ ready · 4.1s</span>
-<span class="cmt"># 沙盒持续运行，不会被自动关闭</span></pre>
-
-                <pre class="wf-card-scene"><span class="head">execute · claude-code</span><span class="pr">›</span> 阅读 issue/421 · 实现需求
-<span class="dim">→ docs/index.md · CopyButton.tsx · PromptCard.tsx</span>
-<span class="ok">✓ 沙盒里跑通 · 28+ ／ 12-</span>
-<span class="pr">$</span> git push origin issue/421 &amp;&amp; gh pr create
-<span class="ok">✓ pr · #1287 已发起</span>
-<span class="cmt"># 实现 + 提 PR · 都在这一步完成</span></pre>
-
-                <pre class="wf-card-scene"><span class="head">ai review · 另一位 codex</span><span class="pr">›</span> 读完整份 PR · 给出建议
-<span class="dim">↳ CI · lint · type-check 全绿</span>
-<span class="dim">↳ AI Code Review · 6 条建议</span>
-<span class="warn">! </span>PromptCardCopy 与 CopyButton 命名重复
-<span class="ok">✓ </span>显性问题已拦下 · 等待架构师评审</pre>
-
-                <pre class="wf-card-scene"><span class="head">architect review · 关键一步</span><span class="kw">reviewer:</span> <span class="str">"@yui · 架构师"</span>
-<span class="kw">scope:</span>    <span class="str">"系统方向 · 边界 · 隐性债务"</span>
-<span class="kw">verdict:</span>  <span class="str">"approved · 1 nit"</span>
-<span class="kw">why:</span>      <span class="str">"与现有命名一致 · 不引入新的耦合"</span>
-<span class="cmt"># 这一步的签字，是真正的通行证</span></pre>
-
-                <pre class="wf-card-scene"><span class="head">deploy · production</span><span class="ok">✓ 合并主干 · ✓ 上线生产 · ✓ 写回 Issue</span>
-<span class="dim">→ skills/review.md · v3 +1</span>
-<span class="dim">→ checklists/first-pr.md · 引用 +1</span>
-<span class="cmt"># 留下可被下一次工作复用的痕迹</span></pre>
-
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      <p>© <span id="year">2026</span> GitHire · AI-native onboarding</p>
+      <p class="repo"><a href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">github.com/realRoc/git-hired</a></p>
+      <p class="lang"><a href="#" aria-current="page">中文</a> · <a href="#">English (soon)</a></p>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- ============================================================
-     RITUALS — small habits that make collaboration work
-     ============================================================ -->
-<section class="rituals-wrap" id="rituals" data-screen-label="04 Rituals">
-  <div class="wrap">
-    <div class="chapter-head reveal-stagger" style="margin-bottom: 36px">
-      <div class="section-tag">
-        <span class="num">§ 02</span>
-        <span class="bar" aria-hidden="true"></span>
-        <span>RITUALS</span>
-      </div>
-      <div>
-        <h2 class="section-title" style="font-size: clamp(28px, 3.6vw, 44px); margin-bottom: 12px;">流水线之外，<br/><span class="it">那些让协作成立的</span>小习惯<span class="accent">.</span></h2>
-        <p class="section-lede">流程负责"做什么"，习惯负责"在什么节奏里做"。下面这四件事，是我们用来让 AI-native 协作真正运转起来的最小集。</p>
-      </div>
-    </div>
+  <!-- ── Runtime · GSAP + Lenis (UMD) ─────────────────────── -->
+  <script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
-    <div class="rituals reveal">
-      <article class="ritual">
-        <span class="num">RITUAL · 01</span>
-        <h3>一日的形状<span class="en">THE SHAPE OF A DAY</span></h3>
-        <p>每天早晨花一分钟，写下今天最重要的那个 Issue。它不是任务清单，而是这一天的锚点——所有的对话、改动、PR，都围绕它发生。</p>
-        <ul class="bullets">
-          <li><span class="k">MORNING</span><span>写下 #today —— 当日最重要的 Issue</span></li>
-          <li><span class="k">DURING</span><span>所有改动都挂在这条 Issue 下面</span></li>
-          <li><span class="k">EVENING</span><span>用一句话回写今天的进展或决定</span></li>
-        </ul>
-      </article>
+  <script type="module" src="githire-scroll.js"></script>
 
-      <article class="ritual">
-        <span class="num">RITUAL · 02</span>
-        <h3>架构师与开发者<span class="en">ARCHITECT &amp; DEVELOPERS</span></h3>
-        <p>架构师拥有方向上的最终决策权；开发者围绕 Issue 进行开发，通过 Issue 与 PR 与架构师对话。评审与决策落在 GitHub 上，飞书留给当下需要立刻对齐的事。</p>
-        <ul class="bullets">
-          <li><span class="k">ARCHITECT</span><span>方向与边界的最终决策权</span></li>
-          <li><span class="k">DEVELOPER</span><span>围绕 Issue 开发 · 在 PR 中对话</span></li>
-          <li><span class="k">CHANNEL</span><span>评审在 GitHub · 即时同步在飞书</span></li>
-        </ul>
-      </article>
-
-      <article class="ritual">
-        <span class="num">RITUAL · 03</span>
-        <h3>Issue 与 PR 的追踪<span class="en">EVERY ISSUE IS TRACKED</span></h3>
-        <p>每一个 Issue 都有一条对应的 PR 来追踪它的执行过程，PR 上的评论会被完整保留下来——下一个接手的人，可以从 Issue 一路读到当时是怎么决定的。</p>
-        <ul class="bullets">
-          <li><span class="k">LINK</span><span>每个 Issue 对应一条 PR · 一一映射</span></li>
-          <li><span class="k">KEEP</span><span>PR 评论作为决策记录长期保留</span></li>
-          <li><span class="k">READ</span><span>新成员从 Issue → PR 还原历史</span></li>
-        </ul>
-      </article>
-
-      <article class="ritual">
-        <span class="num">RITUAL · 04</span>
-        <h3>从 Prompt 到 Skill<span class="en">FROM PROMPT TO SKILL</span></h3>
-        <p>一份 Prompt 被反复用过、值得保留下来，就会被沉淀成一个 Skill——带名字、带说明、可被引用。Skill 是团队真正在沉淀的工件。</p>
-        <ul class="bullets">
-          <li><span class="k">SKILL</span><span>review · sandbox · rollback · architect-brief</span></li>
-          <li><span class="k">CHECK</span><span>first-pr · oncall-handover · post-incident</span></li>
-          <li><span class="k">USAGE</span><span>在 Claude Code 或 Codex 中通过 /use 调用</span></li>
-        </ul>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     SKILLS — coda
-     ============================================================ -->
-<section class="prompt-after" id="skills" data-screen-label="05 Skills">
-  <div class="wrap">
-    <div class="prompt-after-head reveal-stagger">
-      <div class="section-tag">
-        <span class="num">§ 03</span>
-        <span class="bar" aria-hidden="true"></span>
-        <span>SKILLS · 第一周</span>
-      </div>
-      <div>
-        <h2 class="pa-title">把这条路径<br/><span class="it">变成可以引用的工件</span><span class="accent">.</span></h2>
-        <p class="lede">每一次走完这条流程，就留下一个可复用的 Skill 与一份 Checklist——下一位新成员，将不再从零开始。</p>
-      </div>
-    </div>
-
-    <div class="prompt-grid reveal">
-      <div class="prompt-card">
-        <div class="prompt-head">
-          <div class="l">
-            <div class="dots"><span></span><span></span><span></span></div>
-            <span>skills/architect-review.md  ·  v3</span>
-          </div>
-          <button class="prompt-copy" type="button">COPY</button>
-        </div>
-        <div class="prompt-body"><span class="cmt"># Skill — Architect Review Brief</span>
-<span class="kw">name</span>:     <span class="str">"architect-review"</span>
-<span class="kw">role</span>:     <span class="str">"为架构师准备一份评审简报"</span>
-<span class="kw">summarize</span>:
-  - 这次改动解决的根因是什么
-  - 与系统现有方向是否一致 · 是否引入新耦合
-  - 风险点 · 回滚成本 · 监控信号
-  - 命名与注释是否站得住脚
-<span class="kw">output</span>:   <span class="str">"≤ 8 行 · 让架构师在两分钟内能下判断"</span></div>
-      </div>
-
-      <div class="checklist">
-        <h5>第一周 Checklist<span class="en">FIRST WEEK · 7 ITEMS</span></h5>
-        <ul class="check-list">
-          <li class="done"><span class="box"></span><span class="t">完成账号、SSH、本地接入沙盒环境</span><span class="meta">DAY 1</span></li>
-          <li class="done"><span class="box"></span><span class="t">阅读《How we work together》主流程</span><span class="meta">DAY 1</span></li>
-          <li><span class="box"></span><span class="t">用 Claude Code 在沙盒里完成一次小改动</span><span class="meta">DAY 2</span></li>
-          <li><span class="box"></span><span class="t">由 Codex 接手 · 提交第一份 PR</span><span class="meta">DAY 3</span></li>
-          <li><span class="box"></span><span class="t">在 Issue 上写下你的"接手记录"</span><span class="meta">DAY 4</span></li>
-          <li><span class="box"></span><span class="t">参加一次架构师评审 · 旁听并提问</span><span class="meta">DAY 5</span></li>
-          <li><span class="box"></span><span class="t">提交第一份面向生产的 PR</span><span class="meta">DAY 5</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     FINAL CTA
-     ============================================================ -->
-<section class="cta" data-screen-label="06 CTA">
-  <div class="wrap">
-    <div class="cta-eye reveal">END OF ONBOARDING · 入职完成</div>
-    <h2 class="cta-title reveal">你已经准备好<br/>以 <span class="it">AI-native</span> 的方式工作。</h2>
-    <p class="cta-en reveal">You are ready to build with AI — calmly, deliberately, alongside the team.</p>
-
-    <div class="cta-tick reveal">
-      <span><span class="d"></span> 主流程已对齐</span>
-      <span><span class="d"></span> 4 条习惯已内化</span>
-      <span><span class="d"></span> 沙盒环境已就绪</span>
-      <span><span class="d"></span> 第一份 PR 等你提交</span>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-
-    <div class="foot-colophon">
-      <div class="cf-cell">
-        <span class="k">AUTHOR</span>
-        <a class="v" href="https://github.com/realRoc" target="_blank" rel="noopener">
-          <span>realRoc</span>
-          <svg class="ext" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3.5 2.5h6v6M9.5 2.5L3 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        </a>
-      </div>
-      <div class="cf-cell">
-        <span class="k">REPOSITORY</span>
-        <a class="v" href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">
-          <span>github.com/realRoc/git-hired</span>
-          <svg class="ext" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3.5 2.5h6v6M9.5 2.5L3 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        </a>
-      </div>
-      <div class="cf-cell">
-        <span class="k">LICENSE</span>
-        <span class="v"><span class="dot" aria-hidden="true"></span>MIT · Open Source</span>
-      </div>
-    </div>
-
-    <div class="foot-bot">
-      <span>© 2026 realRoc · v2.0.1 · Last updated May 10, 2026</span>
-    </div>
-
-  </div>
-</footer>
-
-<script src="githire-scroll.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
