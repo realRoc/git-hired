@@ -43,6 +43,7 @@ jobs:
           docs = Path("docs")
           required = [
               docs / "index.html",
+              docs / "news.html",
               docs / "githire.css",
               docs / "githire-scroll.js",
               docs / "README.md",
@@ -86,17 +87,17 @@ jobs:
                       if value:
                           self.refs.append(value)
 
-          parser = AssetParser()
-          parser.feed(html)
-
           missing_refs: list[str] = []
-          for ref in parser.refs:
-              parsed = urlparse(ref)
-              if parsed.scheme or parsed.netloc or ref.startswith(("mailto:", "#")):
-                  continue
-              local_path = docs / parsed.path.lstrip("/")
-              if not local_path.exists():
-                  missing_refs.append(ref)
+          for html_path in docs.glob("*.html"):
+              parser = AssetParser()
+              parser.feed(html_path.read_text(encoding="utf-8"))
+              for ref in parser.refs:
+                  parsed = urlparse(ref)
+                  if parsed.scheme or parsed.netloc or ref.startswith(("mailto:", "#")):
+                      continue
+                  local_path = docs / parsed.path.lstrip("/")
+                  if not local_path.exists():
+                      missing_refs.append(f"{html_path.name}: {ref}")
 
           if missing_refs:
               raise SystemExit("HTML references missing local files:\n- " + "\n- ".join(missing_refs))
@@ -118,6 +119,7 @@ jobs:
           done
 
           curl -fsS http://127.0.0.1:8000/ >/dev/null
+          curl -fsS http://127.0.0.1:8000/news.html >/dev/null
           curl -fsS http://127.0.0.1:8000/githire.css >/dev/null
           curl -fsS http://127.0.0.1:8000/githire-scroll.js >/dev/null
 
