@@ -1,10 +1,8 @@
-// GitHire v5 · entry. Wires Lenis smooth scroll + GSAP ScrollTrigger
-// to the Three.js stage. Scenes mount themselves via Stage.register().
+// GitHire v5 · entry. Wires navigation, DOM reveals, and the Three.js stage.
 
 import { Stage } from './three/stage.js';
 import { IntroScene } from './three/scenes/intro.js';
 
-// ── Smooth scroll (Lenis) ──────────────────────────────────────
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ── Navigation menu ────────────────────────────────────────────
@@ -33,32 +31,6 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (event.key === 'Escape') setOpen(false);
   });
 })();
-
-let lenis = null;
-if (!reduced && window.Lenis) {
-  lenis = new window.Lenis({
-    duration: 1.05,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-  });
-}
-
-// ── GSAP ScrollTrigger ─────────────────────────────────────────
-if (window.gsap && window.ScrollTrigger) {
-  window.gsap.registerPlugin(window.ScrollTrigger);
-  if (lenis) {
-    lenis.on('scroll', window.ScrollTrigger.update);
-    window.gsap.ticker.add((time) => lenis.raf(time * 1000));
-    window.gsap.ticker.lagSmoothing(0);
-  }
-}
-if (lenis && !(window.gsap && window.ScrollTrigger)) {
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-  requestAnimationFrame(raf);
-}
 
 // ── Three stage ────────────────────────────────────────────────
 const canvas = document.getElementById('stage');
