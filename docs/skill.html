@@ -92,10 +92,13 @@
           Give agents a reusable method for GitHub Issue framing, first PR planning, AI review, architect decisions, and handoff notes. The Skill points agents back to the homepage first, then lets them query the Blog for examples and updates.
         </p>
 
-        <div class="skill-panel" aria-label="GitHire Skill install source">
-          <p class="skill-kicker">Install source</p>
-          <a class="skill-install" href="https://github.com/realRoc/git-hired/tree/main/skills/githire" target="_blank" rel="noopener">github.com/realRoc/git-hired/tree/main/skills/githire</a>
-          <p class="skill-note">Use this folder as the canonical Skill source. Agents should consult the live homepage before applying the method, and use the Blog for current notes and deeper references.</p>
+        <div class="skill-panel" aria-label="GitHire Skill install command">
+          <p class="skill-kicker">Install command</p>
+          <div class="skill-command" data-copy-command="npx -y skills@latest add https://github.com/realRoc/git-hired --skill githire --agent &quot;*&quot; -y">
+            <code>npx -y skills@latest add https://github.com/realRoc/git-hired --skill githire --agent "*" -y</code>
+            <button type="button" class="skill-copy" data-copy-skill aria-label="Copy GitHire Skill install command">Copy</button>
+          </div>
+          <p class="skill-note">Paste this command into any agent or terminal that can run npm. It installs the <a href="https://github.com/realRoc/git-hired/tree/main/skills/githire" target="_blank" rel="noopener">GitHire Skill source</a>, then agents should read the live homepage first and query the Blog for current notes.</p>
         </div>
 
         <ol class="skill-list">
@@ -132,6 +135,34 @@
         setOpen(false);
       });
       document.addEventListener('keydown', function(event){ if(event.key === 'Escape') setOpen(false); });
+    })();
+
+    (function(){
+      var copyButton = document.querySelector('[data-copy-skill]');
+      var commandBox = document.querySelector('[data-copy-command]');
+      if(!copyButton || !commandBox) return;
+      var originalText = copyButton.textContent;
+      function setCopied(text){
+        copyButton.textContent = text;
+        window.setTimeout(function(){ copyButton.textContent = originalText; }, 1600);
+      }
+      copyButton.addEventListener('click', function(){
+        var command = commandBox.getAttribute('data-copy-command');
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(command).then(function(){ setCopied('Copied'); }, function(){ setCopied('Select'); });
+          return;
+        }
+        var textarea = document.createElement('textarea');
+        textarea.value = command;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try { document.execCommand('copy'); setCopied('Copied'); }
+        catch (err) { setCopied('Select'); }
+        document.body.removeChild(textarea);
+      });
     })();
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
