@@ -72,6 +72,7 @@ GitHire 把这两个时刻接到团队本来就在使用的工作对象上：Iss
 GitHire 也提供一个给 AI Agent 使用的 Skill，让它们按同一套 Issue-first 协作方法来工作。
 
 - 安装入口：https://realroc.github.io/git-hired/skill.html
+- 复制命令：`npx -y skills@latest add https://github.com/realRoc/git-hired --skill githire --agent "*" -y`
 - Skill 源地址：https://github.com/realRoc/git-hired/tree/main/skills/githire
 
 这个 Skill 会要求 Agent 优先读取线上首页，再根据需要查询 Blog 中的最新说明和案例。

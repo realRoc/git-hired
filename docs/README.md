@@ -72,6 +72,7 @@ A polished proposal is not required. A clear question is enough to start.
 GitHire also ships as an agent Skill so AI assistants can apply the same issue-first collaboration method.
 
 - Install page: https://realroc.github.io/git-hired/skill.html
+- Copy command: `npx -y skills@latest add https://github.com/realRoc/git-hired --skill githire --agent "*" -y`
 - Skill source: https://github.com/realRoc/git-hired/tree/main/skills/githire
 
 The Skill tells agents to read the live homepage first, then use the Blog for current notes and examples.
