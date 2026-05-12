@@ -178,3 +178,133 @@ if (stage) {
   }, { threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
   cards.forEach((c) => io.observe(c));
 })();
+
+// ── Bottom scroll · News handoff ──────────────────────────────
+(() => {
+  const targetUrl = 'https://realroc.github.io/git-hired/news.html';
+  const bottomTolerance = 8;
+  const requiredMomentum = 960;
+  const idleDelay = 760;
+  const scroller = document.scrollingElement || document.documentElement;
+  const prompt = document.createElement('div');
+  prompt.className = 'news-jump-prompt';
+  prompt.setAttribute('role', 'status');
+  prompt.setAttribute('aria-live', 'polite');
+  prompt.setAttribute('aria-hidden', 'true');
+  prompt.innerHTML = `
+    <div class="news-jump-copy">
+      <span class="news-jump-kicker">Next page</span>
+      <strong>继续向下滑动，前往 News</strong>
+    </div>
+    <div class="news-jump-track" aria-hidden="true"><span></span></div>
+  `;
+  document.body.appendChild(prompt);
+
+  const promptText = prompt.querySelector('strong');
+  let progress = 0;
+  let hideTimer = 0;
+  let decayTimer = 0;
+  let lastTouchY = null;
+  let isRedirecting = false;
+
+  const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+  const maxScroll = () => Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+  const isAtBottom = () => maxScroll() - scroller.scrollTop <= bottomTolerance;
+
+  const showPrompt = () => {
+    clearTimeout(hideTimer);
+    prompt.classList.add('is-visible');
+    prompt.setAttribute('aria-hidden', 'false');
+  };
+
+  const hidePrompt = () => {
+    prompt.classList.remove('is-visible');
+    prompt.setAttribute('aria-hidden', 'true');
+  };
+
+  const setProgress = (value) => {
+    progress = clamp(value);
+    prompt.style.setProperty('--news-jump-progress', progress.toFixed(3));
+    prompt.classList.toggle('is-primed', progress > 0);
+    if (progress > 0) showPrompt();
+  };
+
+  const resetProgress = () => {
+    clearTimeout(decayTimer);
+    setProgress(0);
+    hideTimer = setTimeout(hidePrompt, 260);
+  };
+
+  const startDecay = () => {
+    clearTimeout(decayTimer);
+    decayTimer = setTimeout(() => {
+      setProgress(progress - 0.18);
+      if (progress > 0) startDecay();
+      else hideTimer = setTimeout(hidePrompt, 260);
+    }, idleDelay);
+  };
+
+  const goToNews = () => {
+    if (isRedirecting) return;
+    isRedirecting = true;
+    prompt.classList.add('is-complete');
+    promptText.textContent = '正在前往 News…';
+    setProgress(1);
+    window.setTimeout(() => {
+      window.location.href = targetUrl;
+    }, 180);
+  };
+
+  const addMomentum = (amount) => {
+    if (isRedirecting) return;
+    if (!isAtBottom()) {
+      if (progress > 0) resetProgress();
+      return;
+    }
+
+    if (amount <= 0) {
+      if (progress > 0) {
+        setProgress(progress - 0.16);
+        startDecay();
+      }
+      return;
+    }
+
+    clearTimeout(decayTimer);
+    const cappedMomentum = Math.min(amount, 220);
+    setProgress(progress + cappedMomentum / requiredMomentum);
+    if (progress >= 1) goToNews();
+    else startDecay();
+  };
+
+  window.addEventListener('wheel', (event) => {
+    addMomentum(event.deltaY);
+  }, { passive: true });
+
+  window.addEventListener('touchstart', (event) => {
+    lastTouchY = event.touches[0] ? event.touches[0].clientY : null;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (event) => {
+    if (lastTouchY === null || !event.touches[0]) return;
+    const touchY = event.touches[0].clientY;
+    const deltaY = lastTouchY - touchY;
+    lastTouchY = touchY;
+    addMomentum(deltaY * 2.1);
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    lastTouchY = null;
+    if (progress > 0 && !isRedirecting) startDecay();
+  }, { passive: true });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) return;
+    if (!['ArrowDown', 'PageDown', ' '].includes(event.key)) return;
+    addMomentum(event.key === 'ArrowDown' ? 120 : 240);
+  });
+
+  window.addEventListener('scroll', () => {
+    if (!isAtBottom() && progress > 0) resetProgress();
+  }, { passive: true });
+})();
