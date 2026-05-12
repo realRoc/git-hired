@@ -5,7 +5,8 @@ A static scrollytelling site for GitHire, built around an AI-native onboarding a
 ## Files
 
 - `index.html` — main page markup, SEO schema, workflow panels, rituals, FAQ, and CTA.
-- `news.html` — lightweight News route using the same visual system.
+- `blog.html` — Blog index for articles, stable anchors, structured data, and future long-form posts.
+- `news.html` — compatibility redirect to `blog.html` for old links.
 - `githire.css` — design tokens, layout, responsive rules, route styles, and animation states.
 - `githire-scroll.js` — navigation menu, DOM reveals, and Three.js stage wiring.
 - `three/stage.js` — shared Three.js renderer, camera, throttled render loop, and activation tracking.
@@ -23,6 +24,12 @@ python3 -m http.server 8000
 Then visit `http://localhost:8000`.
 
 No build step or package install is required. Runtime libraries load from CDNs: Google Fonts and Three.js.
+
+## SEO / GEO
+
+- `blog.html` is the canonical Blog index for future posts and homepage references.
+- Keep article URLs descriptive, stable, and listed in `sitemap.xml` when new posts are added.
+- Keep `llms.txt` updated with concise summaries and canonical links for AI retrieval.
 
 ## Notes
 

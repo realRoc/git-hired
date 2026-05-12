@@ -199,13 +199,13 @@ if (stage) {
   cards.forEach((c) => io.observe(c));
 })();
 
-// ── Bottom scroll · News handoff ──────────────────────────────
+// ── Bottom scroll · Blog handoff ──────────────────────────────
 (() => {
-  const targetUrl = 'https://realroc.github.io/git-hired/news.html';
+  const targetUrl = 'https://realroc.github.io/git-hired/blog.html';
   const bottomTolerance = 4;
   const idleDelay = 840;
   const scroller = document.scrollingElement || document.documentElement;
-  const prompt = document.getElementById('newsJumpPrompt');
+  const prompt = document.getElementById('blogJumpPrompt');
   if (!prompt) return;
 
   const promptText = prompt.querySelector('strong');
@@ -225,13 +225,13 @@ if (stage) {
     prompt.classList.toggle('is-ready', atEnd && !isRedirecting);
     prompt.classList.toggle('is-primed', progress > 0);
     if (promptText && !isRedirecting) {
-      promptText.textContent = progress > 0 ? '继续向下滑动，前往 News' : defaultText;
+      promptText.textContent = progress > 0 ? '继续向下滑动，前往 Blog' : defaultText;
     }
   };
 
   const setProgress = (value) => {
     progress = clamp(value);
-    prompt.style.setProperty('--news-jump-progress', progress.toFixed(3));
+    prompt.style.setProperty('--blog-jump-progress', progress.toFixed(3));
     refreshState();
   };
 
@@ -248,11 +248,11 @@ if (stage) {
     }, idleDelay);
   };
 
-  const goToNews = () => {
+  const goToBlog = () => {
     if (isRedirecting) return;
     isRedirecting = true;
     prompt.classList.add('is-complete');
-    if (promptText) promptText.textContent = '正在前往 News…';
+    if (promptText) promptText.textContent = '正在前往 Blog…';
     setProgress(1);
     window.setTimeout(() => {
       window.location.href = targetUrl;
@@ -284,7 +284,7 @@ if (stage) {
 
     clearTimeout(decayTimer);
     setProgress(progress + progressFromWheel(amount));
-    if (progress >= 1) goToNews();
+    if (progress >= 1) goToBlog();
     else startDecay();
   };
 

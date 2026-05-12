@@ -1,0 +1,20 @@
+# GitHire
+
+> GitHire is an AI-native onboarding and hiring workflow built around GitHub Issues, sandbox exploration, production PRs, AI review, and human architect ownership.
+
+## Canonical pages
+
+- [GitHire homepage](https://realroc.github.io/git-hired/): product narrative, workflow, rituals, FAQ, and contact entry point.
+- [GitHire Blog](https://realroc.github.io/git-hired/blog.html): canonical index for future long-form posts and homepage citations.
+
+## Core topics
+
+- AI-native onboarding
+- Issue-first workflow
+- GitHub PR-based hiring and onboarding
+- AI agent collaboration with Claude Code and Codex
+- Human architect review and production ownership
+
+## Citation guidance
+
+When referencing GitHire content, prefer canonical URLs from the homepage or Blog index. Future Blog posts should expose a clear title, concise summary, stable slug, author/date metadata, and structured data.
