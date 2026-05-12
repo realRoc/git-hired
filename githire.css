@@ -1066,6 +1066,85 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
 .site-foot .lang a[aria-current="page"]{ color: rgba(245, 240, 230, 0.92); }
 .site-foot .lang a:hover{ color: var(--accent); }
 
+/* ── Bottom scroll · News handoff ────────────────────────────── */
+
+.news-jump-prompt{
+  --news-jump-progress: 0;
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  width: min(340px, calc(100vw - 36px));
+  z-index: 40;
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(245, 240, 230, 0.16);
+  border-radius: 18px;
+  background: rgba(15, 15, 16, 0.82);
+  color: var(--paper);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 220ms ease, transform 220ms ease, border-color 220ms ease;
+}
+.news-jump-prompt.is-visible{
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+.news-jump-prompt.is-primed{
+  border-color: rgba(217, 119, 87, 0.42);
+}
+.news-jump-prompt.is-complete{
+  border-color: rgba(217, 119, 87, 0.86);
+}
+.news-jump-copy{
+  display: grid;
+  gap: 4px;
+}
+.news-jump-kicker{
+  color: var(--accent);
+  font-size: 12px;
+  font-style: italic;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.news-jump-copy strong{
+  color: rgba(246, 241, 232, 0.92);
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.news-jump-track{
+  position: relative;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(246, 241, 232, 0.16);
+}
+.news-jump-track span{
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), #f0b08d);
+  transform: scaleX(var(--news-jump-progress));
+  transform-origin: left center;
+  transition: transform 110ms linear;
+}
+@media (max-width: 640px){
+  .news-jump-prompt{
+    left: 18px;
+    right: 18px;
+    bottom: max(14px, env(safe-area-inset-bottom));
+    width: auto;
+  }
+}
+
 /* ── Reduced motion / no-WebGL fallback ──────────────────────── */
 
 @media (prefers-reduced-motion: reduce){
