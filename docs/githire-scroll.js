@@ -32,6 +32,26 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   });
 })();
 
+// ── Navigation contrast on dark sections ──────────────────────
+(() => {
+  const nav = document.querySelector('.topnav');
+  const darkSection = document.querySelector('.scene-closer.is-dark');
+  if (!nav || !darkSection) return;
+
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    const probeY = nav.getBoundingClientRect().top + nav.offsetHeight * 0.5;
+    const rect = darkSection.getBoundingClientRect();
+    nav.classList.toggle('nav-on-dark', rect.top <= probeY && rect.bottom >= probeY);
+  };
+  const requestUpdate = () => { if (!raf) raf = requestAnimationFrame(update); };
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  update();
+})();
+
 // ── Three stage ────────────────────────────────────────────────
 const canvas = document.getElementById('stage');
 let stage = null;
@@ -182,27 +202,15 @@ if (stage) {
 // ── Bottom scroll · News handoff ──────────────────────────────
 (() => {
   const targetUrl = 'https://realroc.github.io/git-hired/news.html';
-  const triggerDistance = () => Math.min(window.innerHeight * 0.78, 760);
-  const requiredMomentum = 620;
-  const idleDelay = 760;
+  const bottomTolerance = 4;
+  const idleDelay = 840;
   const scroller = document.scrollingElement || document.documentElement;
-  const prompt = document.createElement('div');
-  prompt.className = 'news-jump-prompt';
-  prompt.setAttribute('role', 'status');
-  prompt.setAttribute('aria-live', 'polite');
-  prompt.setAttribute('aria-hidden', 'true');
-  prompt.innerHTML = `
-    <div class="news-jump-copy">
-      <span class="news-jump-kicker">Next page</span>
-      <strong>继续向下滑动，前往 News</strong>
-    </div>
-    <div class="news-jump-track" aria-hidden="true"><span></span></div>
-  `;
-  document.body.appendChild(prompt);
+  const prompt = document.getElementById('newsJumpPrompt');
+  if (!prompt) return;
 
   const promptText = prompt.querySelector('strong');
+  const defaultText = promptText ? promptText.textContent : '';
   let progress = 0;
-  let hideTimer = 0;
   let decayTimer = 0;
   let lastTouchY = null;
   let isRedirecting = false;
@@ -210,43 +218,33 @@ if (stage) {
   const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
   const maxScroll = () => Math.max(0, scroller.scrollHeight - scroller.clientHeight);
   const distanceFromBottom = () => Math.max(0, maxScroll() - scroller.scrollTop);
-  const isInBottomZone = () => distanceFromBottom() <= triggerDistance();
+  const isAtPageEnd = () => distanceFromBottom() <= bottomTolerance;
 
-  const showPrompt = () => {
-    clearTimeout(hideTimer);
-    prompt.classList.add('is-visible');
-    prompt.setAttribute('aria-hidden', 'false');
-  };
-
-  const hidePrompt = () => {
-    prompt.classList.remove('is-visible');
-    prompt.setAttribute('aria-hidden', 'true');
-  };
-
-  const refreshPrompt = () => {
-    if (isInBottomZone() || progress > 0 || isRedirecting) showPrompt();
-    else hidePrompt();
+  const refreshState = () => {
+    const atEnd = isAtPageEnd();
+    prompt.classList.toggle('is-ready', atEnd && !isRedirecting);
+    prompt.classList.toggle('is-primed', progress > 0);
+    if (promptText && !isRedirecting) {
+      promptText.textContent = progress > 0 ? '继续向下滑动，前往 News' : defaultText;
+    }
   };
 
   const setProgress = (value) => {
     progress = clamp(value);
     prompt.style.setProperty('--news-jump-progress', progress.toFixed(3));
-    prompt.classList.toggle('is-primed', progress > 0);
-    refreshPrompt();
+    refreshState();
   };
 
   const resetProgress = () => {
     clearTimeout(decayTimer);
     setProgress(0);
-    if (!isInBottomZone()) hideTimer = setTimeout(hidePrompt, 220);
   };
 
   const startDecay = () => {
     clearTimeout(decayTimer);
     decayTimer = setTimeout(() => {
-      setProgress(progress - 0.16);
+      setProgress(progress - 0.18);
       if (progress > 0) startDecay();
-      else if (!isInBottomZone()) hideTimer = setTimeout(hidePrompt, 220);
     }, idleDelay);
   };
 
@@ -254,33 +252,38 @@ if (stage) {
     if (isRedirecting) return;
     isRedirecting = true;
     prompt.classList.add('is-complete');
-    promptText.textContent = '正在前往 News…';
+    if (promptText) promptText.textContent = '正在前往 News…';
     setProgress(1);
     window.setTimeout(() => {
       window.location.href = targetUrl;
     }, 180);
   };
 
+  const progressFromWheel = (amount) => {
+    if (amount >= 80) return 0.5;
+    return Math.min(amount / 520, 0.32);
+  };
+
   const addMomentum = (amount) => {
     if (isRedirecting) return;
-    if (!isInBottomZone()) {
+    if (!isAtPageEnd()) {
       if (progress > 0) resetProgress();
+      else refreshState();
       return;
     }
 
     if (amount <= 0) {
       if (progress > 0) {
-        setProgress(progress - 0.12);
+        setProgress(progress - 0.14);
         startDecay();
       } else {
-        refreshPrompt();
+        refreshState();
       }
       return;
     }
 
     clearTimeout(decayTimer);
-    const cappedMomentum = Math.min(amount, 260);
-    setProgress(progress + cappedMomentum / requiredMomentum);
+    setProgress(progress + progressFromWheel(amount));
     if (progress >= 1) goToNews();
     else startDecay();
   };
@@ -298,7 +301,7 @@ if (stage) {
     const touchY = event.touches[0].clientY;
     const deltaY = lastTouchY - touchY;
     lastTouchY = touchY;
-    addMomentum(deltaY * 2.1);
+    addMomentum(deltaY * 1.7);
   }, { passive: true });
 
   window.addEventListener('touchend', () => {
@@ -309,14 +312,14 @@ if (stage) {
   window.addEventListener('keydown', (event) => {
     if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) return;
     if (!['ArrowDown', 'PageDown', ' '].includes(event.key)) return;
-    addMomentum(event.key === 'ArrowDown' ? 120 : 240);
+    addMomentum(event.key === 'ArrowDown' ? 90 : 120);
   });
 
   window.addEventListener('scroll', () => {
-    if (!isInBottomZone() && progress > 0) resetProgress();
-    else refreshPrompt();
+    if (!isAtPageEnd() && progress > 0) resetProgress();
+    else refreshState();
   }, { passive: true });
 
-  window.addEventListener('resize', refreshPrompt);
-  refreshPrompt();
+  window.addEventListener('resize', refreshState);
+  setProgress(0);
 })();
