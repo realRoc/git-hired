@@ -52,12 +52,15 @@ jobs:
           docs = Path("docs")
           required = [
               docs / "index.html",
-              docs / "news.html",
+              docs / "blog.html",
               docs / "githire.css",
               docs / "githire-scroll.js",
               docs / "three" / "stage.js",
               docs / "three" / "scenes" / "intro.js",
               docs / "README.md",
+              docs / "robots.txt",
+              docs / "sitemap.xml",
+              docs / "llms.txt",
           ]
 
           missing = [str(path) for path in required if not path.is_file()]
@@ -131,7 +134,7 @@ jobs:
           done
 
           curl -fsS http://127.0.0.1:8000/ >/dev/null
-          curl -fsS http://127.0.0.1:8000/news.html >/dev/null
+          curl -fsS http://127.0.0.1:8000/blog.html >/dev/null
           curl -fsS http://127.0.0.1:8000/githire.css >/dev/null
           curl -fsS http://127.0.0.1:8000/githire-scroll.js >/dev/null
           curl -fsS http://127.0.0.1:8000/three/stage.js >/dev/null
