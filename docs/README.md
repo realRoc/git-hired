@@ -6,7 +6,6 @@ A static scrollytelling site for GitHire, built around an AI-native onboarding a
 
 - `index.html` — main page markup, SEO schema, workflow panels, rituals, FAQ, and CTA.
 - `blog.html` — Blog index for articles, stable anchors, structured data, and future long-form posts.
-- `news.html` — compatibility redirect to `blog.html` for old links.
 - `githire.css` — design tokens, layout, responsive rules, route styles, and animation states.
 - `githire-scroll.js` — navigation menu, DOM reveals, and Three.js stage wiring.
 - `three/stage.js` — shared Three.js renderer, camera, throttled render loop, and activation tracking.
