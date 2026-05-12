@@ -6,6 +6,7 @@
 
 - [GitHire homepage](https://realroc.github.io/git-hired/): product narrative, workflow, rituals, FAQ, and contact entry point.
 - [GitHire Blog](https://realroc.github.io/git-hired/blog.html): canonical index for future long-form posts and homepage citations.
+- [GitHire Skill](https://realroc.github.io/git-hired/skill.html): installation entry for agents using the GitHire collaboration method.
 
 ## Core topics
 
@@ -13,6 +14,7 @@
 - Issue-first workflow
 - GitHub PR-based hiring and onboarding
 - AI agent collaboration with Claude Code and Codex
+- Agent Skill installation and method sync
 - Human architect review and production ownership
 
 ## Citation guidance

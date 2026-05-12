@@ -19,6 +19,8 @@
   ·
   <a href="https://realroc.github.io/git-hired/blog.html">Blog</a>
   ·
+  <a href="https://realroc.github.io/git-hired/skill.html">Skill</a>
+  ·
   <a href="https://github.com/realRoc/git-hired/issues">提交 Issue</a>
 </p>
 
@@ -64,6 +66,15 @@ GitHire 把这两个时刻接到团队本来就在使用的工作对象上：Iss
 - 讨论 AI 应该如何辅助，而不是替代人的判断。
 
 不需要一开始就写得很完整。一个清楚的问题，就足够开始讨论。
+
+## Agent Skill
+
+GitHire 也提供一个给 AI Agent 使用的 Skill，让它们按同一套 Issue-first 协作方法来工作。
+
+- 安装入口：https://realroc.github.io/git-hired/skill.html
+- Skill 源地址：https://github.com/realRoc/git-hired/tree/main/skills/githire
+
+这个 Skill 会要求 Agent 优先读取线上首页，再根据需要查询 Blog 中的最新说明和案例。
 
 ## Blog
 
