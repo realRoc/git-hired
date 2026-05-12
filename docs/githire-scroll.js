@@ -182,8 +182,8 @@ if (stage) {
 // ── Bottom scroll · News handoff ──────────────────────────────
 (() => {
   const targetUrl = 'https://realroc.github.io/git-hired/news.html';
-  const bottomTolerance = 8;
-  const requiredMomentum = 960;
+  const triggerDistance = () => Math.min(window.innerHeight * 0.78, 760);
+  const requiredMomentum = 620;
   const idleDelay = 760;
   const scroller = document.scrollingElement || document.documentElement;
   const prompt = document.createElement('div');
@@ -209,7 +209,8 @@ if (stage) {
 
   const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
   const maxScroll = () => Math.max(0, scroller.scrollHeight - scroller.clientHeight);
-  const isAtBottom = () => maxScroll() - scroller.scrollTop <= bottomTolerance;
+  const distanceFromBottom = () => Math.max(0, maxScroll() - scroller.scrollTop);
+  const isInBottomZone = () => distanceFromBottom() <= triggerDistance();
 
   const showPrompt = () => {
     clearTimeout(hideTimer);
@@ -222,25 +223,30 @@ if (stage) {
     prompt.setAttribute('aria-hidden', 'true');
   };
 
+  const refreshPrompt = () => {
+    if (isInBottomZone() || progress > 0 || isRedirecting) showPrompt();
+    else hidePrompt();
+  };
+
   const setProgress = (value) => {
     progress = clamp(value);
     prompt.style.setProperty('--news-jump-progress', progress.toFixed(3));
     prompt.classList.toggle('is-primed', progress > 0);
-    if (progress > 0) showPrompt();
+    refreshPrompt();
   };
 
   const resetProgress = () => {
     clearTimeout(decayTimer);
     setProgress(0);
-    hideTimer = setTimeout(hidePrompt, 260);
+    if (!isInBottomZone()) hideTimer = setTimeout(hidePrompt, 220);
   };
 
   const startDecay = () => {
     clearTimeout(decayTimer);
     decayTimer = setTimeout(() => {
-      setProgress(progress - 0.18);
+      setProgress(progress - 0.16);
       if (progress > 0) startDecay();
-      else hideTimer = setTimeout(hidePrompt, 260);
+      else if (!isInBottomZone()) hideTimer = setTimeout(hidePrompt, 220);
     }, idleDelay);
   };
 
@@ -257,21 +263,23 @@ if (stage) {
 
   const addMomentum = (amount) => {
     if (isRedirecting) return;
-    if (!isAtBottom()) {
+    if (!isInBottomZone()) {
       if (progress > 0) resetProgress();
       return;
     }
 
     if (amount <= 0) {
       if (progress > 0) {
-        setProgress(progress - 0.16);
+        setProgress(progress - 0.12);
         startDecay();
+      } else {
+        refreshPrompt();
       }
       return;
     }
 
     clearTimeout(decayTimer);
-    const cappedMomentum = Math.min(amount, 220);
+    const cappedMomentum = Math.min(amount, 260);
     setProgress(progress + cappedMomentum / requiredMomentum);
     if (progress >= 1) goToNews();
     else startDecay();
@@ -305,6 +313,10 @@ if (stage) {
   });
 
   window.addEventListener('scroll', () => {
-    if (!isAtBottom() && progress > 0) resetProgress();
+    if (!isInBottomZone() && progress > 0) resetProgress();
+    else refreshPrompt();
   }, { passive: true });
+
+  window.addEventListener('resize', refreshPrompt);
+  refreshPrompt();
 })();
