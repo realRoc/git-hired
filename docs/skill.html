@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F6F1E8" />
 
-  <title>GitHire Blog · AI-native onboarding notes</title>
-  <meta name="description" content="GitHire Blog 沉淀 AI-native onboarding、GitHub Issue 工作流、AI agent 协作、招聘与工程管理实践，便于首页引用和搜索引擎理解。" />
+  <title>GitHire Skill · Agent collaboration method</title>
+  <meta name="description" content="Install the GitHire Skill so AI agents can use the issue-first onboarding, PR review, architect decision, and handoff method from the GitHire website and Blog." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
-  <link rel="canonical" href="https://realroc.github.io/git-hired/blog.html" />
+  <link rel="canonical" href="https://realroc.github.io/git-hired/skill.html" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="GitHire Blog · AI-native onboarding notes" />
-  <meta property="og:description" content="围绕 AI-native onboarding、Issue-first workflow 和 agent collaboration 的长期 Blog 索引。" />
-  <meta property="og:url" content="https://realroc.github.io/git-hired/blog.html" />
+  <meta property="og:title" content="GitHire Skill · Agent collaboration method" />
+  <meta property="og:description" content="A Skill for agents to apply GitHire's real-work hiring and onboarding method." />
+  <meta property="og:url" content="https://realroc.github.io/git-hired/skill.html" />
   <meta property="og:locale" content="zh_CN" />
   <meta name="twitter:card" content="summary" />
 
@@ -24,39 +24,21 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Blog",
-    "name": "GitHire Blog",
-    "url": "https://realroc.github.io/git-hired/blog.html",
-    "inLanguage": "zh-CN",
-    "description": "AI-native onboarding、GitHub Issue 工作流、AI agent 协作、招聘与工程管理实践的长期 Blog 索引。",
-    "publisher": {
-      "@type": "Organization",
-      "name": "GitHire",
-      "url": "https://realroc.github.io/git-hired/"
-    },
-    "about": [
-      "AI-native onboarding",
-      "GitHub Issue workflow",
-      "AI agent collaboration",
-      "engineering hiring"
+    "@type": "SoftwareSourceCode",
+    "name": "GitHire Skill",
+    "url": "https://github.com/realRoc/git-hired/tree/main/skills/githire",
+    "codeRepository": "https://github.com/realRoc/git-hired",
+    "programmingLanguage": "Markdown",
+    "description": "A Skill that teaches AI agents the GitHire issue-first onboarding and collaboration method.",
+    "isBasedOn": [
+      "https://realroc.github.io/git-hired/",
+      "https://realroc.github.io/git-hired/blog.html"
     ]
   }
   </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "GitHire", "item": "https://realroc.github.io/git-hired/" },
-      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://realroc.github.io/git-hired/blog.html" }
-    ]
-  }
-  </script>
-
 </head>
 
-<body class="blog-page">
+<body class="skill-page">
   <a class="skip" href="#main">跳到主要内容</a>
 
   <header class="topnav">
@@ -93,47 +75,34 @@
       <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu">Menu</button>
       <div class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
         <a href="index.html#top" role="menuitem">Intro</a>
-        <a href="index.html#definition" role="menuitem">Definition</a>
         <a href="index.html#workflow" role="menuitem">Workflow</a>
-        <a href="index.html#rituals" role="menuitem">Rituals</a>
         <a href="index.html#faq" role="menuitem">FAQ</a>
-        <a href="blog.html" role="menuitem" aria-current="page">Blog</a>
-        <a href="skill.html" role="menuitem">Skill</a>
+        <a href="blog.html" role="menuitem">Blog</a>
+        <a href="skill.html" role="menuitem" aria-current="page">Skill</a>
       </div>
     </nav>
   </header>
 
-  <main id="main" class="blog-main">
-    <section class="scene-section blog-hero" aria-labelledby="blog-title">
+  <main id="main" class="skill-main">
+    <section class="scene-section skill-hero" aria-labelledby="skill-title">
       <div class="wrap">
-        <p class="meta">Blog · AI-native onboarding · field notes</p>
-        <h1 class="blog-title" id="blog-title">GitHire Blog,<br/><em>for builders.</em></h1>
-        <p class="blog-lede">
-          这里会沉淀 GitHire 的长期 Blog：AI-native onboarding、GitHub Issue 工作流、AI agent 协作、招聘与工程管理实践。首页中的引用、注释和延伸阅读会优先指向这里的具体文章或稳定锚点。
+        <p class="meta">Skill · agents · issue-first collaboration</p>
+        <h1 class="skill-title" id="skill-title">Install GitHire<br/><em>as a Skill.</em></h1>
+        <p class="skill-lede">
+          Give agents a reusable method for GitHub Issue framing, first PR planning, AI review, architect decisions, and handoff notes. The Skill points agents back to the homepage first, then lets them query the Blog for examples and updates.
         </p>
 
-        <section class="blog-index" aria-labelledby="blog-index-title">
-          <h2 id="blog-index-title">Blog index</h2>
-          <p>每篇文章都会使用可读 slug、清晰摘要、稳定 canonical URL 和结构化数据，方便搜索引擎与 AI 引用。</p>
-        </section>
-
-        <div class="blog-grid" aria-label="GitHire Blog topics">
-          <article class="blog-card" id="ai-native-onboarding">
-            <span>01</span>
-            <h2>AI-native onboarding</h2>
-            <p>关于新人如何借助 Issue、Sandbox、PR 和 AI Review 更快交付真实生产改动。</p>
-          </article>
-          <article class="blog-card" id="issue-first-workflow">
-            <span>02</span>
-            <h2>Issue-first workflow</h2>
-            <p>围绕 GitHub Issue 组织需求、上下文、验收标准和长期团队记忆。</p>
-          </article>
-          <article class="blog-card" id="agent-collaboration">
-            <span>03</span>
-            <h2>Agent collaboration</h2>
-            <p>Claude Code、Codex、多 agent review 和人类 architect 如何协作而不破坏系统一致性。</p>
-          </article>
+        <div class="skill-panel" aria-label="GitHire Skill install source">
+          <p class="skill-kicker">Install source</p>
+          <a class="skill-install" href="https://github.com/realRoc/git-hired/tree/main/skills/githire" target="_blank" rel="noopener">github.com/realRoc/git-hired/tree/main/skills/githire</a>
+          <p class="skill-note">Use this folder as the canonical Skill source. Agents should consult the live homepage before applying the method, and use the Blog for current notes and deeper references.</p>
         </div>
+
+        <ol class="skill-list">
+          <li><span>01</span>Read the homepage as the current method.</li>
+          <li><span>02</span>Use the Skill to frame issues, PRs, reviews, and handoffs.</li>
+          <li><span>03</span>Search the Blog when examples or new notes are needed.</li>
+        </ol>
       </div>
     </section>
   </main>

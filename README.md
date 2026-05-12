@@ -19,6 +19,8 @@
   ·
   <a href="https://realroc.github.io/git-hired/blog.html">Blog</a>
   ·
+  <a href="https://realroc.github.io/git-hired/skill.html">Skill</a>
+  ·
   <a href="https://github.com/realRoc/git-hired/issues">Open an issue</a>
 </p>
 
@@ -64,6 +66,15 @@ You are welcome to open an issue if you want to:
 - discuss how AI should support human judgment.
 
 A polished proposal is not required. A clear question is enough to start.
+
+## Agent Skill
+
+GitHire also ships as an agent Skill so AI assistants can apply the same issue-first collaboration method.
+
+- Install page: https://realroc.github.io/git-hired/skill.html
+- Skill source: https://github.com/realRoc/git-hired/tree/main/skills/githire
+
+The Skill tells agents to read the live homepage first, then use the Blog for current notes and examples.
 
 ## Blog
 
