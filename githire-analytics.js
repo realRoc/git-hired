@@ -6,26 +6,33 @@
 // classes) rather than hooking into scroll.js internals.
 //
 // Event vocabulary (kept intentionally small):
-//   - scene_view              first time a scene crosses 50% visibility
-//   - scene_dwell             when that scene drops below 20% (or pagehide)
-//   - scroll_max              max scroll % reached, flushed on pagehide
+//   - scene_view              first time a scene becomes ≥50% visible
+//   - scene_dwell             when that scene drops below 20% (or unload)
+//   - scroll_max              max scroll % reached, flushed once on unload
 //   - blog_prompt_shown       bottom-of-page Blog handoff prompt becomes ready
 //   - blog_prompt_primed      user has built up handoff momentum (progress > 0)
 //   - blog_handoff_complete   handoff finished, navigating to Blog
 //   - nav_menu_open           top-right Menu opened
-//   - nav_anchor_click        in-page anchor clicked from Menu
+//   - nav_anchor_click        in-page anchor (#scene) clicked from Menu
+//   - nav_link_click          cross-page link (e.g. blog.html) clicked from Menu
 //   - external_link_click     click on an off-site link (host !== location.host)
 //
 // Super properties registered once per session:
 //   reduced_motion, has_webgl, viewport_w, viewport_h, page_variant
 //
+// Scene detection uses a bounding-rect ratio normalized by
+// min(viewportHeight, sectionHeight) rather than IntersectionObserver's
+// intersectionRatio. This is critical for tall sections like wf-stage,
+// whose intersectionRatio caps far below the threshold and would never
+// register a scene_view under the naive observer approach.
+//
 // Failure mode: if PostHog never loads (blocker, offline, missing key) every
 // capture is a silent no-op. Page UX is never affected.
 
 (() => {
-  const SCENE_VIEW_THRESHOLD = 0.5;   // enter
-  const SCENE_LEAVE_THRESHOLD = 0.2;  // leave
-  const MIN_DWELL_MS = 600;           // filter "scrolled past" noise
+  const SCENE_VIEW_RATIO = 0.5;    // enter (visible / min(viewportH, sectionH))
+  const SCENE_LEAVE_RATIO = 0.2;   // leave — hysteresis to avoid flicker
+  const MIN_DWELL_MS = 600;        // filter "scrolled past" noise
   const PAGE_VARIANT = 'githire-v5';
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -57,31 +64,50 @@
   // ── Scene visibility + dwell ────────────────────────────────
   const sections = Array.from(document.querySelectorAll('[data-scene]'));
   const order = new Map(sections.map((el, i) => [el.dataset.scene, i + 1]));
-  const enterAt = new Map();   // scene -> performance.now()
-  const viewed = new Set();    // scene_view fires only once per scene
+  const enterAt = new Map();       // scene -> performance.now() (active dwell timer)
+  const visibleScenes = new Set(); // scenes currently meeting the view ratio
+  const viewed = new Set();        // scene_view fires only once per scene
 
-  const flushDwell = (scene, unloaded = false) => {
+  const flushDwell = (scene, opts) => {
+    const { unloaded = false, suspended = false } = opts || {};
     const t0 = enterAt.get(scene);
     if (t0 == null) return;
     enterAt.delete(scene);
     const dwell_ms = Math.round(performance.now() - t0);
-    if (!unloaded && dwell_ms < MIN_DWELL_MS) return;
+    if (!unloaded && !suspended && dwell_ms < MIN_DWELL_MS) return;
     const el = document.querySelector(`[data-scene="${scene}"]`);
     capture('scene_dwell', {
       scene,
       label: el && el.dataset.screenLabel,
       dwell_ms,
       unloaded,
+      suspended,
     });
   };
 
-  if (sections.length && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const el = entry.target;
-        const scene = el.dataset.scene;
-        if (entry.intersectionRatio >= SCENE_VIEW_THRESHOLD) {
-          if (!enterAt.has(scene)) enterAt.set(scene, performance.now());
+  // Compute "how much of this section is on screen, relative to whichever is
+  // smaller — the viewport or the section itself". This caps at 1.0 for both
+  // tall sections (workflow) and short ones (definition), giving a single
+  // threshold semantic across the whole page.
+  const visibilityRatio = (rect, vh) => {
+    const visible = Math.max(0, Math.min(vh, rect.bottom) - Math.max(0, rect.top));
+    const denom = Math.min(vh, rect.height) || vh;
+    return denom > 0 ? visible / denom : 0;
+  };
+
+  let scrollRaf = 0;
+  const recomputeScenes = () => {
+    scrollRaf = 0;
+    const vh = window.innerHeight;
+    const now = performance.now();
+    sections.forEach((el) => {
+      const scene = el.dataset.scene;
+      const ratio = visibilityRatio(el.getBoundingClientRect(), vh);
+
+      if (ratio >= SCENE_VIEW_RATIO) {
+        if (!visibleScenes.has(scene)) {
+          visibleScenes.add(scene);
+          enterAt.set(scene, now);
           if (!viewed.has(scene)) {
             viewed.add(scene);
             capture('scene_view', {
@@ -91,13 +117,21 @@
               scroll_y: window.scrollY,
             });
           }
-        } else if (entry.intersectionRatio < SCENE_LEAVE_THRESHOLD) {
+        }
+      } else if (ratio < SCENE_LEAVE_RATIO) {
+        if (visibleScenes.has(scene)) {
+          visibleScenes.delete(scene);
           flushDwell(scene);
         }
-      });
-    }, { threshold: [0, SCENE_LEAVE_THRESHOLD, SCENE_VIEW_THRESHOLD, 0.8] });
-    sections.forEach((s) => io.observe(s));
-  }
+      }
+    });
+  };
+  const scheduleRecompute = () => {
+    if (!scrollRaf) scrollRaf = requestAnimationFrame(recomputeScenes);
+  };
+  window.addEventListener('scroll', scheduleRecompute, { passive: true });
+  window.addEventListener('resize', scheduleRecompute, { passive: true });
+  recomputeScenes();
 
   // ── Scroll depth (single summary event) ─────────────────────
   let maxPct = 0;
@@ -163,12 +197,22 @@
       const link = event.target.closest('a');
       if (!link) return;
       const href = link.getAttribute('href') || '';
-      const isAnchor = href.startsWith('#');
-      capture('nav_anchor_click', {
-        href,
-        target_scene: isAnchor ? href.slice(1) : null,
-        label: link.textContent && link.textContent.trim(),
-      });
+      const label = (link.textContent || '').trim();
+      if (href.startsWith('#')) {
+        // In-page scrollytelling jump: track the target scene.
+        capture('nav_anchor_click', {
+          href,
+          target_scene: href.slice(1),
+          label,
+        });
+      } else if (href) {
+        // Cross-page link (blog.html, skill.html, etc.) — kept separate so
+        // funnel queries on nav_anchor_click stay clean.
+        capture('nav_link_click', {
+          href,
+          label,
+        });
+      }
     });
   }
 
@@ -187,16 +231,37 @@
     }
   }, { capture: true });
 
-  // ── Flush on unload ─────────────────────────────────────────
-  // pagehide is the reliable cross-browser hook (visibilitychange also works
-  // on iOS, but pagehide fires for back/forward cache too).
-  const flushAll = () => {
-    enterAt.forEach((_, scene) => flushDwell(scene, true));
+  // ── Unload / suspend flush ──────────────────────────────────
+  // Two distinct paths:
+  //   1) Tab is *backgrounded* (visibilitychange → hidden): pause dwell timers
+  //      so we don't bill background time as engagement. When the tab comes
+  //      back, re-arm timers for whichever scenes are still in view.
+  //   2) Page is *unloaded* (pagehide, incl. bfcache): final flush — dwells
+  //      with unloaded:true, and scroll_max once. The scrollMaxFlushed guard
+  //      ensures a user who backgrounds the tab and then returns and later
+  //      leaves produces exactly one scroll_max event per visit.
+  let scrollMaxFlushed = false;
+  const flushScrollMax = () => {
+    if (scrollMaxFlushed) return;
+    scrollMaxFlushed = true;
     capture('scroll_max', { max_pct: maxPct });
   };
-  window.addEventListener('pagehide', flushAll);
-  // visibilitychange = belt-and-braces for tab switch on desktop Chrome
+  const flushAllDwells = (opts) => {
+    Array.from(enterAt.keys()).forEach((scene) => flushDwell(scene, opts));
+  };
+
+  window.addEventListener('pagehide', () => {
+    flushAllDwells({ unloaded: true });
+    flushScrollMax();
+  });
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') flushAll();
+    if (document.visibilityState === 'hidden') {
+      flushAllDwells({ suspended: true });
+    } else if (document.visibilityState === 'visible') {
+      const now = performance.now();
+      visibleScenes.forEach((scene) => {
+        if (!enterAt.has(scene)) enterAt.set(scene, now);
+      });
+    }
   });
 })();
