@@ -1,0 +1,520 @@
+<!doctype html>
+<!--
+  LOCAL DASHBOARD — not for production.
+
+  Single-pane OG audit for every public page on the site.
+
+  How it works
+  ────────────
+  Each page in PAGES is fetched at runtime; its <head> is parsed in the
+  browser; the extracted meta values are mirrored into:
+    1. a one-row audit table (✓/✗ per key) — eyeball drift fast
+    2. a per-page panel with the actual og:title / og:description /
+       og:image as the platforms will see them, rendered into
+       Twitter / LinkedIn / Discord / Slack / iMessage card mocks
+
+  Source of truth lives in each page's <head>, not here. This file is
+  a mirror — change the HTML, refresh this page, look again.
+
+  How to use
+  ──────────
+    1. python3 -m http.server 4178
+    2. open http://localhost:4178/og-preview.html
+    3. After deploy, run the live validators linked at the bottom
+       (Twitter / LinkedIn / Facebook cache aggressively — use
+       "Scrape Again" after any OG change.)
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <title>OG Preview · GitHire (local audit)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Serif+SC:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" />
+  <style>
+    :root {
+      --paper: #F6F1E8;
+      --ink: #181818;
+      --ink-soft: #4A4A48;
+      --ink-mute: #8A887F;
+      --line: rgba(24,24,24,0.14);
+      --accent: #D97757;
+      --ok: #2f7a4a;
+      --miss: #b03a3a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: #e9e4d8;
+      color: var(--ink);
+      font-family: "Spectral", "Noto Serif SC", serif;
+      padding: 48px 32px 96px;
+    }
+    .page { max-width: 1180px; margin: 0 auto; }
+
+    h1 {
+      font-style: italic; font-weight: 500;
+      font-size: 36px; margin: 0 0 4px;
+    }
+    .hint {
+      font-style: italic; color: var(--ink-soft);
+      margin: 0 0 36px; line-height: 1.6;
+    }
+    .hint code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-style: normal;
+      background: rgba(24,24,24,0.08);
+      padding: 2px 6px; border-radius: 3px; font-size: 0.92em;
+    }
+
+    /* ── Section heading ─────────────────────────────── */
+    .row { margin: 0 0 56px; }
+    .row > h2 {
+      font-family: "Spectral", serif;
+      font-style: italic; font-weight: 500;
+      font-size: 24px; margin: 0 0 6px; color: var(--ink);
+    }
+    .row .meta {
+      font-style: italic; font-variant: small-caps;
+      letter-spacing: 0.12em; color: var(--ink-mute);
+      margin: 0 0 14px; font-size: 13px;
+    }
+
+    /* ── Audit table ──────────────────────────────────── */
+    .audit {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--line);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12.5px;
+    }
+    .audit th, .audit td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    .audit th {
+      background: rgba(24,24,24,0.04);
+      font-weight: 600;
+      font-family: "Inter", system-ui, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: var(--ink-soft);
+    }
+    .audit td.page-cell {
+      font-family: "Inter", system-ui, sans-serif;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .audit .ok   { color: var(--ok); }
+    .audit .miss { color: var(--miss); font-weight: 700; }
+    .audit .trunc {
+      display: inline-block;
+      max-width: 280px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: bottom;
+    }
+
+    /* ── Per-page panel ──────────────────────────────── */
+    .panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 20px 22px 24px;
+      margin: 0 0 28px;
+    }
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px dashed var(--line);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+    .panel-head h3 {
+      font-family: "Spectral", serif;
+      font-style: italic; font-weight: 500;
+      font-size: 22px; margin: 0;
+    }
+    .panel-head .href {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      color: var(--ink-mute);
+    }
+    .panel-head .href a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); }
+    .panel-meta {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      color: var(--ink-soft);
+      margin: 0 0 16px;
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 4px 14px;
+    }
+    .panel-meta .k { color: var(--ink-mute); }
+    .panel-meta .v.miss { color: var(--miss); font-style: italic; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    /* ── Twitter card (summary_large_image) ───────────── */
+    .tw-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #cfd9de;
+      font-family: "Inter", system-ui, sans-serif;
+      max-width: 504px;
+    }
+    .tw-card .img {
+      aspect-ratio: 1.91 / 1;
+      background-size: cover; background-position: center;
+    }
+    .tw-card .body { padding: 12px 14px; border-top: 1px solid #cfd9de; background: #fff; }
+    .tw-card .domain { color: #536471; font-size: 13px; line-height: 1.3; }
+    .tw-card .title {
+      color: #0f1419; font-size: 15px; font-weight: 400;
+      margin: 2px 0 0; line-height: 1.35;
+      display: -webkit-box; -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+
+    /* ── LinkedIn card ────────────────────────────────── */
+    .li-card {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.15);
+      border-radius: 8px; overflow: hidden;
+      font-family: "Inter", system-ui, sans-serif;
+      max-width: 552px;
+    }
+    .li-card .img { aspect-ratio: 1200 / 627; background-size: cover; background-position: center; }
+    .li-card .body { padding: 12px 16px 14px; background: #f3f2ef; }
+    .li-card .title {
+      color: #000000e6; font-size: 15px; font-weight: 600;
+      line-height: 1.33; margin: 0 0 4px;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .li-card .domain { color: rgba(0,0,0,0.6); font-size: 12px; line-height: 1.33; }
+
+    /* ── Discord embed ─────────────────────────────────── */
+    .dc-card {
+      background: #2b2d31; border-left: 4px solid #5865f2;
+      border-radius: 4px; padding: 12px 16px;
+      font-family: "Inter", system-ui, sans-serif;
+      max-width: 432px; color: #dbdee1;
+    }
+    .dc-card .site { color: #b5bac1; font-size: 12px; margin: 0 0 4px; }
+    .dc-card .title { color: #00a8fc; font-size: 16px; font-weight: 600; margin: 0 0 8px; line-height: 1.3; }
+    .dc-card .desc {
+      color: #dbdee1; font-size: 14px; line-height: 1.4; margin: 0 0 8px;
+      display: -webkit-box; -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .dc-card .img {
+      aspect-ratio: 1200 / 630; background-size: cover; background-position: center;
+      border-radius: 4px; margin-top: 8px; max-width: 400px;
+    }
+
+    /* ── Slack unfurl ──────────────────────────────────── */
+    .sl-card {
+      background: #fff; border-left: 4px solid #e0e0e0;
+      padding: 8px 0 8px 12px;
+      font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+      max-width: 520px; color: #1d1c1d;
+    }
+    .sl-card .site { color: #616061; font-size: 13px; margin: 0 0 4px; }
+    .sl-card .title { color: #1264a3; font-size: 15px; font-weight: 700; margin: 0 0 4px; line-height: 1.4; }
+    .sl-card .desc {
+      color: #1d1c1d; font-size: 14px; line-height: 1.46; margin: 0 0 8px;
+      display: -webkit-box; -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .sl-card .img {
+      aspect-ratio: 1200 / 630; background-size: cover; background-position: center;
+      border-radius: 8px; max-width: 360px; margin-top: 4px;
+    }
+
+    /* ── iMessage (rich link) ──────────────────────────── */
+    .im-card {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      font-family: -apple-system, sans-serif;
+      max-width: 304px;
+    }
+    .im-card .img { aspect-ratio: 1.91 / 1; background-size: cover; background-position: center; }
+    .im-card .body { padding: 8px 12px 12px; }
+    .im-card .title {
+      color: #000; font-size: 14px; font-weight: 600;
+      margin: 0 0 2px; line-height: 1.3;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .im-card .domain { color: #8a8a8e; font-size: 12px; }
+
+    /* ── Validators ──────────────────────────────────── */
+    .links {
+      margin: 12px 0 0; padding: 14px 18px;
+      background: #fff; border: 1px solid var(--line);
+      font-size: 14px; line-height: 1.7;
+    }
+    .links code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      background: rgba(24,24,24,0.06);
+      padding: 1px 5px; border-radius: 3px;
+    }
+    .links a {
+      color: var(--accent); text-decoration: none;
+      border-bottom: 1px solid var(--accent);
+    }
+
+    .empty {
+      padding: 18px; background: #fff; border: 1px dashed var(--line);
+      color: var(--ink-soft); font-style: italic; font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>OG Preview · GitHire</h1>
+    <p class="hint">
+      本页是 OG 元数据的<strong>本地审计面板</strong>，不是真相源——真相源是各 HTML 文件 <code>&lt;head&gt;</code> 里的 meta。<br/>
+      改完任一 HTML 后刷新本页，下面的表格会重新抓取并 mirror 出实际的渲染效果。<br/>
+      <strong>不能替代真实平台验证</strong>——上线后必须用 Twitter Card Validator / LinkedIn Post Inspector / Facebook Sharing Debugger 跑一遍。
+    </p>
+
+    <!-- ── 1. Audit overview ─────────────────────────── -->
+    <section class="row">
+      <p class="meta">— 1 / 全站对账</p>
+      <h2>Site-wide OG audit</h2>
+      <p class="hint" style="margin-bottom: 14px;">
+        关键字段是否齐全。<span class="ok">✓</span> 已设置 · <span class="miss">✗ MISSING</span> 缺失，红色项就是要补的洞。
+      </p>
+      <table class="audit" id="audit-table">
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th>title</th>
+            <th>description</th>
+            <th>og:image</th>
+            <th>og:url</th>
+            <th>og:site_name</th>
+            <th>twitter:image</th>
+            <th>canonical</th>
+          </tr>
+        </thead>
+        <tbody id="audit-body">
+          <tr><td colspan="8" class="empty">Loading…</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ── 2. Per-page panels ────────────────────────── -->
+    <section class="row">
+      <p class="meta">— 2 / 各页平台预览</p>
+      <h2>Per-page social cards</h2>
+      <div id="panels"></div>
+    </section>
+
+    <!-- ── 3. Live validators ────────────────────────── -->
+    <section class="row">
+      <p class="meta">— 3 / 上线后真实验证</p>
+      <h2>Live validators</h2>
+      <div class="links">
+        <p>本地预览只是近似——真实社交平台会做自己的 fetch、缓存、裁切。<strong>上线/改 OG 后跑一次:</strong></p>
+        <p>
+          • <a href="https://www.opengraph.xyz/url/https%3A%2F%2Frealroc.github.io%2Fgit-hired%2F" target="_blank" rel="noopener">opengraph.xyz</a> — 一次性看所有平台<br/>
+          • <a href="https://cards-dev.twitter.com/validator" target="_blank" rel="noopener">Twitter Card Validator</a><br/>
+          • <a href="https://developers.facebook.com/tools/debug/?q=https%3A%2F%2Frealroc.github.io%2Fgit-hired%2F" target="_blank" rel="noopener">Facebook Sharing Debugger</a> · 也覆盖 Instagram / WhatsApp<br/>
+          • <a href="https://www.linkedin.com/post-inspector/inspect/https%3A%2F%2Frealroc.github.io%2Fgit-hired%2F" target="_blank" rel="noopener">LinkedIn Post Inspector</a><br/>
+          • <a href="https://search.google.com/test/rich-results?url=https%3A%2F%2Frealroc.github.io%2Fgit-hired%2Fcase-redis-scan.html" target="_blank" rel="noopener">Google Rich Results Test</a> — 验证 JSON-LD<br/>
+          • <a href="https://validator.schema.org/" target="_blank" rel="noopener">Schema.org Validator</a>
+        </p>
+        <p style="margin-top: 12px; font-size: 13px; color: var(--ink-mute);">
+          提示:Facebook / Twitter / LinkedIn 会缓存 OG 抓取结果。改了 og.png 或 meta 后,要在 debugger 里点 "Scrape Again" 才能看到新版。
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── Page registry ─────────────────────────────────────────── -->
+  <!--
+    Add a new page here and it will appear in the audit table and as
+    a per-page panel. No other changes required.
+    `type` controls which set of platform cards is rendered (article
+    pages skip nothing today; reserved for future divergence).
+  -->
+  <script>
+    const PAGES = [
+      { id: 'index',           href: 'index.html',           label: 'Homepage', type: 'website' },
+      { id: 'blog',            href: 'blog.html',            label: 'Blog',     type: 'website' },
+      { id: 'case-redis-scan', href: 'case-redis-scan.html', label: 'Case 01',  type: 'article' },
+      { id: 'skill',           href: 'skill.html',           label: 'Skill',    type: 'website' },
+    ];
+
+    const REQUIRED_FOR_AUDIT = [
+      'title', 'description',
+      'og_image', 'og_url', 'og_site_name', 'twitter_image', 'canonical',
+    ];
+
+    async function loadMeta(href) {
+      const html = await fetch(href, { cache: 'no-store' }).then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status} for ${href}`);
+        return r.text();
+      });
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const get = (sel, attr = 'content') => doc.querySelector(sel)?.getAttribute(attr) ?? '';
+      return {
+        title:               doc.querySelector('title')?.textContent?.trim() ?? '',
+        description:         get('meta[name="description"]'),
+        og_type:             get('meta[property="og:type"]'),
+        og_site_name:        get('meta[property="og:site_name"]'),
+        og_title:            get('meta[property="og:title"]'),
+        og_description:      get('meta[property="og:description"]'),
+        og_image:            get('meta[property="og:image"]'),
+        og_image_alt:        get('meta[property="og:image:alt"]'),
+        og_url:              get('meta[property="og:url"]'),
+        og_locale:           get('meta[property="og:locale"]'),
+        twitter_card:        get('meta[name="twitter:card"]'),
+        twitter_title:       get('meta[name="twitter:title"]'),
+        twitter_description: get('meta[name="twitter:description"]'),
+        twitter_image:       get('meta[name="twitter:image"]'),
+        canonical:           get('link[rel="canonical"]', 'href'),
+        jsonld_types:        [...doc.querySelectorAll('script[type="application/ld+json"]')]
+          .map(s => { try { const j = JSON.parse(s.textContent); return j['@type'] || '?'; } catch { return 'invalid'; } }),
+      };
+    }
+
+    function statusCell(value, opts = {}) {
+      const { truncate = false } = opts;
+      if (!value) return '<span class="miss">✗ MISSING</span>';
+      const display = truncate ? `<span class="trunc" title="${escapeAttr(value)}">${escapeHtml(value)}</span>` : escapeHtml(value);
+      return `<span class="ok">✓</span> ${display}`;
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    }
+    function escapeAttr(s) { return escapeHtml(s); }
+
+    function imageOk(meta) {
+      // Resolve relative og:image against the page's own URL so the
+      // background-image works locally (og:image is usually absolute).
+      return meta.og_image || '';
+    }
+
+    function renderAuditRow(page, meta) {
+      return `<tr>
+        <td class="page-cell">${escapeHtml(page.label)}<br/><span style="font-weight:400;color:var(--ink-mute);font-size:11px">${escapeHtml(page.href)}</span></td>
+        <td>${statusCell(meta.title, { truncate: true })}</td>
+        <td>${statusCell(meta.description, { truncate: true })}</td>
+        <td>${statusCell(meta.og_image, { truncate: true })}</td>
+        <td>${statusCell(meta.og_url, { truncate: true })}</td>
+        <td>${statusCell(meta.og_site_name)}</td>
+        <td>${statusCell(meta.twitter_image, { truncate: true })}</td>
+        <td>${statusCell(meta.canonical, { truncate: true })}</td>
+      </tr>`;
+    }
+
+    function renderPanel(page, meta) {
+      const domain = (() => {
+        try { return new URL(meta.canonical || meta.og_url).hostname; }
+        catch { return 'realroc.github.io'; }
+      })();
+      const img = imageOk(meta) || 'og.png';
+      const title = meta.og_title || meta.title || page.label;
+      const desc  = meta.og_description || meta.description || '';
+      const jsonld = meta.jsonld_types.length
+        ? meta.jsonld_types.join(' · ')
+        : '<span class="miss">no JSON-LD</span>';
+
+      return `<div class="panel">
+        <div class="panel-head">
+          <h3>${escapeHtml(page.label)}</h3>
+          <p class="href"><a href="${escapeAttr(page.href)}" target="_blank" rel="noopener">${escapeHtml(page.href)} ↗</a></p>
+        </div>
+
+        <div class="panel-meta">
+          <span class="k">og:type</span>          <span class="v ${meta.og_type ? '' : 'miss'}">${escapeHtml(meta.og_type || '— missing —')}</span>
+          <span class="k">og:title</span>         <span class="v ${meta.og_title ? '' : 'miss'}">${escapeHtml(meta.og_title || '— missing —')}</span>
+          <span class="k">og:description</span>   <span class="v ${meta.og_description ? '' : 'miss'}">${escapeHtml(meta.og_description || '— missing —')}</span>
+          <span class="k">og:image</span>         <span class="v ${meta.og_image ? '' : 'miss'}">${escapeHtml(meta.og_image || '— missing —')}</span>
+          <span class="k">og:image:alt</span>     <span class="v ${meta.og_image_alt ? '' : 'miss'}">${escapeHtml(meta.og_image_alt || '— missing —')}</span>
+          <span class="k">twitter:card</span>     <span class="v ${meta.twitter_card ? '' : 'miss'}">${escapeHtml(meta.twitter_card || '— missing —')}</span>
+          <span class="k">JSON-LD @type</span>    <span class="v">${jsonld}</span>
+        </div>
+
+        <div class="grid">
+          <div class="tw-card">
+            <div class="img" style="background-image:url('${escapeAttr(img)}')"></div>
+            <div class="body">
+              <p class="domain">${escapeHtml(domain)}</p>
+              <p class="title">${escapeHtml(title)}</p>
+            </div>
+          </div>
+
+          <div class="li-card">
+            <div class="img" style="background-image:url('${escapeAttr(img)}')"></div>
+            <div class="body">
+              <p class="title">${escapeHtml(title)}</p>
+              <p class="domain">${escapeHtml(domain)} · ${escapeHtml(meta.og_site_name || 'GitHire')}</p>
+            </div>
+          </div>
+
+          <div class="dc-card">
+            <p class="site">${escapeHtml(domain)}</p>
+            <p class="title">${escapeHtml(title)}</p>
+            <p class="desc">${escapeHtml(desc)}</p>
+            <div class="img" style="background-image:url('${escapeAttr(img)}')"></div>
+          </div>
+
+          <div class="sl-card">
+            <p class="site">${escapeHtml(domain)}</p>
+            <p class="title">${escapeHtml(title)}</p>
+            <p class="desc">${escapeHtml(desc)}</p>
+            <div class="img" style="background-image:url('${escapeAttr(img)}')"></div>
+          </div>
+
+          <div class="im-card">
+            <div class="img" style="background-image:url('${escapeAttr(img)}')"></div>
+            <div class="body">
+              <p class="title">${escapeHtml(title)}</p>
+              <p class="domain">${escapeHtml(domain)}</p>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    async function main() {
+      const auditBody = document.getElementById('audit-body');
+      const panels    = document.getElementById('panels');
+      auditBody.innerHTML = '';
+      panels.innerHTML = '';
+
+      for (const page of PAGES) {
+        try {
+          const meta = await loadMeta(page.href);
+          auditBody.insertAdjacentHTML('beforeend', renderAuditRow(page, meta));
+          panels.insertAdjacentHTML('beforeend', renderPanel(page, meta));
+        } catch (e) {
+          auditBody.insertAdjacentHTML('beforeend', `<tr>
+            <td class="page-cell">${escapeHtml(page.label)}</td>
+            <td colspan="7" class="miss">load failed: ${escapeHtml(e.message)} — start a local server (<code>python3 -m http.server 4178</code>) and open via http://, not file://</td>
+          </tr>`);
+        }
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>

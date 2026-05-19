@@ -7,14 +7,36 @@
 
   <title>GitHire Case 01 · 从一条 prompt 到生产事故，20 分钟</title>
   <meta name="description" content="一次真实的线上事故复盘：22 行 AI 自动生成的 Redis SCAN + pipeline HGETALL 代码，沿着 GitHire 的六步 workflow 走一遍，看在哪一步坠落。" />
+  <meta name="author" content="GitHire" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://realroc.github.io/git-hired/case-redis-scan.html" />
+
+  <!-- ── Social cards · keep keys in sync with og-preview.html ─── -->
+  <meta property="og:site_name" content="GitHire" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="GitHire Case 01 · 从一条 prompt 到生产事故，20 分钟" />
   <meta property="og:description" content="22 行 AI 自动生成的 SCAN+HGETALL 把生产 Redis 打爆。沿着 6 步 workflow 复盘 prompt、commit、事故、修复、重写。" />
   <meta property="og:url" content="https://realroc.github.io/git-hired/case-redis-scan.html" />
   <meta property="og:locale" content="zh_CN" />
+  <meta property="og:image" content="https://realroc.github.io/git-hired/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="GitHire · 人 frame、AI 执行、架构师判断" />
+  <meta property="article:published_time" content="2026-05-18T10:00:00+08:00" />
+  <meta property="article:modified_time" content="2026-05-19T00:00:00+08:00" />
+  <meta property="article:author" content="https://realroc.github.io/git-hired/" />
+  <meta property="article:section" content="Engineering case study" />
+  <meta property="article:tag" content="AI-native engineering" />
+  <meta property="article:tag" content="Prompt engineering" />
+  <meta property="article:tag" content="Redis" />
+  <meta property="article:tag" content="Production incident" />
+  <meta property="article:tag" content="Architect review" />
+
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GitHire Case 01 · 从一条 prompt 到生产事故，20 分钟" />
+  <meta name="twitter:description" content="22 行 AI 自动生成的 SCAN+HGETALL 把生产 Redis 打爆。沿 6 步 workflow 复盘 prompt、commit、事故、修复。" />
+  <meta name="twitter:image" content="https://realroc.github.io/git-hired/og.png" />
+  <meta name="twitter:image:alt" content="GitHire · 人 frame、AI 执行、架构师判断" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,9 +49,31 @@
     "@type": "TechArticle",
     "headline": "GitHire Case 01 · 从一条 prompt 到生产事故，20 分钟",
     "url": "https://realroc.github.io/git-hired/case-redis-scan.html",
+    "mainEntityOfPage": "https://realroc.github.io/git-hired/case-redis-scan.html",
     "inLanguage": "zh-CN",
     "datePublished": "2026-05-18",
+    "dateModified": "2026-05-19",
     "description": "复盘一次 AI 自动生成 Redis SCAN+HGETALL 代码导致的生产事故，沿 GitHire 六步 workflow 走读 prompt、生成、review、上线、修复全过程。",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://realroc.github.io/git-hired/og.png",
+      "width": 1200,
+      "height": 630
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "GitHire",
+      "url": "https://realroc.github.io/git-hired/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "GitHire",
+      "url": "https://realroc.github.io/git-hired/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://realroc.github.io/git-hired/logo.svg"
+      }
+    },
     "about": [
       "AI-native engineering",
       "Prompt engineering",
@@ -37,7 +81,7 @@
       "Production incident",
       "Architect review"
     ],
-    "isBasedOn": "https://realroc.github.io/git-hired/#workflow"
+    "isBasedOn": "https://realroc.github.io/git-hired/"
   }
   </script>
 
@@ -104,7 +148,7 @@
     <!-- ── HERO ───────────────────────────────────────────── -->
     <section class="scene-section case-hero" aria-labelledby="case-title">
       <div class="wrap">
-        <p class="meta">Case 01 · Real production incident · 2026-05</p>
+        <p class="meta">Case 01 · Real production incident · <time datetime="2026-05-18">2026-05</time></p>
         <h1 class="case-title" id="case-title">
           从一条 <em>prompt</em><br/>
           到生产事故，<br/>
