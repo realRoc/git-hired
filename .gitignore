@@ -1,0 +1,6 @@
+# macOS Finder metadata
+.DS_Store
+
+# Local agent workspace (skill source migrated to realRoc/skills)
+.agents/
+skills/githire

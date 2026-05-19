@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F6F1E8" />
 
-  <title>GitHire Blog · AI-native onboarding notes</title>
-  <meta name="description" content="GitHire Blog 沉淀 AI-native onboarding、GitHub Issue 工作流、AI agent 协作、招聘与工程管理实践，便于首页引用和搜索引擎理解。" />
+  <title>GitHire Blog · Real cases from AI-native teams</title>
+  <meta name="description" content="GitHire Blog 把每一篇都写成真实事件复盘:真实的 prompt、真实的 diff、真实的事故,沿着六步 workflow 走一遍。" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://realroc.github.io/git-hired/blog.html" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="GitHire Blog · AI-native onboarding notes" />
-  <meta property="og:description" content="围绕 AI-native onboarding、Issue-first workflow 和 agent collaboration 的长期 Blog 索引。" />
+  <meta property="og:title" content="GitHire Blog · Real cases from AI-native teams" />
+  <meta property="og:description" content="每一篇都是一次真实事件:真实的 prompt、真实的 diff、真实的修复链。围着六步 workflow 走读。" />
   <meta property="og:url" content="https://realroc.github.io/git-hired/blog.html" />
   <meta property="og:locale" content="zh_CN" />
   <meta name="twitter:card" content="summary" />
@@ -28,17 +28,26 @@
     "name": "GitHire Blog",
     "url": "https://realroc.github.io/git-hired/blog.html",
     "inLanguage": "zh-CN",
-    "description": "AI-native onboarding、GitHub Issue 工作流、AI agent 协作、招聘与工程管理实践的长期 Blog 索引。",
+    "description": "AI-native 团队的真实事件复盘集合:每一篇都带 prompt、diff 与修复链,沿六步 workflow 走读。",
     "publisher": {
       "@type": "Organization",
       "name": "GitHire",
       "url": "https://realroc.github.io/git-hired/"
     },
+    "blogPost": [
+      {
+        "@type": "BlogPosting",
+        "headline": "Case 01 · 22 行 SCAN,打爆生产 Redis",
+        "url": "https://realroc.github.io/git-hired/case-redis-scan.html",
+        "datePublished": "2026-05-18",
+        "description": "Codex 5 分钟写出的代码,20 分钟后被 commit,当晚上线即事故。沿六步 workflow 复盘:跳过哪一步,事故就埋在哪一步。"
+      }
+    ],
     "about": [
-      "AI-native onboarding",
-      "GitHub Issue workflow",
-      "AI agent collaboration",
-      "engineering hiring"
+      "AI-native engineering",
+      "Production incidents",
+      "Prompt framing",
+      "Architect review"
     ]
   }
   </script>
@@ -106,41 +115,49 @@
   <main id="main" class="blog-main">
     <section class="scene-section blog-hero" aria-labelledby="blog-title">
       <div class="wrap">
-        <p class="meta">Blog · AI-native onboarding · field notes</p>
-        <h1 class="blog-title" id="blog-title">GitHire Blog,<br/><em>for builders.</em></h1>
+        <p class="meta">Blog · operating log from AI-native teams</p>
+        <h1 class="blog-title" id="blog-title">真实事故，真实复盘，<br/><em>沿着 workflow 一次走完<span class="period">.</span></em></h1>
         <p class="blog-lede">
-          这里会沉淀 GitHire 的长期 Blog：AI-native onboarding、GitHub Issue 工作流、AI agent 协作、招聘与工程管理实践。首页中的引用、注释和延伸阅读会优先指向这里的具体文章或稳定锚点。
+          这里没有教程，只有事件。每一篇都是一次真实事件 —— 真实的 prompt、真实的 diff、真实的修复链 —— 围着六步 workflow 走读，看每一步在理想中应该是什么样，在事故里又实际是什么样。
         </p>
 
-        <section class="blog-index" aria-labelledby="blog-index-title">
-          <h2 id="blog-index-title">Blog index</h2>
-          <p>每篇文章都会使用可读 slug、清晰摘要、稳定 canonical URL 和结构化数据，方便搜索引擎与 AI 引用。</p>
-        </section>
+        <ol class="case-index" aria-label="Cases" reversed>
+          <li class="case-entry is-live">
+            <a href="case-redis-scan.html" class="case-entry-link">
+              <div class="case-entry-head">
+                <p class="case-entry-num">CASE 01</p>
+                <p class="case-entry-meta">2026-05-14 · 22 行代码 · 25 小时根治</p>
+              </div>
+              <h2 class="case-entry-title">22 行 SCAN，<em>打爆生产 Redis</em><span class="period">.</span></h2>
+              <p class="case-entry-desc">
+                Codex 5 分钟写出的代码，20 分钟后被 commit，当晚 23:54 上线即事故。沿六步 workflow 复盘 —— 哪一步被跳过，事故就在哪一步埋下。
+              </p>
+              <p class="case-entry-tags">
+                <span>Codex CLI</span><span>Redis SCAN</span><span>Architect skipped</span><span>Prompt rewrite</span>
+              </p>
+              <p class="case-entry-cta">读这一案 <span aria-hidden="true">→</span></p>
+            </a>
+          </li>
+          <li class="case-entry is-pending" aria-disabled="true">
+            <p class="case-entry-num">CASE 02</p>
+            <p class="case-entry-title-mute">近期上架 · coming soon</p>
+          </li>
+          <li class="case-entry is-pending" aria-disabled="true">
+            <p class="case-entry-num">CASE 03</p>
+            <p class="case-entry-title-mute">近期上架 · coming soon</p>
+          </li>
+        </ol>
 
-        <div class="blog-grid" aria-label="GitHire Blog topics">
-          <article class="blog-card" id="ai-native-onboarding">
-            <span>01</span>
-            <h2>AI-native onboarding</h2>
-            <p>关于新人如何借助 Issue、Sandbox、PR 和 AI Review 更快交付真实生产改动。</p>
-          </article>
-          <article class="blog-card" id="issue-first-workflow">
-            <span>02</span>
-            <h2>Issue-first workflow</h2>
-            <p>围绕 GitHub Issue 组织需求、上下文、验收标准和长期团队记忆。</p>
-          </article>
-          <article class="blog-card" id="agent-collaboration">
-            <span>03</span>
-            <h2>Agent collaboration</h2>
-            <p>Claude Code、Codex、多 agent review 和人类 architect 如何协作而不破坏系统一致性。</p>
-          </article>
-        </div>
+        <p class="blog-foot">
+          想看完整方法？<a href="index.html#workflow">六步 workflow ↗</a><span class="sep">·</span>想直接装上 Skill？<a href="skill.html">从 realRoc/skills ↗</a>
+        </p>
       </div>
     </section>
   </main>
 
   <footer class="site-foot">
     <div class="wrap">
-      <p>© <span id="year">2026</span> GitHire · AI-native onboarding</p>
+      <p>© <span id="year">2026</span> GitHire · operating log from AI-native teams</p>
       <p class="repo"><a href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">github.com/realRoc/git-hired</a></p>
       <p class="home"><a href="index.html">Back to GitHire</a></p>
     </div>

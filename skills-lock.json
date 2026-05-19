@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "githire": {
+      "source": "realRoc/skills",
+      "sourceType": "github",
+      "skillPath": "skills/githire/SKILL.md",
+      "computedHash": "9d169476954a3c8cabef8bda54240592c05246dca80c27f7eb796bf18ed551fb"
+    }
+  }
+}
