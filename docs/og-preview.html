@@ -412,9 +412,14 @@
 
     // Article-only keys: rendered alongside REQUIRED for pages whose
     // og:type is "article", flagged as ✗ only on those pages.
+    // For multi-valued keys (article:tag), presence of the first instance
+    // is sufficient for the audit — we only check the meta exists at all.
     const ARTICLE_REQUIRED = [
       { key: 'article_published_time', label: 'article:published_time', type: 'meta', selector: 'meta[property="article:published_time"]' },
+      { key: 'article_modified_time',  label: 'article:modified_time',  type: 'meta', selector: 'meta[property="article:modified_time"]' },
       { key: 'article_author',         label: 'article:author',         type: 'meta', selector: 'meta[property="article:author"]' },
+      { key: 'article_section',        label: 'article:section',        type: 'meta', selector: 'meta[property="article:section"]' },
+      { key: 'article_tag',            label: 'article:tag',            type: 'meta', selector: 'meta[property="article:tag"]' },
     ];
 
     function escapeHtml(s) {
@@ -450,6 +455,17 @@
     }
 
     function isArticle(meta) { return meta.og_type === 'article'; }
+
+    // og:image 的真相源是生产 URL（audit 必须显示原值），但 PR 合并前
+    // 那条 URL 在线上是 404，导致 card mock 加载坏图却仍 "all clean"。
+    // 仅在渲染 platform mock 时把站点前缀剥成相对路径，给本地静态服务
+    // 兜底；audit 表与 panel-meta 仍展示 meta 原值。
+    const SITE_PREFIX = 'https://realroc.github.io/git-hired/';
+    function localizeImage(url) {
+      if (!url) return 'og.png';
+      if (url.startsWith(SITE_PREFIX)) return url.slice(SITE_PREFIX.length);
+      return url;
+    }
 
     function fieldsFor(meta) {
       return isArticle(meta) ? [...REQUIRED, ...ARTICLE_REQUIRED] : REQUIRED;
@@ -511,7 +527,7 @@
         try { return new URL(meta.canonical || meta.og_url).hostname; }
         catch { return 'realroc.github.io'; }
       })();
-      const img   = meta.og_image || 'og.png';
+      const img   = localizeImage(meta.og_image);
       const title = meta.og_title || meta.title || page.label;
       const desc  = meta.og_description || meta.description || '';
 
