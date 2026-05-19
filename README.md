@@ -5,7 +5,7 @@
 <h1 align="center">GitHire</h1>
 
 <p align="center">
-  <strong>Hire and onboard through real GitHub work.</strong>
+  <strong>Humans frame. AI executes. Architects judge.</strong>
 </p>
 
 <p align="center">
@@ -17,6 +17,8 @@
 <p align="center">
   <a href="https://realroc.github.io/git-hired/">Website</a>
   ·
+  <a href="https://realroc.github.io/git-hired/case-redis-scan.html">Case 01</a>
+  ·
   <a href="https://realroc.github.io/git-hired/blog.html">Blog</a>
   ·
   <a href="https://realroc.github.io/git-hired/skill.html">Skill</a>
@@ -26,72 +28,67 @@
 
 ---
 
-GitHire is a simple idea: the best way to understand how someone works is to let them work on something real.
+GitHire is an AI-native engineering methodology, written as a reusable six-step workflow and validated against real production incidents.
 
-Instead of a take-home toy problem or a vague onboarding checklist, GitHire turns hiring and onboarding into a visible path:
+AI coding speed already outruns human review speed. Reviewing code *after* it's written is too late, so the work shifts:
 
-1. Start from a clear GitHub Issue.
-2. Explore safely before touching production.
-3. Ship a small real pull request.
-4. Review with AI and people together.
-5. Keep the decision trail for the next person.
+- **Humans frame** — write the issue, set constraints, declare non-goals, define success.
+- **AI executes** — generates the code, runs tests, opens the PR.
+- **Architects judge** — make the final tradeoff before merge.
 
-The goal is not to test people harder. The goal is to make collaboration clearer, faster, and fairer.
+The six steps below place each role at the right point in the pipeline:
 
-## Why it matters
+1. **Issue** — frame the problem with the six-section Prompt Spec (Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context).
+2. **Sandbox** — a long-running dev environment with real dependencies and production-shape data.
+3. **Execute** — Claude Code or Codex implements in the sandbox.
+4. **AI Review** — a second agent with *different* priors (performance, security, anti-patterns).
+5. **Architect** ★ — the most expensive 30 seconds in the workflow. Human reads the diff with system-side context (QPS curves, prior incidents).
+6. **Production** — merge, ship, write the decision trail back to the Issue.
 
-Hiring often asks people to perform outside the way teams actually work.
+If you only adopt one step, adopt step 5.
 
-Onboarding often gives people too much information at once, but not enough context for the first real decision.
+## Real cases
 
-GitHire connects both moments to the work teams already understand: issues, pull requests, reviews, and written decisions.
+The site is an *operating log*, not a tutorial. Every case is a real event:
 
-Candidates see a real problem.
+- **[Case 01 · A 22-line SCAN took down production Redis](https://realroc.github.io/git-hired/case-redis-scan.html)** — Codex wrote a `r.scan(match='model_detail::*')` + pipelined `HGETALL` in 5 minutes; the architect step was skipped; production was on fire 13 hours later; 25 hours of fix-chain commits until a Redis SET replaced the SCAN. Walked along all six steps to show where each one was abandoned.
 
-New teammates see the path from question to shipped change.
+More cases are queued; if you've shipped a real incident worth walking, [open an issue](https://github.com/realRoc/git-hired/issues) and we'll co-write the post-mortem.
 
-Teams get a clearer record of how people collaborate.
+## Install as Skill
+
+GitHire is published as an installable Skill so any AI agent can apply the same method. The skill lives at **[realRoc/skills](https://github.com/realRoc/skills)** alongside the matching **Prompt Spec** skill.
+
+```bash
+# Install both skills
+npx skills add realRoc/skills
+
+# Or just one
+npx skills add realRoc/skills --skill githire
+npx skills add realRoc/skills --skill prompt-spec
+```
+
+The Skill points agents at the live site for current method, plus the bundled `references/method.md` for offline fallback. Detailed install page: <https://realroc.github.io/git-hired/skill.html>.
+
+> **Note on path migration**: skills used to live under `realRoc/git-hired/skills/githire`. They now live at `realRoc/skills/skills/githire`. The local `skills/` directory in this repo is a dev workspace artifact (symlinked to `.agents/`) and is gitignored — clones will see it empty, which is expected.
 
 ## What belongs here
 
-This project is open for people who care about better engineering collaboration.
+Open an issue if you want to:
 
-You are welcome to open an issue if you want to:
+- contribute a real-incident case for the operating log;
+- propose a refinement to the six-step workflow;
+- challenge a claim in the FAQ;
+- improve the Prompt Spec template;
+- discuss how AI should support — not replace — architect judgment.
 
-- suggest a better onboarding ritual;
-- share a real hiring or first-pull-request story;
-- propose a Blog topic;
-- point out confusing language;
-- improve the public website;
-- discuss how AI should support human judgment.
-
-A polished proposal is not required. A clear question is enough to start.
-
-## Agent Skill
-
-GitHire also ships as an agent Skill so AI assistants can apply the same issue-first collaboration method.
-
-- Install page: https://realroc.github.io/git-hired/skill.html
-- Copy command: `npx -y skills@latest add https://github.com/realRoc/git-hired --skill githire --agent "*" -y`
-- Skill source: https://github.com/realRoc/git-hired/tree/main/skills/githire
-
-The Skill tells agents to read the live homepage first, then use the Blog for current notes and examples.
-
-## Blog
-
-The Blog is where longer notes will live:
-
-- AI-native onboarding;
-- GitHub Issue-first workflows;
-- candidate experience;
-- first pull request stories;
-- AI review and human ownership;
-- lessons from real teams.
-
-If you have a post idea, open an issue with a short title, one paragraph of context, and any examples that help explain it.
+A polished proposal is not required. A clear question is enough.
 
 ## Links
 
-- Website: https://realroc.github.io/git-hired/
-- Blog: https://realroc.github.io/git-hired/blog.html
-- Issues: https://github.com/realRoc/git-hired/issues
+- Website: <https://realroc.github.io/git-hired/>
+- Case 01: <https://realroc.github.io/git-hired/case-redis-scan.html>
+- Blog: <https://realroc.github.io/git-hired/blog.html>
+- Skill landing: <https://realroc.github.io/git-hired/skill.html>
+- Skill source (canonical): <https://github.com/realRoc/skills>
+- Issues: <https://github.com/realRoc/git-hired/issues>

@@ -89,12 +89,12 @@
     "description": "GitHire 的标准工作流分为六个步骤,把'人 frame、AI 执行、架构师判断'串成从需求到上线的完整路径。",
     "totalTime": "P14D",
     "step": [
-      { "@type": "HowToStep", "position": 1, "name": "Issue",     "text": "用一两句话把『为谁解决什么』写清楚——能讲明白的需求，才值得进入下一步。" },
-      { "@type": "HowToStep", "position": 2, "name": "Sandbox",   "text": "在隔离环境里让 AI agent 探明白代码上下文与边界条件，所有探索默认不进主分支。" },
-      { "@type": "HowToStep", "position": 3, "name": "Execute · PR", "text": "人类与 AI 结对写出第一版 PR，提交可运行的最小变更。" },
-      { "@type": "HowToStep", "position": 4, "name": "AI Review", "text": "多 agent 评审：风格、安全、性能、测试覆盖率，输出结构化报告。" },
-      { "@type": "HowToStep", "position": 5, "name": "Architect", "text": "人类架构师判断方向 —— 这是工作流里最贵的 30 秒,只有人才能识别'不该用这个路径'。" },
-      { "@type": "HowToStep", "position": 6, "name": "Production","text": "合并入主分支，按灰度发布，自动观测指标与回滚条件。" }
+      { "@type": "HowToStep", "position": 1, "name": "Issue",     "text": "用六段式 Prompt Spec 把需求落成 AI 可执行的契约：Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context。每一处空白都是 AI 自由发挥的入口。" },
+      { "@type": "HowToStep", "position": 2, "name": "Sandbox",   "text": "长期运行的隔离环境，带真实依赖与生产量级的数据；缺数据规模、缺 QPS 的沙盒只是把 bug 推到上线那一刻。" },
+      { "@type": "HowToStep", "position": 3, "name": "Execute · PR", "text": "AI agent 在沙盒里完成实现、跑测试、起 PR；人读 diff，不要试图在 Issue 里规定每一行代码。" },
+      { "@type": "HowToStep", "position": 4, "name": "AI Review", "text": "另一位 agent 用不同 priors 读 PR——性能、安全、anti-pattern——不重跑测试，而是用互补的视角覆盖第一位 agent 没被要求看的事。" },
+      { "@type": "HowToStep", "position": 5, "name": "Architect", "text": "人类架构师判断方向——这是工作流里最贵的 30 秒，带的是 AI 看不到的系统侧上下文（QPS 曲线、历史事故、容量规划）。" },
+      { "@type": "HowToStep", "position": 6, "name": "Production","text": "合并、上线、把决策回写到 Issue。Issue + PR + AI Review + 架构师签字 + handoff note 一起，是这次变更的可追溯记忆。" }
     ]
   }
   </script>
@@ -117,7 +117,7 @@
         "name": "Architect 30 秒就能识别问题，AI review 5 分钟都识别不出来吗？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "两者识别的是不同维度。AI review 看的是 PR 内部一致性、语法、测试覆盖——'代码自带的上下文'。架构师看的是 QPS 曲线、历史事故、容量规划——'系统侧才有的上下文'。互补，不重叠。Case 01 里 22 行 SCAN 代码在 AI review 看来完全正确，但架构师 30 秒就能看出'这个 endpoint 每次请求都扫全表'是不可接受的。"
+          "text": "两者识别的是不同维度。AI review 看的是 PR 内部一致性、edge cases、命名一致性、被忽略的 nullability——'代码自带的上下文'。架构师看的是 QPS 曲线、历史事故、容量规划——'系统侧才有的上下文'。互补，不重叠。Case 01 里 22 行 SCAN 代码在 AI review 看来完全正确，但架构师 30 秒就能看出'这个 endpoint 每次请求都扫全表'是不可接受的。"
         }
       },
       {
@@ -191,11 +191,21 @@
 
   <!-- ── PostHog · product analytics ─────────────────────────── -->
   <!--
-    Reads the site key + host from window.POSTHOG_CONFIG so we can swap or
-    disable the project without touching code. Drop the config block in your
-    deployment env (e.g. inject at build time, or set inline before this
-    snippet). If the config is absent the snippet stubs out and every capture
-    is a silent no-op — page UX is unaffected.
+    Reads the site key + host from window.POSTHOG_CONFIG so the project can
+    be swapped or disabled without touching code.
+
+    Key injection (pick one — both routes are supported by the gate below):
+      1. Inline before this snippet — replace the placeholder block with
+         the real `phc_…` key. Use this if you deploy the file as-is from
+         this repo (GitHub Pages serves /docs verbatim, so commit the key
+         here; PostHog client keys are public).
+      2. From a separate env-injected snippet — drop your own
+         `<script>window.POSTHOG_CONFIG = { api_key: '…', api_host: '…' };</script>`
+         before this block (e.g. via a build step or CDN edge worker) and
+         the placeholder will be respected by ||=.
+
+    Failure mode: if the key is absent or still REPLACE_ME, the gate skips
+    init and every capture is a silent no-op. Page UX is never affected.
   -->
   <script>
     window.POSTHOG_CONFIG = window.POSTHOG_CONFIG || {
@@ -526,7 +536,7 @@
           </details>
           <details>
             <summary>Architect 30 秒就能识别问题，AI review 5 分钟都识别不出来吗？</summary>
-            <p>两者识别的是不同维度。<strong>AI review 看的是"代码自带的上下文"</strong>——PR 内部一致性、语法、测试覆盖；<strong>架构师看的是"系统侧才有的上下文"</strong>——QPS 曲线、历史事故、容量规划。互补，不重叠。Case 01 里那 22 行 SCAN 代码在 AI review 看来完全正确，但架构师 30 秒就能看出"这个 endpoint 每次请求都扫全表"是不可接受的。</p>
+            <p>两者识别的是不同维度。<strong>AI review 看的是"代码自带的上下文"</strong>——PR 内部一致性、edge cases、命名一致性、被忽略的 nullability；<strong>架构师看的是"系统侧才有的上下文"</strong>——QPS 曲线、历史事故、容量规划。互补，不重叠。Case 01 里那 22 行 SCAN 代码在 AI review 看来完全正确，但架构师 30 秒就能看出"这个 endpoint 每次请求都扫全表"是不可接受的。</p>
           </details>
           <details>
             <summary>一份好的 Issue 长什么样？</summary>

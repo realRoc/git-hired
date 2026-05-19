@@ -2,10 +2,10 @@
   "version": 1,
   "skills": {
     "githire": {
-      "source": "realRoc/git-hired",
+      "source": "realRoc/skills",
       "sourceType": "github",
       "skillPath": "skills/githire/SKILL.md",
-      "computedHash": "5eea71a4f41a2e027a90ddfcb9a4f1b43982a16d17fcce12b2d5336cfbf55709"
+      "computedHash": "9d169476954a3c8cabef8bda54240592c05246dca80c27f7eb796bf18ed551fb"
     }
   }
 }
