@@ -119,6 +119,41 @@
       white-space: nowrap;
       vertical-align: bottom;
     }
+    /* Transposed audit matrix: keys × pages */
+    .audit td.key-cell {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: var(--ink-soft);
+      white-space: nowrap;
+      width: 220px;
+    }
+    .audit td.matrix-cell {
+      text-align: center;
+      font-family: "Inter", system-ui, sans-serif;
+      font-weight: 600;
+      cursor: help;
+      width: 120px;
+    }
+    .audit td.matrix-cell .ok   { font-size: 14px; }
+    .audit td.matrix-cell .miss { font-size: 14px; }
+    .audit-summary {
+      font-family: "Inter", system-ui, sans-serif;
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin: 0 0 8px;
+    }
+    .audit-summary .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(176,58,58,0.12);
+      color: var(--miss);
+      font-weight: 600;
+      margin-right: 6px;
+    }
+    .audit-summary .pill.clean {
+      background: rgba(47,122,74,0.12);
+      color: var(--ok);
+    }
 
     /* ── Per-page panel ──────────────────────────────── */
     .panel {
@@ -296,25 +331,11 @@
       <p class="meta">— 1 / 全站对账</p>
       <h2>Site-wide OG audit</h2>
       <p class="hint" style="margin-bottom: 14px;">
-        关键字段是否齐全。<span class="ok">✓</span> 已设置 · <span class="miss">✗ MISSING</span> 缺失，红色项就是要补的洞。
+        Required key set 是单一数据源（<code>REQUIRED</code> 数组，下方 script 内）；表头和单元格都由它生成，永远不会漏检。<span class="ok">✓</span> 已设置（hover 看实际值） · <span class="miss">✗</span> 缺失。
       </p>
-      <table class="audit" id="audit-table">
-        <thead>
-          <tr>
-            <th>Page</th>
-            <th>title</th>
-            <th>description</th>
-            <th>og:image</th>
-            <th>og:url</th>
-            <th>og:site_name</th>
-            <th>twitter:image</th>
-            <th>canonical</th>
-          </tr>
-        </thead>
-        <tbody id="audit-body">
-          <tr><td colspan="8" class="empty">Loading…</td></tr>
-        </tbody>
-      </table>
+      <div id="audit-table">
+        <p class="empty">Loading…</p>
+      </div>
     </section>
 
     <!-- ── 2. Per-page panels ────────────────────────── -->
@@ -360,10 +381,46 @@
       { id: 'skill',           href: 'skill.html',           label: 'Skill',    type: 'website' },
     ];
 
-    const REQUIRED_FOR_AUDIT = [
-      'title', 'description',
-      'og_image', 'og_url', 'og_site_name', 'twitter_image', 'canonical',
+    // Single source of truth for required keys.
+    // The audit matrix, the per-panel meta list, and the card mocks all
+    // read from this — there is no second hardcoded list anywhere.
+    //
+    //   type:    'tag'  → read element.textContent (title only)
+    //            'meta' → read element[content]
+    //            'link' → read element[href]
+    //   appliesTo: omit for "every page"; pass an array of og:type
+    //              values to scope a key to article pages, etc.
+    const REQUIRED = [
+      { key: 'title',               label: 'title',               type: 'tag',  selector: 'title' },
+      { key: 'description',         label: 'description',         type: 'meta', selector: 'meta[name="description"]' },
+      { key: 'canonical',           label: 'canonical',           type: 'link', selector: 'link[rel="canonical"]' },
+      { key: 'og_site_name',        label: 'og:site_name',        type: 'meta', selector: 'meta[property="og:site_name"]' },
+      { key: 'og_type',             label: 'og:type',             type: 'meta', selector: 'meta[property="og:type"]' },
+      { key: 'og_title',            label: 'og:title',            type: 'meta', selector: 'meta[property="og:title"]' },
+      { key: 'og_description',      label: 'og:description',      type: 'meta', selector: 'meta[property="og:description"]' },
+      { key: 'og_url',              label: 'og:url',              type: 'meta', selector: 'meta[property="og:url"]' },
+      { key: 'og_image',            label: 'og:image',            type: 'meta', selector: 'meta[property="og:image"]' },
+      { key: 'og_image_alt',        label: 'og:image:alt',        type: 'meta', selector: 'meta[property="og:image:alt"]' },
+      { key: 'og_image_width',      label: 'og:image:width',      type: 'meta', selector: 'meta[property="og:image:width"]' },
+      { key: 'og_image_height',     label: 'og:image:height',     type: 'meta', selector: 'meta[property="og:image:height"]' },
+      { key: 'twitter_card',        label: 'twitter:card',        type: 'meta', selector: 'meta[name="twitter:card"]' },
+      { key: 'twitter_title',       label: 'twitter:title',       type: 'meta', selector: 'meta[name="twitter:title"]' },
+      { key: 'twitter_description', label: 'twitter:description', type: 'meta', selector: 'meta[name="twitter:description"]' },
+      { key: 'twitter_image',       label: 'twitter:image',       type: 'meta', selector: 'meta[name="twitter:image"]' },
+      { key: 'twitter_image_alt',   label: 'twitter:image:alt',   type: 'meta', selector: 'meta[name="twitter:image:alt"]' },
     ];
+
+    // Article-only keys: rendered alongside REQUIRED for pages whose
+    // og:type is "article", flagged as ✗ only on those pages.
+    const ARTICLE_REQUIRED = [
+      { key: 'article_published_time', label: 'article:published_time', type: 'meta', selector: 'meta[property="article:published_time"]' },
+      { key: 'article_author',         label: 'article:author',         type: 'meta', selector: 'meta[property="article:author"]' },
+    ];
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    }
+    const escapeAttr = escapeHtml;
 
     async function loadMeta(href) {
       const html = await fetch(href, { cache: 'no-store' }).then(r => {
@@ -371,57 +428,82 @@
         return r.text();
       });
       const doc = new DOMParser().parseFromString(html, 'text/html');
-      const get = (sel, attr = 'content') => doc.querySelector(sel)?.getAttribute(attr) ?? '';
-      return {
-        title:               doc.querySelector('title')?.textContent?.trim() ?? '',
-        description:         get('meta[name="description"]'),
-        og_type:             get('meta[property="og:type"]'),
-        og_site_name:        get('meta[property="og:site_name"]'),
-        og_title:            get('meta[property="og:title"]'),
-        og_description:      get('meta[property="og:description"]'),
-        og_image:            get('meta[property="og:image"]'),
-        og_image_alt:        get('meta[property="og:image:alt"]'),
-        og_url:              get('meta[property="og:url"]'),
-        og_locale:           get('meta[property="og:locale"]'),
-        twitter_card:        get('meta[name="twitter:card"]'),
-        twitter_title:       get('meta[name="twitter:title"]'),
-        twitter_description: get('meta[name="twitter:description"]'),
-        twitter_image:       get('meta[name="twitter:image"]'),
-        canonical:           get('link[rel="canonical"]', 'href'),
-        jsonld_types:        [...doc.querySelectorAll('script[type="application/ld+json"]')]
-          .map(s => { try { const j = JSON.parse(s.textContent); return j['@type'] || '?'; } catch { return 'invalid'; } }),
+      const readField = (field) => {
+        const el = doc.querySelector(field.selector);
+        if (!el) return '';
+        if (field.type === 'tag')  return el.textContent?.trim() ?? '';
+        if (field.type === 'link') return el.getAttribute('href') ?? '';
+        return el.getAttribute('content') ?? '';
       };
+      const meta = {};
+      for (const f of [...REQUIRED, ...ARTICLE_REQUIRED]) meta[f.key] = readField(f);
+      meta.jsonld_types = [...doc.querySelectorAll('script[type="application/ld+json"]')]
+        .map(s => {
+          try {
+            const j = JSON.parse(s.textContent);
+            const t = j['@type'] || '?';
+            const a = j.additionalType ? ` (+${String(j.additionalType).split('/').pop()})` : '';
+            return t + a;
+          } catch { return 'invalid'; }
+        });
+      return meta;
     }
 
-    function statusCell(value, opts = {}) {
-      const { truncate = false } = opts;
-      if (!value) return '<span class="miss">✗ MISSING</span>';
-      const display = truncate ? `<span class="trunc" title="${escapeAttr(value)}">${escapeHtml(value)}</span>` : escapeHtml(value);
-      return `<span class="ok">✓</span> ${display}`;
+    function isArticle(meta) { return meta.og_type === 'article'; }
+
+    function fieldsFor(meta) {
+      return isArticle(meta) ? [...REQUIRED, ...ARTICLE_REQUIRED] : REQUIRED;
     }
 
-    function escapeHtml(s) {
-      return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-    }
-    function escapeAttr(s) { return escapeHtml(s); }
+    // ── Audit matrix (keys × pages) — fully derived from REQUIRED ──
+    function renderAudit(pageMetas) {
+      const headCells = pageMetas.map(({ page }) =>
+        `<th>${escapeHtml(page.label)}</th>`).join('');
 
-    function imageOk(meta) {
-      // Resolve relative og:image against the page's own URL so the
-      // background-image works locally (og:image is usually absolute).
-      return meta.og_image || '';
+      // Include every key that applies to at least one page in this run.
+      const keyUnion = new Set();
+      for (const { meta } of pageMetas) for (const f of fieldsFor(meta)) keyUnion.add(f.key);
+      const allFields = [...REQUIRED, ...ARTICLE_REQUIRED].filter(f => keyUnion.has(f.key));
+
+      const rows = allFields.map(field => {
+        const cells = pageMetas.map(({ meta }) => {
+          const applies = fieldsFor(meta).some(f => f.key === field.key);
+          if (!applies) return `<td class="matrix-cell" style="color:var(--ink-mute)">—</td>`;
+          const v = meta[field.key];
+          return v
+            ? `<td class="matrix-cell" title="${escapeAttr(v)}"><span class="ok">✓</span></td>`
+            : `<td class="matrix-cell"><span class="miss">✗</span></td>`;
+        }).join('');
+        return `<tr><td class="key-cell">${escapeHtml(field.label)}</td>${cells}</tr>`;
+      }).join('');
+
+      // Summary line (count missing across the matrix).
+      let missing = 0, total = 0;
+      for (const { meta } of pageMetas) {
+        for (const f of fieldsFor(meta)) { total++; if (!meta[f.key]) missing++; }
+      }
+      const summary = missing === 0
+        ? `<p class="audit-summary"><span class="pill clean">✓ all clean</span> ${total} required cells across ${pageMetas.length} pages.</p>`
+        : `<p class="audit-summary"><span class="pill">✗ ${missing} missing</span> of ${total} required cells across ${pageMetas.length} pages — see ✗ marks below.</p>`;
+
+      return `${summary}
+        <table class="audit">
+          <thead><tr><th>Key</th>${headCells}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>`;
     }
 
-    function renderAuditRow(page, meta) {
-      return `<tr>
-        <td class="page-cell">${escapeHtml(page.label)}<br/><span style="font-weight:400;color:var(--ink-mute);font-size:11px">${escapeHtml(page.href)}</span></td>
-        <td>${statusCell(meta.title, { truncate: true })}</td>
-        <td>${statusCell(meta.description, { truncate: true })}</td>
-        <td>${statusCell(meta.og_image, { truncate: true })}</td>
-        <td>${statusCell(meta.og_url, { truncate: true })}</td>
-        <td>${statusCell(meta.og_site_name)}</td>
-        <td>${statusCell(meta.twitter_image, { truncate: true })}</td>
-        <td>${statusCell(meta.canonical, { truncate: true })}</td>
-      </tr>`;
+    // ── Per-page panel ───────────────────────────────────────────
+    function renderPanelMetaRows(meta) {
+      return fieldsFor(meta).map(field => {
+        const v = meta[field.key];
+        return `<span class="k">${escapeHtml(field.label)}</span>
+                <span class="v ${v ? '' : 'miss'}">${v ? escapeHtml(v) : '— missing —'}</span>`;
+      }).join('') + `
+        <span class="k">JSON-LD @type</span>
+        <span class="v ${meta.jsonld_types.length ? '' : 'miss'}">${
+          meta.jsonld_types.length ? escapeHtml(meta.jsonld_types.join(' · ')) : '— no JSON-LD —'
+        }</span>`;
     }
 
     function renderPanel(page, meta) {
@@ -429,12 +511,9 @@
         try { return new URL(meta.canonical || meta.og_url).hostname; }
         catch { return 'realroc.github.io'; }
       })();
-      const img = imageOk(meta) || 'og.png';
+      const img   = meta.og_image || 'og.png';
       const title = meta.og_title || meta.title || page.label;
       const desc  = meta.og_description || meta.description || '';
-      const jsonld = meta.jsonld_types.length
-        ? meta.jsonld_types.join(' · ')
-        : '<span class="miss">no JSON-LD</span>';
 
       return `<div class="panel">
         <div class="panel-head">
@@ -442,15 +521,7 @@
           <p class="href"><a href="${escapeAttr(page.href)}" target="_blank" rel="noopener">${escapeHtml(page.href)} ↗</a></p>
         </div>
 
-        <div class="panel-meta">
-          <span class="k">og:type</span>          <span class="v ${meta.og_type ? '' : 'miss'}">${escapeHtml(meta.og_type || '— missing —')}</span>
-          <span class="k">og:title</span>         <span class="v ${meta.og_title ? '' : 'miss'}">${escapeHtml(meta.og_title || '— missing —')}</span>
-          <span class="k">og:description</span>   <span class="v ${meta.og_description ? '' : 'miss'}">${escapeHtml(meta.og_description || '— missing —')}</span>
-          <span class="k">og:image</span>         <span class="v ${meta.og_image ? '' : 'miss'}">${escapeHtml(meta.og_image || '— missing —')}</span>
-          <span class="k">og:image:alt</span>     <span class="v ${meta.og_image_alt ? '' : 'miss'}">${escapeHtml(meta.og_image_alt || '— missing —')}</span>
-          <span class="k">twitter:card</span>     <span class="v ${meta.twitter_card ? '' : 'miss'}">${escapeHtml(meta.twitter_card || '— missing —')}</span>
-          <span class="k">JSON-LD @type</span>    <span class="v">${jsonld}</span>
-        </div>
+        <div class="panel-meta">${renderPanelMetaRows(meta)}</div>
 
         <div class="grid">
           <div class="tw-card">
@@ -495,22 +566,29 @@
     }
 
     async function main() {
-      const auditBody = document.getElementById('audit-body');
-      const panels    = document.getElementById('panels');
-      auditBody.innerHTML = '';
-      panels.innerHTML = '';
+      const auditEl = document.getElementById('audit-table');
+      const panels  = document.getElementById('panels');
+
+      const pageMetas = [];
+      const errors    = [];
 
       for (const page of PAGES) {
         try {
           const meta = await loadMeta(page.href);
-          auditBody.insertAdjacentHTML('beforeend', renderAuditRow(page, meta));
-          panels.insertAdjacentHTML('beforeend', renderPanel(page, meta));
+          pageMetas.push({ page, meta });
         } catch (e) {
-          auditBody.insertAdjacentHTML('beforeend', `<tr>
-            <td class="page-cell">${escapeHtml(page.label)}</td>
-            <td colspan="7" class="miss">load failed: ${escapeHtml(e.message)} — start a local server (<code>python3 -m http.server 4178</code>) and open via http://, not file://</td>
-          </tr>`);
+          errors.push({ page, error: e });
         }
+      }
+
+      if (errors.length) {
+        auditEl.innerHTML = errors.map(({ page, error }) =>
+          `<p class="empty"><strong>${escapeHtml(page.label)}</strong> failed to load: ${escapeHtml(error.message)} — start a local server (<code>python3 -m http.server 4178</code>) and open via http://, not file://</p>`
+        ).join('');
+      }
+      if (pageMetas.length) {
+        auditEl.insertAdjacentHTML('beforeend', renderAudit(pageMetas));
+        panels.innerHTML = pageMetas.map(({ page, meta }) => renderPanel(page, meta)).join('');
       }
     }
 
