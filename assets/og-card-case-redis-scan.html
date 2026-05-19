@@ -9,7 +9,8 @@
       --screenshot=og-case-redis-scan.png \
       "file://$(pwd)/assets/og-card-case-redis-scan.html"
 
-  Then copy the PNG to docs/ to keep the GitHub Pages mirror in sync.
+  Then `mv og-case-redis-scan.png docs/` — GitHub Pages serves /docs,
+  that's the only copy that needs to exist.
 
   Why case-specific: Google Article structured data requires the
   image to represent the article's subject. The general GitHire brand
