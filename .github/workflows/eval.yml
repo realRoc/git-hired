@@ -58,7 +58,6 @@ jobs:
               docs / "githire-scroll.js",
               docs / "three" / "stage.js",
               docs / "three" / "scenes" / "intro.js",
-              docs / "README.md",
               docs / "robots.txt",
               docs / "sitemap.xml",
               docs / "llms.txt",
