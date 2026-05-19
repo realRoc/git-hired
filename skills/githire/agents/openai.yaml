@@ -1,4 +1,0 @@
-interface:
-  display_name: "GitHire"
-  short_description: "Use GitHire's issue-first onboarding and collaboration method."
-  default_prompt: "Use the GitHire skill to plan issue-first collaboration, onboarding, review, and handoff work."

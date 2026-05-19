@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F6F1E8" />
 
-  <title>GitHire · AI-native 入职与招聘工作流</title>
-  <meta name="description" content="GitHire 是一套围绕 GitHub Issue 展开的 AI-native 入职与招聘工作流，让候选人和新人在两周内交付真实生产 PR。" />
+  <title>GitHire · 人指挥 AI 干活,不是 AI 辅助人</title>
+  <meta name="description" content="GitHire 是一套 AI-native 工程方法论:把'人 frame、AI 执行、架构师判断'写成可复用的六步 workflow,拿真实事故 case 验证,再用 Skill 让任何 agent 装上。" />
   <link rel="canonical" href="https://realroc.github.io/git-hired/" />
 
   <link rel="alternate" hreflang="zh-CN" href="https://realroc.github.io/git-hired/" />
@@ -14,8 +14,8 @@
   <link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="GitHire · AI-native 入职与招聘工作流" />
-  <meta property="og:description" content="把 onboarding 当作产品来做：Issue → Sandbox → PR → AI Review → Architect → Production，两周交付真实生产 PR。" />
+  <meta property="og:title" content="GitHire · 人指挥 AI 干活,不是 AI 辅助人" />
+  <meta property="og:description" content="一套 AI-native 工程方法论:Issue → Sandbox → PR → AI Review → Architect → Production,六步把'人 frame、AI 执行、架构师判断'落到可复用 workflow。" />
   <meta property="og:locale" content="zh_CN" />
   <meta property="og:locale:alternate" content="en_US" />
   <meta property="og:image" content="https://realroc.github.io/git-hired/og.png" />
@@ -37,7 +37,7 @@
     "name": "GitHire",
     "url": "https://realroc.github.io/git-hired/",
     "logo": "https://realroc.github.io/git-hired/logo.svg",
-    "description": "AI-native 入职与招聘工作流，让候选人和新人在两周内交付真实生产 PR。",
+    "description": "AI-native 工程方法论：把'人 frame、AI 执行、架构师判断'写成可复用的六步 workflow，附真实事故 case 与可装 Skill。",
     "sameAs": []
   }
   </script>
@@ -63,7 +63,7 @@
       {
         "@type": "SoftwareSourceCode",
         "name": "GitHire Skill",
-        "url": "https://github.com/realRoc/git-hired/tree/main/skills/githire"
+        "url": "https://github.com/realRoc/skills"
       }
     ]
   }
@@ -76,7 +76,7 @@
     "name": "GitHire",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web",
-    "description": "GitHire 是一套围绕 GitHub Issue 展开的 AI-native 入职与招聘工作流。",
+    "description": "GitHire 是一套围绕 GitHub Issue 展开的 AI-native 工程方法论：人 frame、AI 执行、架构师判断。",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   }
   </script>
@@ -86,14 +86,14 @@
     "@context": "https://schema.org",
     "@type": "HowTo",
     "name": "GitHire 工作流：从 Issue 到 Production",
-    "description": "GitHire 的标准工作流分为六个步骤，串起候选人或新人从需求到上线的完整路径。",
+    "description": "GitHire 的标准工作流分为六个步骤,把'人 frame、AI 执行、架构师判断'串成从需求到上线的完整路径。",
     "totalTime": "P14D",
     "step": [
       { "@type": "HowToStep", "position": 1, "name": "Issue",     "text": "用一两句话把『为谁解决什么』写清楚——能讲明白的需求，才值得进入下一步。" },
       { "@type": "HowToStep", "position": 2, "name": "Sandbox",   "text": "在隔离环境里让 AI agent 探明白代码上下文与边界条件，所有探索默认不进主分支。" },
       { "@type": "HowToStep", "position": 3, "name": "Execute · PR", "text": "人类与 AI 结对写出第一版 PR，提交可运行的最小变更。" },
       { "@type": "HowToStep", "position": 4, "name": "AI Review", "text": "多 agent 评审：风格、安全、性能、测试覆盖率，输出结构化报告。" },
-      { "@type": "HowToStep", "position": 5, "name": "Architect", "text": "资深工程师做最终 review，决定 merge、改写或重做。" },
+      { "@type": "HowToStep", "position": 5, "name": "Architect", "text": "人类架构师判断方向 —— 这是工作流里最贵的 30 秒,只有人才能识别'不该用这个路径'。" },
       { "@type": "HowToStep", "position": 6, "name": "Production","text": "合并入主分支，按灰度发布，自动观测指标与回滚条件。" }
     ]
   }
@@ -106,26 +106,34 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "进度落后的团队是否需要再加人？",
+        "name": "AI 写代码这么快，为什么还要 6 步？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "不一定。新加的人需要时间学习上下文，沟通成本也会随人数二次方增长，因此短期内整体进度往往更慢——这就是 Brooks's Law。GitHire 的做法是把 Issue 上下文、Sandbox 探索、AI Review 报告全部沉淀为可读资产，让新人入场成本可控；只有当任务本身可拆分、上下文已结构化时，加人才有意义。"
+          "text": "因为速度不是问题——AI 5 分钟写完的代码，人 review 需要 30 分钟才能识别'路径不对'。6 步 workflow 不是给 AI 装护栏，是给人类留决策点：Issue 是 framing 的决策点，架构师评审是方向的决策点，sandbox 与 AI review 是两次'还来得及反悔'的决策点。一旦决策点形同虚设，AI 的速度就会变成事故的速度。"
         }
       },
       {
         "@type": "Question",
-        "name": "『人月』是个伪命题吗？",
+        "name": "Architect 30 秒就能识别问题，AI review 5 分钟都识别不出来吗？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "至少是一个粗暴的近似。软件工作不是体力劳动，人和月不可线性互换：复杂任务的依赖链限制了并行度，沟通成本随人数二次方增长，新成员的学习成本要从老成员的时间里扣。GitHire 不使用『人月』做估算，而是把工作拆为 Issue → PR 的可观测单元，用历史吞吐数据滚动预测。"
+          "text": "两者识别的是不同维度。AI review 看的是 PR 内部一致性、语法、测试覆盖——'代码自带的上下文'。架构师看的是 QPS 曲线、历史事故、容量规划——'系统侧才有的上下文'。互补，不重叠。Case 01 里 22 行 SCAN 代码在 AI review 看来完全正确，但架构师 30 秒就能看出'这个 endpoint 每次请求都扫全表'是不可接受的。"
         }
       },
       {
         "@type": "Question",
-        "name": "原型是否一定要被丢掉？",
+        "name": "一份好的 Issue 长什么样？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Brooks 的建议是 Plan to throw one away; you will, anyhow——第一版的真正价值在于澄清问题。GitHire 把这条建议显式化：Sandbox 阶段产生的代码默认不进主分支，存在的目的是验证方向、暴露未知，而非交付。"
+          "text": "六段:Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context。Goal 说清楚要解决什么；Constraints 说清楚不能动什么；Non-goals 说清楚不做什么；Verification 说清楚怎么证明成功；Architecture notes 说清楚系统边界；Existing context 说清楚已有实现。缺一段，AI 就会在那一段自由发挥。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "AI 出事故，谁来背锅？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "架构师。AI 不背锅——背锅意味着代理责任，AI 没有代理资格。所有合入主干的代码都有一位架构师签字，签字就是认领系统侧后果。GitHire 不允许 review 责任被'AI 评过了'稀释——AI review 是辅助证据，架构师 review 是决定。"
         }
       },
       {
@@ -138,10 +146,26 @@
       },
       {
         "@type": "Question",
-        "name": "为什么文档永远写不完？",
+        "name": "Sandbox 里写的代码为什么默认不进主分支？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "因为写完即过时。GitHire 的策略是少写『文档』、多留『证据』：Issue 描述、PR diff、AI Review 报告、生产日志本身就是可追溯的文档链，自动按时间序拼成项目史，新人读这条链就能复现一次完整的决策过程。"
+          "text": "因为第一版的价值是澄清问题，不是交付。GitHire 把 Brooks 那句'Plan to throw one away; you will, anyhow'显式化：sandbox 阶段产生的代码默认不进主干，存在的目的是验证方向、暴露未知。等真正写主干代码时，问题已经清楚，AI 才有可能一次写对。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "进度落后的团队是否需要再加人？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "这个问题的经典版本来自 Brooks 的 Mythical Man-Month:给延期项目加人,会让项目更延期——因为新人需要学习上下文,沟通成本随人数二次方上升,短期内整体进度反而更慢。放到 AI-native 团队里,这条规律没失效,只是稀缺品换了:coding 手脚不缺——AI 已经够快——稀缺的是会 frame issue、做架构判断的脑子。一个能写出 6 段式 issue 的人可以同时 orchestrate 几个 agent;多请一个 coder 反而稀释了方向。加人之前先问:是 framing 不够,还是吞吐不够?"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "『人月』是个伪命题吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "'人月'是软件项目的传统估算单位——'这个功能要花 6 个人月'。Brooks 早就指出这是粗糙的近似:人和月不能线性互换,加一倍人不会让项目快一倍。放到 AI-native 团队里,人月不只是粗糙,而是失效:它建模的是 coding 工作量,但 coding 已经不是瓶颈——AI agent 5 分钟交付过去一个人月的代码量;而一条糟糕的 issue 让 AI 跑出 22 行 SCAN(case 01),损失 25 小时救火,这部分根本无法用人月度量。新的单位应该是'决策点节奏':每周完成多少次 framing、多少次架构评审、多少次 sandbox → PR 闭环。"
         }
       },
       {
@@ -149,7 +173,7 @@
         "name": "Deadline 为什么总是骗人的？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "因为估算是在信息最少的时候做的，承诺是在压力最大的时候许的。GitHire 用滚动 forecast 替代固定 deadline：每个 PR merge 之后基于真实吞吐重新预测，可观测的数据替代主观承诺，越接近交付，预测越收敛。"
+          "text": "软件项目几乎从不按时交付——经典的解释是:估算在信息最少的时候做出,承诺在压力最大的时候许下,两边都不靠谱。放到 AI-native 团队里,deadline 仍然不准,但失准的根源换了:过去 deadline 滑掉是因为 coding 慢;现在 coding 不慢了,deadline 滑掉是因为 framing 失误和 review 来不及——一条没写清的 issue 让 AI 走错方向 20 分钟,代价是 25 小时根治(case 01)。GitHire 不承诺 deadline,改承诺'决策点完成度':issue framing 完成 / architect 签字完成 / sandbox 验证完成。可观测的状态替代主观时间,越接近交付,预测越收敛。"
         }
       }
     ]
@@ -246,12 +270,12 @@
     <!-- ── ACT 1 · Hero ──────────────────────────────────────── -->
     <section class="scene-section scene-intro" id="top" data-scene="intro" data-screen-label="01 Intro">
       <div class="hero-content">
-        <p class="meta">AI-native onboarding · 入职手册</p>
+        <p class="meta">AI-native engineering · 一种新的工作方式</p>
         <h1 class="hero-title">
-          <span class="hl-1"><em>以</em> AI-native <em>的方式</em></span>
-          <span class="hl-2"><em>加入团队</em><span class="period">.</span></span>
+          <span class="hl-1"><em>人指挥</em> AI <em>干活</em>，</span>
+          <span class="hl-2"><em>不是</em> AI <em>辅助人</em><span class="period">.</span></span>
         </h1>
-        <p class="hero-lede">把 onboarding 当作产品来做。两周交付真实生产 PR，而不是 demo。</p>
+        <p class="hero-lede">一份公开的 operating log —— 六步 workflow、真实事故 case、可装 Skill。给所有想看 AI-native 团队怎么工作的人。</p>
       </div>
       <div class="scroll-hint" aria-hidden="true">Scroll <span>↓</span></div>
     </section>
@@ -261,22 +285,23 @@
       <div class="wrap">
         <p class="meta">What is GitHire · 一句话</p>
         <p class="definition-line">
-          <strong>GitHire</strong> 是一套 <em>AI-native 入职与招聘工作流</em>，让候选人和新人
-          <strong>在两周内交付真实生产 PR</strong>。
+          <strong>GitHire</strong> 是一套 <em>AI-native 工程方法论</em>——把
+          <strong>"人 frame、AI 执行、架构师判断"</strong>
+          写成可复用的六步 workflow，拿真实事故 case 验证它，再用 Skill 让任何 agent 装上。
         </p>
 
         <dl class="pillars">
           <div class="pillar">
             <dt><span class="num">01</span> Issue-first</dt>
-            <dd>所有任务从一个能讲明白的 Issue 起步，需求即文档。</dd>
+            <dd>所有任务从一个能讲明白的 Issue 起步，需求即文档。<em>需求里每一处空白，都是 AI 的自由发挥空间。</em></dd>
           </div>
           <div class="pillar">
-            <dt><span class="num">02</span> AI co-pilot</dt>
-            <dd>Sandbox 探索、PR 编写、Review 全程由 AI agent 辅助，人类 own merge。</dd>
+            <dt><span class="num">02</span> Human-orchestrated</dt>
+            <dd>AI 在沙盒里完成实现、起 PR、互审；人保留 framing、架构方向与合并决定权。<em>AI 在执行，人在判断。</em></dd>
           </div>
           <div class="pillar">
             <dt><span class="num">03</span> Production-bound</dt>
-            <dd>终点是合并进主分支的 PR，不是 demo、不是练习题。</dd>
+            <dd>终点是合并进主分支的 PR，不是 demo、不是练习题。可复用的 Skill 与决策记录回写到 Issue，留作下一次的起点。</dd>
           </div>
         </dl>
       </div>
@@ -412,6 +437,9 @@
             <li><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="18" fill="currentColor"/></svg><span>06 Production</span></li>
           </ol>
           <p class="wf-overview-foot">六步串成一条流水线 · 从需求到上线 · 每一次都把决定与产物回写到 Issue</p>
+          <p class="wf-overview-cta">
+            <a href="case-redis-scan.html">在一次真实的生产事故上走一遍这六步 ↗</a>
+          </p>
         </div>
       </article>
     </section>
@@ -470,11 +498,11 @@
               <p class="ritual-num">RITUAL · 04</p>
               <h3>从 Prompt 到 Skill</h3>
               <p class="ritual-en">FROM PROMPT TO SKILL</p>
-              <p class="ritual-body">一份 Prompt 被反复用过、值得保留下来，就会被沉淀成一个 Skill——带名字、带说明、可被引用。Skill 是团队真正在沉淀的工件。</p>
+              <p class="ritual-body">一段反复用过、值得记住的 prompt，就值得变成 Skill —— 带名字、带说明、任何 agent 都能装上调用。<em>这是团队最值得沉淀的工件。</em></p>
               <dl class="ritual-dl">
-                <dt>SKILL</dt><dd>review · sandbox · rollback · architect-brief</dd>
-                <dt>CHECK</dt><dd>first-pr · oncall-handover · post-incident</dd>
-                <dt>USAGE</dt><dd>在 Claude Code 或 Codex 中通过 /use 调用</dd>
+                <dt>SKILL</dt><dd>GitHire · 六步 workflow</dd>
+                <dt>SPEC</dt><dd>Prompt Spec · 六段式 issue 模板</dd>
+                <dt>USE</dt><dd>npx skills add realRoc/skills</dd>
               </dl>
             </div>
           </li>
@@ -486,34 +514,48 @@
     <section class="scene-section scene-faq" id="faq" data-scene="faq" data-screen-label="05 FAQ">
       <div class="wrap">
         <header class="section-head">
-          <p class="meta">FAQ · 关于人月神话与 AI 协作</p>
-          <h2>软件工程的老问题，AI 没让它们消失——只是换了形状。</h2>
+          <p class="meta">FAQ · 关于 humans-orchestrate-AI</p>
+          <h2>AI 写得快，<br/><em>不等于人想得清</em><span class="period">.</span></h2>
+          <p class="section-lede">下面是最容易被跳过的问题——也是 GitHire 真正想回答的。</p>
         </header>
 
         <div class="faq-list">
           <details>
-            <summary>进度落后的团队是否需要再加人？</summary>
-            <p>不一定。新加的人需要时间学习上下文，沟通成本也会随人数二次方增长，因此短期内整体进度往往更慢——这就是 Brooks's Law。GitHire 的做法是把 Issue 上下文、Sandbox 探索、AI Review 报告全部沉淀为可读资产，让新人入场成本可控；只有当任务本身可拆分、上下文已结构化时，加人才有意义。</p>
+            <summary>AI 写代码这么快，为什么还要 6 步？</summary>
+            <p>因为速度不是问题——AI 5 分钟写完的代码，人 review 需要 30 分钟才能识别"路径不对"。<strong>6 步 workflow 不是给 AI 装护栏，是给人类留决策点</strong>：Issue 是 framing 的决策点，架构师评审是方向的决策点，sandbox 与 AI review 是两次"还来得及反悔"的决策点。一旦决策点形同虚设，AI 的速度就会变成事故的速度。<a href="case-redis-scan.html">看一次跳过决策点的代价 →</a></p>
           </details>
           <details>
-            <summary>『人月』是个伪命题吗？</summary>
-            <p>至少是一个粗暴的近似。软件工作不是体力劳动，人和月不可线性互换：复杂任务的依赖链限制了并行度，沟通成本随人数二次方增长，新成员的学习成本要从老成员的时间里扣。GitHire 不使用『人月』做估算，而是把工作拆为 Issue → PR 的可观测单元，用历史吞吐数据滚动预测。</p>
+            <summary>Architect 30 秒就能识别问题，AI review 5 分钟都识别不出来吗？</summary>
+            <p>两者识别的是不同维度。<strong>AI review 看的是"代码自带的上下文"</strong>——PR 内部一致性、语法、测试覆盖；<strong>架构师看的是"系统侧才有的上下文"</strong>——QPS 曲线、历史事故、容量规划。互补，不重叠。Case 01 里那 22 行 SCAN 代码在 AI review 看来完全正确，但架构师 30 秒就能看出"这个 endpoint 每次请求都扫全表"是不可接受的。</p>
           </details>
           <details>
-            <summary>原型是否一定要被丢掉？</summary>
-            <p>Brooks 的建议是 <em>Plan to throw one away; you will, anyhow</em>——第一版的真正价值在于澄清问题。GitHire 把这条建议显式化：Sandbox 阶段产生的代码默认不进主分支，存在的目的是验证方向、暴露未知，而非交付。</p>
+            <summary>一份好的 Issue 长什么样？</summary>
+            <p>六段。<em>Goal</em> 说清楚要解决什么；<em>Constraints</em> 说清楚不能动什么；<em>Non-goals</em> 说清楚不做什么；<em>Verification</em> 说清楚怎么证明成功；<em>Architecture notes</em> 说清楚系统边界；<em>Existing context</em> 说清楚已有实现。<strong>缺一段，AI 就会在那一段自由发挥。</strong>具体对照请看 case 01 里同一需求的 <a href="case-redis-scan.html#rewrite-title">BAD vs GOOD →</a>。</p>
+          </details>
+          <details>
+            <summary>AI 出事故，谁来背锅？</summary>
+            <p><strong>架构师。</strong>AI 不背锅——背锅意味着代理责任，AI 没有代理资格。所有合入主干的代码都有一位架构师签字，签字就是认领系统侧后果。GitHire 不允许 review 责任被"AI 评过了"稀释——AI review 是辅助证据，架构师 review 是决定。</p>
           </details>
           <details>
             <summary>Conceptual integrity 怎么在 AI 协作下保持？</summary>
-            <p>通过显式的架构 owner。AI agent 可以生成 PR，但 Architect 这一步由人类负责。所有 PR 必须能被一位 architect 用一句话讲清楚动机和取舍——做不到的 PR 不 merge。这条约束让概念一致性不被并发的 agent 数量稀释。</p>
+            <p>通过显式的架构 owner。AI agent 可以生成 PR，但 Architect 这一步由人类负责。<strong>所有 PR 必须能被一位 architect 用一句话讲清楚动机和取舍</strong>——做不到的 PR 不 merge。这条约束让概念一致性不被并发的 agent 数量稀释。</p>
           </details>
           <details>
-            <summary>为什么文档永远写不完？</summary>
-            <p>因为写完即过时。GitHire 的策略是少写『文档』、多留『证据』：Issue 描述、PR diff、AI Review 报告、生产日志本身就是可追溯的文档链，自动按时间序拼成项目史，新人读这条链就能复现一次完整的决策过程。</p>
+            <summary>Sandbox 里写的代码为什么默认不进主分支？</summary>
+            <p>因为第一版的价值是<em>澄清问题</em>，不是交付。GitHire 把 Brooks 那句 <em>"Plan to throw one away; you will, anyhow"</em> 显式化：sandbox 阶段的代码默认不进主干，存在的目的是验证方向、暴露未知。<strong>等真正写主干代码时，问题已经清楚，AI 才有可能一次写对。</strong></p>
+          </details>
+
+          <details>
+            <summary>进度落后的团队是否需要再加人？</summary>
+            <p>这个问题的经典版本来自 Brooks 的 <em>Mythical Man-Month</em>：给延期项目加人,会让项目更延期——因为新人需要学习上下文,沟通成本随人数二次方上升,短期内整体进度反而更慢。<strong>放到 AI-native 团队里,这条规律没失效,只是稀缺品换了：</strong>coding 手脚不缺——AI 已经够快——稀缺的是<em>会 frame issue、做架构判断的脑子</em>。一个能写出 6 段式 issue 的人可以同时 orchestrate 几个 agent；多请一个 coder 反而稀释了方向。<strong>加人之前先问：是 framing 不够，还是吞吐不够？</strong></p>
+          </details>
+          <details>
+            <summary>『人月』是个伪命题吗？</summary>
+            <p>"人月"是软件项目的传统估算单位——"这个功能要花 6 个人月"。Brooks 早就指出这是粗糙的近似：人和月不能线性互换,加一倍人不会让项目快一倍。<strong>放到 AI-native 团队里,人月不只是粗糙,而是失效：</strong>它建模的是 coding 工作量,但 coding 已经不是瓶颈——AI agent 5 分钟交付过去一个人月的代码量；而一条糟糕的 issue 让 AI 跑出 22 行 SCAN（<a href="case-redis-scan.html">case 01</a>）,损失 25 小时救火,这部分根本无法用人月度量。<strong>新的单位应该是"决策点节奏"：</strong>每周完成多少次 framing、多少次架构评审、多少次 sandbox → PR 闭环。</p>
           </details>
           <details>
             <summary>Deadline 为什么总是骗人的？</summary>
-            <p>因为估算是在信息最少的时候做的，承诺是在压力最大的时候许的。GitHire 用滚动 forecast 替代固定 deadline：每个 PR merge 之后基于真实吞吐重新预测，可观测的数据替代主观承诺，越接近交付，预测越收敛。</p>
+            <p>软件项目几乎从不按时交付——经典的解释是：估算在信息最少的时候做出,承诺在压力最大的时候许下,两边都不靠谱。<strong>放到 AI-native 团队里,deadline 仍然不准,但失准的根源换了：</strong>过去 deadline 滑掉是因为 <em>coding 慢</em>；现在 coding 不慢了,deadline 滑掉是因为 <strong>framing 失误</strong> 和 <strong>review 来不及</strong>——一条没写清的 issue 让 AI 走错方向 20 分钟,代价是 25 小时根治（<a href="case-redis-scan.html">case 01</a>）。<strong>GitHire 不承诺 deadline,改承诺"决策点完成度"：</strong>issue framing 完成 / architect 签字完成 / sandbox 验证完成。可观测的状态替代主观时间,越接近交付,预测越收敛。</p>
           </details>
         </div>
       </div>
@@ -522,9 +564,15 @@
     <!-- ── ACT 6 · Closer / CTA ──────────────────────────────── -->
     <section class="scene-section scene-closer is-dark" id="closer" data-scene="closer" data-screen-label="06 Closer">
       <div class="wrap">
-        <p class="meta">End of onboarding · 入职完成</p>
-        <h2 class="closer-line">你已经准备好<br/>以 <em>AI-native</em> 的方式工作<span class="period">.</span></h2>
-        <p class="closer-en">You are ready to build with AI — calmly, deliberately, alongside the team.</p>
+        <p class="meta">End of tour · 你看完了</p>
+        <h2 class="closer-line">AI <em>在执行</em>，<br/>人 <em>在 frame 与判断</em><span class="period">.</span></h2>
+        <p class="closer-en">Stop assisting. Start operating.</p>
+
+        <div class="closer-cta" aria-label="下一步">
+          <a class="closer-link" href="case-redis-scan.html">看一次真实生产事故的复盘 <span aria-hidden="true">→</span></a>
+          <a class="closer-link" href="skill.html">把这套方法装成 Skill <span aria-hidden="true">→</span></a>
+          <a class="closer-link" href="mailto:wuyupeng@floatmiracle.com">聊一聊 <span aria-hidden="true">→</span></a>
+        </div>
       </div>
     </section>
 
@@ -532,7 +580,7 @@
 
   <footer class="site-foot">
     <div class="wrap">
-      <p>© <span id="year">2026</span> GitHire · AI-native onboarding</p>
+      <p>© <span id="year">2026</span> GitHire · operating log from AI-native teams</p>
       <p class="repo"><a href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">github.com/realRoc/git-hired</a></p>
       <div class="blog-jump-prompt" id="blogJumpPrompt" role="status" aria-live="polite">
         <div class="blog-jump-copy">
