@@ -1,12 +1,35 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-lang="zh">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F6F1E8" />
 
-  <title>GitHire · 人指挥 AI 干活,不是 AI 辅助人</title>
-  <meta name="description" content="GitHire 是一套 AI-native 工程方法论:把'人 frame、AI 执行、架构师判断'写成可复用的六步 workflow,拿真实事故 case 验证,再用 Skill 让任何 agent 装上。" />
+  <!-- Pre-paint language resolution: URL ?lang= > localStorage > navigator.language.
+       IP-based default is applied later by i18n.js once the page is alive. -->
+  <script>
+    (function(){
+      try{
+        var q = new URL(location.href).searchParams.get('lang');
+        var stored = null;
+        try { stored = localStorage.getItem('githire-lang'); } catch(_){}
+        var pre = (q === 'zh' || q === 'en') ? q
+                 : (stored === 'zh' || stored === 'en') ? stored
+                 : ((navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en');
+        if ((q === 'zh' || q === 'en') && q !== stored) {
+          try { localStorage.setItem('githire-lang', q); } catch(_){}
+        }
+        document.documentElement.setAttribute('data-lang', pre);
+        document.documentElement.setAttribute('lang', pre === 'zh' ? 'zh-CN' : 'en');
+      }catch(e){
+        document.documentElement.setAttribute('data-lang', 'en');
+        document.documentElement.setAttribute('lang', 'en');
+      }
+    })();
+  </script>
+
+  <title data-i18n="index.title">GitHire · 人指挥 AI 干活,不是 AI 辅助人</title>
+  <meta name="description" data-i18n-attr="content:index.meta.description" content="GitHire 是一套 AI-native 工程方法论:把'人 frame、AI 执行、架构师判断'写成可复用的六步 workflow,拿真实事故 case 验证,再用 Skill 让任何 agent 装上。" />
   <meta name="author" content="GitHire" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://realroc.github.io/git-hired/" />
@@ -239,7 +262,7 @@
 </head>
 
 <body>
-  <a class="skip" href="#main">跳到主要内容</a>
+  <a class="skip" href="#main" data-i18n="common.skip">跳到主要内容</a>
 
   <!-- Persistent 3D stage — sits behind every section. -->
   <canvas id="stage" aria-hidden="true"></canvas>
@@ -273,17 +296,21 @@
       <span class="brand-name">GitHire</span>
     </a>
 
-    <nav class="topnav-actions" aria-label="主导航">
-      <a class="btn-primary" href="mailto:wuyupeng@floatmiracle.com">Let's talk</a>
-      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu">Menu</button>
+    <nav class="topnav-actions" aria-label="主导航" data-i18n-attr="aria-label:common.nav_aria">
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label:common.lang_aria" aria-label="切换语言">
+        <button type="button" data-lang-btn="zh" aria-pressed="true" data-i18n="common.lang_zh">中</button>
+        <button type="button" data-lang-btn="en" aria-pressed="false" data-i18n="common.lang_en">EN</button>
+      </div>
+      <a class="btn-primary" href="mailto:wuyupeng@floatmiracle.com" data-i18n="common.lets_talk">Let's talk</a>
+      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu" data-i18n="common.menu">Menu</button>
       <div class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
-        <a href="#top" role="menuitem">Intro</a>
-        <a href="#definition" role="menuitem">Definition</a>
-        <a href="#workflow" role="menuitem">Workflow</a>
-        <a href="#rituals" role="menuitem">Rituals</a>
-        <a href="#faq" role="menuitem">FAQ</a>
-        <a href="blog.html" role="menuitem">Blog</a>
-        <a href="skill.html" role="menuitem">Skill</a>
+        <a href="#top" role="menuitem" data-i18n="common.nav.intro">Intro</a>
+        <a href="#definition" role="menuitem" data-i18n="common.nav.definition">Definition</a>
+        <a href="#workflow" role="menuitem" data-i18n="common.nav.workflow">Workflow</a>
+        <a href="#rituals" role="menuitem" data-i18n="common.nav.rituals">Rituals</a>
+        <a href="#faq" role="menuitem" data-i18n="common.nav.faq">FAQ</a>
+        <a href="blog.html" role="menuitem" data-i18n="common.nav.blog">Blog</a>
+        <a href="skill.html" role="menuitem" data-i18n="common.nav.skill">Skill</a>
       </div>
     </nav>
   </header>
@@ -293,21 +320,21 @@
     <!-- ── ACT 1 · Hero ──────────────────────────────────────── -->
     <section class="scene-section scene-intro" id="top" data-scene="intro" data-screen-label="01 Intro">
       <div class="hero-content">
-        <p class="meta">AI-native engineering · 一种新的工作方式</p>
-        <h1 class="hero-title">
+        <p class="meta" data-i18n="index.hero.kicker">AI-native engineering · 一种新的工作方式</p>
+        <h1 class="hero-title" data-i18n="index.hero.title">
           <span class="hl-1"><em>人指挥</em> AI <em>干活</em>，</span>
           <span class="hl-2"><em>不是</em> AI <em>辅助人</em><span class="period">.</span></span>
         </h1>
-        <p class="hero-lede">一份公开的 operating log —— 六步 workflow、真实事故 case、可装 Skill。给所有想看 AI-native 团队怎么工作的人。</p>
+        <p class="hero-lede" data-i18n="index.hero.lede">一份公开的 operating log —— 六步 workflow、真实事故 case、可装 Skill。给所有想看 AI-native 团队怎么工作的人。</p>
       </div>
-      <div class="scroll-hint" aria-hidden="true">Scroll <span>↓</span></div>
+      <div class="scroll-hint" aria-hidden="true" data-i18n="index.hero.scroll">Scroll <span>↓</span></div>
     </section>
 
     <!-- ── ACT 2 · Definition ────────────────────────────────── -->
     <section class="scene-section scene-definition" id="definition" data-scene="definition" data-screen-label="02 Definition">
       <div class="wrap">
-        <p class="meta">What is GitHire · 一句话</p>
-        <p class="definition-line">
+        <p class="meta" data-i18n="index.def.kicker">What is GitHire · 一句话</p>
+        <p class="definition-line" data-i18n="index.def.line">
           <strong>GitHire</strong> 是一套 <em>AI-native 工程方法论</em>——把
           <strong>"人 frame、AI 执行、架构师判断"</strong>
           写成可复用的六步 workflow，拿真实事故 case 验证它，再用 Skill 让任何 agent 装上。
@@ -315,16 +342,16 @@
 
         <dl class="pillars">
           <div class="pillar">
-            <dt><span class="num">01</span> Issue-first</dt>
-            <dd>所有任务从一个能讲明白的 Issue 起步，需求即文档。<em>需求里每一处空白，都是 AI 的自由发挥空间。</em></dd>
+            <dt data-i18n="index.def.p1.dt"><span class="num">01</span> Issue-first</dt>
+            <dd data-i18n="index.def.p1.dd">所有任务从一个能讲明白的 Issue 起步，需求即文档。<em>需求里每一处空白，都是 AI 的自由发挥空间。</em></dd>
           </div>
           <div class="pillar">
-            <dt><span class="num">02</span> Human-orchestrated</dt>
-            <dd>AI 在沙盒里完成实现、起 PR、互审；人保留 framing、架构方向与合并决定权。<em>AI 在执行，人在判断。</em></dd>
+            <dt data-i18n="index.def.p2.dt"><span class="num">02</span> Human-orchestrated</dt>
+            <dd data-i18n="index.def.p2.dd">AI 在沙盒里完成实现、起 PR、互审；人保留 framing、架构方向与合并决定权。<em>AI 在执行，人在判断。</em></dd>
           </div>
           <div class="pillar">
-            <dt><span class="num">03</span> Production-bound</dt>
-            <dd>终点是合并进主分支的 PR，不是 demo、不是练习题。可复用的 Skill 与决策记录回写到 Issue，留作下一次的起点。</dd>
+            <dt data-i18n="index.def.p3.dt"><span class="num">03</span> Production-bound</dt>
+            <dd data-i18n="index.def.p3.dd">终点是合并进主分支的 PR，不是 demo、不是练习题。可复用的 Skill 与决策记录回写到 Issue，留作下一次的起点。</dd>
           </div>
         </dl>
       </div>
@@ -338,14 +365,14 @@
             <svg viewBox="0 0 400 400">
               <rect x="60" y="60" width="280" height="280" fill="none" stroke="currentColor" stroke-width="1.5"/>
               <line x1="60" y1="200" x2="340" y2="200" stroke="currentColor" stroke-width="1" stroke-dasharray="4 6"/>
-              <text x="200" y="216" text-anchor="middle" font-family="Spectral" font-style="italic" font-size="22" fill="currentColor" opacity="0.5">为谁解决什么</text>
+              <text x="200" y="216" text-anchor="middle" font-family="Spectral" font-style="italic" font-size="22" fill="currentColor" opacity="0.5" data-i18n="index.wf.s01.fig_caption">为谁解决什么</text>
             </svg>
           </div>
           <div class="wf-text">
-            <p class="wf-counter"><span>STEP 01</span> ／ 06</p>
-            <h3>从一个<br/><em>Issue</em> 开始<span class="period">.</span></h3>
-            <p class="wf-body">用一两句话把『为谁解决什么』写清楚——能讲明白的需求，才值得进入下一步。Issue 是这次工作的起点，也会是它的归档。</p>
-            <p class="wf-en">ISSUE · Frame the problem.</p>
+            <p class="wf-counter" data-i18n="index.wf.s01.counter"><span>STEP 01</span> ／ 06</p>
+            <h3 data-i18n="index.wf.s01.title">从一个<br/><em>Issue</em> 开始<span class="period">.</span></h3>
+            <p class="wf-body" data-i18n="index.wf.s01.body">用一两句话把『为谁解决什么』写清楚——能讲明白的需求，才值得进入下一步。Issue 是这次工作的起点，也会是它的归档。</p>
+            <p class="wf-en" data-i18n="index.wf.s01.en">ISSUE · Frame the problem.</p>
           </div>
         </div>
       </article>
@@ -361,10 +388,10 @@
             </svg>
           </div>
           <div class="wf-text">
-            <p class="wf-counter"><span>STEP 02</span> ／ 06</p>
-            <h3>进入开发<br/><em>沙盒</em><span class="period">.</span></h3>
-            <p class="wf-body">沙盒是长期运行的开发环境，保留依赖、缓存与既有数据，让 AI 能在真实的上下文里工作，而不是一次性容器。</p>
-            <p class="wf-en">SANDBOX · A persistent dev environment.</p>
+            <p class="wf-counter" data-i18n="index.wf.s02.counter"><span>STEP 02</span> ／ 06</p>
+            <h3 data-i18n="index.wf.s02.title">进入开发<br/><em>沙盒</em><span class="period">.</span></h3>
+            <p class="wf-body" data-i18n="index.wf.s02.body">沙盒是长期运行的开发环境，保留依赖、缓存与既有数据，让 AI 能在真实的上下文里工作，而不是一次性容器。</p>
+            <p class="wf-en" data-i18n="index.wf.s02.en">SANDBOX · A persistent dev environment.</p>
           </div>
         </div>
       </article>
@@ -381,10 +408,10 @@
             </svg>
           </div>
           <div class="wf-text">
-            <p class="wf-counter"><span>STEP 03</span> ／ 06</p>
-            <h3>执行任务<br/>发起 <em>PR</em><span class="period">.</span></h3>
-            <p class="wf-body">把 Issue 交给 Claude Code 或 Codex，由它在沙盒里完成实现：写代码、跑测试、迭代修复，最终发起一份 PR。</p>
-            <p class="wf-en">EXECUTE · Claude Code or Codex.</p>
+            <p class="wf-counter" data-i18n="index.wf.s03.counter"><span>STEP 03</span> ／ 06</p>
+            <h3 data-i18n="index.wf.s03.title">执行任务<br/>发起 <em>PR</em><span class="period">.</span></h3>
+            <p class="wf-body" data-i18n="index.wf.s03.body">把 Issue 交给 Claude Code 或 Codex，由它在沙盒里完成实现：写代码、跑测试、迭代修复，最终发起一份 PR。</p>
+            <p class="wf-en" data-i18n="index.wf.s03.en">EXECUTE · Claude Code or Codex.</p>
           </div>
         </div>
       </article>
@@ -401,10 +428,10 @@
             </svg>
           </div>
           <div class="wf-text">
-            <p class="wf-counter"><span>STEP 04</span> ／ 06</p>
-            <h3>另一位 <em>AI</em><br/>审核 PR<span class="period">.</span></h3>
-            <p class="wf-body">这一步交给另一位 Claude Code 或 Codex。它读完整份 PR，结合 CI 与静态检查，给出可执行的修改意见——双 AI 互审。</p>
-            <p class="wf-en">AI REVIEW · Two agents, one PR.</p>
+            <p class="wf-counter" data-i18n="index.wf.s04.counter"><span>STEP 04</span> ／ 06</p>
+            <h3 data-i18n="index.wf.s04.title">另一位 <em>AI</em><br/>审核 PR<span class="period">.</span></h3>
+            <p class="wf-body" data-i18n="index.wf.s04.body">这一步交给另一位 Claude Code 或 Codex。它读完整份 PR，结合 CI 与静态检查，给出可执行的修改意见——双 AI 互审。</p>
+            <p class="wf-en" data-i18n="index.wf.s04.en">AI REVIEW · Two agents, one PR.</p>
           </div>
         </div>
       </article>
@@ -417,14 +444,14 @@
               <!-- human silhouette: head + shoulders -->
               <circle cx="200" cy="218" r="14" fill="currentColor"/>
               <path d="M 172 280 Q 172 248 200 248 Q 228 248 228 280 L 228 295 L 172 295 Z" fill="currentColor"/>
-              <text x="200" y="370" text-anchor="middle" font-family="Spectral" font-style="italic" font-size="16" fill="currentColor" opacity="0.7">human · key step</text>
+              <text x="200" y="370" text-anchor="middle" font-family="Spectral" font-style="italic" font-size="16" fill="currentColor" opacity="0.7" data-i18n="index.wf.s05.fig_caption">human · key step</text>
             </svg>
           </div>
           <div class="wf-text">
-            <p class="wf-counter"><span>STEP 05</span> ／ 06 <em>· 关键一步</em></p>
-            <h3>人类<br/><em>架构师</em> 评审<span class="period">.</span></h3>
-            <p class="wf-body">整条流程的核心。由人类架构师判断这次改动是否符合系统方向、是否引入隐性债务、是否值得上线。AI 提供线索，决定权在人。</p>
-            <p class="wf-en">ARCHITECT · Where humans decide.</p>
+            <p class="wf-counter" data-i18n="index.wf.s05.counter"><span>STEP 05</span> ／ 06 <em>· 关键一步</em></p>
+            <h3 data-i18n="index.wf.s05.title">人类<br/><em>架构师</em> 评审<span class="period">.</span></h3>
+            <p class="wf-body" data-i18n="index.wf.s05.body">整条流程的核心。由人类架构师判断这次改动是否符合系统方向、是否引入隐性债务、是否值得上线。AI 提供线索，决定权在人。</p>
+            <p class="wf-en" data-i18n="index.wf.s05.en">ARCHITECT · Where humans decide.</p>
           </div>
         </div>
       </article>
@@ -439,19 +466,19 @@
             </svg>
           </div>
           <div class="wf-text">
-            <p class="wf-counter"><span>STEP 06</span> ／ 06</p>
-            <h3>合并<br/>并 <em>上线</em><span class="period">.</span></h3>
-            <p class="wf-body">架构师签字之后，PR 合入主干、部署到生产。可复用的 Skill、Checklist、评审记录回写到 Issue，留作下一次的起点。</p>
-            <p class="wf-en">PRODUCTION · Ship it.</p>
+            <p class="wf-counter" data-i18n="index.wf.s06.counter"><span>STEP 06</span> ／ 06</p>
+            <h3 data-i18n="index.wf.s06.title">合并<br/>并 <em>上线</em><span class="period">.</span></h3>
+            <p class="wf-body" data-i18n="index.wf.s06.body">架构师签字之后，PR 合入主干、部署到生产。可复用的 Skill、Checklist、评审记录回写到 Issue，留作下一次的起点。</p>
+            <p class="wf-en" data-i18n="index.wf.s06.en">PRODUCTION · Ship it.</p>
           </div>
         </div>
       </article>
 
       <article class="wf-overview">
         <div class="wf-overview-inner">
-          <p class="meta">Overall flow · 一次走完</p>
-          <h2 class="wf-overview-title">Issue · Sandbox · AI · 架构师 · 上线<br/><em>—— 交付一次完整的改动<span class="period">.</span></em></h2>
-          <ol class="wf-flow" aria-label="完整工作流概览">
+          <p class="meta" data-i18n="index.wf.ov.kicker">Overall flow · 一次走完</p>
+          <h2 class="wf-overview-title" data-i18n="index.wf.ov.title">Issue · Sandbox · AI · 架构师 · 上线<br/><em>—— 交付一次完整的改动<span class="period">.</span></em></h2>
+          <ol class="wf-flow" aria-label="完整工作流概览" data-i18n-attr="aria-label:index.wf.ov.label">
             <li><svg viewBox="0 0 60 60"><rect x="10" y="10" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>01 Issue</span></li>
             <li><svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/><rect x="18" y="18" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>02 Sandbox</span></li>
             <li><svg viewBox="0 0 60 60"><line x1="12" y1="48" x2="48" y2="12" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="48" r="3" fill="currentColor"/><circle cx="48" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>03 PR</span></li>
@@ -459,9 +486,9 @@
             <li class="is-key"><svg viewBox="0 0 60 60"><polygon points="30,8 54,52 6,52" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="30" cy="38" r="3" fill="currentColor"/></svg><span>05 Architect</span></li>
             <li><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="18" fill="currentColor"/></svg><span>06 Production</span></li>
           </ol>
-          <p class="wf-overview-foot">六步串成一条流水线 · 从需求到上线 · 每一次都把决定与产物回写到 Issue</p>
+          <p class="wf-overview-foot" data-i18n="index.wf.ov.foot">六步串成一条流水线 · 从需求到上线 · 每一次都把决定与产物回写到 Issue</p>
           <p class="wf-overview-cta">
-            <a href="case-redis-scan.html">在一次真实的生产事故上走一遍这六步 ↗</a>
+            <a href="case-redis-scan.html" data-i18n="index.wf.ov.cta">在一次真实的生产事故上走一遍这六步 ↗</a>
           </p>
         </div>
       </article>
@@ -471,61 +498,61 @@
     <section class="scene-section scene-rituals" id="rituals" data-scene="rituals" data-screen-label="04 Rituals">
       <div class="wrap">
         <header class="section-head">
-          <p class="meta">— RITUALS</p>
-          <h2>流水线之外，<br/><em>那些让协作成立的小习惯</em><span class="period">.</span></h2>
-          <p class="section-lede">流程负责"做什么"，习惯负责"在什么节奏里做"。下面这四件事，是我们用来让 AI-native 协作真正运转起来的最小集。</p>
+          <p class="meta" data-i18n="index.rit.kicker">— RITUALS</p>
+          <h2 data-i18n="index.rit.title">流水线之外，<br/><em>那些让协作成立的小习惯</em><span class="period">.</span></h2>
+          <p class="section-lede" data-i18n="index.rit.lede">流程负责"做什么"，习惯负责"在什么节奏里做"。下面这四件事，是我们用来让 AI-native 协作真正运转起来的最小集。</p>
         </header>
 
-        <ul class="rituals-cards" aria-label="四个让协作成立的小习惯">
+        <ul class="rituals-cards" aria-label="四个让协作成立的小习惯" data-i18n-attr="aria-label:index.rit.list_aria">
           <li class="ritual-card" data-reveal>
             <div class="ritual-inner">
-              <p class="ritual-num">RITUAL · 01</p>
-              <h3>一日的形状</h3>
-              <p class="ritual-en">THE SHAPE OF A DAY</p>
-              <p class="ritual-body">每天早晨花一分钟，写下今天最重要的那个 Issue。它不是任务清单，而是这一天的锚点——所有的对话、改动、PR，都围绕它发生。</p>
+              <p class="ritual-num" data-i18n="index.rit.c01.num">RITUAL · 01</p>
+              <h3 data-i18n="index.rit.c01.h">一日的形状</h3>
+              <p class="ritual-en" data-i18n="index.rit.c01.en">THE SHAPE OF A DAY</p>
+              <p class="ritual-body" data-i18n="index.rit.c01.body">每天早晨花一分钟，写下今天最重要的那个 Issue。它不是任务清单，而是这一天的锚点——所有的对话、改动、PR，都围绕它发生。</p>
               <dl class="ritual-dl">
-                <dt>MORNING</dt><dd>写下 #today —— 当日最重要的 Issue</dd>
-                <dt>DURING</dt><dd>所有改动都挂在这条 Issue 下面</dd>
-                <dt>EVENING</dt><dd>用一句话回写今天的进展或决定</dd>
+                <dt data-i18n="index.rit.c01.dt1">MORNING</dt><dd data-i18n="index.rit.c01.dd1">写下 #today —— 当日最重要的 Issue</dd>
+                <dt data-i18n="index.rit.c01.dt2">DURING</dt><dd data-i18n="index.rit.c01.dd2">所有改动都挂在这条 Issue 下面</dd>
+                <dt data-i18n="index.rit.c01.dt3">EVENING</dt><dd data-i18n="index.rit.c01.dd3">用一句话回写今天的进展或决定</dd>
               </dl>
             </div>
           </li>
           <li class="ritual-card" data-reveal>
             <div class="ritual-inner">
-              <p class="ritual-num">RITUAL · 02</p>
-              <h3>架构师与开发者</h3>
-              <p class="ritual-en">ARCHITECT &amp; DEVELOPERS</p>
-              <p class="ritual-body">架构师拥有方向上的最终决策权；开发者围绕 Issue 进行开发，通过 Issue 与 PR 与架构师对话。评审与决策落在 GitHub 上，飞书留给当下需要立刻对齐的事。</p>
+              <p class="ritual-num" data-i18n="index.rit.c02.num">RITUAL · 02</p>
+              <h3 data-i18n="index.rit.c02.h">架构师与开发者</h3>
+              <p class="ritual-en" data-i18n="index.rit.c02.en">ARCHITECT &amp; DEVELOPERS</p>
+              <p class="ritual-body" data-i18n="index.rit.c02.body">架构师拥有方向上的最终决策权；开发者围绕 Issue 进行开发，通过 Issue 与 PR 与架构师对话。评审与决策落在 GitHub 上，飞书留给当下需要立刻对齐的事。</p>
               <dl class="ritual-dl">
-                <dt>ARCHITECT</dt><dd>方向与边界的最终决策权</dd>
-                <dt>DEVELOPER</dt><dd>围绕 Issue 开发 · 在 PR 中对话</dd>
-                <dt>CHANNEL</dt><dd>评审在 GitHub · 即时同步在飞书</dd>
+                <dt data-i18n="index.rit.c02.dt1">ARCHITECT</dt><dd data-i18n="index.rit.c02.dd1">方向与边界的最终决策权</dd>
+                <dt data-i18n="index.rit.c02.dt2">DEVELOPER</dt><dd data-i18n="index.rit.c02.dd2">围绕 Issue 开发 · 在 PR 中对话</dd>
+                <dt data-i18n="index.rit.c02.dt3">CHANNEL</dt><dd data-i18n="index.rit.c02.dd3">评审在 GitHub · 即时同步在飞书</dd>
               </dl>
             </div>
           </li>
           <li class="ritual-card" data-reveal>
             <div class="ritual-inner">
-              <p class="ritual-num">RITUAL · 03</p>
-              <h3>Issue 与 PR 的追踪</h3>
-              <p class="ritual-en">EVERY ISSUE IS TRACKED</p>
-              <p class="ritual-body">每一个 Issue 都有一条对应的 PR 来追踪它的执行过程，PR 上的评论会被完整保留下来——下一个接手的人，可以从 Issue 一路读到当时是怎么决定的。</p>
+              <p class="ritual-num" data-i18n="index.rit.c03.num">RITUAL · 03</p>
+              <h3 data-i18n="index.rit.c03.h">Issue 与 PR 的追踪</h3>
+              <p class="ritual-en" data-i18n="index.rit.c03.en">EVERY ISSUE IS TRACKED</p>
+              <p class="ritual-body" data-i18n="index.rit.c03.body">每一个 Issue 都有一条对应的 PR 来追踪它的执行过程，PR 上的评论会被完整保留下来——下一个接手的人，可以从 Issue 一路读到当时是怎么决定的。</p>
               <dl class="ritual-dl">
-                <dt>LINK</dt><dd>每个 Issue 对应一条 PR · 一一映射</dd>
-                <dt>KEEP</dt><dd>PR 评论作为决策记录长期保留</dd>
-                <dt>READ</dt><dd>新成员从 Issue → PR 还原历史</dd>
+                <dt data-i18n="index.rit.c03.dt1">LINK</dt><dd data-i18n="index.rit.c03.dd1">每个 Issue 对应一条 PR · 一一映射</dd>
+                <dt data-i18n="index.rit.c03.dt2">KEEP</dt><dd data-i18n="index.rit.c03.dd2">PR 评论作为决策记录长期保留</dd>
+                <dt data-i18n="index.rit.c03.dt3">READ</dt><dd data-i18n="index.rit.c03.dd3">新成员从 Issue → PR 还原历史</dd>
               </dl>
             </div>
           </li>
           <li class="ritual-card" data-reveal>
             <div class="ritual-inner">
-              <p class="ritual-num">RITUAL · 04</p>
-              <h3>从 Prompt 到 Skill</h3>
-              <p class="ritual-en">FROM PROMPT TO SKILL</p>
-              <p class="ritual-body">一段反复用过、值得记住的 prompt，就值得变成 Skill —— 带名字、带说明、任何 agent 都能装上调用。<em>这是团队最值得沉淀的工件。</em></p>
+              <p class="ritual-num" data-i18n="index.rit.c04.num">RITUAL · 04</p>
+              <h3 data-i18n="index.rit.c04.h">从 Prompt 到 Skill</h3>
+              <p class="ritual-en" data-i18n="index.rit.c04.en">FROM PROMPT TO SKILL</p>
+              <p class="ritual-body" data-i18n="index.rit.c04.body">一段反复用过、值得记住的 prompt，就值得变成 Skill —— 带名字、带说明、任何 agent 都能装上调用。<em>这是团队最值得沉淀的工件。</em></p>
               <dl class="ritual-dl">
-                <dt>SKILL</dt><dd>GitHire · 六步 workflow</dd>
-                <dt>SPEC</dt><dd>Prompt Spec · 六段式 issue 模板</dd>
-                <dt>USE</dt><dd>npx skills add realRoc/skills</dd>
+                <dt data-i18n="index.rit.c04.dt1">SKILL</dt><dd data-i18n="index.rit.c04.dd1">GitHire · 六步 workflow</dd>
+                <dt data-i18n="index.rit.c04.dt2">SPEC</dt><dd data-i18n="index.rit.c04.dd2">Prompt Spec · 六段式 issue 模板</dd>
+                <dt data-i18n="index.rit.c04.dt3">USE</dt><dd data-i18n="index.rit.c04.dd3">npx skills add realRoc/skills</dd>
               </dl>
             </div>
           </li>
@@ -537,48 +564,48 @@
     <section class="scene-section scene-faq" id="faq" data-scene="faq" data-screen-label="05 FAQ">
       <div class="wrap">
         <header class="section-head">
-          <p class="meta">FAQ · 关于 humans-orchestrate-AI</p>
-          <h2>AI 写得快，<br/><em>不等于人想得清</em><span class="period">.</span></h2>
-          <p class="section-lede">下面是最容易被跳过的问题——也是 GitHire 真正想回答的。</p>
+          <p class="meta" data-i18n="index.faq.kicker">FAQ · 关于 humans-orchestrate-AI</p>
+          <h2 data-i18n="index.faq.title">AI 写得快，<br/><em>不等于人想得清</em><span class="period">.</span></h2>
+          <p class="section-lede" data-i18n="index.faq.lede">下面是最容易被跳过的问题——也是 GitHire 真正想回答的。</p>
         </header>
 
         <div class="faq-list">
           <details>
-            <summary>AI 写代码这么快，为什么还要 6 步？</summary>
-            <p>因为速度不是问题——AI 5 分钟写完的代码，人 review 需要 30 分钟才能识别"路径不对"。<strong>6 步 workflow 不是给 AI 装护栏，是给人类留决策点</strong>：Issue 是 framing 的决策点，架构师评审是方向的决策点，sandbox 与 AI review 是两次"还来得及反悔"的决策点。一旦决策点形同虚设，AI 的速度就会变成事故的速度。<a href="case-redis-scan.html">看一次跳过决策点的代价 →</a></p>
+            <summary data-i18n="index.faq.q1.q">AI 写代码这么快，为什么还要 6 步？</summary>
+            <p data-i18n="index.faq.q1.a">因为速度不是问题——AI 5 分钟写完的代码，人 review 需要 30 分钟才能识别"路径不对"。<strong>6 步 workflow 不是给 AI 装护栏，是给人类留决策点</strong>：Issue 是 framing 的决策点，架构师评审是方向的决策点，sandbox 与 AI review 是两次"还来得及反悔"的决策点。一旦决策点形同虚设，AI 的速度就会变成事故的速度。<a href="case-redis-scan.html">看一次跳过决策点的代价 →</a></p>
           </details>
           <details>
-            <summary>Architect 30 秒就能识别问题，AI review 5 分钟都识别不出来吗？</summary>
-            <p>两者识别的是不同维度。<strong>AI review 看的是"代码自带的上下文"</strong>——PR 内部一致性、edge cases、命名一致性、被忽略的 nullability；<strong>架构师看的是"系统侧才有的上下文"</strong>——QPS 曲线、历史事故、容量规划。互补，不重叠。Case 01 里那 22 行 SCAN 代码在 AI review 看来完全正确，但架构师 30 秒就能看出"这个 endpoint 每次请求都扫全表"是不可接受的。</p>
+            <summary data-i18n="index.faq.q2.q">Architect 30 秒就能识别问题，AI review 5 分钟都识别不出来吗？</summary>
+            <p data-i18n="index.faq.q2.a">两者识别的是不同维度。<strong>AI review 看的是"代码自带的上下文"</strong>——PR 内部一致性、edge cases、命名一致性、被忽略的 nullability；<strong>架构师看的是"系统侧才有的上下文"</strong>——QPS 曲线、历史事故、容量规划。互补，不重叠。Case 01 里那 22 行 SCAN 代码在 AI review 看来完全正确，但架构师 30 秒就能看出"这个 endpoint 每次请求都扫全表"是不可接受的。</p>
           </details>
           <details>
-            <summary>一份好的 Issue 长什么样？</summary>
-            <p>六段。<em>Goal</em> 说清楚要解决什么；<em>Constraints</em> 说清楚不能动什么；<em>Non-goals</em> 说清楚不做什么；<em>Verification</em> 说清楚怎么证明成功；<em>Architecture notes</em> 说清楚系统边界；<em>Existing context</em> 说清楚已有实现。<strong>缺一段，AI 就会在那一段自由发挥。</strong>具体对照请看 case 01 里同一需求的 <a href="case-redis-scan.html#rewrite-title">BAD vs GOOD →</a>。</p>
+            <summary data-i18n="index.faq.q3.q">一份好的 Issue 长什么样？</summary>
+            <p data-i18n="index.faq.q3.a">六段。<em>Goal</em> 说清楚要解决什么；<em>Constraints</em> 说清楚不能动什么；<em>Non-goals</em> 说清楚不做什么；<em>Verification</em> 说清楚怎么证明成功；<em>Architecture notes</em> 说清楚系统边界；<em>Existing context</em> 说清楚已有实现。<strong>缺一段，AI 就会在那一段自由发挥。</strong>具体对照请看 case 01 里同一需求的 <a href="case-redis-scan.html#rewrite-title">BAD vs GOOD →</a>。</p>
           </details>
           <details>
-            <summary>AI 出事故，谁来背锅？</summary>
-            <p><strong>架构师。</strong>AI 不背锅——背锅意味着代理责任，AI 没有代理资格。所有合入主干的代码都有一位架构师签字，签字就是认领系统侧后果。GitHire 不允许 review 责任被"AI 评过了"稀释——AI review 是辅助证据，架构师 review 是决定。</p>
+            <summary data-i18n="index.faq.q4.q">AI 出事故，谁来背锅？</summary>
+            <p data-i18n="index.faq.q4.a"><strong>架构师。</strong>AI 不背锅——背锅意味着代理责任，AI 没有代理资格。所有合入主干的代码都有一位架构师签字，签字就是认领系统侧后果。GitHire 不允许 review 责任被"AI 评过了"稀释——AI review 是辅助证据，架构师 review 是决定。</p>
           </details>
           <details>
-            <summary>Conceptual integrity 怎么在 AI 协作下保持？</summary>
-            <p>通过显式的架构 owner。AI agent 可以生成 PR，但 Architect 这一步由人类负责。<strong>所有 PR 必须能被一位 architect 用一句话讲清楚动机和取舍</strong>——做不到的 PR 不 merge。这条约束让概念一致性不被并发的 agent 数量稀释。</p>
+            <summary data-i18n="index.faq.q5.q">Conceptual integrity 怎么在 AI 协作下保持？</summary>
+            <p data-i18n="index.faq.q5.a">通过显式的架构 owner。AI agent 可以生成 PR，但 Architect 这一步由人类负责。<strong>所有 PR 必须能被一位 architect 用一句话讲清楚动机和取舍</strong>——做不到的 PR 不 merge。这条约束让概念一致性不被并发的 agent 数量稀释。</p>
           </details>
           <details>
-            <summary>Sandbox 里写的代码为什么默认不进主分支？</summary>
-            <p>因为第一版的价值是<em>澄清问题</em>，不是交付。GitHire 把 Brooks 那句 <em>"Plan to throw one away; you will, anyhow"</em> 显式化：sandbox 阶段的代码默认不进主干，存在的目的是验证方向、暴露未知。<strong>等真正写主干代码时，问题已经清楚，AI 才有可能一次写对。</strong></p>
+            <summary data-i18n="index.faq.q6.q">Sandbox 里写的代码为什么默认不进主分支？</summary>
+            <p data-i18n="index.faq.q6.a">因为第一版的价值是<em>澄清问题</em>，不是交付。GitHire 把 Brooks 那句 <em>"Plan to throw one away; you will, anyhow"</em> 显式化：sandbox 阶段的代码默认不进主干，存在的目的是验证方向、暴露未知。<strong>等真正写主干代码时，问题已经清楚，AI 才有可能一次写对。</strong></p>
           </details>
 
           <details>
-            <summary>进度落后的团队是否需要再加人？</summary>
-            <p>这个问题的经典版本来自 Brooks 的 <em>Mythical Man-Month</em>：给延期项目加人,会让项目更延期——因为新人需要学习上下文,沟通成本随人数二次方上升,短期内整体进度反而更慢。<strong>放到 AI-native 团队里,这条规律没失效,只是稀缺品换了：</strong>coding 手脚不缺——AI 已经够快——稀缺的是<em>会 frame issue、做架构判断的脑子</em>。一个能写出 6 段式 issue 的人可以同时 orchestrate 几个 agent；多请一个 coder 反而稀释了方向。<strong>加人之前先问：是 framing 不够，还是吞吐不够？</strong></p>
+            <summary data-i18n="index.faq.q7.q">进度落后的团队是否需要再加人？</summary>
+            <p data-i18n="index.faq.q7.a">这个问题的经典版本来自 Brooks 的 <em>Mythical Man-Month</em>：给延期项目加人,会让项目更延期——因为新人需要学习上下文,沟通成本随人数二次方上升,短期内整体进度反而更慢。<strong>放到 AI-native 团队里,这条规律没失效,只是稀缺品换了：</strong>coding 手脚不缺——AI 已经够快——稀缺的是<em>会 frame issue、做架构判断的脑子</em>。一个能写出 6 段式 issue 的人可以同时 orchestrate 几个 agent；多请一个 coder 反而稀释了方向。<strong>加人之前先问：是 framing 不够，还是吞吐不够？</strong></p>
           </details>
           <details>
-            <summary>『人月』是个伪命题吗？</summary>
-            <p>"人月"是软件项目的传统估算单位——"这个功能要花 6 个人月"。Brooks 早就指出这是粗糙的近似：人和月不能线性互换,加一倍人不会让项目快一倍。<strong>放到 AI-native 团队里,人月不只是粗糙,而是失效：</strong>它建模的是 coding 工作量,但 coding 已经不是瓶颈——AI agent 5 分钟交付过去一个人月的代码量；而一条糟糕的 issue 让 AI 跑出 22 行 SCAN（<a href="case-redis-scan.html">case 01</a>）,损失 25 小时救火,这部分根本无法用人月度量。<strong>新的单位应该是"决策点节奏"：</strong>每周完成多少次 framing、多少次架构评审、多少次 sandbox → PR 闭环。</p>
+            <summary data-i18n="index.faq.q8.q">『人月』是个伪命题吗？</summary>
+            <p data-i18n="index.faq.q8.a">"人月"是软件项目的传统估算单位——"这个功能要花 6 个人月"。Brooks 早就指出这是粗糙的近似：人和月不能线性互换,加一倍人不会让项目快一倍。<strong>放到 AI-native 团队里,人月不只是粗糙,而是失效：</strong>它建模的是 coding 工作量,但 coding 已经不是瓶颈——AI agent 5 分钟交付过去一个人月的代码量；而一条糟糕的 issue 让 AI 跑出 22 行 SCAN（<a href="case-redis-scan.html">case 01</a>）,损失 25 小时救火,这部分根本无法用人月度量。<strong>新的单位应该是"决策点节奏"：</strong>每周完成多少次 framing、多少次架构评审、多少次 sandbox → PR 闭环。</p>
           </details>
           <details>
-            <summary>Deadline 为什么总是骗人的？</summary>
-            <p>软件项目几乎从不按时交付——经典的解释是：估算在信息最少的时候做出,承诺在压力最大的时候许下,两边都不靠谱。<strong>放到 AI-native 团队里,deadline 仍然不准,但失准的根源换了：</strong>过去 deadline 滑掉是因为 <em>coding 慢</em>；现在 coding 不慢了,deadline 滑掉是因为 <strong>framing 失误</strong> 和 <strong>review 来不及</strong>——一条没写清的 issue 让 AI 走错方向 20 分钟,代价是 25 小时根治（<a href="case-redis-scan.html">case 01</a>）。<strong>GitHire 不承诺 deadline,改承诺"决策点完成度"：</strong>issue framing 完成 / architect 签字完成 / sandbox 验证完成。可观测的状态替代主观时间,越接近交付,预测越收敛。</p>
+            <summary data-i18n="index.faq.q9.q">Deadline 为什么总是骗人的？</summary>
+            <p data-i18n="index.faq.q9.a">软件项目几乎从不按时交付——经典的解释是：估算在信息最少的时候做出,承诺在压力最大的时候许下,两边都不靠谱。<strong>放到 AI-native 团队里,deadline 仍然不准,但失准的根源换了：</strong>过去 deadline 滑掉是因为 <em>coding 慢</em>；现在 coding 不慢了,deadline 滑掉是因为 <strong>framing 失误</strong> 和 <strong>review 来不及</strong>——一条没写清的 issue 让 AI 走错方向 20 分钟,代价是 25 小时根治（<a href="case-redis-scan.html">case 01</a>）。<strong>GitHire 不承诺 deadline,改承诺"决策点完成度"：</strong>issue framing 完成 / architect 签字完成 / sandbox 验证完成。可观测的状态替代主观时间,越接近交付,预测越收敛。</p>
           </details>
         </div>
       </div>
@@ -587,14 +614,14 @@
     <!-- ── ACT 6 · Closer / CTA ──────────────────────────────── -->
     <section class="scene-section scene-closer is-dark" id="closer" data-scene="closer" data-screen-label="06 Closer">
       <div class="wrap">
-        <p class="meta">End of tour · 你看完了</p>
-        <h2 class="closer-line">AI <em>在执行</em>，<br/>人 <em>在 frame 与判断</em><span class="period">.</span></h2>
-        <p class="closer-en">Stop assisting. Start operating.</p>
+        <p class="meta" data-i18n="index.closer.kicker">End of tour · 你看完了</p>
+        <h2 class="closer-line" data-i18n="index.closer.title">AI <em>在执行</em>，<br/>人 <em>在 frame 与判断</em><span class="period">.</span></h2>
+        <p class="closer-en" data-i18n="index.closer.en">Stop assisting. Start operating.</p>
 
-        <div class="closer-cta" aria-label="下一步">
-          <a class="closer-link" href="case-redis-scan.html">看一次真实生产事故的复盘 <span aria-hidden="true">→</span></a>
-          <a class="closer-link" href="skill.html">把这套方法装成 Skill <span aria-hidden="true">→</span></a>
-          <a class="closer-link" href="mailto:wuyupeng@floatmiracle.com">聊一聊 <span aria-hidden="true">→</span></a>
+        <div class="closer-cta" aria-label="下一步" data-i18n-attr="aria-label:index.closer.cta_aria">
+          <a class="closer-link" href="case-redis-scan.html" data-i18n="index.closer.cta_case">看一次真实生产事故的复盘 <span aria-hidden="true">→</span></a>
+          <a class="closer-link" href="skill.html" data-i18n="index.closer.cta_skill">把这套方法装成 Skill <span aria-hidden="true">→</span></a>
+          <a class="closer-link" href="mailto:wuyupeng@floatmiracle.com" data-i18n="index.closer.cta_talk">聊一聊 <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
@@ -603,12 +630,12 @@
 
   <footer class="site-foot">
     <div class="wrap">
-      <p>© <span id="year">2026</span> GitHire · operating log from AI-native teams</p>
+      <p data-i18n="common.foot.tagline">© <span id="year">2026</span> GitHire · operating log from AI-native teams</p>
       <p class="repo"><a href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">github.com/realRoc/git-hired</a></p>
       <div class="blog-jump-prompt" id="blogJumpPrompt" role="status" aria-live="polite">
         <div class="blog-jump-copy">
-          <span class="blog-jump-kicker">Blog</span>
-          <strong>滑到底后，再向下滑动两下</strong>
+          <span class="blog-jump-kicker" data-i18n="index.foot.jump_kicker">Blog</span>
+          <strong data-i18n="index.foot.jump_text">滑到底后，再向下滑动两下</strong>
         </div>
         <div class="blog-jump-track" aria-hidden="true"><span></span></div>
       </div>
@@ -617,6 +644,7 @@
 
   <script type="module" src="githire-scroll.js"></script>
   <script defer src="githire-analytics.js"></script>
+  <script defer src="i18n.js"></script>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>

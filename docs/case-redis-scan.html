@@ -1,12 +1,33 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-lang="zh">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F6F1E8" />
 
-  <title>GitHire Case 01 · 从一条 prompt 到生产事故，20 分钟</title>
-  <meta name="description" content="一次真实的线上事故复盘：22 行 AI 自动生成的 Redis SCAN + pipeline HGETALL 代码，沿着 GitHire 的六步 workflow 走一遍，看在哪一步坠落。" />
+  <script>
+    (function(){
+      try{
+        var q = new URL(location.href).searchParams.get('lang');
+        var stored = null;
+        try { stored = localStorage.getItem('githire-lang'); } catch(_){}
+        var pre = (q === 'zh' || q === 'en') ? q
+                 : (stored === 'zh' || stored === 'en') ? stored
+                 : ((navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en');
+        if ((q === 'zh' || q === 'en') && q !== stored) {
+          try { localStorage.setItem('githire-lang', q); } catch(_){}
+        }
+        document.documentElement.setAttribute('data-lang', pre);
+        document.documentElement.setAttribute('lang', pre === 'zh' ? 'zh-CN' : 'en');
+      }catch(e){
+        document.documentElement.setAttribute('data-lang', 'en');
+        document.documentElement.setAttribute('lang', 'en');
+      }
+    })();
+  </script>
+
+  <title data-i18n="case.title">GitHire Case 01 · 从一条 prompt 到生产事故，20 分钟</title>
+  <meta name="description" data-i18n-attr="content:case.meta.description" content="一次真实的线上事故复盘：22 行 AI 自动生成的 Redis SCAN + pipeline HGETALL 代码，沿着 GitHire 的六步 workflow 走一遍，看在哪一步坠落。" />
   <meta name="author" content="GitHire" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://realroc.github.io/git-hired/case-redis-scan.html" />
@@ -99,7 +120,7 @@
 </head>
 
 <body class="case-page">
-  <a class="skip" href="#main">跳到主要内容</a>
+  <a class="skip" href="#main" data-i18n="common.skip">跳到主要内容</a>
 
   <header class="topnav">
     <a class="brand" href="index.html#top" aria-label="GitHire">
@@ -130,16 +151,20 @@
       <span class="brand-name">GitHire</span>
     </a>
 
-    <nav class="topnav-actions" aria-label="主导航">
-      <a class="btn-primary" href="mailto:wuyupeng@floatmiracle.com">Let's talk</a>
-      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu">Menu</button>
+    <nav class="topnav-actions" aria-label="主导航" data-i18n-attr="aria-label:common.nav_aria">
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label:common.lang_aria" aria-label="切换语言">
+        <button type="button" data-lang-btn="zh" aria-pressed="true" data-i18n="common.lang_zh">中</button>
+        <button type="button" data-lang-btn="en" aria-pressed="false" data-i18n="common.lang_en">EN</button>
+      </div>
+      <a class="btn-primary" href="mailto:wuyupeng@floatmiracle.com" data-i18n="common.lets_talk">Let's talk</a>
+      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu" data-i18n="common.menu">Menu</button>
       <div class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
-        <a href="index.html#top" role="menuitem">Intro</a>
-        <a href="index.html#workflow" role="menuitem">Workflow</a>
-        <a href="index.html#rituals" role="menuitem">Rituals</a>
-        <a href="index.html#faq" role="menuitem">FAQ</a>
-        <a href="blog.html" role="menuitem" aria-current="page">Blog</a>
-        <a href="skill.html" role="menuitem">Skill</a>
+        <a href="index.html#top" role="menuitem" data-i18n="common.nav.intro">Intro</a>
+        <a href="index.html#workflow" role="menuitem" data-i18n="common.nav.workflow">Workflow</a>
+        <a href="index.html#rituals" role="menuitem" data-i18n="common.nav.rituals">Rituals</a>
+        <a href="index.html#faq" role="menuitem" data-i18n="common.nav.faq">FAQ</a>
+        <a href="blog.html" role="menuitem" aria-current="page" data-i18n="common.nav.blog">Blog</a>
+        <a href="skill.html" role="menuitem" data-i18n="common.nav.skill">Skill</a>
       </div>
     </nav>
   </header>
@@ -149,46 +174,46 @@
     <!-- ── HERO ───────────────────────────────────────────── -->
     <section class="scene-section case-hero" aria-labelledby="case-title">
       <div class="wrap">
-        <p class="meta">Case 01 · Real production incident · <time datetime="2026-05-18">2026-05</time></p>
-        <h1 class="case-title" id="case-title">
+        <p class="meta" data-i18n="case.hero.kicker">Case 01 · Real production incident · <time datetime="2026-05-18">2026-05</time></p>
+        <h1 class="case-title" id="case-title" data-i18n="case.hero.title">
           从一条 <em>prompt</em><br/>
           到生产事故，<br/>
           只用了 <em>20 分钟</em><span class="period">.</span>
         </h1>
-        <p class="case-lede">
+        <p class="case-lede" data-i18n="case.hero.lede">
           一段 22 行的代码，由 AI 自动写出、通过本地测试、合入主干、部署上线，把生产 Redis 打到 503。
           这是一次真实事故的复盘，沿着 GitHire 的六步 workflow 走一遍，看哪一步没被认真对待——
           事故就在哪一步埋下。
         </p>
 
-        <ol class="case-timeline" aria-label="事故时间线">
+        <ol class="case-timeline" aria-label="事故时间线" data-i18n-attr="aria-label:case.tl.aria">
           <li>
             <span class="t">10:19</span>
-            <span class="e">用户发出 prompt</span>
+            <span class="e" data-i18n="case.tl.t1_e">用户发出 prompt</span>
           </li>
           <li>
             <span class="t">10:24</span>
-            <span class="e">AI 写出 SCAN+HGETALL</span>
+            <span class="e" data-i18n="case.tl.t2_e">AI 写出 SCAN+HGETALL</span>
           </li>
           <li>
             <span class="t">10:39</span>
-            <span class="e">commit · 进入 PR</span>
+            <span class="e" data-i18n="case.tl.t3_e">commit · 进入 PR</span>
           </li>
           <li>
             <span class="t">21:35</span>
-            <span class="e">PR 合并 · 部署</span>
+            <span class="e" data-i18n="case.tl.t4_e">PR 合并 · 部署</span>
           </li>
           <li class="is-hot">
             <span class="t">23:54</span>
-            <span class="e">生产事故 · 第一次救火</span>
+            <span class="e" data-i18n="case.tl.t5_e">生产事故 · 第一次救火</span>
           </li>
           <li>
-            <span class="t">+1d 11:34</span>
-            <span class="e">Redis SET 彻底替代</span>
+            <span class="t" data-i18n="case.tl.t6_t">+1d 11:34</span>
+            <span class="e" data-i18n="case.tl.t6_e">Redis SET 彻底替代</span>
           </li>
         </ol>
 
-        <p class="case-meta">
+        <p class="case-meta" data-i18n="case.hero.meta">
           <span>事故代码：22 行</span>
           <span>· 救火 commit：5 次</span>
           <span>· 真正根治用时：25 小时</span>
@@ -199,29 +224,29 @@
     <!-- ── METHODOLOGY · 为什么有六步 ─────────────────────── -->
     <section class="scene-section case-method" aria-labelledby="case-method-title">
       <div class="wrap">
-        <p class="meta">Why the workflow exists · 方法论</p>
-        <h2 id="case-method-title">
+        <p class="meta" data-i18n="case.method.kicker">Why the workflow exists · 方法论</p>
+        <h2 id="case-method-title" data-i18n="case.method.title">
           AI 写代码的速度，<br/>
           已经远快于人类 <em>review</em> 的速度<span class="period">.</span>
         </h2>
         <div class="case-method-grid">
-          <p class="case-body">
+          <p class="case-body" data-i18n="case.method.p1">
             过去的工程范式默认"人在写代码，AI 是辅助"，所以 review 是顺序里最后一步——
             人写完 → 测试 → review。这条线在 AI-native 时代被反过来了：
             <em>AI 在写，人在审；人在 frame，AI 在执行</em>。
           </p>
-          <p class="case-body">
+          <p class="case-body" data-i18n="case.method.p2">
             <strong>六步 workflow 不是给 AI 装护栏，是给人类留决策点。</strong>
             Issue 是 framing 的决策点；架构师评审是方向的决策点；
             sandbox 与 AI review 是两次"还来得及反悔"的决策点。
             一旦哪个决策点形同虚设，AI 的速度就会变成事故的速度。
           </p>
         </div>
-        <p class="case-hint">
+        <p class="case-hint" data-i18n="case.method.hint">
           下面这个 case，会沿着六步走读：<br/>
           <em>每一步在理想中应该是什么样，在这次事故里又实际是什么样。</em>
         </p>
-        <a class="case-anchor" href="index.html#workflow">先看完整 workflow ↗</a>
+        <a class="case-anchor" href="index.html#workflow" data-i18n="case.method.cta">先看完整 workflow ↗</a>
       </div>
     </section>
 
@@ -229,8 +254,8 @@
     <article class="scene-section case-step" data-step="01" aria-labelledby="step01-title">
       <div class="wrap">
         <header class="case-step-head">
-          <p class="case-counter"><span>STEP 01</span> ／ 06 · ISSUE</p>
-          <h2 id="step01-title">
+          <p class="case-counter" data-i18n="case.s01.counter"><span>STEP 01</span> ／ 06 · ISSUE</p>
+          <h2 id="step01-title" data-i18n="case.s01.title">
             理想：<em>把"为谁解决什么"写清楚</em><br/>
             实际：<em>一条聊天框 prompt</em><span class="period">.</span>
           </h2>
@@ -238,8 +263,8 @@
 
         <div class="case-step-body">
           <figure class="case-prompt">
-            <figcaption class="meta">Real prompt · 2026-05-14 10:19 +0800 · Codex CLI · gpt-5.5</figcaption>
-            <blockquote>
+            <figcaption class="meta" data-i18n="case.s01.prompt_caption">Real prompt · 2026-05-14 10:19 +0800 · Codex CLI · gpt-5.5</figcaption>
+            <blockquote data-i18n="case.s01.prompt">
               <p>当前这个国产模型的判断走的是前缀匹配。我想把它做成 model detail 里面的字段，我记得原本就有一个 <code>made_in_china</code> 的字段。</p>
               <p>我们要把这个字段利用起来，使其更加灵活、可配置。此外，在做 CI 的时候，需要针对国内站和国际站分别做 search 检查，确保：</p>
               <ol>
@@ -251,14 +276,14 @@
           </figure>
 
           <aside class="case-note">
-            <p class="meta">这条 prompt 在 AI 眼里是张空白支票</p>
+            <p class="meta" data-i18n="case.s01.note_kicker">这条 prompt 在 AI 眼里是张空白支票</p>
             <ul class="case-missing">
-              <li><strong>没说调用频率：</strong>不知道这个判定是 startup 一次、每请求一次，还是后台定时。</li>
-              <li><strong>没说数据规模：</strong>不知道有多少个 <code>model_detail::*</code>，也没说会涨到多少。</li>
-              <li><strong>没说非目标：</strong>没有"不要全量扫"、"不要每次请求都打 Redis"。</li>
-              <li><strong>没说验证口径：</strong>"能通过 smoke" 是不够的——smoke 不测线上 QPS。</li>
+              <li data-i18n="case.s01.miss1"><strong>没说调用频率：</strong>不知道这个判定是 startup 一次、每请求一次，还是后台定时。</li>
+              <li data-i18n="case.s01.miss2"><strong>没说数据规模：</strong>不知道有多少个 <code>model_detail::*</code>，也没说会涨到多少。</li>
+              <li data-i18n="case.s01.miss3"><strong>没说非目标：</strong>没有"不要全量扫"、"不要每次请求都打 Redis"。</li>
+              <li data-i18n="case.s01.miss4"><strong>没说验证口径：</strong>"能通过 smoke" 是不够的——smoke 不测线上 QPS。</li>
             </ul>
-            <p class="case-note-tail">
+            <p class="case-note-tail" data-i18n="case.s01.note_tail">
               <em>需求里的每一处空白，都是 AI 自由发挥的空间</em>——这不是 AI 的问题，是 issue framing 的问题。
             </p>
           </aside>
@@ -270,21 +295,21 @@
     <article class="scene-section case-step" data-step="02" aria-labelledby="step02-title">
       <div class="wrap">
         <header class="case-step-head">
-          <p class="case-counter"><span>STEP 02</span> ／ 06 · SANDBOX</p>
-          <h2 id="step02-title">
+          <p class="case-counter" data-i18n="case.s02.counter"><span>STEP 02</span> ／ 06 · SANDBOX</p>
+          <h2 id="step02-title" data-i18n="case.s02.title">
             理想：<em>长期沙盒，带真实数据</em><br/>
             实际：<em>本地仓库，pytest 全绿</em><span class="period">.</span>
           </h2>
         </header>
         <div class="case-step-body case-step-body-narrow">
-          <p class="case-body">
+          <p class="case-body" data-i18n="case.s02.p1">
             Codex 在本地仓库直接修改文件、跑 <code>pytest tests/test_site_mode.py -q</code>，
             103 个用例全通过。
             <em>但 pytest 用的是 fakeredis 或 in-memory mock，里面只有几条测试数据</em>。
             真实生产环境里 <code>model_detail::*</code> 有几十到上百个 key，
             而且 <code>/api/site/config</code> 在前端启动时每个用户都会打一次。
           </p>
-          <p class="case-body">
+          <p class="case-body" data-i18n="case.s02.p2">
             <strong>沙盒的价值，不在于"环境能跑"，在于"环境像生产"。</strong>
             缺数据规模、缺 QPS 量级、缺并发——这三样缺一个，AI 写出的实现就可能在量级跳变时塌掉。
           </p>
@@ -296,8 +321,8 @@
     <article class="scene-section case-step" data-step="03" aria-labelledby="step03-title">
       <div class="wrap">
         <header class="case-step-head">
-          <p class="case-counter"><span>STEP 03</span> ／ 06 · EXECUTE</p>
-          <h2 id="step03-title">
+          <p class="case-counter" data-i18n="case.s03.counter"><span>STEP 03</span> ／ 06 · EXECUTE</p>
+          <h2 id="step03-title" data-i18n="case.s03.title">
             理想：<em>AI 在沙盒里完成实现</em><br/>
             实际：<em>5 分钟后，22 行 patch 出炉</em><span class="period">.</span>
           </h2>
@@ -305,7 +330,7 @@
 
         <div class="case-step-body">
           <figure class="case-code">
-            <figcaption class="meta">wowchat/site_config.py · 由 AI 生成 · 10:24:27</figcaption>
+            <figcaption class="meta" data-i18n="case.s03.code_caption">wowchat/site_config.py · 由 AI 生成 · 10:24:27</figcaption>
             <pre><code><span class="cc">def</span> get_domestic_model_ids() -&gt; List[str]:
     model_ids = []
     cursor = 0
@@ -329,27 +354,27 @@
 <span class="cc">async def</span> get_site_config(request: Request):
     <span class="cc">return</span> ResponseWrapper(result=SiteConfigModel(
         site_mode=resolve_site_mode(request),
-        domestic_model_ids=<span class="ch">get_domestic_model_ids()</span>,  <span class="cm"># ← 每次请求都跑一遍</span>
+        domestic_model_ids=<span class="ch">get_domestic_model_ids()</span>,  <span class="cm" data-i18n="case.s03.code_comment"># ← 每次请求都跑一遍</span>
     ))</code></pre>
           </figure>
 
           <aside class="case-note">
-            <p class="meta">三处隐患 · AI 自己挑的实现路径</p>
+            <p class="meta" data-i18n="case.s03.note_kicker">三处隐患 · AI 自己挑的实现路径</p>
             <ol class="case-missing">
-              <li>
+              <li data-i18n="case.s03.miss1">
                 <strong>SCAN 全量 <code>model_detail::*</code></strong><br/>
                 没有 index、没有专门的 set，每次都得遍历整张表的 keyspace。
               </li>
-              <li>
+              <li data-i18n="case.s03.miss2">
                 <strong>pipeline 里塞 N 个 HGETALL</strong><br/>
                 单次 pipeline 看起来"高效"，但 N 个 HGETALL 把网络往返省了，CPU 没省。
               </li>
-              <li>
+              <li data-i18n="case.s03.miss3">
                 <strong>放在 <code>/api/site/config</code> 这个高频端点上</strong><br/>
                 这是前端启动就打的接口，QPS 跟在线用户数挂钩。
               </li>
             </ol>
-            <p class="case-note-tail">
+            <p class="case-note-tail" data-i18n="case.s03.note_tail">
               单看这段代码，<em>它在功能上完全正确</em>。
               它会出事，是因为没人告诉 AI"调用频率"和"数据规模"。
             </p>
@@ -362,26 +387,26 @@
     <article class="scene-section case-step" data-step="04" aria-labelledby="step04-title">
       <div class="wrap">
         <header class="case-step-head">
-          <p class="case-counter"><span>STEP 04</span> ／ 06 · AI REVIEW</p>
-          <h2 id="step04-title">
+          <p class="case-counter" data-i18n="case.s04.counter"><span>STEP 04</span> ／ 06 · AI REVIEW</p>
+          <h2 id="step04-title" data-i18n="case.s04.title">
             理想：<em>另一位 AI 读一遍 PR</em><br/>
             实际：<em>这一步没发生</em><span class="period">.</span>
           </h2>
         </header>
         <div class="case-step-body case-step-body-narrow">
-          <p class="case-body">
+          <p class="case-body" data-i18n="case.s04.p1">
             从 prompt 到 commit，整个流程在同一个 Codex session 里走完，
             没有第二个 agent 读过这个 diff。
             <em>本地测试通过</em>就成了唯一的"通过"信号。
           </p>
-          <p class="case-body">
+          <p class="case-body" data-i18n="case.s04.p2">
             如果当时有一个独立 review agent，给它的 system prompt 里写一句
             <em>"Flag any new Redis SCAN / KEYS / HGETALL across full keyspace in request-path code"</em>，
             这次事故大概率就在这一步被拦下。
           </p>
           <div class="case-callout">
-            <p class="meta">AI review 的本质</p>
-            <p>不是"再跑一遍测试"，而是<em>用另一组先验</em>看同一段代码——
+            <p class="meta" data-i18n="case.s04.callout_kicker">AI review 的本质</p>
+            <p data-i18n="case.s04.callout">不是"再跑一遍测试"，而是<em>用另一组先验</em>看同一段代码——
             review agent 该懂的是性能模式、安全模式、可维护性模式，
             和生成 agent 互补，不重叠。</p>
           </div>
@@ -393,14 +418,14 @@
     <article class="scene-section case-step case-step-key" data-step="05" aria-labelledby="step05-title">
       <div class="wrap">
         <header class="case-step-head">
-          <p class="case-counter"><span>STEP 05</span> ／ 06 · ARCHITECT <em>· 关键一步</em></p>
-          <h2 id="step05-title">
+          <p class="case-counter" data-i18n="case.s05.counter"><span>STEP 05</span> ／ 06 · ARCHITECT <em>· 关键一步</em></p>
+          <h2 id="step05-title" data-i18n="case.s05.title">
             理想：<em>人类架构师判断方向</em><br/>
             实际：<em>这一步被跳过了</em><span class="period">.</span>
           </h2>
         </header>
         <div class="case-step-body">
-          <p class="case-body case-body-large">
+          <p class="case-body case-body-large" data-i18n="case.s05.p1">
             从 prompt 到 commit，<em>总共 20 分钟</em>。<br/>
             没有任何一刻，让一个懂这个系统的人看一眼：
             "每次 /api/site/config 都 scan 全量 model_detail::*，意味着什么？"
@@ -408,24 +433,24 @@
 
           <div class="case-arch-grid">
             <div class="case-arch-card">
-              <p class="meta">架构师应该问的问题</p>
+              <p class="meta" data-i18n="case.s05.arch_kicker_q">架构师应该问的问题</p>
               <ol>
-                <li>这个 endpoint 每分钟会被调用多少次？</li>
-                <li><code>model_detail::*</code> 的 key 数量当前多少？预计涨到多少？</li>
-                <li>能不能维护一个 set，把"国产模型 id"显式存起来，避免运行时扫描？</li>
-                <li>这次改动是 hot path 还是 cold path？是不是该走 cache？</li>
-                <li>如果 Redis 抖动 / 慢，这个调用会不会把上游 API 拖垮？</li>
+                <li data-i18n="case.s05.arch_q1">这个 endpoint 每分钟会被调用多少次？</li>
+                <li data-i18n="case.s05.arch_q2"><code>model_detail::*</code> 的 key 数量当前多少？预计涨到多少？</li>
+                <li data-i18n="case.s05.arch_q3">能不能维护一个 set，把"国产模型 id"显式存起来，避免运行时扫描？</li>
+                <li data-i18n="case.s05.arch_q4">这次改动是 hot path 还是 cold path？是不是该走 cache？</li>
+                <li data-i18n="case.s05.arch_q5">如果 Redis 抖动 / 慢，这个调用会不会把上游 API 拖垮？</li>
               </ol>
             </div>
             <div class="case-arch-card">
-              <p class="meta">为什么这些问题 AI 不会自己问</p>
-              <p>
+              <p class="meta" data-i18n="case.s05.arch_kicker_why">为什么这些问题 AI 不会自己问</p>
+              <p data-i18n="case.s05.arch_why1">
                 AI 看到的是<em>当前仓库的代码上下文</em>，看不到生产 QPS、
                 看不到 Redis 容量曲线、看不到团队历史上踩过哪些坑。
                 <em>这些是架构师才有的"系统侧上下文"</em>，
                 也是为什么这一步必须是人。
               </p>
-              <p>
+              <p data-i18n="case.s05.arch_why2">
                 AI 能在 5 分钟写出正确实现；架构师只需要 30 秒就能识别"不该用这个路径"。
                 <strong>这 30 秒，就是工作流里最贵的一段时间。</strong>
               </p>
@@ -439,20 +464,20 @@
     <article class="scene-section case-step" data-step="06" aria-labelledby="step06-title">
       <div class="wrap">
         <header class="case-step-head">
-          <p class="case-counter"><span>STEP 06</span> ／ 06 · PRODUCTION</p>
-          <h2 id="step06-title">
+          <p class="case-counter" data-i18n="case.s06.counter"><span>STEP 06</span> ／ 06 · PRODUCTION</p>
+          <h2 id="step06-title" data-i18n="case.s06.title">
             理想：<em>合入主干，平稳上线</em><br/>
             实际：<em>当晚 23:54，生产报警</em><span class="period">.</span>
           </h2>
         </header>
         <div class="case-step-body case-step-body-narrow">
-          <p class="case-body">
+          <p class="case-body" data-i18n="case.s06.p1">
             部署后约两小时，监控开始报：<code>/api/site/config</code> p99 飙到秒级，
             Redis 慢日志被 <code>SCAN</code> + 大量 <code>HGETALL</code> 塞满，
             CPU 占用打高，连带其他依赖 Redis 的接口一起被拖慢。
             <em>首屏阻塞、新用户进不来。</em>
           </p>
-          <p class="case-body">
+          <p class="case-body" data-i18n="case.s06.p2">
             上线那一刻，<em>没人觉得这次有问题</em>——
             CI 全绿、PR 描述清楚、AI 写的代码看起来"工整"。
             事故的特征就是：它在所有传统门禁里都看起来合规。
@@ -464,37 +489,37 @@
     <!-- ── FIX CHAIN ──────────────────────────────────────── -->
     <section class="scene-section case-fixes" aria-labelledby="fix-title">
       <div class="wrap">
-        <p class="meta">救火链 · 5 个 commit · 25 小时</p>
-        <h2 id="fix-title">
+        <p class="meta" data-i18n="case.fix.kicker">救火链 · 5 个 commit · 25 小时</p>
+        <h2 id="fix-title" data-i18n="case.fix.title">
           救火链没有<em>一击即中</em>，<br/>
           是一连串 <em>不够根治</em> 的尝试<span class="period">.</span>
         </h2>
 
         <ol class="case-fix-list">
           <li>
-            <p class="case-fix-time">事故 +5 分钟</p>
-            <h3>Cache 结果 + 把 SCAN 挪到 threadpool</h3>
-            <p>第一反应：让 SCAN 不要堵主线程。<em>问题被推后，没解决</em>——cache 失效那一刻还是会打满。</p>
+            <p class="case-fix-time" data-i18n="case.fix.t1.time">事故 +5 分钟</p>
+            <h3 data-i18n="case.fix.t1.h">Cache 结果 + 把 SCAN 挪到 threadpool</h3>
+            <p data-i18n="case.fix.t1.p">第一反应：让 SCAN 不要堵主线程。<em>问题被推后，没解决</em>——cache 失效那一刻还是会打满。</p>
           </li>
           <li>
-            <p class="case-fix-time">+30 分钟</p>
-            <h3>改成 in-memory cache + 60s 后台刷新</h3>
-            <p>把 SCAN 从"每次请求"降到"每分钟"。<em>事故面积变小</em>，但启动期还是会一次性扫满。</p>
+            <p class="case-fix-time" data-i18n="case.fix.t2.time">+30 分钟</p>
+            <h3 data-i18n="case.fix.t2.h">改成 in-memory cache + 60s 后台刷新</h3>
+            <p data-i18n="case.fix.t2.p">把 SCAN 从"每次请求"降到"每分钟"。<em>事故面积变小</em>，但启动期还是会一次性扫满。</p>
           </li>
           <li>
-            <p class="case-fix-time">+90 分钟</p>
-            <h3>Drop 后台刷新 · 改成 startup-only warmup</h3>
-            <p>承认在线刷新有风险，退回到只在启动时扫一次。<em>但服务每次重启时还是要承压</em>。</p>
+            <p class="case-fix-time" data-i18n="case.fix.t3.time">+90 分钟</p>
+            <h3 data-i18n="case.fix.t3.h">Drop 后台刷新 · 改成 startup-only warmup</h3>
+            <p data-i18n="case.fix.t3.p">承认在线刷新有风险，退回到只在启动时扫一次。<em>但服务每次重启时还是要承压</em>。</p>
           </li>
           <li>
-            <p class="case-fix-time">+6 小时</p>
-            <h3>Restore handler · 调好 caching contract</h3>
-            <p>把 endpoint 行为修对，确保 fallback 不会引入新 bug。</p>
+            <p class="case-fix-time" data-i18n="case.fix.t4.time">+6 小时</p>
+            <h3 data-i18n="case.fix.t4.h">Restore handler · 调好 caching contract</h3>
+            <p data-i18n="case.fix.t4.p">把 endpoint 行为修对，确保 fallback 不会引入新 bug。</p>
           </li>
           <li class="is-final">
-            <p class="case-fix-time">+25 小时</p>
-            <h3>用 Redis <em>SET</em> 维护 domestic ids</h3>
-            <p>
+            <p class="case-fix-time" data-i18n="case.fix.t5.time">+25 小时</p>
+            <h3 data-i18n="case.fix.t5.h">用 Redis <em>SET</em> 维护 domestic ids</h3>
+            <p data-i18n="case.fix.t5.p">
               <em>这才是根治</em>：模型上下线时显式写入一个 set，
               读取时直接 <code>SMEMBERS</code>，从 O(N) 扫描降到 O(1) 查询。
               SCAN 这条路径在生产代码里彻底消失。
@@ -502,7 +527,7 @@
           </li>
         </ol>
 
-        <p class="case-fix-tail">
+        <p class="case-fix-tail" data-i18n="case.fix.tail">
           每一步救火都"看起来更好了一点"，但根治用了 25 小时。
           <em>如果架构师在 step 05 多花 30 秒，这 25 小时就不会发生。</em>
         </p>
@@ -512,33 +537,33 @@
     <!-- ── REWRITE · 同一条需求的好 prompt ──────────────── -->
     <section class="scene-section case-rewrite" aria-labelledby="rewrite-title">
       <div class="wrap">
-        <p class="meta">Rewrite · 同一条需求</p>
-        <h2 id="rewrite-title">
+        <p class="meta" data-i18n="case.rew.kicker">Rewrite · 同一条需求</p>
+        <h2 id="rewrite-title" data-i18n="case.rew.title">
           一条 architect-readable 的 <em>issue</em>，<br/>
           长成什么样<span class="period">.</span>
         </h2>
 
         <div class="case-prompt-diff">
           <article class="case-prompt-col is-bad">
-            <p class="meta">原 prompt · 缺四样东西</p>
-            <h3>BAD</h3>
-            <div class="case-prompt-text">
+            <p class="meta" data-i18n="case.rew.bad_meta">原 prompt · 缺四样东西</p>
+            <h3 data-i18n="case.rew.bad_label">BAD</h3>
+            <div class="case-prompt-text" data-i18n="case.rew.bad_text">
               <p>当前这个国产模型的判断走的是前缀匹配。我想把它做成 model detail 里面的字段……</p>
               <p>需要针对国内站和国际站分别做 search 检查……</p>
               <p>建议在 smoke test 那边增加 E2E 测试。</p>
             </div>
             <ul class="case-prompt-tags">
-              <li>✗ Constraints</li>
-              <li>✗ Non-goals</li>
-              <li>✗ Verification</li>
-              <li>✗ Architecture notes</li>
+              <li data-i18n="case.rew.bad_tag1">✗ Constraints</li>
+              <li data-i18n="case.rew.bad_tag2">✗ Non-goals</li>
+              <li data-i18n="case.rew.bad_tag3">✗ Verification</li>
+              <li data-i18n="case.rew.bad_tag4">✗ Architecture notes</li>
             </ul>
           </article>
 
           <article class="case-prompt-col is-good">
-            <p class="meta">同一需求 · 重写</p>
-            <h3>GOOD</h3>
-            <div class="case-prompt-text">
+            <p class="meta" data-i18n="case.rew.good_meta">同一需求 · 重写</p>
+            <h3 data-i18n="case.rew.good_label">GOOD</h3>
+            <div class="case-prompt-text" data-i18n="case.rew.good_text">
               <p><strong>Goal</strong>　把"国产模型"判定从 engine 前缀改成 model_detail.made_in_china 字段，让上下线只需改一个字段。</p>
               <p><strong>Constraints</strong>　<em>/api/site/config 是高频接口，前端启动时每个用户都会打。</em>不允许每次请求扫 Redis keyspace。model_detail 当前 ~80 条，可能涨到 ~500。</p>
               <p><strong>Non-goals</strong>　不要用 SCAN / KEYS 实现。不要在 request-path 里做 O(N) 计算。本次不改前端缓存策略。</p>
@@ -546,20 +571,20 @@
               <p><strong>Verification</strong>　国内站 search 只返回 made_in_china=1；国际站不变；线上 <code>/api/site/config</code> p99 不增。Smoke 新增 E2E 断言。</p>
             </div>
             <ul class="case-prompt-tags">
-              <li>✓ Constraints</li>
-              <li>✓ Non-goals</li>
-              <li>✓ Verification</li>
-              <li>✓ Architecture notes</li>
+              <li data-i18n="case.rew.good_tag1">✓ Constraints</li>
+              <li data-i18n="case.rew.good_tag2">✓ Non-goals</li>
+              <li data-i18n="case.rew.good_tag3">✓ Verification</li>
+              <li data-i18n="case.rew.good_tag4">✓ Architecture notes</li>
             </ul>
           </article>
         </div>
 
-        <p class="case-rewrite-tail">
+        <p class="case-rewrite-tail" data-i18n="case.rew.tail">
           右边这版多了 ~150 字。<em>这 150 字，能换 25 小时的救火 + 一段生产事故。</em>
         </p>
         <p class="case-rewrite-cta">
-          <a href="https://github.com/realRoc/skills/tree/main/skills/prompt-spec" target="_blank" rel="noopener">把这套六段式 issue 模板装成 Prompt Spec Skill ↗</a>
-          <span class="case-rewrite-cta-note">— 直接读 SKILL.md，或 <code>npx skills add realRoc/skills --skill prompt-spec</code></span>
+          <a href="https://github.com/realRoc/skills/tree/main/skills/prompt-spec" target="_blank" rel="noopener" data-i18n="case.rew.cta">把这套六段式 issue 模板装成 Prompt Spec Skill ↗</a>
+          <span class="case-rewrite-cta-note" data-i18n="case.rew.cta_note">— 直接读 SKILL.md，或 <code>npx skills add realRoc/skills --skill prompt-spec</code></span>
         </p>
       </div>
     </section>
@@ -567,33 +592,33 @@
     <!-- ── LESSONS + CTA ──────────────────────────────────── -->
     <section class="scene-section case-closer" aria-labelledby="closer-title">
       <div class="wrap">
-        <p class="meta">Takeaways</p>
-        <h2 id="closer-title">
+        <p class="meta" data-i18n="case.lessons.kicker">Takeaways</p>
+        <h2 id="closer-title" data-i18n="case.lessons.title">
           这个 case 教会我们三件事<span class="period">.</span>
         </h2>
 
         <ol class="case-lessons">
           <li>
-            <h3>AI coding 的速度，要求 review 前置。</h3>
-            <p>从 prompt 到 prod-bound commit 只用了 20 分钟。等"PR review"再发现问题，已经晚了——
+            <h3 data-i18n="case.lessons.l1.h">AI coding 的速度，要求 review 前置。</h3>
+            <p data-i18n="case.lessons.l1.p">从 prompt 到 prod-bound commit 只用了 20 分钟。等"PR review"再发现问题，已经晚了——
               真正的 review 应该发生在 prompt 阶段，由 issue framing 完成。</p>
           </li>
           <li>
-            <h3>没有 constraints / non-goals 的 prompt，是空白支票。</h3>
-            <p>AI 不会自己问"调用频率多少"、"数据规模多大"。
+            <h3 data-i18n="case.lessons.l2.h">没有 constraints / non-goals 的 prompt，是空白支票。</h3>
+            <p data-i18n="case.lessons.l2.p">AI 不会自己问"调用频率多少"、"数据规模多大"。
               这些数字必须由人塞进 issue。<em>需求里每一处空白，都是事故的入口。</em></p>
           </li>
           <li>
-            <h3>架构师评审是工作流里最贵的 30 秒。</h3>
-            <p>AI 写代码 5 分钟，架构师识别"不该用这个路径"30 秒。
+            <h3 data-i18n="case.lessons.l3.h">架构师评审是工作流里最贵的 30 秒。</h3>
+            <p data-i18n="case.lessons.l3.p">AI 写代码 5 分钟，架构师识别"不该用这个路径"30 秒。
               这一步必须是人——因为只有人有"系统侧上下文"（QPS 曲线、历史事故、容量规划）。</p>
           </li>
         </ol>
 
         <div class="case-cta">
-          <a class="btn-primary" href="index.html#workflow">回到完整 workflow</a>
-          <a class="case-anchor" href="skill.html">把这套方法装成 Skill</a>
-          <a class="case-anchor" href="https://github.com/realRoc/skills" target="_blank" rel="noopener">realRoc/skills ↗</a>
+          <a class="btn-primary" href="index.html#workflow" data-i18n="case.cta.workflow">回到完整 workflow</a>
+          <a class="case-anchor" href="skill.html" data-i18n="case.cta.skill">把这套方法装成 Skill</a>
+          <a class="case-anchor" href="https://github.com/realRoc/skills" target="_blank" rel="noopener" data-i18n="case.cta.repo">realRoc/skills ↗</a>
         </div>
       </div>
     </section>
@@ -602,9 +627,9 @@
 
   <footer class="site-foot">
     <div class="wrap">
-      <p>© <span id="year">2026</span> GitHire · Real cases from AI-native teams</p>
+      <p data-i18n="case.foot.tagline">© <span id="year">2026</span> GitHire · Real cases from AI-native teams</p>
       <p class="repo"><a href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">github.com/realRoc/git-hired</a></p>
-      <p class="home"><a href="index.html">Back to GitHire</a></p>
+      <p class="home"><a href="index.html" data-i18n="common.foot.home">Back to GitHire</a></p>
     </div>
   </footer>
 
@@ -628,5 +653,6 @@
     })();
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+  <script defer src="i18n.js"></script>
 </body>
 </html>
