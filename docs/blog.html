@@ -1,12 +1,33 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-lang="zh">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F6F1E8" />
 
-  <title>GitHire Blog · Real cases from AI-native teams</title>
-  <meta name="description" content="GitHire Blog 把每一篇都写成真实事件复盘:真实的 prompt、真实的 diff、真实的事故,沿着六步 workflow 走一遍。" />
+  <script>
+    (function(){
+      try{
+        var q = new URL(location.href).searchParams.get('lang');
+        var stored = null;
+        try { stored = localStorage.getItem('githire-lang'); } catch(_){}
+        var pre = (q === 'zh' || q === 'en') ? q
+                 : (stored === 'zh' || stored === 'en') ? stored
+                 : ((navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en');
+        if ((q === 'zh' || q === 'en') && q !== stored) {
+          try { localStorage.setItem('githire-lang', q); } catch(_){}
+        }
+        document.documentElement.setAttribute('data-lang', pre);
+        document.documentElement.setAttribute('lang', pre === 'zh' ? 'zh-CN' : 'en');
+      }catch(e){
+        document.documentElement.setAttribute('data-lang', 'en');
+        document.documentElement.setAttribute('lang', 'en');
+      }
+    })();
+  </script>
+
+  <title data-i18n="blog.title">GitHire Blog · Real cases from AI-native teams</title>
+  <meta name="description" data-i18n-attr="content:blog.meta.description" content="GitHire Blog 把每一篇都写成真实事件复盘:真实的 prompt、真实的 diff、真实的事故,沿着六步 workflow 走一遍。" />
   <meta name="author" content="GitHire" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://realroc.github.io/git-hired/blog.html" />
@@ -79,7 +100,7 @@
 </head>
 
 <body class="blog-page">
-  <a class="skip" href="#main">跳到主要内容</a>
+  <a class="skip" href="#main" data-i18n="common.skip">跳到主要内容</a>
 
   <header class="topnav">
     <a class="brand" href="index.html#top" aria-label="GitHire">
@@ -110,17 +131,21 @@
       <span class="brand-name">GitHire</span>
     </a>
 
-    <nav class="topnav-actions" aria-label="主导航">
-      <a class="btn-primary" href="mailto:wuyupeng@floatmiracle.com">Let's talk</a>
-      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu">Menu</button>
+    <nav class="topnav-actions" aria-label="主导航" data-i18n-attr="aria-label:common.nav_aria">
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label:common.lang_aria" aria-label="切换语言">
+        <button type="button" data-lang-btn="zh" aria-pressed="true" data-i18n="common.lang_zh">中</button>
+        <button type="button" data-lang-btn="en" aria-pressed="false" data-i18n="common.lang_en">EN</button>
+      </div>
+      <a class="btn-primary" href="mailto:wuyupeng@floatmiracle.com" data-i18n="common.lets_talk">Let's talk</a>
+      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu" data-i18n="common.menu">Menu</button>
       <div class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
-        <a href="index.html#top" role="menuitem">Intro</a>
-        <a href="index.html#definition" role="menuitem">Definition</a>
-        <a href="index.html#workflow" role="menuitem">Workflow</a>
-        <a href="index.html#rituals" role="menuitem">Rituals</a>
-        <a href="index.html#faq" role="menuitem">FAQ</a>
-        <a href="blog.html" role="menuitem" aria-current="page">Blog</a>
-        <a href="skill.html" role="menuitem">Skill</a>
+        <a href="index.html#top" role="menuitem" data-i18n="common.nav.intro">Intro</a>
+        <a href="index.html#definition" role="menuitem" data-i18n="common.nav.definition">Definition</a>
+        <a href="index.html#workflow" role="menuitem" data-i18n="common.nav.workflow">Workflow</a>
+        <a href="index.html#rituals" role="menuitem" data-i18n="common.nav.rituals">Rituals</a>
+        <a href="index.html#faq" role="menuitem" data-i18n="common.nav.faq">FAQ</a>
+        <a href="blog.html" role="menuitem" aria-current="page" data-i18n="common.nav.blog">Blog</a>
+        <a href="skill.html" role="menuitem" data-i18n="common.nav.skill">Skill</a>
       </div>
     </nav>
   </header>
@@ -128,40 +153,40 @@
   <main id="main" class="blog-main">
     <section class="scene-section blog-hero" aria-labelledby="blog-title">
       <div class="wrap">
-        <p class="meta">Blog · operating log from AI-native teams</p>
-        <h1 class="blog-title" id="blog-title">真实事故，真实复盘，<br/><em>沿着 workflow 一次走完<span class="period">.</span></em></h1>
-        <p class="blog-lede">
+        <p class="meta" data-i18n="blog.hero.kicker">Blog · operating log from AI-native teams</p>
+        <h1 class="blog-title" id="blog-title" data-i18n="blog.hero.title">真实事故，真实复盘，<br/><em>沿着 workflow 一次走完<span class="period">.</span></em></h1>
+        <p class="blog-lede" data-i18n="blog.hero.lede">
           这里没有教程，只有事件。每一篇都是一次真实事件 —— 真实的 prompt、真实的 diff、真实的修复链 —— 围着六步 workflow 走读，看每一步在理想中应该是什么样，在事故里又实际是什么样。
         </p>
 
-        <ol class="case-index" aria-label="Cases" reversed>
+        <ol class="case-index" aria-label="Cases" data-i18n-attr="aria-label:blog.case.aria" reversed>
           <li class="case-entry is-live">
             <a href="case-redis-scan.html" class="case-entry-link">
               <div class="case-entry-head">
-                <p class="case-entry-num">CASE 01</p>
-                <p class="case-entry-meta">2026-05-14 · 22 行代码 · 25 小时根治</p>
+                <p class="case-entry-num" data-i18n="blog.case01.num">CASE 01</p>
+                <p class="case-entry-meta" data-i18n="blog.case01.meta">2026-05-14 · 22 行代码 · 25 小时根治</p>
               </div>
-              <h2 class="case-entry-title">22 行 SCAN，<em>打爆生产 Redis</em><span class="period">.</span></h2>
-              <p class="case-entry-desc">
+              <h2 class="case-entry-title" data-i18n="blog.case01.title">22 行 SCAN，<em>打爆生产 Redis</em><span class="period">.</span></h2>
+              <p class="case-entry-desc" data-i18n="blog.case01.desc">
                 Codex 5 分钟写出的代码，20 分钟后被 commit，当晚 23:54 上线即事故。沿六步 workflow 复盘 —— 哪一步被跳过，事故就在哪一步埋下。
               </p>
               <p class="case-entry-tags">
-                <span>Codex CLI</span><span>Redis SCAN</span><span>Architect skipped</span><span>Prompt rewrite</span>
+                <span data-i18n="blog.case01.tag1">Codex CLI</span><span data-i18n="blog.case01.tag2">Redis SCAN</span><span data-i18n="blog.case01.tag3">Architect skipped</span><span data-i18n="blog.case01.tag4">Prompt rewrite</span>
               </p>
-              <p class="case-entry-cta">读这一案 <span aria-hidden="true">→</span></p>
+              <p class="case-entry-cta" data-i18n="blog.case01.cta">读这一案 <span aria-hidden="true">→</span></p>
             </a>
           </li>
           <li class="case-entry is-pending" aria-disabled="true">
-            <p class="case-entry-num">CASE 02</p>
-            <p class="case-entry-title-mute">近期上架 · coming soon</p>
+            <p class="case-entry-num" data-i18n="blog.case_pending.num2">CASE 02</p>
+            <p class="case-entry-title-mute" data-i18n="blog.case_pending.title">近期上架 · coming soon</p>
           </li>
           <li class="case-entry is-pending" aria-disabled="true">
-            <p class="case-entry-num">CASE 03</p>
-            <p class="case-entry-title-mute">近期上架 · coming soon</p>
+            <p class="case-entry-num" data-i18n="blog.case_pending.num3">CASE 03</p>
+            <p class="case-entry-title-mute" data-i18n="blog.case_pending.title">近期上架 · coming soon</p>
           </li>
         </ol>
 
-        <p class="blog-foot">
+        <p class="blog-foot" data-i18n="blog.foot">
           想看完整方法？<a href="index.html#workflow">六步 workflow ↗</a><span class="sep">·</span>想直接装上 Skill？<a href="skill.html">从 realRoc/skills ↗</a>
         </p>
       </div>
@@ -170,9 +195,9 @@
 
   <footer class="site-foot">
     <div class="wrap">
-      <p>© <span id="year">2026</span> GitHire · operating log from AI-native teams</p>
+      <p data-i18n="common.foot.tagline">© <span id="year">2026</span> GitHire · operating log from AI-native teams</p>
       <p class="repo"><a href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">github.com/realRoc/git-hired</a></p>
-      <p class="home"><a href="index.html">Back to GitHire</a></p>
+      <p class="home"><a href="index.html" data-i18n="common.foot.home">Back to GitHire</a></p>
     </div>
   </footer>
 
@@ -196,5 +221,6 @@
     })();
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+  <script defer src="i18n.js"></script>
 </body>
 </html>

@@ -1,12 +1,33 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-lang="zh">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F6F1E8" />
 
-  <title>GitHire Skill · Install from realRoc/skills</title>
-  <meta name="description" content="Install GitHire and the matching Prompt Spec from realRoc/skills — the canonical home for AI-native engineering skills used across the GitHire method." />
+  <script>
+    (function(){
+      try{
+        var q = new URL(location.href).searchParams.get('lang');
+        var stored = null;
+        try { stored = localStorage.getItem('githire-lang'); } catch(_){}
+        var pre = (q === 'zh' || q === 'en') ? q
+                 : (stored === 'zh' || stored === 'en') ? stored
+                 : ((navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en');
+        if ((q === 'zh' || q === 'en') && q !== stored) {
+          try { localStorage.setItem('githire-lang', q); } catch(_){}
+        }
+        document.documentElement.setAttribute('data-lang', pre);
+        document.documentElement.setAttribute('lang', pre === 'zh' ? 'zh-CN' : 'en');
+      }catch(e){
+        document.documentElement.setAttribute('data-lang', 'en');
+        document.documentElement.setAttribute('lang', 'en');
+      }
+    })();
+  </script>
+
+  <title data-i18n="skill.title">GitHire Skill · Install from realRoc/skills</title>
+  <meta name="description" data-i18n-attr="content:skill.meta.description" content="Install GitHire and the matching Prompt Spec from realRoc/skills — the canonical home for AI-native engineering skills used across the GitHire method." />
   <meta name="author" content="GitHire" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://realroc.github.io/git-hired/skill.html" />
@@ -52,7 +73,7 @@
 </head>
 
 <body class="skill-page">
-  <a class="skip" href="#main">跳到主要内容</a>
+  <a class="skip" href="#main" data-i18n="common.skip">跳到主要内容</a>
 
   <header class="topnav">
     <a class="brand" href="index.html#top" aria-label="GitHire">
@@ -83,15 +104,19 @@
       <span class="brand-name">GitHire</span>
     </a>
 
-    <nav class="topnav-actions" aria-label="主导航">
-      <a class="btn-primary" href="mailto:wuyupeng@floatmiracle.com">Let's talk</a>
-      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu">Menu</button>
+    <nav class="topnav-actions" aria-label="主导航" data-i18n-attr="aria-label:common.nav_aria">
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label:common.lang_aria" aria-label="切换语言">
+        <button type="button" data-lang-btn="zh" aria-pressed="true" data-i18n="common.lang_zh">中</button>
+        <button type="button" data-lang-btn="en" aria-pressed="false" data-i18n="common.lang_en">EN</button>
+      </div>
+      <a class="btn-primary" href="mailto:wuyupeng@floatmiracle.com" data-i18n="common.lets_talk">Let's talk</a>
+      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu" data-i18n="common.menu">Menu</button>
       <div class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
-        <a href="index.html#top" role="menuitem">Intro</a>
-        <a href="index.html#workflow" role="menuitem">Workflow</a>
-        <a href="index.html#faq" role="menuitem">FAQ</a>
-        <a href="blog.html" role="menuitem">Blog</a>
-        <a href="skill.html" role="menuitem" aria-current="page">Skill</a>
+        <a href="index.html#top" role="menuitem" data-i18n="common.nav.intro">Intro</a>
+        <a href="index.html#workflow" role="menuitem" data-i18n="common.nav.workflow">Workflow</a>
+        <a href="index.html#faq" role="menuitem" data-i18n="common.nav.faq">FAQ</a>
+        <a href="blog.html" role="menuitem" data-i18n="common.nav.blog">Blog</a>
+        <a href="skill.html" role="menuitem" aria-current="page" data-i18n="common.nav.skill">Skill</a>
       </div>
     </nav>
   </header>
@@ -99,20 +124,20 @@
   <main id="main" class="skill-main">
     <section class="scene-section skill-hero" aria-labelledby="skill-title">
       <div class="wrap">
-        <p class="meta">Skills · canonical home · realRoc/skills</p>
-        <h1 class="skill-title" id="skill-title">Install GitHire<br/><em>from realRoc/skills.</em></h1>
-        <p class="skill-lede">
+        <p class="meta" data-i18n="skill.hero.kicker">Skills · canonical home · realRoc/skills</p>
+        <h1 class="skill-title" id="skill-title" data-i18n="skill.hero.title">Install GitHire<br/><em>from realRoc/skills.</em></h1>
+        <p class="skill-lede" data-i18n="skill.hero.lede">
           GitHire 的 Skill 和配套的 <em>Prompt Spec</em> 都住在 <a href="https://github.com/realRoc/skills" target="_blank" rel="noopener">github.com/realRoc/skills</a>——这是 AI-native 方法论的统一发布源。<br/>
           网站本身只是方法的展示与 case 来源；可装的能力一律从这个仓库安装。
         </p>
 
-        <div class="skill-panel" aria-label="GitHire Skill install command">
-          <p class="skill-kicker">Install · 全部 skills</p>
+        <div class="skill-panel" aria-label="GitHire Skill install command" data-i18n-attr="aria-label:skill.panel.aria">
+          <p class="skill-kicker" data-i18n="skill.panel.kicker">Install · 全部 skills</p>
           <div class="skill-command" data-copy-command="npx skills add realRoc/skills">
             <code>npx skills add realRoc/skills</code>
-            <button type="button" class="skill-copy" data-copy-skill aria-label="Copy install command">Copy</button>
+            <button type="button" class="skill-copy" data-copy-skill aria-label="Copy install command" data-i18n="skill.panel.copy_label" data-i18n-attr="aria-label:skill.panel.copy_aria">Copy</button>
           </div>
-          <p class="skill-note">
+          <p class="skill-note" data-i18n="skill.panel.note">
             一次安装 realRoc/skills 下的所有 skill。也可以只装 GitHire：
             <code class="skill-inline">npx skills add realRoc/skills --skill githire</code>。<br/>
             想看完整目录与 README，去 <a href="https://github.com/realRoc/skills" target="_blank" rel="noopener">github.com/realRoc/skills</a>。
@@ -120,15 +145,15 @@
         </div>
 
         <ol class="skill-list">
-          <li><span>01</span><strong>GitHire</strong>：把 issue-first 六步 workflow 装进 agent，让它在 framing、AI review、架构师评审、上线归档这些节点知道该做什么。</li>
-          <li><span>02</span><strong>Prompt Spec</strong>：Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context 六段式 issue 模板，配合 GitHire 使用。<a href="case-redis-scan.html#rewrite-title">看 case 里的 BAD vs GOOD 对照 ↗</a></li>
-          <li><span>03</span>用法：读首页拿当前方法 → 用 Skill 在真实工程里 frame issue / 起 PR / 走六步评审 → case 页随时引用真实事故复盘。</li>
+          <li data-i18n="skill.li1"><span>01</span><strong>GitHire</strong>：把 issue-first 六步 workflow 装进 agent，让它在 framing、AI review、架构师评审、上线归档这些节点知道该做什么。</li>
+          <li data-i18n="skill.li2"><span>02</span><strong>Prompt Spec</strong>：Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context 六段式 issue 模板，配合 GitHire 使用。<a href="case-redis-scan.html#rewrite-title">看 case 里的 BAD vs GOOD 对照 ↗</a></li>
+          <li data-i18n="skill.li3"><span>03</span>用法：读首页拿当前方法 → 用 Skill 在真实工程里 frame issue / 起 PR / 走六步评审 → case 页随时引用真实事故复盘。</li>
         </ol>
 
         <p class="skill-foot">
-          <a class="skill-anchor" href="https://github.com/realRoc/skills" target="_blank" rel="noopener">打开 realRoc/skills 仓库 ↗</a>
-          <a class="skill-anchor" href="case-redis-scan.html">看一个真实 case</a>
-          <a class="skill-anchor" href="index.html#workflow">回到 workflow</a>
+          <a class="skill-anchor" href="https://github.com/realRoc/skills" target="_blank" rel="noopener" data-i18n="skill.foot.repo">打开 realRoc/skills 仓库 ↗</a>
+          <a class="skill-anchor" href="case-redis-scan.html" data-i18n="skill.foot.case">看一个真实 case</a>
+          <a class="skill-anchor" href="index.html#workflow" data-i18n="skill.foot.workflow">回到 workflow</a>
         </p>
       </div>
     </section>
@@ -136,9 +161,9 @@
 
   <footer class="site-foot">
     <div class="wrap">
-      <p>© <span id="year">2026</span> GitHire · operating log from AI-native teams</p>
+      <p data-i18n="common.foot.tagline">© <span id="year">2026</span> GitHire · operating log from AI-native teams</p>
       <p class="repo"><a href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">github.com/realRoc/git-hired</a></p>
-      <p class="home"><a href="index.html">Back to GitHire</a></p>
+      <p class="home"><a href="index.html" data-i18n="common.foot.home">Back to GitHire</a></p>
     </div>
   </footer>
 
@@ -190,5 +215,6 @@
     })();
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+  <script defer src="i18n.js"></script>
 </body>
 </html>
