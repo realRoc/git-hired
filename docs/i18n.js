@@ -999,6 +999,12 @@
         // Don't override if the user already changed it during the
         // ~1s detection window.
         if (getStoredLang()) return;
+        // Persist the IP-derived choice BEFORE any short-circuit, so
+        // future page loads / internal navigations read it from
+        // localStorage and never hit api.country.is again. Without this
+        // line, every page view with no manual preference re-fetched
+        // the geolocation API (PR #22 codex review blocker).
+        setStoredLang(lang);
         if (lang === currentLang()) return;
         applyLang(lang);
       })
