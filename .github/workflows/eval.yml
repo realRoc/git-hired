@@ -168,8 +168,10 @@ jobs:
           curl -fsS http://127.0.0.1:8000/og-case-redis-scan.en.png >/dev/null
           # Crawler view: ensure the EN mirror's <head> meta is actually English,
           # not just Chinese body wrapped in English meta — i.e. real static i18n.
-          curl -fsS http://127.0.0.1:8000/en/index.html | grep -q 'og:locale" content="en_US"' || { echo "EN mirror missing en_US locale"; exit 1; }
-          curl -fsS http://127.0.0.1:8000/en/index.html | grep -q 'Humans direct AI' || { echo "EN mirror missing translated headline"; exit 1; }
+          en_index="$(curl -fsS http://127.0.0.1:8000/en/index.html)"
+          echo "$en_index" | grep -q 'og:locale" content="en_US"' || { echo "EN mirror missing en_US locale"; exit 1; }
+          echo "$en_index" | grep -q 'content="GitHire · Humans frame' || { echo "EN mirror missing translated og:title"; exit 1; }
+          echo "$en_index" | grep -q 'og:image" content="https://realroc.github.io/git-hired/og.en.png"' || { echo "EN mirror not pointing at og.en.png"; exit 1; }
 
       - name: Check whitespace
         run: git diff --check
