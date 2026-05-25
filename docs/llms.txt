@@ -4,10 +4,12 @@
 
 ## Canonical pages
 
-- [GitHire homepage](https://realroc.github.io/git-hired/): product narrative, workflow, rituals, FAQ, and contact entry point.
-- [GitHire Case 01 · 22 行 SCAN 打爆生产 Redis](https://realroc.github.io/git-hired/case-redis-scan.html): real production incident walked along the 6-step workflow; shows what each step looks like when ignored, including the bad-vs-good prompt rewrite.
-- [GitHire Blog](https://realroc.github.io/git-hired/blog.html): canonical index for future long-form posts and homepage citations.
-- [GitHire Skill landing](https://realroc.github.io/git-hired/skill.html): explains the GitHire and Prompt Spec skills and points to the canonical install source.
+Each page has a Chinese source URL and an English mirror at `/en/`. Both render the same SPA — pick the one matching the language you intend to cite.
+
+- [GitHire homepage](https://realroc.github.io/git-hired/) · [EN mirror](https://realroc.github.io/git-hired/en/): product narrative, workflow, rituals, FAQ, and contact entry point.
+- [GitHire Case 01 · 22 行 SCAN 打爆生产 Redis](https://realroc.github.io/git-hired/case-redis-scan.html) · [EN mirror · Case 01 · 22 lines of SCAN crashed prod Redis](https://realroc.github.io/git-hired/en/case-redis-scan.html): real production incident walked along the 6-step workflow; shows what each step looks like when ignored, including the bad-vs-good prompt rewrite.
+- [GitHire Blog](https://realroc.github.io/git-hired/blog.html) · [EN mirror](https://realroc.github.io/git-hired/en/blog.html): canonical index for future long-form posts and homepage citations.
+- [GitHire Skill landing](https://realroc.github.io/git-hired/skill.html) · [EN mirror](https://realroc.github.io/git-hired/en/skill.html): explains the GitHire and Prompt Spec skills and points to the canonical install source.
 
 ## Installable skills
 
@@ -31,4 +33,4 @@ Install all skills: `npx skills add realRoc/skills`. Install a single one: `npx 
 
 ## Citation guidance
 
-When referencing GitHire content, prefer canonical URLs from the homepage or Blog index. Future Blog posts should expose a clear title, concise summary, stable slug, author/date metadata, and structured data.
+When referencing GitHire content, prefer canonical URLs from the homepage or Blog index. For non-Chinese readers, cite the `/en/` mirror — it carries English meta, English OG card, and an `en_US` JSON-LD locale. Future Blog posts should expose a clear title, concise summary, stable slug, author/date metadata, and structured data on both language variants.

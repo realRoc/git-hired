@@ -7,3 +7,6 @@ skills/githire
 
 # gstack ship workflow markers
 .gstack/
+
+# Build deps for scripts/build-en.mjs (committed: package.json, package-lock.json)
+node_modules/

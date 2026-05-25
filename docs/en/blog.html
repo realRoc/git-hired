@@ -1,0 +1,222 @@
+<!doctype html><html lang="en" data-lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F6F1E8">
+
+  <script>
+    (function(){
+      try{
+        var q = new URL(location.href).searchParams.get('lang');
+        var stored = null;
+        try { stored = localStorage.getItem('githire-lang'); } catch(_){}
+        var pre = (q === 'zh' || q === 'en') ? q : 'en';
+        if (pre !== stored) {
+          try { localStorage.setItem('githire-lang', pre); } catch(_){}
+        }
+        document.documentElement.setAttribute('data-lang', pre);
+        document.documentElement.setAttribute('lang', pre === 'zh' ? 'zh-CN' : 'en');
+      }catch(e){
+        document.documentElement.setAttribute('data-lang', 'en');
+        document.documentElement.setAttribute('lang', 'en');
+      }
+    })();
+  </script>
+
+  <title data-i18n="blog.title">GitHire Blog · Real cases from AI-native teams</title>
+  <meta name="description" data-i18n-attr="content:blog.meta.description" content="GitHire Blog reads every post as a real incident retro — real prompt, real diff, real fallout — walked through the six-step workflow.">
+  <meta name="author" content="GitHire">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://realroc.github.io/git-hired/en/blog.html">
+
+  <link rel="alternate" hreflang="zh-CN" href="https://realroc.github.io/git-hired/blog.html">
+  <link rel="alternate" hreflang="en" href="https://realroc.github.io/git-hired/en/blog.html">
+  <link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/blog.html">
+
+  <!-- ── Social cards · keep keys in sync with og-preview.html ─── -->
+  <meta property="og:site_name" content="GitHire">
+  <meta property="og:type" content="website">
+  <meta property="og:title" data-i18n-attr="content:blog.title" content="GitHire Blog · Real cases from AI-native teams">
+  <meta property="og:description" data-i18n-attr="content:blog.og.description" content="Every post is a real incident — real prompt, real diff, real fix chain — read alongside the six-step workflow.">
+  <meta property="og:url" content="https://realroc.github.io/git-hired/en/blog.html">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:image" content="https://realroc.github.io/git-hired/og.en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" data-i18n-attr="content:blog.og.image_alt" content="GitHire · Humans frame, AI executes, architects judge">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" data-i18n-attr="content:blog.title" content="GitHire Blog · Real cases from AI-native teams">
+  <meta name="twitter:description" data-i18n-attr="content:blog.og.description" content="Every post is a real incident — real prompt, real diff, real fix chain — read alongside the six-step workflow.">
+  <meta name="twitter:image" content="https://realroc.github.io/git-hired/og.en.png">
+  <meta name="twitter:image:alt" data-i18n-attr="content:blog.og.image_alt" content="GitHire · Humans frame, AI executes, architects judge">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&amp;family=Noto+Serif+SC:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="../githire.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "GitHire Blog",
+    "url": "https://realroc.github.io/git-hired/en/blog.html",
+    "inLanguage": "en",
+    "description": "Real incident retros from AI-native teams — every post carries prompt, diff and fix chain, walked through the six-step workflow.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "GitHire",
+      "url": "https://realroc.github.io/git-hired/en/"
+    },
+    "blogPost": [
+      {
+        "@type": "BlogPosting",
+        "headline": "Case 01 · 22 lines of SCAN, crashing production Redis",
+        "url": "https://realroc.github.io/git-hired/en/case-redis-scan.html",
+        "datePublished": "2026-05-18",
+        "description": "Codex wrote it in 5 minutes; committed 20 minutes later; that night it shipped and the incident began. Walk back through the six steps — every skipped step is where the incident was buried."
+      }
+    ],
+    "about": [
+      "AI-native engineering",
+      "Production incidents",
+      "Prompt framing",
+      "Architect review"
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "GitHire", "item": "https://realroc.github.io/git-hired/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://realroc.github.io/git-hired/en/blog.html" }
+    ]
+  }
+  </script>
+
+</head>
+
+<body class="blog-page">
+  <a class="skip" href="#main" data-i18n="common.skip">Skip to main content</a>
+
+  <header class="topnav">
+    <a class="brand" href="index.html#top" aria-label="GitHire">
+      <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true">
+        <g stroke="#181818" stroke-width="1.4" stroke-linecap="round" fill="none">
+          <line x1="6" y1="14" x2="6" y2="22"></line>
+          <line x1="9" y1="11" x2="9" y2="22"></line>
+          <line x1="12" y1="9" x2="12" y2="22"></line>
+          <line x1="15" y1="12" x2="15" y2="22"></line>
+          <line x1="21" y1="13" x2="21" y2="22"></line>
+          <line x1="24" y1="10" x2="24" y2="22"></line>
+          <line x1="27" y1="12" x2="27" y2="22"></line>
+          <line x1="30" y1="14" x2="30" y2="22"></line>
+        </g>
+        <line x1="18" y1="7" x2="18" y2="22" stroke="#D97757" stroke-width="1.6" stroke-linecap="round"></line>
+        <g fill="#181818">
+          <rect x="6" y="25" width="1.4" height="5"></rect>
+          <rect x="9" y="25" width="0.8" height="5"></rect>
+          <rect x="11.5" y="25" width="2" height="5"></rect>
+          <rect x="15" y="25" width="0.8" height="5"></rect>
+          <rect x="17" y="25" width="1.6" height="5"></rect>
+          <rect x="20" y="25" width="0.8" height="5"></rect>
+          <rect x="22" y="25" width="2" height="5"></rect>
+          <rect x="25.5" y="25" width="1" height="5"></rect>
+          <rect x="27.5" y="25" width="1.8" height="5"></rect>
+        </g>
+      </svg>
+      <span class="brand-name">GitHire</span>
+    </a>
+
+    <nav class="topnav-actions" aria-label="Main navigation" data-i18n-attr="aria-label:common.nav_aria">
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label:common.lang_aria" aria-label="Switch language">
+        <button type="button" data-lang-btn="zh" aria-pressed="false" data-i18n="common.lang_zh">中</button>
+        <button type="button" data-lang-btn="en" aria-pressed="true" data-i18n="common.lang_en" class="is-active">EN</button>
+      </div>
+      <a class="btn-primary" href="mailto:wuyupeng@floatmiracle.com" data-i18n="common.lets_talk">Let's talk</a>
+      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu" data-i18n="common.menu">Menu</button>
+      <div class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <a href="index.html#top" role="menuitem" data-i18n="common.nav.intro">Intro</a>
+        <a href="index.html#definition" role="menuitem" data-i18n="common.nav.definition">Definition</a>
+        <a href="index.html#workflow" role="menuitem" data-i18n="common.nav.workflow">Workflow</a>
+        <a href="index.html#rituals" role="menuitem" data-i18n="common.nav.rituals">Rituals</a>
+        <a href="index.html#faq" role="menuitem" data-i18n="common.nav.faq">FAQ</a>
+        <a href="blog.html" role="menuitem" aria-current="page" data-i18n="common.nav.blog">Blog</a>
+        <a href="skill.html" role="menuitem" data-i18n="common.nav.skill">Skill</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" class="blog-main">
+    <section class="scene-section blog-hero" aria-labelledby="blog-title">
+      <div class="wrap">
+        <p class="meta" data-i18n="blog.hero.kicker">Blog · operating log from AI-native teams</p>
+        <h1 class="blog-title" id="blog-title" data-i18n="blog.hero.title">Real incidents, real retros,<br><em>walked end-to-end through the workflow<span class="period">.</span></em></h1>
+        <p class="blog-lede" data-i18n="blog.hero.lede">No tutorials here, only events. Every post is a real incident — real prompt, real diff, real fix chain — read alongside the six-step workflow: what each step is meant to be, versus what it actually was on the day.</p>
+
+        <ol class="case-index" aria-label="Cases" data-i18n-attr="aria-label:blog.case.aria" reversed="">
+          <li class="case-entry is-live">
+            <a href="case-redis-scan.html" class="case-entry-link">
+              <div class="case-entry-head">
+                <p class="case-entry-num" data-i18n="blog.case01.num">CASE 01</p>
+                <p class="case-entry-meta" data-i18n="blog.case01.meta">2026-05-14 · 22 lines of code · 25 hours to fully fix</p>
+              </div>
+              <h2 class="case-entry-title" data-i18n="blog.case01.title">22 lines of SCAN, <em>and production Redis went down</em><span class="period">.</span></h2>
+              <p class="case-entry-desc" data-i18n="blog.case01.desc">Codex wrote it in 5 minutes; it was committed 20 minutes later; the incident started at 23:54 the same night. Walked back through the six steps — every step skipped is a step where the incident is buried.</p>
+              <p class="case-entry-tags">
+                <span data-i18n="blog.case01.tag1">Codex CLI</span><span data-i18n="blog.case01.tag2">Redis SCAN</span><span data-i18n="blog.case01.tag3">Architect skipped</span><span data-i18n="blog.case01.tag4">Prompt rewrite</span>
+              </p>
+              <p class="case-entry-cta" data-i18n="blog.case01.cta">Read this case <span aria-hidden="true">→</span></p>
+            </a>
+          </li>
+          <li class="case-entry is-pending" aria-disabled="true">
+            <p class="case-entry-num" data-i18n="blog.case_pending.num2">CASE 02</p>
+            <p class="case-entry-title-mute" data-i18n="blog.case_pending.title">Coming soon</p>
+          </li>
+          <li class="case-entry is-pending" aria-disabled="true">
+            <p class="case-entry-num" data-i18n="blog.case_pending.num3">CASE 03</p>
+            <p class="case-entry-title-mute" data-i18n="blog.case_pending.title">Coming soon</p>
+          </li>
+        </ol>
+
+        <p class="blog-foot" data-i18n="blog.foot">Want the full method? <a href="index.html#workflow">Six-step workflow ↗</a><span class="sep">·</span>Want to install the Skill? <a href="skill.html">From realRoc/skills ↗</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <p data-i18n="common.foot.tagline">© <span id="year">2026</span> GitHire · operating log from AI-native teams</p>
+      <p class="repo"><a href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">github.com/realRoc/git-hired</a></p>
+      <p class="home"><a href="index.html" data-i18n="common.foot.home">Back to GitHire</a></p>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var btn = document.getElementById('navMenuBtn');
+      var menu = document.getElementById('navMenu');
+      if(!btn || !menu) return;
+      function setOpen(open){
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+        menu.classList.toggle('is-open', open);
+      }
+      btn.addEventListener('click', function(){ setOpen(btn.getAttribute('aria-expanded') !== 'true'); });
+      menu.addEventListener('click', function(event){ if(event.target.closest('a')) setOpen(false); });
+      document.addEventListener('click', function(event){
+        if(menu.contains(event.target) || btn.contains(event.target)) return;
+        setOpen(false);
+      });
+      document.addEventListener('keydown', function(event){ if(event.key === 'Escape') setOpen(false); });
+    })();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script defer="" src="../i18n.js"></script>
+
+
+</body></html>

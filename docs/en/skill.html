@@ -1,0 +1,218 @@
+<!doctype html><html lang="en" data-lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F6F1E8">
+
+  <script>
+    (function(){
+      try{
+        var q = new URL(location.href).searchParams.get('lang');
+        var stored = null;
+        try { stored = localStorage.getItem('githire-lang'); } catch(_){}
+        var pre = (q === 'zh' || q === 'en') ? q : 'en';
+        if (pre !== stored) {
+          try { localStorage.setItem('githire-lang', pre); } catch(_){}
+        }
+        document.documentElement.setAttribute('data-lang', pre);
+        document.documentElement.setAttribute('lang', pre === 'zh' ? 'zh-CN' : 'en');
+      }catch(e){
+        document.documentElement.setAttribute('data-lang', 'en');
+        document.documentElement.setAttribute('lang', 'en');
+      }
+    })();
+  </script>
+
+  <title data-i18n="skill.title">GitHire Skill · Install from realRoc/skills</title>
+  <meta name="description" data-i18n-attr="content:skill.meta.description" content="Install GitHire and the matching Prompt Spec from realRoc/skills — the canonical home for AI-native engineering skills used across the GitHire method.">
+  <meta name="author" content="GitHire">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://realroc.github.io/git-hired/en/skill.html">
+
+  <link rel="alternate" hreflang="zh-CN" href="https://realroc.github.io/git-hired/skill.html">
+  <link rel="alternate" hreflang="en" href="https://realroc.github.io/git-hired/en/skill.html">
+  <link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/skill.html">
+
+  <!-- ── Social cards · keep keys in sync with og-preview.html ─── -->
+  <meta property="og:site_name" content="GitHire">
+  <meta property="og:type" content="website">
+  <meta property="og:title" data-i18n-attr="content:skill.title" content="GitHire Skill · Install from realRoc/skills">
+  <meta property="og:description" data-i18n-attr="content:skill.og.description" content="Install the GitHire Skill and Prompt Spec from realRoc/skills — the canonical AI-native skills home.">
+  <meta property="og:url" content="https://realroc.github.io/git-hired/en/skill.html">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:image" content="https://realroc.github.io/git-hired/og.en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" data-i18n-attr="content:skill.og.image_alt" content="GitHire · Humans frame, AI executes, architects judge">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" data-i18n-attr="content:skill.title" content="GitHire Skill · Install from realRoc/skills">
+  <meta name="twitter:description" data-i18n-attr="content:skill.og.description" content="Install the GitHire Skill and Prompt Spec from realRoc/skills — the canonical AI-native skills home.">
+  <meta name="twitter:image" content="https://realroc.github.io/git-hired/og.en.png">
+  <meta name="twitter:image:alt" data-i18n-attr="content:skill.og.image_alt" content="GitHire · Humans frame, AI executes, architects judge">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&amp;family=Noto+Serif+SC:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="../githire.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "GitHire Skill",
+    "url": "https://github.com/realRoc/skills",
+    "codeRepository": "https://github.com/realRoc/skills",
+    "programmingLanguage": "Markdown",
+    "description": "A Skill that teaches AI agents the GitHire issue-first method. Lives in realRoc/skills alongside the Prompt Spec and other AI-native engineering skills.",
+    "isBasedOn": [
+      "https://realroc.github.io/git-hired/en/",
+      "https://realroc.github.io/git-hired/en/case-redis-scan.html"
+    ]
+  }
+  </script>
+</head>
+
+<body class="skill-page">
+  <a class="skip" href="#main" data-i18n="common.skip">Skip to main content</a>
+
+  <header class="topnav">
+    <a class="brand" href="index.html#top" aria-label="GitHire">
+      <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true">
+        <g stroke="#181818" stroke-width="1.4" stroke-linecap="round" fill="none">
+          <line x1="6" y1="14" x2="6" y2="22"></line>
+          <line x1="9" y1="11" x2="9" y2="22"></line>
+          <line x1="12" y1="9" x2="12" y2="22"></line>
+          <line x1="15" y1="12" x2="15" y2="22"></line>
+          <line x1="21" y1="13" x2="21" y2="22"></line>
+          <line x1="24" y1="10" x2="24" y2="22"></line>
+          <line x1="27" y1="12" x2="27" y2="22"></line>
+          <line x1="30" y1="14" x2="30" y2="22"></line>
+        </g>
+        <line x1="18" y1="7" x2="18" y2="22" stroke="#D97757" stroke-width="1.6" stroke-linecap="round"></line>
+        <g fill="#181818">
+          <rect x="6" y="25" width="1.4" height="5"></rect>
+          <rect x="9" y="25" width="0.8" height="5"></rect>
+          <rect x="11.5" y="25" width="2" height="5"></rect>
+          <rect x="15" y="25" width="0.8" height="5"></rect>
+          <rect x="17" y="25" width="1.6" height="5"></rect>
+          <rect x="20" y="25" width="0.8" height="5"></rect>
+          <rect x="22" y="25" width="2" height="5"></rect>
+          <rect x="25.5" y="25" width="1" height="5"></rect>
+          <rect x="27.5" y="25" width="1.8" height="5"></rect>
+        </g>
+      </svg>
+      <span class="brand-name">GitHire</span>
+    </a>
+
+    <nav class="topnav-actions" aria-label="Main navigation" data-i18n-attr="aria-label:common.nav_aria">
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label:common.lang_aria" aria-label="Switch language">
+        <button type="button" data-lang-btn="zh" aria-pressed="false" data-i18n="common.lang_zh">中</button>
+        <button type="button" data-lang-btn="en" aria-pressed="true" data-i18n="common.lang_en" class="is-active">EN</button>
+      </div>
+      <a class="btn-primary" href="mailto:wuyupeng@floatmiracle.com" data-i18n="common.lets_talk">Let's talk</a>
+      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu" data-i18n="common.menu">Menu</button>
+      <div class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <a href="index.html#top" role="menuitem" data-i18n="common.nav.intro">Intro</a>
+        <a href="index.html#workflow" role="menuitem" data-i18n="common.nav.workflow">Workflow</a>
+        <a href="index.html#faq" role="menuitem" data-i18n="common.nav.faq">FAQ</a>
+        <a href="blog.html" role="menuitem" data-i18n="common.nav.blog">Blog</a>
+        <a href="skill.html" role="menuitem" aria-current="page" data-i18n="common.nav.skill">Skill</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" class="skill-main">
+    <section class="scene-section skill-hero" aria-labelledby="skill-title">
+      <div class="wrap">
+        <p class="meta" data-i18n="skill.hero.kicker">Skills · canonical home · realRoc/skills</p>
+        <h1 class="skill-title" id="skill-title" data-i18n="skill.hero.title">Install GitHire<br><em>from realRoc/skills.</em></h1>
+        <p class="skill-lede" data-i18n="skill.hero.lede">GitHire and its companion <em>Prompt Spec</em> both live in <a href="https://github.com/realRoc/skills" target="_blank" rel="noopener">github.com/realRoc/skills</a> — the single publication source for this AI-native method.<br>
+          The website is the prose; installable capabilities all come from that repo.</p>
+
+        <div class="skill-panel" aria-label="GitHire Skill install command" data-i18n-attr="aria-label:skill.panel.aria">
+          <p class="skill-kicker" data-i18n="skill.panel.kicker">Install · all skills</p>
+          <div class="skill-command" data-copy-command="npx skills add realRoc/skills">
+            <code>npx skills add realRoc/skills</code>
+            <button type="button" class="skill-copy" data-copy-skill="" aria-label="Copy install command" data-i18n="skill.panel.copy_label" data-i18n-attr="aria-label:skill.panel.copy_aria">Copy</button>
+          </div>
+          <p class="skill-note" data-i18n="skill.panel.note">Installs every skill under realRoc/skills at once. To install GitHire alone: 
+            <code class="skill-inline">npx skills add realRoc/skills --skill githire</code>.<br>
+            For the full catalog and README, see <a href="https://github.com/realRoc/skills" target="_blank" rel="noopener">github.com/realRoc/skills</a>.</p>
+        </div>
+
+        <ol class="skill-list">
+          <li data-i18n="skill.li1"><span>01</span><strong>GitHire</strong>: installs the issue-first six-step workflow into an agent so it knows what to do at framing, AI review, architect review, and ship-archive checkpoints.</li>
+          <li data-i18n="skill.li2"><span>02</span><strong>Prompt Spec</strong>: the six-section Issue template — Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context — paired with GitHire. <a href="case-redis-scan.html#rewrite-title">See the BAD vs GOOD comparison in the case ↗</a></li>
+          <li data-i18n="skill.li3"><span>03</span>Use it: read the homepage for the current method → use the Skill to frame Issues / open PRs / run the six-step review in real projects → reference the case page for real incident retros at any time.</li>
+        </ol>
+
+        <p class="skill-foot">
+          <a class="skill-anchor" href="https://github.com/realRoc/skills" target="_blank" rel="noopener" data-i18n="skill.foot.repo">Open the realRoc/skills repo ↗</a>
+          <a class="skill-anchor" href="case-redis-scan.html" data-i18n="skill.foot.case">Read a real case</a>
+          <a class="skill-anchor" href="index.html#workflow" data-i18n="skill.foot.workflow">Back to the workflow</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <p data-i18n="common.foot.tagline">© <span id="year">2026</span> GitHire · operating log from AI-native teams</p>
+      <p class="repo"><a href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">github.com/realRoc/git-hired</a></p>
+      <p class="home"><a href="index.html" data-i18n="common.foot.home">Back to GitHire</a></p>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var btn = document.getElementById('navMenuBtn');
+      var menu = document.getElementById('navMenu');
+      if(!btn || !menu) return;
+      function setOpen(open){
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+        menu.classList.toggle('is-open', open);
+      }
+      btn.addEventListener('click', function(){ setOpen(btn.getAttribute('aria-expanded') !== 'true'); });
+      menu.addEventListener('click', function(event){ if(event.target.closest('a')) setOpen(false); });
+      document.addEventListener('click', function(event){
+        if(menu.contains(event.target) || btn.contains(event.target)) return;
+        setOpen(false);
+      });
+      document.addEventListener('keydown', function(event){ if(event.key === 'Escape') setOpen(false); });
+    })();
+
+    (function(){
+      var copyButton = document.querySelector('[data-copy-skill]');
+      var commandBox = document.querySelector('[data-copy-command]');
+      if(!copyButton || !commandBox) return;
+      var originalText = copyButton.textContent;
+      function setCopied(text){
+        copyButton.textContent = text;
+        window.setTimeout(function(){ copyButton.textContent = originalText; }, 1600);
+      }
+      copyButton.addEventListener('click', function(){
+        var command = commandBox.getAttribute('data-copy-command');
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(command).then(function(){ setCopied('Copied'); }, function(){ setCopied('Select'); });
+          return;
+        }
+        var textarea = document.createElement('textarea');
+        textarea.value = command;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try { document.execCommand('copy'); setCopied('Copied'); }
+        catch (err) { setCopied('Select'); }
+        document.body.removeChild(textarea);
+      });
+    })();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script defer="" src="../i18n.js"></script>
+
+
+</body></html>

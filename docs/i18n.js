@@ -79,6 +79,14 @@
       zh: "GitHire 是一套 AI-native 工程方法论:把'人 frame、AI 执行、架构师判断'写成可复用的六步 workflow,拿真实事故 case 验证,再用 Skill 让任何 agent 装上。",
       en: "GitHire is an AI-native engineering method that codifies 'humans frame, AI executes, architects judge' into a six-step workflow — validated by real production incidents, packaged as a Skill any agent can install."
     },
+    'index.og.description': {
+      zh: "一套 AI-native 工程方法论:Issue → Sandbox → PR → AI Review → Architect → Production,六步把'人 frame、AI 执行、架构师判断'落到可复用 workflow。",
+      en: "An AI-native engineering method: Issue → Sandbox → PR → AI Review → Architect → Production — six steps that turn 'humans frame, AI executes, architects judge' into a reusable workflow."
+    },
+    'index.og.image_alt': {
+      zh: 'GitHire · 人 frame、AI 执行、架构师判断',
+      en: 'GitHire · Humans frame, AI executes, architects judge'
+    },
 
     'index.hero.kicker': {
       zh: 'AI-native engineering · 一种新的工作方式',
@@ -441,6 +449,14 @@
       zh: 'GitHire Blog 把每一篇都写成真实事件复盘:真实的 prompt、真实的 diff、真实的事故,沿着六步 workflow 走一遍。',
       en: 'GitHire Blog reads every post as a real incident retro — real prompt, real diff, real fallout — walked through the six-step workflow.'
     },
+    'blog.og.description': {
+      zh: '每一篇都是一次真实事件:真实的 prompt、真实的 diff、真实的修复链。围着六步 workflow 走读。',
+      en: 'Every post is a real incident — real prompt, real diff, real fix chain — read alongside the six-step workflow.'
+    },
+    'blog.og.image_alt': {
+      zh: 'GitHire · 人 frame、AI 执行、架构师判断',
+      en: 'GitHire · Humans frame, AI executes, architects judge'
+    },
 
     'blog.hero.kicker': {
       zh: 'Blog · operating log from AI-native teams',
@@ -497,6 +513,14 @@
     'skill.meta.description': {
       zh: 'Install GitHire and the matching Prompt Spec from realRoc/skills — the canonical home for AI-native engineering skills used across the GitHire method.',
       en: 'Install GitHire and the matching Prompt Spec from realRoc/skills — the canonical home for AI-native engineering skills used across the GitHire method.'
+    },
+    'skill.og.description': {
+      zh: 'Install the GitHire Skill and Prompt Spec from realRoc/skills — the canonical AI-native skills home.',
+      en: 'Install the GitHire Skill and Prompt Spec from realRoc/skills — the canonical AI-native skills home.'
+    },
+    'skill.og.image_alt': {
+      zh: 'GitHire · 人 frame、AI 执行、架构师判断',
+      en: 'GitHire · Humans frame, AI executes, architects judge'
     },
 
     'skill.hero.kicker': {
@@ -555,6 +579,14 @@
     'case.meta.description': {
       zh: '一次真实的线上事故复盘：22 行 AI 自动生成的 Redis SCAN + pipeline HGETALL 代码，沿着 GitHire 的六步 workflow 走一遍，看在哪一步坠落。',
       en: 'A retro of a real production incident: 22 lines of AI-generated Redis SCAN + pipeline HGETALL, walked through the six-step GitHire workflow to find the step where it fell.'
+    },
+    'case.og.description': {
+      zh: '22 行 AI 自动生成的 SCAN+HGETALL 把生产 Redis 打爆。沿 6 步 workflow 复盘 prompt、commit、事故、修复、重写。',
+      en: '22 lines of AI-generated SCAN+HGETALL crashed production Redis. Walk the 6-step workflow back through prompt, commit, incident, fix, rewrite.'
+    },
+    'case.og.image_alt': {
+      zh: 'GitHire Case 01 · 22 行 SCAN，20 分钟到事故 · 时间线 10:19 prompt → 23:54 503',
+      en: 'GitHire Case 01 · 22 lines of SCAN, 20 minutes to incident · timeline 10:19 prompt → 23:54 503'
     },
 
     'case.hero.kicker': {
@@ -963,22 +995,49 @@
     if (yearEl) yearEl.textContent = new Date().getFullYear();
   }
 
+  // Compute the mirror URL for the target language. en pages live under
+  // a /en/ path segment relative to the site root; zh pages live above it.
+  // Preserves hash and all non-lang query params.
+  function urlForLang(target) {
+    var url = new URL(location.href);
+    var segments = url.pathname.split('/');
+    var enIdx = segments.indexOf('en');
+    if (target === 'en') {
+      if (enIdx < 0) segments.splice(segments.length - 1, 0, 'en');
+    } else {
+      if (enIdx >= 0) segments.splice(enIdx, 1);
+    }
+    url.pathname = segments.join('/');
+    url.searchParams.delete('lang');
+    return url.toString();
+  }
+
   function bindSwitcher() {
     var btns = document.querySelectorAll('[data-lang-btn]');
     for (var i = 0; i < btns.length; i++) {
       btns[i].addEventListener('click', function (ev) {
         var lang = ev.currentTarget.getAttribute('data-lang-btn');
         if (SUPPORTED.indexOf(lang) < 0) return;
+        // Persist before navigation so the destination page reads
+        // localStorage and skips re-detection.
         setStoredLang(lang);
-        applyLang(lang);
+        var target = urlForLang(lang);
+        if (target !== location.href) {
+          location.assign(target);
+        } else {
+          // Same URL (already on the right side) — just re-apply in place.
+          applyLang(lang);
+        }
       });
     }
   }
 
   // First-visit IP detection. Skipped if user already has a stored
-  // preference or set ?lang= explicitly.
+  // preference, set ?lang= explicitly, or the URL itself signals language
+  // (i.e. lives under /en/).
   function maybeDetectByIP() {
     if (getStoredLang() || getUrlLang()) return;
+    if (location.pathname.split('/').indexOf('en') >= 0) return;
 
     var controller = (typeof AbortController === 'function') ? new AbortController() : null;
     var timeout = setTimeout(function () {
@@ -1023,10 +1082,13 @@
     init();
   }
 
-  // Expose for debugging / programmatic use
+  // Expose for debugging / programmatic use. `dict` is also read by the
+  // build-en.mjs script (jsdom loads this file then reads window.GitHireI18n.dict).
   window.GitHireI18n = {
     apply: applyLang,
     get: currentLang,
-    translations: T
+    translations: T,
+    dict: T,
+    urlForLang: urlForLang
   };
 })();

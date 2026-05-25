@@ -1,27 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://realroc.github.io/git-hired/</loc>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN"     href="https://realroc.github.io/git-hired/" />
+    <xhtml:link rel="alternate" hreflang="en"        href="https://realroc.github.io/git-hired/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/" />
+  </url>
+  <url>
+    <loc>https://realroc.github.io/git-hired/en/</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN"     href="https://realroc.github.io/git-hired/" />
+    <xhtml:link rel="alternate" hreflang="en"        href="https://realroc.github.io/git-hired/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/" />
   </url>
   <url>
     <loc>https://realroc.github.io/git-hired/blog.html</loc>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN"     href="https://realroc.github.io/git-hired/blog.html" />
+    <xhtml:link rel="alternate" hreflang="en"        href="https://realroc.github.io/git-hired/en/blog.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/blog.html" />
+  </url>
+  <url>
+    <loc>https://realroc.github.io/git-hired/en/blog.html</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN"     href="https://realroc.github.io/git-hired/blog.html" />
+    <xhtml:link rel="alternate" hreflang="en"        href="https://realroc.github.io/git-hired/en/blog.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/blog.html" />
   </url>
   <url>
     <loc>https://realroc.github.io/git-hired/skill.html</loc>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN"     href="https://realroc.github.io/git-hired/skill.html" />
+    <xhtml:link rel="alternate" hreflang="en"        href="https://realroc.github.io/git-hired/en/skill.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/skill.html" />
+  </url>
+  <url>
+    <loc>https://realroc.github.io/git-hired/en/skill.html</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN"     href="https://realroc.github.io/git-hired/skill.html" />
+    <xhtml:link rel="alternate" hreflang="en"        href="https://realroc.github.io/git-hired/en/skill.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/skill.html" />
   </url>
   <url>
     <loc>https://realroc.github.io/git-hired/case-redis-scan.html</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN"     href="https://realroc.github.io/git-hired/case-redis-scan.html" />
+    <xhtml:link rel="alternate" hreflang="en"        href="https://realroc.github.io/git-hired/en/case-redis-scan.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/case-redis-scan.html" />
+  </url>
+  <url>
+    <loc>https://realroc.github.io/git-hired/en/case-redis-scan.html</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN"     href="https://realroc.github.io/git-hired/case-redis-scan.html" />
+    <xhtml:link rel="alternate" hreflang="en"        href="https://realroc.github.io/git-hired/en/case-redis-scan.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/case-redis-scan.html" />
   </url>
 </urlset>
