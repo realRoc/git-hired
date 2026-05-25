@@ -237,14 +237,29 @@ function rewriteRelativeAssets(doc) {
 function rewritePrePaint(doc) {
   for (const script of doc.querySelectorAll('script')) {
     const text = script.textContent || '';
-    if (text.includes("'githire-lang'") && text.includes('navigator.language')) {
-      // On /en/ pages, fall back to 'en' instead of probing navigator.language.
-      // ?lang= and localStorage priority is preserved upstream of this branch.
-      script.textContent = text.replace(
-        /\(\(navigator\.language \|\| ''\)\.toLowerCase\(\)\.indexOf\('zh'\) === 0 \? 'zh' : 'en'\)/,
-        "'en'"
-      );
+    if (!text.includes("'githire-lang'") || !text.includes('navigator.language')) continue;
+
+    // On /en/ pages the URL path is the authoritative lang signal. Collapse
+    // the precedence ladder so only ?lang= can override it — bypass the
+    // localStorage and navigator.language branches that would otherwise let
+    // a stored "zh" re-translate the static EN markup back to ZH on first
+    // paint (PR #23 codex review blocker). Persist the path-resolved value
+    // to localStorage too so future navigations stay consistent.
+    const ladder =
+      /\(q === 'zh' \|\| q === 'en'\) \? q\s*:\s*\(stored === 'zh' \|\| stored === 'en'\) \? stored\s*:\s*\(\(navigator\.language \|\| ''\)\.toLowerCase\(\)\.indexOf\('zh'\) === 0 \? 'zh' : 'en'\)/;
+    if (!ladder.test(text)) {
+      throw new Error(`rewritePrePaint: precedence ladder regex did not match in source script — has the inline pre-paint changed?`);
     }
+    let out = text.replace(ladder, "(q === 'zh' || q === 'en') ? q : 'en'");
+    out = out.replace(
+      "if ((q === 'zh' || q === 'en') && q !== stored) {",
+      "if (pre !== stored) {"
+    );
+    out = out.replace(
+      "try { localStorage.setItem('githire-lang', q); } catch(_){}",
+      "try { localStorage.setItem('githire-lang', pre); } catch(_){}"
+    );
+    script.textContent = out;
   }
 }
 

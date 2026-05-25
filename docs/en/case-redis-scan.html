@@ -9,11 +9,9 @@
         var q = new URL(location.href).searchParams.get('lang');
         var stored = null;
         try { stored = localStorage.getItem('githire-lang'); } catch(_){}
-        var pre = (q === 'zh' || q === 'en') ? q
-                 : (stored === 'zh' || stored === 'en') ? stored
-                 : 'en';
-        if ((q === 'zh' || q === 'en') && q !== stored) {
-          try { localStorage.setItem('githire-lang', q); } catch(_){}
+        var pre = (q === 'zh' || q === 'en') ? q : 'en';
+        if (pre !== stored) {
+          try { localStorage.setItem('githire-lang', pre); } catch(_){}
         }
         document.documentElement.setAttribute('data-lang', pre);
         document.documentElement.setAttribute('lang', pre === 'zh' ? 'zh-CN' : 'en');
