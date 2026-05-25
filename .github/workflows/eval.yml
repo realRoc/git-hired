@@ -54,13 +54,23 @@ jobs:
               docs / "index.html",
               docs / "blog.html",
               docs / "skill.html",
+              docs / "case-redis-scan.html",
               docs / "githire.css",
               docs / "githire-scroll.js",
+              docs / "i18n.js",
               docs / "three" / "stage.js",
               docs / "three" / "scenes" / "intro.js",
               docs / "robots.txt",
               docs / "sitemap.xml",
               docs / "llms.txt",
+              docs / "og.png",
+              docs / "og.en.png",
+              docs / "og-case-redis-scan.png",
+              docs / "og-case-redis-scan.en.png",
+              docs / "en" / "index.html",
+              docs / "en" / "blog.html",
+              docs / "en" / "skill.html",
+              docs / "en" / "case-redis-scan.html",
           ]
 
           missing = [str(path) for path in required if not path.is_file()]
@@ -103,16 +113,22 @@ jobs:
                           self.refs.append(value)
 
           missing_refs: list[str] = []
-          for html_path in docs.glob("*.html"):
+          for html_path in docs.rglob("*.html"):
               parser = AssetParser()
               parser.feed(html_path.read_text(encoding="utf-8"))
               for ref in parser.refs:
                   parsed = urlparse(ref)
                   if parsed.scheme or parsed.netloc or ref.startswith(("mailto:", "#")):
                       continue
-                  local_path = docs / parsed.path.lstrip("/")
+                  path = parsed.path
+                  if not path:
+                      continue
+                  if path.startswith("/"):
+                      local_path = docs / path.lstrip("/")
+                  else:
+                      local_path = (html_path.parent / path).resolve()
                   if not local_path.exists():
-                      missing_refs.append(f"{html_path.name}: {ref}")
+                      missing_refs.append(f"{html_path.relative_to(docs)}: {ref}")
 
           if missing_refs:
               raise SystemExit("HTML references missing local files:\n- " + "\n- ".join(missing_refs))
@@ -136,10 +152,24 @@ jobs:
           curl -fsS http://127.0.0.1:8000/ >/dev/null
           curl -fsS http://127.0.0.1:8000/blog.html >/dev/null
           curl -fsS http://127.0.0.1:8000/skill.html >/dev/null
+          curl -fsS http://127.0.0.1:8000/case-redis-scan.html >/dev/null
+          curl -fsS http://127.0.0.1:8000/en/ >/dev/null
+          curl -fsS http://127.0.0.1:8000/en/blog.html >/dev/null
+          curl -fsS http://127.0.0.1:8000/en/skill.html >/dev/null
+          curl -fsS http://127.0.0.1:8000/en/case-redis-scan.html >/dev/null
           curl -fsS http://127.0.0.1:8000/githire.css >/dev/null
           curl -fsS http://127.0.0.1:8000/githire-scroll.js >/dev/null
+          curl -fsS http://127.0.0.1:8000/i18n.js >/dev/null
           curl -fsS http://127.0.0.1:8000/three/stage.js >/dev/null
           curl -fsS http://127.0.0.1:8000/three/scenes/intro.js >/dev/null
+          curl -fsS http://127.0.0.1:8000/og.png >/dev/null
+          curl -fsS http://127.0.0.1:8000/og.en.png >/dev/null
+          curl -fsS http://127.0.0.1:8000/og-case-redis-scan.png >/dev/null
+          curl -fsS http://127.0.0.1:8000/og-case-redis-scan.en.png >/dev/null
+          # Crawler view: ensure the EN mirror's <head> meta is actually English,
+          # not just Chinese body wrapped in English meta — i.e. real static i18n.
+          curl -fsS http://127.0.0.1:8000/en/index.html | grep -q 'og:locale" content="en_US"' || { echo "EN mirror missing en_US locale"; exit 1; }
+          curl -fsS http://127.0.0.1:8000/en/index.html | grep -q 'Humans direct AI' || { echo "EN mirror missing translated headline"; exit 1; }
 
       - name: Check whitespace
         run: git diff --check

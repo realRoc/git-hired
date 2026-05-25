@@ -1,0 +1,587 @@
+<!doctype html><html lang="en" data-lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F6F1E8">
+
+  <script>
+    (function(){
+      try{
+        var q = new URL(location.href).searchParams.get('lang');
+        var stored = null;
+        try { stored = localStorage.getItem('githire-lang'); } catch(_){}
+        var pre = (q === 'zh' || q === 'en') ? q
+                 : (stored === 'zh' || stored === 'en') ? stored
+                 : 'en';
+        if ((q === 'zh' || q === 'en') && q !== stored) {
+          try { localStorage.setItem('githire-lang', q); } catch(_){}
+        }
+        document.documentElement.setAttribute('data-lang', pre);
+        document.documentElement.setAttribute('lang', pre === 'zh' ? 'zh-CN' : 'en');
+      }catch(e){
+        document.documentElement.setAttribute('data-lang', 'en');
+        document.documentElement.setAttribute('lang', 'en');
+      }
+    })();
+  </script>
+
+  <title data-i18n="case.title">GitHire Case 01 · From one prompt to a production incident in 20 minutes</title>
+  <meta name="description" data-i18n-attr="content:case.meta.description" content="A retro of a real production incident: 22 lines of AI-generated Redis SCAN + pipeline HGETALL, walked through the six-step GitHire workflow to find the step where it fell.">
+  <meta name="author" content="GitHire">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://realroc.github.io/git-hired/en/case-redis-scan.html">
+
+  <link rel="alternate" hreflang="zh-CN" href="https://realroc.github.io/git-hired/case-redis-scan.html">
+  <link rel="alternate" hreflang="en" href="https://realroc.github.io/git-hired/en/case-redis-scan.html">
+  <link rel="alternate" hreflang="x-default" href="https://realroc.github.io/git-hired/case-redis-scan.html">
+
+  <!-- ── Social cards · keep keys in sync with og-preview.html ─── -->
+  <meta property="og:site_name" content="GitHire">
+  <meta property="og:type" content="article">
+  <meta property="og:title" data-i18n-attr="content:case.title" content="GitHire Case 01 · From one prompt to a production incident in 20 minutes">
+  <meta property="og:description" data-i18n-attr="content:case.og.description" content="22 lines of AI-generated SCAN+HGETALL crashed production Redis. Walk the 6-step workflow back through prompt, commit, incident, fix, rewrite.">
+  <meta property="og:url" content="https://realroc.github.io/git-hired/en/case-redis-scan.html">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:image" content="https://realroc.github.io/git-hired/og-case-redis-scan.en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" data-i18n-attr="content:case.og.image_alt" content="GitHire Case 01 · 22 lines of SCAN, 20 minutes to incident · timeline 10:19 prompt → 23:54 503">
+  <meta property="article:published_time" content="2026-05-18T10:00:00+08:00">
+  <meta property="article:modified_time" content="2026-05-19T00:00:00+08:00">
+  <meta property="article:author" content="https://realroc.github.io/git-hired/">
+  <meta property="article:section" content="Engineering case study">
+  <meta property="article:tag" content="AI-native engineering">
+  <meta property="article:tag" content="Prompt engineering">
+  <meta property="article:tag" content="Redis">
+  <meta property="article:tag" content="Production incident">
+  <meta property="article:tag" content="Architect review">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" data-i18n-attr="content:case.title" content="GitHire Case 01 · From one prompt to a production incident in 20 minutes">
+  <meta name="twitter:description" data-i18n-attr="content:case.og.description" content="22 lines of AI-generated SCAN+HGETALL crashed production Redis. Walk the 6-step workflow back through prompt, commit, incident, fix, rewrite.">
+  <meta name="twitter:image" content="https://realroc.github.io/git-hired/og-case-redis-scan.en.png">
+  <meta name="twitter:image:alt" data-i18n-attr="content:case.og.image_alt" content="GitHire Case 01 · 22 lines of SCAN, 20 minutes to incident · timeline 10:19 prompt → 23:54 503">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&amp;family=Noto+Serif+SC:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="../githire.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "additionalType": "https://schema.org/TechArticle",
+    "headline": "GitHire Case 01 · From one prompt to a production incident in 20 minutes",
+    "url": "https://realroc.github.io/git-hired/en/case-redis-scan.html",
+    "mainEntityOfPage": "https://realroc.github.io/git-hired/en/case-redis-scan.html",
+    "inLanguage": "en",
+    "datePublished": "2026-05-18",
+    "dateModified": "2026-05-19",
+    "description": "A retro of a production incident caused by AI-generated Redis SCAN+HGETALL — walked along the six-step GitHire workflow through prompt, generation, review, ship, and fix.",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://realroc.github.io/git-hired/og-case-redis-scan.en.png",
+      "width": 1200,
+      "height": 630
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "GitHire",
+      "url": "https://realroc.github.io/git-hired/en/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "GitHire",
+      "url": "https://realroc.github.io/git-hired/en/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://realroc.github.io/git-hired/logo.svg"
+      }
+    },
+    "about": [
+      "AI-native engineering",
+      "Prompt engineering",
+      "Redis",
+      "Production incident",
+      "Architect review"
+    ],
+    "isBasedOn": "https://realroc.github.io/git-hired/en/"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "GitHire", "item": "https://realroc.github.io/git-hired/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Cases", "item": "https://realroc.github.io/git-hired/en/case-redis-scan.html" }
+    ]
+  }
+  </script>
+</head>
+
+<body class="case-page">
+  <a class="skip" href="#main" data-i18n="common.skip">Skip to main content</a>
+
+  <header class="topnav">
+    <a class="brand" href="index.html#top" aria-label="GitHire">
+      <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true">
+        <g stroke="#181818" stroke-width="1.4" stroke-linecap="round" fill="none">
+          <line x1="6" y1="14" x2="6" y2="22"></line>
+          <line x1="9" y1="11" x2="9" y2="22"></line>
+          <line x1="12" y1="9" x2="12" y2="22"></line>
+          <line x1="15" y1="12" x2="15" y2="22"></line>
+          <line x1="21" y1="13" x2="21" y2="22"></line>
+          <line x1="24" y1="10" x2="24" y2="22"></line>
+          <line x1="27" y1="12" x2="27" y2="22"></line>
+          <line x1="30" y1="14" x2="30" y2="22"></line>
+        </g>
+        <line x1="18" y1="7" x2="18" y2="22" stroke="#D97757" stroke-width="1.6" stroke-linecap="round"></line>
+        <g fill="#181818">
+          <rect x="6" y="25" width="1.4" height="5"></rect>
+          <rect x="9" y="25" width="0.8" height="5"></rect>
+          <rect x="11.5" y="25" width="2" height="5"></rect>
+          <rect x="15" y="25" width="0.8" height="5"></rect>
+          <rect x="17" y="25" width="1.6" height="5"></rect>
+          <rect x="20" y="25" width="0.8" height="5"></rect>
+          <rect x="22" y="25" width="2" height="5"></rect>
+          <rect x="25.5" y="25" width="1" height="5"></rect>
+          <rect x="27.5" y="25" width="1.8" height="5"></rect>
+        </g>
+      </svg>
+      <span class="brand-name">GitHire</span>
+    </a>
+
+    <nav class="topnav-actions" aria-label="Main navigation" data-i18n-attr="aria-label:common.nav_aria">
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label:common.lang_aria" aria-label="Switch language">
+        <button type="button" data-lang-btn="zh" aria-pressed="false" data-i18n="common.lang_zh">中</button>
+        <button type="button" data-lang-btn="en" aria-pressed="true" data-i18n="common.lang_en" class="is-active">EN</button>
+      </div>
+      <a class="btn-primary" href="mailto:wuyupeng@floatmiracle.com" data-i18n="common.lets_talk">Let's talk</a>
+      <button type="button" class="btn-ghost" id="navMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="navMenu" data-i18n="common.menu">Menu</button>
+      <div class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <a href="index.html#top" role="menuitem" data-i18n="common.nav.intro">Intro</a>
+        <a href="index.html#workflow" role="menuitem" data-i18n="common.nav.workflow">Workflow</a>
+        <a href="index.html#rituals" role="menuitem" data-i18n="common.nav.rituals">Rituals</a>
+        <a href="index.html#faq" role="menuitem" data-i18n="common.nav.faq">FAQ</a>
+        <a href="blog.html" role="menuitem" aria-current="page" data-i18n="common.nav.blog">Blog</a>
+        <a href="skill.html" role="menuitem" data-i18n="common.nav.skill">Skill</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" class="case-main">
+
+    <!-- ── HERO ───────────────────────────────────────────── -->
+    <section class="scene-section case-hero" aria-labelledby="case-title">
+      <div class="wrap">
+        <p class="meta" data-i18n="case.hero.kicker">Case 01 · Real production incident · <time datetime="2026-05-18">2026-05</time></p>
+        <h1 class="case-title" id="case-title" data-i18n="case.hero.title">From one <em>prompt</em><br>
+          to a production incident,<br>
+          in just <em>20 minutes</em><span class="period">.</span></h1>
+        <p class="case-lede" data-i18n="case.hero.lede">22 lines of code, written by AI, passing local tests, merged to main, deployed to production — and pushing Redis to 503.
+          This is a retro of that real incident, walked along the GitHire six-step workflow to find which step was skipped —
+          and that is the step where the incident was buried.</p>
+
+        <ol class="case-timeline" aria-label="Incident timeline" data-i18n-attr="aria-label:case.tl.aria">
+          <li>
+            <span class="t">10:19</span>
+            <span class="e" data-i18n="case.tl.t1_e">User submits the prompt</span>
+          </li>
+          <li>
+            <span class="t">10:24</span>
+            <span class="e" data-i18n="case.tl.t2_e">AI writes SCAN+HGETALL</span>
+          </li>
+          <li>
+            <span class="t">10:39</span>
+            <span class="e" data-i18n="case.tl.t3_e">Commit · opens PR</span>
+          </li>
+          <li>
+            <span class="t">21:35</span>
+            <span class="e" data-i18n="case.tl.t4_e">PR merged · deployed</span>
+          </li>
+          <li class="is-hot">
+            <span class="t">23:54</span>
+            <span class="e" data-i18n="case.tl.t5_e">Production incident · first firefight</span>
+          </li>
+          <li>
+            <span class="t" data-i18n="case.tl.t6_t">+1d 11:34</span>
+            <span class="e" data-i18n="case.tl.t6_e">Redis SET fully replaces SCAN</span>
+          </li>
+        </ol>
+
+        <p class="case-meta" data-i18n="case.hero.meta"><span>Incident code: 22 lines</span>
+          <span>· Firefight commits: 5</span>
+          <span>· Time to full fix: 25 hours</span></p>
+      </div>
+    </section>
+
+    <!-- ── METHODOLOGY · 为什么有六步 ─────────────────────── -->
+    <section class="scene-section case-method" aria-labelledby="case-method-title">
+      <div class="wrap">
+        <p class="meta" data-i18n="case.method.kicker">Why the workflow exists · Method</p>
+        <h2 id="case-method-title" data-i18n="case.method.title">The speed at which AI writes code<br>
+          has long outrun the speed humans <em>review</em> it<span class="period">.</span></h2>
+        <div class="case-method-grid">
+          <p class="case-body" data-i18n="case.method.p1">The old engineering paradigm assumed 'humans write code, AI assists,' so review was the last step in the sequence —
+            humans write → tests → review. In the AI-native era that line is reversed:
+            <em>AI writes, humans review; humans frame, AI executes</em>.</p>
+          <p class="case-body" data-i18n="case.method.p2"><strong>The six-step workflow is not guardrails for AI — it is decision points for humans.</strong>
+            The Issue is the framing decision; architect review is the direction decision;
+            sandbox and AI review are two more 'still time to back out' decisions.
+            The moment a decision point becomes ceremonial, AI's speed turns into the speed of incidents.</p>
+        </div>
+        <p class="case-hint" data-i18n="case.method.hint">The case below is walked through all six steps:<br>
+          <em>what each step should be in the ideal, versus what it actually was on the day.</em></p>
+        <a class="case-anchor" href="index.html#workflow" data-i18n="case.method.cta">See the full workflow first ↗</a>
+      </div>
+    </section>
+
+    <!-- ── STEP 01 · Issue ────────────────────────────────── -->
+    <article class="scene-section case-step" data-step="01" aria-labelledby="step01-title">
+      <div class="wrap">
+        <header class="case-step-head">
+          <p class="case-counter" data-i18n="case.s01.counter"><span>STEP 01</span> ／ 06 · ISSUE</p>
+          <h2 id="step01-title" data-i18n="case.s01.title">Ideal: <em>spell out 'whom you are solving what for'</em><br>
+            Actual: <em>one line in a chat box</em><span class="period">.</span></h2>
+        </header>
+
+        <div class="case-step-body">
+          <figure class="case-prompt">
+            <figcaption class="meta" data-i18n="case.s01.prompt_caption">Real prompt · 2026-05-14 10:19 +0800 · Codex CLI · gpt-5.5</figcaption>
+            <blockquote data-i18n="case.s01.prompt"><p>Right now the domestic-model check is done by prefix matching. I want to turn it into a field on model detail — I think there was already a <code>made_in_china</code> field.</p>
+              <p>We should use that field and make it more flexible and configurable. In CI we should also run search checks separately for the China site and the global site, to make sure:</p>
+              <ol>
+                <li>China site: the corresponding search endpoint only returns models that are made_in_china.</li>
+                <li>Global site: no restriction, returns normally.</li>
+              </ol>
+              <p>It is suggested to add a small E2E step in smoke tests to cover this.</p></blockquote>
+          </figure>
+
+          <aside class="case-note">
+            <p class="meta" data-i18n="case.s01.note_kicker">From the AI's point of view this prompt is a blank check</p>
+            <ul class="case-missing">
+              <li data-i18n="case.s01.miss1"><strong>No call frequency:</strong> is this check run once on startup, once per request, or by a background job?</li>
+              <li data-i18n="case.s01.miss2"><strong>No data scale:</strong> how many <code>model_detail::*</code> exist today, and how large will it grow?</li>
+              <li data-i18n="case.s01.miss3"><strong>No non-goals:</strong> nothing says "don't scan the whole keyspace" or "don't hit Redis on every request".</li>
+              <li data-i18n="case.s01.miss4"><strong>No verification standard:</strong> "smoke passes" is not enough — smoke does not test live QPS.</li>
+            </ul>
+            <p class="case-note-tail" data-i18n="case.s01.note_tail"><em>Every blank in the spec is room for the AI to freelance.</em> That is not an AI problem — it is an issue-framing problem.</p>
+          </aside>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── STEP 02 · Sandbox ──────────────────────────────── -->
+    <article class="scene-section case-step" data-step="02" aria-labelledby="step02-title">
+      <div class="wrap">
+        <header class="case-step-head">
+          <p class="case-counter" data-i18n="case.s02.counter"><span>STEP 02</span> ／ 06 · SANDBOX</p>
+          <h2 id="step02-title" data-i18n="case.s02.title">Ideal: <em>a long-running sandbox with real data</em><br>
+            Actual: <em>local repo, pytest all green</em><span class="period">.</span></h2>
+        </header>
+        <div class="case-step-body case-step-body-narrow">
+          <p class="case-body" data-i18n="case.s02.p1">Codex edits files in the local repo and runs <code>pytest tests/test_site_mode.py -q</code>;
+            103 test cases all pass.
+            <em>But pytest is wired to fakeredis or an in-memory mock with only a handful of test rows.</em>
+            In real production <code>model_detail::*</code> has dozens to hundreds of keys,
+            and every user pings <code>/api/site/config</code> at front-end startup.</p>
+          <p class="case-body" data-i18n="case.s02.p2"><strong>The value of a sandbox is not "the environment runs"; it is "the environment looks like production".</strong>
+            Missing data scale, missing QPS, missing concurrency — drop one, and the implementation AI writes can fall over when the magnitude jumps.</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── STEP 03 · Execute ──────────────────────────────── -->
+    <article class="scene-section case-step" data-step="03" aria-labelledby="step03-title">
+      <div class="wrap">
+        <header class="case-step-head">
+          <p class="case-counter" data-i18n="case.s03.counter"><span>STEP 03</span> ／ 06 · EXECUTE</p>
+          <h2 id="step03-title" data-i18n="case.s03.title">Ideal: <em>AI completes the implementation inside the sandbox</em><br>
+            Actual: <em>five minutes in, 22 lines of patch are out</em><span class="period">.</span></h2>
+        </header>
+
+        <div class="case-step-body">
+          <figure class="case-code">
+            <figcaption class="meta" data-i18n="case.s03.code_caption">wowchat/site_config.py · generated by AI · 10:24:27</figcaption>
+            <pre><code><span class="cc">def</span> get_domestic_model_ids() -&gt; List[str]:
+    model_ids = []
+    cursor = 0
+    <span class="cc">while</span> True:
+        cursor, keys = r.<span class="ch">scan</span>(cursor, match=<span class="cs">'model_detail::*'</span>, count=200)
+        <span class="cc">if</span> keys:
+            pipe = r.pipeline()
+            <span class="cc">for</span> key <span class="cc">in</span> keys:
+                pipe.<span class="ch">hgetall</span>(key)
+            <span class="cc">for</span> key, detail <span class="cc">in</span> zip(keys, pipe.execute()):
+                <span class="cc">if not</span> is_made_in_china_model_detail(detail):
+                    <span class="cc">continue</span>
+                model_id = detail.get(<span class="cs">'engine'</span>) <span class="cc">or</span> key.split(<span class="cs">'::'</span>, 1)[1]
+                <span class="cc">if</span> model_id:
+                    model_ids.append(model_id)
+        <span class="cc">if</span> cursor == 0:
+            <span class="cc">break</span>
+    <span class="cc">return</span> sorted(set(model_ids))
+
+@router.get(<span class="cs">'/config'</span>)
+<span class="cc">async def</span> get_site_config(request: Request):
+    <span class="cc">return</span> ResponseWrapper(result=SiteConfigModel(
+        site_mode=resolve_site_mode(request),
+        domestic_model_ids=<span class="ch">get_domestic_model_ids()</span>,  <span class="cm" data-i18n="case.s03.code_comment"># ← runs on every request</span>
+    ))</code></pre>
+          </figure>
+
+          <aside class="case-note">
+            <p class="meta" data-i18n="case.s03.note_kicker">Three smells — the path AI chose for itself</p>
+            <ol class="case-missing">
+              <li data-i18n="case.s03.miss1"><strong>SCAN across the whole <code>model_detail::*</code></strong><br>
+                No index, no dedicated set — every call walks the entire keyspace.</li>
+              <li data-i18n="case.s03.miss2"><strong>N HGETALLs stuffed into one pipeline</strong><br>
+                A single pipeline looks "efficient", but N HGETALLs save round-trips, not CPU.</li>
+              <li data-i18n="case.s03.miss3"><strong>Mounted on <code>/api/site/config</code> — a high-frequency endpoint</strong><br>
+                Every front-end startup hits this; its QPS tracks the number of online users.</li>
+            </ol>
+            <p class="case-note-tail" data-i18n="case.s03.note_tail">Read in isolation, <em>this code is functionally correct</em>.
+              It blows up because no one told the AI about "call frequency" or "data scale".</p>
+          </aside>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── STEP 04 · AI Review ────────────────────────────── -->
+    <article class="scene-section case-step" data-step="04" aria-labelledby="step04-title">
+      <div class="wrap">
+        <header class="case-step-head">
+          <p class="case-counter" data-i18n="case.s04.counter"><span>STEP 04</span> ／ 06 · AI REVIEW</p>
+          <h2 id="step04-title" data-i18n="case.s04.title">Ideal: <em>a second AI reads the PR</em><br>
+            Actual: <em>this step did not happen</em><span class="period">.</span></h2>
+        </header>
+        <div class="case-step-body case-step-body-narrow">
+          <p class="case-body" data-i18n="case.s04.p1">From prompt to commit, the whole loop ran inside one Codex session;
+            no second agent ever read the diff.
+            <em>Local tests passing</em> became the only "go" signal.</p>
+          <p class="case-body" data-i18n="case.s04.p2">If there had been an independent review agent with a system prompt that included
+            <em>"Flag any new Redis SCAN / KEYS / HGETALL across full keyspace in request-path code"</em>,
+            this incident would most likely have been caught right here.</p>
+          <div class="case-callout">
+            <p class="meta" data-i18n="case.s04.callout_kicker">What AI review really is</p>
+            <p data-i18n="case.s04.callout">Not "re-run the tests" — but <em>reading the same code with a different set of priors</em>.
+            A review agent is meant to know performance patterns, security patterns, maintainability patterns,
+            complementary to the generating agent, not overlapping.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── STEP 05 · Architect · 关键一步 ─────────────────── -->
+    <article class="scene-section case-step case-step-key" data-step="05" aria-labelledby="step05-title">
+      <div class="wrap">
+        <header class="case-step-head">
+          <p class="case-counter" data-i18n="case.s05.counter"><span>STEP 05</span> ／ 06 · ARCHITECT <em>· the key step</em></p>
+          <h2 id="step05-title" data-i18n="case.s05.title">Ideal: <em>a human architect calls the direction</em><br>
+            Actual: <em>this step was skipped</em><span class="period">.</span></h2>
+        </header>
+        <div class="case-step-body">
+          <p class="case-body case-body-large" data-i18n="case.s05.p1">From prompt to commit, <em>20 minutes total</em>.<br>
+            At no point did someone who knows the system look up and ask:
+            "Every <code>/api/site/config</code> call scans all of <code>model_detail::*</code> — what does that mean?"</p>
+
+          <div class="case-arch-grid">
+            <div class="case-arch-card">
+              <p class="meta" data-i18n="case.s05.arch_kicker_q">Questions the architect should have asked</p>
+              <ol>
+                <li data-i18n="case.s05.arch_q1">How many calls per minute does this endpoint take?</li>
+                <li data-i18n="case.s05.arch_q2">How many <code>model_detail::*</code> keys today? Projected to how many?</li>
+                <li data-i18n="case.s05.arch_q3">Could we maintain a set of "domestic model ids" explicitly and avoid runtime scanning?</li>
+                <li data-i18n="case.s05.arch_q4">Is this change on a hot or cold path? Should it go through a cache?</li>
+                <li data-i18n="case.s05.arch_q5">If Redis jitters or slows, will this call drag the upstream API down with it?</li>
+              </ol>
+            </div>
+            <div class="case-arch-card">
+              <p class="meta" data-i18n="case.s05.arch_kicker_why">Why AI won’t ask these on its own</p>
+              <p data-i18n="case.s05.arch_why1">AI sees <em>the code context of the current repo</em> — it does not see production QPS,
+                it does not see Redis capacity curves, it does not see the pits this team has already fallen into.
+                <em>That is the "system-side context" only an architect has,</em>
+                which is exactly why this step has to be a human.</p>
+              <p data-i18n="case.s05.arch_why2">AI can write a correct implementation in 5 minutes; an architect only needs 30 seconds to recognise "wrong path".
+                <strong>Those 30 seconds are the most expensive time in the whole workflow.</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── STEP 06 · Production ───────────────────────────── -->
+    <article class="scene-section case-step" data-step="06" aria-labelledby="step06-title">
+      <div class="wrap">
+        <header class="case-step-head">
+          <p class="case-counter" data-i18n="case.s06.counter"><span>STEP 06</span> ／ 06 · PRODUCTION</p>
+          <h2 id="step06-title" data-i18n="case.s06.title">Ideal: <em>merge to main, ship cleanly</em><br>
+            Actual: <em>23:54 that night, production alerted</em><span class="period">.</span></h2>
+        </header>
+        <div class="case-step-body case-step-body-narrow">
+          <p class="case-body" data-i18n="case.s06.p1">About two hours after deploy, monitors started firing: <code>/api/site/config</code> p99 jumped into seconds,
+            Redis slow logs filled with <code>SCAN</code> and a flood of <code>HGETALL</code>,
+            CPU pinned, and every other Redis-backed endpoint was dragged down too.
+            <em>First paint stalled; new users could not get in.</em></p>
+          <p class="case-body" data-i18n="case.s06.p2">At the moment of ship, <em>no one thought anything was wrong</em> —
+            CI was all green, the PR description was clear, the AI-written code "looked tidy".
+            That is the signature of this kind of incident: it passes every traditional gate.</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── FIX CHAIN ──────────────────────────────────────── -->
+    <section class="scene-section case-fixes" aria-labelledby="fix-title">
+      <div class="wrap">
+        <p class="meta" data-i18n="case.fix.kicker">Fix chain · 5 commits · 25 hours</p>
+        <h2 id="fix-title" data-i18n="case.fix.title">No single shot lands the fix —<br>
+          it is a chain of <em>not-quite-cures</em><span class="period">.</span></h2>
+
+        <ol class="case-fix-list">
+          <li>
+            <p class="case-fix-time" data-i18n="case.fix.t1.time">Incident +5 min</p>
+            <h3 data-i18n="case.fix.t1.h">Cache the result + move SCAN to a threadpool</h3>
+            <p data-i18n="case.fix.t1.p">First reflex: keep SCAN off the main thread. <em>The problem is postponed, not solved</em> — the moment the cache expires, things spike again.</p>
+          </li>
+          <li>
+            <p class="case-fix-time" data-i18n="case.fix.t2.time">+30 min</p>
+            <h3 data-i18n="case.fix.t2.h">Switch to in-memory cache + 60s background refresh</h3>
+            <p data-i18n="case.fix.t2.p">SCAN drops from "every request" to "every minute". <em>Blast radius shrinks</em>, but startup still slams it.</p>
+          </li>
+          <li>
+            <p class="case-fix-time" data-i18n="case.fix.t3.time">+90 min</p>
+            <h3 data-i18n="case.fix.t3.h">Drop background refresh · startup-only warmup</h3>
+            <p data-i18n="case.fix.t3.p">Concede that online refresh is risky; retreat to scanning once at startup. <em>But every restart still takes the hit.</em></p>
+          </li>
+          <li>
+            <p class="case-fix-time" data-i18n="case.fix.t4.time">+6 hours</p>
+            <h3 data-i18n="case.fix.t4.h">Restore the handler · fix the caching contract</h3>
+            <p data-i18n="case.fix.t4.p">Fix the endpoint behaviour so the fallback path does not introduce new bugs.</p>
+          </li>
+          <li class="is-final">
+            <p class="case-fix-time" data-i18n="case.fix.t5.time">+25 hours</p>
+            <h3 data-i18n="case.fix.t5.h">Maintain domestic ids in a Redis <em>SET</em></h3>
+            <p data-i18n="case.fix.t5.p"><em>This is the cure</em>: write into an explicit set when models go up or down,
+              and read with <code>SMEMBERS</code> — dropping from an O(N) scan to an O(1) lookup.
+              The SCAN path is removed from production code entirely.</p>
+          </li>
+        </ol>
+
+        <p class="case-fix-tail" data-i18n="case.fix.tail">Each firefight "looked a little better than the last," but the full cure took 25 hours.
+          <em>Thirty extra seconds from the architect at Step 05 would have erased these 25 hours.</em></p>
+      </div>
+    </section>
+
+    <!-- ── REWRITE · 同一条需求的好 prompt ──────────────── -->
+    <section class="scene-section case-rewrite" aria-labelledby="rewrite-title">
+      <div class="wrap">
+        <p class="meta" data-i18n="case.rew.kicker">Rewrite · same spec</p>
+        <h2 id="rewrite-title" data-i18n="case.rew.title">What an architect-readable <em>Issue</em><br>
+          actually looks like<span class="period">.</span></h2>
+
+        <div class="case-prompt-diff">
+          <article class="case-prompt-col is-bad">
+            <p class="meta" data-i18n="case.rew.bad_meta">Original prompt · four things missing</p>
+            <h3 data-i18n="case.rew.bad_label">BAD</h3>
+            <div class="case-prompt-text" data-i18n="case.rew.bad_text"><p>Right now the domestic-model check is done by prefix matching. I want to turn it into a field on model detail…</p>
+              <p>Run search checks separately for the China site and the global site…</p>
+              <p>Suggest adding an E2E step in smoke tests.</p></div>
+            <ul class="case-prompt-tags">
+              <li data-i18n="case.rew.bad_tag1">✗ Constraints</li>
+              <li data-i18n="case.rew.bad_tag2">✗ Non-goals</li>
+              <li data-i18n="case.rew.bad_tag3">✗ Verification</li>
+              <li data-i18n="case.rew.bad_tag4">✗ Architecture notes</li>
+            </ul>
+          </article>
+
+          <article class="case-prompt-col is-good">
+            <p class="meta" data-i18n="case.rew.good_meta">Same spec · rewritten</p>
+            <h3 data-i18n="case.rew.good_label">GOOD</h3>
+            <div class="case-prompt-text" data-i18n="case.rew.good_text"><p><strong>Goal</strong>　Move the "domestic model" check from engine-prefix matching to a <code>model_detail.made_in_china</code> field — so adding or removing a model is a one-field change.</p>
+              <p><strong>Constraints</strong>　<em><code>/api/site/config</code> is a high-frequency endpoint; every user hits it on front-end startup.</em> Scanning the Redis keyspace per request is not allowed. <code>model_detail</code> is ~80 entries today, projected to grow to ~500.</p>
+              <p><strong>Non-goals</strong>　Do not implement via SCAN / KEYS. Do not run O(N) work on the request path. This change does not touch the front-end cache strategy.</p>
+              <p><strong>Architecture notes</strong>　Maintain an explicit Redis SET (e.g. <code>domestic_model_ids</code>); write on add/remove; reads are O(1).</p>
+              <p><strong>Verification</strong>　China site search only returns <code>made_in_china=1</code>; global site unchanged; live <code>/api/site/config</code> p99 does not increase; smoke gets a new E2E assertion.</p></div>
+            <ul class="case-prompt-tags">
+              <li data-i18n="case.rew.good_tag1">✓ Constraints</li>
+              <li data-i18n="case.rew.good_tag2">✓ Non-goals</li>
+              <li data-i18n="case.rew.good_tag3">✓ Verification</li>
+              <li data-i18n="case.rew.good_tag4">✓ Architecture notes</li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="case-rewrite-tail" data-i18n="case.rew.tail">The right-hand version is about 150 words longer. <em>Those 150 words buy back 25 hours of firefighting and one production incident.</em></p>
+        <p class="case-rewrite-cta">
+          <a href="https://github.com/realRoc/skills/tree/main/skills/prompt-spec" target="_blank" rel="noopener" data-i18n="case.rew.cta">Install the six-section template as the Prompt Spec Skill ↗</a>
+          <span class="case-rewrite-cta-note" data-i18n="case.rew.cta_note">— Read SKILL.md directly, or <code>npx skills add realRoc/skills --skill prompt-spec</code></span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ── LESSONS + CTA ──────────────────────────────────── -->
+    <section class="scene-section case-closer" aria-labelledby="closer-title">
+      <div class="wrap">
+        <p class="meta" data-i18n="case.lessons.kicker">Takeaways</p>
+        <h2 id="closer-title" data-i18n="case.lessons.title">This case teaches three things<span class="period">.</span></h2>
+
+        <ol class="case-lessons">
+          <li>
+            <h3 data-i18n="case.lessons.l1.h">AI coding speed forces review upstream.</h3>
+            <p data-i18n="case.lessons.l1.p">From prompt to prod-bound commit took 20 minutes. By the time "PR review" sees the problem, it is already too late — the real review happens at the prompt stage, done by issue framing.</p>
+          </li>
+          <li>
+            <h3 data-i18n="case.lessons.l2.h">A prompt without constraints / non-goals is a blank check.</h3>
+            <p data-i18n="case.lessons.l2.p">AI will not ask itself "what is the call frequency" or "how large is the data". Those numbers have to be put in the Issue by a human. <em>Every blank in the spec is an entry point for the next incident.</em></p>
+          </li>
+          <li>
+            <h3 data-i18n="case.lessons.l3.h">Architect review is the most expensive 30 seconds in the workflow.</h3>
+            <p data-i18n="case.lessons.l3.p">AI writes code in 5 minutes; the architect needs 30 seconds to recognise "wrong path". This step has to be a human — only humans have the system-side context (QPS curves, past incidents, capacity plans).</p>
+          </li>
+        </ol>
+
+        <div class="case-cta">
+          <a class="btn-primary" href="index.html#workflow" data-i18n="case.cta.workflow">Back to the full workflow</a>
+          <a class="case-anchor" href="skill.html" data-i18n="case.cta.skill">Install this method as a Skill</a>
+          <a class="case-anchor" href="https://github.com/realRoc/skills" target="_blank" rel="noopener" data-i18n="case.cta.repo">realRoc/skills ↗</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <p data-i18n="case.foot.tagline">© <span id="year">2026</span> GitHire · Real cases from AI-native teams</p>
+      <p class="repo"><a href="https://github.com/realRoc/git-hired" target="_blank" rel="noopener">github.com/realRoc/git-hired</a></p>
+      <p class="home"><a href="index.html" data-i18n="common.foot.home">Back to GitHire</a></p>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var btn = document.getElementById('navMenuBtn');
+      var menu = document.getElementById('navMenu');
+      if(!btn || !menu) return;
+      function setOpen(open){
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+        menu.classList.toggle('is-open', open);
+      }
+      btn.addEventListener('click', function(){ setOpen(btn.getAttribute('aria-expanded') !== 'true'); });
+      menu.addEventListener('click', function(event){ if(event.target.closest('a')) setOpen(false); });
+      document.addEventListener('click', function(event){
+        if(menu.contains(event.target) || btn.contains(event.target)) return;
+        setOpen(false);
+      });
+      document.addEventListener('keydown', function(event){ if(event.key === 'Escape') setOpen(false); });
+    })();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script defer="" src="../i18n.js"></script>
+
+
+</body></html>

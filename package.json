@@ -1,0 +1,13 @@
+{
+  "name": "git-hired-build",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Build tooling for the GitHire static site (English mirror generator).",
+  "type": "module",
+  "scripts": {
+    "build:en": "node scripts/build-en.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.1"
+  }
+}
