@@ -215,6 +215,7 @@ const ROOT_ASSETS = new Set([
   'githire-scroll.js',
   'githire-analytics.js',
   'i18n.js',
+  'game.html',
 ]);
 
 function rewriteRelativeAssets(doc) {
