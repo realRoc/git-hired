@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F6F1E8" />
-  <title>PokeHire · GitHire 知识挑战</title>
-  <meta name="description" content="七场 AI-native 工程对决：击败七种工程反模式怪物，掌握 GitHire 方法论。人指挥 AI 干活，不是 AI 辅助人。" />
-  <meta property="og:title" content="PokeHire · GitHire 知识挑战" />
-  <meta property="og:description" content="七种 AI-native 工程反模式化身怪物。答对驱散它们，答错失去 HP——HP 归零，生产 503。" />
+  <title>PokeHire · GitHire 知识冒险</title>
+  <meta name="description" content="一张 AI-native 工程地图：用 WASD 或方向键移动，走遍六步 workflow，迎战七种工程反模式怪物。人指挥 AI 干活，不是 AI 辅助人。" />
+  <meta property="og:title" content="PokeHire · GitHire 知识冒险" />
+  <meta property="og:description" content="探索 AI-native 工程地图，迎战七种反模式怪物——答对驱散它们，答错失去 HP，HP 归零生产 503。" />
   <meta property="og:url" content="https://realroc.github.io/git-hired/game.html" />
   <meta property="og:type" content="website" />
 
@@ -17,490 +17,171 @@
   <link rel="stylesheet" href="githire.css" />
 
   <style>
-    /* ── Game page overrides ─────────────────────────────── */
     #stage { display: none; }
     main, .topnav, .site-foot { position: relative; z-index: 1; }
     body { background: var(--paper); }
 
-    /* ── Layout ──────────────────────────────────────────── */
-    .game-wrap {
-      padding-top: 72px; /* topnav height */
-      min-height: 100vh;
-    }
+    .game-wrap { padding-top: 64px; min-height: 100vh; }
 
-    /* ── Title screen ────────────────────────────────────── */
-    .s-title {
-      min-height: calc(100vh - 72px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    /* ── shared centered screen ──────────────────────────── */
+    .screen-center {
+      min-height: calc(100vh - 64px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
       text-align: center;
       padding: 2rem clamp(20px, 6vw, 80px);
     }
-    .title-eyebrow {
-      font-style: italic;
-      font-size: 0.8rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--ink-mute);
-      margin: 0 0 0.75rem;
-    }
-    .title-logo {
-      font-size: clamp(3.5rem, 12vw, 7rem);
-      font-weight: 600;
-      line-height: 0.85;
-      letter-spacing: -0.025em;
-      margin: 0 0 0.4rem;
-      color: var(--ink);
-    }
+
+    /* ── title ───────────────────────────────────────────── */
+    .title-eyebrow { font-style: italic; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-mute); margin: 0 0 .7rem; }
+    .title-logo { font-size: clamp(3.2rem, 12vw, 6.5rem); font-weight: 600; line-height: .85; letter-spacing: -.025em; margin: 0 0 .4rem; }
     .title-logo em { color: var(--accent); font-style: normal; }
-    .title-tagline {
-      font-style: italic;
-      color: var(--ink-soft);
-      font-size: 1.05rem;
-      margin: 0 0 1.75rem;
-    }
-    .monster-row {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: clamp(0.4rem, 2vw, 0.9rem);
-      font-size: clamp(2rem, 5vw, 3rem);
-      margin: 0 0 2rem;
-    }
-    .monster-row span {
-      display: inline-block;
-      animation: m-bob 2.4s ease-in-out infinite;
-      cursor: default;
-    }
-    .monster-row span:nth-child(2) { animation-delay:.35s }
-    .monster-row span:nth-child(3) { animation-delay:.7s }
-    .monster-row span:nth-child(4) { animation-delay:1.05s }
-    .monster-row span:nth-child(5) { animation-delay:1.4s }
-    .monster-row span:nth-child(6) { animation-delay:1.75s }
-    .monster-row span:nth-child(7) { animation-delay:2.1s }
-    @keyframes m-bob {
-      0%,100% { transform: translateY(0) }
-      50% { transform: translateY(-10px) }
-    }
-    .title-desc {
-      font-style: italic;
-      color: var(--ink-soft);
-      font-size: 0.9rem;
-      line-height: 1.8;
-      max-width: 400px;
-      margin: 0 0 2.25rem;
-    }
-    .title-hint {
-      margin-top: 1.25rem;
-      font-size: 0.75rem;
-      color: var(--ink-mute);
-      font-style: italic;
-    }
+    .title-tagline { font-style: italic; color: var(--ink-soft); font-size: 1.05rem; margin: 0 0 1.6rem; }
+    .monster-row { display: flex; justify-content: center; flex-wrap: wrap; gap: clamp(.4rem, 2vw, .9rem); font-size: clamp(1.9rem, 5vw, 2.8rem); margin: 0 0 1.8rem; }
+    .monster-row span { display: inline-block; animation: bob 2.4s ease-in-out infinite; }
+    .monster-row span:nth-child(2){animation-delay:.3s}
+    .monster-row span:nth-child(3){animation-delay:.6s}
+    .monster-row span:nth-child(4){animation-delay:.9s}
+    .monster-row span:nth-child(5){animation-delay:1.2s}
+    .monster-row span:nth-child(6){animation-delay:1.5s}
+    .monster-row span:nth-child(7){animation-delay:1.8s}
+    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+    .title-desc { font-style: italic; color: var(--ink-soft); font-size: .9rem; line-height: 1.85; max-width: 430px; margin: 0 0 2rem; }
+    .title-hint { margin-top: 1.1rem; font-size: .75rem; color: var(--ink-mute); font-style: italic; }
+    .kbd { display:inline-block; border:1px solid var(--line); border-bottom-width:2px; border-radius:5px; padding:.05rem .4rem; font-size:.8rem; font-style:normal; background:#fff; margin:0 .1rem; }
 
-    /* ── Monster intro screen ────────────────────────────── */
-    .s-intro {
-      min-height: calc(100vh - 72px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem clamp(20px, 6vw, 80px);
-    }
-    .intro-breadcrumb {
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      font-style: italic;
-      color: var(--ink-mute);
-      text-transform: uppercase;
-      margin: 0 0 2rem;
-    }
-    .intro-emoji {
-      font-size: clamp(4rem, 15vw, 7rem);
-      line-height: 1;
-      display: block;
-      margin: 0 0 1rem;
-      animation: m-enter .6s cubic-bezier(.34,1.56,.64,1) both;
-    }
-    @keyframes m-enter {
-      from { transform: scale(0.2) rotate(-15deg); opacity: 0; filter: blur(6px); }
-      to   { transform: scale(1) rotate(0); opacity: 1; filter: blur(0); }
-    }
-    .intro-zone-tag {
-      display: inline-block;
-      padding: .2rem .65rem;
-      border-radius: 4px;
-      color: #fff;
-      font-size: 0.7rem;
-      font-style: italic;
-      letter-spacing: .06em;
-      margin: 0 0 .75rem;
-      background: var(--mc, var(--accent));
-    }
-    .intro-name {
-      font-size: clamp(1.6rem, 5vw, 2.5rem);
-      font-weight: 600;
-      color: var(--mc, var(--ink));
-      margin: 0 0 1rem;
-    }
-    .intro-flavor {
-      font-style: italic;
-      color: var(--ink-soft);
-      line-height: 1.75;
-      max-width: 480px;
-      font-size: 0.95rem;
-      margin: 0 0 2.25rem;
-    }
+    /* ── map screen ──────────────────────────────────────── */
+    .map-screen { max-width: 880px; margin: 0 auto; padding: 1rem clamp(12px, 3vw, 40px) 2.5rem; }
 
-    /* ── Battle screen ───────────────────────────────────── */
-    .s-battle {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 1.5rem clamp(16px, 4vw, 48px) 4rem;
+    .hud {
+      display: flex; align-items: center; gap: .7rem;
+      background: var(--ink); color: var(--paper);
+      border-radius: 10px; padding: .6rem 1rem; margin-bottom: .75rem; flex-wrap: wrap;
     }
+    .hud-label { font-style: italic; font-size: .78rem; opacity: .6; white-space: nowrap; }
+    .hud-track { flex: 1; min-width: 80px; height: 9px; background: rgba(255,255,255,.15); border-radius: 5px; overflow: hidden; }
+    .hud-fill { height: 100%; border-radius: 5px; transition: width .5s ease, background .5s ease; }
+    .hud-val { font-style: italic; font-size: .78rem; opacity: .85; white-space: nowrap; }
+    .hud-chip { background: var(--accent); color:#fff; padding:.18rem .65rem; border-radius:999px; font-style:italic; font-size:.78rem; white-space:nowrap; }
+    .hud-prog { background: rgba(255,255,255,.12); color: var(--paper); padding:.18rem .65rem; border-radius:999px; font-style:italic; font-size:.78rem; white-space:nowrap; }
 
-    /* Player bar */
-    .player-bar {
-      display: flex;
-      align-items: center;
-      gap: .75rem;
-      background: var(--ink);
-      color: var(--paper);
-      border-radius: 10px;
-      padding: .7rem 1.1rem;
-      margin-bottom: 1.1rem;
-      flex-wrap: wrap;
+    .map-stage { position: relative; }
+    canvas#map {
+      display: block; width: 100%; height: auto;
+      border: 2px solid var(--ink); border-radius: 12px;
+      background: var(--paper-2);
+      image-rendering: auto;
+      touch-action: none;
     }
-    .bar-label {
-      font-style: italic;
-      font-size: .8rem;
-      opacity: .65;
-      white-space: nowrap;
+    .map-banner {
+      position: absolute; left: 50%; top: 14px; transform: translateX(-50%);
+      background: rgba(24,24,24,.88); color: var(--paper);
+      padding: .5rem 1rem; border-radius: 8px; font-style: italic; font-size: .85rem;
+      pointer-events: none; max-width: 90%; text-align: center;
+      transition: opacity .4s ease; line-height: 1.4;
     }
-    .bar-track {
-      flex: 1;
-      min-width: 80px;
-      height: 9px;
-      background: rgba(255,255,255,.15);
-      border-radius: 5px;
-      overflow: hidden;
+    .map-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; margin-top: .8rem; flex-wrap: wrap;
     }
-    .bar-fill {
-      height: 100%;
-      border-radius: 5px;
-      transition: width .55s ease, background .55s ease;
-    }
-    .bar-val {
-      font-style: italic;
-      font-size: .8rem;
-      opacity: .85;
-      white-space: nowrap;
-    }
-    .score-chip {
-      margin-left: auto;
-      background: var(--accent);
-      color: #fff;
-      padding: .2rem .7rem;
-      border-radius: 999px;
-      font-style: italic;
-      font-size: .8rem;
-      white-space: nowrap;
-    }
+    .map-tip { font-style: italic; font-size: .8rem; color: var(--ink-mute); line-height: 1.5; }
 
-    /* Monster card */
-    .monster-card {
-      border: 2px solid var(--ink);
-      border-radius: 12px;
-      background: #fff;
-      padding: 1.25rem 1.4rem;
-      margin-bottom: 1.1rem;
-      position: relative;
-      overflow: hidden;
+    /* d-pad (mobile) */
+    .dpad { display: grid; grid-template-columns: repeat(3, 46px); grid-template-rows: repeat(3, 46px); gap: 5px; }
+    .dpad button {
+      border: 1.5px solid var(--ink); background: #fff; border-radius: 9px;
+      font-size: 1.2rem; cursor: pointer; color: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      -webkit-user-select: none; user-select: none; touch-action: manipulation;
+      transition: background .12s;
     }
-    .monster-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: var(--mc, var(--accent));
-    }
-    .mc-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: .75rem;
-    }
-    .mc-emoji {
-      font-size: clamp(2.5rem, 7vw, 3.5rem);
-      line-height: 1;
-      flex-shrink: 0;
-      animation: mc-pulse 3s ease-in-out infinite;
-    }
-    @keyframes mc-pulse {
-      0%,100% { transform: scale(1) }
-      50% { transform: scale(1.06) }
-    }
-    .mc-meta { flex: 1; min-width: 0; }
-    .mc-name {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--mc, var(--ink));
-      margin: 0 0 .3rem;
-    }
-    .mc-zone {
-      display: inline-block;
-      padding: .15rem .5rem;
-      border-radius: 4px;
-      background: var(--mc, var(--accent));
-      color: #fff;
-      font-size: .68rem;
-      font-style: italic;
-      letter-spacing: .05em;
-    }
-    .mc-pips {
-      display: flex;
-      gap: 5px;
-      margin-top: .55rem;
-      align-items: center;
-    }
-    .pip {
-      width: 22px;
-      height: 10px;
-      border-radius: 3px;
-      border: 1.5px solid var(--mc, var(--accent));
-      transition: background .3s;
-    }
-    .pip.full  { background: var(--mc, var(--accent)); }
-    .pip.empty { background: transparent; }
-    .mc-pips-label {
-      font-size: .7rem;
-      font-style: italic;
-      color: var(--ink-mute);
-      margin-left: .25rem;
-    }
-    .mc-flavor {
-      font-style: italic;
-      font-size: .88rem;
-      color: var(--ink-soft);
-      border-top: 1px solid var(--line);
-      padding-top: .75rem;
-      line-height: 1.7;
-    }
+    .dpad button:active { background: var(--accent); color:#fff; }
+    .dpad .dp-up { grid-column: 2; grid-row: 1; }
+    .dpad .dp-left { grid-column: 1; grid-row: 2; }
+    .dpad .dp-down { grid-column: 2; grid-row: 3; }
+    .dpad .dp-right { grid-column: 3; grid-row: 2; }
+    .dpad .dp-mid { grid-column: 2; grid-row: 2; border-style: dashed; opacity:.35; cursor:default; }
+    .dpad .dp-mid:active { background:#fff; color:var(--ink); }
 
-    /* Question card */
-    .q-card {
-      border: 2px solid var(--ink);
-      border-radius: 12px;
-      background: #fff;
-      padding: 1.4rem;
-      margin-bottom: .9rem;
-    }
-    .q-meta {
-      font-size: .72rem;
-      font-style: italic;
-      letter-spacing: .09em;
-      color: var(--ink-mute);
-      text-transform: uppercase;
-      margin: 0 0 .9rem;
-    }
-    .q-text {
-      font-size: 1.05rem;
-      font-weight: 500;
-      line-height: 1.7;
-      color: var(--ink);
-      margin: 0 0 1.4rem;
-    }
-    .answers {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: .6rem;
-    }
-    @media (max-width: 520px) { .answers { grid-template-columns: 1fr; } }
-    .a-btn {
-      text-align: left;
-      padding: .75rem .95rem;
-      border: 1.5px solid var(--line);
-      border-radius: 8px;
-      background: var(--paper);
-      color: var(--ink);
-      font-size: .88rem;
-      line-height: 1.5;
-      cursor: pointer;
-      transition: border-color .15s, background .15s, color .15s;
-      font-family: var(--font-serif);
-    }
-    .a-btn:not(:disabled):hover {
-      border-color: var(--accent);
-      background: rgba(217,119,87,.07);
-    }
-    .a-btn .lbl {
-      font-weight: 600;
-      color: var(--accent);
-      margin-right: .25rem;
-    }
-    .a-btn.a-correct {
-      background: #e8f5e9;
-      border-color: #2d7d46;
-      color: #1b5e20;
-    }
-    .a-btn.a-wrong {
-      background: #ffebee;
-      border-color: #c0392b;
-      color: #b71c1c;
-    }
-    .a-btn.a-reveal {
-      background: #e8f5e9;
-      border-color: #2d7d46;
-      color: #1b5e20;
-    }
-    .a-btn:disabled { cursor: default; }
+    /* ── battle screen ───────────────────────────────────── */
+    .battle { max-width: 760px; margin: 0 auto; padding: 1.2rem clamp(14px, 4vw, 44px) 4rem; }
 
-    /* Battle log */
-    .battle-log {
-      font-style: italic;
-      font-size: .88rem;
-      color: var(--ink-soft);
-      padding: .7rem 1rem;
-      background: rgba(24,24,24,.04);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 6px 6px 0;
-      min-height: 2.4rem;
-      margin-bottom: .9rem;
-      line-height: 1.5;
-    }
+    .player-bar { display:flex; align-items:center; gap:.7rem; background:var(--ink); color:var(--paper); border-radius:10px; padding:.65rem 1.05rem; margin-bottom:1rem; flex-wrap:wrap; }
+    .pb-label { font-style:italic; font-size:.78rem; opacity:.6; white-space:nowrap; }
+    .pb-track { flex:1; min-width:80px; height:9px; background:rgba(255,255,255,.15); border-radius:5px; overflow:hidden; }
+    .pb-fill { height:100%; border-radius:5px; transition:width .55s ease, background .55s ease; }
+    .pb-val { font-style:italic; font-size:.78rem; opacity:.85; white-space:nowrap; }
+    .pb-chip { margin-left:auto; background:var(--accent); color:#fff; padding:.18rem .65rem; border-radius:999px; font-style:italic; font-size:.78rem; white-space:nowrap; }
 
-    /* Continue/action buttons */
-    .btn-continue {
-      display: block;
-      width: 100%;
-      padding: .9rem;
-      background: var(--ink);
-      color: var(--paper);
-      border: none;
-      border-radius: 8px;
-      font-family: var(--font-serif);
-      font-size: 1rem;
-      font-style: italic;
-      cursor: pointer;
-      transition: background .2s;
-    }
-    .btn-continue:hover { background: #000; }
+    .monster-card { border:2px solid var(--ink); border-radius:12px; background:#fff; padding:1.15rem 1.3rem; margin-bottom:1rem; position:relative; overflow:hidden; }
+    .monster-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--mc, var(--accent)); }
+    .mc-header { display:flex; align-items:flex-start; gap:1rem; margin-bottom:.7rem; }
+    .mc-emoji { font-size:clamp(2.4rem,7vw,3.3rem); line-height:1; flex-shrink:0; animation:pulse 3s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+    .mc-meta { flex:1; min-width:0; }
+    .mc-name { font-size:1.18rem; font-weight:600; color:var(--mc,var(--ink)); margin:0 0 .3rem; }
+    .mc-zone { display:inline-block; padding:.13rem .5rem; border-radius:4px; background:var(--mc,var(--accent)); color:#fff; font-size:.66rem; font-style:italic; letter-spacing:.04em; }
+    .mc-pips { display:flex; gap:5px; margin-top:.5rem; align-items:center; }
+    .pip { width:22px; height:10px; border-radius:3px; border:1.5px solid var(--mc,var(--accent)); }
+    .pip.full { background:var(--mc,var(--accent)); }
+    .pip.empty { background:transparent; }
+    .mc-pips-label { font-size:.7rem; font-style:italic; color:var(--ink-mute); margin-left:.25rem; }
+    .mc-flavor { font-style:italic; font-size:.86rem; color:var(--ink-soft); border-top:1px solid var(--line); padding-top:.7rem; line-height:1.7; }
 
-    /* ── Battle end card ─────────────────────────────────── */
-    .s-end {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 1.5rem clamp(16px, 4vw, 48px) 4rem;
-    }
-    .end-card {
-      border: 2px solid var(--ink);
-      border-radius: 12px;
-      background: #fff;
-      padding: 2rem;
-      text-align: center;
-      max-width: 560px;
-      margin: 0 auto;
-    }
-    .end-badge { font-size: 3.5rem; display: block; margin-bottom: .9rem; animation: m-bob 2s ease-in-out infinite; }
-    .end-title { font-size: 1.5rem; font-weight: 600; margin: 0 0 .4rem; }
-    .end-subtitle { font-style: italic; color: var(--ink-soft); font-size: .9rem; margin: 0 0 1.3rem; }
-    .end-result-pips { display: flex; justify-content: center; gap: .45rem; margin: 0 0 .9rem; }
-    .rp { width: 36px; height: 14px; border-radius: 4px; }
-    .rp.ok  { background: #2d7d46; }
-    .rp.bad { background: #c0392b; }
-    .end-learn {
-      display: inline-flex;
-      align-items: center;
-      gap: .3rem;
-      color: var(--accent);
-      font-style: italic;
-      text-decoration: none;
-      font-size: .88rem;
-      border-bottom: 1px solid transparent;
-      transition: border-color .2s;
-      margin-bottom: 1.4rem;
-    }
-    .end-learn:hover { border-bottom-color: var(--accent); }
-    .bonus-note { color: #2d7d46; font-style: italic; font-size: .85rem; margin: 0 0 .9rem; }
+    .q-card { border:2px solid var(--ink); border-radius:12px; background:#fff; padding:1.3rem; margin-bottom:.85rem; }
+    .q-meta { font-size:.72rem; font-style:italic; letter-spacing:.09em; color:var(--ink-mute); text-transform:uppercase; margin:0 0 .85rem; }
+    .q-text { font-size:1.04rem; font-weight:500; line-height:1.7; color:var(--ink); margin:0 0 1.3rem; }
+    .answers { display:grid; grid-template-columns:1fr 1fr; gap:.55rem; }
+    @media (max-width:520px){ .answers{ grid-template-columns:1fr; } }
+    .a-btn { text-align:left; padding:.72rem .9rem; border:1.5px solid var(--line); border-radius:8px; background:var(--paper); color:var(--ink); font-size:.88rem; line-height:1.5; cursor:pointer; transition:border-color .15s, background .15s, color .15s; font-family:var(--font-serif); }
+    .a-btn:not(:disabled):hover { border-color:var(--accent); background:rgba(217,119,87,.07); }
+    .a-btn .lbl { font-weight:600; color:var(--accent); margin-right:.25rem; }
+    .a-btn.a-reveal { background:#e8f5e9; border-color:#2d7d46; color:#1b5e20; }
+    .a-btn.a-wrong { background:#ffebee; border-color:#c0392b; color:#b71c1c; }
+    .a-btn:disabled { cursor:default; }
 
-    /* ── Final screens ───────────────────────────────────── */
-    .s-final {
-      min-height: calc(100vh - 72px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem clamp(20px, 6vw, 80px);
-    }
-    .final-icon { font-size: 5rem; display: block; margin-bottom: 1rem; }
-    .final-title { font-size: clamp(2rem, 7vw, 3.5rem); font-weight: 600; margin: 0 0 .5rem; }
-    .final-sub { font-style: italic; font-size: 1rem; color: var(--ink-soft); margin: 0 0 .5rem; }
-    .final-score { font-style: italic; color: var(--accent); font-size: 1.1rem; margin: 0 0 1.5rem; }
-    .final-body { font-style: italic; color: var(--ink-soft); font-size: .9rem; line-height: 1.8; max-width: 420px; margin: 0 0 2rem; }
-    .btn-row { display: flex; gap: .65rem; flex-wrap: wrap; justify-content: center; }
-    .g-btn {
-      padding: .75rem 1.75rem;
-      border-radius: 999px;
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: .95rem;
-      cursor: pointer;
-      transition: all .2s;
-      text-decoration: none;
-      display: inline-block;
-      border: 1px solid transparent;
-    }
-    .g-btn.solid { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-    .g-btn.solid:hover { background: #000; }
-    .g-btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
-    .g-btn.ghost:hover { background: rgba(24,24,24,.05); }
-    .final-links { margin-top: 2rem; font-size: .78rem; color: var(--ink-mute); font-style: italic; }
-    .final-links a { color: var(--accent); }
-    .share-ok { color: #2d7d46; font-style: italic; font-size: .85rem; margin-top: .6rem; display: none; }
+    .battle-log { font-style:italic; font-size:.88rem; color:var(--ink-soft); padding:.65rem 1rem; background:rgba(24,24,24,.04); border-left:3px solid var(--accent); border-radius:0 6px 6px 0; min-height:2.3rem; margin-bottom:.85rem; line-height:1.5; }
+    .exp-line { font-size:.8rem; font-style:italic; margin-bottom:.6rem; padding-left:.2rem; line-height:1.55; }
 
-    /* ── Animations ──────────────────────────────────────── */
-    @keyframes shake {
-      0%,100% { transform: translateX(0) }
-      15%,45%,75% { transform: translateX(-7px) }
-      30%,60%,90% { transform: translateX(7px) }
-    }
-    .do-shake { animation: shake .42s ease; }
+    .btn-continue { display:block; width:100%; padding:.85rem; background:var(--ink); color:var(--paper); border:none; border-radius:8px; font-family:var(--font-serif); font-size:1rem; font-style:italic; cursor:pointer; transition:background .2s; }
+    .btn-continue:hover { background:#000; }
 
-    @keyframes flash-ok {
-      0%   { background: #fff }
-      25%  { background: #e8f5e9 }
-      100% { background: #fff }
-    }
-    @keyframes flash-err {
-      0%   { background: #fff }
-      25%  { background: #ffebee }
-      100% { background: #fff }
-    }
-    .flash-ok  { animation: flash-ok  .45s ease; }
-    .flash-err { animation: flash-err .45s ease; }
+    /* battle end card */
+    .end-card { border:2px solid var(--ink); border-radius:12px; background:#fff; padding:1.8rem; text-align:center; max-width:540px; margin:0 auto; }
+    .end-badge { font-size:3.2rem; display:block; margin-bottom:.8rem; animation:bob 2s ease-in-out infinite; }
+    .end-title { font-size:1.45rem; font-weight:600; margin:0 0 .4rem; }
+    .end-subtitle { font-style:italic; color:var(--ink-soft); font-size:.9rem; margin:0 0 1.2rem; }
+    .end-pips { display:flex; justify-content:center; gap:.45rem; margin:0 0 .85rem; }
+    .rp { width:34px; height:14px; border-radius:4px; }
+    .rp.ok { background:#2d7d46; } .rp.bad { background:#c0392b; }
+    .end-learn { display:inline-flex; align-items:center; gap:.3rem; color:var(--accent); font-style:italic; text-decoration:none; font-size:.86rem; border-bottom:1px solid transparent; transition:border-color .2s; margin-bottom:1.3rem; }
+    .end-learn:hover { border-bottom-color:var(--accent); }
+    .bonus-note { color:#2d7d46; font-style:italic; font-size:.85rem; margin:0 0 .85rem; }
 
-    /* ── Responsive nav override ─────────────────────────── */
-    .nav-game-link {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-weight: 500;
-      font-size: 15px;
-      color: var(--accent);
-      text-decoration: none;
-      padding: 11px 18px;
-      border: 1px solid var(--accent);
-      border-radius: 999px;
-      transition: background .18s, color .18s;
-    }
-    .nav-game-link:hover { background: var(--accent); color: #fff; }
+    /* final screens */
+    .final-icon { font-size:5rem; display:block; margin-bottom:1rem; }
+    .final-title { font-size:clamp(2rem,7vw,3.4rem); font-weight:600; margin:0 0 .5rem; }
+    .final-sub { font-style:italic; font-size:1rem; color:var(--ink-soft); margin:0 0 .5rem; }
+    .final-score { font-style:italic; color:var(--accent); font-size:1.1rem; margin:0 0 1.4rem; }
+    .final-body { font-style:italic; color:var(--ink-soft); font-size:.9rem; line-height:1.8; max-width:430px; margin:0 0 2rem; }
+    .btn-row { display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center; }
+    .g-btn { padding:.75rem 1.7rem; border-radius:999px; font-family:var(--font-serif); font-style:italic; font-size:.95rem; cursor:pointer; transition:all .2s; text-decoration:none; display:inline-block; border:1px solid transparent; }
+    .g-btn.solid { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+    .g-btn.solid:hover { background:#000; }
+    .g-btn.ghost { background:transparent; color:var(--ink); border-color:var(--line); }
+    .g-btn.ghost:hover { background:rgba(24,24,24,.05); }
+    .final-links { margin-top:2rem; font-size:.78rem; color:var(--ink-mute); font-style:italic; }
+    .final-links a { color:var(--accent); }
+    .share-ok { color:#2d7d46; font-style:italic; font-size:.85rem; margin-top:.6rem; display:none; }
+
+    @keyframes shake { 0%,100%{transform:translateX(0)} 15%,45%,75%{transform:translateX(-7px)} 30%,60%,90%{transform:translateX(7px)} }
+    .do-shake { animation:shake .42s ease; }
+
+    .nav-game-link { font-family:var(--font-serif); font-style:italic; font-weight:500; font-size:15px; color:var(--accent); text-decoration:none; padding:11px 18px; border:1px solid var(--accent); border-radius:999px; }
   </style>
 </head>
 <body>
 
-  <!-- ── Top nav (matching other GitHire pages) ──────────── -->
   <header class="topnav">
     <a class="brand" href="./index.html" aria-label="GitHire 首页">
       <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true">
@@ -536,474 +217,470 @@
     </nav>
   </header>
 
-  <!-- ── Game root ─────────────────────────────────────── -->
-  <div class="game-wrap">
-    <div id="gr"></div>
-  </div>
+  <div class="game-wrap"><div id="gr"></div></div>
 
 <script>
 // ================================================================
-// DATA
+// 数据：七种工程反模式怪物
 // ================================================================
-
 const MONSTERS = [
-  {
-    id: 'ghost',
-    name: '模糊 Issue 幽灵',
-    emoji: '👻',
-    color: '#6c3483',
-    zone: 'Issue Spec',
-    flavor: '它从一句"你帮我实现一下这个功能"里诞生。没有 Goal，没有 Constraints，没有 Verification——AI 当然找到了一个答案，只是不是你要的那个。每一处空白，都是它的入口。',
-    learnHref: './index.html#workflow',
-    learnText: '阅读六步 Workflow',
-  },
-  {
-    id: 'fire',
-    name: '无沙盒妖',
-    emoji: '🔥',
-    color: '#b7770d',
-    zone: 'Sandbox',
-    flavor: '它最喜欢"先上线看看"。没有隔离环境，没有生产量级的数据，AI 写出来的第一版在本地跑得飞快——然后在生产环境沉默地爆了。',
-    learnHref: './index.html#workflow',
-    learnText: '阅读 Sandbox 步骤',
-  },
-  {
-    id: 'scan',
-    name: 'SCAN 兽',
-    emoji: '🦕',
-    color: '#c0392b',
-    zone: 'Case 01 · 真实事故',
-    flavor: '2026-05-18 10:19，一条 prompt，22 行代码。23:54，生产 Redis 应声倒下。SCAN + pipeline HGETALL 每次请求扫 800 万条 key——AI review 看不出来，因为代码本身"逻辑正确"。',
-    learnHref: './case-redis-scan.html',
-    learnText: '阅读 Case 01 完整复盘',
-  },
-  {
-    id: 'dragon',
-    name: '甩锅龙',
-    emoji: '🐉',
-    color: '#1a5276',
-    zone: 'Architect 签字',
-    flavor: '它最爱说"AI 评过了"。每次有人问责，就用这句话挡回去。签字栏永远空着——因为没有人想为 AI 生成的代码背系统侧的锅。',
-    learnHref: './index.html#workflow',
-    learnText: '阅读 Architect 步骤',
-  },
-  {
-    id: 'zombie',
-    name: '人月怪',
-    emoji: '🧟',
-    color: '#117a65',
-    zone: "Brooks' Law",
-    flavor: '进度落后了，再招两个人。新人需要学习上下文，沟通成本二次方上升，整体更慢了。Brooks 1975 年就写了。放到 AI-native 团队里，规律没失效，只是稀缺品换了。',
-    learnHref: './index.html#faq',
-    learnText: '阅读 FAQ：加人还是加 framing',
-  },
-  {
-    id: 'clock',
-    name: 'Deadline 幻影',
-    emoji: '⏳',
-    color: '#7d3c98',
-    zone: 'Commitments',
-    flavor: '它在信息最少的时候逼你许下承诺，在压力最大的时候兑现。AI-native 时代 deadline 仍然不准，只是滑掉的原因换了：不是 coding 慢，而是 framing 失误和 review 来不及。',
-    learnHref: './index.html#faq',
-    learnText: '阅读 FAQ：Deadline 为什么骗人',
-  },
-  {
-    id: 'robot',
-    name: '孤岛 Agent',
-    emoji: '🤖',
-    color: '#4a235a',
-    zone: 'Final Boss · Conceptual Integrity',
-    flavor: '七个 agent 并发写主干，没有一个人能用一句话说清楚整体方向。代码量翻倍，但每个模块讲的是不同的故事。这是最终 Boss——因为它长得最像"生产力"。',
-    learnHref: './index.html#faq',
-    learnText: '阅读 FAQ：Conceptual Integrity',
-  },
+  { id:'ghost', name:'模糊 Issue 幽灵', emoji:'👻', color:'#6c3483', zone:'Issue 规格',
+    flavor:'它从一句"你帮我实现一下这个功能"里诞生。没有 Goal，没有 Constraints，没有 Verification——AI 当然找到了一个答案，只是不是你要的那个。每一处空白，都是它的入口。',
+    learnHref:'./index.html#workflow', learnText:'阅读六步 Workflow' },
+  { id:'fire', name:'无沙盒妖', emoji:'🔥', color:'#b7770d', zone:'沙盒环节',
+    flavor:'它最喜欢"先上线看看"。没有隔离环境，没有生产量级的数据，AI 写出来的第一版在本地跑得飞快——然后在生产环境沉默地爆了。',
+    learnHref:'./index.html#workflow', learnText:'阅读 Sandbox 步骤' },
+  { id:'scan', name:'SCAN 兽', emoji:'🦕', color:'#c0392b', zone:'Case 01 · 真实事故',
+    flavor:'2026-05-18 10:19，一条 prompt，22 行代码。23:54，生产 Redis 应声倒下。SCAN + pipeline HGETALL 每次请求扫 800 万条 key——AI review 看不出来，因为代码本身"逻辑正确"。',
+    learnHref:'./case-redis-scan.html', learnText:'阅读 Case 01 完整复盘' },
+  { id:'dragon', name:'甩锅龙', emoji:'🐉', color:'#1a5276', zone:'架构师签字',
+    flavor:'它最爱说"AI 评过了"。每次有人问责，就用这句话挡回去。签字栏永远空着——因为没有人想为 AI 生成的代码背系统侧的锅。',
+    learnHref:'./index.html#workflow', learnText:'阅读 Architect 步骤' },
+  { id:'zombie', name:'人月怪', emoji:'🧟', color:'#117a65', zone:'布鲁克斯定律',
+    flavor:'进度落后了，再招两个人。新人需要学习上下文，沟通成本二次方上升，整体更慢了。Brooks 1975 年就写了。放到 AI-native 团队里，规律没失效，只是稀缺品换了。',
+    learnHref:'./index.html#faq', learnText:'阅读 FAQ：加人还是加 framing' },
+  { id:'clock', name:'Deadline 幻影', emoji:'⏳', color:'#7d3c98', zone:'交付承诺',
+    flavor:'它在信息最少的时候逼你许下承诺，在压力最大的时候兑现。AI-native 时代 deadline 仍然不准，只是滑掉的原因换了：不是 coding 慢，而是 framing 失误和 review 来不及。',
+    learnHref:'./index.html#faq', learnText:'阅读 FAQ：Deadline 为什么骗人' },
+  { id:'robot', name:'孤岛 Agent', emoji:'🤖', color:'#4a235a', zone:'最终 Boss · 概念完整性',
+    flavor:'七个 agent 并发写主干，没有一个人能用一句话说清楚整体方向。代码量翻倍，但每个模块讲的是不同的故事。这是最终 Boss——因为它长得最像"生产力"。',
+    learnHref:'./index.html#faq', learnText:'阅读 FAQ：概念完整性' },
 ];
 
 const QUESTIONS = {
   ghost: [
-    {
-      q: 'GitHire 提倡的六段式 Prompt Spec 包含哪六段？',
-      opts: [
-        'Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context',
-        'Problem / Solution / Timeline / Owner / Risk / Review',
-        'What / Why / How / Who / When / Where',
-        'Feature / Bug / Timeline / Security / Performance / Docs',
-      ],
-      ans: 0,
-      exp: '六段式 Spec 是 GitHire 的 Issue framing 核心——每一段缺失，AI 就会在那里自由发挥。',
-    },
-    {
-      q: 'Issue 里的"Non-goals"段，最核心的作用是什么？',
-      opts: [
-        '告诉新同事项目的历史背景',
-        '明确不做什么，防止 AI 在未定义区域自由发挥',
-        '列出所有可交付成果',
-        '记录团队分工和责任人',
-      ],
-      ans: 1,
-      exp: '每一处空白都是 AI 的自由发挥入口。Non-goals 的价值恰恰在于堵上这些空白。',
-    },
-    {
-      q: 'Issue 里缺少"Verification"段，最直接的后果是什么？',
-      opts: [
-        '代码运行速度下降',
-        '沙盒环境无法初始化',
-        '无法判断 AI 的实现是否满足需求',
-        '架构师审批时间会延长',
-      ],
-      ans: 2,
-      exp: 'Verification 段告诉 AI 和你自己：怎么算"完成"。没有它，谁也不知道什么时候可以停。',
-    },
+    { q:'GitHire 提倡的六段式 Prompt Spec 包含哪六段？',
+      opts:['目标 / 约束 / 非目标 / 验证标准 / 架构说明 / 已有上下文','问题 / 方案 / 时间表 / 负责人 / 风险 / 评审','是什么 / 为什么 / 怎么做 / 谁来做 / 何时 / 何地','功能 / 缺陷 / 时间表 / 安全 / 性能 / 文档'],
+      ans:0, exp:'六段式 Spec 是 GitHire 的 Issue framing 核心——每一段缺失，AI 就会在那里自由发挥。' },
+    { q:'Issue 里的"非目标（Non-goals）"段，最核心的作用是什么？',
+      opts:['告诉新同事项目的历史背景','明确不做什么，防止 AI 在未定义区域自由发挥','列出所有可交付成果','记录团队分工和责任人'],
+      ans:1, exp:'每一处空白都是 AI 的自由发挥入口。非目标的价值恰恰在于堵上这些空白。' },
+    { q:'Issue 里缺少"验证标准（Verification）"段，最直接的后果是什么？',
+      opts:['代码运行速度下降','沙盒环境无法初始化','无法判断 AI 的实现是否满足需求','架构师审批时间会延长'],
+      ans:2, exp:'验证标准告诉 AI 和你自己：怎么算"完成"。没有它，谁也不知道什么时候可以停。' },
   ],
   fire: [
-    {
-      q: 'Sandbox 环境要真正有意义，最关键的条件是什么？',
-      opts: [
-        '使用与生产完全相同版本的依赖库',
-        '具备真实依赖和生产量级的数据',
-        '拥有完整的监控和告警系统',
-        '支持多团队同时并发访问',
-      ],
-      ans: 1,
-      exp: '缺数据规模、缺 QPS 的沙盒只是把 bug 推到上线那一刻。真实数据量级才能暴露真实问题。',
-    },
-    {
-      q: 'GitHire 引用 Brooks 的名言"Plan to throw one away"，对应工作流哪一步？',
-      opts: [
-        'Issue（需求规划阶段）',
-        'AI Review（评审阶段）',
-        'Sandbox（沙盒验证阶段）',
-        'Production（上线合并阶段）',
-      ],
-      ans: 2,
-      exp: 'Sandbox 阶段的代码默认不进主干——它的价值是验证方向、暴露未知，而不是交付。',
-    },
-    {
-      q: 'Sandbox 阶段产生的代码，GitHire 默认如何处理？',
-      opts: [
-        '通过 CI 测试后自动合入主干',
-        '由架构师审批后决定是否保留',
-        '不进主干，用于验证方向；方向清楚后重新写主干版本',
-        '打 tag 存档，随时可以回溯合入',
-      ],
-      ans: 2,
-      exp: '"Plan to throw one away"——第一版的价值是澄清问题，不是交付。问题清楚了，AI 才有可能一次写对。',
-    },
+    { q:'沙盒（Sandbox）环境要真正有意义，最关键的条件是什么？',
+      opts:['使用与生产完全相同版本的依赖库','具备真实依赖和生产量级的数据','拥有完整的监控和告警系统','支持多团队同时并发访问'],
+      ans:1, exp:'缺数据规模、缺 QPS 的沙盒只是把 bug 推到上线那一刻。真实数据量级才能暴露真实问题。' },
+    { q:'GitHire 引用 Brooks 的名言"准备好扔掉第一版"，对应工作流哪一步？',
+      opts:['Issue（需求规划阶段）','AI Review（评审阶段）','Sandbox（沙盒验证阶段）','Production（上线合并阶段）'],
+      ans:2, exp:'Sandbox 阶段的代码默认不进主干——它的价值是验证方向、暴露未知，而不是交付。' },
+    { q:'沙盒阶段产生的代码，GitHire 默认如何处理？',
+      opts:['通过 CI 测试后自动合入主干','由架构师审批后决定是否保留','不进主干，用于验证方向；方向清楚后重新写主干版本','打 tag 存档，随时可以回溯合入'],
+      ans:2, exp:'"准备好扔掉第一版"——第一版的价值是澄清问题，不是交付。问题清楚了，AI 才有可能一次写对。' },
   ],
   scan: [
-    {
-      q: 'Case 01 里，AI 生成的代码使用了哪两个 Redis 操作，导致了生产故障？',
-      opts: [
-        'KEYS * 全表扫描 + DEL 批量删除',
-        'SCAN + pipeline HGETALL',
-        'FLUSHALL 清空数据库',
-        'SUBSCRIBE 长连接阻塞',
-      ],
-      ans: 1,
-      exp: 'SCAN 遍历 800 万条 key，再对每条 key 执行 HGETALL——每次 HTTP 请求都触发一次全表扫描。',
-    },
-    {
-      q: 'Case 01 里，AI Review 为什么没有识别出这个致命问题？',
-      opts: [
-        'Code review 步骤被跳过了',
-        'AI Review 看代码内部一致性——SCAN 代码在那个维度"逻辑完全正确"',
-        '当时使用的 AI 模型版本太旧',
-        'Review 时数据量不够大，没有触发性能瓶颈',
-      ],
-      ans: 1,
-      exp: 'AI Review 的视角是代码内部——命名、edge case、空指针。"每次请求扫全表"需要系统侧上下文才能识别。',
-    },
-    {
-      q: '架构师 30 秒识别出 Case 01 的问题，他用到了什么 AI 看不到的信息？',
-      opts: [
-        '代码的命名是否符合团队规范',
-        '单元测试的覆盖率是否达标',
-        'QPS 曲线、历史容量和 Redis 规模等系统侧上下文',
-        '需求文档是否完整描述了功能',
-      ],
-      ans: 2,
-      exp: '这是工作流里"最贵的 30 秒"——架构师带的是 AI 看不到的系统侧上下文。AI 和 Architect 互补，不重叠。',
-    },
+    { q:'Case 01 里，AI 生成的代码使用了哪两个 Redis 操作，导致了生产故障？',
+      opts:['KEYS * 全表扫描 + DEL 批量删除','SCAN 遍历 + pipeline 批量 HGETALL','FLUSHALL 清空数据库','SUBSCRIBE 长连接阻塞'],
+      ans:1, exp:'SCAN 遍历 800 万条 key，再对每条 key 执行 HGETALL——每次 HTTP 请求都触发一次全表扫描。' },
+    { q:'Case 01 里，AI Review 为什么没有识别出这个致命问题？',
+      opts:['代码评审步骤被跳过了','AI Review 看代码内部一致性——SCAN 代码在那个维度"逻辑完全正确"','当时使用的 AI 模型版本太旧','评审时数据量不够大，没有触发性能瓶颈'],
+      ans:1, exp:'AI Review 的视角是代码内部——命名、边界情况、空指针。"每次请求扫全表"需要系统侧上下文才能识别。' },
+    { q:'架构师 30 秒识别出 Case 01 的问题，他用到了什么 AI 看不到的信息？',
+      opts:['代码的命名是否符合团队规范','单元测试的覆盖率是否达标','QPS 曲线、历史容量和 Redis 规模等系统侧上下文','需求文档是否完整描述了功能'],
+      ans:2, exp:'这是工作流里"最贵的 30 秒"——架构师带的是 AI 看不到的系统侧上下文。AI 和架构师互补，不重叠。' },
   ],
   dragon: [
-    {
-      q: 'GitHire workflow 里，谁对合入主干的代码承担系统侧后果？',
-      opts: [
-        '编写代码的 AI agent',
-        '提出需求的产品经理',
-        '签字的架构师',
-        '整个研发团队共同承担',
-      ],
-      ans: 2,
-      exp: 'AI 不背锅——背锅意味着代理责任，AI 没有代理资格。签字 = 认领系统侧后果。',
-    },
-    {
-      q: '"AI review 通过了" 在 GitHire 里意味着什么？',
-      opts: [
-        '代码可以直接合入主干，无需额外审批',
-        '是辅助证据，不能替代架构师的最终决定',
-        '需要产品经理做最终的业务确认',
-        '需要再执行一遍完整的测试套件',
-      ],
-      ans: 1,
-      exp: 'GitHire 不允许 review 责任被"AI 评过了"稀释——AI review 是辅助证据，架构师 review 是决定。',
-    },
-    {
-      q: 'AI Review 和 Architect Review，各自看的是哪个维度？',
-      opts: [
-        'AI 看安全漏洞，Architect 看性能瓶颈',
-        'AI 看代码质量，Architect 看业务逻辑',
-        'AI 看代码内部一致性；Architect 看 QPS、历史事故等系统侧上下文',
-        'AI 做初审，Architect 做复审——内容相同互相验证',
-      ],
-      ans: 2,
-      exp: '互补，不重叠——这是两步 review 共存的理由。Case 01 的 22 行 SCAN 代码，AI review 看来"完全正确"。',
-    },
+    { q:'GitHire 工作流里，谁对合入主干的代码承担系统侧后果？',
+      opts:['编写代码的 AI agent','提出需求的产品经理','签字的架构师','整个研发团队共同承担'],
+      ans:2, exp:'AI 不背锅——背锅意味着代理责任，AI 没有代理资格。签字 = 认领系统侧后果。' },
+    { q:'"AI 评审通过了" 在 GitHire 里意味着什么？',
+      opts:['代码可以直接合入主干，无需额外审批','是辅助证据，不能替代架构师的最终决定','需要产品经理做最终的业务确认','需要再执行一遍完整的测试套件'],
+      ans:1, exp:'GitHire 不允许评审责任被"AI 评过了"稀释——AI review 是辅助证据，架构师 review 是决定。' },
+    { q:'AI Review 和架构师 Review，各自看的是哪个维度？',
+      opts:['AI 看安全漏洞，架构师看性能瓶颈','AI 看代码质量，架构师看业务逻辑','AI 看代码内部一致性；架构师看 QPS、历史事故等系统侧上下文','AI 做初审，架构师做复审——内容相同互相验证'],
+      ans:2, exp:'互补，不重叠——这是两步 review 共存的理由。Case 01 的 22 行 SCAN 代码，AI review 看来"完全正确"。' },
   ],
   zombie: [
-    {
-      q: 'Brooks 定律的核心结论是什么？',
-      opts: [
-        '优秀工程师的产出是普通工程师的 10 倍',
-        '给延期的软件项目加人，会让它更延期',
-        '项目规模与工程师数量成正比',
-        '沟通成本与代码质量负相关',
-      ],
-      ans: 1,
-      exp: '新人需要学习上下文，沟通成本随人数二次方上升——短期内整体进度反而更慢。',
-    },
-    {
-      q: '在 AI-native 团队里，Brooks 定律失效了吗？',
-      opts: [
-        '完全失效——AI 消除了沟通成本，人越多越快',
-        '没有失效——稀缺品从"coding 手脚"变成了"会 frame issue 的脑子"',
-        '部分失效——仅对初级工程师仍然适用',
-        '需要更多案例验证，目前尚无定论',
-      ],
-      ans: 1,
-      exp: 'coding 不是瓶颈了——AI 已经够快。一个能写出六段式 Issue 的人可以同时 orchestrate 多个 agent。',
-    },
-    {
-      q: 'GitHire 认为，AI-native 团队在加人之前应该先问什么？',
-      opts: [
-        '代码库规模是否支撑更多工程师并行开发',
-        '新人的 AI 工具使用经验是否满足要求',
-        '是 framing 不够，还是吞吐不够',
-        '当前测试覆盖率是否达到基线要求',
-      ],
-      ans: 2,
-      exp: '如果瓶颈是 framing——Issue 写不清楚——加人没用。如果是吞吐——决策点太少——才考虑扩团队。',
-    },
+    { q:'布鲁克斯定律（Brooks’ Law）的核心结论是什么？',
+      opts:['优秀工程师的产出是普通工程师的 10 倍','给延期的软件项目加人，会让它更延期','项目规模与工程师数量成正比','沟通成本与代码质量负相关'],
+      ans:1, exp:'新人需要学习上下文，沟通成本随人数二次方上升——短期内整体进度反而更慢。' },
+    { q:'在 AI-native 团队里，布鲁克斯定律失效了吗？',
+      opts:['完全失效——AI 消除了沟通成本，人越多越快','没有失效——稀缺品从"coding 手脚"变成了"会 frame issue 的脑子"','部分失效——仅对初级工程师仍然适用','需要更多案例验证，目前尚无定论'],
+      ans:1, exp:'coding 不是瓶颈了——AI 已经够快。一个能写出六段式 Issue 的人可以同时指挥多个 agent。' },
+    { q:'GitHire 认为，AI-native 团队在加人之前应该先问什么？',
+      opts:['代码库规模是否支撑更多工程师并行开发','新人的 AI 工具使用经验是否满足要求','是 framing 不够，还是吞吐不够','当前测试覆盖率是否达到基线要求'],
+      ans:2, exp:'如果瓶颈是 framing——Issue 写不清楚——加人没用。如果是吞吐——决策点太少——才考虑扩团队。' },
   ],
   clock: [
-    {
-      q: 'GitHire 认为，AI-native 时代 deadline 滑掉的根本原因是什么？',
-      opts: [
-        'AI 生成代码质量不稳定，需要大量人工返工',
-        'framing 失误和 review 来不及，而不是 coding 慢',
-        '需求变化太快，AI 无法适应频繁的变更',
-        '缺乏项目管理工具对进度的实时追踪',
-      ],
-      ans: 1,
-      exp: 'coding 已经不是瓶颈——AI 5 分钟写完过去一个人月的量；deadline 滑掉是一条没写清的 Issue 让 AI 走错了方向。',
-    },
-    {
-      q: 'GitHire 建议用什么来替代"时间承诺（deadline）"？',
-      opts: [
-        '更精确的工时估算方法（加 30% 缓冲系数）',
-        '固定里程碑制度（每两周一个交付节点）',
-        '可观测的决策点完成度：Issue framing / 架构师签字 / Sandbox 验证',
-        '基于历史数据的速度预测模型',
-      ],
-      ans: 2,
-      exp: '可观测的状态替代主观时间——越接近交付，预测越收敛。决策点完成了几个，比"还有多少天"更诚实。',
-    },
-    {
-      q: 'Case 01 里，一条没写清 Constraints 的 Issue，最终造成了多少小时的救火成本？',
-      opts: [
-        '约 5 小时',
-        '约 13 小时',
-        '约 25 小时',
-        '约 48 小时',
-      ],
-      ans: 2,
-      exp: '10:19 写 prompt，23:54 生产报警，接着是 25 小时的根治。一处没写的 Constraints，换了整整一天的救火。',
-    },
+    { q:'GitHire 认为，AI-native 时代 deadline 滑掉的根本原因是什么？',
+      opts:['AI 生成代码质量不稳定，需要大量人工返工','framing 失误和 review 来不及，而不是 coding 慢','需求变化太快，AI 无法适应频繁的变更','缺乏项目管理工具对进度的实时追踪'],
+      ans:1, exp:'coding 已经不是瓶颈——AI 5 分钟写完过去一个人月的量；deadline 滑掉是一条没写清的 Issue 让 AI 走错了方向。' },
+    { q:'GitHire 建议用什么来替代"时间承诺（deadline）"？',
+      opts:['更精确的工时估算方法（加 30% 缓冲系数）','固定里程碑制度（每两周一个交付节点）','可观测的决策点完成度：Issue 已 framing / 架构师已签字 / 沙盒已验证','基于历史数据的速度预测模型'],
+      ans:2, exp:'可观测的状态替代主观时间——越接近交付，预测越收敛。决策点完成了几个，比"还有多少天"更诚实。' },
+    { q:'Case 01 里，一条没写清约束的 Issue，最终造成了多少小时的救火成本？',
+      opts:['约 5 小时','约 13 小时','约 25 小时','约 48 小时'],
+      ans:2, exp:'10:19 写 prompt，23:54 生产报警，接着是 25 小时的根治。一处没写的约束，换了整整一天的救火。' },
   ],
   robot: [
-    {
-      q: 'AI-native 团队里，"conceptual integrity（概念完整性）"如何维护？',
-      opts: [
-        '通过统一的代码格式化工具（如 Prettier）自动对齐风格',
-        '显式的架构 owner：所有 PR 必须能被一位 architect 用一句话讲清楚动机和取舍',
-        '通过多个 agent 交叉 review，互相纠错补位',
-        '通过严格的 linting 规则覆盖所有命名和结构约定',
-      ],
-      ans: 1,
-      exp: '"做不到的 PR 不 merge"——这条约束让概念一致性不被并发的 agent 数量稀释。',
-    },
-    {
-      q: 'GitHire 六步 workflow 里，哪两步专门设计为"还来得及反悔"的决策点？',
-      opts: [
-        'Issue 和 Architect（首尾两端）',
-        'Sandbox 和 AI Review（两次）',
-        'AI Review 和 Architect（两次）',
-        'PR 和 Production（两次）',
-      ],
-      ans: 1,
-      exp: 'Sandbox 是方向验证的决策点；AI Review 是合入前最后一次检查。两次"还来得及"，然后才到 Architect 签字。',
-    },
-    {
-      q: '最后一战！GitHire 的核心口号是？',
-      opts: [
-        'AI 辅助人，人做最终决策',
-        '人指挥 AI 干活，不是 AI 辅助人',
-        '人写 Issue，AI 写代码，测试说了算',
-        '先上线，再迭代，快速学习',
-      ],
-      ans: 1,
-      exp: '"辅助"暗示主导权在 AI；"指挥"才是真正的 AI-native——人保持 framing 和判断，AI 负责执行。',
-    },
+    { q:'AI-native 团队里，"概念完整性（conceptual integrity）"如何维护？',
+      opts:['通过统一的代码格式化工具（如 Prettier）自动对齐风格','显式的架构 owner：所有 PR 必须能被一位架构师用一句话讲清楚动机和取舍','通过多个 agent 交叉评审，互相纠错补位','通过严格的 linting 规则覆盖所有命名和结构约定'],
+      ans:1, exp:'"做不到的 PR 不 merge"——这条约束让概念一致性不被并发的 agent 数量稀释。' },
+    { q:'GitHire 六步工作流里，哪两步专门设计为"还来得及反悔"的决策点？',
+      opts:['Issue 和 Architect（首尾两端）','Sandbox 和 AI Review（两次）','AI Review 和 Architect（两次）','PR 和 Production（两次）'],
+      ans:1, exp:'Sandbox 是方向验证的决策点；AI Review 是合入前最后一次检查。两次"还来得及"，然后才到架构师签字。' },
+    { q:'最后一战！GitHire 的核心口号是？',
+      opts:['AI 辅助人，人做最终决策','人指挥 AI 干活，不是 AI 辅助人','人写 Issue，AI 写代码，测试说了算','先上线，再迭代，快速学习'],
+      ans:1, exp:'"辅助"暗示主导权在 AI；"指挥"才是真正的 AI-native——人保持 framing 和判断，AI 负责执行。' },
   ],
 };
 
 // ================================================================
-// CONFIG
+// 地图：W=墙/障碍 .=地面 S=起点 数字=怪物 G=终点(Production)
 // ================================================================
-const MAX_HP   = 100;
-const PENALTY  = 15;
-const PERFECT_HP = 20;
-const PTS_Q    = 100;
-const PTS_PERF = 150;
+const MAP_SRC = [
+  "WWWWWWWWWWWWWWWWWWW",
+  "W.................W",
+  "W..1.........2....W",
+  "W.................W",
+  "W....WW...WW......W",
+  "W.................W",
+  "W........3........W",
+  "W.................W",
+  "W....WW...WW......W",
+  "W.................W",
+  "W..4....5....6....W",
+  "W.................W",
+  "W..S....7......G..W",
+  "WWWWWWWWWWWWWWWWWWW",
+];
+const COLS = MAP_SRC[0].length;   // 19
+const ROWS = MAP_SRC.length;      // 14
+const TILE = 42;
+
+// parse map
+const WALLS = [];           // bool[row][col]
+let START = {x:1,y:1}, GOAL = {x:1,y:1};
+const MON_POS = {};         // monsterId -> {x,y}
+for (let y=0; y<ROWS; y++){
+  WALLS[y] = [];
+  for (let x=0; x<COLS; x++){
+    const ch = MAP_SRC[y][x];
+    WALLS[y][x] = (ch === 'W');
+    if (ch === 'S') START = {x,y};
+    else if (ch === 'G') GOAL = {x,y};
+    else if (ch >= '1' && ch <= '7') MON_POS[MONSTERS[+ch-1].id] = {x,y};
+  }
+}
 
 // ================================================================
-// STATE
+// 配置
 // ================================================================
-let G = freshState();
-function freshState() {
+const MAX_HP = 100, PENALTY = 15, PERFECT_HP = 20, PTS_Q = 100, PTS_PERF = 150;
+const WALK_MS = 150;  // 每格移动时长
+
+// ================================================================
+// 状态
+// ================================================================
+let G;
+function freshState(){
   return {
-    phase: 'title',   // title|intro|battle|reveal|bend|gameover|victory
-    hp: MAX_HP,
-    score: 0,
-    mi: 0,            // monster index
-    qi: 0,            // question index
-    results: [],      // bool[] for current battle
-    chosen: null,     // selected answer index
-    ok: null,         // was it correct?
+    screen: 'title',          // title|map|battle|gameover|victory
+    hp: MAX_HP, score: 0,
+    defeated: {},             // monsterId -> true
+    player: { x:START.x, y:START.y, px:START.x*TILE, py:START.y*TILE, moving:false, tx:START.x, ty:START.y, bob:0 },
+    bannerText: '', bannerUntil: 0,
+    // battle
+    mid: null, qi: 0, results: [], chosen: null, ok: null, bphase: 'q', // q|reveal|end
   };
 }
+G = freshState();
 
-function monster()   { return MONSTERS[G.mi]; }
-function qs()        { return QUESTIONS[monster().id]; }
-function q()         { return qs()[G.qi]; }
+function monster(){ return MONSTERS.find(m => m.id === G.mid); }
+function qs(){ return QUESTIONS[G.mid]; }
+function q(){ return qs()[G.qi]; }
+function aliveMonsters(){ return MONSTERS.filter(m => !G.defeated[m.id]); }
+function allCleared(){ return aliveMonsters().length === 0; }
 
 // ================================================================
-// RENDER HELPERS
+// 渲染调度
 // ================================================================
-function hpColor(hp) {
-  return hp > 55 ? '#2d7d46' : hp > 25 ? '#e67e22' : '#c0392b';
-}
+let rafId = null, lastT = 0;
+const root = () => document.getElementById('gr');
 
-function playerBarHTML() {
-  const pct = Math.max(0, (G.hp / MAX_HP) * 100).toFixed(1);
-  return `<div class="player-bar">
-    <span class="bar-label">HP</span>
-    <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${hpColor(G.hp)}"></div></div>
-    <span class="bar-val">${G.hp} / ${MAX_HP}</span>
-    <span class="score-chip">✦ ${G.score} 分</span>
-  </div>`;
-}
-
-function pipsHTML(mColor, numQ, results, revealIdx, revealOk) {
-  return Array.from({length: numQ}, (_, i) => {
-    let cls = 'full';
-    if (results[i] === true) cls = 'empty';
-    else if (i === revealIdx && revealOk) cls = 'empty';
-    return `<div class="pip ${cls}" style="--mc:${mColor}"></div>`;
-  }).join('');
+function render(){
+  stopMapLoop();
+  const r = root();
+  if (G.screen === 'title')    { r.innerHTML = titleHTML(); bindTitle(); }
+  else if (G.screen === 'map') { r.innerHTML = mapHTML(); startMapLoop(); bindMap(); }
+  else if (G.screen === 'battle'){ r.innerHTML = battleHTML(); bindBattle(); }
+  else if (G.screen === 'gameover'){ r.innerHTML = gameoverHTML(); bindEnd(); }
+  else if (G.screen === 'victory'){ r.innerHTML = victoryHTML(); bindEnd(); }
 }
 
 // ================================================================
-// RENDER
+// 标题屏
 // ================================================================
-function render() {
-  const root = document.getElementById('gr');
-  root.innerHTML = html();
-  bind();
-}
-
-function html() {
-  if (G.phase === 'title')    return titleHTML();
-  if (G.phase === 'intro')    return introHTML();
-  if (G.phase === 'battle')   return battleHTML(false);
-  if (G.phase === 'reveal')   return battleHTML(true);
-  if (G.phase === 'bend')     return bendHTML();
-  if (G.phase === 'gameover') return gameoverHTML();
-  if (G.phase === 'victory')  return victoryHTML();
-  return '';
-}
-
-function titleHTML() {
+function titleHTML(){
   const emojis = MONSTERS.map(m => `<span title="${m.name}">${m.emoji}</span>`).join('');
-  return `<div class="s-title">
-    <p class="title-eyebrow">GitHire · Knowledge Challenge</p>
+  return `<div class="screen-center">
+    <p class="title-eyebrow">GitHire · 知识冒险</p>
     <h1 class="title-logo"><em>Poke</em>Hire</h1>
-    <p class="title-tagline">七场 AI-native 工程对决</p>
+    <p class="title-tagline">在 AI-native 工程地图上，迎战七种反模式</p>
     <div class="monster-row">${emojis}</div>
     <p class="title-desc">
-      七种工程反模式化身怪物等你击败。<br/>
-      答对驱散它们，答错失去 HP。<br/>
-      HP 归零，生产 503。
+      用 <span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span>
+      或 <span class="kbd">↑</span><span class="kbd">↓</span><span class="kbd">←</span><span class="kbd">→</span> 移动。<br/>
+      走到怪物身上即可迎战，答对驱散它们。<br/>
+      清除全部七种反模式，前往 🚀 终点通关。
     </p>
-    <button class="g-btn solid" id="btn-start" style="font-size:1.05rem;padding:.9rem 2.5rem;">开始挑战 →</button>
-    <p class="title-hint">共 7 关 · 21 题 · 约 5 分钟</p>
+    <button class="g-btn solid" id="btn-start" style="font-size:1.05rem;padding:.9rem 2.5rem;">进入地图 →</button>
+    <p class="title-hint">手机端可用屏幕方向键 · 约 5 分钟</p>
+  </div>`;
+}
+function bindTitle(){
+  const b = document.getElementById('btn-start');
+  if (b) b.onclick = () => { G = freshState(); G.screen = 'map'; render(); };
+}
+
+// ================================================================
+// 地图屏
+// ================================================================
+function hpColor(hp){ return hp>55 ? '#2d7d46' : hp>25 ? '#e67e22' : '#c0392b'; }
+
+function hudHTML(){
+  const pct = Math.max(0,(G.hp/MAX_HP)*100).toFixed(1);
+  const cleared = MONSTERS.length - aliveMonsters().length;
+  return `<div class="hud">
+    <span class="hud-label">HP</span>
+    <div class="hud-track"><div class="hud-fill" style="width:${pct}%;background:${hpColor(G.hp)}"></div></div>
+    <span class="hud-val">${G.hp} / ${MAX_HP}</span>
+    <span class="hud-prog">已清除 ${cleared} / ${MONSTERS.length}</span>
+    <span class="hud-chip">✦ ${G.score} 分</span>
   </div>`;
 }
 
-function introHTML() {
-  const m = monster();
-  return `<div class="s-intro" style="--mc:${m.color}">
-    <p class="intro-breadcrumb">第 ${G.mi + 1} / ${MONSTERS.length} 关</p>
-    <span class="intro-emoji">${m.emoji}</span>
-    <span class="intro-zone-tag" style="background:${m.color}">${m.zone}</span>
-    <h2 class="intro-name" style="color:${m.color}">${m.name}</h2>
-    <p class="intro-flavor">${m.flavor}</p>
-    <button class="g-btn solid" id="btn-fight">⚔️ 迎战！</button>
+function mapHTML(){
+  return `<div class="map-screen">
+    ${hudHTML()}
+    <div class="map-stage">
+      <canvas id="map" width="${COLS*TILE}" height="${ROWS*TILE}" aria-label="GitHire 工程地图"></canvas>
+      <div class="map-banner" id="banner" style="opacity:0"></div>
+    </div>
+    <div class="map-foot">
+      <p class="map-tip">🧑‍💻 你是架构师。<br/><span class="kbd">WASD</span> / 方向键移动，走到怪物身上迎战。</p>
+      <div class="dpad" aria-label="方向键">
+        <button class="dp-up"    data-dx="0"  data-dy="-1" aria-label="上">▲</button>
+        <button class="dp-left"  data-dx="-1" data-dy="0"  aria-label="左">◀</button>
+        <button class="dp-mid" disabled>＋</button>
+        <button class="dp-right" data-dx="1"  data-dy="0"  aria-label="右">▶</button>
+        <button class="dp-down"  data-dx="0"  data-dy="1"  aria-label="下">▼</button>
+      </div>
+    </div>
   </div>`;
 }
 
-function battleHTML(revealed) {
-  const m   = monster();
-  const qq  = q();
-  const totalQ = qs().length;
-  const labels = ['A', 'B', 'C', 'D'];
+function bindMap(){
+  document.querySelectorAll('.dpad button[data-dx]').forEach(b => {
+    b.onclick = () => tryStep(+b.dataset.dx, +b.dataset.dy);
+  });
+}
 
-  const pins = pipsHTML(m.color, totalQ, G.results,
-    revealed ? G.qi : -1, revealed ? G.ok : false);
+// keyboard (attached once globally)
+function onKey(e){
+  if (G.screen !== 'map') return;
+  let dx=0, dy=0;
+  const k = e.key.toLowerCase();
+  if (k==='arrowup'||k==='w')    dy=-1;
+  else if (k==='arrowdown'||k==='s')  dy=1;
+  else if (k==='arrowleft'||k==='a')  dx=-1;
+  else if (k==='arrowright'||k==='d') dx=1;
+  else return;
+  e.preventDefault();
+  tryStep(dx,dy);
+}
+document.addEventListener('keydown', onKey, { passive:false });
 
-  const answersHTML = qq.opts.map((opt, i) => {
-    let cls = '';
-    if (revealed) {
-      if (i === qq.ans)                      cls = 'a-reveal';
-      else if (i === G.chosen && i !== qq.ans) cls = 'a-wrong';
+function tryStep(dx,dy){
+  if (G.screen !== 'map') return;
+  const p = G.player;
+  if (p.moving) return;
+  const nx = p.x + dx, ny = p.y + dy;
+  if (nx<0||ny<0||nx>=COLS||ny>=ROWS) return;
+  if (WALLS[ny][nx]) { showBanner('🧱 走不过去'); return; }
+
+  // 怪物？
+  const mid = monsterAt(nx,ny);
+  if (mid) { startBattle(mid); return; }
+
+  // 终点？
+  if (nx===GOAL.x && ny===GOAL.y){
+    if (allCleared()){ G.screen='victory'; render(); return; }
+    else { showBanner(`🔒 终点已锁定 · 还有 ${aliveMonsters().length} 个反模式未清除`); return; }
+  }
+
+  // 正常移动
+  p.x = nx; p.y = ny; p.tx = nx; p.ty = ny; p.moving = true; p.t0 = performance.now();
+  p.fromPx = p.px; p.fromPy = p.py;
+}
+
+function monsterAt(x,y){
+  for (const m of MONSTERS){
+    if (G.defeated[m.id]) continue;
+    const pos = MON_POS[m.id];
+    if (pos && pos.x===x && pos.y===y) return m.id;
+  }
+  return null;
+}
+
+function showBanner(text){
+  G.bannerText = text;
+  G.bannerUntil = performance.now() + 1800;
+}
+
+// map render loop
+function startMapLoop(){
+  const cv = document.getElementById('map');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  lastT = performance.now();
+  const step = (now) => {
+    if (G.screen !== 'map'){ rafId=null; return; }
+    update(now);
+    draw(ctx);
+    rafId = requestAnimationFrame(step);
+  };
+  rafId = requestAnimationFrame(step);
+}
+function stopMapLoop(){ if (rafId){ cancelAnimationFrame(rafId); rafId=null; } }
+
+function update(now){
+  const p = G.player;
+  if (p.moving){
+    const k = Math.min(1, (now - p.t0)/WALK_MS);
+    p.px = p.fromPx + (p.tx*TILE - p.fromPx)*k;
+    p.py = p.fromPy + (p.ty*TILE - p.fromPy)*k;
+    if (k>=1){ p.moving=false; p.px=p.tx*TILE; p.py=p.ty*TILE; }
+  }
+  p.bob = Math.sin(now/260)*2;
+
+  // banner
+  const b = document.getElementById('banner');
+  if (b){
+    if (G.bannerText && now < G.bannerUntil){ b.textContent = G.bannerText; b.style.opacity = '1'; }
+    else { b.style.opacity = '0'; G.bannerText=''; }
+  }
+}
+
+function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+
+function draw(ctx){
+  const W = COLS*TILE, H = ROWS*TILE;
+  ctx.clearRect(0,0,W,H);
+
+  // floor + grid
+  for (let y=0;y<ROWS;y++){
+    for (let x=0;x<COLS;x++){
+      if (WALLS[y][x]){
+        ctx.fillStyle = '#3a3a38';
+        roundRect(ctx, x*TILE+3, y*TILE+3, TILE-6, TILE-6, 7); ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,.05)';
+        roundRect(ctx, x*TILE+3, y*TILE+3, TILE-6, (TILE-6)/2, 7); ctx.fill();
+      } else {
+        ctx.fillStyle = ((x+y)%2===0) ? '#EFE9DC' : '#E8E1D2';
+        ctx.fillRect(x*TILE, y*TILE, TILE, TILE);
+      }
     }
-    return `<button class="a-btn ${cls}" data-c="${i}" ${revealed ? 'disabled' : ''}>
-      <span class="lbl">${labels[i]}</span>${opt}
-    </button>`;
+  }
+  // subtle grid lines
+  ctx.strokeStyle = 'rgba(24,24,24,.05)'; ctx.lineWidth = 1;
+  for (let x=0;x<=COLS;x++){ ctx.beginPath(); ctx.moveTo(x*TILE,0); ctx.lineTo(x*TILE,H); ctx.stroke(); }
+  for (let y=0;y<=ROWS;y++){ ctx.beginPath(); ctx.moveTo(0,y*TILE); ctx.lineTo(W,y*TILE); ctx.stroke(); }
+
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+
+  // start marker
+  ctx.fillStyle = 'rgba(217,119,87,.18)';
+  roundRect(ctx, START.x*TILE+5, START.y*TILE+5, TILE-10, TILE-10, 8); ctx.fill();
+  ctx.font = '11px "Spectral", serif'; ctx.fillStyle = '#8A887F';
+  ctx.fillText('起点', START.x*TILE+TILE/2, START.y*TILE+TILE/2);
+
+  // goal
+  const unlocked = allCleared();
+  const gx = GOAL.x*TILE+TILE/2, gy = GOAL.y*TILE+TILE/2;
+  if (unlocked){
+    const pr = 16 + Math.sin(performance.now()/300)*3;
+    ctx.fillStyle = 'rgba(45,125,70,.18)'; ctx.beginPath(); ctx.arc(gx,gy,pr,0,7); ctx.fill();
+    ctx.fillStyle = '#181818'; ctx.font = '26px serif'; ctx.fillText('🚀', gx, gy);
+  } else {
+    ctx.fillStyle = '#181818'; ctx.font = '22px serif'; ctx.fillText('🔒', gx, gy);
+  }
+  ctx.font = '10px "Spectral", serif'; ctx.fillStyle = unlocked ? '#2d7d46' : '#8A887F';
+  ctx.fillText('Production', gx, GOAL.y*TILE+TILE-7);
+
+  // monsters
+  for (const m of MONSTERS){
+    if (G.defeated[m.id]) continue;
+    const pos = MON_POS[m.id];
+    const cx = pos.x*TILE+TILE/2, cy = pos.y*TILE+TILE/2 + Math.sin(performance.now()/400 + pos.x)*2.5;
+    // shadow
+    ctx.fillStyle = 'rgba(0,0,0,.12)'; ctx.beginPath(); ctx.ellipse(cx, pos.y*TILE+TILE-8, 13, 4, 0,0,7); ctx.fill();
+    // ring
+    ctx.fillStyle = m.color + '22'; ctx.beginPath(); ctx.arc(cx, cy, 17, 0, 7); ctx.fill();
+    ctx.fillStyle = '#181818'; ctx.font = '26px serif'; ctx.fillText(m.emoji, cx, cy);
+  }
+
+  // player
+  const p = G.player;
+  const pcx = p.px + TILE/2, pcy = p.py + TILE/2 + p.bob;
+  ctx.fillStyle = 'rgba(0,0,0,.15)'; ctx.beginPath(); ctx.ellipse(pcx, p.py+TILE-8, 12, 4, 0,0,7); ctx.fill();
+  ctx.fillStyle = '#181818'; ctx.font = '27px serif'; ctx.fillText('🧑‍💻', pcx, pcy);
+}
+
+// ================================================================
+// 战斗屏（问答）
+// ================================================================
+function startBattle(mid){
+  G.mid = mid; G.qi = 0; G.results = []; G.chosen = null; G.ok = null; G.bphase = 'q';
+  G.screen = 'battle';
+  render();
+}
+
+function playerBarHTML(){
+  const pct = Math.max(0,(G.hp/MAX_HP)*100).toFixed(1);
+  return `<div class="player-bar">
+    <span class="pb-label">HP</span>
+    <div class="pb-track"><div class="pb-fill" style="width:${pct}%;background:${hpColor(G.hp)}"></div></div>
+    <span class="pb-val">${G.hp} / ${MAX_HP}</span>
+    <span class="pb-chip">✦ ${G.score} 分</span>
+  </div>`;
+}
+
+function battleHTML(){
+  if (G.bphase === 'end') return battleEndHTML();
+  const m = monster(), qq = q(), totalQ = qs().length, revealed = (G.bphase==='reveal');
+  const labels = ['A','B','C','D'];
+
+  const pins = Array.from({length: totalQ}, (_,i) => {
+    let cls = 'full';
+    if (G.results[i] === true) cls = 'empty';
+    else if (revealed && i===G.qi && G.ok) cls = 'empty';
+    return `<div class="pip ${cls}" style="--mc:${m.color}"></div>`;
+  }).join('');
+
+  const answers = qq.opts.map((opt,i) => {
+    let cls = '';
+    if (revealed){
+      if (i===qq.ans) cls='a-reveal';
+      else if (i===G.chosen && i!==qq.ans) cls='a-wrong';
+    }
+    return `<button class="a-btn ${cls}" data-c="${i}" ${revealed?'disabled':''}>
+      <span class="lbl">${labels[i]}</span>${opt}</button>`;
   }).join('');
 
   let logMsg = '▶ 选择你的答案...';
-  if (revealed) {
+  if (revealed){
     logMsg = G.ok
       ? `✦ 命中！架构师的判断斩断了反模式！（+${PTS_Q} 分）`
-      : `✘ 错误！${m.name}发动攻击！你失去了 ${PENALTY} HP。`;
-    if (!G.ok && G.hp <= 0) logMsg += ' HP 归零，生产 503...';
+      : `✘ 错误！${m.name}发动攻击，你失去了 ${PENALTY} HP。`;
+    if (!G.ok && G.hp<=0) logMsg += ' HP 归零，生产 503...';
   }
 
-  const continueBtn = revealed
-    ? `<button class="btn-continue" id="btn-next-q">继续 →</button>` : '';
+  const expColor = G.ok ? '#2d7d46' : '#c0392b';
 
-  return `<div class="s-battle" style="--mc:${m.color}">
+  return `<div class="battle" style="--mc:${m.color}">
     ${playerBarHTML()}
     <div class="monster-card" id="mc" style="--mc:${m.color}">
       <div class="mc-header">
@@ -1011,61 +688,101 @@ function battleHTML(revealed) {
         <div class="mc-meta">
           <h2 class="mc-name" style="color:${m.color}">${m.name}</h2>
           <span class="mc-zone" style="background:${m.color}">${m.zone}</span>
-          <div class="mc-pips">
-            ${pins}
-            <span class="mc-pips-label">怪物 HP</span>
-          </div>
+          <div class="mc-pips">${pins}<span class="mc-pips-label">怪物 HP</span></div>
         </div>
       </div>
       <div class="mc-flavor">${m.flavor}</div>
     </div>
     <div class="q-card" id="qc">
-      <p class="q-meta">问题 ${G.qi + 1} / ${totalQ}</p>
+      <p class="q-meta">问题 ${G.qi+1} / ${totalQ}</p>
       <p class="q-text">${qq.q}</p>
-      <div class="answers">${answersHTML}</div>
+      <div class="answers">${answers}</div>
     </div>
-    <div class="battle-log" id="blog">${logMsg}</div>
-    ${revealed && G.ok ? `<p style="font-size:.8rem;font-style:italic;color:#2d7d46;margin-bottom:.6rem;padding-left:.2rem;">💡 ${qq.exp}</p>` : ''}
-    ${revealed && !G.ok ? `<p style="font-size:.8rem;font-style:italic;color:#c0392b;margin-bottom:.6rem;padding-left:.2rem;">💡 ${qq.exp}</p>` : ''}
-    ${continueBtn}
+    <div class="battle-log">${logMsg}</div>
+    ${revealed ? `<p class="exp-line" style="color:${expColor}">💡 ${qq.exp}</p>` : ''}
+    ${revealed ? `<button class="btn-continue" id="btn-next-q">继续 →</button>` : ''}
   </div>`;
 }
 
-function bendHTML() {
+function battleEndHTML(){
   const m = monster();
   const correct = G.results.filter(Boolean).length;
   const perfect = correct === qs().length;
-  const earned  = correct * PTS_Q + (perfect ? PTS_PERF : 0);
-  const isLast  = G.mi >= MONSTERS.length - 1;
+  const earned = correct*PTS_Q + (perfect?PTS_PERF:0);
+  const rPips = G.results.map(r => `<div class="rp ${r?'ok':'bad'}"></div>`).join('');
+  const badge = perfect ? '🏆' : correct>=2 ? '⚔️' : '🩹';
+  const title = perfect ? '完美击败！' : correct>=2 ? '击退成功' : '险胜...';
 
-  const rPips = G.results.map(r =>
-    `<div class="rp ${r ? 'ok' : 'bad'}"></div>`).join('');
-
-  const badge = perfect ? '🏆' : correct >= 2 ? '⚔️' : '🩹';
-  const title = perfect ? '完美击败！' : correct >= 2 ? '击退成功' : '险胜...';
-
-  return `<div class="s-end" style="--mc:${m.color}">
+  return `<div class="battle" style="--mc:${m.color}">
     ${playerBarHTML()}
     <div class="end-card">
       <span class="end-badge">${badge}</span>
       <h2 class="end-title">${title}</h2>
-      <p class="end-subtitle">
-        ${perfect
-          ? `全部答对！获得 ${earned} 分（含完美奖励 +${PTS_PERF}）`
-          : `答对 ${correct} / ${qs().length}，获得 ${earned} 分`}
-      </p>
-      <div class="end-result-pips">${rPips}</div>
+      <p class="end-subtitle">${perfect
+        ? `全部答对！获得 ${earned} 分（含完美奖励 +${PTS_PERF}）`
+        : `答对 ${correct} / ${qs().length}，获得 ${earned} 分`}</p>
+      <div class="end-pips">${rPips}</div>
       ${perfect ? `<p class="bonus-note">🌿 完美！HP 恢复 ${PERFECT_HP} 点。</p>` : ''}
       <a class="end-learn" href="${m.learnHref}" target="_blank">${m.learnText} →</a>
-      <button class="btn-continue" id="btn-next-m">
-        ${isLast ? '查看最终结果 →' : `挑战下一关 →`}
-      </button>
+      <button class="btn-continue" id="btn-back-map">${allCleared()
+        ? '反模式已全部清除，返回地图前往终点 →'
+        : '返回地图 →'}</button>
     </div>
   </div>`;
 }
 
-function gameoverHTML() {
-  return `<div class="s-final">
+function bindBattle(){
+  document.querySelectorAll('.a-btn:not([disabled])').forEach(b => {
+    b.onclick = () => answer(+b.dataset.c);
+  });
+  const nq = document.getElementById('btn-next-q');
+  if (nq) nq.onclick = () => nextQ();
+  const bm = document.getElementById('btn-back-map');
+  if (bm) bm.onclick = () => backToMap();
+}
+
+function answer(choice){
+  if (G.bphase !== 'q') return;
+  const qq = q();
+  const ok = choice === qq.ans;
+  G.chosen = choice; G.ok = ok; G.results.push(ok);
+  if (!ok) G.hp = Math.max(0, G.hp - PENALTY);
+  G.bphase = 'reveal';
+  render();
+  if (!ok){
+    const qc = document.getElementById('qc');
+    if (qc){ qc.classList.add('do-shake'); qc.addEventListener('animationend', ()=>qc.classList.remove('do-shake'), {once:true}); }
+    if (G.hp<=0){ setTimeout(()=>{ G.screen='gameover'; render(); }, 1400); }
+  }
+}
+
+function nextQ(){
+  if (G.hp<=0){ G.screen='gameover'; render(); return; }
+  if (G.qi+1 >= qs().length){
+    // 结算本场战斗
+    const correct = G.results.filter(Boolean).length;
+    const perfect = correct === qs().length;
+    G.score += correct*PTS_Q;
+    if (perfect){ G.score += PTS_PERF; G.hp = Math.min(MAX_HP, G.hp+PERFECT_HP); }
+    G.defeated[G.mid] = true;   // 怪物被击败，从地图移除
+    G.bphase = 'end';
+  } else {
+    G.qi++; G.chosen=null; G.ok=null; G.bphase='q';
+  }
+  render();
+}
+
+function backToMap(){
+  G.screen = 'map';
+  if (allCleared()) showBanner('🎉 全部反模式已清除！前往 🚀 终点通关');
+  render();
+}
+
+// ================================================================
+// 结局屏
+// ================================================================
+function gameoverHTML(){
+  return `<div class="screen-center">
     <span class="final-icon">💀</span>
     <h1 class="final-title">503 — 生产已倒下</h1>
     <p class="final-sub" style="color:#c0392b">HP 归零，AI-native 工程师不合格</p>
@@ -1078,145 +795,50 @@ function gameoverHTML() {
   </div>`;
 }
 
-function victoryHTML() {
+function victoryHTML(){
   const rank =
     G.score >= 2500 ? '首席架构师 · Chief Architect' :
     G.score >= 1800 ? '资深工程师 · Senior Engineer' :
-    G.score >= 1200 ? '合格 AI-native · AI-native Engineer' :
+    G.score >= 1200 ? '合格 AI-native 工程师' :
                       '见习工程师 · Junior Engineer';
-
-  const shareText = `我在 PokeHire 击败了 7 种 AI-native 工程反模式，得分 ${G.score} 分，头衔：${rank.split('·')[0].trim()}。\n\nGitHire 方法论：人指挥 AI 干活，不是 AI 辅助人。\n→ https://realroc.github.io/git-hired/game.html`;
+  const shareText = `我在 PokeHire 走通了 AI-native 工程地图，击败 7 种工程反模式，得分 ${G.score} 分，头衔：${rank.split('·')[0].trim()}。\n\nGitHire 方法论：人指挥 AI 干活，不是 AI 辅助人。\n→ https://realroc.github.io/git-hired/game.html`;
   window.__SHARE__ = shareText;
 
-  return `<div class="s-final">
-    <span class="final-icon" style="animation:m-bob 2s ease-in-out infinite">🏆</span>
-    <h1 class="final-title" style="color:var(--accent)">通关！</h1>
+  return `<div class="screen-center">
+    <span class="final-icon" style="animation:bob 2s ease-in-out infinite">🚀</span>
+    <h1 class="final-title" style="color:var(--accent)">通关！抵达 Production</h1>
     <p class="final-sub">七种工程反模式已全部击败</p>
     <p class="final-score">最终得分：${G.score} 分 · 头衔：${rank}</p>
-    <p class="final-body">恭喜你理解了 GitHire 核心方法论：<br/><strong>人 frame、AI 执行、架构师判断。</strong></p>
+    <p class="final-body">恭喜你走通了这张地图，也理解了 GitHire 核心方法论：<br/><strong>人 frame、AI 执行、架构师判断。</strong></p>
     <div class="btn-row">
       <button class="g-btn solid" id="btn-share">复制分享文案</button>
       <button class="g-btn ghost" id="btn-retry">再玩一次</button>
       <a class="g-btn ghost" href="./index.html">返回 GitHire</a>
     </div>
     <p id="share-ok" class="share-ok">✓ 已复制！</p>
-    <p class="final-links">
-      深入阅读：
+    <p class="final-links">深入阅读：
       <a href="./case-redis-scan.html">Case 01 · Redis 事故</a> ·
       <a href="./skill.html">安装 GitHire Skill</a>
     </p>
   </div>`;
 }
 
-// ================================================================
-// BIND EVENTS
-// ================================================================
-function bind() {
-  function el(id) { return document.getElementById(id); }
-
-  // Title
-  const s = el('btn-start');
-  if (s) s.onclick = () => { G = freshState(); G.phase = 'intro'; render(); };
-
-  // Intro → battle
-  const f = el('btn-fight');
-  if (f) f.onclick = () => { G.qi = 0; G.results = []; G.phase = 'battle'; render(); };
-
-  // Answer buttons
-  document.querySelectorAll('.a-btn:not([disabled])').forEach(btn => {
-    btn.onclick = () => answer(+btn.dataset.c);
-  });
-
-  // After reveal → next q
-  const nq = el('btn-next-q');
-  if (nq) nq.onclick = () => nextQ();
-
-  // Battle end → next monster
-  const nm = el('btn-next-m');
-  if (nm) nm.onclick = () => nextM();
-
-  // Retry
+function bindEnd(){
   document.querySelectorAll('#btn-retry').forEach(b => {
-    b.onclick = () => { G = freshState(); render(); };
+    b.onclick = () => { G = freshState(); G.screen='map'; render(); };
   });
-
-  // Share
-  const sh = el('btn-share');
+  const sh = document.getElementById('btn-share');
   if (sh) sh.onclick = () => {
-    navigator.clipboard.writeText(window.__SHARE__ || '').then(() => {
-      const ok = el('share-ok');
-      if (ok) ok.style.display = 'block';
-    }).catch(() => {
-      const ok = el('share-ok');
-      if (ok) { ok.textContent = '✓ 请手动复制上方文案'; ok.style.display = 'block'; }
+    navigator.clipboard.writeText(window.__SHARE__||'').then(()=>{
+      const ok = document.getElementById('share-ok'); if (ok) ok.style.display='block';
+    }).catch(()=>{
+      const ok = document.getElementById('share-ok'); if (ok){ ok.textContent='✓ 请手动复制上方文案'; ok.style.display='block'; }
     });
   };
 }
 
 // ================================================================
-// ACTIONS
-// ================================================================
-function answer(choice) {
-  if (G.phase !== 'battle') return;
-  const qq = q();
-  const ok = choice === qq.ans;
-  G.chosen = choice;
-  G.ok = ok;
-  G.results.push(ok);
-  if (!ok) G.hp = Math.max(0, G.hp - PENALTY);
-  G.phase = 'reveal';
-  render();
-
-  // Shake on wrong
-  if (!ok) {
-    const qc = document.getElementById('qc');
-    if (qc) {
-      qc.classList.add('do-shake');
-      qc.addEventListener('animationend', () => qc.classList.remove('do-shake'), { once: true });
-    }
-    if (G.hp <= 0) {
-      setTimeout(() => { G.phase = 'gameover'; render(); }, 1400);
-    }
-  }
-}
-
-function nextQ() {
-  if (G.hp <= 0) { G.phase = 'gameover'; render(); return; }
-  if (G.qi + 1 >= qs().length) {
-    // All questions answered — tally battle
-    const correct = G.results.filter(Boolean).length;
-    const perfect = correct === qs().length;
-    G.score += correct * PTS_Q;
-    if (perfect) {
-      G.score += PTS_PERF;
-      G.hp = Math.min(MAX_HP, G.hp + PERFECT_HP);
-    }
-    G.phase = 'bend';
-  } else {
-    G.qi++;
-    G.chosen = null;
-    G.ok = null;
-    G.phase = 'battle';
-  }
-  render();
-}
-
-function nextM() {
-  if (G.mi + 1 >= MONSTERS.length) {
-    G.phase = 'victory';
-  } else {
-    G.mi++;
-    G.qi = 0;
-    G.results = [];
-    G.chosen = null;
-    G.ok = null;
-    G.phase = 'intro';
-  }
-  render();
-}
-
-// ================================================================
-// INIT
+// 启动
 // ================================================================
 render();
 </script>
