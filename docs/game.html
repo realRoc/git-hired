@@ -391,7 +391,7 @@ const PIXEL = 3;                  // 每"像素"= 3 屏幕 px
 const TILE = SPR * PIXEL;         // 48
 
 // 起始位置（中心镇）
-const TOWN_SPAWN = { x:8, y:11 };
+const TOWN_SPAWN = { x:10, y:13 };
 
 // ── 怪物区生成器：边界障碍 + 中央怪物 + 底部出口回镇 ──────────────
 function makeZone(id, name, theme, monId, backSpawn){
@@ -431,36 +431,58 @@ const MAPS = {
   town: {
     name: 'GitHire 中心镇',
     theme: 'town',
+    // 21×15：木栅栏边界(F) + 中央喷泉石砖广场(B) + 土路(,) + 草地(.)
     rows: [
-      "TTTTTTT.T.TTTTTTT",
-      "T...............T",
-      "T.###.......###.T",
-      "T.###.......###.T",
-      "T.###.......###.T",
-      ".................",
-      "T......###......T",
-      "T......###......T",
-      "T......###......T",
-      "T...............T",
-      "T...............T",
-      "T.......S.......T",
-      "TTTTTTT.T.TTTTTTT",
+      "FFFFFFFFF.F.FFFFFFFFF",
+      "F........,,,........F",
+      "F........,,,........F",
+      "F.......BBBBB.......F",
+      "F.......BBBBB.......F",
+      "F.......BBBBB.......F",
+      "F.......BBBBB.......F",
+      ".,,,,,,,,,,,,,,,,,,,.",
+      "F........,,,........F",
+      "F.........,.........F",
+      "F.........,.........F",
+      "F.........,.........F",
+      "F........,,,........F",
+      "F........,,,........F",
+      "FFFFFFFFF.F.FFFFFFFFF",
     ],
     buildings: [
-      { x:2,  y:2, w:3, h:3, type:'hq',       label:'GitHire 总部' },
-      { x:12, y:2, w:3, h:3, type:'lib',      label:'文档馆' },
-      { x:7,  y:6, w:3, h:3, type:'fortress', label:'孤岛要塞' },
+      { x:2,  y:2,  w:4, h:3, type:'hq',       label:'GitHire 总部' },
+      { x:15, y:2,  w:4, h:3, type:'lib',      label:'文档馆' },
+      { x:9,  y:4,  w:2, h:2, type:'fountain', label:'' },
+      { x:2,  y:8,  w:4, h:3, type:'farm',     label:'用例农田' },
+      { x:15, y:8,  w:4, h:3, type:'range',    label:'人员靶场' },
+      { x:2,  y:12, w:4, h:2, type:'pond',     label:'' },
+      { x:15, y:12, w:4, h:2, type:'pond',     label:'' },
+      { x:9,  y:9,  w:3, h:3, type:'fortress', label:'孤岛要塞' },
+    ],
+    decor: [
+      { x:6,  y:3,  t:'well'  }, { x:14, y:3,  t:'well'  },
+      { x:8,  y:12, t:'lamp'  }, { x:12, y:12, t:'lamp'  },
+      { x:7,  y:7,  t:'lamp'  }, { x:13, y:7,  t:'lamp'  },
+      { x:1,  y:6,  t:'tree'  }, { x:19, y:6,  t:'tree'  },
+      { x:1,  y:1,  t:'tree'  }, { x:19, y:1,  t:'tree'  },
+      { x:6,  y:5,  t:'mailbox' }, { x:15, y:5, t:'mailbox' },
+      { x:13, y:2, t:'flower' }, { x:7,  y:2,  t:'flower' },
+      { x:5,  y:6, t:'flower' }, { x:14, y:6, t:'flower' },
+      { x:3,  y:7, t:'bush'   }, { x:17, y:7, t:'bush'   },
+      { x:6,  y:10,t:'bush'   }, { x:14, y:10,t:'bush'   },
+      { x:7,  y:13,t:'flower' }, { x:13, y:13,t:'flower' },
+      { x:4,  y:6, t:'rock'   }, { x:16, y:11,t:'rock'   },
     ],
     monsters: [],
     spawn: TOWN_SPAWN,
     exits: [
-      { x:7,  y:0,  to:'issue',     sx:6, sy:9, label:'Issue 荒野' },
-      { x:9,  y:0,  to:'sandbox',   sx:6, sy:9, label:'Sandbox 洞穴' },
-      { x:0,  y:5,  to:'valley',    sx:6, sy:9, label:'甩锅龙谷' },
-      { x:16, y:5,  to:'graveyard', sx:6, sy:9, label:'人月墓园' },
-      { x:7,  y:12, to:'incident',  sx:6, sy:9, label:'Case01 现场' },
-      { x:9,  y:12, to:'deadline',  sx:6, sy:9, label:'Deadline 钟楼' },
-      { x:8,  y:9,  to:'fortress',  sx:6, sy:9, label:'孤岛要塞', boss:true },
+      { x:9,  y:0,  to:'issue',     sx:6, sy:9, label:'Issue 荒野' },
+      { x:11, y:0,  to:'sandbox',   sx:6, sy:9, label:'Sandbox 洞穴' },
+      { x:0,  y:7,  to:'valley',    sx:6, sy:9, label:'甩锅龙谷' },
+      { x:20, y:7,  to:'graveyard', sx:6, sy:9, label:'人月墓园' },
+      { x:9,  y:14, to:'incident',  sx:6, sy:9, label:'Case01 现场' },
+      { x:11, y:14, to:'deadline',  sx:6, sy:9, label:'Deadline 钟楼' },
+      { x:10, y:12, to:'fortress',  sx:6, sy:9, label:'孤岛要塞', boss:true },
     ],
   },
   issue:     makeZone('issue',     'Issue 荒野',        'wild',      'ghost',  {x:7,  y:1}),
@@ -474,11 +496,11 @@ const MAPS = {
 
 // ── 主题调色板 ──────────────────────────────────────────────────
 const THEME = {
-  town:      { g1:'#7ec850', g2:'#86d156', dark:'#6cb83f', lite:'#9bdc6a', path:'#caa46a', obst:'tree'   },
-  wild:      { g1:'#8fd06a', g2:'#7ec850', dark:'#6cb83f', lite:'#a8e07a', path:'#caa46a', obst:'tree'   },
+  town:      { g1:'#7ec850', g2:'#86d156', dark:'#6cb83f', lite:'#9bdc6a', path:'#caa46a', obst:'tree',   flora:true },
+  wild:      { g1:'#8fd06a', g2:'#7ec850', dark:'#6cb83f', lite:'#a8e07a', path:'#caa46a', obst:'tree',   flora:true },
   cave:      { g1:'#4a4a55', g2:'#42424d', dark:'#34343d', lite:'#5a5a66', path:'#5a5a66', obst:'rock'   },
   valley:    { g1:'#79b3c9', g2:'#8cc0d6', dark:'#5f9bb3', lite:'#a6d6e6', path:'#8cc0d6', obst:'rock'   },
-  graveyard: { g1:'#4d6b4d', g2:'#456245', dark:'#3a503a', lite:'#5f7d5f', path:'#5f7d5f', obst:'tomb'   },
+  graveyard: { g1:'#4d6b4d', g2:'#456245', dark:'#3a503a', lite:'#5f7d5f', path:'#5f7d5f', obst:'tomb',   flora:true },
   incident:  { g1:'#3a3340', g2:'#332d38', dark:'#2a2530', lite:'#4a4350', path:'#4a4350', obst:'server' },
   tower:     { g1:'#6a5a8a', g2:'#5f5080', dark:'#4f4068', lite:'#8a7aa8', path:'#8a7aa8', obst:'pillar' },
   fortress:  { g1:'#3d3354', g2:'#352c49', dark:'#2a2340', lite:'#4d4368', path:'#4d4368', obst:'pillar' },
@@ -500,8 +522,11 @@ function setMap(id, spawn){
   (m.buildings||[]).forEach(b => {
     for (let y=b.y; y<b.y+b.h; y++) for (let x=b.x; x<b.x+b.w; x++){ if (walls[y]) walls[y][x] = true; }
   });
+  // 阻挡型装饰物
+  const BLOCK_DECOR = { well:1, lamp:1, statue:1, tree:1 };
+  (m.decor||[]).forEach(d => { if (BLOCK_DECOR[d.t] && walls[d.y]) walls[d.y][d.x] = true; });
   CUR = { id, name:m.name, theme:m.theme, cols, rows:rs, src:rows, walls,
-          exits:m.exits||[], buildings:m.buildings||[], monsters:m.monsters||[] };
+          exits:m.exits||[], buildings:m.buildings||[], monsters:m.monsters||[], decor:m.decor||[] };
   G.curMap = id;
   const sp = spawn || m.spawn;
   const p = G.player;
@@ -841,64 +866,198 @@ function blit(ctx, id, dx, dy){
   ctx.drawImage(getSprite(id), 0,0,SPR,SPR, dx,dy,TILE,TILE);
 }
 
-// ── 地面 / 障碍 / 建筑（按主题）─────────────────────────────────
+// ── 地面（草地 / 土路 / 石砖）──────────────────────────────────
 function drawGround(c,x,y,th,kind){
   const X=x*TILE, Y=y*TILE, P=PIXEL;
-  const base = (kind==='path') ? th.path : (((x+y)%2) ? th.g1 : th.g2);
-  R(c,X,Y,TILE,TILE, base);
-  if (kind==='path') return;
-  const seed=((x*73856093) ^ (y*19349663)) >>> 0;
-  R(c, X+((seed)%14)*P,     Y+((seed>>4)%14)*P,  P, P, th.dark);
-  R(c, X+((seed>>8)%14)*P,  Y+((seed>>12)%14)*P, P, P, th.dark);
-  R(c, X+((seed>>16)%15)*P, Y+((seed>>20)%15)*P, P, P, th.lite);
+  if (kind==='path'){
+    R(c,X,Y,TILE,TILE,th.path);
+    const s=((x*73856093)^(y*19349663))>>>0;
+    R(c, X+(s%15)*P,     Y+((s>>4)%15)*P,  P, P, th.pathD||'#b8965c');
+    R(c, X+((s>>8)%15)*P,Y+((s>>12)%15)*P, P, P, th.pathL||'#dbbf86');
+    return;
+  }
+  if (kind==='brick'){
+    R(c,X,Y,TILE,TILE,'#c2bcae');
+    for(let r=0;r<8;r++) for(let q=0;q<8;q++){
+      const bx=X+q*2*P, by=Y+r*2*P, off=(r%2)?P:0;
+      R(c,bx+off,by,2*P-1,2*P-1,((q+r)%2)?'#bbb4a4':'#cac3b4');
+    }
+    R(c,X,Y,TILE,P,'#d6cfc0'); R(c,X,Y+TILE-P,TILE,P,'#a9a293');
+    return;
+  }
+  // 草地：双色拼布 + 草叶 + 偶尔花朵
+  R(c,X,Y,TILE,TILE, ((x+y)%2) ? th.g1 : th.g2);
+  const s=((x*374761393)^(y*668265263))>>>0;
+  R(c, X+((s)%5+1)*P,    Y+((s>>3)%5+1)*P,  P, 2*P, th.dark);   // 草叶
+  R(c, X+((s>>6)%5+9)*P, Y+((s>>9)%5+9)*P,  P, 2*P, th.dark);
+  R(c, X+((s>>12)%14)*P, Y+((s>>15)%14)*P,  P, P,   th.lite);
+  if (th.flora && (s%12)===0){                                  // 花（仅草地系主题）
+    const fx=X+((s>>4)%10+3)*P, fy=Y+((s>>8)%10+3)*P, fc=['#f4d03f','#ffffff','#ec7a8e','#b98ef0'][s%4];
+    R(c,fx,fy-P,P,P,fc); R(c,fx-P,fy,P,P,fc); R(c,fx+P,fy,P,P,fc); R(c,fx,fy+P,P,P,fc); R(c,fx,fy,P,P,'#f4c430');
+  }
 }
 function drawTallGrass(c,x,y,th){
   const X=x*TILE, Y=y*TILE, P=PIXEL;
-  for (let i=0;i<5;i++){ R(c, X+(2+i*2)*P, Y+(11-(i%2))*P, P, (3+(i%2))*P, th.dark); }
-  R(c, X+5*P, Y+9*P, P, 2*P, th.lite);
-}
-function drawObstacle(c,x,y,th){
-  const X=x*TILE, Y=y*TILE, P=PIXEL, o=th.obst;
-  if (o==='tree'){
-    R(c,X+7*P,Y+11*P,2*P,4*P,'#7a4a22');
-    R(c,X+3*P,Y+2*P,10*P,9*P,'#2f7d34'); R(c,X+4*P,Y+3*P,4*P,3*P,'#3f9442'); R(c,X+3*P,Y+8*P,10*P,2*P,'#256127');
-    const g=((x+y)%2)?th.g1:th.g2; R(c,X+3*P,Y+2*P,P,P,g); R(c,X+12*P,Y+2*P,P,P,g); R(c,X+3*P,Y+10*P,P,P,g); R(c,X+12*P,Y+10*P,P,P,g);
-  } else if (o==='rock'){
-    R(c,X+3*P,Y+6*P,10*P,7*P,'#8a8a93'); R(c,X+3*P,Y+6*P,10*P,2*P,'#a6a6ae'); R(c,X+4*P,Y+11*P,8*P,2*P,'#6a6a73');
-    R(c,X+3*P,Y+6*P,P,P,((x+y)%2)?th.g1:th.g2); R(c,X+12*P,Y+6*P,P,P,((x+y)%2)?th.g1:th.g2);
-  } else if (o==='tomb'){
-    R(c,X+5*P,Y+3*P,6*P,10*P,'#b6b6be'); R(c,X+6*P,Y+2*P,4*P,2*P,'#b6b6be'); R(c,X+5*P,Y+3*P,6*P,2*P,'#cfcfd6');
-    R(c,X+7*P,Y+5*P,2*P,P,'#6a6a73'); R(c,X+6*P,Y+6*P,4*P,P,'#6a6a73');  // 十字
-  } else if (o==='server'){
-    R(c,X+3*P,Y+2*P,10*P,12*P,'#22252e'); R(c,X+3*P,Y+2*P,10*P,P,'#3a3f4d');
-    for(let i=0;i<5;i++){ R(c,X+4*P,Y+(3+i*2)*P,8*P,P,'#33384a'); R(c,X+10*P,Y+(3+i*2)*P,P,P, (i%2)?'#e8503a':'#3fd47a'); }
-  } else { // pillar
-    R(c,X+5*P,Y+1*P,6*P,14*P,'#cfc7e0'); R(c,X+5*P,Y+1*P,6*P,2*P,'#e6e0f2'); R(c,X+9*P,Y+1*P,2*P,14*P,'#a89dc4');
-    R(c,X+4*P,Y+1*P,8*P,P,'#b8aed4'); R(c,X+4*P,Y+13*P,8*P,P,'#b8aed4');
-  }
-}
-function drawBuilding(ctx,b){
-  const X=b.x*TILE, Y=b.y*TILE, W=b.w*TILE, H=b.h*TILE, P=PIXEL;
-  if (b.type==='fortress'){
-    R(ctx,X,Y,W,H,'#2f2740'); R(ctx,X,Y,W,4*P,'#46395f');                 // 墙体
-    R(ctx,X,Y,W,2*P,'#5d4d7a');
-    for(let i=0;i<b.w;i++){ R(ctx,X+i*TILE+5*P,Y+2*P,2*P,2*P,'#1a1626'); } // 城垛
-    R(ctx,X+W/2-3*P,Y+H-7*P,6*P,7*P,'#15111f');                            // 大门
-    R(ctx,X+W/2-1*P,Y+H-6*P,2*P,4*P, bossUnlocked()?'#f4c430':'#3a3354');  // 门光
-    return;
-  }
-  // 普通房子：墙 + 屋顶 + 门 + 窗
-  R(ctx,X+P,Y+H*0.4,W-2*P,H*0.6-P,'#e8dcc0');                              // 墙
-  R(ctx,X+P,Y+H*0.4,W-2*P,2*P,'#cdbf9c');
-  const roof = (b.type==='hq') ? '#D97757' : '#5a8ec5';                     // 屋顶
-  R(ctx,X,Y+2*P,W,H*0.4-P,roof); R(ctx,X,Y+2*P,W,2*P,'#fff3');
-  R(ctx,X+W/2-3*P,Y+2*P,6*P,2*P,'#ffffff44');                              // 屋脊高光
-  R(ctx,X+W/2-2*P,Y+H-6*P,4*P,6*P,'#7a4a22');                              // 门
-  R(ctx,X+W/2+P,Y+H-4*P,1*P,1*P,'#f4c430');                                // 门把手
-  R(ctx,X+3*P,Y+H*0.45,3*P,3*P,'#bfe0f5'); R(ctx,X+W-6*P,Y+H*0.45,3*P,3*P,'#bfe0f5'); // 窗
+  for (let i=0;i<6;i++){ R(c, X+(1+i*2)*P, Y+(11-(i%2)*2)*P, P, (4+(i%2)*2)*P, i%2?th.dark:th.lite); }
 }
 
-// 静态地图背景（地面 + 障碍 + 建筑 + 出口路牌）只在切图时重建
+// ── 障碍（树 / 岩 / 墓碑 / 服务器 / 石柱）──────────────────────────
+function drawObstacle(c,x,y,th){
+  const X=x*TILE, Y=y*TILE, P=PIXEL, o=th.obst;
+  if (o==='tree'){ drawTree(c,X,Y,P, (x*7+y*3)%2===0); return; }
+  if (o==='rock'){
+    R(c,X+4*P,Y+13*P,8*P,2*P,'rgba(0,0,0,.12)');
+    R(c,X+3*P,Y+6*P,10*P,7*P,'#8f8f99'); R(c,X+3*P,Y+6*P,10*P,2*P,'#ababb4');
+    R(c,X+4*P,Y+5*P,6*P,2*P,'#a6a6b0'); R(c,X+4*P,Y+11*P,8*P,2*P,'#6e6e78');
+    R(c,X+5*P,Y+8*P,2*P,P,'#c0c0c8');
+  } else if (o==='tomb'){
+    R(c,X+4*P,Y+13*P,8*P,2*P,'rgba(0,0,0,.18)');
+    R(c,X+5*P,Y+3*P,6*P,10*P,'#b9b9c2'); R(c,X+6*P,Y+2*P,4*P,2*P,'#b9b9c2'); R(c,X+5*P,Y+3*P,6*P,2*P,'#d0d0d8');
+    R(c,X+10*P,Y+3*P,P,10*P,'#94949e');
+    R(c,X+7*P,Y+5*P,2*P,4*P,'#6a6a73'); R(c,X+6*P,Y+6*P,4*P,P,'#6a6a73');   // 十字
+  } else if (o==='server'){
+    R(c,X+3*P,Y+2*P,10*P,12*P,'#1d2028'); R(c,X+3*P,Y+2*P,10*P,P,'#3a3f4d'); R(c,X+3*P,Y+2*P,P,12*P,'#2a2e38');
+    for(let i=0;i<5;i++){ R(c,X+4*P,Y+(3+i*2)*P,8*P,P,'#2e3340'); R(c,X+10*P,Y+(3+i*2)*P,P,P, (i%2)?'#e8503a':'#3fd47a'); R(c,X+11*P,Y+(3+i*2)*P,P,P,(i%3)?'#f4c430':'#3a3f4d'); }
+  } else { // pillar
+    R(c,X+4*P,Y+13*P,8*P,2*P,'rgba(0,0,0,.15)');
+    R(c,X+5*P,Y+1*P,6*P,13*P,'#cfc7e0'); R(c,X+5*P,Y+1*P,2*P,13*P,'#e6e0f2'); R(c,X+9*P,Y+1*P,2*P,13*P,'#a89dc4');
+    R(c,X+4*P,Y+1*P,8*P,2*P,'#b8aed4'); R(c,X+4*P,Y+12*P,8*P,2*P,'#b8aed4');
+  }
+}
+function drawTree(c,X,Y,P,broad){
+  R(c,X+4*P,Y+13*P,8*P,2*P,'rgba(0,0,0,.14)');           // 影
+  if (broad){
+    R(c,X+7*P,Y+11*P,2*P,4*P,'#6b4423'); R(c,X+7*P,Y+11*P,P,4*P,'#5a3818');  // 干
+    R(c,X+3*P,Y+2*P,10*P,10*P,'#2f7d34');                                     // 冠
+    R(c,X+3*P,Y+2*P,10*P,3*P,'#3f9442'); R(c,X+4*P,Y+3*P,3*P,2*P,'#57a94f');  // 高光
+    R(c,X+3*P,Y+9*P,10*P,3*P,'#236127');                                      // 暗
+    R(c,X+3*P,Y+2*P,P,P,'#0000'); R(c,X+12*P,Y+2*P,P,P,'#0000');              // (透明角不画)
+  } else {
+    R(c,X+7*P,Y+12*P,2*P,3*P,'#6b4423');                                       // 干
+    R(c,X+6*P,Y+1*P,4*P,2*P,'#2a6b2f'); R(c,X+5*P,Y+3*P,6*P,2*P,'#2f7d34');
+    R(c,X+4*P,Y+5*P,8*P,2*P,'#2a6b2f'); R(c,X+3*P,Y+7*P,10*P,2*P,'#2f7d34');
+    R(c,X+4*P,Y+9*P,8*P,2*P,'#236127'); R(c,X+5*P,Y+11*P,6*P,P,'#236127');
+    R(c,X+6*P,Y+2*P,P,6*P,'#57a94f');                                          // 光
+  }
+}
+
+// ── 装饰物 ──────────────────────────────────────────────────────
+function drawDecor(c,x,y,t,th){
+  const X=x*TILE, Y=y*TILE, P=PIXEL;
+  if (t==='flower'){
+    [[5,6,'#ec7a8e'],[8,5,'#f4d03f'],[6,9,'#b98ef0'],[10,8,'#ffffff']].forEach(([fx,fy,col])=>{
+      R(c,X+fx*P,Y+(fy-1)*P,P,P,col); R(c,X+(fx-1)*P,Y+fy*P,P,P,col); R(c,X+(fx+1)*P,Y+fy*P,P,P,col); R(c,X+fx*P,Y+(fy+1)*P,P,P,col); R(c,X+fx*P,Y+fy*P,P,P,'#f4c430');
+      R(c,X+fx*P,Y+(fy+2)*P,P,P,th?th.dark:'#3a7a2a');
+    });
+  } else if (t==='bush'){
+    R(c,X+4*P,Y+12*P,8*P,2*P,'rgba(0,0,0,.12)');
+    R(c,X+3*P,Y+7*P,10*P,6*P,'#2f8d3a'); R(c,X+3*P,Y+7*P,10*P,2*P,'#46a850'); R(c,X+4*P,Y+8*P,2*P,P,'#5fc06a');
+    R(c,X+3*P,Y+11*P,10*P,2*P,'#206128');
+  } else if (t==='rock'){
+    R(c,X+5*P,Y+11*P,6*P,2*P,'rgba(0,0,0,.12)');
+    R(c,X+5*P,Y+7*P,6*P,5*P,'#9a9aa3'); R(c,X+5*P,Y+7*P,6*P,2*P,'#b4b4bd'); R(c,X+6*P,Y+10*P,4*P,P,'#76767f');
+  } else if (t==='well'){
+    R(c,X+3*P,Y+13*P,10*P,2*P,'rgba(0,0,0,.16)');
+    R(c,X+3*P,Y+8*P,10*P,6*P,'#8a8a93'); R(c,X+3*P,Y+8*P,10*P,P,'#a6a6ae');   // 井身
+    for(let i=0;i<4;i++) R(c,X+(3+i*3)*P,Y+9*P,2*P,5*P,'#6e6e78');           // 砖缝
+    R(c,X+4*P,Y+9*P,8*P,2*P,'#2a3550');                                       // 水面
+    R(c,X+2*P,Y+2*P,2*P,6*P,'#6b4423'); R(c,X+12*P,Y+2*P,2*P,6*P,'#6b4423');  // 立柱
+    R(c,X+2*P,Y+1*P,12*P,2*P,'#8a5e34'); R(c,X+2*P,Y+1*P,12*P,P,'#a87a4a');   // 顶棚
+  } else if (t==='lamp'){
+    R(c,X+6*P,Y+13*P,4*P,2*P,'rgba(0,0,0,.14)');
+    R(c,X+7*P,Y+5*P,2*P,9*P,'#3a3f4d');                                       // 杆
+    R(c,X+5*P,Y+2*P,6*P,4*P,'#2a2e38'); R(c,X+6*P,Y+3*P,4*P,2*P,'#f4d35e');   // 灯头+光
+    R(c,X+6*P,Y+3*P,4*P,P,'#fff7c0');
+  } else if (t==='mailbox'){
+    R(c,X+6*P,Y+8*P,4*P,5*P,'#6b4423');                                       // 柱
+    R(c,X+4*P,Y+5*P,8*P,4*P,'#c0392b'); R(c,X+4*P,Y+5*P,8*P,P,'#e05a44');     // 箱
+    R(c,X+11*P,Y+5*P,P,2*P,'#f4c430');                                        // 旗
+  } else if (t==='tree'){
+    drawTree(c,X,Y,P, (x*7+y*3)%2===0);
+  }
+}
+
+// ── 建筑 ────────────────────────────────────────────────────────
+function drawBuilding(ctx,b){
+  const X=b.x*TILE, Y=b.y*TILE, W=b.w*TILE, H=b.h*TILE, P=PIXEL;
+  const T=b.type;
+  if (T==='hq' || T==='lib'){ drawHouse(ctx,b,X,Y,W,H,P); return; }
+  if (T==='fountain'){ drawFountain(ctx,X,Y,W,H,P); return; }
+  if (T==='pond'){ drawPond(ctx,X,Y,W,H,P); return; }
+  if (T==='farm'){ drawPlot(ctx,X,Y,W,H,P,'farm'); return; }
+  if (T==='range'){ drawPlot(ctx,X,Y,W,H,P,'range'); return; }
+  if (T==='fortress'){ drawFortress(ctx,X,Y,W,H,P); return; }
+}
+function drawHouse(ctx,b,X,Y,W,H,P){
+  const red = b.type==='hq';
+  const roof=red?'#c0392b':'#2e6da4', roofL=red?'#e05a44':'#4a8ec5', roofD=red?'#8e2018':'#1f4f78';
+  const wallY = Y + 4*P;
+  R(ctx,X+P,Y+H-2*P,W-P,2*P,'rgba(0,0,0,.18)');                  // 地面影
+  // 墙（砖）
+  R(ctx,X+P,wallY,W-2*P,Y+H-wallY-P,'#dcb98e');
+  for(let yy=wallY+3*P; yy<Y+H-P; yy+=3*P) R(ctx,X+P,yy,W-2*P,P,'#c79b6e');
+  for(let xx=X+2*P; xx<X+W-2*P; xx+=4*P)   R(ctx,xx,wallY,P,Y+H-wallY-P,'#caa074');
+  // 屋顶（出檐 + 瓦行）
+  R(ctx,X,Y,W,wallY-Y,roof);
+  for(let yy=Y+2*P; yy<wallY; yy+=2*P) R(ctx,X,yy,W,P,roofD);
+  R(ctx,X,Y,W,P,roofL);
+  // 烟囱
+  R(ctx,X+W-5*P,Y-2*P,3*P,4*P,'#7a4a3a'); R(ctx,X+W-5*P,Y-2*P,3*P,P,'#9a6a5a');
+  // 门（框）
+  const dx=X+Math.floor(W/2)-2*P;
+  R(ctx,dx-P,Y+H-7*P,6*P,7*P,'#5e3719'); R(ctx,dx,Y+H-6*P,4*P,6*P,'#8a5a2a');
+  R(ctx,dx+3*P,Y+H-3*P,P,P,'#f4c430');
+  // 窗（带十字格）
+  [X+3*P, X+W-6*P].forEach(wx=>{ R(ctx,wx-P,wallY+2*P,5*P,5*P,'#5e3719'); R(ctx,wx,wallY+3*P,3*P,3*P,'#bfe6f5'); R(ctx,wx+P,wallY+3*P,P,3*P,'#5e3719'); R(ctx,wx,wallY+4*P,3*P,P,'#5e3719'); });
+  // 门牌旗
+  R(ctx,dx+5*P,Y+H-6*P,3*P,2*P, red?'#f4c430':'#cdd5e0');
+}
+function drawFountain(ctx,X,Y,W,H,P){
+  R(ctx,X-P,Y-P,W+2*P,H+2*P,'#b3ac9c');                          // 外缘石
+  R(ctx,X,Y,W,H,'#8fb8d6');                                       // 水池
+  R(ctx,X,Y,W,2*P,'#a9d0e8');
+  const cx=X+W/2, cy=Y+H/2;
+  R(ctx,cx-2*P,cy-2*P,4*P,4*P,'#b3ac9c');                         // 中心台
+  R(ctx,cx-P,cy-5*P,2*P,4*P,'#cfe6f5');                           // 水柱
+  R(ctx,cx-2*P,cy+P,P,P,'#fff'); R(ctx,cx+2*P,cy+2*P,P,P,'#fff'); // 水花
+}
+function drawPond(ctx,X,Y,W,H,P){
+  R(ctx,X,Y+P,W,H-2*P,'#3a7ab0');                                 // 深水
+  R(ctx,X+P,Y,W-2*P,P,'#2f6796'); R(ctx,X+P,Y+H-P,W-2*P,P,'#2f6796');
+  R(ctx,X+P,Y+P,W-2*P,2*P,'#5a98c8'); R(ctx,X+2*P,Y+P,4*P,P,'#8fc0e0'); // 反光
+  R(ctx,X+W-6*P,Y+H-4*P,3*P,2*P,'#3a8d4a');                       // 睡莲
+  R(ctx,X+W-5*P,Y+H-4*P,P,P,'#ec7a8e');
+}
+function drawPlot(ctx,X,Y,W,H,P,kind){
+  R(ctx,X+P,Y+P,W-2*P,H-2*P, kind==='farm'?'#8a5a32':'#caa46a');  // 泥地
+  if (kind==='farm'){
+    for(let r=Y+3*P; r<Y+H-2*P; r+=3*P){ R(ctx,X+2*P,r,W-4*P,P,'#6e4626'); R(ctx,X+2*P,r-P,W-4*P,P,'#3a8d4a'); } // 作物行
+  } else {
+    R(ctx,X+W/2-2*P,Y+H/2-2*P,4*P,4*P,'#e8edf2'); R(ctx,X+W/2-P,Y+H/2-P,2*P,2*P,'#c0392b'); R(ctx,X+W/2,Y+H/2,P,P,'#fff'); // 靶
+    R(ctx,X+3*P,Y+H-5*P,2*P,3*P,'#7a4a22');                        // 木桩
+  }
+  // 木栅栏围边
+  for(let xx=X; xx<X+W; xx+=2*P){ R(ctx,xx,Y,P,2*P,'#8a5e34'); R(ctx,xx,Y+H-2*P,P,2*P,'#8a5e34'); }
+  for(let yy=Y; yy<Y+H; yy+=2*P){ R(ctx,X,yy,P,2*P,'#8a5e34'); R(ctx,X+W-P,yy,P,2*P,'#8a5e34'); }
+  R(ctx,X,Y+P,W,P,'#a87a4a');
+}
+function drawFortress(ctx,X,Y,W,H,P){
+  R(ctx,X+P,Y+H-2*P,W-P,2*P,'rgba(0,0,0,.22)');
+  R(ctx,X,Y+3*P,W,H-3*P,'#3a2f4f');                               // 主体
+  R(ctx,X,Y+3*P,W,P,'#5d4d7a'); R(ctx,X,Y+3*P,2*P,H-3*P,'#2c2440');
+  // 城垛
+  for(let i=0;i<Math.floor(W/(4*P));i++){ R(ctx,X+i*4*P,Y+P,2*P,3*P,'#46395f'); R(ctx,X+i*4*P,Y+P,2*P,P,'#5d4d7a'); }
+  // 砖纹
+  for(let yy=Y+5*P; yy<Y+H-P; yy+=3*P) R(ctx,X+2*P,yy,W-4*P,P,'#2c2440');
+  // 大门
+  const dx=X+W/2-3*P;
+  R(ctx,dx,Y+H-8*P,6*P,8*P,'#15111f'); R(ctx,dx+P,Y+H-7*P,4*P,7*P,'#241d33');
+  // 骷髅旗
+  R(ctx,X+2*P,Y+5*P,3*P,4*P,'#6c3483'); R(ctx,X+W-5*P,Y+5*P,3*P,4*P,'#6c3483');
+  R(ctx,X+3*P,Y+6*P,P,P,'#fff'); R(ctx,X+W-4*P,Y+6*P,P,P,'#fff');
+}
+
+// 静态地图背景（地面 + 障碍 + 装饰 + 建筑 + 出口路牌）只在切图时重建
 let MAPBG = null;
 function buildMapBg(){
   const th = THEME[CUR.theme] || THEME.town;
@@ -906,28 +1065,45 @@ function buildMapBg(){
   off.width = CUR.cols*TILE; off.height = CUR.rows*TILE;
   const c = off.getContext('2d');
   c.imageSmoothingEnabled = false;
-  // 地面 + 障碍
+  // 地面
   for (let y=0;y<CUR.rows;y++){
     for (let x=0;x<CUR.cols;x++){
       const ch = CUR.src[y][x];
-      drawGround(c, x, y, th, ch===',' ? 'path' : 'ground');
+      const kind = ch===',' ? 'path' : ch==='B' ? 'brick' : 'ground';
+      drawGround(c, x, y, th, kind);
+    }
+  }
+  // 障碍（树/岩/栅栏/高草）
+  for (let y=0;y<CUR.rows;y++){
+    for (let x=0;x<CUR.cols;x++){
+      const ch = CUR.src[y][x];
       if (ch==='T'||ch==='#') drawObstacle(c,x,y,th);
+      else if (ch==='F') drawFence(c,x,y);
       else if (ch==='"') drawTallGrass(c,x,y,th);
     }
   }
   // 建筑
   CUR.buildings.forEach(b => drawBuilding(c,b));
+  // 装饰物
+  (CUR.decor||[]).forEach(d => drawDecor(c,d.x,d.y,d.t,th));
   // 出口路牌（非 Boss 门）
   c.textAlign='center'; c.textBaseline='middle';
   CUR.exits.forEach(e => {
     if (e.boss) return;
     const X=e.x*TILE, Y=e.y*TILE, P=PIXEL;
-    R(c,X+5*P,Y+4*P,6*P,5*P,'#caa46a'); R(c,X+5*P,Y+4*P,6*P,P,'#e0c08a');  // 牌
-    R(c,X+7*P,Y+9*P,2*P,5*P,'#7a4a22');                                    // 桩
+    const sy = e.y===0 ? Y+TILE-9*P : Y+2*P;   // 顶边路牌画在格子下半，避免出界
+    R(c,X+2*P,Y+(e.y===0?TILE-4*P:13*P),2*P,4*P,'#7a4a22');     // 桩
+    R(c,X+P,sy,TILE-2*P,6*P,'#caa46a'); R(c,X+P,sy,TILE-2*P,P,'#e0c08a'); R(c,X+P,sy+6*P,TILE-2*P,P,'#9c7c46');
     c.fillStyle='#3a2a14'; c.font='8px Zpix, monospace';
-    c.fillText(e.label, X+TILE/2, Y+6*P);
+    c.fillText(e.label, X+TILE/2, sy+3*P);
   });
   MAPBG = off;
+}
+function drawFence(c,x,y){
+  const X=x*TILE, Y=y*TILE, P=PIXEL;
+  R(c,X,Y+6*P,TILE,2*P,'#a87a4a'); R(c,X,Y+9*P,TILE,2*P,'#8a5e34');     // 横杆
+  R(c,X+2*P,Y+4*P,2*P,9*P,'#8a5e34'); R(c,X+10*P,Y+4*P,2*P,9*P,'#8a5e34'); // 立柱
+  R(c,X+2*P,Y+4*P,2*P,P,'#b08a5a'); R(c,X+10*P,Y+4*P,2*P,P,'#b08a5a');
 }
 
 function draw(ctx){
