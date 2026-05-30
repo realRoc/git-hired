@@ -386,42 +386,134 @@ const QUESTIONS = {
 // ================================================================
 // 地图：W=墙/障碍 .=地面 S=起点 数字=怪物 G=终点(Production)
 // ================================================================
-const MAP_SRC = [
-  "WWWWWWWWWWWWWWWWWWW",
-  "W.................W",
-  "W..1.........2....W",
-  "W.................W",
-  "W....WW...WW......W",
-  "W.................W",
-  "W........3........W",
-  "W.................W",
-  "W....WW...WW......W",
-  "W.................W",
-  "W..4....5....6....W",
-  "W.................W",
-  "W..S....7......G..W",
-  "WWWWWWWWWWWWWWWWWWW",
-];
-const COLS = MAP_SRC[0].length;   // 19
-const ROWS = MAP_SRC.length;      // 14
 const SPR = 16;                   // sprite 逻辑分辨率
 const PIXEL = 3;                  // 每"像素"= 3 屏幕 px
 const TILE = SPR * PIXEL;         // 48
 
-// parse map
-const WALLS = [];           // bool[row][col]
-let START = {x:1,y:1}, GOAL = {x:1,y:1};
-const MON_POS = {};         // monsterId -> {x,y}
-for (let y=0; y<ROWS; y++){
-  WALLS[y] = [];
-  for (let x=0; x<COLS; x++){
-    const ch = MAP_SRC[y][x];
-    WALLS[y][x] = (ch === 'W');
-    if (ch === 'S') START = {x,y};
-    else if (ch === 'G') GOAL = {x,y};
-    else if (ch >= '1' && ch <= '7') MON_POS[MONSTERS[+ch-1].id] = {x,y};
+// 起始位置（中心镇）
+const TOWN_SPAWN = { x:8, y:11 };
+
+// ── 怪物区生成器：边界障碍 + 中央怪物 + 底部出口回镇 ──────────────
+function makeZone(id, name, theme, monId, backSpawn){
+  const W = 13, H = 11, mx = 6, ex = 6;        // 怪物在 (6,3)，入口/出口在底部中央
+  const g = [];
+  for (let y=0; y<H; y++){
+    g[y] = [];
+    for (let x=0; x<W; x++){
+      g[y][x] = (x===0||y===0||x===W-1||y===H-1) ? 'T' : '.';
+    }
   }
+  // 内部随机散布障碍 + 高草（确定性）
+  const base = id.length * 911;
+  for (let y=2; y<H-2; y++) for (let x=2; x<W-2; x++){
+    const s = ((x*73856093) ^ (y*19349663) ^ (base*83492791)) >>> 0;
+    if ((s % 9) === 0) g[y][x] = 'T';
+    else if ((s % 6) === 0) g[y][x] = '"';
+  }
+  // 竖直走廊：从入口直达怪物
+  for (let y=2; y<=H-2; y++) g[y][mx] = '.';
+  // 怪物四周铺高草
+  [[mx-1,3],[mx+1,3],[mx,2],[mx-2,3],[mx+2,3]].forEach(([x,y])=>{ if(g[y]&&g[y][x]==='T') g[y][x]='"'; });
+  // 底部出口缺口
+  g[H-1][ex] = '.';
+  return {
+    name, theme,
+    rows: g.map(r => r.join('')),
+    monsters: [{ id: monId, x: mx, y: 3 }],
+    exits: [{ x: ex, y: H-1, to: 'town', sx: backSpawn.x, sy: backSpawn.y, label: '返回中心镇' }],
+    buildings: [],
+    spawn: { x: ex, y: H-2 },
+  };
 }
+
+// ── 多地图世界 ──────────────────────────────────────────────────
+const MAPS = {
+  town: {
+    name: 'GitHire 中心镇',
+    theme: 'town',
+    rows: [
+      "TTTTTTT.T.TTTTTTT",
+      "T...............T",
+      "T.###.......###.T",
+      "T.###.......###.T",
+      "T.###.......###.T",
+      ".................",
+      "T......###......T",
+      "T......###......T",
+      "T......###......T",
+      "T...............T",
+      "T...............T",
+      "T.......S.......T",
+      "TTTTTTT.T.TTTTTTT",
+    ],
+    buildings: [
+      { x:2,  y:2, w:3, h:3, type:'hq',       label:'GitHire 总部' },
+      { x:12, y:2, w:3, h:3, type:'lib',      label:'文档馆' },
+      { x:7,  y:6, w:3, h:3, type:'fortress', label:'孤岛要塞' },
+    ],
+    monsters: [],
+    spawn: TOWN_SPAWN,
+    exits: [
+      { x:7,  y:0,  to:'issue',     sx:6, sy:9, label:'Issue 荒野' },
+      { x:9,  y:0,  to:'sandbox',   sx:6, sy:9, label:'Sandbox 洞穴' },
+      { x:0,  y:5,  to:'valley',    sx:6, sy:9, label:'甩锅龙谷' },
+      { x:16, y:5,  to:'graveyard', sx:6, sy:9, label:'人月墓园' },
+      { x:7,  y:12, to:'incident',  sx:6, sy:9, label:'Case01 现场' },
+      { x:9,  y:12, to:'deadline',  sx:6, sy:9, label:'Deadline 钟楼' },
+      { x:8,  y:9,  to:'fortress',  sx:6, sy:9, label:'孤岛要塞', boss:true },
+    ],
+  },
+  issue:     makeZone('issue',     'Issue 荒野',        'wild',      'ghost',  {x:7,  y:1}),
+  sandbox:   makeZone('sandbox',   'Sandbox 洞穴',      'cave',      'fire',   {x:9,  y:1}),
+  valley:    makeZone('valley',    '甩锅龙谷',          'valley',    'dragon', {x:1,  y:5}),
+  graveyard: makeZone('graveyard', '人月墓园',          'graveyard', 'zombie', {x:15, y:5}),
+  incident:  makeZone('incident',  'Case01 事故现场',   'incident',  'scan',   {x:7,  y:11}),
+  deadline:  makeZone('deadline',  'Deadline 钟楼',     'tower',     'clock',  {x:9,  y:11}),
+  fortress:  makeZone('fortress',  '孤岛 Agent 要塞',   'fortress',  'robot',  {x:8,  y:10}),
+};
+
+// ── 主题调色板 ──────────────────────────────────────────────────
+const THEME = {
+  town:      { g1:'#7ec850', g2:'#86d156', dark:'#6cb83f', lite:'#9bdc6a', path:'#caa46a', obst:'tree'   },
+  wild:      { g1:'#8fd06a', g2:'#7ec850', dark:'#6cb83f', lite:'#a8e07a', path:'#caa46a', obst:'tree'   },
+  cave:      { g1:'#4a4a55', g2:'#42424d', dark:'#34343d', lite:'#5a5a66', path:'#5a5a66', obst:'rock'   },
+  valley:    { g1:'#79b3c9', g2:'#8cc0d6', dark:'#5f9bb3', lite:'#a6d6e6', path:'#8cc0d6', obst:'rock'   },
+  graveyard: { g1:'#4d6b4d', g2:'#456245', dark:'#3a503a', lite:'#5f7d5f', path:'#5f7d5f', obst:'tomb'   },
+  incident:  { g1:'#3a3340', g2:'#332d38', dark:'#2a2530', lite:'#4a4350', path:'#4a4350', obst:'server' },
+  tower:     { g1:'#6a5a8a', g2:'#5f5080', dark:'#4f4068', lite:'#8a7aa8', path:'#8a7aa8', obst:'pillar' },
+  fortress:  { g1:'#3d3354', g2:'#352c49', dark:'#2a2340', lite:'#4d4368', path:'#4d4368', obst:'pillar' },
+};
+
+// ── 当前地图（由 setMap 解析填充）──────────────────────────────
+let CUR = null;
+function setMap(id, spawn){
+  const m = MAPS[id];
+  const rows = m.rows, cols = rows[0].length, rs = rows.length;
+  const walls = [];
+  for (let y=0; y<rs; y++){
+    walls[y] = [];
+    for (let x=0; x<cols; x++){
+      const ch = rows[y][x];
+      walls[y][x] = (ch==='T' || ch==='~' || ch==='#');
+    }
+  }
+  (m.buildings||[]).forEach(b => {
+    for (let y=b.y; y<b.y+b.h; y++) for (let x=b.x; x<b.x+b.w; x++){ if (walls[y]) walls[y][x] = true; }
+  });
+  CUR = { id, name:m.name, theme:m.theme, cols, rows:rs, src:rows, walls,
+          exits:m.exits||[], buildings:m.buildings||[], monsters:m.monsters||[] };
+  G.curMap = id;
+  const sp = spawn || m.spawn;
+  const p = G.player;
+  p.x=sp.x; p.y=sp.y; p.tx=sp.x; p.ty=sp.y; p.px=sp.x*TILE; p.py=sp.y*TILE; p.moving=false; p.queued=null;
+  MAPBG = null;   // 强制重建背景
+}
+
+function monsterAt(x,y){
+  for (const mm of CUR.monsters){ if (!G.defeated[mm.id] && mm.x===x && mm.y===y) return mm.id; }
+  return null;
+}
+function exitAt(x,y){ return CUR.exits.find(e => e.x===x && e.y===y) || null; }
 
 // ================================================================
 // 配置
@@ -438,7 +530,8 @@ function freshState(){
     screen: 'title',          // title|map|battle|gameover|victory
     hp: MAX_HP, score: 0,
     defeated: {},             // monsterId -> true
-    player: { x:START.x, y:START.y, px:START.x*TILE, py:START.y*TILE, moving:false, tx:START.x, ty:START.y, bob:0 },
+    curMap: 'town',
+    player: { x:TOWN_SPAWN.x, y:TOWN_SPAWN.y, px:TOWN_SPAWN.x*TILE, py:TOWN_SPAWN.y*TILE, moving:false, tx:TOWN_SPAWN.x, ty:TOWN_SPAWN.y, bob:0, queued:null },
     bannerText: '', bannerUntil: 0,
     // battle
     mid: null, qi: 0, results: [], chosen: null, ok: null, bphase: 'q', // q|reveal|end
@@ -451,6 +544,8 @@ function qs(){ return QUESTIONS[G.mid]; }
 function q(){ return qs()[G.qi]; }
 function aliveMonsters(){ return MONSTERS.filter(m => !G.defeated[m.id]); }
 function allCleared(){ return aliveMonsters().length === 0; }
+// Boss 要塞解锁：除 robot 外的 6 个反模式已清除
+function bossUnlocked(){ return MONSTERS.filter(m => m.id!=='robot' && G.defeated[m.id]).length === 6; }
 
 // ================================================================
 // 渲染调度
@@ -482,8 +577,9 @@ function titleHTML(){
     <p class="title-desc">
       用 <span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span>
       或 <span class="kbd">↑</span><span class="kbd">↓</span><span class="kbd">←</span><span class="kbd">→</span> 移动。<br/>
-      走到怪物身上即可迎战，答对驱散它们。<br/>
-      清除全部七种反模式，前往 🚀 终点通关。
+      从 GitHire 中心镇出发，走到地图边缘进入各个区域。<br/>
+      每个反模式怪物各踞一方，走到它身上即可迎战。<br/>
+      清除六种反模式，孤岛要塞的 Boss 才会现身。
     </p>
     <button class="g-btn solid" id="btn-start" style="font-size:1.05rem;padding:.9rem 2.5rem;">进入地图 →</button>
     <p class="title-hint">手机端可用屏幕方向键 · 约 5 分钟</p>
@@ -491,7 +587,7 @@ function titleHTML(){
 }
 function bindTitle(){
   const b = document.getElementById('btn-start');
-  if (b) b.onclick = () => { G = freshState(); G.screen = 'map'; render(); };
+  if (b) b.onclick = () => { G = freshState(); setMap('town'); G.screen = 'map'; render(); };
 }
 
 // ================================================================
@@ -506,20 +602,23 @@ function hudHTML(){
     <span class="hud-label">HP</span>
     <div class="hud-track"><div class="hud-fill" style="width:${pct}%;background:${hpColor(G.hp)}"></div></div>
     <span class="hud-val">${G.hp} / ${MAX_HP}</span>
+    <span class="hud-prog">📍 ${CUR ? CUR.name : ''}</span>
     <span class="hud-prog">已清除 ${cleared} / ${MONSTERS.length}</span>
     <span class="hud-chip">✦ ${G.score} 分</span>
   </div>`;
 }
 
 function mapHTML(){
+  const c = CUR || { cols:13, rows:11 };
+  const inTown = CUR && CUR.id === 'town';
   return `<div class="map-screen">
     ${hudHTML()}
     <div class="map-stage">
-      <canvas id="map" width="${COLS*TILE}" height="${ROWS*TILE}" aria-label="GitHire 工程地图"></canvas>
+      <canvas id="map" width="${c.cols*TILE}" height="${c.rows*TILE}" aria-label="GitHire 工程地图"></canvas>
       <div class="map-banner" id="banner" style="opacity:0"></div>
     </div>
     <div class="map-foot">
-      <p class="map-tip">🧑‍💻 你是架构师。<br/><span class="kbd">WASD</span> / 方向键移动，走到怪物身上迎战。</p>
+      <p class="map-tip">🧑‍💻 你是架构师。<br/><span class="kbd">WASD</span> / 方向键移动，${inTown ? '走到边缘路牌进入各区域。' : '走到怪物身上迎战，底部缺口返回中心镇。'}</p>
       <div class="dpad" aria-label="方向键">
         <button class="dp-up"    data-dx="0"  data-dy="-1" aria-label="上">▲</button>
         <button class="dp-left"  data-dx="-1" data-dy="0"  aria-label="左">◀</button>
@@ -557,31 +656,31 @@ function tryStep(dx,dy){
   const p = G.player;
   if (p.moving){ p.queued = {dx,dy}; return; }   // 动画中：缓冲最后一次方向，结束后续走
   const nx = p.x + dx, ny = p.y + dy;
-  if (nx<0||ny<0||nx>=COLS||ny>=ROWS) return;
-  if (WALLS[ny][nx]) { showBanner('🧱 走不过去'); return; }
+  if (nx<0||ny<0||nx>=CUR.cols||ny>=CUR.rows) return;
+
+  // 出口（地图切换）
+  const ex = exitAt(nx,ny);
+  if (ex){
+    if (ex.boss && !bossUnlocked()){
+      const left = MONSTERS.filter(m=>m.id!=='robot' && !G.defeated[m.id]).length;
+      showBanner(`🔒 孤岛要塞紧闭 · 还需清除 ${left} 个反模式`);
+      return;
+    }
+    setMap(ex.to, {x:ex.sx, y:ex.sy});
+    showBanner('📍 ' + CUR.name);
+    render();
+    return;
+  }
+
+  if (CUR.walls[ny][nx]) { showBanner('🧱 走不过去'); return; }
 
   // 怪物？
   const mid = monsterAt(nx,ny);
   if (mid) { startBattle(mid); return; }
 
-  // 终点？
-  if (nx===GOAL.x && ny===GOAL.y){
-    if (allCleared()){ G.screen='victory'; render(); return; }
-    else { showBanner(`🔒 终点已锁定 · 还有 ${aliveMonsters().length} 个反模式未清除`); return; }
-  }
-
   // 正常移动
   p.x = nx; p.y = ny; p.tx = nx; p.ty = ny; p.moving = true; p.t0 = performance.now();
   p.fromPx = p.px; p.fromPy = p.py;
-}
-
-function monsterAt(x,y){
-  for (const m of MONSTERS){
-    if (G.defeated[m.id]) continue;
-    const pos = MON_POS[m.id];
-    if (pos && pos.x===x && pos.y===y) return m.id;
-  }
-  return null;
 }
 
 function showBanner(text){
@@ -742,39 +841,93 @@ function blit(ctx, id, dx, dy){
   ctx.drawImage(getSprite(id), 0,0,SPR,SPR, dx,dy,TILE,TILE);
 }
 
-// 静态地图背景（草地 + 树）只画一次缓存
+// ── 地面 / 障碍 / 建筑（按主题）─────────────────────────────────
+function drawGround(c,x,y,th,kind){
+  const X=x*TILE, Y=y*TILE, P=PIXEL;
+  const base = (kind==='path') ? th.path : (((x+y)%2) ? th.g1 : th.g2);
+  R(c,X,Y,TILE,TILE, base);
+  if (kind==='path') return;
+  const seed=((x*73856093) ^ (y*19349663)) >>> 0;
+  R(c, X+((seed)%14)*P,     Y+((seed>>4)%14)*P,  P, P, th.dark);
+  R(c, X+((seed>>8)%14)*P,  Y+((seed>>12)%14)*P, P, P, th.dark);
+  R(c, X+((seed>>16)%15)*P, Y+((seed>>20)%15)*P, P, P, th.lite);
+}
+function drawTallGrass(c,x,y,th){
+  const X=x*TILE, Y=y*TILE, P=PIXEL;
+  for (let i=0;i<5;i++){ R(c, X+(2+i*2)*P, Y+(11-(i%2))*P, P, (3+(i%2))*P, th.dark); }
+  R(c, X+5*P, Y+9*P, P, 2*P, th.lite);
+}
+function drawObstacle(c,x,y,th){
+  const X=x*TILE, Y=y*TILE, P=PIXEL, o=th.obst;
+  if (o==='tree'){
+    R(c,X+7*P,Y+11*P,2*P,4*P,'#7a4a22');
+    R(c,X+3*P,Y+2*P,10*P,9*P,'#2f7d34'); R(c,X+4*P,Y+3*P,4*P,3*P,'#3f9442'); R(c,X+3*P,Y+8*P,10*P,2*P,'#256127');
+    const g=((x+y)%2)?th.g1:th.g2; R(c,X+3*P,Y+2*P,P,P,g); R(c,X+12*P,Y+2*P,P,P,g); R(c,X+3*P,Y+10*P,P,P,g); R(c,X+12*P,Y+10*P,P,P,g);
+  } else if (o==='rock'){
+    R(c,X+3*P,Y+6*P,10*P,7*P,'#8a8a93'); R(c,X+3*P,Y+6*P,10*P,2*P,'#a6a6ae'); R(c,X+4*P,Y+11*P,8*P,2*P,'#6a6a73');
+    R(c,X+3*P,Y+6*P,P,P,((x+y)%2)?th.g1:th.g2); R(c,X+12*P,Y+6*P,P,P,((x+y)%2)?th.g1:th.g2);
+  } else if (o==='tomb'){
+    R(c,X+5*P,Y+3*P,6*P,10*P,'#b6b6be'); R(c,X+6*P,Y+2*P,4*P,2*P,'#b6b6be'); R(c,X+5*P,Y+3*P,6*P,2*P,'#cfcfd6');
+    R(c,X+7*P,Y+5*P,2*P,P,'#6a6a73'); R(c,X+6*P,Y+6*P,4*P,P,'#6a6a73');  // 十字
+  } else if (o==='server'){
+    R(c,X+3*P,Y+2*P,10*P,12*P,'#22252e'); R(c,X+3*P,Y+2*P,10*P,P,'#3a3f4d');
+    for(let i=0;i<5;i++){ R(c,X+4*P,Y+(3+i*2)*P,8*P,P,'#33384a'); R(c,X+10*P,Y+(3+i*2)*P,P,P, (i%2)?'#e8503a':'#3fd47a'); }
+  } else { // pillar
+    R(c,X+5*P,Y+1*P,6*P,14*P,'#cfc7e0'); R(c,X+5*P,Y+1*P,6*P,2*P,'#e6e0f2'); R(c,X+9*P,Y+1*P,2*P,14*P,'#a89dc4');
+    R(c,X+4*P,Y+1*P,8*P,P,'#b8aed4'); R(c,X+4*P,Y+13*P,8*P,P,'#b8aed4');
+  }
+}
+function drawBuilding(ctx,b){
+  const X=b.x*TILE, Y=b.y*TILE, W=b.w*TILE, H=b.h*TILE, P=PIXEL;
+  if (b.type==='fortress'){
+    R(ctx,X,Y,W,H,'#2f2740'); R(ctx,X,Y,W,4*P,'#46395f');                 // 墙体
+    R(ctx,X,Y,W,2*P,'#5d4d7a');
+    for(let i=0;i<b.w;i++){ R(ctx,X+i*TILE+5*P,Y+2*P,2*P,2*P,'#1a1626'); } // 城垛
+    R(ctx,X+W/2-3*P,Y+H-7*P,6*P,7*P,'#15111f');                            // 大门
+    R(ctx,X+W/2-1*P,Y+H-6*P,2*P,4*P, bossUnlocked()?'#f4c430':'#3a3354');  // 门光
+    return;
+  }
+  // 普通房子：墙 + 屋顶 + 门 + 窗
+  R(ctx,X+P,Y+H*0.4,W-2*P,H*0.6-P,'#e8dcc0');                              // 墙
+  R(ctx,X+P,Y+H*0.4,W-2*P,2*P,'#cdbf9c');
+  const roof = (b.type==='hq') ? '#D97757' : '#5a8ec5';                     // 屋顶
+  R(ctx,X,Y+2*P,W,H*0.4-P,roof); R(ctx,X,Y+2*P,W,2*P,'#fff3');
+  R(ctx,X+W/2-3*P,Y+2*P,6*P,2*P,'#ffffff44');                              // 屋脊高光
+  R(ctx,X+W/2-2*P,Y+H-6*P,4*P,6*P,'#7a4a22');                              // 门
+  R(ctx,X+W/2+P,Y+H-4*P,1*P,1*P,'#f4c430');                                // 门把手
+  R(ctx,X+3*P,Y+H*0.45,3*P,3*P,'#bfe0f5'); R(ctx,X+W-6*P,Y+H*0.45,3*P,3*P,'#bfe0f5'); // 窗
+}
+
+// 静态地图背景（地面 + 障碍 + 建筑 + 出口路牌）只在切图时重建
 let MAPBG = null;
 function buildMapBg(){
+  const th = THEME[CUR.theme] || THEME.town;
   const off = document.createElement('canvas');
-  off.width = COLS*TILE; off.height = ROWS*TILE;
+  off.width = CUR.cols*TILE; off.height = CUR.rows*TILE;
   const c = off.getContext('2d');
   c.imageSmoothingEnabled = false;
-  for (let y=0;y<ROWS;y++){
-    for (let x=0;x<COLS;x++){
-      drawGrass(c,x,y);
-      if (WALLS[y][x]) drawTree(c,x,y);
+  // 地面 + 障碍
+  for (let y=0;y<CUR.rows;y++){
+    for (let x=0;x<CUR.cols;x++){
+      const ch = CUR.src[y][x];
+      drawGround(c, x, y, th, ch===',' ? 'path' : 'ground');
+      if (ch==='T'||ch==='#') drawObstacle(c,x,y,th);
+      else if (ch==='"') drawTallGrass(c,x,y,th);
     }
   }
+  // 建筑
+  CUR.buildings.forEach(b => drawBuilding(c,b));
+  // 出口路牌（非 Boss 门）
+  c.textAlign='center'; c.textBaseline='middle';
+  CUR.exits.forEach(e => {
+    if (e.boss) return;
+    const X=e.x*TILE, Y=e.y*TILE, P=PIXEL;
+    R(c,X+5*P,Y+4*P,6*P,5*P,'#caa46a'); R(c,X+5*P,Y+4*P,6*P,P,'#e0c08a');  // 牌
+    R(c,X+7*P,Y+9*P,2*P,5*P,'#7a4a22');                                    // 桩
+    c.fillStyle='#3a2a14'; c.font='8px Zpix, monospace';
+    c.fillText(e.label, X+TILE/2, Y+6*P);
+  });
   MAPBG = off;
-}
-function drawGrass(c,x,y){
-  const X=x*TILE, Y=y*TILE;
-  R(c,X,Y,TILE,TILE, ((x+y)%2) ? '#7ec850' : '#86d156');
-  const seed=((x*73856093) ^ (y*19349663)) >>> 0;
-  R(c, X+((seed)%14)*PIXEL,       Y+((seed>>4)%14)*PIXEL,  PIXEL, PIXEL, '#6cb83f');
-  R(c, X+((seed>>8)%14)*PIXEL,    Y+((seed>>12)%14)*PIXEL, PIXEL, PIXEL, '#6cb83f');
-  R(c, X+((seed>>16)%15)*PIXEL,   Y+((seed>>20)%15)*PIXEL, PIXEL, PIXEL, '#9bdc6a');
-}
-function drawTree(c,x,y){
-  const X=x*TILE, Y=y*TILE, P=PIXEL;
-  R(c,X+7*P,Y+11*P,2*P,4*P,'#7a4a22');                  // 树干
-  R(c,X+3*P,Y+2*P,10*P,9*P,'#2f7d34');                  // 树冠
-  R(c,X+4*P,Y+3*P,4*P,3*P,'#3f9442');                   // 高光
-  R(c,X+3*P,Y+8*P,10*P,2*P,'#256127');                  // 阴影
-  // 抹掉四角 → 圆润树冠（露出草地）
-  const g = ((x+y)%2) ? '#7ec850' : '#86d156';
-  R(c,X+3*P,Y+2*P,P,P,g); R(c,X+12*P,Y+2*P,P,P,g);
-  R(c,X+3*P,Y+10*P,P,P,g); R(c,X+12*P,Y+10*P,P,P,g);
 }
 
 function draw(ctx){
@@ -782,30 +935,26 @@ function draw(ctx){
   if (!MAPBG) buildMapBg();
   ctx.drawImage(MAPBG, 0, 0);
 
-  // 起点木牌
-  blit(ctx, 'sign', START.x*TILE, START.y*TILE);
-
-  // 终点
-  const unlocked = allCleared();
-  const gx = GOAL.x*TILE, gy = GOAL.y*TILE;
-  if (unlocked){
-    const halo = (Math.floor(performance.now()/250)%2) ? 'rgba(244,196,48,.35)' : 'rgba(244,196,48,.18)';
-    R(ctx, gx+2, gy+2, TILE-4, TILE-4, halo);
-    blit(ctx, 'rocket', gx, gy - Math.floor((performance.now()/300)%2)*PIXEL);
-  } else {
-    R(ctx, gx+5*PIXEL, gy+4*PIXEL, 6*PIXEL, 8*PIXEL, '#9a9a9a');  // 锁体
-    R(ctx, gx+6*PIXEL, gy+2*PIXEL, 4*PIXEL, 4*PIXEL, '#cfcfcf');  // 锁环
-    R(ctx, gx+7*PIXEL, gy+3*PIXEL, 2*PIXEL, 2*PIXEL, '#9a9a9a');
-    R(ctx, gx+7*PIXEL, gy+7*PIXEL, 2*PIXEL, 3*PIXEL, '#5a5a5a');  // 锁孔
+  // Boss 门（动态：锁 / 解锁火箭）
+  const boss = CUR.exits.find(e => e.boss);
+  if (boss){
+    const gx=boss.x*TILE, gy=boss.y*TILE, P=PIXEL;
+    if (bossUnlocked()){
+      const halo=(Math.floor(performance.now()/250)%2)?'rgba(244,196,48,.35)':'rgba(244,196,48,.16)';
+      R(ctx,gx+2,gy+2,TILE-4,TILE-4,halo);
+      R(ctx,gx+6*P,gy+3*P,4*P,9*P,'#f4c430'); R(ctx,gx+7*P,gy+2*P,2*P,2*P,'#fff'); // 门开光柱
+    } else {
+      R(ctx,gx+5*P,gy+5*P,6*P,7*P,'#9a9a9a'); R(ctx,gx+6*P,gy+3*P,4*P,3*P,'#cfcfcf');
+      R(ctx,gx+7*P,gy+4*P,2*P,2*P,'#9a9a9a'); R(ctx,gx+7*P,gy+8*P,2*P,2*P,'#5a5a5a');
+    }
   }
 
-  // 怪物
-  for (const m of MONSTERS){
-    if (G.defeated[m.id]) continue;
-    const pos = MON_POS[m.id];
-    const bobY = Math.round(Math.sin(performance.now()/400 + pos.x)*1) * PIXEL;
-    R(ctx, pos.x*TILE+4*PIXEL, pos.y*TILE+14*PIXEL, 8*PIXEL, 2*PIXEL, 'rgba(0,0,0,.16)'); // 影
-    blit(ctx, m.id, pos.x*TILE, pos.y*TILE + bobY);
+  // 怪物（当前地图）
+  for (const mm of CUR.monsters){
+    if (G.defeated[mm.id]) continue;
+    const bobY = Math.round(Math.sin(performance.now()/400 + mm.x)) * PIXEL;
+    R(ctx, mm.x*TILE+4*PIXEL, mm.y*TILE+14*PIXEL, 8*PIXEL, 2*PIXEL, 'rgba(0,0,0,.16)');
+    blit(ctx, mm.id, mm.x*TILE, mm.y*TILE + bobY);
   }
 
   // 玩家
@@ -973,8 +1122,10 @@ function nextQ(){
 }
 
 function backToMap(){
+  // 击败 Boss（孤岛 Agent）即通关
+  if (G.defeated['robot']){ G.screen = 'victory'; render(); return; }
   G.screen = 'map';
-  if (allCleared()) showBanner('🎉 全部反模式已清除！前往 🚀 终点通关');
+  if (bossUnlocked()) showBanner('🎉 六种反模式已清除！返回中心镇挑战孤岛要塞 Boss');
   render();
 }
 
@@ -1025,7 +1176,7 @@ function victoryHTML(){
 
 function bindEnd(){
   document.querySelectorAll('#btn-retry').forEach(b => {
-    b.onclick = () => { G = freshState(); G.screen='map'; render(); };
+    b.onclick = () => { G = freshState(); setMap('town'); G.screen='map'; render(); };
   });
   const sh = document.getElementById('btn-share');
   if (sh) sh.onclick = () => {
