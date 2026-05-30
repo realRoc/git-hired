@@ -496,7 +496,7 @@ document.addEventListener('keydown', onKey, { passive:false });
 function tryStep(dx,dy){
   if (G.screen !== 'map') return;
   const p = G.player;
-  if (p.moving) return;
+  if (p.moving){ p.queued = {dx,dy}; return; }   // 动画中：缓冲最后一次方向，结束后续走
   const nx = p.x + dx, ny = p.y + dy;
   if (nx<0||ny<0||nx>=COLS||ny>=ROWS) return;
   if (WALLS[ny][nx]) { showBanner('🧱 走不过去'); return; }
@@ -552,7 +552,10 @@ function update(now){
     const k = Math.min(1, (now - p.t0)/WALK_MS);
     p.px = p.fromPx + (p.tx*TILE - p.fromPx)*k;
     p.py = p.fromPy + (p.ty*TILE - p.fromPy)*k;
-    if (k>=1){ p.moving=false; p.px=p.tx*TILE; p.py=p.ty*TILE; }
+    if (k>=1){
+      p.moving=false; p.px=p.tx*TILE; p.py=p.ty*TILE;
+      if (p.queued){ const qd=p.queued; p.queued=null; tryStep(qd.dx, qd.dy); }
+    }
   }
   p.bob = Math.sin(now/260)*2;
 
