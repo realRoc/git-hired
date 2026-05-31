@@ -366,6 +366,22 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
   text-align: center;
   padding: 0 var(--gutter);
 }
+/* Soft paper scrim between the moving canvas and the text. Sits inside the
+   hero's stacking context (so it's above the z-0 canvas) but behind the copy,
+   lifting legibility while the starfield still reads through at the edges. */
+.hero-content::before{
+  content: "";
+  position: absolute;
+  inset: -10% -8%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 76% 66% at 50% 47%,
+    rgba(246, 241, 232, 0.85) 0%,
+    rgba(246, 241, 232, 0.66) 40%,
+    rgba(246, 241, 232, 0) 76%
+  );
+}
 .hero-title{
   font-family: var(--font-serif);
   font-weight: 500;

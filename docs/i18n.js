@@ -937,6 +937,14 @@
     return 'en';
   }
 
+  // Normalize markup for comparison only: collapse insignificant whitespace
+  // and drop the self-closing slash on void elements. The browser serializes
+  // `<br/>` as `<br>`, so without this the dictionary source (which writes
+  // `<br/>`) would never match the DOM and we'd re-render needlessly.
+  function normMarkup(s) {
+    return s.replace(/\s+/g, ' ').replace(/\s*\/>/g, '>').trim();
+  }
+
   function applyTo(root, lang) {
     var els = root.querySelectorAll('[data-i18n]');
     for (var i = 0; i < els.length; i++) {
@@ -944,6 +952,13 @@
       var key = el.getAttribute('data-i18n');
       var entry = T[key];
       if (!entry || typeof entry[lang] !== 'string') continue;
+      // Skip the swap when the element already renders this exact markup.
+      // The page ships in its own language, so on first load every value
+      // already matches — re-setting innerHTML would needlessly reflow the
+      // page and restart the hero's CSS entrance animation, making the
+      // slogan visibly "jump" a second time. Comparison only; a mismatch
+      // (a real language switch) still updates as before.
+      if (normMarkup(el.innerHTML) === normMarkup(entry[lang])) continue;
       el.innerHTML = entry[lang];
     }
 
