@@ -107,7 +107,7 @@
     canvas#map {
       display: block; width: 100%; height: auto;
       border: 4px solid var(--rink); border-radius: 0;
-      background: #7ec850;
+      background: #6f8f5a;
       image-rendering: pixelated;
       box-shadow: 6px 6px 0 rgba(31,36,48,.25);
       touch-action: none;
@@ -429,11 +429,14 @@ const DECO_BUILDINGS = [
 // ── 工具 ──
 const clamp = (v,a,b)=> v<a?a : v>b?b : v;
 const dist  = (x,y,a,b)=> Math.hypot(x-a, y-b);
+function hex2rgb(h){ h=h.replace('#',''); if(h.length===3)h=h.split('').map(c=>c+c).join(''); return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]; }
+function colorDist(a,b){ const p=hex2rgb(a),q=hex2rgb(b); return Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2]); }   // RGB 距离，<90 视为同色系
 function grid(w,h,fill){ const g=[]; for(let y=0;y<h;y++){ g[y]=[]; for(let x=0;x<w;x++) g[y][x]=fill; } return g; }
 function hash(x,y){ return ((x*73856093) ^ (y*19349663) ^ ((x+y)*83492791)) >>> 0; }
 
 // ── 生物群系生成参数 ──
-function biomeDensity(b){ return ({ wild:24, graveyard:26, valley:20, cave:18, incident:18, tower:18, town:7 })[b] ?? 16; }
+// 70% 纯地面 / 20% 障碍 / 10% 焦点(怪物·任务点)：障碍密度整体减半，避免每格都"有设计"
+function biomeDensity(b){ return ({ wild:12, graveyard:13, valley:10, cave:9, incident:9, tower:9, town:3 })[b] ?? 8; }
 function biomeObst(b,s){
   if (b==='wild')      return (s%5===0)?'rock':'tree';
   if (b==='graveyard') return (s%4===0)?'tree':'tomb';
@@ -514,7 +517,7 @@ function buildWorld(){
     if(ground[y][x]!==0 || obst[y][x] || prot[y][x]) continue;
     const nearRoad = ground[y-1][x]===1||ground[y+1][x]===1||ground[y][x-1]===1||ground[y][x+1]===1;
     const s=hash(x*3+1,y*7+5);
-    if(nearRoad && s%5===0) decor.push({x,y,t:(s%2?'flower':'bush')});
+    if(nearRoad && s%9===0) decor.push({x,y,t:(s%2?'flower':'bush')});  // 装饰减半：背景不抢注意力
   }
 
   // 8) 路牌：广场每条大路出口指向区域名
@@ -530,15 +533,18 @@ function buildWorld(){
 }
 
 // ── 主题调色板 ──────────────────────────────────────────────────
+// Art Direction 规则：背景低饱和、低内部对比（g1≈g2、dark/lite 贴近底色）；
+// 每个 biome 只用一套土路色（path/pathD/pathL），角色与任务点才允许高饱和高对比。
+const OUTLINE = '#1f2933';   // 角色 / 怪物 / 任务点统一描边色
 const THEME = {
-  town:      { g1:'#7ec850', g2:'#86d156', dark:'#6cb83f', lite:'#9bdc6a', path:'#caa46a', obst:'tree',   flora:true },
-  wild:      { g1:'#8fd06a', g2:'#7ec850', dark:'#6cb83f', lite:'#a8e07a', path:'#caa46a', obst:'tree',   flora:true },
-  cave:      { g1:'#4a4a55', g2:'#42424d', dark:'#34343d', lite:'#5a5a66', path:'#5a5a66', obst:'rock'   },
-  valley:    { g1:'#79b3c9', g2:'#8cc0d6', dark:'#5f9bb3', lite:'#a6d6e6', path:'#8cc0d6', obst:'rock'   },
-  graveyard: { g1:'#4d6b4d', g2:'#456245', dark:'#3a503a', lite:'#5f7d5f', path:'#5f7d5f', obst:'tomb',   flora:true },
-  incident:  { g1:'#3a3340', g2:'#332d38', dark:'#2a2530', lite:'#4a4350', path:'#4a4350', obst:'server' },
-  tower:     { g1:'#6a5a8a', g2:'#5f5080', dark:'#4f4068', lite:'#8a7aa8', path:'#8a7aa8', obst:'pillar' },
-  fortress:  { g1:'#3d3354', g2:'#352c49', dark:'#2a2340', lite:'#4d4368', path:'#4d4368', obst:'pillar' },
+  town:      { g1:'#75905b', g2:'#6f8a57', dark:'#637d4d', lite:'#83996b', path:'#9b8565', pathD:'#8a7458', pathL:'#a8946d', obst:'tree' },
+  wild:      { g1:'#6f8f5a', g2:'#688a54', dark:'#5e7d4c', lite:'#7e996a', path:'#9b8565', pathD:'#8a7458', pathL:'#a8946d', obst:'tree', flora:true },
+  cave:      { g1:'#45454f', g2:'#41414b', dark:'#393942', lite:'#51515c', path:'#525258', pathD:'#46464c', pathL:'#5d5d66', obst:'rock'   },
+  valley:    { g1:'#6e98aa', g2:'#67909f', dark:'#5b8393', lite:'#7ca4b3', path:'#7e98a3', pathD:'#6f8893', pathL:'#8ca6b1', obst:'rock'   },
+  graveyard: { g1:'#566a56', g2:'#4f634f', dark:'#445744', lite:'#62765f', path:'#5f6a54', pathD:'#525d49', pathL:'#6c7660', obst:'tomb'   },
+  incident:  { g1:'#34303a', g2:'#302c36', dark:'#29252f', lite:'#3d3945', path:'#403a44', pathD:'#36313b', pathL:'#48424d', obst:'server' },
+  tower:     { g1:'#5e5876', g2:'#58516e', dark:'#4d4762', lite:'#6c6585', path:'#69647c', pathD:'#5b566f', pathL:'#766f8d', obst:'pillar' },
+  fortress:  { g1:'#3d3354', g2:'#352c49', dark:'#2a2340', lite:'#4d4368', path:'#4d4368', pathD:'#3f3658', pathL:'#5a5078', obst:'pillar' },
 };
 
 // ── 世界查询 / 镜头 ─────────────────────────────────────────────
@@ -872,6 +878,25 @@ function blit(ctx, id, dx, dy){
   ctx.imageSmoothingEnabled = false;
   ctx.drawImage(getSprite(id), 0,0,SPR,SPR, dx,dy,TILE,TILE);
 }
+// 角色/怪物的纯色剪影（用于描边）——source-in 把 sprite 染成 OUTLINE 色，缓存复用
+const SIL_CACHE = {};
+function getSilhouette(id){
+  if (SIL_CACHE[id]) return SIL_CACHE[id];
+  const off = document.createElement('canvas'); off.width=SPR; off.height=SPR;
+  const c = off.getContext('2d');
+  c.drawImage(getSprite(id),0,0);
+  c.globalCompositeOperation='source-in';
+  c.fillStyle=OUTLINE; c.fillRect(0,0,SPR,SPR);
+  SIL_CACHE[id]=off; return off;
+}
+// 带描边的 blit：先在四向偏移画剪影，再画本体 → 角色从任何背景里"跳"出来
+function blitOutlined(ctx, id, dx, dy){
+  ctx.imageSmoothingEnabled = false;
+  const sil = getSilhouette(id), P = PIXEL;
+  for (const [ox,oy] of [[-P,0],[P,0],[0,-P],[0,P]])
+    ctx.drawImage(sil, 0,0,SPR,SPR, dx+ox,dy+oy,TILE,TILE);
+  ctx.drawImage(getSprite(id), 0,0,SPR,SPR, dx,dy,TILE,TILE);
+}
 
 // ── 地面（草地 / 土路 / 石砖）──────────────────────────────────
 function drawGround(c,x,y,th,kind){
@@ -892,15 +917,14 @@ function drawGround(c,x,y,th,kind){
     R(c,X,Y,TILE,P,'#d6cfc0'); R(c,X,Y+TILE-P,TILE,P,'#a9a293');
     return;
   }
-  // 草地：双色拼布 + 草叶 + 偶尔花朵
+  // 草地：低对比双色底 + 极少量草叶（70% 区域保持近纯色，不抢注意力）
   R(c,X,Y,TILE,TILE, ((x+y)%2) ? th.g1 : th.g2);
   const s=((x*374761393)^(y*668265263))>>>0;
-  R(c, X+((s)%5+1)*P,    Y+((s>>3)%5+1)*P,  P, 2*P, th.dark);   // 草叶
-  R(c, X+((s>>6)%5+9)*P, Y+((s>>9)%5+9)*P,  P, 2*P, th.dark);
-  R(c, X+((s>>12)%14)*P, Y+((s>>15)%14)*P,  P, P,   th.lite);
-  if (th.flora && (s%12)===0){                                  // 花（仅草地系主题）
-    const fx=X+((s>>4)%10+3)*P, fy=Y+((s>>8)%10+3)*P, fc=['#f4d03f','#ffffff','#ec7a8e','#b98ef0'][s%4];
-    R(c,fx,fy-P,P,P,fc); R(c,fx-P,fy,P,P,fc); R(c,fx+P,fy,P,P,fc); R(c,fx,fy+P,P,P,fc); R(c,fx,fy,P,P,'#f4c430');
+  if ((s%3)===0) R(c, X+((s)%5+1)*P,    Y+((s>>3)%5+1)*P,  P, 2*P, th.dark);   // 仅 1/3 格有一根草叶
+  if ((s%5)===0) R(c, X+((s>>12)%14)*P, Y+((s>>15)%14)*P,  P, P,   th.lite);   // 高光更稀
+  if (th.flora && (s%28)===0){                                  // 花更稀，柔和双色，不做高亮焦点
+    const fx=X+((s>>4)%10+3)*P, fy=Y+((s>>8)%10+3)*P, fc=(s&1)?'#d8a0a8':'#cdb88a';
+    R(c,fx,fy-P,P,P,fc); R(c,fx-P,fy,P,P,fc); R(c,fx+P,fy,P,P,fc); R(c,fx,fy+P,P,P,fc); R(c,fx,fy,P,P,'#c9a24a');
   }
 }
 function drawTallGrass(c,x,y,th){
@@ -912,17 +936,18 @@ function drawTallGrass(c,x,y,th){
 function drawObstacle(c,x,y,th,type){
   const X=x*TILE, Y=y*TILE, P=PIXEL, o=type||th.obst;
   if (o==='tree'){ drawTree(c,X,Y,P, (x*7+y*3)%2===0); return; }
-  if (o==='water'){
-    R(c,X,Y,TILE,TILE,'#3a7ab0'); R(c,X,Y,TILE,2*P,'#2f6796');
+  if (o==='water'){   // 岛屿边框 = 背景层，降饱和不抢眼
+    R(c,X,Y,TILE,TILE,'#4a7390'); R(c,X,Y,TILE,2*P,'#3d6480');
     const s=hash(x,y);
-    R(c,X+((s)%5+2)*P, Y+((s>>3)%5+3)*P, 3*P, P, '#5a98c8');
-    R(c,X+((s>>6)%5+5)*P, Y+((s>>9)%6+6)*P, 2*P, P, '#5a98c8');
+    R(c,X+((s)%5+2)*P, Y+((s>>3)%5+3)*P, 3*P, P, '#5f86a2');
+    R(c,X+((s>>6)%5+5)*P, Y+((s>>9)%6+6)*P, 2*P, P, '#5f86a2');
     return;
   }
   if (o==='bushobst'){
     R(c,X+3*P,Y+12*P,8*P,2*P,'rgba(0,0,0,.14)');
-    R(c,X+2*P,Y+5*P,12*P,8*P,'#2f8d3a'); R(c,X+2*P,Y+5*P,12*P,2*P,'#46a850');
-    R(c,X+3*P,Y+6*P,2*P,P,'#5fc06a'); R(c,X+2*P,Y+11*P,12*P,2*P,'#206128');
+    R(c,X+1*P,Y+4*P,14*P,10*P,OUTLINE);                          // 暗轮廓 → 实心块
+    R(c,X+2*P,Y+5*P,12*P,8*P,'#3c6b3a'); R(c,X+2*P,Y+5*P,12*P,2*P,'#487548');  // 降饱和
+    R(c,X+3*P,Y+6*P,2*P,P,'#5a8a54'); R(c,X+2*P,Y+11*P,12*P,2*P,'#2c5230');
     return;
   }
   if (o==='rock'){
@@ -947,17 +972,18 @@ function drawObstacle(c,x,y,th,type){
 function drawTree(c,X,Y,P,broad){
   R(c,X+4*P,Y+13*P,8*P,2*P,'rgba(0,0,0,.14)');           // 影
   if (broad){
-    R(c,X+7*P,Y+11*P,2*P,4*P,'#6b4423'); R(c,X+7*P,Y+11*P,P,4*P,'#5a3818');  // 干
-    R(c,X+3*P,Y+2*P,10*P,10*P,'#2f7d34');                                     // 冠
-    R(c,X+3*P,Y+2*P,10*P,3*P,'#3f9442'); R(c,X+4*P,Y+3*P,3*P,2*P,'#57a94f');  // 高光
-    R(c,X+3*P,Y+9*P,10*P,3*P,'#236127');                                      // 暗
-    R(c,X+3*P,Y+2*P,P,P,'#0000'); R(c,X+12*P,Y+2*P,P,P,'#0000');              // (透明角不画)
+    R(c,X+7*P,Y+11*P,2*P,4*P,'#5e3e22'); R(c,X+7*P,Y+11*P,P,4*P,'#4d3318');  // 干
+    R(c,X+2*P,Y+1*P,12*P,12*P,OUTLINE);                                       // 暗轮廓（实心块）
+    R(c,X+3*P,Y+2*P,10*P,10*P,'#3a6b3a');                                     // 冠
+    R(c,X+3*P,Y+2*P,10*P,3*P,'#4a7d46'); R(c,X+4*P,Y+3*P,3*P,2*P,'#5a8a52');  // 高光（收一档）
+    R(c,X+3*P,Y+9*P,10*P,3*P,'#2c5230');                                      // 暗
   } else {
-    R(c,X+7*P,Y+12*P,2*P,3*P,'#6b4423');                                       // 干
-    R(c,X+6*P,Y+1*P,4*P,2*P,'#2a6b2f'); R(c,X+5*P,Y+3*P,6*P,2*P,'#2f7d34');
-    R(c,X+4*P,Y+5*P,8*P,2*P,'#2a6b2f'); R(c,X+3*P,Y+7*P,10*P,2*P,'#2f7d34');
-    R(c,X+4*P,Y+9*P,8*P,2*P,'#236127'); R(c,X+5*P,Y+11*P,6*P,P,'#236127');
-    R(c,X+6*P,Y+2*P,P,6*P,'#57a94f');                                          // 光
+    R(c,X+7*P,Y+12*P,2*P,3*P,'#5e3e22');                                       // 干
+    R(c,X+5*P,Y+0*P,6*P,13*P,OUTLINE);                                         // 暗轮廓
+    R(c,X+6*P,Y+1*P,4*P,2*P,'#33602f'); R(c,X+5*P,Y+3*P,6*P,2*P,'#3a6b3a');
+    R(c,X+4*P,Y+5*P,8*P,2*P,'#33602f'); R(c,X+3*P,Y+7*P,10*P,2*P,'#3a6b3a');
+    R(c,X+4*P,Y+9*P,8*P,2*P,'#2c5230'); R(c,X+5*P,Y+11*P,6*P,P,'#2c5230');
+    R(c,X+6*P,Y+2*P,P,6*P,'#5a8a52');                                          // 光
   }
 }
 
@@ -965,14 +991,14 @@ function drawTree(c,X,Y,P,broad){
 function drawDecor(c,x,y,t,th){
   const X=x*TILE, Y=y*TILE, P=PIXEL;
   if (t==='flower'){
-    [[5,6,'#ec7a8e'],[8,5,'#f4d03f'],[6,9,'#b98ef0'],[10,8,'#ffffff']].forEach(([fx,fy,col])=>{
+    [[5,6,'#c98f97'],[8,5,'#c9b06f'],[6,9,'#a394c2'],[10,8,'#cfc8b8']].forEach(([fx,fy,col])=>{  // 降饱和：装饰层
       R(c,X+fx*P,Y+(fy-1)*P,P,P,col); R(c,X+(fx-1)*P,Y+fy*P,P,P,col); R(c,X+(fx+1)*P,Y+fy*P,P,P,col); R(c,X+fx*P,Y+(fy+1)*P,P,P,col); R(c,X+fx*P,Y+fy*P,P,P,'#f4c430');
       R(c,X+fx*P,Y+(fy+2)*P,P,P,th?th.dark:'#3a7a2a');
     });
-  } else if (t==='bush'){
+  } else if (t==='bush'){   // 装饰灌木：低对比、不抢眼
     R(c,X+4*P,Y+12*P,8*P,2*P,'rgba(0,0,0,.12)');
-    R(c,X+3*P,Y+7*P,10*P,6*P,'#2f8d3a'); R(c,X+3*P,Y+7*P,10*P,2*P,'#46a850'); R(c,X+4*P,Y+8*P,2*P,P,'#5fc06a');
-    R(c,X+3*P,Y+11*P,10*P,2*P,'#206128');
+    R(c,X+3*P,Y+7*P,10*P,6*P,'#42693f'); R(c,X+3*P,Y+7*P,10*P,2*P,'#4d7349'); R(c,X+4*P,Y+8*P,2*P,P,'#5c8254');
+    R(c,X+3*P,Y+11*P,10*P,2*P,'#314f31');
   } else if (t==='rock'){
     R(c,X+5*P,Y+11*P,6*P,2*P,'rgba(0,0,0,.12)');
     R(c,X+5*P,Y+7*P,6*P,5*P,'#9a9aa3'); R(c,X+5*P,Y+7*P,6*P,2*P,'#b4b4bd'); R(c,X+6*P,Y+10*P,4*P,P,'#76767f');
@@ -1151,13 +1177,13 @@ function buildMinimap(){
   const s=2, off=document.createElement('canvas');
   off.width=WORLD_W*s; off.height=WORLD_H*s;
   const c=off.getContext('2d');
-  const MC={ town:'#caa46a', wild:'#7ec850', cave:'#5a5a66', valley:'#79b3c9', graveyard:'#4d6b4d', incident:'#3a3340', tower:'#6a5a8a' };
+  const MC={ town:'#75905b', wild:'#6f8f5a', cave:'#45454f', valley:'#6e98aa', graveyard:'#566a56', incident:'#34303a', tower:'#5e5876' };
   for(let y=0;y<WORLD_H;y++)for(let x=0;x<WORLD_W;x++){
-    let col = MC[WORLD.biome[y][x]] || '#7ec850';
-    if(WORLD.ground[y][x]===1) col='#caa46a';
-    else if(WORLD.ground[y][x]===2) col='#d8cdb5';
-    else if(WORLD.obst[y][x]==='water') col='#2f6796';
-    else if(WORLD.walls[y][x]) col='#2e3340';
+    let col = MC[WORLD.biome[y][x]] || '#6f8f5a';
+    if(WORLD.ground[y][x]===1) col='#9b8565';
+    else if(WORLD.ground[y][x]===2) col='#c2bcae';
+    else if(WORLD.obst[y][x]==='water') col='#3a6f96';
+    else if(WORLD.walls[y][x]) col='#2a2e36';
     c.fillStyle=col; c.fillRect(x*s,y*s,s,s);
   }
   MINIMAP=off;
@@ -1177,15 +1203,28 @@ function draw(ctx){
   ctx.drawImage(MAPBG, cam.cx, cam.cy, VIEW_PXW, VIEW_PXH, 0, 0, VIEW_PXW, VIEW_PXH);
   const ox=-cam.cx, oy=-cam.cy;
 
-  // 怪物
+  // 怪物（= 任务焦点：高亮地砖环 + 描边 sprite，让玩家一眼知道"这里能打"）
   for (const mm of WORLD.monsters){
     if (G.defeated[mm.id]) continue;
     const sx=mm.x*TILE+ox, sy=mm.y*TILE+oy;
     if (sx<-TILE||sy<-TILE||sx>VIEW_PXW||sy>VIEW_PXH) continue;
     const bobY = Math.round(Math.sin(performance.now()/400 + mm.x)) * PIXEL;
-    R(ctx, sx+4*PIXEL, sy+14*PIXEL, 8*PIXEL, 2*PIXEL, 'rgba(0,0,0,.16)');
-    blit(ctx, mm.id, sx, sy + bobY);
-    if (mm.building){ R(ctx, sx+6*PIXEL, sy-2*PIXEL, 4*PIXEL, 2*PIXEL, 'rgba(244,196,48,.9)'); } // 门口微标
+    const pulse = 0.32 + 0.18*Math.sin(performance.now()/360 + mm.x);   // 呼吸高亮
+    const mc = (MONSTERS.find(m=>m.id===mm.id)||{}).color || '#f4c430';
+    const gcol = (THEME[WORLD.biome[mm.y][mm.x]] || THEME.town).g1;
+    const sameHue = colorDist(mc, gcol) < 90;                           // 怪物色与地面同色系？
+    // 焦点环：同色系 biome 用暖金对比外环防止融进地面，异色系保留低调暗环；内填始终用怪物色保辨识
+    const rim = sameHue ? '#ffd76a' : '#1f2933';
+    ctx.save(); ctx.globalAlpha = sameHue ? 0.72 : 0.40;
+    R(ctx, sx+1*PIXEL, sy+10*PIXEL, 14*PIXEL, 5*PIXEL, rim);            // 对比色外环
+    if (sameHue) R(ctx, sx+1*PIXEL, sy+10*PIXEL, 14*PIXEL, 1, '#fff2c8'); // 高光上沿
+    ctx.restore();
+    ctx.save(); ctx.globalAlpha = pulse;
+    R(ctx, sx+3*PIXEL, sy+11*PIXEL, 10*PIXEL, 3*PIXEL, mc);             // 怪物色内填（呼吸）
+    ctx.restore();
+    R(ctx, sx+3*PIXEL, sy+14*PIXEL, 10*PIXEL, 2*PIXEL, 'rgba(0,0,0,.20)');
+    blitOutlined(ctx, mm.id, sx, sy + bobY);
+    if (mm.building){ R(ctx, sx+6*PIXEL, sy-3*PIXEL, 4*PIXEL, 2*PIXEL, '#f4c430'); R(ctx,sx+6*PIXEL,sy-3*PIXEL,4*PIXEL,1,'#fff7c0'); } // 门口微标
   }
 
   // 中央雕像
@@ -1195,8 +1234,8 @@ function draw(ctx){
   const p = G.player;
   const pbob = Math.round(p.bob/2) * PIXEL;
   const psx=p.px+ox, psy=p.py+oy;
-  R(ctx, psx+4*PIXEL, psy+14*PIXEL, 8*PIXEL, 2*PIXEL, 'rgba(0,0,0,.18)');
-  ctx.drawImage(getSprite('hero'), 0,0,SPR,SPR, psx, psy + pbob, TILE, TILE);
+  R(ctx, psx+4*PIXEL, psy+14*PIXEL, 8*PIXEL, 2*PIXEL, 'rgba(0,0,0,.22)');
+  blitOutlined(ctx, 'hero', Math.round(psx), Math.round(psy) + pbob);
 
   // 小地图
   drawMinimap(ctx);
@@ -1205,24 +1244,33 @@ function draw(ctx){
 // 中央雕像：石像(锁) → 苏醒(发光) → 净化(已击败)
 function drawStatue(ctx, X, Y){
   const P=PIXEL;
+  const awake = statueAwake(), done = G.defeated['robot'];
+  // 待解锁态：冷色地光"魔法阵"——冷色与怪物的暖色焦点环形成"暖=可挑战 / 冷=未解锁"语言
+  if (!awake && !done){
+    const cp = 0.16 + 0.08*Math.sin(performance.now()/780);            // 慢速冷光呼吸
+    ctx.save(); ctx.globalAlpha = cp;
+    R(ctx, X-4*P, Y+7*P, TILE+8*P, 9*P, '#3a64a0');                    // 冷蓝地光halo
+    ctx.restore();
+    R(ctx, X-4*P, Y+7*P, TILE+8*P, P, 'rgba(140,185,235,.55)');        // 冷色上沿描边
+    R(ctx, X-4*P, Y+7*P, P, 9*P, 'rgba(140,185,235,.35)'); R(ctx, X+TILE+3*P, Y+7*P, P, 9*P, 'rgba(140,185,235,.35)');
+  }
   // 基座
   R(ctx, X-2*P, Y+12*P, TILE+4*P, 4*P, 'rgba(0,0,0,.20)');
   R(ctx, X-2*P, Y+10*P, TILE+4*P, 4*P, '#9a8f80'); R(ctx, X-2*P, Y+10*P, TILE+4*P, P, '#b7ad9e');
   R(ctx, X-P, Y+8*P, TILE+2*P, 2*P, '#8a8073');
-  const awake = statueAwake(), done = G.defeated['robot'];
   if (done){
     R(ctx, X-P, Y-3*P, TILE+2*P, TILE+2*P, 'rgba(63,212,122,.18)');
-    blit(ctx, 'robot', X, Y-3*P);
+    blitOutlined(ctx, 'robot', X, Y-3*P);
     R(ctx, X+6*P, Y-6*P, 4*P, 3*P, '#3fd47a');                         // 净化光环
   } else if (awake){
     const pulse=(Math.floor(performance.now()/220)%2);
     R(ctx, X-2*P, Y-4*P, TILE+4*P, TILE+4*P, pulse?'rgba(232,80,58,.32)':'rgba(244,196,48,.22)');
-    blit(ctx, 'robot', X, Y-3*P);
+    blitOutlined(ctx, 'robot', X, Y-3*P);
     if (pulse){ R(ctx, X+4*P, Y, 2*P, 2*P, '#ff5a3a'); R(ctx, X+10*P, Y, 2*P, 2*P, '#ff5a3a'); }
   } else {
-    blit(ctx, 'robot', X, Y-3*P);
-    R(ctx, X, Y-3*P, TILE, TILE, 'rgba(120,120,128,.58)');             // 去色 → 石像
-    R(ctx, X+6*P, Y+2*P, 4*P, 3*P, '#5a5a63'); R(ctx, X+7*P, Y, 2*P, 2*P, '#5a5a63'); // 锁
+    blitOutlined(ctx, 'robot', X, Y-3*P);
+    R(ctx, X, Y-3*P, TILE, TILE, 'rgba(96,116,156,.55)');              // 偏冷去色 → 冰封石像
+    R(ctx, X+5*P, Y+1*P, 6*P, 4*P, '#c2d4ec'); R(ctx, X+6*P, Y-1*P, 4*P, 2*P, '#c2d4ec'); R(ctx, X+7*P, Y, 2*P, 2*P, '#7f97bb'); // 冷色锁
   }
 }
 
