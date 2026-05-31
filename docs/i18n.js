@@ -501,8 +501,8 @@
     },
 
     'blog.foot': {
-      zh: '想看完整方法？<a href="index.html#workflow">六步 workflow ↗</a><span class="sep">·</span>想直接装上 Skill？<a href="skill.html">从 realRoc/skills ↗</a><span class="sep">·</span>想玩一遍？<a href="game.html">PokeHire RPG game ↗</a>',
-      en: 'Want the full method? <a href="index.html#workflow">Six-step workflow ↗</a><span class="sep">·</span>Want to install the Skill? <a href="skill.html">From realRoc/skills ↗</a><span class="sep">·</span>Prefer to play it? <a href="game.html">PokeHire RPG game ↗</a>'
+      zh: '想看完整方法？<a href="index.html#workflow">六步 workflow ↗</a><span class="sep">·</span>想直接装上 Skill？<a href="skill.html">从 realRoc/skills ↗</a><span class="sep">·</span>想玩一遍？<a href="game.html">HireRPG game ↗</a>',
+      en: 'Want the full method? <a href="index.html#workflow">Six-step workflow ↗</a><span class="sep">·</span>Want to install the Skill? <a href="skill.html">From realRoc/skills ↗</a><span class="sep">·</span>Prefer to play it? <a href="game.html">HireRPG game ↗</a>'
     },
 
     /* ── skill.html ──────────────────────────────────────────────── */

@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F6F1E8" />
-  <title>PokeHire · GitHire 知识冒险</title>
-  <meta name="description" content="一张 AI-native 工程地图：用 WASD 或方向键移动，走遍六步 workflow，迎战七种工程反模式怪物。人指挥 AI 干活，不是 AI 辅助人。" />
-  <meta property="og:title" content="PokeHire · GitHire 知识冒险" />
-  <meta property="og:description" content="探索 AI-native 工程地图，迎战七种反模式怪物——答对驱散它们，答错失去 HP，HP 归零生产 503。" />
+  <title>HireRPG · GitHire 知识冒险</title>
+  <meta name="description" content="一张 AI-native 工程地图：用 WASD 或方向键移动，走遍六步 workflow，迎战七种 HireRPG 怪兽（AI-native 工作中常见的低效模式）。人指挥 AI 干活，不是 AI 辅助人。" />
+  <meta property="og:title" content="HireRPG · GitHire 知识冒险" />
+  <meta property="og:description" content="探索 AI-native 工程地图，迎战七种 HireRPG 怪兽——答对驱散它们，答错失去 HP，HP 归零生产 503。" />
   <meta property="og:url" content="https://realroc.github.io/git-hired/game.html" />
   <meta property="og:type" content="website" />
 
@@ -234,6 +234,60 @@
     .do-shake { animation:shake .42s steps(3); }
 
     .nav-game-link { font-family:var(--fp); font-size:12px; color:var(--accent); text-decoration:none; padding:10px 16px; border:2px solid var(--accent); border-radius:0; }
+
+    /* ── 右上角背包面板 ──────────────────────────────────── */
+    #backpack { position:fixed; top:72px; right:12px; z-index:50; width:230px; max-width:72vw; font-family:var(--fp); }
+    .bp-head { width:100%; display:flex; align-items:center; gap:.4rem; cursor:pointer;
+      background:var(--panel-d); color:#fff; border:3px solid var(--rink); border-radius:0;
+      box-shadow:3px 3px 0 rgba(31,36,48,.3); padding:.5rem .6rem; font-size:.7rem; font-family:var(--fp); }
+    .bp-count { background:var(--rgold); color:var(--rink); border:2px solid #000; padding:0 .35rem; }
+    .bp-revive { background:#2d7d46; color:#fff; border:2px solid #000; padding:0 .35rem; font-size:.6rem; }
+    .bp-arrow { margin-left:auto; }
+    .bp-body { background:var(--panel); border:3px solid var(--rink); border-top:none;
+      box-shadow:3px 3px 0 rgba(31,36,48,.3); padding:.55rem .6rem; }
+    .bp-tip { font-size:.58rem; color:#6a6f55; line-height:1.7; margin:0 0 .5rem; }
+    .bp-item { display:flex; align-items:center; gap:.45rem; padding:.4rem; border:2px solid #d8d2bf; margin-bottom:.4rem; background:#fff; }
+    .bp-item.on { border-color:#2d7d46; background:#eef8ee; }
+    .bp-emoji { font-size:1.1rem; flex-shrink:0; }
+    .bp-info { flex:1; min-width:0; display:flex; flex-direction:column; line-height:1.3; }
+    .bp-info b { font-size:.64rem; color:var(--rink); }
+    .bp-info small { font-size:.54rem; color:#6a6f55; }
+    .bp-eq { font-family:var(--fp); font-size:.56rem; cursor:pointer; padding:.32rem .42rem; flex-shrink:0;
+      border:2px solid var(--rink); background:var(--accent); color:#fff; box-shadow:2px 2px 0 rgba(31,36,48,.25); }
+    .bp-eq:active { transform:translate(1px,1px); box-shadow:1px 1px 0 rgba(31,36,48,.25); }
+    .bp-item.on .bp-eq { background:#2d7d46; }
+    .bp-empty { font-size:.6rem; color:#6a6f55; line-height:1.8; margin:0; }
+    @media (max-width:560px){ #backpack { top:64px; right:6px; width:172px; } .bp-head{ font-size:.62rem; } }
+
+    /* ── 通关道具 Dashboard ──────────────────────────────── */
+    .dash { background:var(--panel); border:3px solid var(--rink); box-shadow:5px 5px 0 rgba(31,36,48,.18);
+      padding:1rem 1.1rem; max-width:460px; margin:0 auto 1.6rem; text-align:left; }
+    .dash-title { font-size:.78rem; margin:0 0 .7rem; color:var(--rink); }
+    .dash-item { display:flex; align-items:center; gap:.5rem; padding:.45rem 0; border-bottom:2px dotted #d8d2bf; font-size:.7rem; }
+    .dash-item .de { font-size:1.15rem; }
+    .dash-item .dn { flex:1; }
+    .dash-item .dq { color:#6a6f55; font-size:.6rem; }
+    .dash-item .don { color:#2d7d46; font-size:.56rem; border:2px solid #2d7d46; padding:.04rem .3rem; }
+    .dash-empty { font-size:.66rem; color:#6a6f55; line-height:1.8; margin:.2rem 0; }
+    .dash-revive { font-size:.66rem; color:var(--accent); margin:.7rem 0 0; }
+
+    /* ── 复活道具选择弹窗 ────────────────────────────────── */
+    .revive-overlay { position:fixed; inset:0; z-index:80; display:flex; align-items:center; justify-content:center;
+      background:rgba(8,10,16,.72); padding:1rem; }
+    .revive-box { background:var(--panel); border:3px solid var(--rink); box-shadow:6px 6px 0 rgba(31,36,48,.35);
+      padding:1.3rem 1.2rem; max-width:420px; width:100%; text-align:center; font-family:var(--fp); }
+    .revive-title { font-size:.96rem; color:#c0392b; margin:0 0 .5rem; }
+    .revive-sub { font-size:.72rem; color:#3a3f30; line-height:1.85; margin:0 0 1rem; }
+    .revive-opts { display:flex; flex-direction:column; gap:.5rem; margin:0 0 1rem; }
+    .revive-pick { display:flex; flex-direction:column; align-items:flex-start; gap:.15rem; cursor:pointer;
+      background:#fff; border:3px solid #2d7d46; box-shadow:3px 3px 0 rgba(31,36,48,.22); padding:.6rem .7rem;
+      font-family:var(--fp); transition:transform .05s, box-shadow .05s; }
+    .revive-pick:active { transform:translate(2px,2px); box-shadow:1px 1px 0 rgba(31,36,48,.22); }
+    .revive-pick .rk-name { font-size:.78rem; color:#16431f; }
+    .revive-pick small { font-size:.58rem; color:#6a6f55; }
+    .revive-decline { width:100%; cursor:pointer; background:var(--panel-d); color:#fff; border:3px solid var(--rink);
+      box-shadow:3px 3px 0 rgba(31,36,48,.25); padding:.6rem; font-family:var(--fp); font-size:.72rem; }
+    .revive-decline:active { transform:translate(2px,2px); box-shadow:1px 1px 0 rgba(31,36,48,.25); }
   </style>
 </head>
 <body>
@@ -269,7 +323,7 @@
     <nav class="topnav-actions" aria-label="导航">
       <a class="btn-ghost" href="./index.html">方法论</a>
       <a class="btn-ghost" href="./skill.html">Skill</a>
-      <span class="nav-game-link" aria-current="page">🎮 PokeHire RPG game</span>
+      <span class="nav-game-link" aria-current="page">🎮 HireRPG game</span>
     </nav>
   </header>
 
@@ -653,9 +707,9 @@ function buildJourneyWorld(){
     mk(24,14,'sign',{text:'⑂ 右 → 宝箱（杂兵把守）'}),
     mk(23,4,'sign',{text:'🗽 终局：孤岛 Agent · 概念完整性'}),
     mk(17,6,'npc',{npcColor:'#4a235a',title:'🤖 终局之前',body:'「七个 agent 并发写主干，没人能一句话说清方向。概念完整性靠显式架构 owner——讲不清动机的 PR 不 merge。清完六个反模式，雕像才会苏醒。」'}),
-    mk(30,82,'chest',{pts:160,reward:'🎁 探索回报 +160 分'}),
-    mk(11,53,'chest',{pts:160,reward:'🎁 探索回报 +160 分'}),
-    mk(28,12,'chest',{pts:200,reward:'🎁 深处宝箱 +200 分'}),
+    mk(30,82,'chest',{pts:120,item:{key:'revive_forest', name:'Prompt 回滚卷轴', emoji:'📜', zone:'Prompt 森林'}}),
+    mk(11,53,'chest',{pts:120,item:{key:'revive_cave',   name:'沙盒快照',        emoji:'💾', zone:'编码洞穴'}}),
+    mk(28,12,'chest',{pts:160,item:{key:'revive_dungeon',name:'生产 Rollback 符', emoji:'🔄', zone:'生产地牢'}}),
   ];
   interactables.forEach(o=>{ obst[o.y][o.x]=null; if(o.kind==='sign'||o.kind==='npc'||o.kind==='gate'){ walls[o.y][o.x]=true; } else { walls[o.y][o.x]=false; if(ground[o.y][o.x]===0 && o.kind==='chest') ground[o.y][o.x]=1; } });
 
@@ -709,6 +763,10 @@ function freshState(){
     screen: 'title',          // title|map|battle|gameover|victory
     hp: MAX_HP, score: 0,
     defeated: {},             // monsterId -> true
+    inventory: [],            // 复活道具背包：{key,name,emoji,zone,type,count,equipped}
+    reviveLog: [],            // 通关 Dashboard：触发过的复活道具名
+    bpOpen: false,            // 右上角背包面板是否展开
+    revivedBy: null,          // 本回合触发复活的道具名（战斗日志提示用）
     player: { x:SPAWN.x, y:SPAWN.y, px:SPAWN.x*TILE, py:SPAWN.y*TILE, moving:false, tx:SPAWN.x, ty:SPAWN.y, bob:0, queued:null },
     bannerText: '', bannerUntil: 0,
     region: null, dialogOpen: false,   // 切片：进区横幅去重 / 对话框开启时锁移动
@@ -725,6 +783,51 @@ function aliveMonsters(){ return MONSTERS.filter(m => !G.defeated[m.id]); }
 function allCleared(){ return aliveMonsters().length === 0; }
 
 // ================================================================
+// 道具 / 背包：复活道具（按宝箱所在地图命名，功能统一 = HP 归零满血复活一次）
+// ================================================================
+function addItem(it){
+  const ex = G.inventory.find(x => x.key === it.key);
+  if (ex){ ex.count++; }
+  else G.inventory.push({ key:it.key, name:it.name, emoji:it.emoji, zone:it.zone, type:'revive', count:1, equipped:false });
+}
+function toggleEquip(key){
+  const it = G.inventory.find(x => x.key === key); if (!it) return;
+  it.equipped = !it.equipped;
+  renderBackpack();
+}
+function equippedReviveCount(){ return G.inventory.filter(x => x.equipped).reduce((s,x)=>s+x.count, 0); }
+// HP 归零时：弹出选择框，玩家挑一个已装备的复活道具消耗满血复活，或选择不复活 → Game Over
+function promptRevive(){
+  const opts = G.inventory.filter(x => x.equipped && x.count > 0);
+  if (!opts.length){ G.screen='gameover'; render(); return; }
+  let d = document.getElementById('revive-modal');
+  if (!d){ d = document.createElement('div'); d.id = 'revive-modal'; document.body.appendChild(d); }
+  d.className = 'revive-overlay';
+  d.innerHTML = `
+    <div class="revive-box">
+      <p class="revive-title">💀 HP 归零 · 生产即将 503</p>
+      <p class="revive-sub">你装备了复活道具——选一个消耗并满血复活，或接受 Game Over。</p>
+      <div class="revive-opts">
+        ${opts.map(it => `<button class="revive-pick" data-k="${it.key}">
+          <span class="rk-name">${it.emoji} ${it.name}</span>
+          <small>${it.zone} · 剩 ×${it.count}</small></button>`).join('')}
+      </div>
+      <button class="revive-decline" id="revive-no">💀 不复活，接受 Game Over</button>
+    </div>`;
+  d.querySelectorAll('.revive-pick').forEach(b => b.onclick = () => consumeRevive(b.dataset.k));
+  const no = document.getElementById('revive-no'); if (no) no.onclick = () => declineRevive();
+}
+function closeReviveModal(){ const d = document.getElementById('revive-modal'); if (d) d.remove(); }
+function consumeRevive(key){
+  const it = G.inventory.find(x => x.key === key && x.count > 0);
+  if (!it){ closeReviveModal(); declineRevive(); return; }
+  it.count--; if (it.count <= 0) it.equipped = false;
+  G.hp = MAX_HP; G.revivedBy = it.name; G.reviveLog.push(it.name);
+  closeReviveModal(); renderBackpack(); render();   // 回到战斗，满血继续本题
+}
+function declineRevive(){ closeReviveModal(); G.screen = 'gameover'; render(); }
+
+// ================================================================
 // 渲染调度
 // ================================================================
 let rafId = null, lastT = 0;
@@ -739,6 +842,7 @@ function render(){
   else if (G.screen === 'gameover'){ r.innerHTML = gameoverHTML(); bindEnd(); }
   else if (G.screen === 'victory'){ r.innerHTML = victoryHTML(); bindEnd(); }
   paintDomSprites();
+  renderBackpack();
 }
 
 // ================================================================
@@ -748,15 +852,16 @@ function titleHTML(){
   const emojis = MONSTERS.filter(m => m.tier!=='mob').map(m => spriteCanvasHTML(m.id, 56)).join('');
   return `<div class="screen-center">
     <p class="title-eyebrow">GitHire · 知识冒险</p>
-    <h1 class="title-logo"><em>Poke</em>Hire</h1>
-    <p class="title-tagline">从新手村一路向北，穿过 8 个区域，迎战七种工程反模式</p>
+    <h1 class="title-logo">Hire<em>RPG</em></h1>
+    <p class="title-tagline">从新手村一路向北，穿过 8 个区域，迎战七种 HireRPG 怪兽（AI-native 工作中常见的低效模式）</p>
     <div class="monster-row">${emojis}</div>
     <p class="title-desc">
       用 <span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span>
       或 <span class="kbd">↑</span><span class="kbd">↓</span><span class="kbd">←</span><span class="kbd">→</span> 移动，撞向告示牌 / NPC / 门即触发。<br/>
       新手村 → 森林 → 峡谷 → 洞穴 → PR 桥 → 城堡 → 地牢 → 城塞，<br/>
-      一路沿主路向北，走到怪物身上迎战；支线有杂兵把守的宝箱。<br/>
-      清除六种反模式，城塞中央的雕像将苏醒为终局 Boss。
+      一路沿主路向北，走到怪物身上迎战；支线杂兵把守宝箱——打通后开箱得「复活道具」，<br/>
+      在右上角 🎒 背包里装备，HP 归零能满血复活一次。<br/>
+      清除六种 HireRPG 怪兽，城塞中央的雕像将苏醒为终局 Boss。
     </p>
     <button class="g-btn solid" id="btn-start" style="font-size:1.05rem;padding:.9rem 2.5rem;">进入世界 →</button>
     <p class="title-hint">右上角有小地图 · 手机端可用屏幕方向键 · 约 8 分钟</p>
@@ -855,8 +960,11 @@ function tryStep(dx,dy){
     if (it.kind==='sign' || it.kind==='gate'){ showBanner(it.text); return; }
     if (it.kind==='npc' || it.kind==='door'){ showDialog(it.title, it.body); return; }
     if (it.kind==='chest'){
-      if (!it.got){ it.got=true; G.score += it.pts||100; showBanner(it.reward||'🎁 宝箱！'); }
-      else showBanner('（空箱子）');
+      if (!it.got){
+        it.got=true; G.score += it.pts||0;
+        if (it.item){ addItem(it.item); showBanner(`🎁 开出「${it.item.emoji} ${it.item.name}」（+${it.pts||0} 分）· 到右上角 🎒 背包装备它，HP 归零可满血复活`); renderBackpack(); }
+        else showBanner(it.reward||'🎁 宝箱！');
+      } else showBanner('（空箱子）');
       return;
     }
   }
@@ -1539,12 +1647,56 @@ function paintDomSprites(){
   });
 }
 
+// 右上角常驻背包面板：map / battle 屏全程可见，显示持有的复活道具与装备状态
+function renderBackpack(){
+  let bp = document.getElementById('backpack');
+  const show = (G.screen === 'map' || G.screen === 'battle');
+  if (!show){ if (bp) bp.style.display = 'none'; return; }
+  if (!bp){ bp = document.createElement('div'); bp.id = 'backpack'; document.body.appendChild(bp); }
+  bp.style.display = 'block';
+  const items = G.inventory;
+  const totalCount = items.reduce((s,x)=>s+x.count, 0);
+  const equipCount = equippedReviveCount();
+  const list = items.length
+    ? items.map(it => `
+        <div class="bp-item ${it.equipped?'on':''}">
+          <span class="bp-emoji">${it.emoji}</span>
+          <span class="bp-info"><b>${it.name}</b><small>${it.zone} · ×${it.count}</small></span>
+          ${it.count>0
+            ? `<button class="bp-eq" data-eq="${it.key}">${it.equipped?'已装备 ✓':'装备'}</button>`
+            : `<button class="bp-eq" disabled style="opacity:.45">已用尽</button>`}
+        </div>`).join('')
+    : `<p class="bp-empty">背包空空。打通杂兵把守的支线，开宝箱可得「复活道具」。</p>`;
+  bp.innerHTML = `
+    <button class="bp-head" id="bp-head" aria-expanded="${G.bpOpen}">
+      🎒 背包 <span class="bp-count">${totalCount}</span>
+      ${equipCount>0 ? `<span class="bp-revive">🔄 复活×${equipCount}</span>` : ''}
+      <span class="bp-arrow">${G.bpOpen?'▾':'▸'}</span>
+    </button>
+    <div class="bp-body" style="display:${G.bpOpen?'block':'none'}">
+      <p class="bp-tip">装备「复活道具」后，HP 归零时消耗一个 → 满血复活，继续战斗。</p>
+      ${list}
+    </div>`;
+  const head = document.getElementById('bp-head');
+  if (head) head.onclick = () => { G.bpOpen = !G.bpOpen; renderBackpack(); };
+  bp.querySelectorAll('.bp-eq').forEach(b => b.onclick = () => toggleEquip(b.dataset.eq));
+}
+
 // ================================================================
 // 战斗屏（问答）
 // ================================================================
+// 每进入一题就洗一次选项顺序，避免正确答案永远落在同一个位置（如总是 B）
+function shuffleQuestion(){
+  const n = q().opts.length;
+  const idx = Array.from({length:n}, (_,i)=>i);
+  for (let i=n-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=idx[i]; idx[i]=idx[j]; idx[j]=t; }
+  G.order = idx;   // 显示位置 pos → 原始选项下标 idx[pos]
+}
+
 function startBattle(mid){
   G.mid = mid; G.qi = 0; G.results = []; G.chosen = null; G.ok = null; G.bphase = 'q';
   G.screen = 'battle';
+  shuffleQuestion();
   render();
 }
 
@@ -1570,22 +1722,25 @@ function battleHTML(){
     return `<div class="pip ${cls}" style="--mc:${m.color}"></div>`;
   }).join('');
 
-  const answers = qq.opts.map((opt,i) => {
+  const order = (G.order && G.order.length===qq.opts.length) ? G.order : qq.opts.map((_,i)=>i);
+  const answers = order.map((oi, pos) => {
+    const opt = qq.opts[oi];
     let cls = '';
     if (revealed){
-      if (i===qq.ans) cls='a-reveal';
-      else if (i===G.chosen && i!==qq.ans) cls='a-wrong';
+      if (oi===qq.ans) cls='a-reveal';
+      else if (oi===G.chosen && oi!==qq.ans) cls='a-wrong';
     }
-    return `<button class="a-btn ${cls}" data-c="${i}" ${revealed?'disabled':''}>
-      <span class="lbl">${labels[i]}</span>${opt}</button>`;
+    return `<button class="a-btn ${cls}" data-c="${oi}" ${revealed?'disabled':''}>
+      <span class="lbl">${labels[pos]}</span>${opt}</button>`;
   }).join('');
 
   let logMsg = '▶ 选择你的答案...';
   if (revealed){
     logMsg = G.ok
-      ? `✦ 命中！架构师的判断斩断了反模式！（+${PTS_Q} 分）`
+      ? `✦ 命中！架构师的判断斩退了这只怪兽！（+${PTS_Q} 分）`
       : `✘ 错误！${m.name}发动攻击，你失去了 ${PENALTY} HP。`;
-    if (!G.ok && G.hp<=0) logMsg += ' HP 归零，生产 503...';
+    if (!G.ok && G.revivedBy) logMsg += ` 🔄「${G.revivedBy}」触发——满血复活，生产已回滚！`;
+    else if (!G.ok && G.hp<=0) logMsg += ' HP 归零，生产 503...';
   }
 
   const expColor = G.ok ? '#2d7d46' : '#c0392b';
@@ -1610,7 +1765,7 @@ function battleHTML(){
     </div>
     <div class="battle-log">${logMsg}</div>
     ${revealed ? `<p class="exp-line" style="color:${expColor}">💡 ${qq.exp}</p>` : ''}
-    ${revealed ? `<button class="btn-continue" id="btn-next-q">继续 →</button>` : ''}
+    ${revealed && G.hp>0 ? `<button class="btn-continue" id="btn-next-q">继续 →</button>` : ''}
   </div>`;
 }
 
@@ -1656,13 +1811,17 @@ function answer(choice){
   const qq = q();
   const ok = choice === qq.ans;
   G.chosen = choice; G.ok = ok; G.results.push(ok);
+  G.revivedBy = null;
   if (!ok) G.hp = Math.max(0, G.hp - PENALTY);
   G.bphase = 'reveal';
   render();
   if (!ok){
     const qc = document.getElementById('qc');
     if (qc){ qc.classList.add('do-shake'); qc.addEventListener('animationend', ()=>qc.classList.remove('do-shake'), {once:true}); }
-    if (G.hp<=0){ setTimeout(()=>{ G.screen='gameover'; render(); }, 1400); }
+    if (G.hp<=0){
+      if (equippedReviveCount() > 0) setTimeout(promptRevive, 650);   // 让玩家自己选用哪个 / 是否复活
+      else setTimeout(()=>{ G.screen='gameover'; render(); }, 1400);
+    }
   }
 }
 
@@ -1678,6 +1837,7 @@ function nextQ(){
     G.bphase = 'end';
   } else {
     G.qi++; G.chosen=null; G.ok=null; G.bphase='q';
+    shuffleQuestion();
   }
   render();
 }
@@ -1728,17 +1888,36 @@ function victoryHTML(){
     G.score >= 1800 ? '资深工程师 · Senior Engineer' :
     G.score >= 1200 ? '合格 AI-native 工程师' :
                       '见习工程师 · Junior Engineer';
-  const shareText = `我在 PokeHire 走通了 AI-native 工程地图，击败 7 种工程反模式，得分 ${G.score} 分，头衔：${rank.split('·')[0].trim()}。\n\nGitHire 方法论：人指挥 AI 干活，不是 AI 辅助人。\n→ https://realroc.github.io/git-hired/game.html`;
+  const rankShort = rank.split('·')[0].trim();
+  const shareText = `我在 HireRPG 击败 7 种 AI-native 工作中常见的低效怪兽，得分 ${G.score}，头衔：${rankShort}。\n\n这不是普通小游戏，而是 GitHire 核心方法论的训练入口：人指挥 AI 干活，不是 AI 辅助人。\n\n→ https://realroc.github.io/git-hired/game.html`;
   window.__SHARE__ = shareText;
+
+  // 通关道具 Dashboard
+  const items = G.inventory;
+  const dashItems = items.length
+    ? items.map(it => `<div class="dash-item"><span class="de">${it.emoji}</span><span class="dn"><b>${it.name}</b> <span class="dq">${it.zone} · ×${it.count}</span></span>${it.equipped?'<span class="don">已装备</span>':''}</div>`).join('')
+    : `<p class="dash-empty">本局未获得复活道具——下次记得打通杂兵把守的支线、开宝箱拿道具。</p>`;
+  const reviveText = G.reviveLog.length ? `${G.reviveLog.length} 次（${G.reviveLog.join('、')}）` : '0 次';
+
+  // 投递简历：直接打开邮件客户端，预填得分 / 头衔 / 道具清单
+  const itemsLine = items.length ? items.map(i=>`${i.emoji}${i.name}×${i.count}`).join('、') : '无';
+  const mailBody = `我刚通关了 GitHire 的 HireRPG —— AI-native 工程方法论的训练入口。\n\n· 最终得分：${G.score} 分\n· 头衔：${rank}\n· 通关道具：${itemsLine}\n· 复活道具触发：${reviveText}\n\n我认同 GitHire 的核心方法论——人指挥 AI 干活，不是 AI 辅助人。现投递简历（请见附件），期待进一步交流。\n\n（游戏：https://realroc.github.io/git-hired/game.html）`;
+  const mailto = `mailto:wuyupeng@floatmiracle.com?subject=${encodeURIComponent('GitHire 简历投递 · '+rankShort+' · '+G.score+'分')}&body=${encodeURIComponent(mailBody)}`;
 
   return `<div class="screen-center">
     <span class="final-icon" style="animation:bob 2s ease-in-out infinite">🚀</span>
     <h1 class="final-title" style="color:var(--accent)">通关！抵达 Production</h1>
-    <p class="final-sub">七种工程反模式已全部击败</p>
+    <p class="final-sub">七种 HireRPG 怪兽已全部击败</p>
     <p class="final-score">最终得分：${G.score} 分 · 头衔：${rank}</p>
     <p class="final-body">恭喜你走通了这张地图，也理解了 GitHire 核心方法论：<br/><strong>人 frame、AI 执行、架构师判断。</strong></p>
+    <div class="dash">
+      <p class="dash-title">🎒 通关道具 Dashboard</p>
+      ${dashItems}
+      <p class="dash-revive">🔄 复活道具触发：${reviveText}</p>
+    </div>
     <div class="btn-row">
-      <button class="g-btn solid" id="btn-share">复制分享文案</button>
+      <a class="g-btn solid" href="${mailto}">📮 投递简历</a>
+      <button class="g-btn ghost" id="btn-share">复制分享文案</button>
       <button class="g-btn ghost" id="btn-retry">再玩一次</button>
       <a class="g-btn ghost" href="./index.html">返回 GitHire</a>
     </div>
