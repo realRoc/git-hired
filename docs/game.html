@@ -396,34 +396,37 @@ const VIEW_W = 15, VIEW_H = 11;              // 视口格子数（奇数→主�
 const VIEW_PXW = VIEW_W*TILE, VIEW_PXH = VIEW_H*TILE;
 const WORLD_PXW = WORLD_W*TILE, WORLD_PXH = WORLD_H*TILE;
 
-const STATUE = { x:24, y:20 };               // 中央雕像 = robot 隐藏 Boss
-const SPAWN  = { x:24, y:23 };               // 出生：广场南，面朝雕像
+const STATUE = { x:24, y:36 };               // 城塞中央雕像 = robot 终局 Boss
+const SPAWN  = { x:8,  y:36 };               // 出生：新手村广场，面朝北（通往森林）
 
-// 区域锚点：Voronoi 生物群系 + 道路目标 + HUD 区域名
+// 区域锚点：8 区线性脊柱（村→森林→峡谷→洞穴→桥→城堡→地牢→城塞）
+// 沿地图外缘走一圈 S 形，buildWorld 只在相邻区之间修主路，形成"旅程"而非"沙盒"
 const REGIONS = [
-  { key:'plaza',     theme:'town',      name:'中心广场',        cx:24, cy:20 },
-  { key:'issue',     theme:'wild',      name:'Issue 荒野',      cx:9,  cy:8  },
-  { key:'sandbox',   theme:'cave',      name:'Sandbox 洞穴',    cx:25, cy:5  },
-  { key:'incident',  theme:'incident',  name:'Case01 事故现场',  cx:40, cy:11 },
-  { key:'valley',    theme:'valley',    name:'甩锅龙谷',        cx:6,  cy:24 },
-  { key:'graveyard', theme:'graveyard', name:'人月墓园',        cx:10, cy:36 },
-  { key:'deadline',  theme:'tower',     name:'Deadline 钟楼',   cx:40, cy:36 },
+  { key:'village', theme:'town',      name:'新手村',        cx:8,  cy:35 },
+  { key:'forest',  theme:'wild',      name:'Prompt 森林',   cx:7,  cy:22 },
+  { key:'canyon',  theme:'valley',    name:'Issue 峡谷',    cx:11, cy:9  },
+  { key:'cave',    theme:'cave',      name:'编码洞穴',      cx:22, cy:6  },
+  { key:'bridge',  theme:'tower',     name:'PR 桥',         cx:33, cy:8  },
+  { key:'castle',  theme:'fortress',  name:'评审城堡',      cx:41, cy:17 },
+  { key:'dungeon', theme:'graveyard', name:'生产地牢',      cx:40, cy:31 },
+  { key:'citadel', theme:'incident',  name:'AI 原生城塞',   cx:24, cy:36 },
 ];
 
-// boss 落点：x,y = 触发战斗的格子；部分藏在建筑里（door 在建筑正下方）
+// boss 落点：r = 所属区域在 REGIONS 中的下标；部分藏在建筑里（door 在建筑正下方）
+// robot 终局 = 城塞雕像（STATUE），不在此表
 const BOSS_SPOTS = [
-  { id:'ghost',  r:1, x:9,  y:9  },
-  { id:'fire',   r:2, x:25, y:8,  building:{ type:'cave',    x:23, y:3,  w:5, h:4 } },
-  { id:'scan',   r:3, x:40, y:13, building:{ type:'server2', x:38, y:8,  w:5, h:4 } },
-  { id:'dragon', r:4, x:6,  y:24 },
-  { id:'zombie', r:5, x:10, y:36 },
-  { id:'clock',  r:6, x:40, y:38, building:{ type:'tower',   x:38, y:32, w:5, h:5 } },
+  { id:'ghost',  r:2, x:11, y:11 },                                                  // 峡谷 · 模糊 Issue 幽灵
+  { id:'fire',   r:3, x:22, y:8,  building:{ type:'cave',    x:20, y:2,  w:5, h:4 } }, // 洞穴 · 无沙盒妖
+  { id:'clock',  r:4, x:33, y:10 },                                                  // PR 桥 · Deadline 幻影
+  { id:'scan',   r:5, x:39, y:15, building:{ type:'server2', x:37, y:10, w:5, h:4 } },// 城堡 · SCAN 兽（AI Review）
+  { id:'dragon', r:5, x:43, y:19 },                                                  // 城堡 · 甩锅龙（架构师）
+  { id:'zombie', r:6, x:40, y:33 },                                                  // 地牢 · 人月怪
 ];
 
-// 广场旁的装饰建筑（非 boss）
+// 新手村旁的装饰建筑（非 boss）
 const DECO_BUILDINGS = [
-  { type:'hq',  x:14, y:15, w:4, h:3, label:'GitHire 总部' },
-  { type:'lib', x:30, y:15, w:4, h:3, label:'文档馆' },
+  { type:'hq',  x:3,  y:29, w:4, h:3, label:'GitHire 总部' },
+  { type:'lib', x:14, y:30, w:4, h:3, label:'文档馆' },
 ];
 
 // ── 工具 ──
@@ -436,14 +439,15 @@ function hash(x,y){ return ((x*73856093) ^ (y*19349663) ^ ((x+y)*83492791)) >>> 
 
 // ── 生物群系生成参数 ──
 // 70% 纯地面 / 20% 障碍 / 10% 焦点(怪物·任务点)：障碍密度整体减半，避免每格都"有设计"
-function biomeDensity(b){ return ({ wild:12, graveyard:13, valley:10, cave:9, incident:9, tower:9, town:3 })[b] ?? 8; }
+function biomeDensity(b){ return ({ wild:12, graveyard:13, valley:16, cave:9, incident:9, tower:9, fortress:8, town:3 })[b] ?? 8; }
 function biomeObst(b,s){
   if (b==='wild')      return (s%5===0)?'rock':'tree';
   if (b==='graveyard') return (s%4===0)?'tree':'tomb';
-  if (b==='valley')    return (s%3===0)?'rock':'water';
+  if (b==='valley')    return (s%4===0)?'water':'rock';   // 峡谷：以岩壁为主，偶有水洼
   if (b==='cave')      return (s%3===0)?'pillar':'rock';
   if (b==='incident')  return (s%3===0)?'rock':'server';
   if (b==='tower')     return (s%4===0)?'rock':'pillar';
+  if (b==='fortress')  return (s%4===0)?'rock':'pillar';
   return (s%2===0)?'bushobst':'tree';
 }
 
@@ -479,9 +483,15 @@ function buildWorld(){
     }
     put(x1,y1);
   };
-  for (let i=1;i<REGIONS.length;i++) carve(PLZ.cx,PLZ.cy, REGIONS[i].cx,REGIONS[i].cy);            // 大路放射
-  for (let i=1;i<REGIONS.length;i++){ const a=REGIONS[i], b=REGIONS[i%6+1]; carve(a.cx,a.cy,b.cx,b.cy); } // 环路
-  for (const bs of BOSS_SPOTS){ const a=REGIONS[bs.r]; carve(a.cx,a.cy, bs.x,bs.y); }                // 到 boss 的小路
+  for (let i=0;i<REGIONS.length-1;i++) carve(REGIONS[i].cx,REGIONS[i].cy, REGIONS[i+1].cx,REGIONS[i+1].cy); // 脊柱主路：相邻区顺序相连
+  for (const bs of BOSS_SPOTS){ const a=REGIONS[bs.r]; carve(a.cx,a.cy, bs.x,bs.y); }                // 区域中心到 boss 的小路
+
+  // 2.5) PR 桥河流：在洞穴↔桥之间拉一道竖河（卡点），只在主路穿过处留出桥面
+  const RIVER_X = 28;
+  for (let y=2; y<=20; y++) for (const rx of [RIVER_X, RIVER_X+1]){
+    if (ground[y][rx]===1) continue;                 // 主路穿过 = 桥面，保持可走
+    obst[y][rx]='water'; walls[y][rx]=true; ground[y][rx]=0;
+  }
 
   // 3) 受保护格（锚点/雕像/boss/建筑）——障碍不在此生成、不挡路
   const prot = grid(W,H,false);
@@ -494,7 +504,7 @@ function buildWorld(){
 
   // 4) 障碍散布：仅草地、非保护、非路
   for(let y=0;y<H;y++)for(let x=0;x<W;x++){
-    if(ground[y][x]!==0 || prot[y][x]) continue;
+    if(ground[y][x]!==0 || prot[y][x] || obst[y][x]) continue;   // 跳过路/保护格/已有障碍(河流)
     const s=hash(x,y);
     if((s%100) < biomeDensity(biome[y][x])){ obst[y][x]=biomeObst(biome[y][x],s); walls[y][x]=true; }
   }
@@ -512,7 +522,7 @@ function buildWorld(){
 
   // 7) 装饰：广场灯 + 路旁花/灌木（不挡路）
   const decor=[];
-  [[20,17],[28,17],[20,23],[28,23]].forEach(([x,y])=>{ decor.push({x,y,t:'lamp'}); walls[y][x]=true; });
+  [[5,33],[11,33],[5,37],[11,37]].forEach(([x,y])=>{ decor.push({x,y,t:'lamp'}); walls[y][x]=true; });
   for(let y=2;y<H-2;y++)for(let x=2;x<W-2;x++){
     if(ground[y][x]!==0 || obst[y][x] || prot[y][x]) continue;
     const nearRoad = ground[y-1][x]===1||ground[y+1][x]===1||ground[y][x-1]===1||ground[y][x+1]===1;
@@ -654,7 +664,7 @@ function mapHTML(){
       <div class="map-banner" id="banner" style="opacity:0"></div>
     </div>
     <div class="map-foot">
-      <p class="map-tip">🧑‍💻 你是架构师。<br/><span class="kbd">WASD</span> / 方向键移动，沿大路小路探索，走到怪物身上迎战。条条大路通 Boss。</p>
+      <p class="map-tip">🧑‍💻 你是架构师。<br/><span class="kbd">WASD</span> / 方向键移动，从新手村沿主路一路向北，过峡谷、洞穴、PR 桥，直抵 AI 原生城塞。走到怪物身上迎战。</p>
       <div class="dpad" aria-label="方向键">
         <button class="dp-up"    data-dx="0"  data-dy="-1" aria-label="上">▲</button>
         <button class="dp-left"  data-dx="-1" data-dy="0"  aria-label="左">◀</button>
@@ -1433,7 +1443,7 @@ function backToMap(){
   // 击败中央雕像 Boss（孤岛 Agent）即通关
   if (G.defeated['robot']){ G.screen = 'victory'; render(); return; }
   G.screen = 'map';
-  if (statueAwake()) showBanner('🗿 六种反模式已清除！广场中央的雕像苏醒了——回去迎战隐藏 Boss');
+  if (statueAwake()) showBanner('🗿 六种反模式已清除！AI 原生城塞的雕像苏醒了——前往城塞迎战终局 Boss');
   render();
 }
 
