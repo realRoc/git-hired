@@ -301,14 +301,14 @@ const MONSTERS = [
   { id:'robot', name:'孤岛 Agent', emoji:'🤖', color:'#4a235a', zone:'最终 Boss · 概念完整性',
     flavor:'七个 agent 并发写主干，没有一个人能用一句话说清楚整体方向。代码量翻倍，但每个模块讲的是不同的故事。这是最终 Boss——因为它长得最像"生产力"。',
     learnHref:'./index.html#faq', learnText:'阅读 FAQ：概念完整性' },
-  { id:'mob1', name:'措辞含糊鬼', emoji:'🌫️', color:'#7d8aa0', zone:'Prompt 森林 · 杂兵', tier:'mob',
-    flavor:'森林里飘着的小怪，专门钻"差不多就行"的空子。一道速答题，答对就散。',
+  { id:'mob1', name:'措辞含糊鬼', emoji:'🌫️', color:'#9a93c4', zone:'Prompt 森林 · 杂兵', tier:'mob',
+    flavor:'森林里飘着的小幽灵，模糊 Issue 幽灵的幼体，专门钻"差不多就行"的空子。一道速答题。',
     learnHref:'./index.html#workflow', learnText:'阅读六步 Workflow' },
-  { id:'mob2', name:'先上线鬼', emoji:'🪤', color:'#b7770d', zone:'编码洞穴 · 杂兵', tier:'mob',
-    flavor:'洞里最爱喊"先上线看看"的小怪。一道速答题。',
+  { id:'mob2', name:'余烬妖', emoji:'🔥', color:'#e8702a', zone:'编码洞穴 · 杂兵', tier:'mob',
+    flavor:'洞里蹦出的小火苗，无沙盒妖的幼体，最爱喊"先上线看看"。一道速答题。',
     learnHref:'./index.html#workflow', learnText:'阅读 Sandbox 步骤' },
-  { id:'mob3', name:'加人鬼', emoji:'🧱', color:'#117a65', zone:'生产地牢 · 杂兵', tier:'mob',
-    flavor:'地牢里一遇延期就喊"再招两个人"的小怪。一道速答题。',
+  { id:'mob3', name:'残尸', emoji:'🧟', color:'#5c9e5c', zone:'生产地牢 · 杂兵', tier:'mob',
+    flavor:'地牢里游荡的小残尸，人月怪的幼体，一遇延期就喊"再招两个人"。一道速答题。',
     learnHref:'./index.html#faq', learnText:'阅读 FAQ：加人还是加 framing' },
 ];
 
@@ -587,6 +587,11 @@ function buildJourneyWorld(){
     const put=(px,py)=>{ for(const [ox,oy] of [[0,0],[1,0],[0,1]]){ const a=px+ox,b=py+oy; if(a>0&&b>0&&a<W-1&&b<H-1){ if(ground[b][a]!==2) ground[b][a]=1; obst[b][a]=null; walls[b][a]=false; } } };
     while((x!==x1||y!==y1)&&g++<600){ put(x,y); if(Math.abs(x1-x)>Math.abs(y1-y)) x+=Math.sign(x1-x); else y+=Math.sign(y1-y); } put(x1,y1); };
   const carve=(pts)=>{ for(let i=0;i<pts.length-1;i++) carveLine(pts[i][0],pts[i][1],pts[i+1][0],pts[i+1][1]); };
+  // 单宽开路：支线用它，杂兵能占满唯一通道，无法绕过去拿宝箱
+  const carveLine1=(x0,y0,x1,y1)=>{ let x=x0,y=y0,g=0;
+    const put=(a,b)=>{ if(a>0&&b>0&&a<W-1&&b<H-1){ if(ground[b][a]!==2) ground[b][a]=1; obst[b][a]=null; walls[b][a]=false; } };
+    while((x!==x1||y!==y1)&&g++<400){ put(x,y); if(Math.abs(x1-x)>Math.abs(y1-y)) x+=Math.sign(x1-x); else y+=Math.sign(y1-y); } put(x1,y1); };
+  const carve1=(pts)=>{ for(let i=0;i<pts.length-1;i++) carveLine1(pts[i][0],pts[i][1],pts[i+1][0],pts[i+1][1]); };
 
   for(let y=0;y<H;y++)for(let x=0;x<W;x++) biome[y][x]=regionByY(y).theme;
 
@@ -601,8 +606,8 @@ function buildJourneyWorld(){
 
   // 2) 主路脊柱（蜿蜒，含各 Boss 落点）
   carve([[20,95],[20,85],[14,81],[26,77],[20,73],[24,68],[20,62],[16,57],[20,54],[20,48],[20,44],[20,42],[26,33],[16,30],[24,26],[20,21],[20,18],[24,15],[16,13],[20,8],[20,5]]);
-  // 支线（杂兵把守宝箱）
-  [ [[26,77],[30,79],[30,82]], [[16,57],[11,57],[11,53]], [[24,15],[28,16],[28,12]] ].forEach(carve);
+  // 支线（杂兵把守宝箱）：单宽，杂兵不可绕
+  [ [[26,77],[30,79],[30,82]], [[16,57],[11,57],[11,53]], [[24,15],[28,16],[28,12]] ].forEach(carve1);
 
   // 3) Boss 石厅 + 村庄广场 + 城塞厅
   const cham=(cx,cy)=>open(cx-3,cy-2,cx+3,cy+2,0);
@@ -931,13 +936,6 @@ function update(now){
 // ================================================================
 function R(c,x,y,w,h,col){ c.fillStyle=col; c.fillRect(x,y,w,h); }
 
-function mobSprite(c,a,b){   // 杂兵雾怪：a 高光 / b 主体
-  const e='#2b3242';
-  R(c,5,4,6,1,a); R(c,4,5,8,6,a); R(c,3,7,10,3,b);
-  R(c,4,11,2,2,b); R(c,7,11,2,2,b); R(c,10,11,2,2,b);
-  R(c,5,7,2,2,e); R(c,9,7,2,2,e);
-  R(c,6,9,4,1,b); R(c,6,3,1,1,a); R(c,10,4,1,1,a);
-}
 const SPRITE_FN = {
   hero(c){
     R(c,5,14,2,2,'#2a3550'); R(c,9,14,2,2,'#2a3550');         // 腿
@@ -960,9 +958,34 @@ const SPRITE_FN = {
     R(c,5,7,2,3,e); R(c,9,7,2,3,e);
     R(c,7,0,3,1,'#fff'); R(c,10,1,1,1,'#fff'); R(c,9,2,1,1,'#fff'); R(c,8,3,1,1,'#fff'); R(c,8,5,1,1,'#fff'); // ?
   },
-  mob1(c){ mobSprite(c,'#aab3c4','#7d8aa0'); },
-  mob2(c){ mobSprite(c,'#e0a94a','#b7770d'); },
-  mob3(c){ mobSprite(c,'#4fb89a','#117a65'); },
+  mob1(c){   // 森林·幽灵系幼体（呼应模糊 Issue 幽灵）：紫色小幽灵 + 含糊省略号
+    const b='#c3bee0', d='#8e88bf', e='#3a2f55';
+    R(c,6,3,4,1,b); R(c,5,4,6,1,b); R(c,4,5,8,5,b);
+    R(c,4,5,1,5,d);
+    R(c,4,10,2,2,b); R(c,7,10,2,2,b); R(c,10,10,2,2,b);
+    R(c,5,10,1,2,d); R(c,9,10,1,1,d);
+    R(c,6,6,1,2,e); R(c,9,6,1,2,e);
+    R(c,5,2,1,1,d); R(c,7,1,1,1,d); R(c,9,2,1,1,d);   // … 含糊
+  },
+  mob2(c){   // 洞穴·火系幼体（呼应无沙盒妖）：橙色小火苗
+    const o='#e8702a', y='#f4c430', r='#c0392b', e='#3a1500';
+    R(c,7,2,1,2,y); R(c,8,4,1,1,y);
+    R(c,6,4,4,2,o); R(c,5,6,6,5,o);
+    R(c,5,11,6,2,r);
+    R(c,6,7,3,3,y);
+    R(c,6,7,1,1,e); R(c,9,7,1,1,e);
+    R(c,7,9,2,1,e);
+  },
+  mob3(c){   // 地牢·僵尸系幼体（呼应人月怪）：绿色小残尸 + 前伸手
+    const g='#5c9e5c', d='#3d7a3d', e='#1a1a1a', s='#8fd18f';
+    R(c,5,4,6,6,g); R(c,5,4,6,1,'#7bbf7b');
+    R(c,5,10,5,3,g); R(c,5,10,5,1,d);
+    R(c,5,4,1,9,d);
+    R(c,11,7,2,2,g);                                  // 前伸手
+    R(c,6,6,1,2,e); R(c,9,5,1,2,e);                  // 歪死眼
+    R(c,6,8,3,1,d);
+    R(c,8,9,1,2,s);                                   // 滴落
+  },
   fire(c){
     const o='#e8702a', y='#f4c430', r='#c0392b';
     R(c,6,1,1,2,y); R(c,8,2,1,2,y);
