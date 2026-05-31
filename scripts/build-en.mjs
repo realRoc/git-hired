@@ -29,18 +29,18 @@ const PAGES = [
 // structured-data text. Keep in sync if you edit JSON-LD in any zh page.
 const JSONLD_REPLACEMENTS = {
   // index.html Organization.description
-  "AI-native 工程方法论：把'人 frame、AI 执行、架构师判断'写成可复用的六步 workflow，附真实事故 case 与可装 Skill。":
-    "An AI-native engineering method that codifies 'humans frame, AI executes, architects judge' into a reusable six-step workflow — with real production incidents and an installable Skill.",
+  "AI-native 工程方法论：把'人思考、AI 执行、人验收'写成可复用的六步 workflow，附真实事故 case 与可装 Skill。":
+    "An AI-native engineering method that codifies 'humans think, AI executes, humans verify' into a reusable six-step workflow — with real production incidents and an installable Skill.",
 
   // index.html SoftwareApplication.description
-  "GitHire 是一套围绕 GitHub Issue 展开的 AI-native 工程方法论：人 frame、AI 执行、架构师判断。":
-    "GitHire is an AI-native engineering method built around the GitHub Issue: humans frame, AI executes, architects judge.",
+  "GitHire 是一套围绕 GitHub Issue 展开的 AI-native 工程方法论：人思考、AI 执行、人验收。":
+    "GitHire is an AI-native engineering method built around the GitHub Issue: humans think, AI executes, humans verify.",
 
   // index.html HowTo
   "GitHire 工作流：从 Issue 到 Production":
     "GitHire workflow: from Issue to Production",
-  "GitHire 的标准工作流分为六个步骤,把'人 frame、AI 执行、架构师判断'串成从需求到上线的完整路径。":
-    "The GitHire workflow has six steps that chain 'humans frame, AI executes, architects judge' into a complete path from spec to ship.",
+  "GitHire 的标准工作流分为六个步骤,把'人思考、AI 执行、人验收'串成从需求到上线的完整路径。":
+    "The GitHire workflow has six steps that chain 'humans think, AI executes, humans verify' into a complete path from spec to ship.",
   "用六段式 Prompt Spec 把需求落成 AI 可执行的契约：Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context。每一处空白都是 AI 自由发挥的入口。":
     "Frame the spec into an AI-executable contract using the six-section Prompt Spec: Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context. Every blank is room for the AI to freelance.",
   "长期运行的隔离环境，带真实依赖与生产量级的数据；缺数据规模、缺 QPS 的沙盒只是把 bug 推到上线那一刻。":

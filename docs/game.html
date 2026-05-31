@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F6F1E8" />
   <title>HireRPG · GitHire 知识冒险</title>
-  <meta name="description" content="一张 AI-native 工程地图：用 WASD 或方向键移动，走遍六步 workflow，迎战七种 HireRPG 怪兽（AI-native 工作中常见的低效模式）。人指挥 AI 干活，不是 AI 辅助人。" />
+  <meta name="description" content="一张 AI-native 工程地图：用 WASD 或方向键移动，走遍六步 workflow，迎战七种 HireRPG 怪兽（AI-native 工作中常见的低效模式）。人思考，AI 执行，人验收。" />
   <meta property="og:title" content="HireRPG · GitHire 知识冒险" />
   <meta property="og:description" content="探索 AI-native 工程地图，迎战七种 HireRPG 怪兽——答对驱散它们，答错失去 HP，HP 归零生产 503。" />
   <meta property="og:url" content="https://realroc.github.io/git-hired/game.html" />
@@ -456,8 +456,8 @@ const QUESTIONS = {
       opts:['Issue 和 Architect（首尾两端）','Sandbox 和 AI Review（两次）','AI Review 和 Architect（两次）','PR 和 Production（两次）'],
       ans:1, exp:'Sandbox 是方向验证的决策点；AI Review 是合入前最后一次检查。两次"还来得及"，然后才到架构师签字。' },
     { q:'最后一战！GitHire 的核心口号是？',
-      opts:['AI 辅助人，人做最终决策','人指挥 AI 干活，不是 AI 辅助人','人写 Issue，AI 写代码，测试说了算','先上线，再迭代，快速学习'],
-      ans:1, exp:'"辅助"暗示主导权在 AI；"指挥"才是真正的 AI-native——人保持 framing 和判断，AI 负责执行。' },
+      opts:['AI 辅助人，人做最终决策','人思考，AI 执行，人验收','人写 Issue，AI 写代码，测试说了算','先上线，再迭代，快速学习'],
+      ans:1, exp:'思考在人这一侧，执行在 AI 这一侧，验收又回到人这一侧——三段把责任边界说清楚了。这才是真正的 AI-native：人定方向、AI 干活、人判断结果。' },
   ],
 };
 
@@ -690,7 +690,7 @@ function buildJourneyWorld(){
   // 8) 交互物（告示牌 / NPC / 可进门 / 宝箱）
   const mk=(x,y,kind,o)=>Object.assign({x,y,kind},o||{});
   const interactables=[
-    mk(13,88,'door',{title:'🏛️ GitHire 总部',body:'架构师抬头看你：「欢迎，新来的。这里只有一条规矩——<b>人指挥 AI 干活，不是 AI 辅助人</b>。你 frame，AI 执行，你判断。」'}),
+    mk(13,88,'door',{title:'🏛️ GitHire 总部',body:'架构师抬头看你：「欢迎，新来的。这里只有一条规矩——<b>人思考，AI 执行，人验收</b>。你定方向，AI 干活，你判断结果。」'}),
     mk(25,88,'door',{title:'📚 文档馆',body:'管理员递来一页纸：「一切从一条写清的 Issue 开始。六段式 Spec：目标 / 约束 / 非目标 / 验证标准 / 架构说明 / 已有上下文。」'}),
     mk(18,90,'npc',{npcColor:'#3a6ea5',title:'🧑‍🏫 引路架构师',body:'「往北一路走到底——森林、峡谷、洞穴、PR 桥、城堡、地牢，尽头是 AI 原生城塞的终局 Boss。六个反模式逐个打过去。」'}),
     mk(22,85,'sign',{text:'↑ 北：森林 → 峡谷 → 洞穴 → PR桥 → 城堡 → 地牢 → 城塞'}),
@@ -1889,7 +1889,7 @@ function victoryHTML(){
     G.score >= 1200 ? '合格 AI-native 工程师' :
                       '见习工程师 · Junior Engineer';
   const rankShort = rank.split('·')[0].trim();
-  const shareText = `我在 HireRPG 击败 7 种 AI-native 工作中常见的低效怪兽，得分 ${G.score}，头衔：${rankShort}。\n\n这不是普通小游戏，而是 GitHire 核心方法论的训练入口：人指挥 AI 干活，不是 AI 辅助人。\n\n→ https://realroc.github.io/git-hired/game.html`;
+  const shareText = `我在 HireRPG 击败 7 种 AI-native 工作中常见的低效怪兽，得分 ${G.score}，头衔：${rankShort}。\n\n这不是普通小游戏，而是 GitHire 核心方法论的训练入口：人思考，AI 执行，人验收。\n\n→ https://realroc.github.io/git-hired/game.html`;
   window.__SHARE__ = shareText;
 
   // 通关道具 Dashboard
@@ -1901,7 +1901,7 @@ function victoryHTML(){
 
   // 投递简历：直接打开邮件客户端，预填得分 / 头衔 / 道具清单
   const itemsLine = items.length ? items.map(i=>`${i.emoji}${i.name}×${i.count}`).join('、') : '无';
-  const mailBody = `我刚通关了 GitHire 的 HireRPG —— AI-native 工程方法论的训练入口。\n\n· 最终得分：${G.score} 分\n· 头衔：${rank}\n· 通关道具：${itemsLine}\n· 复活道具触发：${reviveText}\n\n我认同 GitHire 的核心方法论——人指挥 AI 干活，不是 AI 辅助人。现投递简历（请见附件），期待进一步交流。\n\n（游戏：https://realroc.github.io/git-hired/game.html）`;
+  const mailBody = `我刚通关了 GitHire 的 HireRPG —— AI-native 工程方法论的训练入口。\n\n· 最终得分：${G.score} 分\n· 头衔：${rank}\n· 通关道具：${itemsLine}\n· 复活道具触发：${reviveText}\n\n我认同 GitHire 的核心方法论——人思考，AI 执行，人验收。现投递简历（请见附件），期待进一步交流。\n\n（游戏：https://realroc.github.io/git-hired/game.html）`;
   const mailto = `mailto:wuyupeng@floatmiracle.com?subject=${encodeURIComponent('GitHire 简历投递 · '+rankShort+' · '+G.score+'分')}&body=${encodeURIComponent(mailBody)}`;
 
   return `<div class="screen-center">
@@ -1909,7 +1909,7 @@ function victoryHTML(){
     <h1 class="final-title" style="color:var(--accent)">通关！抵达 Production</h1>
     <p class="final-sub">七种 HireRPG 怪兽已全部击败</p>
     <p class="final-score">最终得分：${G.score} 分 · 头衔：${rank}</p>
-    <p class="final-body">恭喜你走通了这张地图，也理解了 GitHire 核心方法论：<br/><strong>人 frame、AI 执行、架构师判断。</strong></p>
+    <p class="final-body">恭喜你走通了这张地图，也理解了 GitHire 核心方法论：<br/><strong>人思考、AI 执行、人验收。</strong></p>
     <div class="dash">
       <p class="dash-title">🎒 通关道具 Dashboard</p>
       ${dashItems}

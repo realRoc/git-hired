@@ -72,20 +72,20 @@
 
     /* ── index.html ───────────────────────────────────────────────── */
     'index.title': {
-      zh: 'GitHire · 人指挥 AI 干活,不是 AI 辅助人',
-      en: 'GitHire · Humans frame, AI executes — not the other way around'
+      zh: 'GitHire · 人思考，AI 执行，人验收',
+      en: 'GitHire · Humans think, AI executes, humans verify'
     },
     'index.meta.description': {
-      zh: "GitHire 是一套 AI-native 工程方法论:把'人 frame、AI 执行、架构师判断'写成可复用的六步 workflow,拿真实事故 case 验证,再用 Skill 让任何 agent 装上。",
-      en: "GitHire is an AI-native engineering method that codifies 'humans frame, AI executes, architects judge' into a six-step workflow — validated by real production incidents, packaged as a Skill any agent can install."
+      zh: "GitHire 是一套 AI-native 工程方法论:把'人思考、AI 执行、人验收'写成可复用的六步 workflow,拿真实事故 case 验证,再用 Skill 让任何 agent 装上。",
+      en: "GitHire is an AI-native engineering method that codifies 'humans think, AI executes, humans verify' into a six-step workflow — validated by real production incidents, packaged as a Skill any agent can install."
     },
     'index.og.description': {
-      zh: "一套 AI-native 工程方法论:Issue → Sandbox → PR → AI Review → Architect → Production,六步把'人 frame、AI 执行、架构师判断'落到可复用 workflow。",
-      en: "An AI-native engineering method: Issue → Sandbox → PR → AI Review → Architect → Production — six steps that turn 'humans frame, AI executes, architects judge' into a reusable workflow."
+      zh: "一套 AI-native 工程方法论:Issue → Sandbox → PR → AI Review → Architect → Production,六步把'人思考、AI 执行、人验收'落到可复用 workflow。",
+      en: "An AI-native engineering method: Issue → Sandbox → PR → AI Review → Architect → Production — six steps that turn 'humans think, AI executes, humans verify' into a reusable workflow."
     },
     'index.og.image_alt': {
-      zh: 'GitHire · 人 frame、AI 执行、架构师判断',
-      en: 'GitHire · Humans frame, AI executes, architects judge'
+      zh: 'GitHire · 人思考、AI 执行、人验收',
+      en: 'GitHire · Humans think, AI executes, humans verify'
     },
 
     'index.hero.kicker': {
@@ -93,8 +93,8 @@
       en: 'AI-native engineering · A new way of working'
     },
     'index.hero.title': {
-      zh: '<span class="hl-1"><em>人指挥</em> AI <em>干活</em>，</span>\n          <span class="hl-2"><em>不是</em> AI <em>辅助人</em><span class="period">.</span></span>',
-      en: '<span class="hl-1"><em>Humans</em> direct AI <em>to work</em>,</span>\n          <span class="hl-2"><em>not</em> AI <em>assisting humans</em><span class="period">.</span></span>'
+      zh: '<span class="hl-1"><em>人思考</em>，AI <em>执行</em>，</span>\n          <span class="hl-2"><em>人验收</em><span class="period">.</span></span>',
+      en: '<span class="hl-1"><em>Humans</em> think, AI <em>executes</em>,</span>\n          <span class="hl-2"><em>humans</em> verify<span class="period">.</span></span>'
     },
     'index.hero.lede': {
       zh: '一份公开的 operating log —— 六步 workflow、真实事故 case、可装 Skill。给所有想看 AI-native 团队怎么工作的人。',
@@ -110,8 +110,8 @@
       en: 'What is GitHire · In one line'
     },
     'index.def.line': {
-      zh: '<strong>GitHire</strong> 是一套 <em>AI-native 工程方法论</em>——把\n          <strong>"人 frame、AI 执行、架构师判断"</strong>\n          写成可复用的六步 workflow，拿真实事故 case 验证它，再用 Skill 让任何 agent 装上。',
-      en: '<strong>GitHire</strong> is an <em>AI-native engineering method</em> — it codifies\n          <strong>"humans frame, AI executes, architects judge"</strong>\n          into a reusable six-step workflow, validates it with real production incidents, and packages it as a Skill any agent can install.'
+      zh: '<strong>GitHire</strong> 是一套 <em>AI-native 工程方法论</em>——把\n          <strong>"人思考、AI 执行、人验收"</strong>\n          写成可复用的六步 workflow，拿真实事故 case 验证它，再用 Skill 让任何 agent 装上。',
+      en: '<strong>GitHire</strong> is an <em>AI-native engineering method</em> — it codifies\n          <strong>"humans think, AI executes, humans verify"</strong>\n          into a reusable six-step workflow, validates it with real production incidents, and packages it as a Skill any agent can install.'
     },
     'index.def.p1.dt': {
       zh: '<span class="num">01</span> Issue-first',
@@ -454,8 +454,8 @@
       en: 'Every post is a real incident — real prompt, real diff, real fix chain — read alongside the six-step workflow.'
     },
     'blog.og.image_alt': {
-      zh: 'GitHire · 人 frame、AI 执行、架构师判断',
-      en: 'GitHire · Humans frame, AI executes, architects judge'
+      zh: 'GitHire · 人思考、AI 执行、人验收',
+      en: 'GitHire · Humans think, AI executes, humans verify'
     },
 
     'blog.hero.kicker': {
@@ -519,8 +519,8 @@
       en: 'Install the GitHire Skill and Prompt Spec from realRoc/skills — the canonical AI-native skills home.'
     },
     'skill.og.image_alt': {
-      zh: 'GitHire · 人 frame、AI 执行、架构师判断',
-      en: 'GitHire · Humans frame, AI executes, architects judge'
+      zh: 'GitHire · 人思考、AI 执行、人验收',
+      en: 'GitHire · Humans think, AI executes, humans verify'
     },
 
     'skill.hero.kicker': {

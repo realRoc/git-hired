@@ -1,6 +1,6 @@
 # GitHire
 
-> GitHire is an AI-native engineering methodology — "humans frame, AI executes, architects judge" — written as a reusable 6-step workflow, validated against real production-incident cases, and packaged as installable Skills.
+> GitHire is an AI-native engineering methodology — "humans think, AI executes, humans verify" — written as a reusable 6-step workflow, validated against real production-incident cases, and packaged as installable Skills.
 
 ## Canonical pages
 
@@ -23,7 +23,7 @@ Install all skills: `npx skills add realRoc/skills`. Install a single one: `npx 
 ## Core topics
 
 - AI-native engineering methodology
-- "Humans frame, AI executes, architects judge"
+- "Humans think, AI executes, humans verify"
 - Issue-first workflow (6 steps: Issue / Sandbox / Execute / AI Review / Architect / Production)
 - AI agent collaboration with Claude Code and Codex
 - Agent Skill installation and method sync
