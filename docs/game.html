@@ -520,16 +520,10 @@ function buildWorld(){
     if(nearRoad && s%9===0) decor.push({x,y,t:(s%2?'flower':'bush')});  // 装饰减半：背景不抢注意力
   }
 
-  // 8) 路牌：广场每条大路出口指向区域名
-  const signs=[];
-  for(let i=1;i<REGIONS.length;i++){ const r=REGIONS[i], a=Math.atan2(r.cy-PLZ.cy, r.cx-PLZ.cx);
-    const sx=clamp(Math.round(PLZ.cx+Math.cos(a)*5),2,W-3), sy=clamp(Math.round(PLZ.cy+Math.sin(a)*5),2,H-3);
-    signs.push({x:sx,y:sy,label:r.name}); }
-
-  // 9) 怪物
+  // 8) 怪物
   const monsters = BOSS_SPOTS.map(bs=>({ id:bs.id, x:bs.x, y:bs.y, building:!!bs.building }));
 
-  WORLD = { w:W, h:H, ground, biome, obst, walls, decor, buildings, monsters, signs };
+  WORLD = { w:W, h:H, ground, biome, obst, walls, decor, buildings, monsters };
 }
 
 // ── 主题调色板 ──────────────────────────────────────────────────
@@ -856,11 +850,6 @@ const SPRITE_FN = {
     R(c,5,9,1,3,r); R(c,10,9,1,3,r);                      // 尾翼
     R(c,7,11,2,2,r); R(c,6,13,1,2,'#f4c430'); R(c,9,13,1,2,'#f4c430'); R(c,7,13,2,2,'#f49b30'); // 火焰
   },
-  sign(c){
-    R(c,7,7,2,7,'#7a4a22'); R(c,7,7,1,7,'#5e3719');      // 木桩
-    R(c,3,2,10,6,'#caa46a'); R(c,3,2,10,1,'#e0c08a'); R(c,3,7,10,1,'#9c7c46'); // 木牌
-    R(c,4,3,8,1,'#6e5226'); R(c,4,5,8,1,'#6e5226');      // 文字纹理
-  },
 };
 
 // 离屏 sprite 缓存（16×16）
@@ -1137,7 +1126,7 @@ function drawFortress(ctx,X,Y,W,H,P){
   R(ctx,X+3*P,Y+6*P,P,P,'#fff'); R(ctx,X+W-4*P,Y+6*P,P,P,'#fff');
 }
 
-// 整张世界一次性渲染到离屏（地面+障碍+建筑+装饰+路牌）；镜头每帧 blit 子区域
+// 整张世界一次性渲染到离屏（地面+障碍+建筑+装饰）；镜头每帧 blit 子区域
 let MAPBG = null, MINIMAP = null;
 function buildMapBg(){
   if (!WORLD) buildWorld();
@@ -1161,15 +1150,6 @@ function buildMapBg(){
   WORLD.buildings.forEach(b => drawBuilding(c,b));
   // 装饰物
   WORLD.decor.forEach(d => drawDecor(c, d.x, d.y, d.t, THEME[WORLD.biome[d.y][d.x]] || THEME.town));
-  // 路牌
-  c.textAlign='center'; c.textBaseline='middle';
-  WORLD.signs.forEach(e => {
-    const X=e.x*TILE, Y=e.y*TILE, P=PIXEL;
-    R(c,X+TILE/2-P,Y+8*P,2*P,5*P,'#7a4a22');                                  // 桩
-    R(c,X+P,Y+2*P,TILE-2*P,6*P,'#caa46a'); R(c,X+P,Y+2*P,TILE-2*P,P,'#e0c08a'); R(c,X+P,Y+8*P,TILE-2*P,P,'#9c7c46');
-    c.fillStyle='#3a2a14'; c.font='8px Zpix, monospace';
-    c.fillText(e.label, X+TILE/2, Y+5*P);
-  });
   MAPBG = off;
   buildMinimap();
 }
