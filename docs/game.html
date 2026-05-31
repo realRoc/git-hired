@@ -301,9 +301,33 @@ const MONSTERS = [
   { id:'robot', name:'孤岛 Agent', emoji:'🤖', color:'#4a235a', zone:'最终 Boss · 概念完整性',
     flavor:'七个 agent 并发写主干，没有一个人能用一句话说清楚整体方向。代码量翻倍，但每个模块讲的是不同的故事。这是最终 Boss——因为它长得最像"生产力"。',
     learnHref:'./index.html#faq', learnText:'阅读 FAQ：概念完整性' },
+  { id:'mob1', name:'措辞含糊鬼', emoji:'🌫️', color:'#7d8aa0', zone:'Prompt 森林 · 杂兵', tier:'mob',
+    flavor:'森林里飘着的小怪，专门钻"差不多就行"的空子。一道速答题，答对就散。',
+    learnHref:'./index.html#workflow', learnText:'阅读六步 Workflow' },
+  { id:'mob2', name:'先上线鬼', emoji:'🪤', color:'#b7770d', zone:'编码洞穴 · 杂兵', tier:'mob',
+    flavor:'洞里最爱喊"先上线看看"的小怪。一道速答题。',
+    learnHref:'./index.html#workflow', learnText:'阅读 Sandbox 步骤' },
+  { id:'mob3', name:'加人鬼', emoji:'🧱', color:'#117a65', zone:'生产地牢 · 杂兵', tier:'mob',
+    flavor:'地牢里一遇延期就喊"再招两个人"的小怪。一道速答题。',
+    learnHref:'./index.html#faq', learnText:'阅读 FAQ：加人还是加 framing' },
 ];
 
 const QUESTIONS = {
+  mob1: [
+    { q:'一句"帮我实现一下这个功能"，最大的问题是什么？',
+      opts:['措辞不够礼貌，AI 会拒绝','没有目标/约束/验证标准，AI 只能猜，猜的多半不是你要的','太短，AI 上下文不足无法回答','缺少代码示例，AI 无法模仿风格'],
+      ans:1, exp:'每一处没写清的空白，都是 AI 自由发挥的入口。framing 越清楚，AI 越可能一次写对。' },
+  ],
+  mob2: [
+    { q:'"先上线看看再说"最大的风险是什么？',
+      opts:['浪费服务器资源','本地跑得飞快，没经过生产量级数据，问题会在生产沉默爆炸','代码风格不统一','团队协作沟通变多'],
+      ans:1, exp:'缺数据规模、缺 QPS 的验证只是把 bug 推到上线那一刻。沙盒要真实量级才有意义。' },
+  ],
+  mob3: [
+    { q:'项目延期了就"再招两个人"，通常结果是？',
+      opts:['进度立刻翻倍','新人要学上下文、沟通成本二次方上升，短期反而更慢','质量必然下降','只对初级项目有效'],
+      ans:1, exp:'布鲁克斯定律。加人之前先问：是 framing 不够，还是吞吐不够。' },
+  ],
   ghost: [
     { q:'GitHire 提倡的六段式 Prompt Spec 包含哪六段？',
       opts:['目标 / 约束 / 非目标 / 验证标准 / 架构说明 / 已有上下文','问题 / 方案 / 时间表 / 负责人 / 风险 / 评审','是什么 / 为什么 / 怎么做 / 谁来做 / 何时 / 何地','功能 / 缺陷 / 时间表 / 安全 / 性能 / 文档'],
@@ -391,7 +415,7 @@ const PIXEL = 3;                  // 每"像素"= 3 屏幕 px
 const TILE = SPR * PIXEL;         // 48
 
 // ── 单一箱庭世界：一张大地图（不再多图拼接）+ 镜头跟随 ────────────
-const WORLD_W = 48, WORLD_H = 42;            // 世界格子尺寸
+const WORLD_W = 40, WORLD_H = 96;            // 世界格子尺寸（竖向长卷：8 区自下而上）
 const VIEW_W = 15, VIEW_H = 11;              // 视口格子数（奇数→主角居中）
 const VIEW_PXW = VIEW_W*TILE, VIEW_PXH = VIEW_H*TILE;
 const WORLD_PXW = WORLD_W*TILE, WORLD_PXH = WORLD_H*TILE;
@@ -453,7 +477,23 @@ function biomeObst(b,s){
 
 // ── 程序化生成一张连贯的箱庭世界 ──────────────────────────────────
 let WORLD = null;
+
+const SLICE = false;   // 已铺满全 8 区，切片开关关闭
+// 8 区分带（自下而上，y>=下界即属该区）+ 进区横幅文案
+const REGION_BANDS = [
+  { key:'village', name:'🏘️ 新手村',     theme:'town',      y:84, banner:'🏘️ 新手村 · 一切从一条写清的 Issue 开始' },
+  { key:'forest',  name:'🌲 Prompt 森林', theme:'wild',      y:72, banner:'🌲 Prompt 森林 · 学会给 AI 写清需求（留意岔路）' },
+  { key:'canyon',  name:'🏜️ Issue 峡谷',  theme:'canyon',    y:60, banner:'🏜️ Issue 峡谷 · 模糊 Issue 幽灵 · 想清六段式再上' },
+  { key:'cave',    name:'🕳️ 编码洞穴',     theme:'cave',      y:48, banner:'🕳️ 编码洞穴 · 无沙盒妖 · 第一版准备好扔掉' },
+  { key:'bridge',  name:'🌉 PR 桥',        theme:'tower',     y:36, banner:'🌉 PR 桥 · Deadline 幻影 · 用决策点替代时间承诺' },
+  { key:'castle',  name:'🏰 评审城堡',     theme:'fortress',  y:24, banner:'🏰 评审城堡 · AI Review 看不出的，架构师签字看得出' },
+  { key:'dungeon', name:'⛓️ 生产地牢',     theme:'graveyard', y:12, banner:'⛓️ 生产地牢 · 人月怪 · 加人前先问 framing 还是吞吐' },
+  { key:'citadel', name:'🗽 AI 原生城塞',  theme:'incident',  y:1,  banner:'🗽 AI 原生城塞 · 终局：孤岛 Agent · 概念完整性' },
+];
+function regionByY(y){ for(const r of REGION_BANDS){ if(y>=r.y) return r; } return REGION_BANDS[REGION_BANDS.length-1]; }
+
 function buildWorld(){
+  return buildJourneyWorld();
   const W=WORLD_W, H=WORLD_H;
   const ground = grid(W,H,0);        // 0 草 / 1 路 / 2 砖(广场)
   const biome  = grid(W,H,'town');
@@ -536,12 +576,96 @@ function buildWorld(){
   WORLD = { w:W, h:H, ground, biome, obst, walls, decor, buildings, monsters };
 }
 
+// ── 全程手工关卡：村→森林→峡谷→洞穴→PR桥→城堡→地牢→城塞（竖向，自下而上）──
+function buildJourneyWorld(){
+  const W=WORLD_W, H=WORLD_H;
+  const ground=grid(W,H,0), biome=grid(W,H,'town'), obst=grid(W,H,'water'), walls=grid(W,H,true);
+  const inb=(x,y)=> x>=0&&y>=0&&x<W&&y<H;
+  const open=(x0,y0,x1,y1,g=0)=>{ for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++) if(inb(x,y)){ obst[y][x]=null; walls[y][x]=false; ground[y][x]=g; } };
+  const fill=(x0,y0,x1,y1,t)=>{ for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++) if(inb(x,y)){ obst[y][x]=t; walls[y][x]=true; ground[y][x]=0; } };
+  const carveLine=(x0,y0,x1,y1)=>{ let x=x0,y=y0,g=0;
+    const put=(px,py)=>{ for(const [ox,oy] of [[0,0],[1,0],[0,1]]){ const a=px+ox,b=py+oy; if(a>0&&b>0&&a<W-1&&b<H-1){ if(ground[b][a]!==2) ground[b][a]=1; obst[b][a]=null; walls[b][a]=false; } } };
+    while((x!==x1||y!==y1)&&g++<600){ put(x,y); if(Math.abs(x1-x)>Math.abs(y1-y)) x+=Math.sign(x1-x); else y+=Math.sign(y1-y); } put(x1,y1); };
+  const carve=(pts)=>{ for(let i=0;i<pts.length-1;i++) carveLine(pts[i][0],pts[i][1],pts[i+1][0],pts[i+1][1]); };
+
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++) biome[y][x]=regionByY(y).theme;
+
+  // 1) 每区整带填墙（村庄除外），再开路（树/岩/柱/墓/服务器 天然控制视野与移动）
+  fill(9,72,31,83,'tree');     // 森林
+  fill(9,60,31,71,'rock');     // 峡谷
+  fill(9,48,31,59,'pillar');   // 洞穴
+  fill(9,36,31,47,'pillar');   // PR 桥
+  fill(9,24,31,35,'pillar');   // 城堡
+  fill(9,12,31,23,'tomb');     // 地牢
+  fill(9, 1,31,11,'server');   // 城塞
+
+  // 2) 主路脊柱（蜿蜒，含各 Boss 落点）
+  carve([[20,95],[20,85],[14,81],[26,77],[20,73],[24,68],[20,62],[16,57],[20,54],[20,48],[20,44],[20,42],[26,33],[16,30],[24,26],[20,21],[20,18],[24,15],[16,13],[20,8],[20,5]]);
+  // 支线（杂兵把守宝箱）
+  [ [[26,77],[30,79],[30,82]], [[16,57],[11,57],[11,53]], [[24,15],[28,16],[28,12]] ].forEach(carve);
+
+  // 3) Boss 石厅 + 村庄广场 + 城塞厅
+  const cham=(cx,cy)=>open(cx-3,cy-2,cx+3,cy+2,0);
+  [[20,62],[20,54],[20,42],[16,30],[24,26],[20,18],[20,5]].forEach(([x,y])=>cham(x,y));
+  open(11,84,29,95,0);
+  for(let y=84;y<=95;y++)for(let x=11;x<=29;x++) if(dist(x,y,20,90)<=3.8) ground[y][x]=2;
+
+  // 4) PR 桥横河（仅主路处留桥面）
+  for(let x=9;x<=31;x++) if(ground[45][x]!==1){ obst[45][x]='water'; walls[45][x]=true; ground[45][x]=0; }
+
+  // 5) 建筑（村庄可进）
+  const buildings=[ {type:'hq',x:12,y:85,w:4,h:3,label:'GitHire 总部'}, {type:'lib',x:24,y:85,w:4,h:3,label:'文档馆'} ];
+  buildings.forEach(b=>{ for(let y=b.y;y<b.y+b.h;y++)for(let x=b.x;x<b.x+b.w;x++) if(inb(x,y)){ walls[y][x]=true; obst[y][x]=null; ground[y][x]=0; } });
+
+  // 6) 装饰
+  const decor=[ {x:14,y:86,t:'lamp'},{x:26,y:86,t:'lamp'},{x:14,y:93,t:'well'},{x:26,y:93,t:'mailbox'} ];
+  decor.forEach(d=>{ walls[d.y][d.x]=true; });
+
+  // 7) 怪物：6 Boss + 3 杂兵（robot = 城塞雕像，单独）
+  const monsters=[
+    {id:'ghost',x:20,y:62},{id:'fire',x:20,y:54},{id:'clock',x:20,y:42},
+    {id:'scan',x:16,y:30},{id:'dragon',x:24,y:26},{id:'zombie',x:20,y:18},
+    {id:'mob1',x:30,y:80},{id:'mob2',x:11,y:55},{id:'mob3',x:28,y:14},
+  ];
+
+  // 8) 交互物（告示牌 / NPC / 可进门 / 宝箱）
+  const mk=(x,y,kind,o)=>Object.assign({x,y,kind},o||{});
+  const interactables=[
+    mk(13,88,'door',{title:'🏛️ GitHire 总部',body:'架构师抬头看你：「欢迎，新来的。这里只有一条规矩——<b>人指挥 AI 干活，不是 AI 辅助人</b>。你 frame，AI 执行，你判断。」'}),
+    mk(25,88,'door',{title:'📚 文档馆',body:'管理员递来一页纸：「一切从一条写清的 Issue 开始。六段式 Spec：目标 / 约束 / 非目标 / 验证标准 / 架构说明 / 已有上下文。」'}),
+    mk(18,90,'npc',{npcColor:'#3a6ea5',title:'🧑‍🏫 引路架构师',body:'「往北一路走到底——森林、峡谷、洞穴、PR 桥、城堡、地牢，尽头是 AI 原生城塞的终局 Boss。六个反模式逐个打过去。」'}),
+    mk(22,85,'sign',{text:'↑ 北：森林 → 峡谷 → 洞穴 → PR桥 → 城堡 → 地牢 → 城塞'}),
+    mk(25,76,'sign',{text:'⑂ 岔路：直走 安全 │ 右下 → 宝箱（杂兵把守）'}),
+    mk(23,61,'sign',{text:'⚠️ 模糊 Issue 幽灵 · 六段式 Spec 定胜负'}),
+    mk(17,63,'npc',{npcColor:'#6c3483',title:'🧓 峡谷老兵',body:'「它从你没写清的每一段里汲取力量。上之前先把六段式在心里过一遍。」'}),
+    mk(23,53,'sign',{text:'⚠️ 无沙盒妖 · 沙盒要真实数据量级，第一版准备好扔掉'}),
+    mk(16,56,'sign',{text:'⑂ 左 → 宝箱（杂兵把守）'}),
+    mk(23,41,'sign',{text:'⚠️ Deadline 幻影 · 用「决策点完成度」替代时间承诺'}),
+    mk(19,29,'sign',{text:'⚠️ SCAN 兽（AI Review 维度）'}),
+    mk(27,25,'sign',{text:'⚠️ 甩锅龙 · 签字 = 认领系统侧后果'}),
+    mk(21,27,'npc',{npcColor:'#1a5276',title:'🏛️ 签字架构师',body:'「AI Review 看代码内部一致性；我看 QPS、历史事故这些系统侧上下文。两道关互补不重叠——SCAN 兽那 22 行代码，AI 看来完全正确。」'}),
+    mk(23,17,'sign',{text:'⚠️ 人月怪 · 加人前先问：是 framing 不够，还是吞吐不够'}),
+    mk(24,14,'sign',{text:'⑂ 右 → 宝箱（杂兵把守）'}),
+    mk(23,4,'sign',{text:'🗽 终局：孤岛 Agent · 概念完整性'}),
+    mk(17,6,'npc',{npcColor:'#4a235a',title:'🤖 终局之前',body:'「七个 agent 并发写主干，没人能一句话说清方向。概念完整性靠显式架构 owner——讲不清动机的 PR 不 merge。清完六个反模式，雕像才会苏醒。」'}),
+    mk(30,82,'chest',{pts:160,reward:'🎁 探索回报 +160 分'}),
+    mk(11,53,'chest',{pts:160,reward:'🎁 探索回报 +160 分'}),
+    mk(28,12,'chest',{pts:200,reward:'🎁 深处宝箱 +200 分'}),
+  ];
+  interactables.forEach(o=>{ obst[o.y][o.x]=null; if(o.kind==='sign'||o.kind==='npc'||o.kind==='gate'){ walls[o.y][o.x]=true; } else { walls[o.y][o.x]=false; if(ground[o.y][o.x]===0 && o.kind==='chest') ground[o.y][o.x]=1; } });
+
+  STATUE.x=20; STATUE.y=5; SPAWN.x=20; SPAWN.y=94;
+  WORLD={ w:W, h:H, ground, biome, obst, walls, decor, buildings, monsters, interactables };
+}
+function interactableAt(x,y){ if(!WORLD||!WORLD.interactables) return null; for(const it of WORLD.interactables){ if(it.x===x&&it.y===y) return it; } return null; }
+
 // ── 主题调色板 ──────────────────────────────────────────────────
 // Art Direction 规则：背景低饱和、低内部对比（g1≈g2、dark/lite 贴近底色）；
 // 每个 biome 只用一套土路色（path/pathD/pathL），角色与任务点才允许高饱和高对比。
 const OUTLINE = '#1f2933';   // 角色 / 怪物 / 任务点统一描边色
 const THEME = {
   town:      { g1:'#75905b', g2:'#6f8a57', dark:'#637d4d', lite:'#83996b', path:'#9b8565', pathD:'#8a7458', pathL:'#a8946d', obst:'tree' },
+  canyon:    { g1:'#b6a07a', g2:'#ad976f', dark:'#9a8460', lite:'#c4b089', path:'#9b8565', pathD:'#8a7458', pathL:'#a8946d', obst:'rock' },
   wild:      { g1:'#6f8f5a', g2:'#688a54', dark:'#5e7d4c', lite:'#7e996a', path:'#9b8565', pathD:'#8a7458', pathL:'#a8946d', obst:'tree', flora:true },
   cave:      { g1:'#45454f', g2:'#41414b', dark:'#393942', lite:'#51515c', path:'#525258', pathD:'#46464c', pathL:'#5d5d66', obst:'rock'   },
   valley:    { g1:'#6e98aa', g2:'#67909f', dark:'#5b8393', lite:'#7ca4b3', path:'#7e98a3', pathD:'#6f8893', pathL:'#8ca6b1', obst:'rock'   },
@@ -553,10 +677,10 @@ const THEME = {
 
 // ── 世界查询 / 镜头 ─────────────────────────────────────────────
 function nearestRegion(x,y){ let best=1e9, r=REGIONS[0]; for(const rr of REGIONS){ const d=(x-rr.cx)**2+(y-rr.cy)**2; if(d<best){best=d; r=rr;} } return r; }
-function currentRegionName(){ const p=G.player; return dist(p.x,p.y,REGIONS[0].cx,REGIONS[0].cy)<=4 ? REGIONS[0].name : nearestRegion(p.x,p.y).name; }
-function othersCleared(){ return MONSTERS.filter(m=>m.id!=='robot').every(m=>G.defeated[m.id]); }
+function currentRegionName(){ return regionByY(G.player.y).name; }
+function othersCleared(){ return MONSTERS.filter(m=>m.id!=='robot' && m.tier!=='mob').every(m=>G.defeated[m.id]); }
 function statueAwake(){ return othersCleared(); }
-function isStatue(x,y){ return x===STATUE.x && y===STATUE.y; }
+function isStatue(x,y){ return !SLICE && x===STATUE.x && y===STATUE.y; }
 function monsterAt(x,y){ for (const mm of WORLD.monsters){ if (!G.defeated[mm.id] && mm.x===x && mm.y===y) return mm.id; } return null; }
 function resetPlayer(){ const p=G.player; p.x=SPAWN.x; p.y=SPAWN.y; p.tx=p.x; p.ty=p.y; p.px=p.x*TILE; p.py=p.y*TILE; p.moving=false; p.queued=null; p.bob=0; }
 function camera(){
@@ -582,6 +706,7 @@ function freshState(){
     defeated: {},             // monsterId -> true
     player: { x:SPAWN.x, y:SPAWN.y, px:SPAWN.x*TILE, py:SPAWN.y*TILE, moving:false, tx:SPAWN.x, ty:SPAWN.y, bob:0, queued:null },
     bannerText: '', bannerUntil: 0,
+    region: null, dialogOpen: false,   // 切片：进区横幅去重 / 对话框开启时锁移动
     // battle
     mid: null, qi: 0, results: [], chosen: null, ok: null, bphase: 'q', // q|reveal|end
   };
@@ -615,21 +740,21 @@ function render(){
 // 标题屏
 // ================================================================
 function titleHTML(){
-  const emojis = MONSTERS.map(m => spriteCanvasHTML(m.id, 56)).join('');
+  const emojis = MONSTERS.filter(m => m.tier!=='mob').map(m => spriteCanvasHTML(m.id, 56)).join('');
   return `<div class="screen-center">
     <p class="title-eyebrow">GitHire · 知识冒险</p>
     <h1 class="title-logo"><em>Poke</em>Hire</h1>
-    <p class="title-tagline">一张连通的 AI-native 工程世界，迎战七种反模式</p>
+    <p class="title-tagline">从新手村一路向北，穿过 8 个区域，迎战七种工程反模式</p>
     <div class="monster-row">${emojis}</div>
     <p class="title-desc">
       用 <span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span>
-      或 <span class="kbd">↑</span><span class="kbd">↓</span><span class="kbd">←</span><span class="kbd">→</span> 移动。<br/>
-      从中心广场出发，沿大路小路探索一整张箱庭世界。<br/>
-      六个反模式各踞一方，走到它身上（或建筑门口）即迎战。<br/>
-      清除六种反模式，广场中央的雕像将苏醒为最终 Boss。
+      或 <span class="kbd">↑</span><span class="kbd">↓</span><span class="kbd">←</span><span class="kbd">→</span> 移动，撞向告示牌 / NPC / 门即触发。<br/>
+      新手村 → 森林 → 峡谷 → 洞穴 → PR 桥 → 城堡 → 地牢 → 城塞，<br/>
+      一路沿主路向北，走到怪物身上迎战；支线有杂兵把守的宝箱。<br/>
+      清除六种反模式，城塞中央的雕像将苏醒为终局 Boss。
     </p>
     <button class="g-btn solid" id="btn-start" style="font-size:1.05rem;padding:.9rem 2.5rem;">进入世界 →</button>
-    <p class="title-hint">右上角有小地图 · 手机端可用屏幕方向键 · 约 5 分钟</p>
+    <p class="title-hint">右上角有小地图 · 手机端可用屏幕方向键 · 约 8 分钟</p>
   </div>`;
 }
 function startGame(){ G = freshState(); buildWorld(); resetPlayer(); G.screen = 'map'; render(); }
@@ -645,13 +770,14 @@ function hpColor(hp){ return hp>55 ? '#2d7d46' : hp>25 ? '#e67e22' : '#c0392b'; 
 
 function hudHTML(){
   const pct = Math.max(0,(G.hp/MAX_HP)*100).toFixed(1);
-  const cleared = MONSTERS.length - aliveMonsters().length;
+  const total = MONSTERS.filter(m=>m.tier!=='mob').length;
+  const cleared = MONSTERS.filter(m=>m.tier!=='mob' && G.defeated[m.id]).length;
   return `<div class="hud">
     <span class="hud-label">HP</span>
     <div class="hud-track"><div class="hud-fill" style="width:${pct}%;background:${hpColor(G.hp)}"></div></div>
     <span class="hud-val">${G.hp} / ${MAX_HP}</span>
-    <span class="hud-prog">📍 ${currentRegionName()}</span>
-    <span class="hud-prog">已清除 ${cleared} / ${MONSTERS.length}</span>
+    <span class="hud-prog" id="hud-region">📍 ${currentRegionName()}</span>
+    <span class="hud-prog">已清除 ${cleared} / ${total}</span>
     <span class="hud-chip">✦ ${G.score} 分</span>
   </div>`;
 }
@@ -684,6 +810,7 @@ function bindMap(){
 
 // keyboard (attached once globally)
 function onKey(e){
+  if (G.dialogOpen){ const k=e.key.toLowerCase(); if(k==='enter'||k==='escape'||k===' '||k==='spacebar'){ e.preventDefault(); closeDialog(); } return; }
   if (G.screen !== 'map') return;
   let dx=0, dy=0;
   const k = e.key.toLowerCase();
@@ -698,7 +825,7 @@ function onKey(e){
 document.addEventListener('keydown', onKey, { passive:false });
 
 function tryStep(dx,dy){
-  if (G.screen !== 'map') return;
+  if (G.screen !== 'map' || G.dialogOpen) return;
   const p = G.player;
   if (p.moving){ p.queued = {dx,dy}; return; }   // 动画中：缓冲最后一次方向，结束后续走
   const nx = p.x + dx, ny = p.y + dy;
@@ -717,18 +844,50 @@ function tryStep(dx,dy){
   const mid = monsterAt(nx,ny);
   if (mid) { startBattle(mid); return; }
 
+  // 走近触发的交互物（告示牌 / NPC / 门 / 宝箱 / 施工闸）
+  const it = interactableAt(nx,ny);
+  if (it){
+    if (it.kind==='sign' || it.kind==='gate'){ showBanner(it.text); return; }
+    if (it.kind==='npc' || it.kind==='door'){ showDialog(it.title, it.body); return; }
+    if (it.kind==='chest'){
+      if (!it.got){ it.got=true; G.score += it.pts||100; showBanner(it.reward||'🎁 宝箱！'); }
+      else showBanner('（空箱子）');
+      return;
+    }
+  }
+
   // 墙
   if (WORLD.walls[ny][nx]) { showBanner('🧱 走不过去'); return; }
 
   // 正常移动
   p.x = nx; p.y = ny; p.tx = nx; p.ty = ny; p.moving = true; p.t0 = performance.now();
   p.fromPx = p.px; p.fromPy = p.py;
+
+  // 进入新区域 → 横幅提示（每区只弹一次）+ 同步 HUD 区域名
+  const rg = regionByY(ny);
+  if (rg.key !== G.region){ G.region = rg.key; showBanner(rg.banner); const el=document.getElementById('hud-region'); if(el) el.textContent='📍 '+rg.name; }
 }
 
 function showBanner(text){
   G.bannerText = text;
-  G.bannerUntil = performance.now() + 1800;
+  G.bannerUntil = performance.now() + 2200;
 }
+
+function showDialog(title, body){
+  G.dialogOpen = true;
+  const stage = document.querySelector('.map-stage');
+  if (!stage){ G.dialogOpen=false; return; }
+  let d = document.getElementById('dlg');
+  if (!d){ d=document.createElement('div'); d.id='dlg'; stage.appendChild(d); }
+  d.style.cssText='position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;background:rgba(8,10,16,.5);z-index:60;padding:0 10px 14px;cursor:pointer';
+  d.innerHTML = `<div style="max-width:520px;width:100%;background:#1b2130;color:#e9ecf3;border:2px solid #3a4458;border-radius:10px;padding:13px 16px;box-shadow:0 10px 34px rgba(0,0,0,.55)">
+    <div style="font-weight:700;margin-bottom:6px;font-size:.95rem">${title||''}</div>
+    <div style="font-size:.86rem;line-height:1.75;color:#cfd6e4">${body||''}</div>
+    <div style="margin-top:9px;font-size:.7rem;color:#7e8aa0">按 Enter / 点击 继续 ▸</div>
+  </div>`;
+  d.onclick = closeDialog;
+}
+function closeDialog(){ G.dialogOpen=false; const d=document.getElementById('dlg'); if(d) d.remove(); }
 
 // map render loop
 function startMapLoop(){
@@ -772,6 +931,13 @@ function update(now){
 // ================================================================
 function R(c,x,y,w,h,col){ c.fillStyle=col; c.fillRect(x,y,w,h); }
 
+function mobSprite(c,a,b){   // 杂兵雾怪：a 高光 / b 主体
+  const e='#2b3242';
+  R(c,5,4,6,1,a); R(c,4,5,8,6,a); R(c,3,7,10,3,b);
+  R(c,4,11,2,2,b); R(c,7,11,2,2,b); R(c,10,11,2,2,b);
+  R(c,5,7,2,2,e); R(c,9,7,2,2,e);
+  R(c,6,9,4,1,b); R(c,6,3,1,1,a); R(c,10,4,1,1,a);
+}
 const SPRITE_FN = {
   hero(c){
     R(c,5,14,2,2,'#2a3550'); R(c,9,14,2,2,'#2a3550');         // 腿
@@ -794,6 +960,9 @@ const SPRITE_FN = {
     R(c,5,7,2,3,e); R(c,9,7,2,3,e);
     R(c,7,0,3,1,'#fff'); R(c,10,1,1,1,'#fff'); R(c,9,2,1,1,'#fff'); R(c,8,3,1,1,'#fff'); R(c,8,5,1,1,'#fff'); // ?
   },
+  mob1(c){ mobSprite(c,'#aab3c4','#7d8aa0'); },
+  mob2(c){ mobSprite(c,'#e0a94a','#b7770d'); },
+  mob3(c){ mobSprite(c,'#4fb89a','#117a65'); },
   fire(c){
     const o='#e8702a', y='#f4c430', r='#c0392b';
     R(c,6,1,1,2,y); R(c,8,2,1,2,y);
@@ -1164,10 +1333,10 @@ function buildMapBg(){
   buildMinimap();
 }
 function buildMinimap(){
-  const s=2, off=document.createElement('canvas');
+  const s = WORLD_H>60 ? 1 : 2, off=document.createElement('canvas');
   off.width=WORLD_W*s; off.height=WORLD_H*s;
   const c=off.getContext('2d');
-  const MC={ town:'#75905b', wild:'#6f8f5a', cave:'#45454f', valley:'#6e98aa', graveyard:'#566a56', incident:'#34303a', tower:'#5e5876' };
+  const MC={ town:'#75905b', wild:'#6f8f5a', canyon:'#b6a07a', cave:'#45454f', valley:'#6e98aa', graveyard:'#566a56', incident:'#34303a', tower:'#5e5876', fortress:'#3d3354' };
   for(let y=0;y<WORLD_H;y++)for(let x=0;x<WORLD_W;x++){
     let col = MC[WORLD.biome[y][x]] || '#6f8f5a';
     if(WORLD.ground[y][x]===1) col='#9b8565';
@@ -1192,6 +1361,14 @@ function draw(ctx){
   // 镜头窗口
   ctx.drawImage(MAPBG, cam.cx, cam.cy, VIEW_PXW, VIEW_PXH, 0, 0, VIEW_PXW, VIEW_PXH);
   const ox=-cam.cx, oy=-cam.cy;
+
+  // 交互物（告示牌 / NPC / 门 / 宝箱 / 施工闸）
+  if (WORLD.interactables) for (const it of WORLD.interactables){
+    if (it.got) continue;
+    const sx=it.x*TILE+ox, sy=it.y*TILE+oy;
+    if (sx<-TILE||sy<-TILE||sx>VIEW_PXW||sy>VIEW_PXH) continue;
+    drawInteractable(ctx, it, sx, sy);
+  }
 
   // 怪物（= 任务焦点：高亮地砖环 + 描边 sprite，让玩家一眼知道"这里能打"）
   for (const mm of WORLD.monsters){
@@ -1231,8 +1408,49 @@ function draw(ctx){
   drawMinimap(ctx);
 }
 
+// 走近触发物：告示牌 / NPC / 门 / 宝箱 / 施工闸
+function drawInteractable(ctx, it, X, Y){
+  const P=PIXEL;
+  if (it.kind==='sign'){
+    R(ctx,X+6*P,Y+13*P,4*P,2*P,'rgba(0,0,0,.18)');
+    R(ctx,X+7*P,Y+7*P,2*P,7*P,'#6b4423');
+    R(ctx,X+3*P,Y+2*P,10*P,6*P,OUTLINE);
+    R(ctx,X+4*P,Y+3*P,8*P,4*P,'#caa46a'); R(ctx,X+4*P,Y+3*P,8*P,P,'#e0c089');
+    R(ctx,X+5*P,Y+4*P,6*P,P,'#6b4423'); R(ctx,X+5*P,Y+5*P,4*P,P,'#6b4423');
+    return;
+  }
+  if (it.kind==='gate'){
+    R(ctx,X+2*P,Y+13*P,12*P,2*P,'rgba(0,0,0,.18)');
+    for(let i=0;i<4;i++) R(ctx,X+(2+i*3)*P,Y+5*P,2*P,8*P, i%2?'#1f2933':'#f4c430');
+    R(ctx,X+2*P,Y+5*P,12*P,2*P,'#e0a020'); R(ctx,X+2*P,Y+11*P,12*P,P,'#1f2933');
+    return;
+  }
+  if (it.kind==='chest'){
+    const bob=Math.round(Math.sin(performance.now()/420))*P;
+    R(ctx,X+3*P,Y+13*P,10*P,2*P,'rgba(0,0,0,.20)');
+    R(ctx,X+3*P,Y+(7)*P+bob,10*P,6*P,'#8a5a2a'); R(ctx,X+3*P,Y+6*P+bob,10*P,2*P,'#a8743a');
+    R(ctx,X+3*P,Y+4*P+bob,10*P,3*P,'#b9863f'); R(ctx,X+3*P,Y+4*P+bob,10*P,P,'#d8a85a');
+    R(ctx,X+3*P,Y+9*P+bob,10*P,P,'#f4c430'); R(ctx,X+7*P,Y+8*P+bob,2*P,3*P,'#f4c430');
+    return;
+  }
+  if (it.kind==='door'){
+    R(ctx,X+5*P,Y+4*P,6*P,9*P,'#5e3e22'); R(ctx,X+5*P,Y+4*P,6*P,P,'#7a5230');
+    R(ctx,X+6*P,Y+5*P,4*P,7*P,'#3a2a1a'); R(ctx,X+9*P,Y+8*P,P,P,'#f4c430');
+    R(ctx,X+5*P,Y+2*P,6*P,2*P,'#caa46a');
+    return;
+  }
+  // npc
+  const col = it.npcColor || '#3a6ea5';
+  R(ctx,X+4*P,Y+14*P,8*P,2*P,'rgba(0,0,0,.20)');
+  R(ctx,X+5*P,Y+9*P,6*P,5*P,col);
+  R(ctx,X+5*P,Y+3*P,6*P,6*P,'#f0c49a'); R(ctx,X+5*P,Y+2*P,6*P,2*P,'#3a2a1e');
+  R(ctx,X+6*P,Y+5*P,P,P,'#15202b'); R(ctx,X+9*P,Y+5*P,P,P,'#15202b');
+  if (Math.floor(performance.now()/500)%2){ R(ctx,X+11*P,Y-2*P,4*P,3*P,'#fff'); R(ctx,X+12*P,Y-1*P,P,P,col); } // 对话气泡
+}
+
 // 中央雕像：石像(锁) → 苏醒(发光) → 净化(已击败)
 function drawStatue(ctx, X, Y){
+  if (SLICE) return;
   const P=PIXEL;
   const awake = statueAwake(), done = G.defeated['robot'];
   // 待解锁态：冷色地光"魔法阵"——冷色与怪物的暖色焦点环形成"暖=可挑战 / 冷=未解锁"语言
@@ -1267,15 +1485,17 @@ function drawStatue(ctx, X, Y){
 // 右上角小地图
 function drawMinimap(ctx){
   if (!MINIMAP) return;
-  const s=2, mw=WORLD_W*s, mh=WORLD_H*s, mx=VIEW_PXW-mw-10, my=10;
+  const s = WORLD_H>60 ? 1 : 2, mw=WORLD_W*s, mh=WORLD_H*s, mx=VIEW_PXW-mw-10, my=10;
   ctx.fillStyle='rgba(20,20,28,.82)'; ctx.fillRect(mx-3,my-3,mw+6,mh+6);
   ctx.drawImage(MINIMAP, mx, my);
   for (const mm of WORLD.monsters){
     ctx.fillStyle = G.defeated[mm.id] ? '#555' : (MONSTERS.find(m=>m.id===mm.id)||{}).color || '#fff';
     ctx.fillRect(mx+mm.x*s-1, my+mm.y*s-1, s+2, s+2);
   }
-  ctx.fillStyle = G.defeated['robot'] ? '#3fd47a' : statueAwake() ? '#f4c430' : '#999';
-  ctx.fillRect(mx+STATUE.x*s-2, my+STATUE.y*s-2, s+4, s+4);
+  if (!SLICE){
+    ctx.fillStyle = G.defeated['robot'] ? '#3fd47a' : statueAwake() ? '#f4c430' : '#999';
+    ctx.fillRect(mx+STATUE.x*s-2, my+STATUE.y*s-2, s+4, s+4);
+  }
   ctx.fillStyle='#fff'; ctx.fillRect(mx+G.player.x*s-1, my+G.player.y*s-1, s+2, s+2);
   const cam=camera();
   ctx.strokeStyle='rgba(255,255,255,.55)'; ctx.lineWidth=1;
@@ -1440,6 +1660,8 @@ function nextQ(){
 }
 
 function backToMap(){
+  // 切片：击败峡谷 Boss（模糊 Issue 幽灵）即走通
+  if (SLICE){ if (G.defeated['ghost']){ G.screen='victory'; render(); return; } G.screen='map'; render(); return; }
   // 击败中央雕像 Boss（孤岛 Agent）即通关
   if (G.defeated['robot']){ G.screen = 'victory'; render(); return; }
   G.screen = 'map';
@@ -1465,6 +1687,19 @@ function gameoverHTML(){
 }
 
 function victoryHTML(){
+  if (SLICE){
+    return `<div class="screen-center">
+      <span class="final-icon" style="animation:bob 2s ease-in-out infinite">🏜️</span>
+      <h1 class="final-title" style="color:var(--accent)">切片走通！</h1>
+      <p class="final-sub">新手村 → Prompt 森林 → Issue 峡谷，你击败了模糊 Issue 幽灵</p>
+      <p class="final-score">本段得分：${G.score} 分</p>
+      <p class="final-body">这是新版地图的<strong>设计切片</strong>：可进的建筑、有取舍的岔路、进区横幅、Boss 前置预警。<br/>手感对了的话，同一套会铺到 洞穴 / PR 桥 / 城堡 / 地牢 / 城塞。</p>
+      <div class="btn-row">
+        <button class="g-btn solid" id="btn-retry">再走一遍</button>
+        <a class="g-btn ghost" href="./index.html">返回 GitHire</a>
+      </div>
+    </div>`;
+  }
   const rank =
     G.score >= 2500 ? '首席架构师 · Chief Architect' :
     G.score >= 1800 ? '资深工程师 · Senior Engineer' :
