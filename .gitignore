@@ -13,3 +13,6 @@ skills/githire
 
 # Build deps for scripts/build-en.mjs (committed: package.json, package-lock.json)
 node_modules/
+
+# Growth / 运营推广物料（话术 + 截图，本地工作区，不入库）
+growth_marketing/
