@@ -301,7 +301,7 @@
 <body>
 
   <header class="topnav">
-    <a class="brand" href="./index.html" aria-label="GitHire 首页">
+    <a class="brand" href="./index.html" id="nav-brand" aria-label="GitHire 首页">
       <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true">
         <g stroke="#181818" stroke-width="1.4" stroke-linecap="round" fill="none">
           <line x1="6"  y1="14" x2="6"  y2="22"/>
@@ -328,10 +328,14 @@
       </svg>
       <span class="brand-name">GitHire</span>
     </a>
-    <nav class="topnav-actions" aria-label="导航">
-      <a class="btn-ghost" href="./index.html">方法论</a>
-      <a class="btn-ghost" href="./skill.html">Skill</a>
-      <span class="nav-game-link" aria-current="page">🎮 HireRPG game</span>
+    <nav class="topnav-actions" id="nav-actions" aria-label="导航">
+      <div class="lang-switch" role="group" id="lang-switch" aria-label="切换语言">
+        <button type="button" data-lang-btn="zh" aria-pressed="true">中</button>
+        <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn-ghost" id="nav-method" href="./index.html">方法论</a>
+      <a class="btn-ghost" id="nav-skill" href="./skill.html">Skill</a>
+      <span class="nav-game-link" id="nav-game" aria-current="page">🎮 HireRPG game</span>
     </nav>
   </header>
 
@@ -339,42 +343,221 @@
 
 <script>
 // ================================================================
-// 数据：七种工程反模式怪物
+// i18n 引擎：同一链接 · 自动识别 · 可手动切换（复用主站 githire-lang 键）
 // ================================================================
-const MONSTERS = [
-  { id:'ghost', name:'模糊 Issue 幽灵', emoji:'👻', color:'#6c3483', zone:'Issue 规格',
-    flavor:'它从一句"你帮我实现一下这个功能"里诞生。没有 Goal，没有 Constraints，没有 Verification——AI 当然找到了一个答案，只是不是你要的那个。每一处空白，都是它的入口。',
-    learnHref:'./index.html#workflow', learnText:'阅读六步 Workflow' },
-  { id:'fire', name:'无沙盒妖', emoji:'🔥', color:'#b7770d', zone:'沙盒环节',
-    flavor:'它最喜欢"先上线看看"。没有隔离环境，没有生产量级的数据，AI 写出来的第一版在本地跑得飞快——然后在生产环境沉默地爆了。',
-    learnHref:'./index.html#workflow', learnText:'阅读 Sandbox 步骤' },
-  { id:'scan', name:'SCAN 兽', emoji:'🦕', color:'#c0392b', zone:'Case 01 · 真实事故',
-    flavor:'2026-05-18 10:19，一条 prompt，22 行代码。23:54，生产 Redis 应声倒下。SCAN + pipeline HGETALL 每次请求扫 800 万条 key——AI review 看不出来，因为代码本身"逻辑正确"。',
-    learnHref:'./case-redis-scan.html', learnText:'阅读 Case 01 完整复盘' },
-  { id:'dragon', name:'甩锅龙', emoji:'🐉', color:'#1a5276', zone:'架构师签字',
-    flavor:'它最爱说"AI 评过了"。每次有人问责，就用这句话挡回去。签字栏永远空着——因为没有人想为 AI 生成的代码背系统侧的锅。',
-    learnHref:'./index.html#workflow', learnText:'阅读 Architect 步骤' },
-  { id:'zombie', name:'人月怪', emoji:'🧟', color:'#117a65', zone:'布鲁克斯定律',
-    flavor:'进度落后了，再招两个人。新人需要学习上下文，沟通成本二次方上升，整体更慢了。Brooks 1975 年就写了。放到 AI-native 团队里，规律没失效，只是稀缺品换了。',
-    learnHref:'./index.html#faq', learnText:'阅读 FAQ：加人还是加 framing' },
-  { id:'clock', name:'Deadline 幻影', emoji:'⏳', color:'#7d3c98', zone:'交付承诺',
-    flavor:'它在信息最少的时候逼你许下承诺，在压力最大的时候兑现。AI-native 时代 deadline 仍然不准，只是滑掉的原因换了：不是 coding 慢，而是 framing 失误和 review 来不及。',
-    learnHref:'./index.html#faq', learnText:'阅读 FAQ：Deadline 为什么骗人' },
-  { id:'robot', name:'孤岛 Agent', emoji:'🤖', color:'#4a235a', zone:'最终 Boss · 概念完整性',
-    flavor:'七个 agent 并发写主干，没有一个人能用一句话说清楚整体方向。代码量翻倍，但每个模块讲的是不同的故事。这是最终 Boss——因为它长得最像"生产力"。',
-    learnHref:'./index.html#faq', learnText:'阅读 FAQ：概念完整性' },
-  { id:'mob1', name:'措辞含糊鬼', emoji:'🌫️', color:'#9a93c4', zone:'Prompt 森林 · 杂兵', tier:'mob',
-    flavor:'森林里飘着的小幽灵，模糊 Issue 幽灵的幼体，专门钻"差不多就行"的空子。一道速答题。',
-    learnHref:'./index.html#workflow', learnText:'阅读六步 Workflow' },
-  { id:'mob2', name:'余烬妖', emoji:'🔥', color:'#e8702a', zone:'编码洞穴 · 杂兵', tier:'mob',
-    flavor:'洞里蹦出的小火苗，无沙盒妖的幼体，最爱喊"先上线看看"。一道速答题。',
-    learnHref:'./index.html#workflow', learnText:'阅读 Sandbox 步骤' },
-  { id:'mob3', name:'残尸', emoji:'🧟', color:'#5c9e5c', zone:'生产地牢 · 杂兵', tier:'mob',
-    flavor:'地牢里游荡的小残尸，人月怪的幼体，一遇延期就喊"再招两个人"。一道速答题。',
-    learnHref:'./index.html#faq', learnText:'阅读 FAQ：加人还是加 framing' },
-];
+function resolveLang(){
+  function pick(v){ return (v==='zh'||v==='en') ? v : null; }
+  var l = null;
+  try { l = pick(new URLSearchParams(location.search).get('lang')); } catch(e){}
+  if (!l) { try { l = pick(localStorage.getItem('githire-lang')); } catch(e){} }
+  if (!l) { var n = (navigator.language || navigator.userLanguage || '').toLowerCase(); l = n.indexOf('zh')===0 ? 'zh' : 'en'; }
+  return l;
+}
+let LANG = resolveLang();
 
-const QUESTIONS = {
+// UI 文案字典：键为点分路径，值含 zh/en。{x} 为插值占位符。
+const T = {
+  // ── head / 导航 ──
+  'meta.title':   { zh:'HireRPG · GitHire 知识冒险', en:'HireRPG · A GitHire Knowledge Quest' },
+  'meta.description': { zh:'一张 AI-native 工程地图：用 WASD 或方向键移动，走遍六步 workflow，迎战七种 HireRPG 怪兽（AI-native 工作中常见的低效模式）。人思考，AI 执行，人验收。', en:'An AI-native engineering map: move with WASD or arrow keys, walk the six-step workflow, and battle seven HireRPG monsters — the inefficiency patterns common in AI-native work. Humans think, AI executes, humans verify.' },
+  'meta.ogdesc':  { zh:'探索 AI-native 工程地图，迎战七种 HireRPG 怪兽——答对驱散它们，答错失去 HP，HP 归零生产 503。', en:'Explore an AI-native engineering map and battle seven HireRPG monsters — answer right to banish them, answer wrong and lose HP; when HP hits zero, production 503s.' },
+  'nav.brand_aria': { zh:'GitHire 首页', en:'GitHire home' },
+  'nav.method':   { zh:'方法论', en:'Method' },
+  'nav.skill':    { zh:'Skill', en:'Skill' },
+  'nav.game':     { zh:'🎮 HireRPG game', en:'🎮 HireRPG game' },
+  'nav.lang_aria':{ zh:'切换语言', en:'Switch language' },
+  'nav.actions_aria':{ zh:'导航', en:'Navigation' },
+
+  // ── 标题屏 ──
+  'title.eyebrow':{ zh:'GitHire · 知识冒险', en:'GitHire · Knowledge Quest' },
+  'title.tagline':{ zh:'从新手村一路向北，穿过 8 个区域，迎战七种 HireRPG 怪兽（AI-native 工作中常见的低效模式）', en:'Head north from the Starter Village, cross 8 regions, and battle seven HireRPG monsters — the inefficiency patterns common in AI-native work.' },
+  'title.desc':   { zh:'用 <span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span> 或 <span class="kbd">↑</span><span class="kbd">↓</span><span class="kbd">←</span><span class="kbd">→</span> 移动，撞向告示牌 / NPC / 门即触发。<br/>新手村 → 森林 → 峡谷 → 洞穴 → PR 桥 → 城堡 → 地牢 → 城塞，<br/>一路沿主路向北，走到怪物身上迎战；支线杂兵把守宝箱——打通后开箱得「复活道具」，<br/>在右上角 🎒 背包里装备，HP 归零能满血复活一次。<br/>清除六种 HireRPG 怪兽，城塞中央的雕像将苏醒为终局 Boss。', en:'Move with <span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span> or <span class="kbd">↑</span><span class="kbd">↓</span><span class="kbd">←</span><span class="kbd">→</span>; bump into a sign / NPC / door to interact.<br/>Starter Village → Forest → Canyon → Cave → PR Bridge → Castle → Dungeon → Citadel.<br/>Follow the main road north and step onto a monster to fight it; side minions guard chests — clear them to open a chest and earn a "revive item",<br/>equip it in the 🎒 backpack (top-right) to revive once at full HP when you hit zero.<br/>Clear all six HireRPG monsters and the statue at the citadel\'s heart awakens as the final boss.' },
+  'title.start':  { zh:'进入世界 →', en:'Enter the world →' },
+  'title.hint':   { zh:'右上角有小地图 · 手机端可用屏幕方向键 · 约 8 分钟', en:'Minimap top-right · on-screen D-pad on mobile · ~8 minutes' },
+
+  // ── HUD / 地图 ──
+  'hud.cleared':  { zh:'已清除 {n} / {total}', en:'Cleared {n} / {total}' },
+  'hud.score':    { zh:'✦ {n} 分', en:'✦ {n} pts' },
+  'map.world_aria':{ zh:'GitHire 箱庭世界', en:'GitHire sandbox world' },
+  'map.tip':      { zh:'🧑‍💻 你是架构师。<br/><span class="kbd">WASD</span> / 方向键移动，从新手村沿主路一路向北，过峡谷、洞穴、PR 桥，直抵 AI 原生城塞。走到怪物身上迎战。', en:'🧑‍💻 You are the architect.<br/>Move with <span class="kbd">WASD</span> / arrow keys, head north from the Starter Village along the main road — through the canyon, cave and PR bridge — all the way to the AI-native Citadel. Step onto a monster to fight.' },
+  'map.dpad_aria':{ zh:'方向键', en:'D-pad' },
+  'dir.up':       { zh:'上', en:'Up' },
+  'dir.down':     { zh:'下', en:'Down' },
+  'dir.left':     { zh:'左', en:'Left' },
+  'dir.right':    { zh:'右', en:'Right' },
+  'dialog.continue':{ zh:'按 Enter / 点击 继续 ▸', en:'Press Enter / click to continue ▸' },
+
+  // ── 横幅 ──
+  'banner.statue_done':  { zh:'🗿 雕像已被净化', en:'🗿 The statue is purified' },
+  'banner.statue_sleep': { zh:'🗿 雕像沉睡中 · 先清除外围 {n} 个反模式', en:'🗿 The statue sleeps · clear the {n} remaining anti-patterns first' },
+  'banner.wall':         { zh:'🧱 走不过去', en:'🧱 Can\'t go that way' },
+  'banner.empty_chest':  { zh:'（空箱子）', en:'(empty chest)' },
+  'banner.chest_item':   { zh:'🎁 开出「{emoji} {name}」（+{pts} 分）· 到右上角 🎒 背包装备它，HP 归零可满血复活', en:'🎁 Found "{emoji} {name}" (+{pts} pts) · equip it in the 🎒 backpack (top-right) to revive at full HP when you hit zero' },
+  'banner.chest':        { zh:'🎁 宝箱！', en:'🎁 Treasure!' },
+  'banner.statue_awake': { zh:'🗿 六种反模式已清除！AI 原生城塞的雕像苏醒了——前往城塞迎战终局 Boss', en:'🗿 All six anti-patterns cleared! The statue in the AI-native Citadel has awakened — head there to face the final boss' },
+
+  // ── 战斗 ──
+  'battle.choose':   { zh:'▶ 选择你的答案...', en:'▶ Choose your answer...' },
+  'battle.hit':      { zh:'✦ 命中！架构师的判断斩退了这只怪兽！（+{pts} 分）', en:'✦ Hit! The architect\'s judgment drove the monster back! (+{pts} pts)' },
+  'battle.miss':     { zh:'✘ 错误！{name}发动攻击，你失去了 {pen} HP。', en:'✘ Wrong! {name} strikes — you lose {pen} HP.' },
+  'battle.revive':   { zh:' 🔄「{name}」触发——满血复活，生产已回滚！', en:' 🔄 "{name}" triggered — revived at full HP, production rolled back!' },
+  'battle.down':     { zh:' HP 归零，生产 503...', en:' HP at zero, production 503...' },
+  'battle.qmeta':    { zh:'问题 {n} / {total}', en:'Question {n} / {total}' },
+  'battle.monster_hp':{ zh:'怪物 HP', en:'Monster HP' },
+  'battle.continue': { zh:'继续 →', en:'Continue →' },
+  'end.perfect':     { zh:'完美击败！', en:'Perfect kill!' },
+  'end.win':         { zh:'击退成功', en:'Driven back' },
+  'end.narrow':      { zh:'险胜...', en:'Narrow win...' },
+  'end.sub_perfect': { zh:'全部答对！获得 {earned} 分（含完美奖励 +{bonus}）', en:'All correct! Earned {earned} pts (incl. +{bonus} perfect bonus)' },
+  'end.sub_normal':  { zh:'答对 {correct} / {total}，获得 {earned} 分', en:'{correct} / {total} correct — earned {earned} pts' },
+  'end.bonus':       { zh:'🌿 完美！HP 恢复 {hp} 点。', en:'🌿 Perfect! Restored {hp} HP.' },
+  'end.back_final':  { zh:'反模式已全部清除，返回地图前往终点 →', en:'All anti-patterns cleared — return to the map and head for the finish →' },
+  'end.back_map':    { zh:'返回地图 →', en:'Back to the map →' },
+
+  // ── 结局 ──
+  'over.title':  { zh:'503 — 生产已倒下', en:'503 — Production is down' },
+  'over.sub':    { zh:'HP 归零，AI-native 工程师不合格', en:'HP at zero — not yet an AI-native engineer' },
+  'over.score':  { zh:'本局得分：{n} 分', en:'Score this run: {n} pts' },
+  'over.body':   { zh:'没关系——GitHire 的六步 workflow 就是为了让真实事故不再发生。回去读一读，再来挑战。', en:'No worries — GitHire\'s six-step workflow exists precisely so real incidents stop happening. Go read it, then come back and try again.' },
+  'over.retry':  { zh:'重新挑战', en:'Try again' },
+  'common.back_githire':{ zh:'返回 GitHire', en:'Back to GitHire' },
+
+  'win.rank_chief':  { zh:'首席架构师 · Chief Architect', en:'Chief Architect' },
+  'win.rank_senior': { zh:'资深工程师 · Senior Engineer', en:'Senior Engineer' },
+  'win.rank_qualified':{ zh:'合格 AI-native 工程师', en:'Qualified AI-native Engineer' },
+  'win.rank_junior': { zh:'见习工程师 · Junior Engineer', en:'Junior Engineer' },
+  'win.title':   { zh:'通关！抵达 Production', en:'Cleared! You reached Production' },
+  'win.sub':     { zh:'七种 HireRPG 怪兽已全部击败', en:'All seven HireRPG monsters defeated' },
+  'win.score':   { zh:'最终得分：{n} 分 · 头衔：{rank}', en:'Final score: {n} pts · Title: {rank}' },
+  'win.body':    { zh:'恭喜你走通了这张地图，也理解了 GitHire 核心方法论：<br/><strong>人思考、AI 执行、人验收。</strong>', en:'Congratulations on walking the whole map — and on grasping the core GitHire method:<br/><strong>Humans think, AI executes, humans verify.</strong>' },
+  'win.dash_title':{ zh:'🎒 通关道具 Dashboard', en:'🎒 Run-end item dashboard' },
+  'win.dash_empty':{ zh:'本局未获得复活道具——下次记得打通杂兵把守的支线、开宝箱拿道具。', en:'No revive items this run — next time, clear the minion-guarded side paths and open the chests.' },
+  'win.dash_revive':{ zh:'🔄 复活道具触发：{text}', en:'🔄 Revive items triggered: {text}' },
+  'win.revive_n':  { zh:'{n} 次（{names}）', en:'{n}× ({names})' },
+  'win.revive_0':  { zh:'0 次', en:'0×' },
+  'win.equipped':  { zh:'已装备', en:'equipped' },
+  'win.send_resume':{ zh:'📮 投递简历', en:'📮 Send your resume' },
+  'win.copy_share':{ zh:'复制分享文案', en:'Copy share text' },
+  'win.replay':    { zh:'再玩一次', en:'Play again' },
+  'win.share_ok':  { zh:'✓ 已复制！', en:'✓ Copied!' },
+  'win.share_manual':{ zh:'✓ 请手动复制上方文案', en:'✓ Please copy the text above manually' },
+  'win.read_more': { zh:'深入阅读：', en:'Read deeper: ' },
+  'win.case_link': { zh:'Case 01 · Redis 事故', en:'Case 01 · The Redis incident' },
+  'win.skill_link':{ zh:'安装 GitHire Skill', en:'Install the GitHire Skill' },
+  'win.share_text':{ zh:'我在 HireRPG 击败 7 种 AI-native 工作中常见的低效怪兽，得分 {score}，头衔：{rank}。\n\n这不是普通小游戏，而是 GitHire 核心方法论的训练入口：人思考，AI 执行，人验收。\n\n→ https://realroc.github.io/git-hired/game.html', en:'I beat 7 monsters in HireRPG — the inefficiency patterns common in AI-native work — scoring {score} with the title: {rank}.\n\nThis isn\'t just a game; it\'s a training entry point for GitHire\'s core method: humans think, AI executes, humans verify.\n\n→ https://realroc.github.io/git-hired/game.html?lang=en' },
+  'win.mail_subject':{ zh:'GitHire 简历投递 · {rank} · {score}分', en:'GitHire resume · {rank} · {score} pts' },
+  'win.mail_body': { zh:'我刚通关了 GitHire 的 HireRPG —— AI-native 工程方法论的训练入口。\n\n· 最终得分：{score} 分\n· 头衔：{rank}\n· 通关道具：{items}\n· 复活道具触发：{revive}\n\n我认同 GitHire 的核心方法论——人思考，AI 执行，人验收。现投递简历（请见附件），期待进一步交流。\n\n（游戏：https://realroc.github.io/git-hired/game.html）', en:'I just cleared GitHire\'s HireRPG — the training entry point for its AI-native engineering method.\n\n· Final score: {score} pts\n· Title: {rank}\n· Items collected: {items}\n· Revive items triggered: {revive}\n\nI buy into GitHire\'s core method — humans think, AI executes, humans verify. I\'m attaching my resume and would love to talk further.\n\n(Game: https://realroc.github.io/git-hired/game.html?lang=en)' },
+  'win.items_none':{ zh:'无', en:'none' },
+
+  // ── 背包 ──
+  'bp.equipped':  { zh:'已装备 ✓', en:'Equipped ✓' },
+  'bp.equip':     { zh:'装备', en:'Equip' },
+  'bp.used_up':   { zh:'已用尽', en:'Used up' },
+  'bp.empty':     { zh:'背包空空。打通杂兵把守的支线，开宝箱可得「复活道具」。', en:'Backpack empty. Clear minion-guarded side paths and open chests to earn "revive items".' },
+  'bp.head':      { zh:'🎒 背包', en:'🎒 Backpack' },
+  'bp.revive_n':  { zh:'🔄 复活×{n}', en:'🔄 Revive ×{n}' },
+  'bp.tip':       { zh:'装备「复活道具」后，HP 归零时消耗一个 → 满血复活，继续战斗。', en:'Equip a "revive item": when HP hits zero, it\'s consumed to revive you at full HP so you can keep fighting.' },
+  'item.count':   { zh:'{zone} · ×{n}', en:'{zone} · ×{n}' },
+
+  // ── 图鉴 Codex ──
+  'cx.head':      { zh:'📖 图鉴', en:'📖 Codex' },
+  'cx.locked':    { zh:'未解锁', en:'Locked' },
+  'cx.unknown':   { zh:'？？？', en:'???' },
+  'cx.close':     { zh:'关闭', en:'Close' },
+  'cx.intro':     { zh:'简介', en:'About' },
+  'cx.reminds':   { zh:'它提醒你什么', en:'What it reminds you' },
+  'cx.read':      { zh:'扩展阅读', en:'Further reading' },
+  'cx.learn_more':{ zh:'了解更多', en:'Learn more' },
+  'cx.locked_note':{ zh:'这只怪兽还藏在地图深处。<br/>在冒险中击败它，即可解锁完整图鉴。', en:'This monster is still hidden deep in the map.<br/>Defeat it on your quest to unlock its full codex entry.' },
+
+  // ── 复活弹窗 ──
+  'rv.title':     { zh:'💀 HP 归零 · 生产即将 503', en:'💀 HP at zero · production about to 503' },
+  'rv.sub':       { zh:'你装备了复活道具——选一个消耗并满血复活，或接受 Game Over。', en:'You have revive items equipped — pick one to consume and revive at full HP, or accept Game Over.' },
+  'rv.left':      { zh:'{zone} · 剩 ×{n}', en:'{zone} · {n} left' },
+  'rv.decline':   { zh:'💀 不复活，接受 Game Over', en:'💀 Don\'t revive — accept Game Over' },
+};
+
+function t(key, params){
+  var e = T[key];
+  var s = e ? (e[LANG] != null ? e[LANG] : e.en) : key;
+  if (params) s = s.replace(/\{(\w+)\}/g, function(_, k){ return params[k] != null ? params[k] : '{' + k + '}'; });
+  return s;
+}
+
+function setMeta(sel, val){ var m = document.querySelector(sel); if (m) m.setAttribute('content', val); }
+
+function updateNav(){
+  document.documentElement.setAttribute('lang', LANG==='zh' ? 'zh-CN' : 'en');
+  document.documentElement.setAttribute('data-lang', LANG);
+  document.title = t('meta.title');
+  setMeta('meta[name="description"]', t('meta.description'));
+  setMeta('meta[property="og:title"]', t('meta.title'));
+  setMeta('meta[property="og:description"]', t('meta.ogdesc'));
+  var set = function(id, txt, attr){ var el=document.getElementById(id); if(el){ if(attr) el.setAttribute(attr, txt); else el.textContent = txt; } };
+  set('nav-brand', t('nav.brand_aria'), 'aria-label');
+  set('nav-method', t('nav.method'));
+  set('nav-skill',  t('nav.skill'));
+  set('nav-game',   t('nav.game'));
+  set('nav-actions', t('nav.actions_aria'), 'aria-label');
+  set('lang-switch', t('nav.lang_aria'), 'aria-label');
+  var btns = document.querySelectorAll('[data-lang-btn]');
+  for (var i=0;i<btns.length;i++){ var b=btns[i]; var on=b.getAttribute('data-lang-btn')===LANG; b.setAttribute('aria-pressed', on?'true':'false'); b.classList.toggle('is-active', on); }
+}
+
+function setLang(lang){
+  if (lang!=='zh' && lang!=='en' || lang===LANG) return;
+  LANG = lang;
+  try { localStorage.setItem('githire-lang', lang); } catch(e){}
+  buildLocalizedData();
+  if (typeof WORLD !== 'undefined' && WORLD) localizeWorld();
+  updateNav();
+  render();
+}
+
+// ================================================================
+// 数据：七种工程反模式怪物（几何/样式语言无关，文本按语言）
+// ================================================================
+const MONSTER_DEF = [
+  { id:'ghost',  emoji:'👻', color:'#6c3483', learnHref:'./index.html#workflow' },
+  { id:'fire',   emoji:'🔥', color:'#b7770d', learnHref:'./index.html#workflow' },
+  { id:'scan',   emoji:'🦕', color:'#c0392b', learnHref:'./case-redis-scan.html' },
+  { id:'dragon', emoji:'🐉', color:'#1a5276', learnHref:'./index.html#workflow' },
+  { id:'zombie', emoji:'🧟', color:'#117a65', learnHref:'./index.html#faq' },
+  { id:'clock',  emoji:'⏳', color:'#7d3c98', learnHref:'./index.html#faq' },
+  { id:'robot',  emoji:'🤖', color:'#4a235a', learnHref:'./index.html#faq' },
+  { id:'mob1', emoji:'🌫️', color:'#9a93c4', tier:'mob', learnHref:'./index.html#workflow' },
+  { id:'mob2', emoji:'🔥', color:'#e8702a', tier:'mob', learnHref:'./index.html#workflow' },
+  { id:'mob3', emoji:'🧟', color:'#5c9e5c', tier:'mob', learnHref:'./index.html#faq' },
+];
+const MONSTER_TX = {
+  zh: {
+    ghost:  { name:'模糊 Issue 幽灵', zone:'Issue 规格', learnText:'阅读六步 Workflow', flavor:'它从一句"你帮我实现一下这个功能"里诞生。没有 Goal，没有 Constraints，没有 Verification——AI 当然找到了一个答案，只是不是你要的那个。每一处空白，都是它的入口。' },
+    fire:   { name:'无沙盒妖', zone:'沙盒环节', learnText:'阅读 Sandbox 步骤', flavor:'它最喜欢"先上线看看"。没有隔离环境，没有生产量级的数据，AI 写出来的第一版在本地跑得飞快——然后在生产环境沉默地爆了。' },
+    scan:   { name:'SCAN 兽', zone:'Case 01 · 真实事故', learnText:'阅读 Case 01 完整复盘', flavor:'2026-05-18 10:19，一条 prompt，22 行代码。23:54，生产 Redis 应声倒下。SCAN + pipeline HGETALL 每次请求扫 800 万条 key——AI review 看不出来，因为代码本身"逻辑正确"。' },
+    dragon: { name:'甩锅龙', zone:'架构师签字', learnText:'阅读 Architect 步骤', flavor:'它最爱说"AI 评过了"。每次有人问责，就用这句话挡回去。签字栏永远空着——因为没有人想为 AI 生成的代码背系统侧的锅。' },
+    zombie: { name:'人月怪', zone:'布鲁克斯定律', learnText:'阅读 FAQ：加人还是加 framing', flavor:'进度落后了，再招两个人。新人需要学习上下文，沟通成本二次方上升，整体更慢了。Brooks 1975 年就写了。放到 AI-native 团队里，规律没失效，只是稀缺品换了。' },
+    clock:  { name:'Deadline 幻影', zone:'交付承诺', learnText:'阅读 FAQ：Deadline 为什么骗人', flavor:'它在信息最少的时候逼你许下承诺，在压力最大的时候兑现。AI-native 时代 deadline 仍然不准，只是滑掉的原因换了：不是 coding 慢，而是 framing 失误和 review 来不及。' },
+    robot:  { name:'孤岛 Agent', zone:'最终 Boss · 概念完整性', learnText:'阅读 FAQ：概念完整性', flavor:'七个 agent 并发写主干，没有一个人能用一句话说清楚整体方向。代码量翻倍，但每个模块讲的是不同的故事。这是最终 Boss——因为它长得最像"生产力"。' },
+    mob1:   { name:'措辞含糊鬼', zone:'Prompt 森林 · 杂兵', learnText:'阅读六步 Workflow', flavor:'森林里飘着的小幽灵，模糊 Issue 幽灵的幼体，专门钻"差不多就行"的空子。一道速答题。' },
+    mob2:   { name:'余烬妖', zone:'编码洞穴 · 杂兵', learnText:'阅读 Sandbox 步骤', flavor:'洞里蹦出的小火苗，无沙盒妖的幼体，最爱喊"先上线看看"。一道速答题。' },
+    mob3:   { name:'残尸', zone:'生产地牢 · 杂兵', learnText:'阅读 FAQ：加人还是加 framing', flavor:'地牢里游荡的小残尸，人月怪的幼体，一遇延期就喊"再招两个人"。一道速答题。' },
+  },
+  en: {
+    ghost:  { name:'Vague-Issue Ghost', zone:'Issue Spec', learnText:'Read the six-step Workflow', flavor:'It is born from a single "just implement this feature for me." No Goal, no Constraints, no Verification — so of course the AI found an answer, just not the one you wanted. Every blank is its doorway.' },
+    fire:   { name:'No-Sandbox Fiend', zone:'Sandbox stage', learnText:'Read the Sandbox step', flavor:'Its favorite line is "let\'s just ship it and see." No isolated environment, no production-scale data — the AI\'s first version runs blazing fast locally, then blows up silently in production.' },
+    scan:   { name:'SCAN Beast', zone:'Case 01 · Real incident', learnText:'Read the full Case 01 post-mortem', flavor:'2026-05-18 10:19 — one prompt, 22 lines of code. 23:54 — production Redis goes down. SCAN + pipelined HGETALL scans 8 million keys per request — AI review can\'t catch it, because the code itself is "logically correct."' },
+    dragon: { name:'Blame-Shifting Dragon', zone:'Architect sign-off', learnText:'Read the Architect step', flavor:'Its favorite line is "the AI already reviewed it." Whenever someone asks who\'s accountable, that sentence blocks the question. The sign-off line stays empty — because nobody wants to own the system-level fallout of AI-generated code.' },
+    zombie: { name:'Man-Month Zombie', zone:'Brooks\'s Law', learnText:'Read FAQ: add people or add framing', flavor:'Behind schedule? Hire two more. Newcomers must learn the context, communication cost rises quadratically, and the whole thing gets slower. Brooks wrote this in 1975. In an AI-native team the law still holds — only the scarce resource has changed.' },
+    clock:  { name:'Deadline Phantom', zone:'Delivery promise', learnText:'Read FAQ: why deadlines lie', flavor:'It forces you to promise when you know the least, and to deliver when the pressure is highest. Deadlines are still wrong in the AI-native era — only the reason they slip has changed: not slow coding, but mis-framing and review you can\'t keep up with.' },
+    robot:  { name:'Silo Agent', zone:'Final Boss · Conceptual integrity', learnText:'Read FAQ: conceptual integrity', flavor:'Seven agents write to main in parallel and not one person can state the overall direction in a single sentence. The code doubles, but every module tells a different story. This is the final boss — because it looks the most like "productivity."' },
+    mob1:   { name:'Mumble Wraith', zone:'Prompt Forest · Minion', learnText:'Read the six-step Workflow', flavor:'A little ghost drifting through the forest, larva of the Vague-Issue Ghost, slipping through the gaps of "good enough." One quick question.' },
+    mob2:   { name:'Ember Imp', zone:'Coding Cave · Minion', learnText:'Read the Sandbox step', flavor:'A little flame leaping from the cave, larva of the No-Sandbox Fiend, always shouting "let\'s just ship it." One quick question.' },
+    mob3:   { name:'Shambler', zone:'Production Dungeon · Minion', learnText:'Read FAQ: add people or add framing', flavor:'A little shambler wandering the dungeon, larva of the Man-Month Zombie, crying "hire two more" at the first delay. One quick question.' },
+  },
+};
+
+const QUESTION_TX = {
+  zh: {
   mob1: [
     { q:'一句"帮我实现一下这个功能"，最大的问题是什么？',
       opts:['措辞不够礼貌，AI 会拒绝','没有目标/约束/验证标准，AI 只能猜，猜的多半不是你要的','太短，AI 上下文不足无法回答','缺少代码示例，AI 无法模仿风格'],
@@ -467,7 +650,113 @@ const QUESTIONS = {
       opts:['AI 辅助人，人做最终决策','人思考，AI 执行，人验收','人写 Issue，AI 写代码，测试说了算','先上线，再迭代，快速学习'],
       ans:1, exp:'思考在人这一侧，执行在 AI 这一侧，验收又回到人这一侧——三段把责任边界说清楚了。这才是真正的 AI-native：人定方向、AI 干活、人判断结果。' },
   ],
+  },
+  en: {
+  mob1: [
+    { q:'What is the biggest problem with "just implement this feature for me"?',
+      opts:['It isn\'t polite enough, so the AI will refuse','No goal / constraints / verification standard, so the AI can only guess — and the guess is usually not what you wanted','It\'s too short, so the AI lacks context to answer','It has no code sample, so the AI can\'t mimic the style'],
+      ans:1, exp:'Every unwritten blank is room for the AI to improvise. The clearer the framing, the more likely the AI gets it right the first time.' },
+  ],
+  mob2: [
+    { q:'What is the biggest risk of "let\'s just ship it and see"?',
+      opts:['It wastes server resources','It runs fast locally but never met production-scale data, so the problem will blow up silently in production','Code style becomes inconsistent','Team communication increases'],
+      ans:1, exp:'Validation without data scale or QPS just defers the bug to launch. A sandbox only matters at real scale.' },
+  ],
+  mob3: [
+    { q:'When a project slips and you "just hire two more people", the usual result is?',
+      opts:['Progress instantly doubles','Newcomers must learn the context and communication cost rises quadratically — in the short term it\'s actually slower','Quality inevitably drops','It only works for junior projects'],
+      ans:1, exp:'Brooks\'s Law. Before adding people, ask: is the bottleneck framing, or throughput?' },
+  ],
+  ghost: [
+    { q:'Which six sections does GitHire\'s six-part Prompt Spec contain?',
+      opts:['Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context','Problem / Solution / Timeline / Owner / Risk / Review','What / Why / How / Who / When / Where','Features / Bugs / Timeline / Security / Performance / Docs'],
+      ans:0, exp:'The six-part Spec is the heart of GitHire\'s issue framing — wherever a section is missing, the AI improvises.' },
+    { q:'What is the core purpose of the "Non-goals" section in an Issue?',
+      opts:['To give newcomers the project\'s history','To state explicitly what NOT to do, preventing the AI from improvising in undefined territory','To list every deliverable','To record team roles and owners'],
+      ans:1, exp:'Every blank is room for the AI to improvise. The value of non-goals is precisely that they close those blanks.' },
+    { q:'What is the most direct consequence of an Issue missing its "Verification" section?',
+      opts:['Code runs slower','The sandbox environment can\'t initialize','You can\'t tell whether the AI\'s implementation meets the requirement','Architect approval takes longer'],
+      ans:2, exp:'Verification tells the AI — and you — what "done" means. Without it, nobody knows when to stop.' },
+  ],
+  fire: [
+    { q:'For a sandbox environment to truly matter, what is the most critical condition?',
+      opts:['Using the exact same dependency versions as production','Having real dependencies and production-scale data','Having full monitoring and alerting','Supporting many teams accessing it concurrently'],
+      ans:1, exp:'A sandbox without data scale or QPS just defers the bug to launch. Only real scale exposes real problems.' },
+    { q:'GitHire quotes Brooks — "plan to throw one away." Which workflow step does that map to?',
+      opts:['Issue (requirements planning)','AI Review (review stage)','Sandbox (sandbox validation)','Production (merge & ship)'],
+      ans:2, exp:'Sandbox code does not go to main by default — its value is to validate direction and surface unknowns, not to ship.' },
+    { q:'How does GitHire handle code produced in the sandbox stage by default?',
+      opts:['Auto-merge to main after CI passes','Architect approves it, then decides whether to keep it','It does not go to main; it validates direction, then you rewrite the main version once the direction is clear','Tag and archive it, ready to merge back anytime'],
+      ans:2, exp:'"Plan to throw one away" — the first version\'s value is clarifying the problem, not shipping. Once the problem is clear, the AI can get it right.' },
+  ],
+  scan: [
+    { q:'In Case 01, which two Redis operations did the AI-generated code use to cause the production incident?',
+      opts:['KEYS * full scan + DEL batch delete','SCAN traversal + pipelined batch HGETALL','FLUSHALL to wipe the database','SUBSCRIBE long-connection blocking'],
+      ans:1, exp:'SCAN traverses 8 million keys, then runs HGETALL on each — every HTTP request triggers a full scan.' },
+    { q:'In Case 01, why did AI Review fail to catch this fatal problem?',
+      opts:['The review step was skipped','AI Review looks at the code\'s internal consistency — on that axis the SCAN code is "perfectly correct"','The AI model version in use was too old','The dataset during review wasn\'t large enough to hit the bottleneck'],
+      ans:1, exp:'AI Review\'s lens is internal — naming, edge cases, null pointers. "Scans the full table on every request" needs system-level context to spot.' },
+    { q:'The architect spotted Case 01\'s problem in 30 seconds — what information did they use that the AI couldn\'t see?',
+      opts:['Whether naming follows team conventions','Whether unit-test coverage meets the bar','System-level context: the QPS curve, historical capacity, Redis scale','Whether the spec fully describes the feature'],
+      ans:2, exp:'This is the workflow\'s "most expensive 30 seconds" — the architect brings system-level context the AI can\'t see. AI and architect complement, not overlap.' },
+  ],
+  dragon: [
+    { q:'In the GitHire workflow, who bears the system-level consequences of code merged to main?',
+      opts:['The AI agent that wrote the code','The product manager who raised the requirement','The architect who signs off','The whole engineering team, collectively'],
+      ans:2, exp:'The AI doesn\'t take the blame — blame implies agency, and the AI has none. Signing off = owning the system-level consequences.' },
+    { q:'What does "the AI review passed" mean in GitHire?',
+      opts:['The code can merge to main directly, no extra approval','It\'s supporting evidence — it cannot replace the architect\'s final decision','It needs a final business confirmation from the PM','It needs a full test-suite run again'],
+      ans:1, exp:'GitHire won\'t let review accountability be diluted by "the AI reviewed it" — AI review is supporting evidence; the architect\'s review is the decision.' },
+    { q:'AI Review and architect Review each look at which dimension?',
+      opts:['AI looks at security holes, the architect at performance bottlenecks','AI looks at code quality, the architect at business logic','AI looks at the code\'s internal consistency; the architect at QPS, past incidents and other system-level context','AI does a first pass, the architect a second — same content, cross-checking'],
+      ans:2, exp:'Complementary, not overlapping — that\'s why both reviews coexist. Case 01\'s 22 lines of SCAN code looked "perfectly correct" to AI review.' },
+  ],
+  zombie: [
+    { q:'What is the core conclusion of Brooks’ Law?',
+      opts:['A great engineer produces 10× an average one','Adding people to a late software project makes it later','Project size is proportional to engineer count','Communication cost is inversely correlated with code quality'],
+      ans:1, exp:'Newcomers must learn the context and communication cost rises quadratically with headcount — in the short term, overall progress is actually slower.' },
+    { q:'In an AI-native team, has Brooks’ Law stopped holding?',
+      opts:['Fully — AI removes communication cost, so more people means faster','No — the scarce resource has shifted from "coding hands" to "a mind that can frame an issue"','Partly — it only still applies to junior engineers','Needs more cases; inconclusive for now'],
+      ans:1, exp:'Coding is no longer the bottleneck — AI is fast enough. One person who can write a six-part Issue can direct several agents at once.' },
+    { q:'According to GitHire, what should an AI-native team ask before adding people?',
+      opts:['Whether the codebase is large enough for more engineers to work in parallel','Whether newcomers have enough AI-tooling experience','Is the bottleneck framing, or throughput?','Whether current test coverage meets the baseline'],
+      ans:2, exp:'If the bottleneck is framing — issues aren\'t clear — adding people won\'t help. Only if it\'s throughput — too few decision points — do you consider growing the team.' },
+  ],
+  clock: [
+    { q:'According to GitHire, what is the root cause of deadlines slipping in the AI-native era?',
+      opts:['Unstable AI-generated code quality requiring heavy rework','Mis-framing and review you can\'t keep up with — not slow coding','Requirements change too fast for the AI to keep up','Lack of project tools tracking progress in real time'],
+      ans:1, exp:'Coding is no longer the bottleneck — AI writes a former person-month in 5 minutes; deadlines slip because an unclear Issue sent the AI the wrong way.' },
+    { q:'What does GitHire suggest using instead of a "time promise (deadline)"?',
+      opts:['A more precise effort estimate (add a 30% buffer)','A fixed-milestone regime (a delivery node every two weeks)','Observable decision-point completion: Issue framed / architect signed off / sandbox validated','A velocity forecast model from historical data'],
+      ans:2, exp:'Observable state replaces subjective time — the closer to delivery, the more the forecast converges. How many decision points are done is more honest than "how many days left".' },
+    { q:'In Case 01, how many hours of firefighting did one Issue with an unwritten constraint ultimately cost?',
+      opts:['About 5 hours','About 13 hours','About 25 hours','About 48 hours'],
+      ans:2, exp:'10:19 the prompt was written, 23:54 production alarmed, then 25 hours to fully fix. One unwritten constraint traded for a whole day of firefighting.' },
+  ],
+  robot: [
+    { q:'In an AI-native team, how is "conceptual integrity" maintained?',
+      opts:['A unified code formatter (e.g. Prettier) auto-aligns style','An explicit architecture owner: every PR must be explainable by one architect in a single sentence — its motivation and trade-offs','Multiple agents cross-review and patch each other','Strict linting rules covering all naming and structure conventions'],
+      ans:1, exp:'"A PR you can\'t explain doesn\'t merge" — this rule keeps conceptual consistency from being diluted by the number of concurrent agents.' },
+    { q:'In GitHire\'s six-step workflow, which two steps are designed as "you can still back out" decision points?',
+      opts:['Issue and Architect (the two ends)','Sandbox and AI Review (twice)','AI Review and Architect (twice)','PR and Production (twice)'],
+      ans:1, exp:'Sandbox is the direction-validation decision point; AI Review is the last check before merge. Two "still time to back out" moments, then the architect signs off.' },
+    { q:'Final battle! What is GitHire\'s core slogan?',
+      opts:['AI assists humans, humans make the final call','Humans think, AI executes, humans verify','Humans write Issues, AI writes code, tests have the final say','Ship first, iterate, learn fast'],
+      ans:1, exp:'Thinking is on the human side, execution on the AI side, and verification back on the human side — three clauses that make the accountability boundary clear. That is true AI-native: humans set direction, AI does the work, humans judge the result.' },
+  ],
+  },
 };
+
+let MONSTERS = [], QUESTIONS = {}, REGIONS = [], REGION_BANDS = [];
+function buildLocalizedData(){
+  var mt = MONSTER_TX[LANG] || MONSTER_TX.zh;
+  MONSTERS = MONSTER_DEF.map(function(d){ var x = mt[d.id] || {}; return Object.assign({}, d, { name:x.name, zone:x.zone, flavor:x.flavor, learnText:x.learnText }); });
+  QUESTIONS = QUESTION_TX[LANG] || QUESTION_TX.zh;
+  var rt = REGION_TX[LANG] || REGION_TX.zh;
+  REGIONS = REGION_DEF.map(function(d){ return Object.assign({}, d, { name: rt[d.key] }); });
+  var bt = BAND_TX[LANG] || BAND_TX.zh;
+  REGION_BANDS = BAND_DEF.map(function(d){ var x = bt[d.key] || {}; return Object.assign({}, d, { name:x.name, banner:x.banner }); });
+}
 
 // ================================================================
 // 地图：W=墙/障碍 .=地面 S=起点 数字=怪物 G=终点(Production)
@@ -487,16 +776,20 @@ const SPAWN  = { x:8,  y:36 };               // 出生：新手村广场，面�
 
 // 区域锚点：8 区线性脊柱（村→森林→峡谷→洞穴→桥→城堡→地牢→城塞）
 // 沿地图外缘走一圈 S 形，buildWorld 只在相邻区之间修主路，形成"旅程"而非"沙盒"
-const REGIONS = [
-  { key:'village', theme:'town',      name:'新手村',        cx:8,  cy:35 },
-  { key:'forest',  theme:'wild',      name:'Prompt 森林',   cx:7,  cy:22 },
-  { key:'canyon',  theme:'valley',    name:'Issue 峡谷',    cx:11, cy:9  },
-  { key:'cave',    theme:'cave',      name:'编码洞穴',      cx:22, cy:6  },
-  { key:'bridge',  theme:'tower',     name:'PR 桥',         cx:33, cy:8  },
-  { key:'castle',  theme:'fortress',  name:'评审城堡',      cx:41, cy:17 },
-  { key:'dungeon', theme:'graveyard', name:'生产地牢',      cx:40, cy:31 },
-  { key:'citadel', theme:'incident',  name:'AI 原生城塞',   cx:24, cy:36 },
+const REGION_DEF = [
+  { key:'village', theme:'town',      cx:8,  cy:35 },
+  { key:'forest',  theme:'wild',      cx:7,  cy:22 },
+  { key:'canyon',  theme:'valley',    cx:11, cy:9  },
+  { key:'cave',    theme:'cave',      cx:22, cy:6  },
+  { key:'bridge',  theme:'tower',     cx:33, cy:8  },
+  { key:'castle',  theme:'fortress',  cx:41, cy:17 },
+  { key:'dungeon', theme:'graveyard', cx:40, cy:31 },
+  { key:'citadel', theme:'incident',  cx:24, cy:36 },
 ];
+const REGION_TX = {
+  zh: { village:'新手村', forest:'Prompt 森林', canyon:'Issue 峡谷', cave:'编码洞穴', bridge:'PR 桥', castle:'评审城堡', dungeon:'生产地牢', citadel:'AI 原生城塞' },
+  en: { village:'Starter Village', forest:'Prompt Forest', canyon:'Issue Canyon', cave:'Coding Cave', bridge:'PR Bridge', castle:'Review Castle', dungeon:'Production Dungeon', citadel:'AI-native Citadel' },
+};
 
 // boss 落点：r = 所属区域在 REGIONS 中的下标；部分藏在建筑里（door 在建筑正下方）
 // robot 终局 = 城塞雕像（STATUE），不在此表
@@ -542,16 +835,38 @@ let WORLD = null;
 
 const SLICE = false;   // 已铺满全 8 区，切片开关关闭
 // 8 区分带（自下而上，y>=下界即属该区）+ 进区横幅文案
-const REGION_BANDS = [
-  { key:'village', name:'🏘️ 新手村',     theme:'town',      y:84, banner:'🏘️ 新手村 · 一切从一条写清的 Issue 开始' },
-  { key:'forest',  name:'🌲 Prompt 森林', theme:'wild',      y:72, banner:'🌲 Prompt 森林 · 学会给 AI 写清需求（留意岔路）' },
-  { key:'canyon',  name:'🏜️ Issue 峡谷',  theme:'canyon',    y:60, banner:'🏜️ Issue 峡谷 · 模糊 Issue 幽灵 · 想清六段式再上' },
-  { key:'cave',    name:'🕳️ 编码洞穴',     theme:'cave',      y:48, banner:'🕳️ 编码洞穴 · 无沙盒妖 · 第一版准备好扔掉' },
-  { key:'bridge',  name:'🌉 PR 桥',        theme:'tower',     y:36, banner:'🌉 PR 桥 · Deadline 幻影 · 用决策点替代时间承诺' },
-  { key:'castle',  name:'🏰 评审城堡',     theme:'fortress',  y:24, banner:'🏰 评审城堡 · AI Review 看不出的，架构师签字看得出' },
-  { key:'dungeon', name:'⛓️ 生产地牢',     theme:'graveyard', y:12, banner:'⛓️ 生产地牢 · 人月怪 · 加人前先问 framing 还是吞吐' },
-  { key:'citadel', name:'🗽 AI 原生城塞',  theme:'incident',  y:1,  banner:'🗽 AI 原生城塞 · 终局：孤岛 Agent · 概念完整性' },
+const BAND_DEF = [
+  { key:'village', theme:'town',      y:84 },
+  { key:'forest',  theme:'wild',      y:72 },
+  { key:'canyon',  theme:'canyon',    y:60 },
+  { key:'cave',    theme:'cave',      y:48 },
+  { key:'bridge',  theme:'tower',     y:36 },
+  { key:'castle',  theme:'fortress',  y:24 },
+  { key:'dungeon', theme:'graveyard', y:12 },
+  { key:'citadel', theme:'incident',  y:1  },
 ];
+const BAND_TX = {
+  zh: {
+    village: { name:'🏘️ 新手村',     banner:'🏘️ 新手村 · 一切从一条写清的 Issue 开始' },
+    forest:  { name:'🌲 Prompt 森林', banner:'🌲 Prompt 森林 · 学会给 AI 写清需求（留意岔路）' },
+    canyon:  { name:'🏜️ Issue 峡谷',  banner:'🏜️ Issue 峡谷 · 模糊 Issue 幽灵 · 想清六段式再上' },
+    cave:    { name:'🕳️ 编码洞穴',     banner:'🕳️ 编码洞穴 · 无沙盒妖 · 第一版准备好扔掉' },
+    bridge:  { name:'🌉 PR 桥',        banner:'🌉 PR 桥 · Deadline 幻影 · 用决策点替代时间承诺' },
+    castle:  { name:'🏰 评审城堡',     banner:'🏰 评审城堡 · AI Review 看不出的，架构师签字看得出' },
+    dungeon: { name:'⛓️ 生产地牢',     banner:'⛓️ 生产地牢 · 人月怪 · 加人前先问 framing 还是吞吐' },
+    citadel: { name:'🗽 AI 原生城塞',  banner:'🗽 AI 原生城塞 · 终局：孤岛 Agent · 概念完整性' },
+  },
+  en: {
+    village: { name:'🏘️ Starter Village',  banner:'🏘️ Starter Village · It all starts with one clearly written Issue' },
+    forest:  { name:'🌲 Prompt Forest',    banner:'🌲 Prompt Forest · Learn to spec requirements for the AI (watch the forks)' },
+    canyon:  { name:'🏜️ Issue Canyon',     banner:'🏜️ Issue Canyon · Vague-Issue Ghost · Think through the six parts first' },
+    cave:    { name:'🕳️ Coding Cave',      banner:'🕳️ Coding Cave · No-Sandbox Fiend · Plan to throw the first version away' },
+    bridge:  { name:'🌉 PR Bridge',        banner:'🌉 PR Bridge · Deadline Phantom · Replace time promises with decision points' },
+    castle:  { name:'🏰 Review Castle',    banner:'🏰 Review Castle · What AI Review misses, the architect\'s sign-off catches' },
+    dungeon: { name:'⛓️ Production Dungeon', banner:'⛓️ Production Dungeon · Man-Month Zombie · Ask framing vs throughput before adding people' },
+    citadel: { name:'🗽 AI-native Citadel', banner:'🗽 AI-native Citadel · Finale: Silo Agent · Conceptual integrity' },
+  },
+};
 function regionByY(y){ for(const r of REGION_BANDS){ if(y>=r.y) return r; } return REGION_BANDS[REGION_BANDS.length-1]; }
 
 function buildWorld(){
@@ -638,6 +953,72 @@ function buildWorld(){
   WORLD = { w:W, h:H, ground, biome, obst, walls, decor, buildings, monsters };
 }
 
+// ── 复活道具（emoji 语言无关，文本按语言）──
+const ITEM_DEF = { revive_forest:{emoji:'📜'}, revive_cave:{emoji:'💾'}, revive_dungeon:{emoji:'🔄'} };
+const ITEM_TX = {
+  zh: { revive_forest:{name:'Prompt 回滚卷轴', zone:'Prompt 森林'}, revive_cave:{name:'沙盒快照', zone:'编码洞穴'}, revive_dungeon:{name:'生产 Rollback 符', zone:'生产地牢'} },
+  en: { revive_forest:{name:'Prompt Rollback Scroll', zone:'Prompt Forest'}, revive_cave:{name:'Sandbox Snapshot', zone:'Coding Cave'}, revive_dungeon:{name:'Production Rollback Sigil', zone:'Production Dungeon'} },
+};
+function itemText(key){ var d = ITEM_DEF[key] || {}, x = (ITEM_TX[LANG] || ITEM_TX.zh)[key] || {}; return { emoji:d.emoji || '🎁', name:x.name || key, zone:x.zone || '' }; }
+
+// ── 建筑标签 / 交互物（告示牌·NPC·门）文本，按语言；几何在 buildJourneyWorld 里 ──
+const BUILDING_TX = {
+  zh: { hq:'GitHire 总部', lib:'文档馆' },
+  en: { hq:'GitHire HQ', lib:'Docs Library' },
+};
+const IT_TX = {
+  zh: {
+    door_hq:   { title:'🏛️ GitHire 总部', body:'架构师抬头看你：「欢迎，新来的。这里只有一条规矩——<b>人思考，AI 执行，人验收</b>。你定方向，AI 干活，你判断结果。」' },
+    door_lib:  { title:'📚 文档馆', body:'管理员递来一页纸：「一切从一条写清的 Issue 开始。六段式 Spec：目标 / 约束 / 非目标 / 验证标准 / 架构说明 / 已有上下文。」' },
+    npc_guide: { title:'🧑‍🏫 引路架构师', body:'「往北一路走到底——森林、峡谷、洞穴、PR 桥、城堡、地牢，尽头是 AI 原生城塞的终局 Boss。六个反模式逐个打过去。」' },
+    sign_north:{ text:'↑ 北：森林 → 峡谷 → 洞穴 → PR桥 → 城堡 → 地牢 → 城塞' },
+    sign_fork1:{ text:'⑂ 岔路：直走 安全 │ 右下 → 宝箱（杂兵把守）' },
+    sign_ghost:{ text:'⚠️ 模糊 Issue 幽灵 · 六段式 Spec 定胜负' },
+    npc_canyon:{ title:'🧓 峡谷老兵', body:'「它从你没写清的每一段里汲取力量。上之前先把六段式在心里过一遍。」' },
+    sign_fire: { text:'⚠️ 无沙盒妖 · 沙盒要真实数据量级，第一版准备好扔掉' },
+    sign_fork2:{ text:'⑂ 左 → 宝箱（杂兵把守）' },
+    sign_clock:{ text:'⚠️ Deadline 幻影 · 用「决策点完成度」替代时间承诺' },
+    sign_scan: { text:'⚠️ SCAN 兽（AI Review 维度）' },
+    sign_dragon:{ text:'⚠️ 甩锅龙 · 签字 = 认领系统侧后果' },
+    npc_arch:  { title:'🏛️ 签字架构师', body:'「AI Review 看代码内部一致性；我看 QPS、历史事故这些系统侧上下文。两道关互补不重叠——SCAN 兽那 22 行代码，AI 看来完全正确。」' },
+    sign_zombie:{ text:'⚠️ 人月怪 · 加人前先问：是 framing 不够，还是吞吐不够' },
+    sign_fork3:{ text:'⑂ 右 → 宝箱（杂兵把守）' },
+    sign_citadel:{ text:'🗽 终局：孤岛 Agent · 概念完整性' },
+    npc_final: { title:'🤖 终局之前', body:'「七个 agent 并发写主干，没人能一句话说清方向。概念完整性靠显式架构 owner——讲不清动机的 PR 不 merge。清完六个反模式，雕像才会苏醒。」' },
+  },
+  en: {
+    door_hq:   { title:'🏛️ GitHire HQ', body:'The architect looks up at you: "Welcome, newcomer. There\'s only one rule here — <b>humans think, AI executes, humans verify</b>. You set the direction, AI does the work, you judge the result."' },
+    door_lib:  { title:'📚 Docs Library', body:'The librarian hands you a sheet: "It all starts with one clearly written Issue. The six-part Spec: Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context."' },
+    npc_guide: { title:'🧑‍🏫 Guiding Architect', body:'"Head north to the very end — forest, canyon, cave, PR bridge, castle, dungeon — and at the end is the final boss of the AI-native Citadel. Take down the six anti-patterns one by one."' },
+    sign_north:{ text:'↑ North: Forest → Canyon → Cave → PR Bridge → Castle → Dungeon → Citadel' },
+    sign_fork1:{ text:'⑂ Fork: straight = safe │ lower-right → chest (minion-guarded)' },
+    sign_ghost:{ text:'⚠️ Vague-Issue Ghost · the six-part Spec decides the fight' },
+    npc_canyon:{ title:'🧓 Canyon Veteran', body:'"It draws power from every section you left unclear. Run through the six parts in your head before you go up."' },
+    sign_fire: { text:'⚠️ No-Sandbox Fiend · sandboxes need real data scale; plan to throw the first version away' },
+    sign_fork2:{ text:'⑂ Left → chest (minion-guarded)' },
+    sign_clock:{ text:'⚠️ Deadline Phantom · replace time promises with "decision-point completion"' },
+    sign_scan: { text:'⚠️ SCAN Beast (the AI Review dimension)' },
+    sign_dragon:{ text:'⚠️ Blame-Shifting Dragon · sign-off = owning the system-level consequences' },
+    npc_arch:  { title:'🏛️ Signing Architect', body:'"AI Review reads the code\'s internal consistency; I read QPS, past incidents and other system-level context. The two gates complement, not overlap — those 22 lines of SCAN code looked perfectly correct to the AI."' },
+    sign_zombie:{ text:'⚠️ Man-Month Zombie · before adding people, ask: is it framing, or throughput?' },
+    sign_fork3:{ text:'⑂ Right → chest (minion-guarded)' },
+    sign_citadel:{ text:'🗽 Finale: Silo Agent · Conceptual integrity' },
+    npc_final: { title:'🤖 Before the Finale', body:'"Seven agents write to main in parallel and no one can state the direction in a sentence. Conceptual integrity rests on an explicit architecture owner — a PR you can\'t explain doesn\'t merge. Clear the six anti-patterns and the statue awakens."' },
+  },
+};
+function localizeWorld(){
+  if (!WORLD) return;
+  var tx = IT_TX[LANG] || IT_TX.zh;
+  var bx = BUILDING_TX[LANG] || BUILDING_TX.zh;
+  (WORLD.interactables || []).forEach(function(it){
+    if (!it.tk) return;
+    var e = tx[it.tk]; if (!e) return;
+    if (it.kind === 'sign' || it.kind === 'gate') it.text = e.text;
+    else { it.title = e.title; it.body = e.body; }
+  });
+  (WORLD.buildings || []).forEach(function(b){ if (b.tk && bx[b.tk] != null) b.label = bx[b.tk]; });
+}
+
 // ── 全程手工关卡：村→森林→峡谷→洞穴→PR桥→城堡→地牢→城塞（竖向，自下而上）──
 function buildJourneyWorld(){
   const W=WORLD_W, H=WORLD_H;
@@ -681,7 +1062,7 @@ function buildJourneyWorld(){
   for(let x=9;x<=31;x++) if(ground[45][x]!==1){ obst[45][x]='water'; walls[45][x]=true; ground[45][x]=0; }
 
   // 5) 建筑（村庄可进）
-  const buildings=[ {type:'hq',x:12,y:85,w:4,h:3,label:'GitHire 总部'}, {type:'lib',x:24,y:85,w:4,h:3,label:'文档馆'} ];
+  const buildings=[ {type:'hq',tk:'hq',x:12,y:85,w:4,h:3}, {type:'lib',tk:'lib',x:24,y:85,w:4,h:3} ];
   buildings.forEach(b=>{ for(let y=b.y;y<b.y+b.h;y++)for(let x=b.x;x<b.x+b.w;x++) if(inb(x,y)){ walls[y][x]=true; obst[y][x]=null; ground[y][x]=0; } });
 
   // 6) 装饰
@@ -698,31 +1079,32 @@ function buildJourneyWorld(){
   // 8) 交互物（告示牌 / NPC / 可进门 / 宝箱）
   const mk=(x,y,kind,o)=>Object.assign({x,y,kind},o||{});
   const interactables=[
-    mk(13,88,'door',{title:'🏛️ GitHire 总部',body:'架构师抬头看你：「欢迎，新来的。这里只有一条规矩——<b>人思考，AI 执行，人验收</b>。你定方向，AI 干活，你判断结果。」'}),
-    mk(25,88,'door',{title:'📚 文档馆',body:'管理员递来一页纸：「一切从一条写清的 Issue 开始。六段式 Spec：目标 / 约束 / 非目标 / 验证标准 / 架构说明 / 已有上下文。」'}),
-    mk(18,90,'npc',{npcColor:'#3a6ea5',title:'🧑‍🏫 引路架构师',body:'「往北一路走到底——森林、峡谷、洞穴、PR 桥、城堡、地牢，尽头是 AI 原生城塞的终局 Boss。六个反模式逐个打过去。」'}),
-    mk(22,85,'sign',{text:'↑ 北：森林 → 峡谷 → 洞穴 → PR桥 → 城堡 → 地牢 → 城塞'}),
-    mk(25,76,'sign',{text:'⑂ 岔路：直走 安全 │ 右下 → 宝箱（杂兵把守）'}),
-    mk(23,61,'sign',{text:'⚠️ 模糊 Issue 幽灵 · 六段式 Spec 定胜负'}),
-    mk(17,63,'npc',{npcColor:'#6c3483',title:'🧓 峡谷老兵',body:'「它从你没写清的每一段里汲取力量。上之前先把六段式在心里过一遍。」'}),
-    mk(23,53,'sign',{text:'⚠️ 无沙盒妖 · 沙盒要真实数据量级，第一版准备好扔掉'}),
-    mk(16,56,'sign',{text:'⑂ 左 → 宝箱（杂兵把守）'}),
-    mk(23,41,'sign',{text:'⚠️ Deadline 幻影 · 用「决策点完成度」替代时间承诺'}),
-    mk(19,29,'sign',{text:'⚠️ SCAN 兽（AI Review 维度）'}),
-    mk(27,25,'sign',{text:'⚠️ 甩锅龙 · 签字 = 认领系统侧后果'}),
-    mk(21,27,'npc',{npcColor:'#1a5276',title:'🏛️ 签字架构师',body:'「AI Review 看代码内部一致性；我看 QPS、历史事故这些系统侧上下文。两道关互补不重叠——SCAN 兽那 22 行代码，AI 看来完全正确。」'}),
-    mk(23,17,'sign',{text:'⚠️ 人月怪 · 加人前先问：是 framing 不够，还是吞吐不够'}),
-    mk(24,14,'sign',{text:'⑂ 右 → 宝箱（杂兵把守）'}),
-    mk(23,4,'sign',{text:'🗽 终局：孤岛 Agent · 概念完整性'}),
-    mk(17,6,'npc',{npcColor:'#4a235a',title:'🤖 终局之前',body:'「七个 agent 并发写主干，没人能一句话说清方向。概念完整性靠显式架构 owner——讲不清动机的 PR 不 merge。清完六个反模式，雕像才会苏醒。」'}),
-    mk(30,82,'chest',{pts:120,item:{key:'revive_forest', name:'Prompt 回滚卷轴', emoji:'📜', zone:'Prompt 森林'}}),
-    mk(11,53,'chest',{pts:120,item:{key:'revive_cave',   name:'沙盒快照',        emoji:'💾', zone:'编码洞穴'}}),
-    mk(28,12,'chest',{pts:160,item:{key:'revive_dungeon',name:'生产 Rollback 符', emoji:'🔄', zone:'生产地牢'}}),
+    mk(13,88,'door',{tk:'door_hq'}),
+    mk(25,88,'door',{tk:'door_lib'}),
+    mk(18,90,'npc',{npcColor:'#3a6ea5',tk:'npc_guide'}),
+    mk(22,85,'sign',{tk:'sign_north'}),
+    mk(25,76,'sign',{tk:'sign_fork1'}),
+    mk(23,61,'sign',{tk:'sign_ghost'}),
+    mk(17,63,'npc',{npcColor:'#6c3483',tk:'npc_canyon'}),
+    mk(23,53,'sign',{tk:'sign_fire'}),
+    mk(16,56,'sign',{tk:'sign_fork2'}),
+    mk(23,41,'sign',{tk:'sign_clock'}),
+    mk(19,29,'sign',{tk:'sign_scan'}),
+    mk(27,25,'sign',{tk:'sign_dragon'}),
+    mk(21,27,'npc',{npcColor:'#1a5276',tk:'npc_arch'}),
+    mk(23,17,'sign',{tk:'sign_zombie'}),
+    mk(24,14,'sign',{tk:'sign_fork3'}),
+    mk(23,4,'sign',{tk:'sign_citadel'}),
+    mk(17,6,'npc',{npcColor:'#4a235a',tk:'npc_final'}),
+    mk(30,82,'chest',{pts:120,item:{key:'revive_forest'}}),
+    mk(11,53,'chest',{pts:120,item:{key:'revive_cave'}}),
+    mk(28,12,'chest',{pts:160,item:{key:'revive_dungeon'}}),
   ];
   interactables.forEach(o=>{ obst[o.y][o.x]=null; if(o.kind==='sign'||o.kind==='npc'||o.kind==='gate'){ walls[o.y][o.x]=true; } else { walls[o.y][o.x]=false; if(ground[o.y][o.x]===0 && o.kind==='chest') ground[o.y][o.x]=1; } });
 
   STATUE.x=20; STATUE.y=5; SPAWN.x=20; SPAWN.y=94;
   WORLD={ w:W, h:H, ground, biome, obst, walls, decor, buildings, monsters, interactables };
+  localizeWorld();
 }
 function interactableAt(x,y){ if(!WORLD||!WORLD.interactables) return null; for(const it of WORLD.interactables){ if(it.x===x&&it.y===y) return it; } return null; }
 
@@ -793,10 +1175,10 @@ function allCleared(){ return aliveMonsters().length === 0; }
 // ================================================================
 // 道具 / 背包：复活道具（按宝箱所在地图命名，功能统一 = HP 归零满血复活一次）
 // ================================================================
-function addItem(it){
-  const ex = G.inventory.find(x => x.key === it.key);
+function addItem(key){
+  const ex = G.inventory.find(x => x.key === key);
   if (ex){ ex.count++; }
-  else G.inventory.push({ key:it.key, name:it.name, emoji:it.emoji, zone:it.zone, type:'revive', count:1, equipped:false });
+  else G.inventory.push({ key:key, type:'revive', count:1, equipped:false });
 }
 function toggleEquip(key){
   const it = G.inventory.find(x => x.key === key); if (!it) return;
@@ -813,14 +1195,14 @@ function promptRevive(){
   d.className = 'revive-overlay';
   d.innerHTML = `
     <div class="revive-box">
-      <p class="revive-title">💀 HP 归零 · 生产即将 503</p>
-      <p class="revive-sub">你装备了复活道具——选一个消耗并满血复活，或接受 Game Over。</p>
+      <p class="revive-title">${t('rv.title')}</p>
+      <p class="revive-sub">${t('rv.sub')}</p>
       <div class="revive-opts">
-        ${opts.map(it => `<button class="revive-pick" data-k="${it.key}">
-          <span class="rk-name">${it.emoji} ${it.name}</span>
-          <small>${it.zone} · 剩 ×${it.count}</small></button>`).join('')}
+        ${opts.map(it => { const tx = itemText(it.key); return `<button class="revive-pick" data-k="${it.key}">
+          <span class="rk-name">${tx.emoji} ${tx.name}</span>
+          <small>${t('rv.left',{zone:tx.zone,n:it.count})}</small></button>`; }).join('')}
       </div>
-      <button class="revive-decline" id="revive-no">💀 不复活，接受 Game Over</button>
+      <button class="revive-decline" id="revive-no">${t('rv.decline')}</button>
     </div>`;
   d.querySelectorAll('.revive-pick').forEach(b => b.onclick = () => consumeRevive(b.dataset.k));
   const no = document.getElementById('revive-no'); if (no) no.onclick = () => declineRevive();
@@ -830,7 +1212,7 @@ function consumeRevive(key){
   const it = G.inventory.find(x => x.key === key && x.count > 0);
   if (!it){ closeReviveModal(); declineRevive(); return; }
   it.count--; if (it.count <= 0) it.equipped = false;
-  G.hp = MAX_HP; G.revivedBy = it.name; G.reviveLog.push(it.name);
+  G.hp = MAX_HP; G.revivedBy = it.key; G.reviveLog.push(it.key);
   closeReviveModal(); renderBackpack(); render();   // 回到战斗，满血继续本题
 }
 function declineRevive(){ closeReviveModal(); G.screen = 'gameover'; render(); }
@@ -860,20 +1242,13 @@ function render(){
 function titleHTML(){
   const emojis = MONSTERS.filter(m => m.tier!=='mob').map(m => '<button class="mon-pick" data-codex="'+m.id+'" title="'+m.name+'">'+spriteCanvasHTML(m.id, 56)+'</button>').join('');
   return `<div class="screen-center">
-    <p class="title-eyebrow">GitHire · 知识冒险</p>
+    <p class="title-eyebrow">${t('title.eyebrow')}</p>
     <h1 class="title-logo">Hire<em>RPG</em></h1>
-    <p class="title-tagline">从新手村一路向北，穿过 8 个区域，迎战七种 HireRPG 怪兽（AI-native 工作中常见的低效模式）</p>
+    <p class="title-tagline">${t('title.tagline')}</p>
     <div class="monster-row">${emojis}</div>
-    <p class="title-desc">
-      用 <span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span>
-      或 <span class="kbd">↑</span><span class="kbd">↓</span><span class="kbd">←</span><span class="kbd">→</span> 移动，撞向告示牌 / NPC / 门即触发。<br/>
-      新手村 → 森林 → 峡谷 → 洞穴 → PR 桥 → 城堡 → 地牢 → 城塞，<br/>
-      一路沿主路向北，走到怪物身上迎战；支线杂兵把守宝箱——打通后开箱得「复活道具」，<br/>
-      在右上角 🎒 背包里装备，HP 归零能满血复活一次。<br/>
-      清除六种 HireRPG 怪兽，城塞中央的雕像将苏醒为终局 Boss。
-    </p>
-    <button class="g-btn solid" id="btn-start" style="font-size:1.05rem;padding:.9rem 2.5rem;">进入世界 →</button>
-    <p class="title-hint">右上角有小地图 · 手机端可用屏幕方向键 · 约 8 分钟</p>
+    <p class="title-desc">${t('title.desc')}</p>
+    <button class="g-btn solid" id="btn-start" style="font-size:1.05rem;padding:.9rem 2.5rem;">${t('title.start')}</button>
+    <p class="title-hint">${t('title.hint')}</p>
   </div>`;
 }
 function startGame(){ G = freshState(); buildWorld(); resetPlayer(); G.screen = 'map'; render(); }
@@ -897,8 +1272,8 @@ function hudHTML(){
     <div class="hud-track"><div class="hud-fill" style="width:${pct}%;background:${hpColor(G.hp)}"></div></div>
     <span class="hud-val">${G.hp} / ${MAX_HP}</span>
     <span class="hud-prog" id="hud-region">📍 ${currentRegionName()}</span>
-    <span class="hud-prog">已清除 ${cleared} / ${total}</span>
-    <span class="hud-chip">✦ ${G.score} 分</span>
+    <span class="hud-prog">${t('hud.cleared',{n:cleared,total:total})}</span>
+    <span class="hud-chip">${t('hud.score',{n:G.score})}</span>
   </div>`;
 }
 
@@ -906,17 +1281,17 @@ function mapHTML(){
   return `<div class="map-screen">
     ${hudHTML()}
     <div class="map-stage">
-      <canvas id="map" width="${VIEW_PXW}" height="${VIEW_PXH}" aria-label="GitHire 箱庭世界"></canvas>
+      <canvas id="map" width="${VIEW_PXW}" height="${VIEW_PXH}" aria-label="${t('map.world_aria')}"></canvas>
       <div class="map-banner" id="banner" style="opacity:0"></div>
     </div>
     <div class="map-foot">
-      <p class="map-tip">🧑‍💻 你是架构师。<br/><span class="kbd">WASD</span> / 方向键移动，从新手村沿主路一路向北，过峡谷、洞穴、PR 桥，直抵 AI 原生城塞。走到怪物身上迎战。</p>
-      <div class="dpad" aria-label="方向键">
-        <button class="dp-up"    data-dx="0"  data-dy="-1" aria-label="上">▲</button>
-        <button class="dp-left"  data-dx="-1" data-dy="0"  aria-label="左">◀</button>
+      <p class="map-tip">${t('map.tip')}</p>
+      <div class="dpad" aria-label="${t('map.dpad_aria')}">
+        <button class="dp-up"    data-dx="0"  data-dy="-1" aria-label="${t('dir.up')}">▲</button>
+        <button class="dp-left"  data-dx="-1" data-dy="0"  aria-label="${t('dir.left')}">◀</button>
         <button class="dp-mid" disabled>＋</button>
-        <button class="dp-right" data-dx="1"  data-dy="0"  aria-label="右">▶</button>
-        <button class="dp-down"  data-dx="0"  data-dy="1"  aria-label="下">▼</button>
+        <button class="dp-right" data-dx="1"  data-dy="0"  aria-label="${t('dir.right')}">▶</button>
+        <button class="dp-down"  data-dx="0"  data-dy="1"  aria-label="${t('dir.down')}">▼</button>
       </div>
     </div>
   </div>`;
@@ -953,10 +1328,10 @@ function tryStep(dx,dy){
 
   // 中央雕像 = 隐藏 Boss
   if (isStatue(nx,ny)){
-    if (G.defeated['robot']) { showBanner('🗿 雕像已被净化'); return; }
+    if (G.defeated['robot']) { showBanner(t('banner.statue_done')); return; }
     if (statueAwake()) { startBattle('robot'); return; }
     const left = MONSTERS.filter(m=>m.id!=='robot' && !G.defeated[m.id]).length;
-    showBanner(`🗿 雕像沉睡中 · 先清除外围 ${left} 个反模式`);
+    showBanner(t('banner.statue_sleep',{n:left}));
     return;
   }
 
@@ -972,15 +1347,15 @@ function tryStep(dx,dy){
     if (it.kind==='chest'){
       if (!it.got){
         it.got=true; G.score += it.pts||0;
-        if (it.item){ addItem(it.item); showBanner(`🎁 开出「${it.item.emoji} ${it.item.name}」（+${it.pts||0} 分）· 到右上角 🎒 背包装备它，HP 归零可满血复活`); renderBackpack(); }
-        else showBanner(it.reward||'🎁 宝箱！');
-      } else showBanner('（空箱子）');
+        if (it.item){ const tx=itemText(it.item.key); addItem(it.item.key); showBanner(t('banner.chest_item',{emoji:tx.emoji,name:tx.name,pts:it.pts||0})); renderBackpack(); }
+        else showBanner(it.reward||t('banner.chest'));
+      } else showBanner(t('banner.empty_chest'));
       return;
     }
   }
 
   // 墙
-  if (WORLD.walls[ny][nx]) { showBanner('🧱 走不过去'); return; }
+  if (WORLD.walls[ny][nx]) { showBanner(t('banner.wall')); return; }
 
   // 正常移动
   p.x = nx; p.y = ny; p.tx = nx; p.ty = ny; p.moving = true; p.t0 = performance.now();
@@ -1006,7 +1381,7 @@ function showDialog(title, body){
   d.innerHTML = `<div style="max-width:520px;width:100%;background:#1b2130;color:#e9ecf3;border:2px solid #3a4458;border-radius:10px;padding:13px 16px;box-shadow:0 10px 34px rgba(0,0,0,.55)">
     <div style="font-weight:700;margin-bottom:6px;font-size:.95rem">${title||''}</div>
     <div style="font-size:.86rem;line-height:1.75;color:#cfd6e4">${body||''}</div>
-    <div style="margin-top:9px;font-size:.7rem;color:#7e8aa0">按 Enter / 点击 继续 ▸</div>
+    <div style="margin-top:9px;font-size:.7rem;color:#7e8aa0">${t('dialog.continue')}</div>
   </div>`;
   d.onclick = closeDialog;
 }
@@ -1665,15 +2040,27 @@ function paintDomSprites(){
   (document.head||document.documentElement).appendChild(s);
 })();
 // 图鉴扩展文案：每只怪兽"提醒你什么问题" + 可选额外链接。文案与链接均可随时编辑、增补。
-const CODEX_EXTRA = {
-  ghost:  { reminds:'写 Issue 时先把【目标 / 约束 / 非目标 / 验证标准】写全——每一处空白，都是 AI 自由发挥的入口。', links:[] },
-  fire:   { reminds:'别"先上线看看"。先在具备真实依赖、生产量级数据的沙盒里验证，再谈合入主干。', links:[] },
-  scan:   { reminds:'AI review 说"逻辑正确"不等于系统安全。凡涉及数据规模 / QPS 的代码，必须带系统侧上下文复核。', links:[] },
-  dragon: { reminds:'"AI 评过了"不是签字。合入主干的代码，必须有一位架构师认领系统侧后果。', links:[] },
-  zombie: { reminds:'延期先别急着加人。先问：是 framing 不够，还是吞吐不够？（布鲁克斯定律）', links:[] },
-  clock:  { reminds:'用可观测的决策点完成度替代主观时间承诺——deadline 滑掉，多半败在 framing 与 review，而非 coding。', links:[] },
-  robot:  { reminds:'多 agent 并发也要守住概念完整性：讲不清动机与取舍的 PR，不 merge。', links:[{ label:'GitHire 方法：人思考 · AI 执行 · 人验收', url:'./index.html' }] },
+const CODEX_TX = {
+  zh: {
+    ghost:  { reminds:'写 Issue 时先把【目标 / 约束 / 非目标 / 验证标准】写全——每一处空白，都是 AI 自由发挥的入口。', links:[] },
+    fire:   { reminds:'别"先上线看看"。先在具备真实依赖、生产量级数据的沙盒里验证，再谈合入主干。', links:[] },
+    scan:   { reminds:'AI review 说"逻辑正确"不等于系统安全。凡涉及数据规模 / QPS 的代码，必须带系统侧上下文复核。', links:[] },
+    dragon: { reminds:'"AI 评过了"不是签字。合入主干的代码，必须有一位架构师认领系统侧后果。', links:[] },
+    zombie: { reminds:'延期先别急着加人。先问：是 framing 不够，还是吞吐不够？（布鲁克斯定律）', links:[] },
+    clock:  { reminds:'用可观测的决策点完成度替代主观时间承诺——deadline 滑掉，多半败在 framing 与 review，而非 coding。', links:[] },
+    robot:  { reminds:'多 agent 并发也要守住概念完整性：讲不清动机与取舍的 PR，不 merge。', links:[{ label:'GitHire 方法：人思考 · AI 执行 · 人验收', url:'./index.html' }] },
+  },
+  en: {
+    ghost:  { reminds:'When writing an Issue, fill in [Goal / Constraints / Non-goals / Verification] first — every blank is room for the AI to improvise.', links:[] },
+    fire:   { reminds:'Don\'t "just ship it and see." Validate first in a sandbox with real dependencies and production-scale data, then talk about merging to main.', links:[] },
+    scan:   { reminds:'"Logically correct" from AI review doesn\'t mean system-safe. Any code touching data scale / QPS must be re-checked with system-level context.', links:[] },
+    dragon: { reminds:'"The AI reviewed it" is not a sign-off. Code merged to main must have an architect who owns the system-level consequences.', links:[] },
+    zombie: { reminds:'Don\'t rush to add people on a delay. Ask first: is it framing, or throughput? (Brooks\'s Law)', links:[] },
+    clock:  { reminds:'Replace subjective time promises with observable decision-point completion — deadlines slip mostly on framing and review, not coding.', links:[] },
+    robot:  { reminds:'Even with many agents in parallel, hold conceptual integrity: a PR you can\'t explain — its motivation and trade-offs — doesn\'t merge.', links:[{ label:'The GitHire method: humans think · AI executes · humans verify', url:'./index.html' }] },
+  },
 };
+function codexExtra(id){ return (CODEX_TX[LANG] || CODEX_TX.zh)[id] || {}; }
 function codexMonsters(){ return MONSTERS.filter(function(m){ return m.tier!=='mob'; }); }
 function codexUnlocked(id){ return !!(typeof G!=='undefined' && G.defeated && G.defeated[id]); }
 function hudWrap(){
@@ -1696,13 +2083,13 @@ function renderCodex(){
   var unlocked = ms.filter(function(m){ return codexUnlocked(m.id); }).length;
   var slots = ms.map(function(m){
     var ok = codexUnlocked(m.id);
-    return '<div class="cx-slot '+(ok?'':'locked')+'" data-codex="'+m.id+'" title="'+(ok?m.name:'未解锁')+'">'
+    return '<div class="cx-slot '+(ok?'':'locked')+'" data-codex="'+m.id+'" title="'+(ok?m.name:t('cx.locked'))+'">'
       + spriteCanvasHTML(m.id, 38)
       + (ok?'':'<span class="cx-q">?</span>')
-      + '<span class="cx-nm">'+(ok?m.name:'？？？')+'</span></div>';
+      + '<span class="cx-nm">'+(ok?m.name:t('cx.unknown'))+'</span></div>';
   }).join('');
   cx.innerHTML =
-    '<div class="cx-head" id="cx-head">📖 图鉴 <span class="cx-count">'+unlocked+'/'+ms.length+'</span>'
+    '<div class="cx-head" id="cx-head">'+t('cx.head')+' <span class="cx-count">'+unlocked+'/'+ms.length+'</span>'
     + '<span class="cx-arrow">'+(G.cxOpen?'▾':'▸')+'</span></div>'
     + (G.cxOpen?('<div class="cx-body">'+slots+'</div>'):'');
   var head = document.getElementById('cx-head');
@@ -1713,35 +2100,35 @@ function renderCodex(){
 function openCodex(id, preview){
   var m = codexMonsters().find(function(x){ return x.id===id; }); if(!m) return;
   var ok = preview || codexUnlocked(id);
-  var ex = (typeof CODEX_EXTRA!=='undefined' && CODEX_EXTRA[id]) || {};
+  var ex = codexExtra(id);
   closeCodex();
   var ov = document.createElement('div'); ov.className='cx-ov'; ov.id='cx-ov';
   var links = [];
-  if (m.learnHref) links.push({ label:(m.learnText||'了解更多'), url:m.learnHref });
+  if (m.learnHref) links.push({ label:(m.learnText||t('cx.learn_more')), url:m.learnHref });
   if (ex.links) links = links.concat(ex.links);
   var linksHTML = (ok && links.length)
-    ? '<div class="cx-sec"><h3>扩展阅读</h3><div class="cx-links">'
+    ? '<div class="cx-sec"><h3>'+t('cx.read')+'</h3><div class="cx-links">'
       + links.map(function(l){ return '<a href="'+l.url+'" target="_blank" rel="noopener">'+l.label+' ↗</a>'; }).join('')
       + '</div></div>'
     : '';
   if (ok){
     ov.innerHTML =
       '<div class="cx-card" style="--mc:'+m.color+'">'
-      + '<button class="cx-x" id="cx-x" aria-label="关闭">×</button>'
+      + '<button class="cx-x" id="cx-x" aria-label="'+t('cx.close')+'">×</button>'
       + '<div class="cx-hero">'+spriteCanvasHTML(m.id, 84)
       + '<div class="cx-htxt"><h2>'+(m.emoji||'')+' '+m.name+'</h2>'
       + '<span class="cx-zone">📍 '+(m.zone||'')+'</span></div></div>'
-      + '<div class="cx-sec"><h3>简介</h3><p>'+(m.flavor||'')+'</p></div>'
-      + (ex.reminds?('<div class="cx-sec"><h3>它提醒你什么</h3><p>'+ex.reminds+'</p></div>'):'')
+      + '<div class="cx-sec"><h3>'+t('cx.intro')+'</h3><p>'+(m.flavor||'')+'</p></div>'
+      + (ex.reminds?('<div class="cx-sec"><h3>'+t('cx.reminds')+'</h3><p>'+ex.reminds+'</p></div>'):'')
       + linksHTML
       + '</div>';
   } else {
     ov.innerHTML =
       '<div class="cx-card" style="--mc:#6a6f55">'
-      + '<button class="cx-x" id="cx-x" aria-label="关闭">×</button>'
+      + '<button class="cx-x" id="cx-x" aria-label="'+t('cx.close')+'">×</button>'
       + '<div class="cx-hero locked">'+spriteCanvasHTML(m.id, 84)
-      + '<div class="cx-htxt"><h2>？？？</h2><span class="cx-zone">未解锁</span></div></div>'
-      + '<p class="cx-locked-note">这只怪兽还藏在地图深处。<br/>在冒险中击败它，即可解锁完整图鉴。</p>'
+      + '<div class="cx-htxt"><h2>'+t('cx.unknown')+'</h2><span class="cx-zone">'+t('cx.locked')+'</span></div></div>'
+      + '<p class="cx-locked-note">'+t('cx.locked_note')+'</p>'
       + '</div>';
   }
   document.body.appendChild(ov);
@@ -1763,23 +2150,23 @@ function renderBackpack(){
   const totalCount = items.reduce((s,x)=>s+x.count, 0);
   const equipCount = equippedReviveCount();
   const list = items.length
-    ? items.map(it => `
+    ? items.map(it => { const tx = itemText(it.key); return `
         <div class="bp-item ${it.equipped?'on':''}">
-          <span class="bp-emoji">${it.emoji}</span>
-          <span class="bp-info"><b>${it.name}</b><small>${it.zone} · ×${it.count}</small></span>
+          <span class="bp-emoji">${tx.emoji}</span>
+          <span class="bp-info"><b>${tx.name}</b><small>${t('item.count',{zone:tx.zone,n:it.count})}</small></span>
           ${it.count>0
-            ? `<button class="bp-eq" data-eq="${it.key}">${it.equipped?'已装备 ✓':'装备'}</button>`
-            : `<button class="bp-eq" disabled style="opacity:.45">已用尽</button>`}
-        </div>`).join('')
-    : `<p class="bp-empty">背包空空。打通杂兵把守的支线，开宝箱可得「复活道具」。</p>`;
+            ? `<button class="bp-eq" data-eq="${it.key}">${it.equipped?t('bp.equipped'):t('bp.equip')}</button>`
+            : `<button class="bp-eq" disabled style="opacity:.45">${t('bp.used_up')}</button>`}
+        </div>`; }).join('')
+    : `<p class="bp-empty">${t('bp.empty')}</p>`;
   bp.innerHTML = `
     <button class="bp-head" id="bp-head" aria-expanded="${G.bpOpen}">
-      🎒 背包 <span class="bp-count">${totalCount}</span>
-      ${equipCount>0 ? `<span class="bp-revive">🔄 复活×${equipCount}</span>` : ''}
+      ${t('bp.head')} <span class="bp-count">${totalCount}</span>
+      ${equipCount>0 ? `<span class="bp-revive">${t('bp.revive_n',{n:equipCount})}</span>` : ''}
       <span class="bp-arrow">${G.bpOpen?'▾':'▸'}</span>
     </button>
     <div class="bp-body" style="display:${G.bpOpen?'block':'none'}">
-      <p class="bp-tip">装备「复活道具」后，HP 归零时消耗一个 → 满血复活，继续战斗。</p>
+      <p class="bp-tip">${t('bp.tip')}</p>
       ${list}
     </div>`;
   const head = document.getElementById('bp-head');
@@ -1839,13 +2226,13 @@ function battleHTML(){
       <span class="lbl">${labels[pos]}</span>${opt}</button>`;
   }).join('');
 
-  let logMsg = '▶ 选择你的答案...';
+  let logMsg = t('battle.choose');
   if (revealed){
     logMsg = G.ok
-      ? `✦ 命中！架构师的判断斩退了这只怪兽！（+${PTS_Q} 分）`
-      : `✘ 错误！${m.name}发动攻击，你失去了 ${PENALTY} HP。`;
-    if (!G.ok && G.revivedBy) logMsg += ` 🔄「${G.revivedBy}」触发——满血复活，生产已回滚！`;
-    else if (!G.ok && G.hp<=0) logMsg += ' HP 归零，生产 503...';
+      ? t('battle.hit',{pts:PTS_Q})
+      : t('battle.miss',{name:m.name,pen:PENALTY});
+    if (!G.ok && G.revivedBy) logMsg += t('battle.revive',{name:itemText(G.revivedBy).name});
+    else if (!G.ok && G.hp<=0) logMsg += t('battle.down');
   }
 
   const expColor = G.ok ? '#2d7d46' : '#c0392b';
@@ -1858,19 +2245,19 @@ function battleHTML(){
         <div class="mc-meta">
           <h2 class="mc-name" style="color:${m.color}">${m.name}</h2>
           <span class="mc-zone" style="background:${m.color}">${m.zone}</span>
-          <div class="mc-pips">${pins}<span class="mc-pips-label">怪物 HP</span></div>
+          <div class="mc-pips">${pins}<span class="mc-pips-label">${t('battle.monster_hp')}</span></div>
         </div>
       </div>
       <div class="mc-flavor">${m.flavor}</div>
     </div>
     <div class="q-card" id="qc">
-      <p class="q-meta">问题 ${G.qi+1} / ${totalQ}</p>
+      <p class="q-meta">${t('battle.qmeta',{n:G.qi+1,total:totalQ})}</p>
       <p class="q-text">${qq.q}</p>
       <div class="answers">${answers}</div>
     </div>
     <div class="battle-log">${logMsg}</div>
     ${revealed ? `<p class="exp-line" style="color:${expColor}">💡 ${qq.exp}</p>` : ''}
-    ${revealed && G.hp>0 ? `<button class="btn-continue" id="btn-next-q">继续 →</button>` : ''}
+    ${revealed && G.hp>0 ? `<button class="btn-continue" id="btn-next-q">${t('battle.continue')}</button>` : ''}
   </div>`;
 }
 
@@ -1881,7 +2268,7 @@ function battleEndHTML(){
   const earned = correct*PTS_Q + (perfect?PTS_PERF:0);
   const rPips = G.results.map(r => `<div class="rp ${r?'ok':'bad'}"></div>`).join('');
   const badge = perfect ? '🏆' : correct>=2 ? '⚔️' : '🩹';
-  const title = perfect ? '完美击败！' : correct>=2 ? '击退成功' : '险胜...';
+  const title = perfect ? t('end.perfect') : correct>=2 ? t('end.win') : t('end.narrow');
 
   return `<div class="battle" style="--mc:${m.color}">
     ${playerBarHTML()}
@@ -1889,14 +2276,14 @@ function battleEndHTML(){
       <span class="end-badge">${badge}</span>
       <h2 class="end-title">${title}</h2>
       <p class="end-subtitle">${perfect
-        ? `全部答对！获得 ${earned} 分（含完美奖励 +${PTS_PERF}）`
-        : `答对 ${correct} / ${qs().length}，获得 ${earned} 分`}</p>
+        ? t('end.sub_perfect',{earned:earned,bonus:PTS_PERF})
+        : t('end.sub_normal',{correct:correct,total:qs().length,earned:earned})}</p>
       <div class="end-pips">${rPips}</div>
-      ${perfect ? `<p class="bonus-note">🌿 完美！HP 恢复 ${PERFECT_HP} 点。</p>` : ''}
+      ${perfect ? `<p class="bonus-note">${t('end.bonus',{hp:PERFECT_HP})}</p>` : ''}
       <a class="end-learn" href="${m.learnHref}" target="_blank">${m.learnText} →</a>
       <button class="btn-continue" id="btn-back-map">${allCleared()
-        ? '反模式已全部清除，返回地图前往终点 →'
-        : '返回地图 →'}</button>
+        ? t('end.back_final')
+        : t('end.back_map')}</button>
     </div>
   </div>`;
 }
@@ -1953,7 +2340,7 @@ function backToMap(){
   // 击败中央雕像 Boss（孤岛 Agent）即通关
   if (G.defeated['robot']){ G.screen = 'victory'; render(); return; }
   G.screen = 'map';
-  if (statueAwake()) showBanner('🗿 六种反模式已清除！AI 原生城塞的雕像苏醒了——前往城塞迎战终局 Boss');
+  if (statueAwake()) showBanner(t('banner.statue_awake'));
   render();
 }
 
@@ -1963,13 +2350,13 @@ function backToMap(){
 function gameoverHTML(){
   return `<div class="screen-center">
     <span class="final-icon">💀</span>
-    <h1 class="final-title">503 — 生产已倒下</h1>
-    <p class="final-sub" style="color:#c0392b">HP 归零，AI-native 工程师不合格</p>
-    <p class="final-score">本局得分：${G.score} 分</p>
-    <p class="final-body">没关系——GitHire 的六步 workflow 就是为了让真实事故不再发生。回去读一读，再来挑战。</p>
+    <h1 class="final-title">${t('over.title')}</h1>
+    <p class="final-sub" style="color:#c0392b">${t('over.sub')}</p>
+    <p class="final-score">${t('over.score',{n:G.score})}</p>
+    <p class="final-body">${t('over.body')}</p>
     <div class="btn-row">
-      <button class="g-btn solid" id="btn-retry">重新挑战</button>
-      <a class="g-btn ghost" href="./index.html">返回 GitHire</a>
+      <button class="g-btn solid" id="btn-retry">${t('over.retry')}</button>
+      <a class="g-btn ghost" href="./index.html">${t('common.back_githire')}</a>
     </div>
   </div>`;
 }
@@ -1989,47 +2376,49 @@ function victoryHTML(){
     </div>`;
   }
   const rank =
-    G.score >= 2500 ? '首席架构师 · Chief Architect' :
-    G.score >= 1800 ? '资深工程师 · Senior Engineer' :
-    G.score >= 1200 ? '合格 AI-native 工程师' :
-                      '见习工程师 · Junior Engineer';
+    G.score >= 2500 ? t('win.rank_chief') :
+    G.score >= 1800 ? t('win.rank_senior') :
+    G.score >= 1200 ? t('win.rank_qualified') :
+                      t('win.rank_junior');
   const rankShort = rank.split('·')[0].trim();
-  const shareText = `我在 HireRPG 击败 7 种 AI-native 工作中常见的低效怪兽，得分 ${G.score}，头衔：${rankShort}。\n\n这不是普通小游戏，而是 GitHire 核心方法论的训练入口：人思考，AI 执行，人验收。\n\n→ https://realroc.github.io/git-hired/game.html`;
+  const sep = LANG==='zh' ? '、' : ', ';
+  const shareText = t('win.share_text',{score:G.score, rank:rankShort});
   window.__SHARE__ = shareText;
 
   // 通关道具 Dashboard
   const items = G.inventory;
   const dashItems = items.length
-    ? items.map(it => `<div class="dash-item"><span class="de">${it.emoji}</span><span class="dn"><b>${it.name}</b> <span class="dq">${it.zone} · ×${it.count}</span></span>${it.equipped?'<span class="don">已装备</span>':''}</div>`).join('')
-    : `<p class="dash-empty">本局未获得复活道具——下次记得打通杂兵把守的支线、开宝箱拿道具。</p>`;
-  const reviveText = G.reviveLog.length ? `${G.reviveLog.length} 次（${G.reviveLog.join('、')}）` : '0 次';
+    ? items.map(it => { const tx=itemText(it.key); return `<div class="dash-item"><span class="de">${tx.emoji}</span><span class="dn"><b>${tx.name}</b> <span class="dq">${t('item.count',{zone:tx.zone,n:it.count})}</span></span>${it.equipped?`<span class="don">${t('win.equipped')}</span>`:''}</div>`; }).join('')
+    : `<p class="dash-empty">${t('win.dash_empty')}</p>`;
+  const reviveNames = G.reviveLog.map(k=>itemText(k).name).join(sep);
+  const reviveText = G.reviveLog.length ? t('win.revive_n',{n:G.reviveLog.length, names:reviveNames}) : t('win.revive_0');
 
   // 投递简历：直接打开邮件客户端，预填得分 / 头衔 / 道具清单
-  const itemsLine = items.length ? items.map(i=>`${i.emoji}${i.name}×${i.count}`).join('、') : '无';
-  const mailBody = `我刚通关了 GitHire 的 HireRPG —— AI-native 工程方法论的训练入口。\n\n· 最终得分：${G.score} 分\n· 头衔：${rank}\n· 通关道具：${itemsLine}\n· 复活道具触发：${reviveText}\n\n我认同 GitHire 的核心方法论——人思考，AI 执行，人验收。现投递简历（请见附件），期待进一步交流。\n\n（游戏：https://realroc.github.io/git-hired/game.html）`;
-  const mailto = `mailto:wuyupeng@floatmiracle.com?subject=${encodeURIComponent('GitHire 简历投递 · '+rankShort+' · '+G.score+'分')}&body=${encodeURIComponent(mailBody)}`;
+  const itemsLine = items.length ? items.map(i=>{ const tx=itemText(i.key); return `${tx.emoji}${tx.name}×${i.count}`; }).join(sep) : t('win.items_none');
+  const mailBody = t('win.mail_body',{score:G.score, rank:rank, items:itemsLine, revive:reviveText});
+  const mailto = `mailto:wuyupeng@floatmiracle.com?subject=${encodeURIComponent(t('win.mail_subject',{rank:rankShort, score:G.score}))}&body=${encodeURIComponent(mailBody)}`;
 
   return `<div class="screen-center">
     <span class="final-icon" style="animation:bob 2s ease-in-out infinite">🚀</span>
-    <h1 class="final-title" style="color:var(--accent)">通关！抵达 Production</h1>
-    <p class="final-sub">七种 HireRPG 怪兽已全部击败</p>
-    <p class="final-score">最终得分：${G.score} 分 · 头衔：${rank}</p>
-    <p class="final-body">恭喜你走通了这张地图，也理解了 GitHire 核心方法论：<br/><strong>人思考、AI 执行、人验收。</strong></p>
+    <h1 class="final-title" style="color:var(--accent)">${t('win.title')}</h1>
+    <p class="final-sub">${t('win.sub')}</p>
+    <p class="final-score">${t('win.score',{n:G.score, rank:rank})}</p>
+    <p class="final-body">${t('win.body')}</p>
     <div class="dash">
-      <p class="dash-title">🎒 通关道具 Dashboard</p>
+      <p class="dash-title">${t('win.dash_title')}</p>
       ${dashItems}
-      <p class="dash-revive">🔄 复活道具触发：${reviveText}</p>
+      <p class="dash-revive">${t('win.dash_revive',{text:reviveText})}</p>
     </div>
     <div class="btn-row">
-      <a class="g-btn solid" href="${mailto}">📮 投递简历</a>
-      <button class="g-btn ghost" id="btn-share">复制分享文案</button>
-      <button class="g-btn ghost" id="btn-retry">再玩一次</button>
-      <a class="g-btn ghost" href="./index.html">返回 GitHire</a>
+      <a class="g-btn solid" href="${mailto}">${t('win.send_resume')}</a>
+      <button class="g-btn ghost" id="btn-share">${t('win.copy_share')}</button>
+      <button class="g-btn ghost" id="btn-retry">${t('win.replay')}</button>
+      <a class="g-btn ghost" href="./index.html">${t('common.back_githire')}</a>
     </div>
-    <p id="share-ok" class="share-ok">✓ 已复制！</p>
-    <p class="final-links">深入阅读：
-      <a href="./case-redis-scan.html">Case 01 · Redis 事故</a> ·
-      <a href="./skill.html">安装 GitHire Skill</a>
+    <p id="share-ok" class="share-ok">${t('win.share_ok')}</p>
+    <p class="final-links">${t('win.read_more')}
+      <a href="./case-redis-scan.html">${t('win.case_link')}</a> ·
+      <a href="./skill.html">${t('win.skill_link')}</a>
     </p>
   </div>`;
 }
@@ -2043,7 +2432,7 @@ function bindEnd(){
     navigator.clipboard.writeText(window.__SHARE__||'').then(()=>{
       const ok = document.getElementById('share-ok'); if (ok) ok.style.display='block';
     }).catch(()=>{
-      const ok = document.getElementById('share-ok'); if (ok){ ok.textContent='✓ 请手动复制上方文案'; ok.style.display='block'; }
+      const ok = document.getElementById('share-ok'); if (ok){ ok.textContent=t('win.share_manual'); ok.style.display='block'; }
     });
   };
 }
@@ -2051,6 +2440,9 @@ function bindEnd(){
 // ================================================================
 // 启动
 // ================================================================
+buildLocalizedData();
+document.querySelectorAll('[data-lang-btn]').forEach(function(b){ b.addEventListener('click', function(){ setLang(b.getAttribute('data-lang-btn')); }); });
+updateNav();
 render();
 </script>
 </body>
