@@ -82,6 +82,14 @@ if (stage) {
   stage.start();
 }
 
+// Hand the reveal system control of the hidden initial states — but only now,
+// once this script is actually executing. If the module never runs (no ES-module
+// support, a network/404 on the script, or a failed `three` import that aborts
+// the module before this line), `.js` is never added and the `html:not(.js)`
+// failsafe in githire.css keeps every revealed section visible. Stage init above
+// is wrapped in try/catch, so a WebGL failure still reaches this point.
+document.documentElement.classList.add('js');
+
 // ── Closer dark · reveal on enter ─────────────────────────────
 (() => {
   const closer = document.querySelector('.scene-closer');

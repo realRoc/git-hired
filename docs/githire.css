@@ -2448,12 +2448,14 @@ body.no-webgl{ background: var(--paper); }
 
 /* ── Reveal failsafe ─────────────────────────────────────────────
    Scroll-reveal sections start at opacity:0 and are revealed by
-   githire-scroll.js. The pre-paint head script adds `.js` to <html>,
-   so these hidden states only take effect when JS can run them. If JS
-   is disabled, blocked, or the script fails to load — and for any
-   renderer that doesn't execute JS (crawlers, prerenderers) — `.js` is
-   absent and every revealed section stays fully visible. Reveal is an
-   enhancement on top of an already-visible default, never a gate. */
+   githire-scroll.js. That script adds `.js` to <html> only once it is
+   actually executing (after its stage init), so these hidden states take
+   effect only when the reveal code is present to undo them. If JS is
+   disabled, ES modules are unsupported, the script 404s, or its `three`
+   import fails — and for any renderer that doesn't execute JS (crawlers,
+   prerenderers) — `.js` is never added and every revealed section stays
+   fully visible. Reveal is an enhancement on an already-visible default,
+   never a gate. */
 html:not(.js) .wf-panel .wf-counter,
 html:not(.js) .wf-panel h3,
 html:not(.js) .wf-panel .wf-body,

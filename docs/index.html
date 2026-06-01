@@ -9,10 +9,6 @@
        IP-based default is applied later by i18n.js once the page is alive. -->
   <script>
     (function(){
-      // Mark JS as available before first paint so scroll-reveal initial
-      // states only apply when JS can run them. Without this class, the
-      // failsafe block in githire.css keeps every revealed section visible.
-      document.documentElement.classList.add('js');
       try{
         var q = new URL(location.href).searchParams.get('lang');
         var stored = null;
