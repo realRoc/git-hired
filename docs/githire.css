@@ -8,6 +8,8 @@
   --ink-mute:   #8A887F;
   --line:       rgba(24,24,24,0.14);
   --accent:     #D97757;
+  --accent-ink: #B54A27;   /* darker terracotta for readable/interactive text — 4.7:1 on paper. --accent stays for fills + large decorative. */
+  --ink-label:  #67645B;   /* muted label color that still clears AA — 5.3:1 on paper. Replaces --ink-mute for kicker-sized text. */
   --navy:       #1C2348;
   --lilac:      #B7B1D9;
 
@@ -51,6 +53,18 @@ body {
 a { color: inherit; }
 img, svg { display: block; max-width: 100%; }
 button { font: inherit; }
+
+/* Visible keyboard focus for every interactive element. Specific components
+   below may layer on their own treatment, but none should remove this without
+   a replacement of at least 3:1 against its background. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
 
 .skip{
   position: absolute; top: -100px; left: 12px;
@@ -240,8 +254,7 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
 .nav-menu a:hover,
 .nav-menu a:focus-visible{
   background: rgba(24,24,24,0.06);
-  color: var(--accent);
-  outline: none;
+  color: var(--accent-ink);
 }
 
 .topnav.nav-on-dark .brand{
@@ -310,7 +323,7 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
   font-size: 13px;
   letter-spacing: 0.16em;
   text-transform: lowercase;
-  color: var(--ink-mute);
+  color: var(--ink-label);
   margin: 0 0 24px;
 }
 
@@ -385,7 +398,7 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
 .hero-title{
   font-family: var(--font-serif);
   font-weight: 500;
-  font-size: clamp(56px, 10vw, 144px);
+  font-size: clamp(56px, 9vw, 112px);
   line-height: 0.98;
   letter-spacing: -0.02em;
   margin: 18px 0 28px;
@@ -484,10 +497,6 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
   margin-bottom: 10px;
   display: flex; align-items: baseline; gap: 10px;
 }
-.pillar dt .num{
-  color: var(--accent);
-  font-weight: 500;
-}
 .pillar dd{
   margin: 0;
   font-size: 17px;
@@ -513,7 +522,7 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
   border-bottom: 1px solid var(--line);
   color: var(--ink);
 }
-.wf-panel.is-key{ color: var(--accent); }
+.wf-panel.is-key{ color: var(--accent-ink); }
 .wf-grid{
   width: 100%;
   max-width: var(--max);
@@ -541,7 +550,7 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
   color: var(--ink-mute);
   margin: 0 0 24px;
 }
-.wf-counter span{ color: var(--accent); }
+.wf-counter span{ color: var(--accent-ink); }
 .wf-panel h3{
   font-family: var(--font-serif);
   font-weight: 500;
@@ -765,7 +774,7 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
   font-style: italic;
   font-size: 13px;
   letter-spacing: 0.12em;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin: 0 0 8px;
   text-transform: uppercase;
 }
@@ -865,7 +874,7 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
   font-style: italic;
   font-size: 13px;
   letter-spacing: 0.18em;
-  color: var(--ink-mute);
+  color: var(--ink-label);
   margin: 0 0 28px;
   text-transform: uppercase;
 }
@@ -1050,8 +1059,8 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
   cursor: pointer;
   transition: color 240ms ease;
 }
-.faq-list details summary:hover{ color: var(--accent); }
-.faq-list details[open] summary{ color: var(--accent); }
+.faq-list details summary:hover{ color: var(--accent-ink); }
+.faq-list details[open] summary{ color: var(--accent-ink); }
 .faq-list details > p{
   margin: 16px 0 0;
   color: var(--ink-soft);
@@ -1079,6 +1088,9 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
   transform: translateY(20px);
   transition: opacity 1000ms cubic-bezier(.2,.7,.2,1), transform 1000ms cubic-bezier(.2,.7,.2,1);
 }
+/* On the dark closer the kicker must use the light section color, not the
+   paper-bg --ink-label, or it sinks to ~2.5:1 on near-black. */
+.scene-closer.is-dark .meta{ color: inherit; }
 .scene-closer.is-dark.is-revealed .meta      { opacity: 0.55; transform: none; transition-delay: 200ms; }
 .scene-closer.is-dark.is-revealed .closer-line{ opacity: 1; transform: none; transition-delay: 380ms; }
 .scene-closer.is-dark.is-revealed .closer-en { opacity: 0.6; transform: none; transition-delay: 700ms; }
@@ -1177,7 +1189,6 @@ main, .topnav, .site-foot { position: relative; z-index: 1; }
 .closer-link:focus-visible{
   color: var(--accent);
   border-bottom-color: var(--accent);
-  outline: none;
 }
 .scene-closer.is-dark .closer-cta{ opacity: 0; transform: translateY(10px); transition: opacity 900ms ease, transform 900ms cubic-bezier(.2,.7,.2,1); }
 .scene-closer.is-dark.is-revealed .closer-cta{ opacity: 1; transform: none; transition-delay: 900ms; }
@@ -2433,4 +2444,32 @@ body.no-webgl{ background: var(--paper); }
     grid-template-columns: 1fr;
     gap: 6px;
   }
+}
+
+/* ── Reveal failsafe ─────────────────────────────────────────────
+   Scroll-reveal sections start at opacity:0 and are revealed by
+   githire-scroll.js. That script adds `.js` to <html> only once it is
+   actually executing (after its stage init), so these hidden states take
+   effect only when the reveal code is present to undo them. If JS is
+   disabled, ES modules are unsupported, the script 404s, or its `three`
+   import fails — and for any renderer that doesn't execute JS (crawlers,
+   prerenderers) — `.js` is never added and every revealed section stays
+   fully visible. Reveal is an enhancement on an already-visible default,
+   never a gate. */
+html:not(.js) .wf-panel .wf-counter,
+html:not(.js) .wf-panel h3,
+html:not(.js) .wf-panel .wf-body,
+html:not(.js) .wf-panel .wf-en,
+html:not(.js) .wf-panel .wf-fig,
+html:not(.js) .wf-panel .wf-fig svg [fill]:not([fill="none"]),
+html:not(.js) .wf-overview .wf-overview-title,
+html:not(.js) .wf-overview .wf-flow li,
+html:not(.js) .wf-overview .wf-overview-foot,
+html:not(.js) .ritual-card .ritual-inner,
+html:not(.js) .scene-closer.is-dark .meta,
+html:not(.js) .scene-closer.is-dark .closer-line,
+html:not(.js) .scene-closer.is-dark .closer-en,
+html:not(.js) .scene-closer.is-dark .closer-cta{
+  opacity: 1 !important;
+  transform: none !important;
 }

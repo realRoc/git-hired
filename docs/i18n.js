@@ -77,11 +77,11 @@
     },
     'index.meta.description': {
       zh: "GitHire 是一套 AI-native 工程方法论:把'人思考、AI 执行、人验收'写成可复用的六步 workflow,拿真实事故 case 验证,再用 Skill 让任何 agent 装上。",
-      en: "GitHire is an AI-native engineering method that codifies 'humans think, AI executes, humans verify' into a six-step workflow — validated by real production incidents, packaged as a Skill any agent can install."
+      en: "GitHire is an AI-native engineering method that codifies 'humans think, AI executes, humans verify' into a six-step workflow, validated by real production incidents and packaged as a Skill any agent can install."
     },
     'index.og.description': {
       zh: "一套 AI-native 工程方法论:Issue → Sandbox → PR → AI Review → Architect → Production,六步把'人思考、AI 执行、人验收'落到可复用 workflow。",
-      en: "An AI-native engineering method: Issue → Sandbox → PR → AI Review → Architect → Production — six steps that turn 'humans think, AI executes, humans verify' into a reusable workflow."
+      en: "An AI-native engineering method: Issue → Sandbox → PR → AI Review → Architect → Production. Six steps that turn 'humans think, AI executes, humans verify' into a reusable workflow."
     },
     'index.og.image_alt': {
       zh: 'GitHire · 人思考、AI 执行、人验收',
@@ -98,7 +98,7 @@
     },
     'index.hero.lede': {
       zh: '一份公开的 operating log —— 六步 workflow、真实事故 case、可装 Skill。给所有想看 AI-native 团队怎么工作的人。',
-      en: 'A public operating log — six-step workflow, real incident case, installable Skill. For anyone who wants to see how an AI-native team actually works.'
+      en: 'A public operating log: six-step workflow, real incident case, installable Skill. For anyone who wants to see how an AI-native team actually works.'
     },
     'index.hero.scroll': {
       zh: 'Scroll <span>↓</span>',
@@ -111,31 +111,31 @@
     },
     'index.def.line': {
       zh: '<strong>GitHire</strong> 是一套 <em>AI-native 工程方法论</em>——把\n          <strong>"人思考、AI 执行、人验收"</strong>\n          写成可复用的六步 workflow，拿真实事故 case 验证它，再用 Skill 让任何 agent 装上。',
-      en: '<strong>GitHire</strong> is an <em>AI-native engineering method</em> — it codifies\n          <strong>"humans think, AI executes, humans verify"</strong>\n          into a reusable six-step workflow, validates it with real production incidents, and packages it as a Skill any agent can install.'
+      en: '<strong>GitHire</strong> is an <em>AI-native engineering method</em>. It codifies\n          <strong>"humans think, AI executes, humans verify"</strong>\n          into a reusable six-step workflow, validates it with real production incidents, and packages it as a Skill any agent can install.'
     },
     'index.def.p1.dt': {
-      zh: '<span class="num">01</span> Issue-first',
-      en: '<span class="num">01</span> Issue-first'
+      zh: 'Issue-first',
+      en: 'Issue-first'
     },
     'index.def.p1.dd': {
       zh: '所有任务从一个能讲明白的 Issue 起步，需求即文档。<em>需求里每一处空白，都是 AI 的自由发挥空间。</em>',
-      en: 'Every task starts from an Issue that someone can articulate — the spec is the doc. <em>Every blank in the spec is a blank check for the AI.</em>'
+      en: 'Every task starts from an Issue that someone can articulate: the spec is the doc. <em>Every blank in the spec is a blank check for the AI.</em>'
     },
     'index.def.p2.dt': {
-      zh: '<span class="num">02</span> Human-orchestrated',
-      en: '<span class="num">02</span> Human-orchestrated'
+      zh: 'Human-orchestrated',
+      en: 'Human-orchestrated'
     },
     'index.def.p2.dd': {
       zh: 'AI 在沙盒里完成实现、起 PR、互审；人保留 framing、架构方向与合并决定权。<em>AI 在执行，人在判断。</em>',
       en: 'AI builds, opens PRs, and cross-reviews in a sandbox; humans keep framing, architectural direction, and the merge call. <em>AI executes, humans decide.</em>'
     },
     'index.def.p3.dt': {
-      zh: '<span class="num">03</span> Production-bound',
-      en: '<span class="num">03</span> Production-bound'
+      zh: 'Production-bound',
+      en: 'Production-bound'
     },
     'index.def.p3.dd': {
       zh: '终点是合并进主分支的 PR，不是 demo、不是练习题。可复用的 Skill 与决策记录回写到 Issue，留作下一次的起点。',
-      en: 'The end state is a PR merged to main — not a demo, not an exercise. Reusable Skills and decisions are written back to the Issue as the starting point for the next round.'
+      en: 'The end state is a PR merged to main, not a demo, not an exercise. Reusable Skills and decisions are written back to the Issue as the starting point for the next round.'
     },
 
     /* Workflow panels */
@@ -147,7 +147,7 @@
     },
     'index.wf.s01.body': {
       zh: '用一两句话把『为谁解决什么』写清楚——能讲明白的需求，才值得进入下一步。Issue 是这次工作的起点，也会是它的归档。',
-      en: "Spell out 'whom you are solving what for' in a sentence or two — only specs you can articulate deserve to move forward. The Issue is both the kickoff and the archive of this work."
+      en: "Spell out 'whom you are solving what for' in a sentence or two; only specs you can articulate deserve to move forward. The Issue is both the kickoff and the archive of this work."
     },
     'index.wf.s01.en': {
       zh: 'ISSUE · Frame the problem.',
@@ -161,7 +161,7 @@
     },
     'index.wf.s02.body': {
       zh: '沙盒是长期运行的开发环境，保留依赖、缓存与既有数据，让 AI 能在真实的上下文里工作，而不是一次性容器。',
-      en: 'A sandbox is a long-running dev environment — dependencies, caches, and real data stay put, so the AI works in actual context, not a throwaway container.'
+      en: 'A sandbox is a long-running dev environment where dependencies, caches, and real data stay put, so the AI works in actual context, not a throwaway container.'
     },
     'index.wf.s02.en': {
       zh: 'SANDBOX · A persistent dev environment.',
@@ -175,7 +175,7 @@
     },
     'index.wf.s03.body': {
       zh: '把 Issue 交给 Claude Code 或 Codex，由它在沙盒里完成实现：写代码、跑测试、迭代修复，最终发起一份 PR。',
-      en: 'Hand the Issue to Claude Code or Codex. It builds inside the sandbox — writes code, runs tests, iterates on failures — and ends with a PR.'
+      en: 'Hand the Issue to Claude Code or Codex. It builds inside the sandbox (writes code, runs tests, iterates on failures) and ends with a PR.'
     },
     'index.wf.s03.en': {
       zh: 'EXECUTE · Claude Code or Codex.',
@@ -189,7 +189,7 @@
     },
     'index.wf.s04.body': {
       zh: '这一步交给另一位 Claude Code 或 Codex。它读完整份 PR，结合 CI 与静态检查，给出可执行的修改意见——双 AI 互审。',
-      en: "Hand the PR to a different Claude Code or Codex instance. It reads the whole diff alongside CI and static checks, and returns actionable feedback — two agents cross-reviewing one PR."
+      en: "Hand the PR to a different Claude Code or Codex instance. It reads the whole diff alongside CI and static checks, and returns actionable feedback: two agents cross-reviewing one PR."
     },
     'index.wf.s04.en': {
       zh: 'AI REVIEW · Two agents, one PR.',
@@ -221,7 +221,7 @@
     },
     'index.wf.s06.body': {
       zh: '架构师签字之后，PR 合入主干、部署到生产。可复用的 Skill、Checklist、评审记录回写到 Issue，留作下一次的起点。',
-      en: 'Once the architect signs off, the PR merges into main and deploys to production. Reusable Skills, checklists, and review notes are written back to the Issue — the kickoff for the next round.'
+      en: 'Once the architect signs off, the PR merges into main and deploys to production. Reusable Skills, checklists, and review notes are written back to the Issue: the kickoff for the next round.'
     },
     'index.wf.s06.en': {
       zh: 'PRODUCTION · Ship it.',
@@ -234,7 +234,7 @@
     },
     'index.wf.ov.title': {
       zh: 'Issue · Sandbox · AI · 架构师 · 上线<br/><em>—— 交付一次完整的改动<span class="period">.</span></em>',
-      en: 'Issue · Sandbox · AI · Architect · Ship<br/><em>— one complete change, delivered<span class="period">.</span></em>'
+      en: 'Issue · Sandbox · AI · Architect · Ship<br/><em>one complete change, delivered<span class="period">.</span></em>'
     },
     'index.wf.ov.label': {
       zh: '完整工作流概览',
@@ -250,10 +250,10 @@
     },
 
     /* Rituals */
-    'index.rit.kicker': { zh: '— RITUALS', en: '— RITUALS' },
+    'index.rit.kicker': { zh: 'Rituals · 让协作成立的小习惯', en: 'Rituals · habits that make it work' },
     'index.rit.title': {
       zh: '流水线之外，<br/><em>那些让协作成立的小习惯</em><span class="period">.</span>',
-      en: 'Beyond the pipeline —<br/><em>the small rituals that make it work</em><span class="period">.</span>'
+      en: 'Beyond the pipeline,<br/><em>the small rituals that make it work</em><span class="period">.</span>'
     },
     'index.rit.lede': {
       zh: '流程负责"做什么"，习惯负责"在什么节奏里做"。下面这四件事，是我们用来让 AI-native 协作真正运转起来的最小集。',
@@ -264,21 +264,21 @@
       en: 'Four rituals that make collaboration work'
     },
 
-    'index.rit.c01.num':  { zh: 'RITUAL · 01', en: 'RITUAL · 01' },
+    'index.rit.c01.num':  { zh: 'RITUAL', en: 'RITUAL' },
     'index.rit.c01.h':    { zh: '一日的形状', en: 'The shape of a day' },
     'index.rit.c01.en':   { zh: 'THE SHAPE OF A DAY', en: 'THE SHAPE OF A DAY' },
     'index.rit.c01.body': {
       zh: '每天早晨花一分钟，写下今天最重要的那个 Issue。它不是任务清单，而是这一天的锚点——所有的对话、改动、PR，都围绕它发生。',
-      en: 'Spend a minute every morning writing down the single most important Issue for the day. Not a todo list — an anchor. All conversation, all changes, all PRs orbit it.'
+      en: 'Spend a minute every morning writing down the single most important Issue for the day. Not a todo list, but an anchor. All conversation, all changes, all PRs orbit it.'
     },
     'index.rit.c01.dt1': { zh: 'MORNING', en: 'MORNING' },
-    'index.rit.c01.dd1': { zh: '写下 #today —— 当日最重要的 Issue', en: 'Write #today — the most important Issue for today' },
+    'index.rit.c01.dd1': { zh: '写下 #today —— 当日最重要的 Issue', en: 'Write #today, the most important Issue for today' },
     'index.rit.c01.dt2': { zh: 'DURING', en: 'DURING' },
     'index.rit.c01.dd2': { zh: '所有改动都挂在这条 Issue 下面', en: 'Every change hangs off this Issue' },
     'index.rit.c01.dt3': { zh: 'EVENING', en: 'EVENING' },
     'index.rit.c01.dd3': { zh: '用一句话回写今天的进展或决定', en: 'Write back today’s progress or decision in one sentence' },
 
-    'index.rit.c02.num':  { zh: 'RITUAL · 02', en: 'RITUAL · 02' },
+    'index.rit.c02.num':  { zh: 'RITUAL', en: 'RITUAL' },
     'index.rit.c02.h':    { zh: '架构师与开发者', en: 'Architects and developers' },
     'index.rit.c02.en':   { zh: 'ARCHITECT &amp; DEVELOPERS', en: 'ARCHITECT &amp; DEVELOPERS' },
     'index.rit.c02.body': {
@@ -292,12 +292,12 @@
     'index.rit.c02.dt3': { zh: 'CHANNEL', en: 'CHANNEL' },
     'index.rit.c02.dd3': { zh: '评审在 GitHub · 即时同步在飞书', en: 'Reviews on GitHub · live sync on chat' },
 
-    'index.rit.c03.num':  { zh: 'RITUAL · 03', en: 'RITUAL · 03' },
+    'index.rit.c03.num':  { zh: 'RITUAL', en: 'RITUAL' },
     'index.rit.c03.h':    { zh: 'Issue 与 PR 的追踪', en: 'Every Issue is tracked' },
     'index.rit.c03.en':   { zh: 'EVERY ISSUE IS TRACKED', en: 'EVERY ISSUE IS TRACKED' },
     'index.rit.c03.body': {
       zh: '每一个 Issue 都有一条对应的 PR 来追踪它的执行过程，PR 上的评论会被完整保留下来——下一个接手的人，可以从 Issue 一路读到当时是怎么决定的。',
-      en: 'Every Issue is mirrored by a PR that tracks its execution, and the PR comments are kept verbatim — the next person who picks it up can read straight through from Issue to PR and reconstruct how the call was made.'
+      en: 'Every Issue is mirrored by a PR that tracks its execution, and the PR comments are kept verbatim, so the next person who picks it up can read straight through from Issue to PR and reconstruct how the call was made.'
     },
     'index.rit.c03.dt1': { zh: 'LINK', en: 'LINK' },
     'index.rit.c03.dd1': { zh: '每个 Issue 对应一条 PR · 一一映射', en: 'One Issue → one PR · 1:1' },
@@ -306,12 +306,12 @@
     'index.rit.c03.dt3': { zh: 'READ', en: 'READ' },
     'index.rit.c03.dd3': { zh: '新成员从 Issue → PR 还原历史', en: 'Newcomers reconstruct history from Issue → PR' },
 
-    'index.rit.c04.num':  { zh: 'RITUAL · 04', en: 'RITUAL · 04' },
+    'index.rit.c04.num':  { zh: 'RITUAL', en: 'RITUAL' },
     'index.rit.c04.h':    { zh: '从 Prompt 到 Skill', en: 'From prompt to Skill' },
     'index.rit.c04.en':   { zh: 'FROM PROMPT TO SKILL', en: 'FROM PROMPT TO SKILL' },
     'index.rit.c04.body': {
       zh: '一段反复用过、值得记住的 prompt，就值得变成 Skill —— 带名字、带说明、任何 agent 都能装上调用。<em>这是团队最值得沉淀的工件。</em>',
-      en: 'A prompt you have reused enough to remember deserves to become a Skill — named, described, installable by any agent. <em>This is the artifact most worth carrying forward.</em>'
+      en: 'A prompt you have reused enough to remember deserves to become a Skill: named, described, installable by any agent. <em>This is the artifact most worth carrying forward.</em>'
     },
     'index.rit.c04.dt1': { zh: 'SKILL', en: 'SKILL' },
     'index.rit.c04.dd1': { zh: 'GitHire · 六步 workflow', en: 'GitHire · six-step workflow' },
@@ -327,28 +327,28 @@
     },
     'index.faq.title': {
       zh: 'AI 写得快，<br/><em>不等于人想得清</em><span class="period">.</span>',
-      en: 'AI writes fast —<br/><em>that is not the same as humans thinking clearly</em><span class="period">.</span>'
+      en: 'AI writes fast,<br/><em>that is not the same as humans thinking clearly</em><span class="period">.</span>'
     },
     'index.faq.lede': {
       zh: '下面是最容易被跳过的问题——也是 GitHire 真正想回答的。',
-      en: 'These are the questions most easily skipped — and the ones GitHire actually exists to answer.'
+      en: 'These are the questions most easily skipped, and the ones GitHire actually exists to answer.'
     },
 
     'index.faq.q1.q': {
       zh: 'AI 写代码这么快，为什么还要 6 步？',
-      en: 'AI writes code in minutes — why bother with six steps?'
+      en: 'AI writes code in minutes. Why bother with six steps?'
     },
     'index.faq.q1.a': {
       zh: '因为速度不是问题——AI 5 分钟写完的代码，人 review 需要 30 分钟才能识别"路径不对"。<strong>6 步 workflow 不是给 AI 装护栏，是给人类留决策点</strong>：Issue 是 framing 的决策点，架构师评审是方向的决策点，sandbox 与 AI review 是两次"还来得及反悔"的决策点。一旦决策点形同虚设，AI 的速度就会变成事故的速度。<a href="case-redis-scan.html">看一次跳过决策点的代价 →</a>',
-      en: "Because speed isn't the problem. Code AI writes in five minutes still takes a human thirty to recognise 'wrong path.' <strong>The six steps aren't guardrails for AI — they're decision points for humans.</strong> The Issue is the framing decision; architect review is the direction decision; sandbox and AI review are two more 'still time to back out' decisions. Skip them, and AI's speed turns into the speed of incidents. <a href=\"case-redis-scan.html\">See the cost of skipping a decision point →</a>"
+      en: "Because speed isn't the problem. Code AI writes in five minutes still takes a human thirty to recognise 'wrong path.' <strong>The six steps aren't guardrails for AI; they're decision points for humans.</strong> The Issue is the framing decision; architect review is the direction decision; sandbox and AI review are two more 'still time to back out' decisions. Skip them, and AI's speed turns into the speed of incidents. <a href=\"case-redis-scan.html\">See the cost of skipping a decision point →</a>"
     },
     'index.faq.q2.q': {
       zh: 'Architect 30 秒就能识别问题，AI review 5 分钟都识别不出来吗？',
-      en: 'The architect spots it in 30 seconds — why does AI review miss it after 5 minutes?'
+      en: 'The architect spots it in 30 seconds. Why does AI review miss it after 5 minutes?'
     },
     'index.faq.q2.a': {
       zh: '两者识别的是不同维度。<strong>AI review 看的是"代码自带的上下文"</strong>——PR 内部一致性、edge cases、命名一致性、被忽略的 nullability；<strong>架构师看的是"系统侧才有的上下文"</strong>——QPS 曲线、历史事故、容量规划。互补，不重叠。Case 01 里那 22 行 SCAN 代码在 AI review 看来完全正确，但架构师 30 秒就能看出"这个 endpoint 每次请求都扫全表"是不可接受的。',
-      en: "They look at different dimensions. <strong>AI review reads the 'context the code carries with it'</strong> — internal consistency of the PR, edge cases, naming, ignored nullability. <strong>The architect reads the 'context only the system has'</strong> — QPS curves, past incidents, capacity plans. Complementary, not overlapping. In Case 01 those 22 lines of SCAN looked perfectly correct to AI review, but the architect saw in 30 seconds that 'this endpoint scans the entire keyspace on every request' is unacceptable."
+      en: "They look at different dimensions. <strong>AI review reads the 'context the code carries with it'</strong>: internal consistency of the PR, edge cases, naming, ignored nullability. <strong>The architect reads the 'context only the system has'</strong>: QPS curves, past incidents, capacity plans. Complementary, not overlapping. In Case 01 those 22 lines of SCAN looked perfectly correct to AI review, but the architect saw in 30 seconds that 'this endpoint scans the entire keyspace on every request' is unacceptable."
     },
     'index.faq.q3.q': {
       zh: '一份好的 Issue 长什么样？',
@@ -356,7 +356,7 @@
     },
     'index.faq.q3.a': {
       zh: '六段。<em>Goal</em> 说清楚要解决什么；<em>Constraints</em> 说清楚不能动什么；<em>Non-goals</em> 说清楚不做什么；<em>Verification</em> 说清楚怎么证明成功；<em>Architecture notes</em> 说清楚系统边界；<em>Existing context</em> 说清楚已有实现。<strong>缺一段，AI 就会在那一段自由发挥。</strong>具体对照请看 case 01 里同一需求的 <a href="case-redis-scan.html#rewrite-title">BAD vs GOOD →</a>。',
-      en: "Six sections. <em>Goal</em> — what you are solving. <em>Constraints</em> — what cannot move. <em>Non-goals</em> — what we are not doing. <em>Verification</em> — how we know it worked. <em>Architecture notes</em> — system boundaries. <em>Existing context</em> — what is already there. <strong>Drop a section and the AI freelances inside it.</strong> See the same spec written two ways in Case 01: <a href=\"case-redis-scan.html#rewrite-title\">BAD vs GOOD →</a>."
+      en: "Six sections. <em>Goal</em>: what you are solving. <em>Constraints</em>: what cannot move. <em>Non-goals</em>: what we are not doing. <em>Verification</em>: how we know it worked. <em>Architecture notes</em>: system boundaries. <em>Existing context</em>: what is already there. <strong>Drop a section and the AI freelances inside it.</strong> See the same spec written two ways in Case 01: <a href=\"case-redis-scan.html#rewrite-title\">BAD vs GOOD →</a>."
     },
     'index.faq.q4.q': {
       zh: 'AI 出事故，谁来背锅？',
@@ -364,7 +364,7 @@
     },
     'index.faq.q4.a': {
       zh: '<strong>架构师。</strong>AI 不背锅——背锅意味着代理责任，AI 没有代理资格。所有合入主干的代码都有一位架构师签字，签字就是认领系统侧后果。GitHire 不允许 review 责任被"AI 评过了"稀释——AI review 是辅助证据，架构师 review 是决定。',
-      en: "<strong>The architect.</strong> AI does not carry it — carrying implies agency, and AI has no agency. Every change that merges to main has an architect's signature, and that signature is an explicit claim on the system-side consequences. GitHire does not let review accountability get diluted by 'an AI looked at it.' AI review is supporting evidence; architect review is the decision."
+      en: "<strong>The architect.</strong> AI does not carry it; carrying implies agency, and AI has no agency. Every change that merges to main has an architect's signature, and that signature is an explicit claim on the system-side consequences. GitHire does not let review accountability get diluted by 'an AI looked at it.' AI review is supporting evidence; architect review is the decision."
     },
     'index.faq.q5.q': {
       zh: 'Conceptual integrity 怎么在 AI 协作下保持？',
@@ -372,7 +372,7 @@
     },
     'index.faq.q5.a': {
       zh: '通过显式的架构 owner。AI agent 可以生成 PR，但 Architect 这一步由人类负责。<strong>所有 PR 必须能被一位 architect 用一句话讲清楚动机和取舍</strong>——做不到的 PR 不 merge。这条约束让概念一致性不被并发的 agent 数量稀释。',
-      en: "Through an explicit architecture owner. AI agents can generate PRs, but the Architect step is held by a human. <strong>Every PR must be summarisable by one architect in one sentence — motivation and trade-off.</strong> A PR that fails this test does not merge. The constraint keeps conceptual integrity from being diluted by however many agents are running in parallel."
+      en: "Through an explicit architecture owner. AI agents can generate PRs, but the Architect step is held by a human. <strong>Every PR must be summarisable by one architect in one sentence: motivation and trade-off.</strong> A PR that fails this test does not merge. The constraint keeps conceptual integrity from being diluted by however many agents are running in parallel."
     },
     'index.faq.q6.q': {
       zh: 'Sandbox 里写的代码为什么默认不进主分支？',
@@ -380,7 +380,7 @@
     },
     'index.faq.q6.a': {
       zh: '因为第一版的价值是<em>澄清问题</em>，不是交付。GitHire 把 Brooks 那句 <em>"Plan to throw one away; you will, anyhow"</em> 显式化：sandbox 阶段的代码默认不进主干，存在的目的是验证方向、暴露未知。<strong>等真正写主干代码时，问题已经清楚，AI 才有可能一次写对。</strong>',
-      en: 'Because the value of the first cut is <em>clarifying the problem</em>, not shipping. GitHire makes Brooks’s <em>"Plan to throw one away; you will, anyhow"</em> explicit: sandbox code is not destined for main by default — its job is to validate the direction and surface unknowns. <strong>By the time real code is written for main, the problem is clear enough that AI has a chance of getting it right in one shot.</strong>'
+      en: 'Because the value of the first cut is <em>clarifying the problem</em>, not shipping. GitHire makes Brooks’s <em>"Plan to throw one away; you will, anyhow"</em> explicit: sandbox code is not destined for main by default; its job is to validate the direction and surface unknowns. <strong>By the time real code is written for main, the problem is clear enough that AI has a chance of getting it right in one shot.</strong>'
     },
     'index.faq.q7.q': {
       zh: '进度落后的团队是否需要再加人？',
@@ -388,7 +388,7 @@
     },
     'index.faq.q7.a': {
       zh: '这个问题的经典版本来自 Brooks 的 <em>Mythical Man-Month</em>：给延期项目加人,会让项目更延期——因为新人需要学习上下文,沟通成本随人数二次方上升,短期内整体进度反而更慢。<strong>放到 AI-native 团队里,这条规律没失效,只是稀缺品换了：</strong>coding 手脚不缺——AI 已经够快——稀缺的是<em>会 frame issue、做架构判断的脑子</em>。一个能写出 6 段式 issue 的人可以同时 orchestrate 几个 agent；多请一个 coder 反而稀释了方向。<strong>加人之前先问：是 framing 不够，还是吞吐不够？</strong>',
-      en: "The classic version is Brooks's <em>Mythical Man-Month</em>: adding people to a late project makes it later — newcomers have to learn context, communication cost grows quadratically, and progress slows in the short term. <strong>The law still holds in an AI-native team — only the scarce resource has changed.</strong> Coding hands aren't scarce: AI is already fast enough. What is scarce are <em>the heads that can frame an Issue and make architectural calls</em>. One person who can write a six-section Issue can orchestrate several agents; hiring another coder just dilutes direction. <strong>Before adding people, ask: is framing the bottleneck, or is throughput?</strong>"
+      en: "The classic version is Brooks's <em>Mythical Man-Month</em>: adding people to a late project makes it later: newcomers have to learn context, communication cost grows quadratically, and progress slows in the short term. <strong>The law still holds in an AI-native team, only the scarce resource has changed.</strong> Coding hands aren't scarce: AI is already fast enough. What is scarce are <em>the heads that can frame an Issue and make architectural calls</em>. One person who can write a six-section Issue can orchestrate several agents; hiring another coder just dilutes direction. <strong>Before adding people, ask: is framing the bottleneck, or is throughput?</strong>"
     },
     'index.faq.q8.q': {
       zh: '『人月』是个伪命题吗？',
@@ -396,7 +396,7 @@
     },
     'index.faq.q8.a': {
       zh: '"人月"是软件项目的传统估算单位——"这个功能要花 6 个人月"。Brooks 早就指出这是粗糙的近似：人和月不能线性互换,加一倍人不会让项目快一倍。<strong>放到 AI-native 团队里,人月不只是粗糙,而是失效：</strong>它建模的是 coding 工作量,但 coding 已经不是瓶颈——AI agent 5 分钟交付过去一个人月的代码量；而一条糟糕的 issue 让 AI 跑出 22 行 SCAN（<a href="case-redis-scan.html">case 01</a>）,损失 25 小时救火,这部分根本无法用人月度量。<strong>新的单位应该是"决策点节奏"：</strong>每周完成多少次 framing、多少次架构评审、多少次 sandbox → PR 闭环。',
-      en: "The 'person-month' was the traditional estimation unit — 'this feature is six person-months.' Brooks already noted it is a rough approximation: people and months are not linearly interchangeable, and doubling headcount does not double speed. <strong>In an AI-native team it is not just rough — it has broken down.</strong> Person-month models coding effort, but coding is no longer the bottleneck: an AI agent ships a former person-month of code in five minutes. Meanwhile one badly framed Issue makes the AI produce 22 lines of SCAN (<a href=\"case-redis-scan.html\">Case 01</a>) and costs 25 hours of firefighting — and that part doesn't fit person-month at all. <strong>The new unit is 'decision-point cadence':</strong> framings per week, architect reviews per week, sandbox → PR loops closed per week."
+      en: "The 'person-month' was the traditional estimation unit: 'this feature is six person-months.' Brooks already noted it is a rough approximation: people and months are not linearly interchangeable, and doubling headcount does not double speed. <strong>In an AI-native team it is not just rough, it has broken down.</strong> Person-month models coding effort, but coding is no longer the bottleneck: an AI agent ships a former person-month of code in five minutes. Meanwhile one badly framed Issue makes the AI produce 22 lines of SCAN (<a href=\"case-redis-scan.html\">Case 01</a>) and costs 25 hours of firefighting, and that part doesn't fit person-month at all. <strong>The new unit is 'decision-point cadence':</strong> framings per week, architect reviews per week, sandbox → PR loops closed per week."
     },
     'index.faq.q9.q': {
       zh: 'Deadline 为什么总是骗人的？',
@@ -404,7 +404,7 @@
     },
     'index.faq.q9.a': {
       zh: '软件项目几乎从不按时交付——经典的解释是：估算在信息最少的时候做出,承诺在压力最大的时候许下,两边都不靠谱。<strong>放到 AI-native 团队里,deadline 仍然不准,但失准的根源换了：</strong>过去 deadline 滑掉是因为 <em>coding 慢</em>；现在 coding 不慢了,deadline 滑掉是因为 <strong>framing 失误</strong> 和 <strong>review 来不及</strong>——一条没写清的 issue 让 AI 走错方向 20 分钟,代价是 25 小时根治（<a href="case-redis-scan.html">case 01</a>）。<strong>GitHire 不承诺 deadline,改承诺"决策点完成度"：</strong>issue framing 完成 / architect 签字完成 / sandbox 验证完成。可观测的状态替代主观时间,越接近交付,预测越收敛。',
-      en: "Software projects almost never ship on time — the classic explanation is that estimates are made when information is thinnest and promises are made when pressure is highest, and neither side is reliable. <strong>Deadlines still miss in an AI-native team, but the root cause has shifted:</strong> they used to slip because <em>coding was slow</em>; now coding isn't slow, and they slip because of <strong>bad framing</strong> and <strong>review not catching up</strong> — a poorly written Issue sends AI down the wrong path for 20 minutes and costs 25 hours to fully fix (<a href=\"case-redis-scan.html\">Case 01</a>). <strong>GitHire does not promise a deadline. It promises 'decision-point completion':</strong> Issue framed / architect signed off / sandbox validated. Observable state replaces subjective time — and the closer to delivery, the tighter the prediction."
+      en: "Software projects almost never ship on time. The classic explanation is that estimates are made when information is thinnest and promises are made when pressure is highest, and neither side is reliable. <strong>Deadlines still miss in an AI-native team, but the root cause has shifted:</strong> they used to slip because <em>coding was slow</em>; now coding isn't slow, and they slip because of <strong>bad framing</strong> and <strong>review not catching up</strong>. A poorly written Issue sends AI down the wrong path for 20 minutes and costs 25 hours to fully fix (<a href=\"case-redis-scan.html\">Case 01</a>). <strong>GitHire does not promise a deadline. It promises 'decision-point completion':</strong> Issue framed / architect signed off / sandbox validated. Observable state replaces subjective time, and the closer to delivery, the tighter the prediction."
     },
 
     /* Closer */

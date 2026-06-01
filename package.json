@@ -5,7 +5,8 @@
   "description": "Build tooling for the GitHire static site (English mirror generator).",
   "type": "module",
   "scripts": {
-    "build:en": "node scripts/build-en.mjs"
+    "build:en": "node scripts/build-en.mjs",
+    "check:failsafe": "node scripts/check-reveal-failsafe.mjs"
   },
   "devDependencies": {
     "jsdom": "^25.0.1"

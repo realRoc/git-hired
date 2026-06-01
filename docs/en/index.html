@@ -25,7 +25,7 @@
   </script>
 
   <title data-i18n="index.title">GitHire · Humans think, AI executes, humans verify</title>
-  <meta name="description" data-i18n-attr="content:index.meta.description" content="GitHire is an AI-native engineering method that codifies 'humans think, AI executes, humans verify' into a six-step workflow — validated by real production incidents, packaged as a Skill any agent can install.">
+  <meta name="description" data-i18n-attr="content:index.meta.description" content="GitHire is an AI-native engineering method that codifies 'humans think, AI executes, humans verify' into a six-step workflow, validated by real production incidents and packaged as a Skill any agent can install.">
   <meta name="author" content="GitHire">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://realroc.github.io/git-hired/en/">
@@ -38,7 +38,7 @@
   <meta property="og:site_name" content="GitHire">
   <meta property="og:type" content="website">
   <meta property="og:title" data-i18n-attr="content:index.title" content="GitHire · Humans think, AI executes, humans verify">
-  <meta property="og:description" data-i18n-attr="content:index.og.description" content="An AI-native engineering method: Issue → Sandbox → PR → AI Review → Architect → Production — six steps that turn 'humans think, AI executes, humans verify' into a reusable workflow.">
+  <meta property="og:description" data-i18n-attr="content:index.og.description" content="An AI-native engineering method: Issue → Sandbox → PR → AI Review → Architect → Production. Six steps that turn 'humans think, AI executes, humans verify' into a reusable workflow.">
   <meta property="og:url" content="https://realroc.github.io/git-hired/en/">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="zh_CN">
@@ -49,7 +49,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" data-i18n-attr="content:index.title" content="GitHire · Humans think, AI executes, humans verify">
-  <meta name="twitter:description" data-i18n-attr="content:index.og.description" content="An AI-native engineering method: Issue → Sandbox → PR → AI Review → Architect → Production — six steps that turn 'humans think, AI executes, humans verify' into a reusable workflow.">
+  <meta name="twitter:description" data-i18n-attr="content:index.og.description" content="An AI-native engineering method: Issue → Sandbox → PR → AI Review → Architect → Production. Six steps that turn 'humans think, AI executes, humans verify' into a reusable workflow.">
   <meta name="twitter:image" content="https://realroc.github.io/git-hired/og.en.png">
   <meta name="twitter:image:alt" data-i18n-attr="content:index.og.image_alt" content="GitHire · Humans think, AI executes, humans verify">
 
@@ -69,7 +69,7 @@
     "name": "GitHire",
     "url": "https://realroc.github.io/git-hired/en/",
     "logo": "https://realroc.github.io/git-hired/logo.svg",
-    "description": "An AI-native engineering method that codifies 'humans think, AI executes, humans verify' into a reusable six-step workflow — with real production incidents and an installable Skill.",
+    "description": "An AI-native engineering method that codifies 'humans think, AI executes, humans verify' into a reusable six-step workflow, with real production incidents and an installable Skill.",
     "sameAs": []
   }
   </script>
@@ -123,10 +123,10 @@
     "step": [
       { "@type": "HowToStep", "position": 1, "name": "Issue",     "text": "Frame the spec into an AI-executable contract using the six-section Prompt Spec: Goal / Constraints / Non-goals / Verification / Architecture notes / Existing context. Every blank is room for the AI to freelance." },
       { "@type": "HowToStep", "position": 2, "name": "Sandbox",   "text": "A long-running isolated environment with real dependencies and production-scale data; a sandbox without data scale or QPS just pushes bugs to ship time." },
-      { "@type": "HowToStep", "position": 3, "name": "Execute · PR", "text": "An AI agent implements, runs tests, and opens a PR in the sandbox; humans read the diff — don't try to dictate every line inside the Issue." },
-      { "@type": "HowToStep", "position": 4, "name": "AI Review", "text": "A second agent reads the PR with different priors — performance, security, anti-patterns — not re-running tests, but covering with a complementary lens what the first agent wasn't asked to look at." },
-      { "@type": "HowToStep", "position": 5, "name": "Architect", "text": "A human architect calls the direction — the most expensive 30 seconds in the workflow, carrying system-side context AI can't see (QPS curves, past incidents, capacity plans)." },
-      { "@type": "HowToStep", "position": 6, "name": "Production","text": "Merge, ship, write decisions back to the Issue. Issue + PR + AI Review + architect signature + handoff note together — the traceable memory of this change." }
+      { "@type": "HowToStep", "position": 3, "name": "Execute · PR", "text": "An AI agent implements, runs tests, and opens a PR in the sandbox; humans read the diff, so don't try to dictate every line inside the Issue." },
+      { "@type": "HowToStep", "position": 4, "name": "AI Review", "text": "A second agent reads the PR with different priors (performance, security, anti-patterns), not re-running tests, but covering with a complementary lens what the first agent wasn't asked to look at." },
+      { "@type": "HowToStep", "position": 5, "name": "Architect", "text": "A human architect calls the direction: the most expensive 30 seconds in the workflow, carrying system-side context AI can't see (QPS curves, past incidents, capacity plans)." },
+      { "@type": "HowToStep", "position": 6, "name": "Production","text": "Merge, ship, write decisions back to the Issue. Issue + PR + AI Review + architect signature + handoff note together: the traceable memory of this change." }
     ]
   }
   </script>
@@ -138,18 +138,18 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "AI writes code in minutes — why bother with six steps?",
+        "name": "AI writes code in minutes. Why bother with six steps?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Speed isn't the problem. Code AI writes in five minutes still takes a human thirty to recognise 'wrong path.' The six steps aren't guardrails for AI — they're decision points for humans: the Issue is the framing decision, architect review is the direction decision, sandbox and AI review are two more 'still time to back out' decisions. Once the decision points become rubber stamps, AI's speed turns into the speed of incidents."
+          "text": "Speed isn't the problem. Code AI writes in five minutes still takes a human thirty to recognise 'wrong path.' The six steps aren't guardrails for AI; they're decision points for humans: the Issue is the framing decision, architect review is the direction decision, sandbox and AI review are two more 'still time to back out' decisions. Once the decision points become rubber stamps, AI's speed turns into the speed of incidents."
         }
       },
       {
         "@type": "Question",
-        "name": "The architect spots it in 30 seconds — why does AI review miss it after 5 minutes?",
+        "name": "The architect spots it in 30 seconds. Why does AI review miss it after 5 minutes?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "They look at different dimensions. AI review reads PR-internal consistency, edge cases, naming, ignored nullability — 'context the code carries with it.' The architect reads QPS curves, past incidents, capacity plans — 'context only the system has.' Complementary, not overlapping. In Case 01 those 22 lines of SCAN looked perfectly correct to AI review, but the architect saw in 30 seconds that 'this endpoint scans the entire keyspace on every request' is unacceptable."
+          "text": "They look at different dimensions. AI review reads PR-internal consistency, edge cases, naming, ignored nullability ('context the code carries with it'). The architect reads QPS curves, past incidents, capacity plans ('context only the system has'). Complementary, not overlapping. In Case 01 those 22 lines of SCAN looked perfectly correct to AI review, but the architect saw in 30 seconds that 'this endpoint scans the entire keyspace on every request' is unacceptable."
         }
       },
       {
@@ -165,7 +165,7 @@
         "name": "When AI ships an incident, who carries it?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The architect. AI does not carry it — carrying implies agency, and AI has no agency. Every change that merges to main has an architect's signature, and that signature is an explicit claim on the system-side consequences. GitHire does not let review accountability get diluted by 'an AI looked at it' — AI review is supporting evidence; architect review is the decision."
+          "text": "The architect. AI does not carry it; carrying implies agency, and AI has no agency. Every change that merges to main has an architect's signature, and that signature is an explicit claim on the system-side consequences. GitHire does not let review accountability get diluted by 'an AI looked at it'. AI review is supporting evidence; architect review is the decision."
         }
       },
       {
@@ -173,7 +173,7 @@
         "name": "How is conceptual integrity preserved when AI is on the team?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Through an explicit architecture owner. AI agents can generate PRs, but the Architect step is held by a human. Every PR must be summarisable by one architect in one sentence — motivation and trade-off. A PR that fails this test does not merge. The constraint keeps conceptual integrity from being diluted by however many agents are running in parallel."
+          "text": "Through an explicit architecture owner. AI agents can generate PRs, but the Architect step is held by a human. Every PR must be summarisable by one architect in one sentence: motivation and trade-off. A PR that fails this test does not merge. The constraint keeps conceptual integrity from being diluted by however many agents are running in parallel."
         }
       },
       {
@@ -181,7 +181,7 @@
         "name": "Why does sandbox code not land in main by default?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Because the value of the first cut is clarifying the problem, not shipping. GitHire makes Brooks's 'Plan to throw one away; you will, anyhow' explicit: sandbox code is not destined for main by default — its job is to validate the direction and surface unknowns. By the time real code is written for main, the problem is clear enough that AI has a chance of getting it right in one shot."
+          "text": "Because the value of the first cut is clarifying the problem, not shipping. GitHire makes Brooks's 'Plan to throw one away; you will, anyhow' explicit: sandbox code is not destined for main by default; its job is to validate the direction and surface unknowns. By the time real code is written for main, the problem is clear enough that AI has a chance of getting it right in one shot."
         }
       },
       {
@@ -189,7 +189,7 @@
         "name": "Should a team that is falling behind add people?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The classic version is Brooks's Mythical Man-Month: adding people to a late project makes it later — newcomers have to learn context, communication cost grows quadratically, and progress slows in the short term. The law still holds in an AI-native team — only the scarce resource has changed: coding hands aren't scarce (AI is fast enough); what is scarce are the heads that can frame Issues and make architectural calls. One person who can write a six-section Issue can orchestrate several agents; hiring another coder just dilutes direction. Before adding people, ask: is framing the bottleneck, or is throughput?"
+          "text": "The classic version is Brooks's Mythical Man-Month: adding people to a late project makes it later: newcomers have to learn context, communication cost grows quadratically, and progress slows in the short term. The law still holds in an AI-native team, only the scarce resource has changed: coding hands aren't scarce (AI is fast enough); what is scarce are the heads that can frame Issues and make architectural calls. One person who can write a six-section Issue can orchestrate several agents; hiring another coder just dilutes direction. Before adding people, ask: is framing the bottleneck, or is throughput?"
         }
       },
       {
@@ -197,7 +197,7 @@
         "name": "Is the 'person-month' a fiction?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The 'person-month' was the traditional estimation unit — 'this feature is six person-months.' Brooks already noted it is a rough approximation: people and months are not linearly interchangeable, and doubling headcount does not double speed. In an AI-native team it is not just rough — it has broken down. Person-month models coding effort, but coding is no longer the bottleneck: an AI agent ships a former person-month of code in five minutes; meanwhile one badly framed Issue makes AI produce 22 lines of SCAN (Case 01) and costs 25 hours of firefighting — and that part doesn't fit person-month at all. The new unit is 'decision-point cadence': framings per week, architect reviews per week, sandbox → PR loops closed per week."
+          "text": "The 'person-month' was the traditional estimation unit: 'this feature is six person-months.' Brooks already noted it is a rough approximation: people and months are not linearly interchangeable, and doubling headcount does not double speed. In an AI-native team it is not just rough, it has broken down. Person-month models coding effort, but coding is no longer the bottleneck: an AI agent ships a former person-month of code in five minutes; meanwhile one badly framed Issue makes AI produce 22 lines of SCAN (Case 01) and costs 25 hours of firefighting, and that part doesn't fit person-month at all. The new unit is 'decision-point cadence': framings per week, architect reviews per week, sandbox → PR loops closed per week."
         }
       },
       {
@@ -205,7 +205,7 @@
         "name": "Why do deadlines keep lying?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Software projects almost never ship on time — estimates are made when information is thinnest, promises are made when pressure is highest, and neither side is reliable. Deadlines still miss in an AI-native team, but the root cause has shifted: they used to slip because coding was slow; now coding isn't slow, and they slip because of bad framing and review not catching up — a poorly written Issue sends AI down the wrong path for 20 minutes and costs 25 hours to fully fix (Case 01). GitHire does not promise a deadline. It promises 'decision-point completion': Issue framed / architect signed off / sandbox validated. Observable state replaces subjective time — and the closer to delivery, the tighter the prediction."
+          "text": "Software projects almost never ship on time: estimates are made when information is thinnest, promises are made when pressure is highest, and neither side is reliable. Deadlines still miss in an AI-native team, but the root cause has shifted: they used to slip because coding was slow; now coding isn't slow, and they slip because of bad framing and review not catching up. A poorly written Issue sends AI down the wrong path for 20 minutes and costs 25 hours to fully fix (Case 01). GitHire does not promise a deadline. It promises 'decision-point completion': Issue framed / architect signed off / sandbox validated. Observable state replaces subjective time, and the closer to delivery, the tighter the prediction."
         }
       }
     ]
@@ -320,7 +320,7 @@
         <p class="meta" data-i18n="index.hero.kicker">AI-native engineering · A new way of working</p>
         <h1 class="hero-title" data-i18n="index.hero.title"><span class="hl-1"><em>Humans</em> think, AI <em>executes</em>,</span>
           <span class="hl-2"><em>humans</em> verify<span class="period">.</span></span></h1>
-        <p class="hero-lede" data-i18n="index.hero.lede">A public operating log — six-step workflow, real incident case, installable Skill. For anyone who wants to see how an AI-native team actually works.</p>
+        <p class="hero-lede" data-i18n="index.hero.lede">A public operating log: six-step workflow, real incident case, installable Skill. For anyone who wants to see how an AI-native team actually works.</p>
       </div>
       <div class="scroll-hint" aria-hidden="true" data-i18n="index.hero.scroll">Scroll <span>↓</span></div>
     </section>
@@ -329,22 +329,22 @@
     <section class="scene-section scene-definition" id="definition" data-scene="definition" data-screen-label="02 Definition">
       <div class="wrap">
         <p class="meta" data-i18n="index.def.kicker">What is GitHire · In one line</p>
-        <p class="definition-line" data-i18n="index.def.line"><strong>GitHire</strong> is an <em>AI-native engineering method</em> — it codifies
+        <p class="definition-line" data-i18n="index.def.line"><strong>GitHire</strong> is an <em>AI-native engineering method</em>. It codifies
           <strong>"humans think, AI executes, humans verify"</strong>
           into a reusable six-step workflow, validates it with real production incidents, and packages it as a Skill any agent can install.</p>
 
         <dl class="pillars">
           <div class="pillar">
-            <dt data-i18n="index.def.p1.dt"><span class="num">01</span> Issue-first</dt>
-            <dd data-i18n="index.def.p1.dd">Every task starts from an Issue that someone can articulate — the spec is the doc. <em>Every blank in the spec is a blank check for the AI.</em></dd>
+            <dt data-i18n="index.def.p1.dt">Issue-first</dt>
+            <dd data-i18n="index.def.p1.dd">Every task starts from an Issue that someone can articulate: the spec is the doc. <em>Every blank in the spec is a blank check for the AI.</em></dd>
           </div>
           <div class="pillar">
-            <dt data-i18n="index.def.p2.dt"><span class="num">02</span> Human-orchestrated</dt>
+            <dt data-i18n="index.def.p2.dt">Human-orchestrated</dt>
             <dd data-i18n="index.def.p2.dd">AI builds, opens PRs, and cross-reviews in a sandbox; humans keep framing, architectural direction, and the merge call. <em>AI executes, humans decide.</em></dd>
           </div>
           <div class="pillar">
-            <dt data-i18n="index.def.p3.dt"><span class="num">03</span> Production-bound</dt>
-            <dd data-i18n="index.def.p3.dd">The end state is a PR merged to main — not a demo, not an exercise. Reusable Skills and decisions are written back to the Issue as the starting point for the next round.</dd>
+            <dt data-i18n="index.def.p3.dt">Production-bound</dt>
+            <dd data-i18n="index.def.p3.dd">The end state is a PR merged to main, not a demo, not an exercise. Reusable Skills and decisions are written back to the Issue as the starting point for the next round.</dd>
           </div>
         </dl>
       </div>
@@ -364,7 +364,7 @@
           <div class="wf-text">
             <p class="wf-counter" data-i18n="index.wf.s01.counter"><span>STEP 01</span> ／ 06</p>
             <h3 data-i18n="index.wf.s01.title">Start with an<br><em>Issue</em><span class="period">.</span></h3>
-            <p class="wf-body" data-i18n="index.wf.s01.body">Spell out 'whom you are solving what for' in a sentence or two — only specs you can articulate deserve to move forward. The Issue is both the kickoff and the archive of this work.</p>
+            <p class="wf-body" data-i18n="index.wf.s01.body">Spell out 'whom you are solving what for' in a sentence or two; only specs you can articulate deserve to move forward. The Issue is both the kickoff and the archive of this work.</p>
             <p class="wf-en" data-i18n="index.wf.s01.en">ISSUE · Frame the problem.</p>
           </div>
         </div>
@@ -383,7 +383,7 @@
           <div class="wf-text">
             <p class="wf-counter" data-i18n="index.wf.s02.counter"><span>STEP 02</span> ／ 06</p>
             <h3 data-i18n="index.wf.s02.title">Enter the dev<br><em>sandbox</em><span class="period">.</span></h3>
-            <p class="wf-body" data-i18n="index.wf.s02.body">A sandbox is a long-running dev environment — dependencies, caches, and real data stay put, so the AI works in actual context, not a throwaway container.</p>
+            <p class="wf-body" data-i18n="index.wf.s02.body">A sandbox is a long-running dev environment where dependencies, caches, and real data stay put, so the AI works in actual context, not a throwaway container.</p>
             <p class="wf-en" data-i18n="index.wf.s02.en">SANDBOX · A persistent dev environment.</p>
           </div>
         </div>
@@ -403,7 +403,7 @@
           <div class="wf-text">
             <p class="wf-counter" data-i18n="index.wf.s03.counter"><span>STEP 03</span> ／ 06</p>
             <h3 data-i18n="index.wf.s03.title">Execute and<br>open a <em>PR</em><span class="period">.</span></h3>
-            <p class="wf-body" data-i18n="index.wf.s03.body">Hand the Issue to Claude Code or Codex. It builds inside the sandbox — writes code, runs tests, iterates on failures — and ends with a PR.</p>
+            <p class="wf-body" data-i18n="index.wf.s03.body">Hand the Issue to Claude Code or Codex. It builds inside the sandbox (writes code, runs tests, iterates on failures) and ends with a PR.</p>
             <p class="wf-en" data-i18n="index.wf.s03.en">EXECUTE · Claude Code or Codex.</p>
           </div>
         </div>
@@ -423,7 +423,7 @@
           <div class="wf-text">
             <p class="wf-counter" data-i18n="index.wf.s04.counter"><span>STEP 04</span> ／ 06</p>
             <h3 data-i18n="index.wf.s04.title">A second <em>AI</em><br>reviews the PR<span class="period">.</span></h3>
-            <p class="wf-body" data-i18n="index.wf.s04.body">Hand the PR to a different Claude Code or Codex instance. It reads the whole diff alongside CI and static checks, and returns actionable feedback — two agents cross-reviewing one PR.</p>
+            <p class="wf-body" data-i18n="index.wf.s04.body">Hand the PR to a different Claude Code or Codex instance. It reads the whole diff alongside CI and static checks, and returns actionable feedback: two agents cross-reviewing one PR.</p>
             <p class="wf-en" data-i18n="index.wf.s04.en">AI REVIEW · Two agents, one PR.</p>
           </div>
         </div>
@@ -461,7 +461,7 @@
           <div class="wf-text">
             <p class="wf-counter" data-i18n="index.wf.s06.counter"><span>STEP 06</span> ／ 06</p>
             <h3 data-i18n="index.wf.s06.title">Merge and<br><em>ship</em><span class="period">.</span></h3>
-            <p class="wf-body" data-i18n="index.wf.s06.body">Once the architect signs off, the PR merges into main and deploys to production. Reusable Skills, checklists, and review notes are written back to the Issue — the kickoff for the next round.</p>
+            <p class="wf-body" data-i18n="index.wf.s06.body">Once the architect signs off, the PR merges into main and deploys to production. Reusable Skills, checklists, and review notes are written back to the Issue: the kickoff for the next round.</p>
             <p class="wf-en" data-i18n="index.wf.s06.en">PRODUCTION · Ship it.</p>
           </div>
         </div>
@@ -470,7 +470,7 @@
       <article class="wf-overview">
         <div class="wf-overview-inner">
           <p class="meta" data-i18n="index.wf.ov.kicker">Overall flow · End to end</p>
-          <h2 class="wf-overview-title" data-i18n="index.wf.ov.title">Issue · Sandbox · AI · Architect · Ship<br><em>— one complete change, delivered<span class="period">.</span></em></h2>
+          <h2 class="wf-overview-title" data-i18n="index.wf.ov.title">Issue · Sandbox · AI · Architect · Ship<br><em>one complete change, delivered<span class="period">.</span></em></h2>
           <ol class="wf-flow" aria-label="Full workflow overview" data-i18n-attr="aria-label:index.wf.ov.label">
             <li><svg viewBox="0 0 60 60"><rect x="10" y="10" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5"></rect></svg><span>01 Issue</span></li>
             <li><svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"></rect><rect x="18" y="18" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"></rect></svg><span>02 Sandbox</span></li>
@@ -491,20 +491,20 @@
     <section class="scene-section scene-rituals" id="rituals" data-scene="rituals" data-screen-label="04 Rituals">
       <div class="wrap">
         <header class="section-head">
-          <p class="meta" data-i18n="index.rit.kicker">— RITUALS</p>
-          <h2 data-i18n="index.rit.title">Beyond the pipeline —<br><em>the small rituals that make it work</em><span class="period">.</span></h2>
+          <p class="meta" data-i18n="index.rit.kicker">Rituals · habits that make it work</p>
+          <h2 data-i18n="index.rit.title">Beyond the pipeline,<br><em>the small rituals that make it work</em><span class="period">.</span></h2>
           <p class="section-lede" data-i18n="index.rit.lede">Process answers 'what'; rituals answer 'at what rhythm'. These four habits are the minimum set we use to keep AI-native collaboration actually running.</p>
         </header>
 
         <ul class="rituals-cards" aria-label="Four rituals that make collaboration work" data-i18n-attr="aria-label:index.rit.list_aria">
           <li class="ritual-card" data-reveal="">
             <div class="ritual-inner">
-              <p class="ritual-num" data-i18n="index.rit.c01.num">RITUAL · 01</p>
+              <p class="ritual-num" data-i18n="index.rit.c01.num">RITUAL</p>
               <h3 data-i18n="index.rit.c01.h">The shape of a day</h3>
               <p class="ritual-en" data-i18n="index.rit.c01.en">THE SHAPE OF A DAY</p>
-              <p class="ritual-body" data-i18n="index.rit.c01.body">Spend a minute every morning writing down the single most important Issue for the day. Not a todo list — an anchor. All conversation, all changes, all PRs orbit it.</p>
+              <p class="ritual-body" data-i18n="index.rit.c01.body">Spend a minute every morning writing down the single most important Issue for the day. Not a todo list, but an anchor. All conversation, all changes, all PRs orbit it.</p>
               <dl class="ritual-dl">
-                <dt data-i18n="index.rit.c01.dt1">MORNING</dt><dd data-i18n="index.rit.c01.dd1">Write #today — the most important Issue for today</dd>
+                <dt data-i18n="index.rit.c01.dt1">MORNING</dt><dd data-i18n="index.rit.c01.dd1">Write #today, the most important Issue for today</dd>
                 <dt data-i18n="index.rit.c01.dt2">DURING</dt><dd data-i18n="index.rit.c01.dd2">Every change hangs off this Issue</dd>
                 <dt data-i18n="index.rit.c01.dt3">EVENING</dt><dd data-i18n="index.rit.c01.dd3">Write back today’s progress or decision in one sentence</dd>
               </dl>
@@ -512,7 +512,7 @@
           </li>
           <li class="ritual-card" data-reveal="">
             <div class="ritual-inner">
-              <p class="ritual-num" data-i18n="index.rit.c02.num">RITUAL · 02</p>
+              <p class="ritual-num" data-i18n="index.rit.c02.num">RITUAL</p>
               <h3 data-i18n="index.rit.c02.h">Architects and developers</h3>
               <p class="ritual-en" data-i18n="index.rit.c02.en">ARCHITECT &amp; DEVELOPERS</p>
               <p class="ritual-body" data-i18n="index.rit.c02.body">The architect owns the final call on direction; developers build around the Issue and talk to the architect through Issues and PRs. Reviews and decisions live on GitHub; chat tools are reserved for things that have to align right now.</p>
@@ -525,10 +525,10 @@
           </li>
           <li class="ritual-card" data-reveal="">
             <div class="ritual-inner">
-              <p class="ritual-num" data-i18n="index.rit.c03.num">RITUAL · 03</p>
+              <p class="ritual-num" data-i18n="index.rit.c03.num">RITUAL</p>
               <h3 data-i18n="index.rit.c03.h">Every Issue is tracked</h3>
               <p class="ritual-en" data-i18n="index.rit.c03.en">EVERY ISSUE IS TRACKED</p>
-              <p class="ritual-body" data-i18n="index.rit.c03.body">Every Issue is mirrored by a PR that tracks its execution, and the PR comments are kept verbatim — the next person who picks it up can read straight through from Issue to PR and reconstruct how the call was made.</p>
+              <p class="ritual-body" data-i18n="index.rit.c03.body">Every Issue is mirrored by a PR that tracks its execution, and the PR comments are kept verbatim, so the next person who picks it up can read straight through from Issue to PR and reconstruct how the call was made.</p>
               <dl class="ritual-dl">
                 <dt data-i18n="index.rit.c03.dt1">LINK</dt><dd data-i18n="index.rit.c03.dd1">One Issue → one PR · 1:1</dd>
                 <dt data-i18n="index.rit.c03.dt2">KEEP</dt><dd data-i18n="index.rit.c03.dd2">PR comments preserved as decision record</dd>
@@ -538,10 +538,10 @@
           </li>
           <li class="ritual-card" data-reveal="">
             <div class="ritual-inner">
-              <p class="ritual-num" data-i18n="index.rit.c04.num">RITUAL · 04</p>
+              <p class="ritual-num" data-i18n="index.rit.c04.num">RITUAL</p>
               <h3 data-i18n="index.rit.c04.h">From prompt to Skill</h3>
               <p class="ritual-en" data-i18n="index.rit.c04.en">FROM PROMPT TO SKILL</p>
-              <p class="ritual-body" data-i18n="index.rit.c04.body">A prompt you have reused enough to remember deserves to become a Skill — named, described, installable by any agent. <em>This is the artifact most worth carrying forward.</em></p>
+              <p class="ritual-body" data-i18n="index.rit.c04.body">A prompt you have reused enough to remember deserves to become a Skill: named, described, installable by any agent. <em>This is the artifact most worth carrying forward.</em></p>
               <dl class="ritual-dl">
                 <dt data-i18n="index.rit.c04.dt1">SKILL</dt><dd data-i18n="index.rit.c04.dd1">GitHire · six-step workflow</dd>
                 <dt data-i18n="index.rit.c04.dt2">SPEC</dt><dd data-i18n="index.rit.c04.dd2">Prompt Spec · six-section Issue template</dd>
@@ -558,47 +558,47 @@
       <div class="wrap">
         <header class="section-head">
           <p class="meta" data-i18n="index.faq.kicker">FAQ · About humans-orchestrate-AI</p>
-          <h2 data-i18n="index.faq.title">AI writes fast —<br><em>that is not the same as humans thinking clearly</em><span class="period">.</span></h2>
-          <p class="section-lede" data-i18n="index.faq.lede">These are the questions most easily skipped — and the ones GitHire actually exists to answer.</p>
+          <h2 data-i18n="index.faq.title">AI writes fast,<br><em>that is not the same as humans thinking clearly</em><span class="period">.</span></h2>
+          <p class="section-lede" data-i18n="index.faq.lede">These are the questions most easily skipped, and the ones GitHire actually exists to answer.</p>
         </header>
 
         <div class="faq-list">
           <details>
-            <summary data-i18n="index.faq.q1.q">AI writes code in minutes — why bother with six steps?</summary>
-            <p data-i18n="index.faq.q1.a">Because speed isn't the problem. Code AI writes in five minutes still takes a human thirty to recognise 'wrong path.' <strong>The six steps aren't guardrails for AI — they're decision points for humans.</strong> The Issue is the framing decision; architect review is the direction decision; sandbox and AI review are two more 'still time to back out' decisions. Skip them, and AI's speed turns into the speed of incidents. <a href="case-redis-scan.html">See the cost of skipping a decision point →</a></p>
+            <summary data-i18n="index.faq.q1.q">AI writes code in minutes. Why bother with six steps?</summary>
+            <p data-i18n="index.faq.q1.a">Because speed isn't the problem. Code AI writes in five minutes still takes a human thirty to recognise 'wrong path.' <strong>The six steps aren't guardrails for AI; they're decision points for humans.</strong> The Issue is the framing decision; architect review is the direction decision; sandbox and AI review are two more 'still time to back out' decisions. Skip them, and AI's speed turns into the speed of incidents. <a href="case-redis-scan.html">See the cost of skipping a decision point →</a></p>
           </details>
           <details>
-            <summary data-i18n="index.faq.q2.q">The architect spots it in 30 seconds — why does AI review miss it after 5 minutes?</summary>
-            <p data-i18n="index.faq.q2.a">They look at different dimensions. <strong>AI review reads the 'context the code carries with it'</strong> — internal consistency of the PR, edge cases, naming, ignored nullability. <strong>The architect reads the 'context only the system has'</strong> — QPS curves, past incidents, capacity plans. Complementary, not overlapping. In Case 01 those 22 lines of SCAN looked perfectly correct to AI review, but the architect saw in 30 seconds that 'this endpoint scans the entire keyspace on every request' is unacceptable.</p>
+            <summary data-i18n="index.faq.q2.q">The architect spots it in 30 seconds. Why does AI review miss it after 5 minutes?</summary>
+            <p data-i18n="index.faq.q2.a">They look at different dimensions. <strong>AI review reads the 'context the code carries with it'</strong>: internal consistency of the PR, edge cases, naming, ignored nullability. <strong>The architect reads the 'context only the system has'</strong>: QPS curves, past incidents, capacity plans. Complementary, not overlapping. In Case 01 those 22 lines of SCAN looked perfectly correct to AI review, but the architect saw in 30 seconds that 'this endpoint scans the entire keyspace on every request' is unacceptable.</p>
           </details>
           <details>
             <summary data-i18n="index.faq.q3.q">What does a good Issue look like?</summary>
-            <p data-i18n="index.faq.q3.a">Six sections. <em>Goal</em> — what you are solving. <em>Constraints</em> — what cannot move. <em>Non-goals</em> — what we are not doing. <em>Verification</em> — how we know it worked. <em>Architecture notes</em> — system boundaries. <em>Existing context</em> — what is already there. <strong>Drop a section and the AI freelances inside it.</strong> See the same spec written two ways in Case 01: <a href="case-redis-scan.html#rewrite-title">BAD vs GOOD →</a>.</p>
+            <p data-i18n="index.faq.q3.a">Six sections. <em>Goal</em>: what you are solving. <em>Constraints</em>: what cannot move. <em>Non-goals</em>: what we are not doing. <em>Verification</em>: how we know it worked. <em>Architecture notes</em>: system boundaries. <em>Existing context</em>: what is already there. <strong>Drop a section and the AI freelances inside it.</strong> See the same spec written two ways in Case 01: <a href="case-redis-scan.html#rewrite-title">BAD vs GOOD →</a>.</p>
           </details>
           <details>
             <summary data-i18n="index.faq.q4.q">When AI ships an incident, who carries it?</summary>
-            <p data-i18n="index.faq.q4.a"><strong>The architect.</strong> AI does not carry it — carrying implies agency, and AI has no agency. Every change that merges to main has an architect's signature, and that signature is an explicit claim on the system-side consequences. GitHire does not let review accountability get diluted by 'an AI looked at it.' AI review is supporting evidence; architect review is the decision.</p>
+            <p data-i18n="index.faq.q4.a"><strong>The architect.</strong> AI does not carry it; carrying implies agency, and AI has no agency. Every change that merges to main has an architect's signature, and that signature is an explicit claim on the system-side consequences. GitHire does not let review accountability get diluted by 'an AI looked at it.' AI review is supporting evidence; architect review is the decision.</p>
           </details>
           <details>
             <summary data-i18n="index.faq.q5.q">How is conceptual integrity preserved when AI is on the team?</summary>
-            <p data-i18n="index.faq.q5.a">Through an explicit architecture owner. AI agents can generate PRs, but the Architect step is held by a human. <strong>Every PR must be summarisable by one architect in one sentence — motivation and trade-off.</strong> A PR that fails this test does not merge. The constraint keeps conceptual integrity from being diluted by however many agents are running in parallel.</p>
+            <p data-i18n="index.faq.q5.a">Through an explicit architecture owner. AI agents can generate PRs, but the Architect step is held by a human. <strong>Every PR must be summarisable by one architect in one sentence: motivation and trade-off.</strong> A PR that fails this test does not merge. The constraint keeps conceptual integrity from being diluted by however many agents are running in parallel.</p>
           </details>
           <details>
             <summary data-i18n="index.faq.q6.q">Why does sandbox code not land in main by default?</summary>
-            <p data-i18n="index.faq.q6.a">Because the value of the first cut is <em>clarifying the problem</em>, not shipping. GitHire makes Brooks’s <em>"Plan to throw one away; you will, anyhow"</em> explicit: sandbox code is not destined for main by default — its job is to validate the direction and surface unknowns. <strong>By the time real code is written for main, the problem is clear enough that AI has a chance of getting it right in one shot.</strong></p>
+            <p data-i18n="index.faq.q6.a">Because the value of the first cut is <em>clarifying the problem</em>, not shipping. GitHire makes Brooks’s <em>"Plan to throw one away; you will, anyhow"</em> explicit: sandbox code is not destined for main by default; its job is to validate the direction and surface unknowns. <strong>By the time real code is written for main, the problem is clear enough that AI has a chance of getting it right in one shot.</strong></p>
           </details>
 
           <details>
             <summary data-i18n="index.faq.q7.q">Should a team that is falling behind add people?</summary>
-            <p data-i18n="index.faq.q7.a">The classic version is Brooks's <em>Mythical Man-Month</em>: adding people to a late project makes it later — newcomers have to learn context, communication cost grows quadratically, and progress slows in the short term. <strong>The law still holds in an AI-native team — only the scarce resource has changed.</strong> Coding hands aren't scarce: AI is already fast enough. What is scarce are <em>the heads that can frame an Issue and make architectural calls</em>. One person who can write a six-section Issue can orchestrate several agents; hiring another coder just dilutes direction. <strong>Before adding people, ask: is framing the bottleneck, or is throughput?</strong></p>
+            <p data-i18n="index.faq.q7.a">The classic version is Brooks's <em>Mythical Man-Month</em>: adding people to a late project makes it later: newcomers have to learn context, communication cost grows quadratically, and progress slows in the short term. <strong>The law still holds in an AI-native team, only the scarce resource has changed.</strong> Coding hands aren't scarce: AI is already fast enough. What is scarce are <em>the heads that can frame an Issue and make architectural calls</em>. One person who can write a six-section Issue can orchestrate several agents; hiring another coder just dilutes direction. <strong>Before adding people, ask: is framing the bottleneck, or is throughput?</strong></p>
           </details>
           <details>
             <summary data-i18n="index.faq.q8.q">Is the 'person-month' a fiction?</summary>
-            <p data-i18n="index.faq.q8.a">The 'person-month' was the traditional estimation unit — 'this feature is six person-months.' Brooks already noted it is a rough approximation: people and months are not linearly interchangeable, and doubling headcount does not double speed. <strong>In an AI-native team it is not just rough — it has broken down.</strong> Person-month models coding effort, but coding is no longer the bottleneck: an AI agent ships a former person-month of code in five minutes. Meanwhile one badly framed Issue makes the AI produce 22 lines of SCAN (<a href="case-redis-scan.html">Case 01</a>) and costs 25 hours of firefighting — and that part doesn't fit person-month at all. <strong>The new unit is 'decision-point cadence':</strong> framings per week, architect reviews per week, sandbox → PR loops closed per week.</p>
+            <p data-i18n="index.faq.q8.a">The 'person-month' was the traditional estimation unit: 'this feature is six person-months.' Brooks already noted it is a rough approximation: people and months are not linearly interchangeable, and doubling headcount does not double speed. <strong>In an AI-native team it is not just rough, it has broken down.</strong> Person-month models coding effort, but coding is no longer the bottleneck: an AI agent ships a former person-month of code in five minutes. Meanwhile one badly framed Issue makes the AI produce 22 lines of SCAN (<a href="case-redis-scan.html">Case 01</a>) and costs 25 hours of firefighting, and that part doesn't fit person-month at all. <strong>The new unit is 'decision-point cadence':</strong> framings per week, architect reviews per week, sandbox → PR loops closed per week.</p>
           </details>
           <details>
             <summary data-i18n="index.faq.q9.q">Why do deadlines keep lying?</summary>
-            <p data-i18n="index.faq.q9.a">Software projects almost never ship on time — the classic explanation is that estimates are made when information is thinnest and promises are made when pressure is highest, and neither side is reliable. <strong>Deadlines still miss in an AI-native team, but the root cause has shifted:</strong> they used to slip because <em>coding was slow</em>; now coding isn't slow, and they slip because of <strong>bad framing</strong> and <strong>review not catching up</strong> — a poorly written Issue sends AI down the wrong path for 20 minutes and costs 25 hours to fully fix (<a href="case-redis-scan.html">Case 01</a>). <strong>GitHire does not promise a deadline. It promises 'decision-point completion':</strong> Issue framed / architect signed off / sandbox validated. Observable state replaces subjective time — and the closer to delivery, the tighter the prediction.</p>
+            <p data-i18n="index.faq.q9.a">Software projects almost never ship on time. The classic explanation is that estimates are made when information is thinnest and promises are made when pressure is highest, and neither side is reliable. <strong>Deadlines still miss in an AI-native team, but the root cause has shifted:</strong> they used to slip because <em>coding was slow</em>; now coding isn't slow, and they slip because of <strong>bad framing</strong> and <strong>review not catching up</strong>. A poorly written Issue sends AI down the wrong path for 20 minutes and costs 25 hours to fully fix (<a href="case-redis-scan.html">Case 01</a>). <strong>GitHire does not promise a deadline. It promises 'decision-point completion':</strong> Issue framed / architect signed off / sandbox validated. Observable state replaces subjective time, and the closer to delivery, the tighter the prediction.</p>
           </details>
         </div>
       </div>
