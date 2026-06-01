@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>HireRPG · 文案 / 图鉴管理台（后台）</title>
+<style>
+  /* ════════════════════════════════════════════════════════════
+     HireRPG 文案聚合管理台（后台，noindex）
+     · 游戏所有「文言（文案）」的聚合 / 预览 / 中英双语编辑页面。
+     · 数据来源 = 同目录 game.html 的源码文本（fetch 后直接正则解析）：
+         - 怪兽：MONSTERS + CODEX_EXTRA（reminds）
+         - 道具 / NPC / 地图 / 题库 / 界面：全部含中文字符串
+       线上（http/https）零操作直接可用；本地预览请用服务器，例如
+       `cd docs && python3 -m http.server 8000` → http://localhost:8000/game-codex.html
+       （双击 file:// 打开会被浏览器禁止读取本地文件，属正常限制。）
+     · 真实像素精灵：用隐藏 iframe 里 game.html 的 getSprite() 叠加；
+       连不上时回退显示 emoji。
+     · 中文与英文都可在本页在线编辑，存浏览器 localStorage。
+     · 只能「导出译文 JSON」——拿到本地后 commit / PR 回灌 game.html。
+       本页【不提供】任何在线写回，线上无法被任何人直接改文案。
+     ════════════════════════════════════════════════════════════ */
+  :root{
+    --fp:'Courier New',ui-monospace,Menlo,Consolas,monospace;
+    --ink:#23283a; --paper:#f4efe2; --panel:#fffdf6; --panel-d:#2a2f42;
+    --line:#23283a; --gold:#f4c430; --accent:#c0392b; --muted:#6a6f55; --ok:#2d7d46;
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; font-family:var(--fp); color:var(--ink); background:var(--paper);
+    background-image:linear-gradient(rgba(35,40,58,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(35,40,58,.04) 1px,transparent 1px);
+    background-size:24px 24px; padding:1.6rem 1rem 5rem; }
+  .wrap{ max-width:1060px; margin:0 auto; }
+  .eyebrow{ font-size:.72rem; letter-spacing:.18em; color:var(--accent); margin:0 0 .35rem; text-transform:uppercase; }
+  h1{ font-size:1.5rem; margin:0 0 .5rem; }
+  h1 em{ color:var(--accent); font-style:normal; }
+  .lead{ font-size:.78rem; color:var(--muted); line-height:1.85; margin:0 0 .3rem; max-width:780px; }
+  code{ background:#eee7d4; padding:.05rem .3rem; border-radius:3px; font-size:.92em; }
+  .backlink{ display:inline-block; margin:.6rem .6rem 0 0; font-size:.72rem; color:var(--ink); text-decoration:none; border-bottom:2px solid var(--gold); padding-bottom:1px; }
+
+  /* 工具条 */
+  .toolbar{ position:sticky; top:0; z-index:20; display:flex; flex-wrap:wrap; align-items:center; gap:.5rem;
+    background:var(--panel-d); border:3px solid var(--line); box-shadow:4px 4px 0 rgba(35,40,58,.25);
+    padding:.55rem .7rem; margin:1.2rem 0 1.4rem; }
+  .toolbar .grp{ display:flex; gap:.25rem; align-items:center; }
+  .toolbar label{ color:#cfc9e8; font-size:.62rem; }
+  .seg button{ font-family:var(--fp); font-size:.64rem; cursor:pointer; padding:.32rem .55rem; color:#cfc9e8; background:#3a3550; border:2px solid #15111f; }
+  .seg button.on{ background:var(--gold); color:var(--line); }
+  .toolbar input[type=search]{ font-family:var(--fp); font-size:.66rem; padding:.34rem .5rem; border:2px solid #15111f; min-width:150px; }
+  .toolbar select{ font-family:var(--fp); font-size:.64rem; padding:.3rem; border:2px solid #15111f; }
+  .toolbar .btn{ font-family:var(--fp); font-size:.62rem; cursor:pointer; padding:.34rem .6rem; color:#fff; background:var(--ok); border:2px solid #15111f; }
+  .toolbar .btn.q{ background:var(--accent); }
+  .toolbar .btn.ghost{ background:#3a3550; color:#cfc9e8; }
+  .stat{ color:#9b93c0; font-size:.6rem; margin-left:auto; }
+
+  /* 取源横幅 */
+  .srcbar{ display:none; align-items:center; gap:.7rem; flex-wrap:wrap; background:#fff8e6; border:3px solid var(--gold);
+    box-shadow:4px 4px 0 rgba(35,40,58,.15); padding:.7rem .9rem; margin:0 0 1.2rem; font-size:.7rem; line-height:1.7; }
+  .srcbar.show{ display:flex; }
+  .srcbar.ok{ background:#eef8ee; border-color:var(--ok); }
+  .srcbar .pick{ font-family:var(--fp); font-size:.66rem; cursor:pointer; padding:.4rem .7rem; color:#fff; background:var(--accent); border:2px solid var(--line); box-shadow:2px 2px 0 rgba(35,40,58,.25); }
+  .srcbar b{ color:var(--ink); }
+
+  h2.sec{ font-size:1rem; margin:1.8rem 0 .8rem; padding-bottom:.3rem; border-bottom:3px solid var(--line); display:flex; align-items:center; gap:.5rem; }
+  h2.sec .badge{ font-size:.58rem; background:var(--line); color:#fff; padding:.08rem .4rem; }
+  .empty{ font-size:.7rem; color:var(--muted); padding:1rem 0; }
+
+  /* 怪兽图鉴卡片 */
+  .mgrid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(248px,1fr)); gap:1rem; }
+  .mcard{ position:relative; background:var(--panel); border:3px solid var(--line); border-top:10px solid var(--mc,var(--gold));
+    box-shadow:5px 5px 0 rgba(35,40,58,.16); padding:1rem; }
+  .mcard .top{ display:flex; align-items:center; gap:.7rem; }
+  .mcard canvas{ image-rendering:pixelated; width:56px; height:56px; flex:none; background:#0000000d; }
+  .mcard .fallback{ font-size:2.6rem; line-height:1; width:56px; text-align:center; flex:none; }
+  .mcard .hid{ font-size:.6rem; color:var(--muted); }
+  .field{ margin-top:.7rem; }
+  .field .k{ font-size:.56rem; color:var(--accent); letter-spacing:.03em; margin-bottom:.2rem; }
+  textarea.ta{ width:100%; font-family:var(--fp); font-size:.68rem; line-height:1.6; border:2px solid #d8d2bf; padding:.32rem .42rem; margin-top:.2rem; resize:vertical; min-height:2.4em; background:#fff; }
+  textarea.ta:focus{ border-color:var(--gold); outline:none; }
+  textarea.zh-field{ border-left:4px solid #c9a227; }
+  textarea.en-field{ border-left:4px solid #3a6ea5; }
+
+  /* 全量文言表 */
+  table{ width:100%; border-collapse:collapse; font-size:.68rem; }
+  th,td{ text-align:left; vertical-align:top; padding:.4rem .5rem; border-bottom:2px solid #e6dfca; }
+  th{ font-size:.58rem; color:var(--muted); position:sticky; top:54px; background:var(--paper); z-index:5; }
+  td.cat{ white-space:nowrap; width:1%; }
+  .tag{ font-size:.54rem; background:#eee7d4; border:1px solid #d8d2bf; padding:.04rem .35rem; color:#6a6f55; }
+  .ln{ color:#b0a98c; font-size:.54rem; margin-top:.2rem; }
+  tr.done td.en-cell textarea{ border-color:var(--ok); }
+
+  .hide-zh .zh-field{ display:none !important; }
+  .hide-en .en-field{ display:none !important; }
+  .hide-en th.col-en, .hide-en td.en-cell{ display:none; }
+  .hide-zh th.col-zh, .hide-zh td.zh-cell{ display:none; }
+
+  .note{ font-size:.64rem; color:var(--muted); line-height:1.8; margin:.6rem 0; }
+  iframe#game{ position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; border:0; left:-9999px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">GitHire · HireRPG 后台</p>
+  <h1>文案 / 图鉴<em>管理台</em></h1>
+  <p class="lead">游戏里所有「文言」的聚合页：怪兽、题库、道具、NPC、地图、界面文案集中预览，<b>中英双语均可在线编辑</b>。</p>
+  <p class="lead">编辑只存在你本地浏览器。用 <b>导出译文</b> 拿到 JSON 后，在本地 commit / PR 回灌 <code>game.html</code> 上线——本页<b>不提供</b>任何在线写回，线上无人能直接改文案。</p>
+  <a class="backlink" href="./game.html">← 返回游戏</a>
+  <a class="backlink" href="./index.html">GitHire 首页</a>
+
+  <!-- 提示横幅：仅当自动读取失败（多为双击 file:// 打开）时出现 -->
+  <div class="srcbar" id="srcbar">
+    <span id="srcmsg"></span>
+  </div>
+
+  <div class="toolbar">
+    <div class="grp"><label>语言</label>
+      <span class="seg" id="langSeg">
+        <button data-lang="both" class="on">对照</button>
+        <button data-lang="zh">中文</button>
+        <button data-lang="en">EN</button>
+      </span>
+    </div>
+    <div class="grp"><label>分类</label>
+      <select id="catFilter"><option value="">全部</option></select>
+    </div>
+    <input type="search" id="search" placeholder="关键词…回车或点查询" />
+    <button class="btn q" id="searchBtn">查询</button>
+    <button class="btn ghost" id="clearBtn">清除</button>
+    <button class="btn" id="exportBtn">导出译文 JSON</button>
+    <span class="stat" id="stat"></span>
+  </div>
+
+  <div id="monsters"></div>
+  <div id="catalog"></div>
+</div>
+
+<iframe id="game" src="./game.html" title="game-source"></iframe>
+
+<script>
+/* ════════════════ 存储 ════════════════ */
+const LS_KEY = 'hirerpg-codex-v2';     // { key: {zh?, en?} }
+const TRANS = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+function save(){ localStorage.setItem(LS_KEY, JSON.stringify(TRANS)); }
+function getVal(key, which, orig){
+  if (TRANS[key] && TRANS[key][which] !== undefined) return TRANS[key][which];
+  return orig || '';
+}
+function setVal(key, which, val){
+  if (!TRANS[key]) TRANS[key] = {};
+  TRANS[key][which] = val;
+  save(); updateStat();
+}
+
+/* 怪兽英文默认译（开箱即用；可在卡片里改） */
+const MON_EN = {
+  ghost:  { name:'Vague-Issue Ghost',  zone:'Issue Spec',          reminds:'Spell out Goal / Constraints / Non-goals / Verification in every Issue — each blank is where the AI improvises.' },
+  fire:   { name:'No-Sandbox Imp',     zone:'Sandbox',             reminds:'No "just ship it and see". Validate in a sandbox with real deps and production-scale data before merging.' },
+  scan:   { name:'SCAN Beast',         zone:'Case 01 · Real Incident', reminds:'"Logically correct" in AI review is not "safe in production". Anything touching data scale / QPS needs system-side review.' },
+  dragon: { name:'Blame-Shifting Dragon', zone:'Architect Sign-off', reminds:'"The AI reviewed it" is not a sign-off. Merged code must have an architect owning the system-side consequences.' },
+  zombie: { name:'Man-Month Zombie',   zone:'Brooks’s Law',   reminds:'Don’t throw people at a late project first. Ask: is it framing that’s lacking, or throughput? (Brooks’s Law)' },
+  clock:  { name:'Deadline Phantom',   zone:'Delivery Promise',    reminds:'Replace time promises with observable decision-point progress — slips come from framing & review, not coding.' },
+  robot:  { name:'Siloed Agent',       zone:'Final Boss · Conceptual Integrity', reminds:'Even with many agents in parallel, keep conceptual integrity: a PR whose motive & tradeoffs can’t be stated in one sentence doesn’t merge.' },
+};
+
+/* 行号 → 分类 */
+function categoryForLine(n){
+  if (n>=336 && n<=368) return '怪兽 Monster';
+  if (n>=369 && n<=462) return '题库 Quiz';
+  if (n>=463 && n<=605) return '地图·区域 Map';
+  if (n>=606 && n<=745) return '道具·NPC·告示 World';
+  if (n>=746 && n<=1015) return '界面·标题/地图 UI';
+  if (n>=1016 && n<=1700) return '渲染/系统 System';
+  if (n>=1701) return '界面·战斗/结算 UI';
+  return '其它 Other';
+}
+const MON_CAT = '怪兽 Monster';
+
+const $ = function(s){ return document.querySelector(s); };
+let state = { lang:'both', cat:'', q:'' };
+let MON = [];        // [{id,name,zone,color,flavor,emoji,reminds}]
+let CATALOG = [];    // [{key,line,col,cat,zh}]
+let GW = null;       // 隐藏 iframe 的 window（仅用于真实精灵）
+
+/* ════════════════ 取源：fetch 优先，失败给文件选择器 ════════════════ */
+const iframe = document.getElementById('game');
+iframe.addEventListener('load', function(){
+  try { GW = iframe.contentWindow; } catch(e){ GW = null; }
+  // 真实精灵可能晚于本页就绪：连上后重渲染怪兽卡（重建 canvas 再画，避免已回退为 emoji 后画不上）
+  let tries = 0;
+  (function waitSprite(){
+    let ok = false;
+    try { ok = (typeof GW.getSprite === 'function'); } catch(e){ ok = false; }
+    if (ok){ if (MON.length) renderMonsters(); }
+    else if (tries++ < 40) setTimeout(waitSprite, 100);
+  })();
+});
+
+function tryFetch(){
+  fetch('./game.html').then(function(r){
+    if (!r.ok) throw new Error('HTTP '+r.status);
+    return r.text();
+  }).then(function(src){
+    if (src.indexOf('MONSTERS') < 0) throw new Error('内容里找不到 MONSTERS，可能不是 game.html');
+    useSource(src, '自动读取');
+  }).catch(function(err){
+    showHint('无法自动读取 game.html（'+err.message+'）。线上（http/https）会自动加载，无需任何操作；本页是<b>双击 file:// 打开</b>的，浏览器禁止读取本地文件——请改用本地服务器：<code>cd docs &amp;&amp; python3 -m http.server 8000</code> → <code>http://localhost:8000/game-codex.html</code>');
+  });
+}
+function showHint(msg){
+  const bar = document.getElementById('srcbar');
+  bar.classList.add('show'); bar.classList.remove('ok');
+  document.getElementById('srcmsg').innerHTML = '⚠️ ' + msg;
+}
+
+/* ════════════════ 解析源码文本 ════════════════ */
+function useSource(src, how){
+  MON = parseMonsters(src);
+  const extra = parseExtra(src);
+  MON.forEach(function(m){ m.reminds = extra[m.id] || ''; });
+  CATALOG = harvest(src);
+  buildCatFilter();
+  renderAll();
+}
+
+function unq(s){ return s.replace(/\\'/g,"'").replace(/\\"/g,'"').replace(/\\n/g,'\n').replace(/\\\\/g,'\\'); }
+
+function sliceBalanced(src, fromIdx, open, close){
+  const lb = src.indexOf(open, fromIdx); if (lb<0) return '';
+  let depth=0;
+  for (let i=lb;i<src.length;i++){
+    const c=src[i];
+    if (c===open) depth++;
+    else if (c===close){ depth--; if (depth===0) return src.slice(lb, i+1); }
+  }
+  return '';
+}
+function parseMonsters(src){
+  const start = src.indexOf('const MONSTERS'); if (start<0) return [];
+  const block = sliceBalanced(src, start, '[', ']');
+  const objs = block.match(/\{[^{}]*\}/g) || [];   // 怪兽对象内无嵌套花括号
+  const out = [];
+  function get(o,k){ const m=o.match(new RegExp(k+":\\s*'((?:[^'\\\\]|\\\\.)*)'")); return m?unq(m[1]):''; }
+  objs.forEach(function(o){
+    if (/tier:\s*'mob'/.test(o)) return;
+    const id=get(o,'id'); if(!id) return;
+    out.push({ id:id, name:get(o,'name'), emoji:get(o,'emoji'), color:get(o,'color'), zone:get(o,'zone'), flavor:get(o,'flavor') });
+  });
+  return out;
+}
+function parseExtra(src){
+  const start = src.indexOf('CODEX_EXTRA'); if (start<0) return {};
+  const block = sliceBalanced(src, start, '{', '}');
+  const out = {};
+  // reminds 在每个 entry 里位于 links 之前，匹配到 reminds 字符串即可（无需跨越 links 的嵌套）
+  const re = /(\w+)\s*:\s*\{[^{}]*?reminds:'((?:[^'\\]|\\.)*)'/g; let m;
+  while ((m = re.exec(block))) out[m[1]] = unq(m[2]);
+  return out;
+}
+/* 抓全部含中文的「文言」：单/双引号 + 反引号模板字符串（可跨行）+ HTML 文本节点。
+   对整源做偏移扫描（而非逐行），故能覆盖多行模板字符串与标题屏/地图提示等 DOM 文本，
+   不会漏掉线上可见文案。跳过怪兽区(336-368)与 CODEX_EXTRA(1655-1672)——这两块
+   另由 parseMonsters / parseExtra 单独解析，避免在全量表里重复列出。 */
+function harvest(src){
+  const cjk = /[一-鿿　-〿＀-￯]/;
+  const out = []; const seen = {};
+  // 行起点偏移表：把整源字符偏移换算成行号 / 列号
+  const lineStart = [0];
+  for (let i=0;i<src.length;i++){ if (src[i]==='\n') lineStart.push(i+1); }
+  function lineOf(idx){
+    let lo=0, hi=lineStart.length-1;
+    while (lo<hi){ const mid=(lo+hi+1)>>1; if (lineStart[mid]<=idx) lo=mid; else hi=mid-1; }
+    return lo; // 0-based 行下标
+  }
+  function inSkip(lineNo){ return (lineNo>=336&&lineNo<=368)||(lineNo>=1655&&lineNo<=1672); }
+  function push(idx, raw){
+    if (!cjk.test(raw)) return;
+    const li = lineOf(idx), lineNo = li+1;
+    if (inSkip(lineNo)) return;
+    const col = idx - lineStart[li];
+    const key = 'L'+lineNo+'#'+col;
+    if (seen[key]) return; seen[key]=1;
+    out.push({ key:key, line:lineNo, col:col, cat:categoryForLine(lineNo), zh:unq(raw) });
+  }
+  // 1) 字符串字面量：单/双引号 + 反引号模板（反引号字符类含换行，故跨行模板亦可匹配）
+  const spans = [];   // 记录每个字面量的 [start,end)，供 HTML 文本去重
+  const strRe = /'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)"|`((?:[^`\\]|\\.)*)`/g;
+  let m;
+  while ((m = strRe.exec(src))){
+    spans.push([m.index, strRe.lastIndex]);
+    push(m.index, (m[1]!==undefined ? m[1] : (m[2]!==undefined ? m[2] : m[3])));
+  }
+  // 2) HTML 文本节点：>文本<。跳过落在字符串字面量内的（那是 JS 拼接的 HTML，已整段采过）
+  function inStr(idx){
+    for (let i=0;i<spans.length;i++){ if (idx>=spans[i][0] && idx<spans[i][1]) return true; }
+    return false;
+  }
+  const htmlRe = />([^<>]*)</g;
+  while ((m = htmlRe.exec(src))){
+    if (!cjk.test(m[1])) continue;
+    if (inStr(m.index+1)) continue;
+    push(m.index, m[1]);
+  }
+  return out;
+}
+
+/* ════════════════ 渲染 ════════════════ */
+function matchQ(hay){ return !state.q || hay.toLowerCase().indexOf(state.q.toLowerCase()) >= 0; }
+function renderAll(){ renderMonsters(); renderCatalog(); applyLang(); updateStat(); }
+
+function renderMonsters(){
+  const host = document.getElementById('monsters');
+  const showCat = (!state.cat || state.cat===MON_CAT);
+  if (!showCat){ host.innerHTML=''; return; }
+  if (!MON.length){ host.innerHTML=''; return; }
+  const cards = MON.filter(function(m){
+    const d = MON_EN[m.id] || {};
+    const hay = [ getVal('mon.'+m.id+'.name','zh',m.name), getVal('mon.'+m.id+'.zone','zh',m.zone),
+      getVal('mon.'+m.id+'.flavor','zh',m.flavor), getVal('mon.'+m.id+'.reminds','zh',m.reminds),
+      getVal('mon.'+m.id+'.name','en',d.name||''), getVal('mon.'+m.id+'.zone','en',d.zone||''),
+      getVal('mon.'+m.id+'.flavor','en',''), getVal('mon.'+m.id+'.reminds','en',d.reminds||''), m.id ].join(' ');
+    return matchQ(hay);
+  });
+  const html = cards.map(function(m){
+    const d = MON_EN[m.id] || {};
+    return '<div class="mcard" style="--mc:'+(m.color||'#f4c430')+'">'
+      + '<div class="top"><canvas data-spr="'+m.id+'" data-emoji="'+escapeHtml(m.emoji||'❓')+'" width="16" height="16"></canvas>'
+      + '<div class="hid">id: <code>'+m.id+'</code></div></div>'
+      + dual('名称 name',   'mon.'+m.id+'.name',   m.name,    getVal('mon.'+m.id+'.name','en', d.name||''))
+      + dual('区域 zone',   'mon.'+m.id+'.zone',   m.zone,    getVal('mon.'+m.id+'.zone','en', d.zone||''))
+      + dual('简介 flavor', 'mon.'+m.id+'.flavor', m.flavor,  getVal('mon.'+m.id+'.flavor','en',''))
+      + dual('它提醒你什么 reminds', 'mon.'+m.id+'.reminds', m.reminds, getVal('mon.'+m.id+'.reminds','en', d.reminds||''))
+      + '</div>';
+  }).join('');
+  host.innerHTML = '<h2 class="sec">怪兽图鉴 <span class="badge">Monsters · '+cards.length+'/'+MON.length+'</span></h2>'
+    + '<p class="note">中文(左黄条)/英文(左蓝条)均可编辑。能连上游戏时显示真实像素精灵，file:// 下回退为 emoji。</p>'
+    + (cards.length ? '<div class="mgrid">'+html+'</div>' : '<p class="empty">没有匹配「'+escapeHtml(state.q)+'」的怪兽。</p>');
+  paintSprites(host);
+  bindEditors(host);
+}
+function dual(label, key, zhOrig, enVal){
+  const zh = getVal(key,'zh',zhOrig);
+  return '<div class="field"><div class="k">'+label+'</div>'
+    + '<textarea class="ta zh-field" data-key="'+key+'" data-w="zh" placeholder="中文…">'+escapeHtml(zh)+'</textarea>'
+    + '<textarea class="ta en-field" data-key="'+key+'" data-w="en" placeholder="EN…">'+escapeHtml(enVal)+'</textarea>'
+    + '</div>';
+}
+
+function renderCatalog(){
+  const host = document.getElementById('catalog');
+  const rows = CATALOG.filter(function(r){
+    if (state.cat && r.cat!==state.cat) return false;
+    if (state.cat===MON_CAT) return false;
+    const en = getVal(r.key,'en','');
+    const zh = getVal(r.key,'zh',r.zh);
+    return matchQ(zh+' '+en+' '+r.cat+' '+r.key);
+  });
+  const body = rows.map(function(r){
+    const zh = getVal(r.key,'zh',r.zh);
+    const en = getVal(r.key,'en','');
+    return '<tr class="'+(en?'done':'')+'">'
+      + '<td class="cat"><span class="tag">'+r.cat+'</span><div class="ln">L'+r.line+'</div></td>'
+      + '<td class="zh-cell"><textarea class="ta zh-field" data-key="'+r.key+'" data-w="zh" placeholder="中文…">'+escapeHtml(zh)+'</textarea></td>'
+      + '<td class="en-cell"><textarea class="ta en-field" data-key="'+r.key+'" data-w="en" placeholder="EN…">'+escapeHtml(en)+'</textarea></td>'
+      + '</tr>';
+  }).join('');
+  host.innerHTML = '<h2 class="sec">全量文言 <span class="badge">All Text · '+rows.length+'/'+CATALOG.length+'</span></h2>'
+    + '<p class="note">从 game.html 自动抓取的中文字符串（道具/NPC/地图/题库/界面）。中英文均可编辑，自动存本地；用「导出译文」拿走。</p>'
+    + (rows.length
+        ? '<table><thead><tr><th>分类 / 出处</th><th class="col-zh">中文</th><th class="col-en">English</th></tr></thead><tbody>'+body+'</tbody></table>'
+        : '<p class="empty">'+(CATALOG.length?'没有匹配的文言条目。':'尚未载入 game.html —— 见上方提示。')+'</p>');
+  bindEditors(host);
+}
+function bindEditors(scope){
+  scope.querySelectorAll('textarea[data-key]').forEach(function(t){
+    t.addEventListener('input', function(){
+      setVal(t.dataset.key, t.dataset.w, t.value);
+      const tr = t.closest('tr');
+      if (tr && t.dataset.w==='en') tr.classList.toggle('done', !!t.value.trim());
+    });
+  });
+}
+function paintSprites(scope){
+  let live = false;
+  try { live = (GW && typeof GW.getSprite === 'function'); } catch(e){ live = false; }
+  scope.querySelectorAll('canvas[data-spr]').forEach(function(cv){
+    let drawn = false;
+    if (live){
+      try {
+        const src = GW.getSprite(cv.dataset.spr);
+        const c = cv.getContext('2d'); c.imageSmoothingEnabled=false; c.clearRect(0,0,16,16);
+        c.drawImage(src, 0,0,16,16, 0,0,16,16); drawn = true;
+      } catch(e){ drawn = false; }
+    }
+    if (!drawn){
+      const span=document.createElement('span'); span.className='fallback'; span.textContent=cv.dataset.emoji||'❓';
+      cv.replaceWith(span);
+    }
+  });
+}
+
+/* ════════════════ 工具条 ════════════════ */
+function buildCatFilter(){
+  const cats = {}; cats[MON_CAT]=MON.length;
+  CATALOG.forEach(function(r){ cats[r.cat]=(cats[r.cat]||0)+1; });
+  const sel = document.getElementById('catFilter');
+  sel.innerHTML = '<option value="">全部</option>';
+  Object.keys(cats).sort().forEach(function(c){
+    const o=document.createElement('option'); o.value=c; o.textContent=c+' ('+cats[c]+')'; sel.appendChild(o);
+  });
+}
+function bindToolbar(){
+  document.getElementById('langSeg').querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#langSeg button').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on'); state.lang=b.dataset.lang; applyLang();
+    });
+  });
+  document.getElementById('catFilter').addEventListener('change', function(e){ state.cat=e.target.value; renderAll(); });
+  const inp = document.getElementById('search');
+  function doSearch(){ state.q = inp.value.trim(); renderAll(); }
+  document.getElementById('searchBtn').addEventListener('click', doSearch);
+  inp.addEventListener('keydown', function(e){ if (e.key==='Enter') doSearch(); });
+  document.getElementById('clearBtn').addEventListener('click', function(){ inp.value=''; state.q=''; renderAll(); });
+  document.getElementById('exportBtn').addEventListener('click', exportJSON);
+}
+function applyLang(){
+  document.body.classList.toggle('hide-en', state.lang==='zh');
+  document.body.classList.toggle('hide-zh', state.lang==='en');
+}
+function updateStat(){
+  let total = MON.length*4 + CATALOG.length, enDone = 0;
+  MON.forEach(function(m){
+    ['name','zone','flavor','reminds'].forEach(function(f){
+      const d=MON_EN[m.id]||{}; const def=(f==='flavor')?'':(d[f]||'');
+      if (getVal('mon.'+m.id+'.'+f,'en',def).trim()) enDone++;
+    });
+  });
+  CATALOG.forEach(function(r){ if (getVal(r.key,'en','').trim()) enDone++; });
+  document.getElementById('stat').textContent = total ? ('EN 已填 '+enDone+'/'+total+' · 本地改动 '+Object.keys(TRANS).length+' 项') : '待载入 game.html';
+}
+
+/* ════════════════ 导出（唯一对外口；无导入、无写回） ════════════════ */
+function exportJSON(){
+  if (!MON.length && !CATALOG.length){ alert('还没载入 game.html，无法导出。'); return; }
+  const out = {
+    schema: 'hirerpg-codex',
+    note: '中英双语文案快照。zh=中文(留空表示沿用 game.html 原文)，en=英文。回灌请在本地 commit/PR 改 game.html。',
+    exportedAt: new Date().toISOString(),
+    monsters: MON.map(function(m){
+      const d = MON_EN[m.id] || {};
+      return {
+        id: m.id,
+        name:    { zh:getVal('mon.'+m.id+'.name','zh',m.name),       en:getVal('mon.'+m.id+'.name','en',d.name||'') },
+        zone:    { zh:getVal('mon.'+m.id+'.zone','zh',m.zone),       en:getVal('mon.'+m.id+'.zone','en',d.zone||'') },
+        flavor:  { zh:getVal('mon.'+m.id+'.flavor','zh',m.flavor),   en:getVal('mon.'+m.id+'.flavor','en','') },
+        reminds: { zh:getVal('mon.'+m.id+'.reminds','zh',m.reminds), en:getVal('mon.'+m.id+'.reminds','en',d.reminds||'') }
+      };
+    }),
+    catalog: CATALOG.map(function(r){
+      return { key:r.key, line:r.line, cat:r.cat, zh:getVal(r.key,'zh',r.zh), en:getVal(r.key,'en','') };
+    })
+  };
+  const blob = new Blob([JSON.stringify(out, null, 2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'hirerpg-codex.json'; a.click(); URL.revokeObjectURL(a.href);
+}
+
+function escapeHtml(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* 启动 */
+bindToolbar();
+renderAll();        // 先渲染空骨架
+tryFetch();         // 再尝试自动取源；失败会弹出文件选择器
+</script>
+</body>
+</html>
