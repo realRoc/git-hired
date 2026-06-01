@@ -243,6 +243,21 @@
     .topnav-actions .btn-ghost:hover { background:var(--panel); transform:translate(1px,1px); box-shadow:2px 2px 0 rgba(31,36,48,.18); }
     .nav-game-link { color:var(--accent); border-color:var(--accent); cursor:default; }
 
+    /* 中/EN 切换：覆盖共享 CSS 的圆角 pill，统一为像素风方块分段开关 */
+    .topnav-actions .lang-switch {
+      height:auto; border:2px solid var(--rink); border-radius:0; background:var(--panel);
+      box-shadow:3px 3px 0 rgba(31,36,48,.18); overflow:hidden;
+    }
+    .topnav-actions .lang-switch button {
+      font-family:var(--fp); font-style:normal; font-weight:400; font-size:12px;
+      letter-spacing:0; padding:10px 14px; min-width:0; color:var(--rink);
+      transition:background .1s, color .1s;
+    }
+    .topnav-actions .lang-switch button + button { border-left:2px solid var(--rink); }
+    .topnav-actions .lang-switch button:hover { background:rgba(31,36,48,.08); color:var(--rink); }
+    .topnav-actions .lang-switch button.is-active,
+    .topnav-actions .lang-switch button[aria-pressed="true"] { background:var(--rink); color:var(--panel); }
+
     /* ── 右上角背包面板 ──────────────────────────────────── */
     #backpack { position:fixed; top:72px; right:12px; z-index:50; width:230px; max-width:72vw; font-family:var(--fp); }
     .bp-head { width:100%; display:flex; align-items:center; gap:.4rem; cursor:pointer;
