@@ -86,7 +86,7 @@ if (stage) {
 (() => {
   const closer = document.querySelector('.scene-closer');
   if (!closer) return;
-  if (reduced) { closer.classList.add('is-revealed'); return; }
+  if (reduced || !('IntersectionObserver' in window)) { closer.classList.add('is-revealed'); return; }
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.intersectionRatio >= 0.3) closer.classList.add('is-revealed');
@@ -98,7 +98,7 @@ if (stage) {
 (() => {
   const ov = document.querySelector('.wf-overview');
   if (!ov) return;
-  if (reduced) { ov.classList.add('is-revealed'); return; }
+  if (reduced || !('IntersectionObserver' in window)) { ov.classList.add('is-revealed'); return; }
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.intersectionRatio >= 0.3) ov.classList.add('is-revealed');
@@ -148,7 +148,7 @@ if (stage) {
 (() => {
   const panels = document.querySelectorAll('.wf-panel');
   if (!panels.length) return;
-  if (reduced) {
+  if (reduced || !('IntersectionObserver' in window)) {
     panels.forEach((p) => p.classList.add('is-visible'));
     return;
   }
@@ -182,7 +182,7 @@ if (stage) {
 (() => {
   const cards = document.querySelectorAll('[data-reveal]');
   if (!cards.length) return;
-  if (reduced) {
+  if (reduced || !('IntersectionObserver' in window)) {
     cards.forEach((c) => c.classList.add('is-revealed'));
     return;
   }

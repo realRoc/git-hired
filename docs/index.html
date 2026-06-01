@@ -9,6 +9,10 @@
        IP-based default is applied later by i18n.js once the page is alive. -->
   <script>
     (function(){
+      // Mark JS as available before first paint so scroll-reveal initial
+      // states only apply when JS can run them. Without this class, the
+      // failsafe block in githire.css keeps every revealed section visible.
+      document.documentElement.classList.add('js');
       try{
         var q = new URL(location.href).searchParams.get('lang');
         var stored = null;
@@ -343,15 +347,15 @@
 
         <dl class="pillars">
           <div class="pillar">
-            <dt data-i18n="index.def.p1.dt"><span class="num">01</span> Issue-first</dt>
+            <dt data-i18n="index.def.p1.dt">Issue-first</dt>
             <dd data-i18n="index.def.p1.dd">所有任务从一个能讲明白的 Issue 起步，需求即文档。<em>需求里每一处空白，都是 AI 的自由发挥空间。</em></dd>
           </div>
           <div class="pillar">
-            <dt data-i18n="index.def.p2.dt"><span class="num">02</span> Human-orchestrated</dt>
+            <dt data-i18n="index.def.p2.dt">Human-orchestrated</dt>
             <dd data-i18n="index.def.p2.dd">AI 在沙盒里完成实现、起 PR、互审；人保留 framing、架构方向与合并决定权。<em>AI 在执行，人在判断。</em></dd>
           </div>
           <div class="pillar">
-            <dt data-i18n="index.def.p3.dt"><span class="num">03</span> Production-bound</dt>
+            <dt data-i18n="index.def.p3.dt">Production-bound</dt>
             <dd data-i18n="index.def.p3.dd">终点是合并进主分支的 PR，不是 demo、不是练习题。可复用的 Skill 与决策记录回写到 Issue，留作下一次的起点。</dd>
           </div>
         </dl>
@@ -499,7 +503,7 @@
     <section class="scene-section scene-rituals" id="rituals" data-scene="rituals" data-screen-label="04 Rituals">
       <div class="wrap">
         <header class="section-head">
-          <p class="meta" data-i18n="index.rit.kicker">— RITUALS</p>
+          <p class="meta" data-i18n="index.rit.kicker">Rituals · 让协作成立的小习惯</p>
           <h2 data-i18n="index.rit.title">流水线之外，<br/><em>那些让协作成立的小习惯</em><span class="period">.</span></h2>
           <p class="section-lede" data-i18n="index.rit.lede">流程负责"做什么"，习惯负责"在什么节奏里做"。下面这四件事，是我们用来让 AI-native 协作真正运转起来的最小集。</p>
         </header>
@@ -507,7 +511,7 @@
         <ul class="rituals-cards" aria-label="四个让协作成立的小习惯" data-i18n-attr="aria-label:index.rit.list_aria">
           <li class="ritual-card" data-reveal>
             <div class="ritual-inner">
-              <p class="ritual-num" data-i18n="index.rit.c01.num">RITUAL · 01</p>
+              <p class="ritual-num" data-i18n="index.rit.c01.num">RITUAL</p>
               <h3 data-i18n="index.rit.c01.h">一日的形状</h3>
               <p class="ritual-en" data-i18n="index.rit.c01.en">THE SHAPE OF A DAY</p>
               <p class="ritual-body" data-i18n="index.rit.c01.body">每天早晨花一分钟，写下今天最重要的那个 Issue。它不是任务清单，而是这一天的锚点——所有的对话、改动、PR，都围绕它发生。</p>
@@ -520,7 +524,7 @@
           </li>
           <li class="ritual-card" data-reveal>
             <div class="ritual-inner">
-              <p class="ritual-num" data-i18n="index.rit.c02.num">RITUAL · 02</p>
+              <p class="ritual-num" data-i18n="index.rit.c02.num">RITUAL</p>
               <h3 data-i18n="index.rit.c02.h">架构师与开发者</h3>
               <p class="ritual-en" data-i18n="index.rit.c02.en">ARCHITECT &amp; DEVELOPERS</p>
               <p class="ritual-body" data-i18n="index.rit.c02.body">架构师拥有方向上的最终决策权；开发者围绕 Issue 进行开发，通过 Issue 与 PR 与架构师对话。评审与决策落在 GitHub 上，飞书留给当下需要立刻对齐的事。</p>
@@ -533,7 +537,7 @@
           </li>
           <li class="ritual-card" data-reveal>
             <div class="ritual-inner">
-              <p class="ritual-num" data-i18n="index.rit.c03.num">RITUAL · 03</p>
+              <p class="ritual-num" data-i18n="index.rit.c03.num">RITUAL</p>
               <h3 data-i18n="index.rit.c03.h">Issue 与 PR 的追踪</h3>
               <p class="ritual-en" data-i18n="index.rit.c03.en">EVERY ISSUE IS TRACKED</p>
               <p class="ritual-body" data-i18n="index.rit.c03.body">每一个 Issue 都有一条对应的 PR 来追踪它的执行过程，PR 上的评论会被完整保留下来——下一个接手的人，可以从 Issue 一路读到当时是怎么决定的。</p>
@@ -546,7 +550,7 @@
           </li>
           <li class="ritual-card" data-reveal>
             <div class="ritual-inner">
-              <p class="ritual-num" data-i18n="index.rit.c04.num">RITUAL · 04</p>
+              <p class="ritual-num" data-i18n="index.rit.c04.num">RITUAL</p>
               <h3 data-i18n="index.rit.c04.h">从 Prompt 到 Skill</h3>
               <p class="ritual-en" data-i18n="index.rit.c04.en">FROM PROMPT TO SKILL</p>
               <p class="ritual-body" data-i18n="index.rit.c04.body">一段反复用过、值得记住的 prompt，就值得变成 Skill —— 带名字、带说明、任何 agent 都能装上调用。<em>这是团队最值得沉淀的工件。</em></p>

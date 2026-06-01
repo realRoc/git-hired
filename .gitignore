@@ -8,5 +8,8 @@ skills/githire
 # gstack ship workflow markers
 .gstack/
 
+# impeccable design-skill local state (live config + critique snapshots)
+.impeccable/
+
 # Build deps for scripts/build-en.mjs (committed: package.json, package-lock.json)
 node_modules/
