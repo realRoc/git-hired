@@ -256,24 +256,49 @@ function parseExtra(src){
   while ((m = re.exec(block))) out[m[1]] = unq(m[2]);
   return out;
 }
-/* 抓全部含中文的字符串字面量；跳过怪兽区(336-368)与 CODEX_EXTRA(1655-1672) */
+/* 抓全部含中文的「文言」：单/双引号 + 反引号模板字符串（可跨行）+ HTML 文本节点。
+   对整源做偏移扫描（而非逐行），故能覆盖多行模板字符串与标题屏/地图提示等 DOM 文本，
+   不会漏掉线上可见文案。跳过怪兽区(336-368)与 CODEX_EXTRA(1655-1672)——这两块
+   另由 parseMonsters / parseExtra 单独解析，避免在全量表里重复列出。 */
 function harvest(src){
-  const lines = src.split('\n');
   const cjk = /[一-鿿　-〿＀-￯]/;
   const out = []; const seen = {};
-  const strRe = /'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)"/g;
-  for (let i=0;i<lines.length;i++){
-    const lineNo = i+1;
-    if (lineNo>=336 && lineNo<=368) continue;
-    if (lineNo>=1655 && lineNo<=1672) continue;
-    const ln = lines[i]; let m; strRe.lastIndex = 0;
-    while ((m = strRe.exec(ln))){
-      const raw = (m[1]!==undefined ? m[1] : m[2]);
-      if (!cjk.test(raw)) continue;
-      const dedup = lineNo+'#'+m.index;
-      if (seen[dedup]) continue; seen[dedup]=1;
-      out.push({ key:'L'+lineNo+'#'+m.index, line:lineNo, col:m.index, cat:categoryForLine(lineNo), zh:unq(raw) });
-    }
+  // 行起点偏移表：把整源字符偏移换算成行号 / 列号
+  const lineStart = [0];
+  for (let i=0;i<src.length;i++){ if (src[i]==='\n') lineStart.push(i+1); }
+  function lineOf(idx){
+    let lo=0, hi=lineStart.length-1;
+    while (lo<hi){ const mid=(lo+hi+1)>>1; if (lineStart[mid]<=idx) lo=mid; else hi=mid-1; }
+    return lo; // 0-based 行下标
+  }
+  function inSkip(lineNo){ return (lineNo>=336&&lineNo<=368)||(lineNo>=1655&&lineNo<=1672); }
+  function push(idx, raw){
+    if (!cjk.test(raw)) return;
+    const li = lineOf(idx), lineNo = li+1;
+    if (inSkip(lineNo)) return;
+    const col = idx - lineStart[li];
+    const key = 'L'+lineNo+'#'+col;
+    if (seen[key]) return; seen[key]=1;
+    out.push({ key:key, line:lineNo, col:col, cat:categoryForLine(lineNo), zh:unq(raw) });
+  }
+  // 1) 字符串字面量：单/双引号 + 反引号模板（反引号字符类含换行，故跨行模板亦可匹配）
+  const spans = [];   // 记录每个字面量的 [start,end)，供 HTML 文本去重
+  const strRe = /'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)"|`((?:[^`\\]|\\.)*)`/g;
+  let m;
+  while ((m = strRe.exec(src))){
+    spans.push([m.index, strRe.lastIndex]);
+    push(m.index, (m[1]!==undefined ? m[1] : (m[2]!==undefined ? m[2] : m[3])));
+  }
+  // 2) HTML 文本节点：>文本<。跳过落在字符串字面量内的（那是 JS 拼接的 HTML，已整段采过）
+  function inStr(idx){
+    for (let i=0;i<spans.length;i++){ if (idx>=spans[i][0] && idx<spans[i][1]) return true; }
+    return false;
+  }
+  const htmlRe = />([^<>]*)</g;
+  while ((m = htmlRe.exec(src))){
+    if (!cjk.test(m[1])) continue;
+    if (inStr(m.index+1)) continue;
+    push(m.index, m[1]);
   }
   return out;
 }
