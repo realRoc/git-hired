@@ -843,13 +843,14 @@ function render(){
   else if (G.screen === 'victory'){ r.innerHTML = victoryHTML(); bindEnd(); }
   paintDomSprites();
   renderBackpack();
+  renderCodex();
 }
 
 // ================================================================
 // 标题屏
 // ================================================================
 function titleHTML(){
-  const emojis = MONSTERS.filter(m => m.tier!=='mob').map(m => spriteCanvasHTML(m.id, 56)).join('');
+  const emojis = MONSTERS.filter(m => m.tier!=='mob').map(m => '<button class="mon-pick" data-codex="'+m.id+'" title="'+m.name+'">'+spriteCanvasHTML(m.id, 56)+'</button>').join('');
   return `<div class="screen-center">
     <p class="title-eyebrow">GitHire · 知识冒险</p>
     <h1 class="title-logo">Hire<em>RPG</em></h1>
@@ -871,6 +872,7 @@ function startGame(){ G = freshState(); buildWorld(); resetPlayer(); G.screen = 
 function bindTitle(){
   const b = document.getElementById('btn-start');
   if (b) b.onclick = startGame;
+  document.querySelectorAll('.mon-pick').forEach(function(p){ p.onclick = function(){ openCodex(p.dataset.codex, true); }; });
 }
 
 // ================================================================
@@ -1648,6 +1650,101 @@ function paintDomSprites(){
 }
 
 // 右上角常驻背包面板：map / battle 屏全程可见，显示持有的复活道具与装备状态
+/* ════════════ 图鉴 Codex 系统 ════════════ */
+(function injectCodexCSS(){
+  var s=document.createElement('style');
+  s.textContent="\n  /* ── 图鉴 Codex ───────────────────────────── */\n  #hud-tr{ position:fixed; top:72px; right:12px; z-index:50; width:230px; max-width:72vw; display:flex; flex-direction:column; gap:8px; font-family:var(--fp); }\n  #hud-tr #backpack{ position:static; top:auto; right:auto; width:100%; max-width:100%; }\n  #codex{ width:100%; font-family:var(--fp); }\n  .cx-head{ width:100%; display:flex; align-items:center; gap:.4rem; cursor:pointer; background:var(--panel-d); color:#fff; border:3px solid var(--rink); box-shadow:3px 3px 0 rgba(31,36,48,.3); padding:.5rem .6rem; font-size:.7rem; user-select:none; }\n  .cx-count{ background:var(--rgold); color:var(--rink); border:2px solid #000; padding:0 .35rem; }\n  .cx-arrow{ margin-left:auto; }\n  .cx-body{ background:var(--panel); border:3px solid var(--rink); border-top:none; box-shadow:3px 3px 0 rgba(31,36,48,.3); padding:.55rem; display:grid; grid-template-columns:repeat(4,1fr); gap:.4rem; }\n  .cx-slot{ position:relative; background:#fff; border:2px solid #d8d2bf; padding:.3rem .1rem .22rem; display:flex; flex-direction:column; align-items:center; gap:.12rem; cursor:pointer; transition:transform .07s, border-color .07s; }\n  .cx-slot:hover{ transform:translateY(-2px); border-color:var(--accent); }\n  .cx-slot canvas{ image-rendering:pixelated; }\n  .cx-slot.locked canvas{ filter:brightness(0) opacity(.45); }\n  .cx-slot .cx-q{ position:absolute; top:8px; left:50%; transform:translateX(-50%); font-size:1rem; font-weight:800; color:#9b93c0; pointer-events:none; }\n  .cx-nm{ font-size:.5rem; color:var(--rink); text-align:center; line-height:1.05; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }\n  .cx-slot.locked .cx-nm{ color:#9aa; }\n  /* 全屏图鉴详情 */\n  .cx-ov{ position:fixed; inset:0; z-index:120; display:flex; align-items:center; justify-content:center; background:rgba(8,10,16,.78); padding:1rem; font-family:var(--fp); }\n  .cx-card{ position:relative; width:min(520px,100%); max-height:88vh; overflow:auto; background:var(--panel); border:4px solid var(--rink); border-top:10px solid var(--mc,var(--accent)); box-shadow:7px 7px 0 rgba(31,36,48,.35); padding:1.4rem 1.3rem 1.5rem; color:var(--rink); }\n  .cx-x{ position:absolute; top:.5rem; right:.7rem; background:none; border:none; color:var(--rink); font-size:1.5rem; cursor:pointer; line-height:1; }\n  .cx-hero{ display:flex; align-items:center; gap:1rem; margin:.2rem 0 1rem; }\n  .cx-hero canvas{ image-rendering:pixelated; flex:none; }\n  .cx-hero.locked canvas{ filter:brightness(0) opacity(.5); }\n  .cx-htxt h2{ margin:0; font-size:1.1rem; line-height:1.3; }\n  .cx-zone{ display:inline-block; margin-top:.4rem; font-size:.56rem; background:#fff; border:2px solid var(--mc,var(--accent)); padding:.1rem .5rem; color:var(--rink); }\n  .cx-sec{ margin:.9rem 0 0; }\n  .cx-sec h3{ margin:0 0 .3rem; font-size:.62rem; letter-spacing:.04em; color:var(--mc,var(--accent)); }\n  .cx-sec p{ margin:0; font-size:.72rem; line-height:1.85; color:#3a3f30; }\n  .cx-links{ display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.5rem; }\n  .cx-links a{ font-size:.62rem; color:#fff; background:var(--mc,var(--accent)); border:2px solid var(--rink); box-shadow:2px 2px 0 rgba(31,36,48,.25); padding:.32rem .6rem; text-decoration:none; }\n  .cx-locked-note{ text-align:center; color:#6a6f55; font-size:.72rem; line-height:2; padding:1rem 0 .3rem; }\n  .monster-row .mon-pick{ background:none; border:none; padding:0; cursor:pointer; transition:transform .1s; line-height:0; }\n  .monster-row .mon-pick:hover{ transform:translateY(-3px) scale(1.08); }\n  @media (max-width:560px){ #hud-tr{ top:64px; right:6px; width:172px; } .cx-head{ font-size:.62rem; } }\n";
+  (document.head||document.documentElement).appendChild(s);
+})();
+// 图鉴扩展文案：每只怪兽"提醒你什么问题" + 可选额外链接。文案与链接均可随时编辑、增补。
+const CODEX_EXTRA = {
+  ghost:  { reminds:'写 Issue 时先把【目标 / 约束 / 非目标 / 验证标准】写全——每一处空白，都是 AI 自由发挥的入口。', links:[] },
+  fire:   { reminds:'别"先上线看看"。先在具备真实依赖、生产量级数据的沙盒里验证，再谈合入主干。', links:[] },
+  scan:   { reminds:'AI review 说"逻辑正确"不等于系统安全。凡涉及数据规模 / QPS 的代码，必须带系统侧上下文复核。', links:[] },
+  dragon: { reminds:'"AI 评过了"不是签字。合入主干的代码，必须有一位架构师认领系统侧后果。', links:[] },
+  zombie: { reminds:'延期先别急着加人。先问：是 framing 不够，还是吞吐不够？（布鲁克斯定律）', links:[] },
+  clock:  { reminds:'用可观测的决策点完成度替代主观时间承诺——deadline 滑掉，多半败在 framing 与 review，而非 coding。', links:[] },
+  robot:  { reminds:'多 agent 并发也要守住概念完整性：讲不清动机与取舍的 PR，不 merge。', links:[{ label:'GitHire 方法：人思考 · AI 执行 · 人验收', url:'./index.html' }] },
+};
+function codexMonsters(){ return MONSTERS.filter(function(m){ return m.tier!=='mob'; }); }
+function codexUnlocked(id){ return !!(typeof G!=='undefined' && G.defeated && G.defeated[id]); }
+function hudWrap(){
+  var w = document.getElementById('hud-tr');
+  if (!w){ w = document.createElement('div'); w.id='hud-tr'; document.body.appendChild(w); }
+  return w;
+}
+function renderCodex(){
+  if (typeof G==='undefined') return;
+  var show = (G.screen === 'map' || G.screen === 'battle');
+  var w = hudWrap();
+  var cx = document.getElementById('codex');
+  if (!cx){ cx = document.createElement('div'); cx.id='codex'; }
+  var bp = document.getElementById('backpack');
+  if (bp && bp.parentNode !== w) w.appendChild(bp);
+  if (cx.parentNode !== w || w.firstChild !== cx) w.insertBefore(cx, w.firstChild);
+  cx.style.display = show ? 'block' : 'none';
+  if (!show) return;
+  var ms = codexMonsters();
+  var unlocked = ms.filter(function(m){ return codexUnlocked(m.id); }).length;
+  var slots = ms.map(function(m){
+    var ok = codexUnlocked(m.id);
+    return '<div class="cx-slot '+(ok?'':'locked')+'" data-codex="'+m.id+'" title="'+(ok?m.name:'未解锁')+'">'
+      + spriteCanvasHTML(m.id, 38)
+      + (ok?'':'<span class="cx-q">?</span>')
+      + '<span class="cx-nm">'+(ok?m.name:'？？？')+'</span></div>';
+  }).join('');
+  cx.innerHTML =
+    '<div class="cx-head" id="cx-head">📖 图鉴 <span class="cx-count">'+unlocked+'/'+ms.length+'</span>'
+    + '<span class="cx-arrow">'+(G.cxOpen?'▾':'▸')+'</span></div>'
+    + (G.cxOpen?('<div class="cx-body">'+slots+'</div>'):'');
+  var head = document.getElementById('cx-head');
+  if (head) head.onclick = function(){ G.cxOpen = !G.cxOpen; renderCodex(); };
+  cx.querySelectorAll('.cx-slot').forEach(function(s){ s.onclick = function(){ openCodex(s.dataset.codex); }; });
+  paintDomSprites();
+}
+function openCodex(id, preview){
+  var m = codexMonsters().find(function(x){ return x.id===id; }); if(!m) return;
+  var ok = preview || codexUnlocked(id);
+  var ex = (typeof CODEX_EXTRA!=='undefined' && CODEX_EXTRA[id]) || {};
+  closeCodex();
+  var ov = document.createElement('div'); ov.className='cx-ov'; ov.id='cx-ov';
+  var links = [];
+  if (m.learnHref) links.push({ label:(m.learnText||'了解更多'), url:m.learnHref });
+  if (ex.links) links = links.concat(ex.links);
+  var linksHTML = (ok && links.length)
+    ? '<div class="cx-sec"><h3>扩展阅读</h3><div class="cx-links">'
+      + links.map(function(l){ return '<a href="'+l.url+'" target="_blank" rel="noopener">'+l.label+' ↗</a>'; }).join('')
+      + '</div></div>'
+    : '';
+  if (ok){
+    ov.innerHTML =
+      '<div class="cx-card" style="--mc:'+m.color+'">'
+      + '<button class="cx-x" id="cx-x" aria-label="关闭">×</button>'
+      + '<div class="cx-hero">'+spriteCanvasHTML(m.id, 84)
+      + '<div class="cx-htxt"><h2>'+(m.emoji||'')+' '+m.name+'</h2>'
+      + '<span class="cx-zone">📍 '+(m.zone||'')+'</span></div></div>'
+      + '<div class="cx-sec"><h3>简介</h3><p>'+(m.flavor||'')+'</p></div>'
+      + (ex.reminds?('<div class="cx-sec"><h3>它提醒你什么</h3><p>'+ex.reminds+'</p></div>'):'')
+      + linksHTML
+      + '</div>';
+  } else {
+    ov.innerHTML =
+      '<div class="cx-card" style="--mc:#6a6f55">'
+      + '<button class="cx-x" id="cx-x" aria-label="关闭">×</button>'
+      + '<div class="cx-hero locked">'+spriteCanvasHTML(m.id, 84)
+      + '<div class="cx-htxt"><h2>？？？</h2><span class="cx-zone">未解锁</span></div></div>'
+      + '<p class="cx-locked-note">这只怪兽还藏在地图深处。<br/>在冒险中击败它，即可解锁完整图鉴。</p>'
+      + '</div>';
+  }
+  document.body.appendChild(ov);
+  ov.onclick = function(e){ if(e.target===ov) closeCodex(); };
+  var x = document.getElementById('cx-x'); if(x) x.onclick = closeCodex;
+  paintDomSprites();
+}
+function closeCodex(){ var o=document.getElementById('cx-ov'); if(o) o.remove(); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeCodex(); });
+/* ════════════ /图鉴 Codex ════════════ */
+
 function renderBackpack(){
   let bp = document.getElementById('backpack');
   const show = (G.screen === 'map' || G.screen === 'battle');
