@@ -1422,6 +1422,11 @@ function endMoveInput(dx,dy,btn){
   if (btn) btn.classList.remove('is-held');
   if (sameDir(G.heldDir,{dx,dy})) G.heldDir = null;
 }
+function resetMoveInput(){
+  G.heldDir = null;
+  if (G.player) G.player.queued = null;
+  document.querySelectorAll('.dpad button.is-held').forEach(b => b.classList.remove('is-held'));
+}
 function onKey(e){
   if (G.dialogOpen){ const k=e.key.toLowerCase(); if(k==='enter'||k==='escape'||k===' '||k==='spacebar'){ e.preventDefault(); closeDialog(); } return; }
   if (G.screen !== 'map') return;
@@ -1431,7 +1436,6 @@ function onKey(e){
   beginMoveInput(d.dx,d.dy);
 }
 function onKeyUp(e){
-  if (G.screen !== 'map') return;
   const d = dirFromKey(e.key);
   if (!d) return;
   endMoveInput(d.dx,d.dy);
@@ -2315,6 +2319,7 @@ function shuffleQuestion(){
 }
 
 function startBattle(mid){
+  resetMoveInput();
   G.mid = mid; G.qi = 0; G.results = []; G.chosen = null; G.ok = null; G.bphase = 'q';
   G.screen = 'battle';
   shuffleQuestion();
@@ -2472,6 +2477,7 @@ function nextQ(){
 }
 
 function backToMap(){
+  resetMoveInput();
   // 切片：击败峡谷 Boss（模糊 Issue 幽灵）即走通
   if (SLICE){ if (G.defeated['ghost']){ G.screen='victory'; render(); scrollGameTop(); return; } G.screen='map'; render(); scrollGameTop(); return; }
   // 击败中央雕像 Boss（孤岛 Agent）即通关
