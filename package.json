@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build:en": "node scripts/build-en.mjs",
-    "check:failsafe": "node scripts/check-reveal-failsafe.mjs"
+    "check:failsafe": "node scripts/check-reveal-failsafe.mjs",
+    "check:en-assets": "node scripts/check-en-assets.mjs"
   },
   "devDependencies": {
     "jsdom": "^25.0.1"
