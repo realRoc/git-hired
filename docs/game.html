@@ -14,7 +14,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600&family=Press+Start+2P&display=swap" />
   <link rel="stylesheet" href="githire.css" />
 
   <style>
@@ -34,8 +34,8 @@
       --panel-d:#2a2f3d;
     }
     html[data-lang="en"] {
-      --fp:  'Courier New', ui-monospace, Menlo, Consolas, monospace;
-      --fp2: 'Press Start 2P', 'Courier New', ui-monospace, monospace;
+      --fp:  'Pixelify Sans', ui-monospace, Menlo, Consolas, monospace;
+      --fp2: 'Press Start 2P', 'Pixelify Sans', ui-monospace, monospace;
     }
     #stage { display: none; }
     main, .topnav, .site-foot { position: relative; z-index: 1; }
@@ -438,6 +438,7 @@ function ensureZpixFont(){
   s.textContent = "@font-face{font-family:'Zpix';src:url('https://cdn.jsdelivr.net/gh/SolidZORO/zpix-pixel-font@3.1.11/website/zpix.woff2') format('woff2');font-display:swap;}";
   (document.head || document.documentElement).appendChild(s);
 }
+if (LANG === 'zh') ensureZpixFont();
 
 // UI 文案字典：键为点分路径，值含 zh/en。{x} 为插值占位符。
 const T = {
@@ -1393,7 +1394,7 @@ function bindMap(){
     b.onpointerup = () => endMoveInput(dx, dy, b);
     b.onpointercancel = () => endMoveInput(dx, dy, b);
     b.onlostpointercapture = () => endMoveInput(dx, dy, b);
-    b.onclick = (e) => { if (e.detail === 0) beginMoveInput(dx, dy, b); };
+    b.onclick = (e) => { if (e.detail === 0) tapMoveInput(dx, dy); };
   });
 }
 
@@ -1411,6 +1412,10 @@ function beginMoveInput(dx,dy,btn){
   if (G.screen !== 'map' || G.dialogOpen) return;
   G.heldDir = {dx,dy};
   if (btn) btn.classList.add('is-held');
+  tryStep(dx,dy);
+}
+function tapMoveInput(dx,dy){
+  if (G.screen !== 'map' || G.dialogOpen) return;
   tryStep(dx,dy);
 }
 function endMoveInput(dx,dy,btn){

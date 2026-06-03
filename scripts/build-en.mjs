@@ -216,6 +216,7 @@ const ROOT_ASSETS = new Set([
   'githire-analytics.js',
   'i18n.js',
   'game.html',
+  'favicon.svg',
 ]);
 
 function rewriteRelativeAssets(doc) {
